@@ -1,0 +1,61 @@
+.ev-info {
+    padding: 20px;
+    width: 90%;
+    margin: auto;
+  }
+  
+  .ev-info h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .search-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .search-select {
+    width: 20%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .search-input {
+    flex-grow: 2;
+    margin: 0 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .search-button {
+    padding: 8px 16px;
+    background-color: #5c5c5c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .search-button:hover {
+    background-color: #2c2c2c;
+  }
+  
+  .ev-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .ev-table th,
+  .ev-table td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .ev-table th {
+    background-color: #f4f4f4;
+  }
