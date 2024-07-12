@@ -16,6 +16,10 @@
   --medium-yellow: #F7EA6E;
   --light-violet: #E8D9FF;
   --medium-violet: #BFA0ED;
+  --light-pink: #FFF0F5;
+  --dark-green: #2F4F4F;
+  --dim-gray: #696969;
+  --dark-red: #800000;
   
 }
 
@@ -1243,29 +1247,46 @@ figcaption {
 }
 
 /* 한)프로필 관리 변경*/
-.tag-p {
+.tag-a {
   border: 1px solid var(--medium-gray);
-  background-color: var(--light-blue);
+  color: var(--white);
+  background-color: var(--dim-gray);
   border-radius: 999px;
   padding: .5rem 1rem;
 }
-
-.tag-p:hover {
-  background-color: var(--medium-blue);
-  text-decoration: none;
+.tag-a:hover {
+  background-color: var(--dark-green);
+  color: var(--white);
+  text-decoration: none; 
 }
 
-.tag-h {
+.tag-t {
   border: 1px solid var(--medium-gray);
-  background-color: var(--white);
+  color: var(--white);
+  background-color: var(--dark-green);
   border-radius: 999px;
   padding: .5rem 1rem;
 }
+.tag-t:hover {
+  background-color: var(--dark-red);  
+  text-decoration: none;
+  color: var(--white);
+}
 
-.tag-h:hover {
-  background-color: var(--light-violet);
+.tag-b {
+  border: 1px solid var(--medium-gray);
+  color: var(--white);
+  background-color: var(--dim-gray);
+  border-radius: 999px;
+  padding: .5rem 1rem;
+}
+.tag-b:hover {
+  background-color: var(--dark-green);
+  color: var(--white);
   text-decoration: none;
 }
+
+
 
 
 
