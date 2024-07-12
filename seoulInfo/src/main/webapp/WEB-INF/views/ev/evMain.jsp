@@ -87,15 +87,9 @@
 			</tr>
 		</table>
 		<div class="service_list">
-			<div class="ev_service" id="service1'>
-				<%@include file="./ev_MapFilter.jsp"%>
-			</div>
-			<div class="ev_service" id="nav'>
-				<%@include file="./ev_Navigation.jsp"%>
-			</div>
-			<div class="ev_service" id="fav'>
-				<%@include file="./ev_Favorite.jsp"%>
-			</div>
+		            <%@include file="./ev_MapFilter.jsp"%>
+		            <%@include file="./ev_Navigation.jsp"%>
+		            <%@include file="./ev_Favorite.jsp"%>
 		</div>
 
 	    <ul id="category">
