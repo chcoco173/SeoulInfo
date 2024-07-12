@@ -17,12 +17,13 @@
 				<div class="links-and-search-wrapper">
 					<nav role="navigation" class="nav-links-wrapper w-nav-menu">
 						<a href="productMain" class="style-guide-nav-link w-nav-link">홈</a>
-						<a href="" class="style-guide-nav-link w-nav-link">전자제품</a> <a
-							href="" class="style-guide-nav-link w-nav-link">생활용품</a> <a
-							href="" class="style-guide-nav-link w-nav-link">도서</a> <a href=""
-							class="style-guide-nav-link w-nav-link">의류</a> <a href=""
-							class="style-guide-nav-link w-nav-link">기타</a> <a
-							href="myPage" class="style-guide-nav-link w-nav-link">마이페이지</a>
+						<a href="productCategory?category=전자제품" class="style-guide-nav-link w-nav-link">전자제품</a>
+						<a href="productCategory?category=생활용품" class="style-guide-nav-link w-nav-link">생활용품</a>
+						<a href="productCategory?category=도서" class="style-guide-nav-link w-nav-link">도서</a>
+						<a href="productCategory?category=의류" class="style-guide-nav-link w-nav-link">의류</a>
+						<a href="productCategory?category=기타" class="style-guide-nav-link w-nav-link">기타</a>
+ 
+						<a href="myPage" class="style-guide-nav-link w-nav-link">마이페이지</a>
 						<a href="" class="style-guide-nav-link w-nav-link">채팅</a>
 
 					</nav>

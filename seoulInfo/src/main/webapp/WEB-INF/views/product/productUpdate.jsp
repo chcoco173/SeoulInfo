@@ -66,7 +66,7 @@
 				<div class="padding-section-medium remove-bottom-padding">
 					<div class="padding-global">
 						<div class="container-large">
-							<h1>상품 등록</h1>
+							<h1>상품 수정</h1>
 						</div>
 					</div>
 				</div>
