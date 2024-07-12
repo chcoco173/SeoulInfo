@@ -4,10 +4,9 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>지도 생성하기</title>
-
+	
 	<!-- template default setting -->
-	<meta content="Sightseer - Webflow Travel Photography Website Template"
-		name="description">
+	<meta content="Sightseer - Webflow Travel Photography Website Template" name="description">
 	<meta content="width=device-width, initial-scale=1" name="viewport">
 	<meta content="Webflow" name="generator">
 	
@@ -16,82 +15,75 @@
 	<link href="/css/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet" type="text/css">
 
 	<link href="https://fonts.googleapis.com" rel="preconnect">
-	<link href="https://fonts.gstatic.com" rel="preconnect"
-		crossorigin="anonymous">
+	<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
 	<link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
 	<link href="/images/webclip.png" rel="apple-touch-icon">
 	
-	<script type="text/javascript">WebFont.load({  google: {    families: ["Plus Jakarta Sans:regular,600,italic,600italic"]  }});</script>
+	<script type="text/javascript">WebFont.load({ google: { families: ["Plus Jakarta Sans:regular,600,italic,600italic"] }});</script>
 	<script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
 	
-	<!-- EV add-->
+	<!-- EV add -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<link href="/css/evMain.css" rel="stylesheet" type="text/css">
+	
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
 <body>
 <!-- header navigation -->
 	<div class="navigation-wrapper">
-			<div data-animation="default" data-collapse="medium"
-				 data-duration="400" data-easing="ease" data-easing2="ease"
-				 role="banner" class="navbar_m w-nav">
-					<div class="nav-wrapper">
-						<a href="/" aria-current="page"	class="brand w-nav-brand w--current">
-							<img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt="">
-						</a>
-						<div class="links-and-search-wrapper">
-							<nav role="navigation" class="nav-links-wrapper w-nav-menu">
-								<a href="/about" class="nav-link w-nav-link">About</a> 
-								<a href="/contact" class="nav-link w-nav-link">Contact</a>
-							</nav>
-							<form action="/search" data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5" class="search w-form">
-								<div class="search-div">
-									<img src="/images/ph_magnifying-glass-light-xsmall.svg"	loading="lazy" alt="" class="icon-1x1-xsmall">
-								</div>
-								<div class="nav-search-outer-wrapper">
-									<div class="nav-search-internal-wrapper">
-										<input class="form-field w-input" maxlength="256" name="query"
-											placeholder="Search…" type="search" id="search" required="">
-										<div class="search-button-wrapper">
-											<input type="submit" class="button-primary-small w-button"	value="Search">
-											<a data-w-id="a72c4d20-babf-897f-e150-4948b59e5bfb" href="#" class="close-search-link-block w-inline-block">
-											<img src="/images/ph_x-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></a>
-										</div>
-									</div>
-								</div>
-							</form>
+		<div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar_m w-nav">
+			<div class="nav-wrapper">
+				<a href="/" aria-current="page" class="brand w-nav-brand w--current">
+					<img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt="">
+				</a>
+				<div class="links-and-search-wrapper">
+					<nav role="navigation" class="nav-links-wrapper w-nav-menu">
+						<a href="/about" class="nav-link w-nav-link">About</a> 
+						<a href="/contact" class="nav-link w-nav-link">Contact</a>
+					</nav>
+					<form action="/search" data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5" class="search w-form">
+						<div class="search-div">
+							<img src="/images/ph_magnifying-glass-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall">
 						</div>
-						<div class="menu-button w-nav-button">
-							<img src="/images/ph_list-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall">
+						<div class="nav-search-outer-wrapper">
+							<div class="nav-search-internal-wrapper">
+								<input class="form-field w-input" maxlength="256" name="query" placeholder="Search…" type="search" id="search" required="">
+								<div class="search-button-wrapper">
+									<input type="submit" class="button-primary-small w-button" value="Search">
+									<a data-w-id="a72c4d20-babf-897f-e150-4948b59e5bfb" href="#" class="close-search-link-block w-inline-block">
+										<img src="/images/ph_x-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall">
+									</a>
+								</div>
+							</div>
 						</div>
-					</div>
+					</form>
 				</div>
-			</div><br/><hr/>
+				<div class="menu-button w-nav-button">
+					<img src="/images/ph_list-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall">
+				</div>
+			</div>
+		</div>
+	</div><br/><hr/>
 <!-- end of header navigation -->
 
 <!-- kakao map API -->
-	
 	<div class="map_wrap">
 	    <div id="map"></div>
-		<table class="serviceCate" style="width : 100%; text-align:center;">
+		<table class="serviceCate" style="width: 100%; text-align:center;">
 			<tr>
 				<td>
-					<button class="filter">충전소 검색</button>
+					<button class="filter btn btn-primary" id="filterBtn1">충전소 검색</button>
 				</td>
 				<td>
-					<button class="filter">길찾기</button>
+					<button class="filter btn btn-info" id="filterBtn2">길찾기</button>
 				</td>
 				<td>
-					<button class="filter">즐겨찾기</button>
+					<button class="filter btn btn-secondary" id="filterBtn3">즐겨찾기</button>
 				</td>
 			</tr>
 		</table>
-		<div class="service_list">
-		            <%@include file="./ev_MapFilter.jsp"%>
-		            <%@include file="./ev_Navigation.jsp"%>
-		            <%@include file="./ev_Favorite.jsp"%>
-		</div>
-
 	    <ul id="category">
 	        <li id="BK9" data-order="0"> 
 	            <span class="category_bg bank"></span>
@@ -118,13 +110,19 @@
 	            편의점
 	        </li>    
 	    </ul>
-		
+	</div>
+	<!--페이지 수정-->
+	<div class="service_list">
+		<%@include file="./ev_MapFilter2.jsp"%>		
+	</div>
+	<div class="service_list">
+		<%@include file="./ev_Navigation.jsp"%>
+	</div>
+	<div class="service_list">
+		<%@include file="./ev_Favorite.jsp"%>
 	</div>
 <!-- end of kakao map API -->
 
-
-	
-	
 <!-- kakao map Script-->
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e4d5069dc9a490e0b400e0844235a47e&libraries=services"></script>
 	<script>
@@ -152,7 +150,7 @@
 	// 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다 
 	contentNode.className = 'placeinfo_wrap';
 	
-	// 커스텀 오버레이의 컨텐츠 노드에 mousedown, touchstart 이벤트가 발생했을때
+	// 커스텀 오버레이의 컨텐츠 노드에 mousedown, touchstart 이벤트가 발생했을 때
 	// 지도 객체에 이벤트가 전달되지 않도록 이벤트 핸들러로 kakao.maps.event.preventMap 메소드를 등록합니다 
 	addEventHandle(contentNode, 'mousedown', kakao.maps.event.preventMap);
 	addEventHandle(contentNode, 'touchstart', kakao.maps.event.preventMap);
@@ -171,6 +169,20 @@
 	        target.attachEvent('on' + type, callback);
 	    }
 	}
+	
+	// 서울시 좌표 범위 설정
+	var seoulBounds = new kakao.maps.LatLngBounds(
+	    new kakao.maps.LatLng(37.413294, 126.734086), // 남서쪽 좌표
+	    new kakao.maps.LatLng(37.715133, 127.269311)  // 북동쪽 좌표
+	);
+	
+	// 지도의 중심이 서울시 좌표 범위를 벗어날 때 초기 중심으로 되돌리기
+	kakao.maps.event.addListener(map, 'center_changed', function() {
+	    var center = map.getCenter();
+	    if (!seoulBounds.contain(center)) {
+	        map.setCenter(new kakao.maps.LatLng(37.5665, 126.9780)); // 초기 중심 좌표
+	    }
+	});
 	
 	// 카테고리 검색을 요청하는 함수입니다
 	function searchPlaces() {
@@ -209,17 +221,17 @@
 	    // 이 순서는 스프라이트 이미지에서의 위치를 계산하는데 사용됩니다
 	    var order = document.getElementById(currCategory).getAttribute('data-order');
 		
-	    for ( var i=0; i<places.length; i++ ) {
-	            // 마커를 생성하고 지도에 표시합니다
-	            var marker = addMarker(new kakao.maps.LatLng(places[i].y, places[i].x), order);
+	    for (var i=0; i<places.length; i++) {
+	        // 마커를 생성하고 지도에 표시합니다
+	        var marker = addMarker(new kakao.maps.LatLng(places[i].y, places[i].x), order);
 	
-	            // 마커와 검색결과 항목을 클릭 했을 때
-	            // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
-	            (function(marker, place) {
-	                kakao.maps.event.addListener(marker, 'click', function() {
-	                    displayPlaceInfo(place);
-	                });
-	            })(marker, places[i]);
+	        // 마커와 검색결과 항목을 클릭했을 때
+	        // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
+	        (function(marker, place) {
+	            kakao.maps.event.addListener(marker, 'click', function() {
+	                displayPlaceInfo(place);
+	            });
+	        })(marker, places[i]);
 	    }
 	}
 	
@@ -228,8 +240,8 @@
 	    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
 	        imageSize = new kakao.maps.Size(27, 28),  // 마커 이미지의 크기
 	        imgOptions =  {
-	            spriteSize : new kakao.maps.Size(72, 208), // 스프라이트 이미지의 크기
-	            spriteOrigin : new kakao.maps.Point(46, (order*36)), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+	            spriteSize: new kakao.maps.Size(72, 208), // 스프라이트 이미지의 크기
+	            spriteOrigin: new kakao.maps.Point(46, (order * 36)), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
 	            offset: new kakao.maps.Point(11, 28) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
 	        },
 	        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
@@ -244,28 +256,29 @@
 	
 	// 지도 위에 표시되고 있는 마커를 모두 제거합니다
 	function removeMarker() {
-	    for ( var i = 0; i < markers.length; i++ ) {
+	    for (var i = 0; i < markers.length; i++) {
 	        markers[i].setMap(null);
 	    }   
 	    markers = [];
 	}
 	// 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
-	function displayPlaceInfo (place) {
+	function displayPlaceInfo(place) {
 	    var content = '<div class="placeinfo">' +
 	                    '   <a class="title" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '">' + place.place_name + '</a>';   
 	    if (place.road_address_name) {
 	        content += '    <span title="' + place.road_address_name + '">' + place.road_address_name + '</span>' +
 	                    '  <span class="jibun" title="' + place.address_name + '">(지번 : ' + place.address_name + ')</span>';
-	    }  else {
+	    } else {
 	        content += '    <span title="' + place.address_name + '">' + place.address_name + '</span>';
 	    }                
-		    content += '    <span class="tel">' + place.phone + '</span>' + 
+	    content += '    <span class="tel">' + place.phone + '</span>' + 
 	                '</div>' + 
 	                '<div class="after"></div>';
 	    contentNode.innerHTML = content;
 	    placeOverlay.setPosition(new kakao.maps.LatLng(place.y, place.x));
 	    placeOverlay.setMap(map);  
 	}
+	
 	// 각 카테고리에 클릭 이벤트를 등록합니다
 	function addCategoryClickEvent() {
 	    var category = document.getElementById('category'),
@@ -274,6 +287,7 @@
 	        children[i].onclick = onClickCategory;
 	    }
 	}
+	
 	// 카테고리를 클릭했을 때 호출되는 함수입니다
 	function onClickCategory() {
 	    var id = this.id,
@@ -298,7 +312,7 @@
 	        children = category.children,
 	        i;
 	
-	    for ( i=0; i<children.length; i++ ) {
+	    for (i=0; i<children.length; i++) {
 	        children[i].className = '';
 	    }
 	
@@ -306,9 +320,8 @@
 	        el.className = 'on';
 	    } 
 	}
-	
 	</script>
-<!-- end of kakao map Script-->
+<!-- end of kakao map Script -->
 	<script src="/js/webflow.js" type="text/javascript"></script>
 	<script src="/js/evPage.js" type="text/javascript"></script>
 </body>
