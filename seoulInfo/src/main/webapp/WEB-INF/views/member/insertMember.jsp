@@ -25,13 +25,13 @@
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
   <script type="text/javascript">WebFont.load({  google: {    families: ["Plus Jakarta Sans:regular,600,italic,600italic"]  }});</script>
   <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
-  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
-  <link href="images/webclip.png" rel="apple-touch-icon">
+  <link href="../images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="../images/webclip.png" rel="apple-touch-icon">
 </head>
 <body>
   <div class="page-wrapper">
 	
-	<!-- 한) 상단:회원가입/로그인 버튼 start -->
+	<!-- 한) 상단:회원가입/로그인/마이페이지 버튼 start -->
 	<div class="section-newsletter">
 	  <div class="padding-global">
 	    <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-black">
@@ -40,8 +40,8 @@
 	        <div id="Style-Guide-Form" class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form">
 	          <form name="wf-form-Newsletter-Form" data-name="Newsletter Form" method="get" id="wf-form-Newsletter-Form" class="newsletter-form" data-wf-page-id="6684f0fb2a5375354f5c4820" data-wf-element-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9d2">
 				
-				<a href="insertMember" class="button-primary-large max-width-full-mobile-portrait w-button">회원가입</a>
-				<a href="loginForm" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a>
+				<a href="/member/insertMember" class="button-primary-large max-width-full-mobile-portrait w-button">회원가입</a>
+				<a href="/member/login" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a>
 				<a href="/mypage/profile" class="button-primary-large max-width-full-mobile-portrait w-button">마이페이지</a>
 				
 			</form>
@@ -56,7 +56,7 @@
 	    </div>
 	  </div>
 	</div>
-	<!-- 한) 상단:회원가입/로그인 버튼 end -->	
+	<!-- 한) 상단:회원가입/로그인/마이페이지 버튼 end -->	
 	
 	
     <div class="navigation-wrapper">
@@ -99,43 +99,37 @@
                   <div class="spacer-large"></div>
                   <p></p>
                 </div>
-                <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">
-				  
-                  <form action="insertMember" method="post" name="wf-form-Contact-Form" data-name="Contact Form" method="get" id="wf-form-Contact-Form" class="form" data-wf-page-id="6684f0fb2a5375354f5c4825" data-wf-element-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a65">
+				
+                <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">				  
+                  <form action="insertMember" method="post" name="wf-form-Contact-Form" data-name="Contact Form" method="get" id="wf-form-Contact-Form" 
+				  		class="form" data-wf-page-id="6684f0fb2a5375354f5c4825" data-wf-element-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a65">
                     <div class="form-field-wrapper-copy">						
-						<input class="form-field w-input" maxlength="256" name="id" data-name="id" placeholder="아이디" type="text" id="id" pattern="[A-Za-z0-9]{6,}" required>						
+						<input class="form-field w-input" maxlength="256" name="mId" data-name="mId" placeholder="아이디" type="text" id="mId" pattern="[A-Za-z0-9]{6,}" required>						
 					</div>
 					<div class="form-field-wrapper-copy">						
-						<input class="form-field w-input" maxlength="256" name="password" data-name="password" placeholder="비밀번호" type="password" id="password" pattern="[A-Za-z0-9]{4,}" required>
+						<input class="form-field w-input" maxlength="256" name="mPw" data-name="mPw" placeholder="비밀번호" type="password" id="mPw" pattern="[A-Za-z0-9]{4,}" required>
 					</div>
 					<div class="form-field-wrapper">
-						<input class="form-field w-input" maxlength="256" name="password" data-name="password" placeholder="비밀번호 확인" type="password" id="passwordCheck" pattern="[A-Za-z0-9]{4,}" required>
+						<input class="form-field w-input" maxlength="256" name="mPw" data-name="mPw" placeholder="비밀번호 확인" type="password" id="mPwCheck" pattern="[A-Za-z0-9]{4,}" required>
 					</div>
 					<div class="form-field-wrapper">
-						<input class="form-field w-input" maxlength="256" name="mname" data-name="mname" placeholder="이름" type="text" id="mname" pattern="[가-힣]{2,}" required>
+						<input class="form-field w-input" maxlength="256" name="mName" data-name="mName" placeholder="이름" type="text" id="mName" pattern="[가-힣]{2,}" required>
 					</div>
                     <div class="form-field-wrapper">
-						<input class="form-field w-input" maxlength="256" name="email" data-name="email" placeholder="이메일" type="email" id="email" required>
+						<input class="form-field w-input" maxlength="256" name="mEmail" data-name="mEmail" placeholder="이메일" type="email" id="mEmail" required>
 					</div>
 					<div class="form-field-wrapper">
-						<input class="form-field w-input" maxlength="256" name="tel" data-name="tel" placeholder="전화번호" type="tel" id="tel" required>
+						<input class="form-field w-input" maxlength="256" name="mTel" data-name="mTel" placeholder="전화번호" type="tel" id="mTel" required>
 					</div>
 					<div class="form-field-wrapper">
-						<input class="form-field w-input" maxlength="256" name="area" data-name="area" placeholder="지역" type="text" id="area" required>
+						<input class="form-field w-input" maxlength="256" name="mLocal" data-name="mLocal" placeholder="지역" type="text" id="mLocal" required>
 					</div>
                     <div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
 						<input type="submit" data-wait="Please wait..." class="button-primary-large w-button" value="회원가입">
 					</div>
-                  </form>				  
-				  
-<!--              <div class="form-success-message w-form-done">
-                    <div class="text-size-regular">Thank you! Your submission has been received!</div>
-                  </div>
-                  <div class="form-error-message w-form-fail">
-                    <div class="text-size-regular">Oops! Something went wrong while submitting the form.</div>
-                  </div>
-				  -->				  
+                  </form>				  				  				  
                 </div>
+				
               </div>
             </div>
           </div>
