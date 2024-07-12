@@ -111,6 +111,7 @@
 	        </li>    
 	    </ul>
 	</div>
+	<!--페이지 수정-->
 	<div class="service_list">
 		<%@include file="./ev_MapFilter2.jsp"%>		
 	</div>
