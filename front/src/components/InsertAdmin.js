@@ -12,7 +12,7 @@ function InsertAdmin() {
     const navigate = useNavigate();  
   
     const handleInsertAdmin = () => {
-      // Logic to handle the admin registration can be added here
+
 
       navigate('/dashboard/admin-info/');
     };

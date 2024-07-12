@@ -5,7 +5,6 @@ const dbconfig = require('./config/database.js');
 const conn = mysql.createConnection(dbconfig);
 const app = express();
 
-
 const PORT = 8000
 app.listen(PORT, () => {
 	console.log("Express 서버 시작 포트는 >>> : ", PORT)
@@ -26,6 +25,7 @@ conn.connect( err => {
 // 다른 주소와 데이타를 주고 받기 위해
 app.use(cors()) // *********************
 
+
 // [3] 전체 조회
 app.get('/data/getallfestival', (req, res) => {
 	const pageNumber = parseInt(req.query.page) || 0;
@@ -33,9 +33,9 @@ app.get('/data/getallfestival', (req, res) => {
 	const offset = pageNumber * pageSize;
   
 	const sql = `
-	  SELECT fId, fName, fStartDate, fEndDate, fAddress, fImageUrl, fSiteUrl, fContent, fArea
+	  SELECT festival_id, festival_name, festival_startdate, festival_enddate, festival_address, festival_imageurl, festival_siteurl, festival_content, festival_area
 	  FROM festival
-	  ORDER BY fId
+	  ORDER BY festival_id
 	  LIMIT ${pageSize} OFFSET ${offset}
 	`;
   
@@ -51,24 +51,23 @@ app.get('/data/getallfestival', (req, res) => {
 
 // json 객체로 주고받기 위해?
 // app.use(cors()) - 위에 코드함
-// app.use(express.json())  // *********************
+app.use(express.json())  // *********************
 
-// app.post('/api/insert', (req, res) => {
-// 	console.log(req.body)
-// 	const btitle = req.body.btitle;
-// 	const bname = req.body.bname; 
-// 	const bcontent = req.body.bcontent; 
-// 	const mid = req.body.mid; 
-// 	const bpw = req.body.bpw; 
-// 	const param = [btitle, bname, bcontent, mid, bpw];
-// 	const sql =   " INSERT INTO node_board (BTITLE, BNAME, BCONTENT, MID, BPW, INSERTDATE, UPDATEDATE) " 
-// 	            + " VALUES (?, ?, ?, ?, ?, now(), now()) ";
-// 	conn.query(sql, param,function(err, result, fields){
-// 		if (err) throw err;
-// 		console.log(result);	
-// 		res.send('success')	;
-// 	});
-// });
+app.post('/data/insert-festival', (req, res) => {
+    console.log('Request body:', req.body);  // 요청 바디 확인을 위한 로그
+    const { festival_name, festival_area, festival_address, festival_content, festival_startdate, festival_enddate, festival_siteurl } = req.body;
+    const param = [festival_name, festival_area, festival_address, festival_content, festival_startdate, festival_enddate, festival_siteurl];
+    const sql = "INSERT INTO festival (festival_name, festival_area, festival_address, festival_content, festival_startdate, festival_enddate, festival_siteurl) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    
+    conn.query(sql, param, function(err, result) {
+        if (err) {
+            console.error(err);
+            res.send('fail');
+        } else {
+            res.send('success'); // 상태 코드 201과 성공 메시지 전송
+        }
+    });
+});
 
 
 // ==================================================

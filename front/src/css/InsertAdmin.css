@@ -24,9 +24,6 @@
     border-radius: 4px; 
   }
 
-  textarea {
-    resize: none;
-  }
   
   .insert-admin-form button {
     padding: 10px 0;

@@ -36,7 +36,7 @@ function Dashboard() {
           <li className="menu-item"><Link to="news">뉴스관리</Link></li>
           <li className="menu-item"><Link to="report">신고관리</Link></li>
           <li className="menu-item"><Link to="charts">차트</Link></li>
-          <li className="menu-item login-out"><Link to="../login">로그아웃</Link></li>
+          <li className="menu-item login-out"><Link to="/login">로그아웃</Link></li>
         </ul>
       </nav>
       <Routes>
@@ -47,7 +47,7 @@ function Dashboard() {
         <Route path="news" element={<NewsManagement />} />
         <Route path="report" element={<ReportManagement />} />
         <Route path="charts" element={<Charts />} />
-        <Route path="../login" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="insert-admin" element={<InsertAdmin />} />
         <Route path="insert-festival" element={<InsertFestival />} />
       </Routes>
