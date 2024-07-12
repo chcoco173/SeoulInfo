@@ -64,84 +64,84 @@
             <div class="container-full-width">
               <div class="_2-column-grid">
                 <div>
-                  <h2 data-w-id="565aa445-29c4-7b45-3465-52bdccf2a34e" style="opacity:0" class="text-color-white">Where to next?</h2>
+                  <h2 data-w-id="565aa445-29c4-7b45-3465-52bdccf2a34e" style="opacity:0" class="text-color-white">어디 지역으로 가시겠어요?</h2>
                   <div class="spacer-xlarge"></div>
                   <div data-w-id="565aa445-29c4-7b45-3465-52bdccf2a351" style="opacity:0" class="w-dyn-list">
                     <div role="list" class="destination-collection-list w-dyn-items">
 					  <div role="listitem" class="w-dyn-item">
-						<a href="/festival/festival" class="button-primary-large w-button">전체</a>
+						<a href="/festival/festival?area=전체" class="button-primary-large w-button">전체</a>
 					  </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">강남구</a>
+                        <a href="/festival/festival?area=강남구" class="button-primary-large w-button">강남구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">강동구</a>
+                        <a href="/festival/festival?area=강동구" class="button-primary-large w-button">강동구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">강서구</a>
+                        <a href="/festival/festival?area=강서구" class="button-primary-large w-button">강서구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">관악구</a>
+                        <a href="/festival/festival?area=관악구" class="button-primary-large w-button">관악구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">광진구</a>
+                        <a href="/festival/festival?area=광진구" class="button-primary-large w-button">광진구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">구로구</a>
+                        <a href="/festival/festival?area=구로구" class="button-primary-large w-button">구로구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">금천구</a>
+                        <a href="/festival/festival?area=금천구" class="button-primary-large w-button">금천구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">노원구</a>
+                        <a href="/festival/festival?area=노원구" class="button-primary-large w-button">노원구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">도봉구</a>
+                        <a href="/festival/festival?area=도봉구" class="button-primary-large w-button">도봉구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">동대문구</a>
+                        <a href="/festival/festival?area=동대문구" class="button-primary-large w-button">동대문구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">동작구</a>
+                        <a href="/festival/festival?area=동작구" class="button-primary-large w-button">동작구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">마포구</a>
+                        <a href="/festival/festival?area=마포구" class="button-primary-large w-button">마포구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">서대문구</a>
+                        <a href="/festival/festival?area=서대문구" class="button-primary-large w-button">서대문구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">서초구</a>
+                        <a href="/festival/festival?area=서초구" class="button-primary-large w-button">서초구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">성동구</a>
+                        <a href="/festival/festival?area=성동구" class="button-primary-large w-button">성동구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">성북구</a>
+                        <a href="/festival/festival?area=성북구" class="button-primary-large w-button">성북구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">송파구</a>
+                        <a href="/festival/festival?area=송파구" class="button-primary-large w-button">송파구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">양천구</a>
+                        <a href="/festival/festival?area=양천구" class="button-primary-large w-button">양천구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">영등포구</a>
+                        <a href="/festival/festival?area=영등포구" class="button-primary-large w-button">영등포구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">용산구</a>
+                        <a href="/festival/festival?area=용산구" class="button-primary-large w-button">용산구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">은평구</a>
+                        <a href="/festival/festival?area=은평구" class="button-primary-large w-button">은평구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">종로구</a>
+                        <a href="/festival/festival?area=종로구" class="button-primary-large w-button">종로구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">중구</a>
+                        <a href="/festival/festival?area=중구" class="button-primary-large w-button">중구</a>
                       </div>
                       <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">중랑구</a>
+                        <a href="/festival/festival?area=중랑구" class="button-primary-large w-button">중랑구</a>
                       </div>
                     </div>        
                     <div class="empty-state w-dyn-empty">
