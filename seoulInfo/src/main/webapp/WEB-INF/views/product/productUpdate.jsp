@@ -303,7 +303,7 @@
 									</div>
 								</div>
 								<div class="form-group submit-button">
-									<button type="submit" class="btn btn-primary">상품 등록</button>
+									<button type="submit" class="btn btn-primary">상품 수정</button>
 								</div>
 							</form>
 						</div>
