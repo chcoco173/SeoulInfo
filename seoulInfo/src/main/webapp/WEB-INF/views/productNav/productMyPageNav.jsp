@@ -17,10 +17,7 @@
 					<a href="" class="style-guide-nav-link w-nav-link">상품목록</a> <a
 						href="productReview" class="style-guide-nav-link w-nav-link">구매내역</a> <a
 						href="productInsert" class="style-guide-nav-link w-nav-link">상품등록</a>
-						<a href="" class="style-guide-nav-link w-nav-link">찜</a> <a
-						href="" class="style-guide-nav-link w-nav-link">Forms</a> <a
-						href="" class="style-guide-nav-link w-nav-link">Structure</a> <a
-						href="" class="style-guide-nav-link w-nav-link">Layout</a>
+						<a href="" class="style-guide-nav-link w-nav-link">찜</a>
 				</nav>
 			</div>
 			<div class="style-guide-menu-button w-nav-button">
