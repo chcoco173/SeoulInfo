@@ -33,7 +33,7 @@
 <body>
   <div class="page-wrapper">
 	
-	<!-- 한) 상단:회원가입/로그인 버튼 start -->
+	<!-- 한) 상단:회원가입/로그인/마이페이지 버튼 start -->
 	<div class="section-newsletter">
 	  <div class="padding-global">
 	    <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-black">
@@ -43,7 +43,7 @@
 	          <form name="wf-form-Newsletter-Form" data-name="Newsletter Form" method="get" id="wf-form-Newsletter-Form" class="newsletter-form" data-wf-page-id="6684f0fb2a5375354f5c4820" data-wf-element-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9d2">
 				
 				<a href="/member/insertMember" class="button-primary-large max-width-full-mobile-portrait w-button">회원가입</a>
-				<a href="/member/loginForm" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a>
+				<a href="/member/login" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a>
 				<a href="/mypage/profile" class="button-primary-large max-width-full-mobile-portrait w-button">마이페이지</a>
 				
 			</form>
@@ -58,7 +58,7 @@
 	    </div>
 	  </div>
 	</div>
-	<!-- 한) 상단:회원가입/로그인 버튼 end -->	
+	<!-- 한) 상단:회원가입/로그인/마이페이지 버튼 end -->
 	
 	
 	
@@ -76,7 +76,9 @@
               <div class="nav-search-outer-wrapper">
                 <div class="nav-search-internal-wrapper"><input class="form-field w-input" maxlength="256" name="query" placeholder="Search…" type="search" id="search" required="">
                   <div class="search-button-wrapper"><input type="submit" class="button-primary-small w-button" value="Search">
-                    <a data-w-id="a72c4d20-babf-897f-e150-4948b59e5bfb" href="#" class="close-search-link-block w-inline-block"><img src="/images/ph_x-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></a>
+                    <a data-w-id="a72c4d20-babf-897f-e150-4948b59e5bfb" href="#" class="close-search-link-block w-inline-block">
+						<img src="/images/ph_x-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall">
+					</a>
                   </div>
                 </div>
               </div>
@@ -109,7 +111,8 @@
                   </div>
                 </div>
                 <div id="w-node-_0465e4b1-8a6e-e86c-7c18-af5ff998b4e7-4f5c4820" data-w-id="0465e4b1-8a6e-e86c-7c18-af5ff998b4e7" style="opacity:0" class="image-overflow-wrapper">
-                  <div data-w-id="565aa445-29c4-7b45-3465-52bdccf2a358" style="-webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform-style:preserve-3d" class="destination-section-image"></div>
+                  <div data-w-id="565aa445-29c4-7b45-3465-52bdccf2a358" style="-webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform-style:preserve-3d" 
+				  		class="destination-section-image"></div>
                 </div>
               </div>
             </div>
@@ -132,15 +135,18 @@
                 <div role="list" class="w-dyn-items">
                   <div data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f385" style="opacity:0" role="listitem" class="w-dyn-item">
                     <div class="post-row-grid">
-                      <a id="w-node-dbd1f4aa-0c13-168c-7fc5-367d8d676b4b-4f5c4820" data-w-id="dbd1f4aa-0c13-168c-7fc5-367d8d676b4b" href="#가" class="post-row-image-overflow-container w-inline-block">
-                        <div id="w-node-_1d188613-99eb-7eb0-d878-0bf26f04f386-4f5c4820" data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f386" style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" class="post-row-image"></div>
+                      <a id="w-node-dbd1f4aa-0c13-168c-7fc5-367d8d676b4b-4f5c4820" data-w-id="dbd1f4aa-0c13-168c-7fc5-367d8d676b4b" href="#가" 
+					  		class="post-row-image-overflow-container w-inline-block">
+                        <div id="w-node-_1d188613-99eb-7eb0-d878-0bf26f04f386-4f5c4820" data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f386" 
+							style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" 
+							class="post-row-image"></div>
                       </a>
                       <div id="w-node-bbff658c-4524-8e8f-d0bf-96425152472b-4f5c4820" class="post-row-wrapper">						
                         <div class="tags-wrappers">
-                          <a href="#나" class="tag w-inline-block">회원아이디
+                          <a href="#나" class="tag-a w-inline-block">회원아이디
                             <div class="text-size-small w-dyn-bind-empty"></div>
                           </a>
-                          <a href="#다" class="tag w-inline-block">회원이메일
+                          <a href="#다" class="tag-a w-inline-block">회원이메일
                             <div class="text-size-small w-dyn-bind-empty"></div>
                           </a>
                         </div>												
@@ -148,45 +154,46 @@
                     </div>
                   </div>
                 
-				 <div class="_2-column-grid">	
-				  <div>
+				<!-- 한)마이페이지 탭-->
+				 <div>
 					<div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8475-65b830fb">
 					  <h4></h4>
 					  <div class="spacer-large"></div>
-					  <a href="#프로필" class="tag-h w-inline-block">프로필 관리</a>
-					  <div class="spacer-large"></div>
-					  <a href="#개인정보" class="tag-h w-inline-block">개인정보 관리</a>
-					  <div class="spacer-large"></div>
-					  <a href="#댓글" class="tag-h w-inline-block">내가 작성한 댓글</a>
-					  <div class="spacer-large"></div>
-					  <a href="#관심상품 목록" class="tag-h w-inline-block">관심상품 목록</a>
-					  <div class="spacer-large"></div>
-					  <a href="#충전소 즐겨찾기" class="tag-h w-inline-block">충전소 즐겨찾기</a>
-					  <div class="spacer-large"></div>
-					  <a href="#1:1문의" class="tag-h w-inline-block">1 : 1 문의</a>				  				  
+					  <a href="#프로필" class="tag-t w-inline-block">프로필 관리</a>
+
+					  <a href="#개인정보" class="tag-t w-inline-block">개인정보 관리</a>
+					  
+					  <a href="#댓글" class="tag-t w-inline-block">내가 작성한 댓글</a>
+					  
+					  <a href="#관심상품 목록" class="tag-t w-inline-block">관심상품 목록</a>
+					  
+					  <a href="#충전소 즐겨찾기" class="tag-t w-inline-block">충전소 즐겨찾기</a>
+					  
+					  <a href="#1:1문의" class="tag-t w-inline-block">1 : 1 문의</a>				  				  
 					</div>
-				</div>				
-				  <div>
-<!--				<div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8475-65b830fb">-->
+				</div>
+				<!-- 한)마이페이지 상세-->			
+				 <div>
 					  <h4></h4>
 					  <div class="spacer-large"></div>					  
 					  <div class="w-dyn-list">
 					    <div role="list" class="w-dyn-items">
 					      <div data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f385" style="opacity:0" role="listitem" class="w-dyn-item">
 					        <div class="post-row-grid">
-					          <a id="w-node-dbd1f4aa-0c13-168c-7fc5-367d8d676b4b-4f5c4820-p" data-w-id="dbd1f4aa-0c13-168c-7fc5-367d8d676b4b" href="#가" class="post-row-image-overflow-container w-inline-block">
-					            <div id="w-node-_1d188613-99eb-7eb0-d878-0bf26f04f386-4f5c4820-p" data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f386" style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" class="post-row-image"></div>
+					          <a id="w-node-dbd1f4aa-0c13-168c-7fc5-367d8d676b4b-4f5c4820-p" data-w-id="dbd1f4aa-0c13-168c-7fc5-367d8d676b4b" href="#가" 
+							  		class="post-row-image-overflow-container w-inline-block">
+					            <div id="w-node-_1d188613-99eb-7eb0-d878-0bf26f04f386-4f5c4820-p" data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f386" 
+									style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" 
+									class="post-row-image"></div>
 					          </a>			
 					        </div>
 					      </div>
 						 </div>
-						</div> 
-						
-					  <div class="spacer-large"></div>
-					  <a href="#등록" class="tag-p w-inline-block">등록</a>
-					  <a href="#삭제" class="tag-p w-inline-block">삭제</a>				  				  
-<!--				</div>-->
-				</div>
+						</div> 						
+						  <div class="spacer-large"></div>
+						  <a href="#등록" class="tag-b w-inline-block">등록</a>
+						  <a href="#삭제" class="tag-b w-inline-block">삭제</a>				  				  
+					</div>
 																			
 					
 				</div>					
@@ -198,7 +205,7 @@
     </div>
 	<!--한) 마이페이지 end-->
 	
-    <div class="section-newsletter">
+<!--    <div class="section-newsletter">
       <div class="padding-global">
         <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-black">
           <div class="_2-column-grid-uneven-left">
@@ -265,7 +272,7 @@
             </div>
           </div>
         </div>
-        <div class="spacer-xxlarge"></div>
+        <div class="spacer-xxlarge"></div>-->
       </div>
     </div>
   </div>

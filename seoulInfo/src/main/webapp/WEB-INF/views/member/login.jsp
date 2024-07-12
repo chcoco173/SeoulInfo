@@ -31,7 +31,7 @@
 <body>
   <div class="page-wrapper">
 	
-	<!-- 한) 상단:회원가입/로그인 버튼 start -->
+	<!-- 한) 상단:회원가입/로그인/마이페이지 버튼 start -->
 	<div class="section-newsletter">
 	  <div class="padding-global">
 	    <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-black">
@@ -40,8 +40,8 @@
 	        <div id="Style-Guide-Form" class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form">
 	          <form name="wf-form-Newsletter-Form" data-name="Newsletter Form" method="get" id="wf-form-Newsletter-Form" class="newsletter-form" data-wf-page-id="6684f0fb2a5375354f5c4820" data-wf-element-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9d2">
 				
-				<a href="insertMember" class="button-primary-large max-width-full-mobile-portrait w-button">회원가입</a>
-				<a href="loginForm" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a>
+				<a href="/member/insertMember" class="button-primary-large max-width-full-mobile-portrait w-button">회원가입</a>
+				<a href="/member/login" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a>
 				<a href="/mypage/profile" class="button-primary-large max-width-full-mobile-portrait w-button">마이페이지</a>
 				
 			</form>
@@ -56,7 +56,7 @@
 	    </div>
 	  </div>
 	</div>
-	<!-- 한) 상단:회원가입/로그인 버튼 end -->
+	<!-- 한) 상단:회원가입/로그인/마이페이지 버튼 end -->
 	
 	
     <div class="navigation-wrapper">
@@ -103,10 +103,10 @@
 				  
 					<form action="loginForm" method="post" name="wf-form-Contact-Form" data-name="Contact Form" method="get" id="wf-form-Contact-Form" class="form" data-wf-page-id="6684f0fb2a5375354f5c4825" data-wf-element-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a65">
 					<div class="form-field-wrapper-copy">						
-						<input class="form-field w-input" maxlength="256" name="id" data-name="id" placeholder="아이디" type="text" id="id" pattern="[A-Za-z0-9]{6,}" required>						
+						<input class="form-field w-input" maxlength="256" name="mId" data-name="mId" placeholder="아이디" type="text" id="mId" pattern="[A-Za-z0-9]{6,}" required>						
 					</div>
 					<div class="form-field-wrapper-copy">						
-						<input class="form-field w-input" maxlength="256" name="password" data-name="password" placeholder="비밀번호" type="password" id="password" pattern="[A-Za-z0-9]{4,}" required>
+						<input class="form-field w-input" maxlength="256" name="mPw" data-name="mPw" placeholder="비밀번호" type="password" id="mPw" pattern="[A-Za-z0-9]{4,}" required>
 					</div>
 
 					<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
