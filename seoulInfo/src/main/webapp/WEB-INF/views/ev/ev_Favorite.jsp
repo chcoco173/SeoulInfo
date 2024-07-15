@@ -2,53 +2,121 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>전기차 - 즐겨찾기</title>
-    <!-- Bootstrap core CSS -->
-    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<!-- ev css -->
-	<link href="/css/evFavorite.css" rel="stylesheet" type="text/css">
+<meta charset="utf-8">
+<title>전기차 - 즐겨찾기</title>
+<!-- Bootstrap core CSS -->
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- ev css -->
+<link href="/css/evFavorite.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    
-<div class="search_favorite">
-    <p style=" text-align: center"><b> 즐겨찾기 </b></p><hr>
-    <div class="beforeLogin" style="text-align:center">
-        <p> serviced after login </p>
-        <input type="button" value="login" class="login btn btn-primary">
-    </div>
-    
-    <div class="afterLogin" style="display:none; padding-left:18%">
-        <div class="result-list" >
-            <dl id="favoriteList">
-                <dd>1</dd>
-                <dd>2</dd>
-                <dd>3</dd>
-                <dd>4</dd>
-                <dd>5</dd>
-                <dd>6</dd>
-                <dd>7</dd>
-                <dd>8</dd>
-                <dd>9</dd>
-                <dd>0</dd>
-            </dl>
-        </div>
-        <div class="pagination" style="text-align:center; margin-top:20px;">
-            <button class="btn btn-secondary" id="prevPage" disabled>이전</button>
-            <span id="pageInfo">1 / 1</span>
-            <button class="btn btn-secondary" id="nextPage">다음</button>
-        </div>
-    </div>
-	<button class="btn btn-secondary btn-close" ><b> X </b></button>
-</div>
 
-<!-- jQuery 및 Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<div class="search_favorite">
+		<p style="text-align: center">
+			<b> 즐겨찾기 </b>
+		</p>
+		<hr>
+		<div class="beforeLogin" style="text-align: center">
+			<p>serviced after login</p>
+			<input type="button" value="login" class="login btn btn-primary">
+		</div>
 
-<script>
+		<div class="afterLogin" style="display: none; padding-left: 1%">
+			<div class="result-list">
+				<dl id="favoriteList">
+					<dd>
+						<table class="favorite-list">
+							<tr>
+								<td rowspan=2><img src="/images/goverment-logo.png" /></td>
+								<td colspan=2>충전소 이름1</td>
+							</tr>
+							<tr>
+								<td><span style="font-size: 12px">사용가능</span></td>
+								<td><span style="font-size: 12px">충전기 타입</span></td>
+							</tr>
+						</table>
+						<br>
+					</dd>
+					<dd>
+						<table class="favorite-list">
+							<tr>
+								<td rowspan=2><img src="/images/charging-station.png" /></td>
+								<td colspan=2>충전소 이름2</td>
+							</tr>
+							<tr>
+								<td><span style="font-size: 12px">사용가능</span></td>
+								<td><span style="font-size: 12px">충전기 타입</span></td>
+							</tr>
+						</table><br>
+					</dd>
+					<dd>
+						<table class="favorite-list">
+							<tr>
+								<td rowspan=2><img src="/images/goverment-logo.png" /></td>
+								<td colspan=2>충전소 이름3</td>
+							</tr>
+							<tr>
+								<td><span style="font-size: 12px">사용가능</span></td>
+								<td><span style="font-size: 12px">충전기 타입</span></td>
+							</tr>
+						</table><br>
+					</dd>
+					<dd>
+						<table class="favorite-list">
+							<tr>
+								<td rowspan=2><img src="/images/goverment-logo.png" /></td>
+								<td colspan=2>충전소 이름4</td>
+							</tr>
+							<tr>
+								<td><span style="font-size: 12px">사용가능</span></td>
+								<td><span style="font-size: 12px">충전기 타입</span></td>
+							</tr>
+						</table><br>
+					</dd>
+					<dd>
+						<table class="favorite-list">
+							<tr>
+								<td rowspan=2><img src="/images/goverment-logo.png" /></td>
+								<td colspan=2>충전소 이름5</td>
+							</tr>
+							<tr>
+								<td><span style="font-size: 12px">사용가능</span></td>
+								<td><span style="font-size: 12px">충전기 타입</span></td>
+							</tr>
+						</table><br>
+					</dd>
+					<dd>
+						<table class="favorite-list">
+							<tr>
+								<td rowspan=2><img src="/images/goverment-logo.png" /></td>
+								<td colspan=2>충전소 이름6</td>
+							</tr>
+							<tr>
+								<td><span style="font-size: 12px">사용가능</span></td>
+								<td><span style="font-size: 12px">충전기 타입</span></td>
+							</tr>
+						</table><br>
+					</dd>
+				</dl>
+			</div>
+			<div class="pagination" style="text-align: center; margin-top: 20px;">
+				<button class="btn btn-secondary" id="prevPage" disabled>이전</button>
+				<span id="pageInfo">1 / 1</span>
+				<button class="btn btn-secondary" id="nextPage">다음</button>
+			</div>
+		</div>
+		<button class="btn btn-secondary btn-close">
+			<b> X </b>
+		</button>
+	</div>
+
+	<!-- jQuery 및 Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+	<script>
 $(document).ready(function() {
-    var itemsPerPage = 4;
+    var itemsPerPage = 3;
     var currentPage = 1;
     var $favoriteList = $('#favoriteList dd');
     var totalItems = $favoriteList.length;

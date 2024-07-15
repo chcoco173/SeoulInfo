@@ -18,11 +18,25 @@
 .pagination {
     position: fixed;
     width: 100%;
-    bottom: 27%;
+    bottom: 17.7%;
+    left: 4%;
     text-align: center;
 	z-index: 102;
+	
 }
 
 .pagination button {
     margin: 0 5px;
+}
+
+td {
+	padding: 6px;
+}
+
+.favorite-list {
+	border-collapse: separate;
+    border-spacing: 0;
+    border: 2px solid black;
+    border-radius: 10px;
+    overflow: hidden; 
 }

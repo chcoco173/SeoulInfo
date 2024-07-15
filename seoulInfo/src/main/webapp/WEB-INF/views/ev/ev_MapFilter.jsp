@@ -90,7 +90,20 @@
 	<button class="btn btn-danger" > 초기화 </button>
 	</form>
 		<dl class="result-list" style="display:none;">
-			<dd>1</dd>
+			<dd>
+				<table>
+					<tr>
+						<td colspan=2>이미지 공간</td>
+						<td >충전소 이름</td>
+					<tr>
+					<tr>
+						<td>
+							<span>사용가능 정보</span>
+							<span>충전기 타입</span>
+						</td>
+					</tr>
+				</table>
+			</dd>
 		</dl>	
 	<!-- template default script-->
 	<script src="/js/webflow.js" type="text/javascript"></script>
