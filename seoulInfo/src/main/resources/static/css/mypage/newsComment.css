@@ -1,0 +1,99 @@
+:root {
+  --black: black;
+  --corner-rounding: 1.5rem;
+  --medium-gray: #e5e5e5;
+  --page-padding-desktop: 2.5rem;
+  --page-padding-tablet: 2.5rem;
+  --page-padding-mobile: 1.5rem;
+  --gutters: 2rem;
+  --white: white;
+  --dark-gray: #aaa;
+  --light-gray: #f6f6f6;
+  
+  --light-blue: #D4F4FA;
+  --medium-blue: #5CD1E5;
+  --light-yellow: #FAF4C0;
+  --medium-yellow: #F7EA6E;
+  --light-violet: #E8D9FF;
+  --medium-violet: #BFA0ED;
+  --light-pink: #FFF0F5;
+  --dark-green: #2F4F4F;
+  --dim-gray: #696969;
+  --dark-red: #800000;
+  
+}
+
+
+
+.comment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+    table-layout: fixed; /* 고정된 테이블 레이아웃 */
+}
+
+.comment-table th,
+.comment-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+.comment-table thead th {
+    background-color: #f2f2f2;
+    color: #333;
+    text-align: center;
+}
+
+.comment-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.comment-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.comment-table a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.comment-table a:hover {
+    text-decoration: underline;
+}
+
+.delete-button {
+    padding: 5px 10px;
+    background-color: #8080ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background-color: #408080;
+}
+
+/* 새로운 스타일 */
+.center-align {
+    text-align: center;
+}
+
+.comment-table tbody td.center-align {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 열 너비 지정 */
+.narrow-col {
+    width: 20%;
+}
+
+.wide-col {
+    width: 80%;
+}
+
+

@@ -37,132 +37,12 @@
 </script>
 <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
 <link href="/images/webclip.png" rel="apple-touch-icon">
-<link href="/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
+<!-- 부트스트랩 태그 추가-->
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- 별점아이콘 링크 https://sisiblog.tistory.com/355 -->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+<!-- 외부 css -->
+<link href="/css/product/myProduct.css" rel="stylesheet" type="text/css">
 
-<style>
-.main-wrapper {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-}
-
-.product-cards-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-.product-card {
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin: 10px;
-    width: 80%; /* Adjust width as needed */
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    text-align: center;
-}
-
-.product-card .btn {
-    margin-left: 10px; /* Add margin between buttons */
-}
-
-.product-card img {
-    width: 100px; /* Increased width */
-    height: 100px; /* Increased height */
-    margin-right: 20px; /* Increased margin for better spacing */
-}
-
-.product-details {
-    flex-grow: 1; /* Allows the text to take up remaining space */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.review-section {
-	padding-left: 20px;
-}
-
-.review-buttons {
-	display: flex;
-	justify-content: center;
-	margin-bottom: 10px;
-}
-
-.review-buttons label, .review-buttons input[type="text"] {
-	margin: 0 5px;
-}
-
-.review-buttons input[type="radio"] {
-	display: none;
-}
-
-.review-buttons label {
-	padding: 10px 20px;
-	border: 1px solid #ddd;
-	border-radius: 5px;
-	cursor: pointer;
-}
-
-.review-buttons input[type="radio"]:checked+label {
-	background-color: #007bff;
-	color: white;
-}
-
-.review-buttons input[type="text"] {
-	padding: 10px 20px;
-	border: 1px solid #ddd;
-	border-radius: 5px;
-	flex-grow: 1;
-	max-width: 220px;
-}
-
-
-/*별점추가  */
-
-.rating {
-   position: relative;
-   background: transparent;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   gap: .3em;
-   padding: 5px;
-   overflow: hidden;
-   /* border-radius: 20px;
-   box-shadow: 0 0 2px #b3acac; */
-}
-
-.rating__result {
-   position: absolute;
-   top: 0;
-   left: 0;
-   transform: translateY(-10px) translateX(-5px);
-   z-index: -9;
-   font: 3em Arial, Helvetica, sans-serif;
-   color: #ebebeb8e;
-   pointer-events: none;
-}
-
-.rating__star {
-   font-size: 1.3em;
-   cursor: pointer;
-   color: #dabd18b2;
-   transition: filter linear .3s;
-}
-
-.rating__star:hover {
-   filter: drop-shadow(1px 1px 4px gold);
-}
-</style>
 </head>
 <body>
 	<div class="page-wrapper">
@@ -171,30 +51,30 @@
 		<%@include file="../productNav/productMyPageNav.jsp"%>
 
 		<main class="main-wrapper">
-		    <div class="product-cards-container">
-		        <div class="product-card">
-		            <img src="https://via.placeholder.com/100" alt="상품 1">
-		            <div class="product-details">
-		                <h5>판매 상품 1</h5>
-		                <p>
-		                    판매 등록 날짜<br>판매 상태 (예약/판매완료)
-		                </p>
-		            </div>
-		            <button class="btn btn-secondary">수정</button>
-		            <button class="btn btn-secondary">삭제</button>
-		        </div>
-		        <div class="product-card">
-		            <img src="https://via.placeholder.com/100" alt="상품 2">
-		            <div class="product-details">
-		                <h5>판매 상품 2</h5>
-		                <p>
-		                    판매 등록 날짜<br>판매 상태 (예약/판매완료)
-		                </p>
-		            </div>
-		            <button class="btn btn-secondary">수정</button>
-		            <button class="btn btn-secondary">삭제</button>
-		        </div>
-		    </div>
+			<div class="product-cards-container">
+				<div class="product-card">
+					<img src="https://via.placeholder.com/100" alt="상품 1">
+					<div class="product-details">
+						<h5>판매 상품 1</h5>
+						<p>
+							판매 등록 날짜<br>판매 상태 (예약/판매완료)
+						</p>
+					</div>
+					<button class="btn btn-secondary update">수정</button>
+					<button class="btn btn-secondary delete">삭제</button>
+				</div>
+				<div class="product-card">
+					<img src="https://via.placeholder.com/100" alt="상품 2">
+					<div class="product-details">
+						<h5>판매 상품 2</h5>
+						<p>
+							판매 등록 날짜<br>판매 상태 (예약/판매완료)
+						</p>
+					</div>
+					<button class="btn btn-secondary update">수정</button>
+					<button class="btn btn-secondary delete">삭제</button>
+				</div>
+			</div>
 		</main>
 		<div class="section-footer">
 			<div class="padding-global">
@@ -273,31 +153,16 @@
 		integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
 		crossorigin="anonymous"></script>
 	<script src="/js/webflow.js" type="text/javascript"></script>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<!-- 제이쿼리 라이브러리 추가 + 상품클릭시 디테일페이지로이동 -->
 	<script type="text/javascript">
-	const ratingStars = [...document.getElementsByClassName("rating__star")];
+		// 나중에 상품번호 들고가서 수정예정
+		$(".update").click(function() {
+			location.href = "productUpdate";
 
-	function executeRating(stars) {
-	  const starClassActive = "rating__star fas fa-star";
-	  const starClassInactive = "rating__star far fa-star";
-	  const starsLength = stars.length;
-	  let i;
-
-	  stars.map((star) => {
-	    star.onclick = () => {
-	      i = stars.indexOf(star);
-
-	      if (star.className===starClassInactive) {
-	        for (i; i >= 0; --i) stars[i].className = starClassActive;
-	      } else {
-	        for (i; i < starsLength; ++i) stars[i].className = starClassInactive;
-	      }
-	    };
-	  });
-	}
-
-	executeRating(ratingStars);
-	
-
+		});
 	</script>
 </body>
 </html>

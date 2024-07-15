@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html data-wf-page="6684f0fb2a5375354f5c4823"
 	data-wf-site="6684f0fb2a5375354f5c47e9">
@@ -67,54 +67,16 @@
 </script>
 <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
 <link href="/images/webclip.png" rel="apple-touch-icon">
-<link href="/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
-<style>
-.category-tab {
-	margin-bottom: 20px;
-	justify-content: center;
-}
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-.category-tab .col-md-2 {
-	padding-left: 5px;
-	padding-right: 5px;
-}
-
-.category-tab p {
-	margin: 0;
-	padding: 10px 0;
-}
-
-.category-tab img {
-	width: 24px;
-	height: 24px;
-	margin-bottom: 5px;
-}
-
-.category-tab .active {
-	background-color: #e0e0e0;
-	border-radius: 5px;
-}
-
-.product-card {
-	margin: 20px 0;
-}
-
-.product-card img {
-	width: 100%;
-	height: auto;
-}
-
-.product-info {
-	text-align: left;
-}
-</style>
+<!-- 외부css-->
+<link href="/css/product/productMain.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div class="page-wrapper">
-		
+
 		<%@include file="../productNav/productNav.jsp"%>
-		
+
 		<div class="main-wrapper">
 			<div class="section-destination-banner">
 				<div class="padding-global">
@@ -128,33 +90,9 @@
 								</div>
 
 								<div class="container my-5">
-									<!-- 카테고리 탭 -->
-									<!-- <div class="row category-tab text-center">
-										<div class="col-md-2">
-											<img src="https://via.placeholder.com/24" alt="전자제품">
-											<p>전자제품</p>
-										</div>
-										<div class="col-md-2">
-											<img src="https://via.placeholder.com/24" alt="생활 용품">
-											<p>생활 용품</p>
-										</div>
-										<div class="col-md-2">
-											<img src="https://via.placeholder.com/24" alt="도서">
-											<p>도서</p>
-										</div>
-										<div class="col-md-2">
-											<img src="https://via.placeholder.com/24" alt="의류">
-											<p>의류</p>
-										</div>
-										<div class="col-md-2">
-											<img src="https://via.placeholder.com/24" alt="기타">
-											<p>기타</p>
-										</div>
-									</div>
- -->
 									<!--  상품 ( jstl로 들어갈 예정 ) -->
 									<div class="row">
-										<div class="col-md-3">
+										<div class="col-md-3 product">
 											<div class="product-card">
 												<img src="https://via.placeholder.com/200" alt="상품 1"
 													class="product-image">
@@ -170,7 +108,7 @@
 												</div>
 											</div>
 										</div>
-										<div class="col-md-3">
+										<div class="col-md-3 product">
 											<div class="product-card">
 												<img src="https://via.placeholder.com/200" alt="상품 2"
 													class="product-image">
@@ -186,7 +124,7 @@
 												</div>
 											</div>
 										</div>
-										<div class="col-md-3">
+										<div class="col-md-3 product">
 											<div class="product-card">
 												<img src="https://via.placeholder.com/200" alt="상품 3"
 													class="product-image">
@@ -202,7 +140,7 @@
 												</div>
 											</div>
 										</div>
-										<div class="col-md-3">
+										<div class="col-md-3 product">
 											<div class="product-card">
 												<img src="https://via.placeholder.com/200" alt="상품 4"
 													class="product-image">
@@ -297,8 +235,8 @@
 											<a href="#" aria-label="Next Page"
 												class="w-pagination-next next">
 												<div class="text-size-small w-inline-block">Next</div> <img
-												src="/images/ph_arrow-right-light-xxsmall.svg" loading="lazy"
-												alt="" class="icon-1x1-xxsmall">
+												src="/images/ph_arrow-right-light-xxsmall.svg"
+												loading="lazy" alt="" class="icon-1x1-xxsmall">
 											</a>
 										</div>
 									</div>
@@ -390,5 +328,18 @@
 				integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
 				crossorigin="anonymous"></script>
 			<script src="/js/webflow.js" type="text/javascript"></script>
+			
+			<!-- 제이쿼리 라이브러리 추가 -->
+			<script
+				src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+			<!-- 제이쿼리 라이브러리 추가 + 상품클릭시 디테일페이지로이동 -->
+			<script type="text/javascript">
+				$(".product").click(function() {
+					
+					// 나중에 상품번호들고가서 수정예정
+					location.href = "detail_post";
+
+				});
+			</script>
 </body>
 </html>
