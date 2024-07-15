@@ -61,11 +61,11 @@
 	<!-- 한) 상단:회원가입/로그인/마이페이지 버튼 end -->
 	
 	
-	
+	<!-- 검색 start -->
     <div class="navigation-wrapper">
       <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar_m w-nav">
         <div class="nav-wrapper">
-          <a href="index" aria-current="page" class="brand w-nav-brand w--current"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
+          <a href="/" aria-current="page" class="brand w-nav-brand w--current"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
           <div class="links-and-search-wrapper">
             <nav role="navigation" class="nav-links-wrapper w-nav-menu">
               <a href="about" class="nav-link w-nav-link">About</a>
@@ -88,10 +88,13 @@
         </div>
       </div>
     </div>
+    <!-- 검색 end -->
+	
+	
 	
     <div class="main-wrapper">
 	  
-<!--      <div class="section-destinations background-black">
+<!-- 	  <div class="section-destinations background-black">
         <div class="padding-global">
           <div class="padding-section-medium">
             <div class="container-full-width">
@@ -118,8 +121,9 @@
             </div>
           </div>
         </div>
-      </div>
--->	  
+      </div> -->
+      
+	  
 	<!--한) 마이페이지 start-->
       <div class="section-posts-row">
         <div class="padding-global">
@@ -133,11 +137,12 @@
 			  
               <div class="w-dyn-list">
                 <div role="list" class="w-dyn-items">
+                
                   <div data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f385" style="opacity:0" role="listitem" class="w-dyn-item">
                     <div class="post-row-grid">
                       <a id="w-node-dbd1f4aa-0c13-168c-7fc5-367d8d676b4b-4f5c4820" data-w-id="dbd1f4aa-0c13-168c-7fc5-367d8d676b4b" href="#가" 
 					  		class="post-row-image-overflow-container w-inline-block">
-                        <div id="w-node-_1d188613-99eb-7eb0-d878-0bf26f04f386-4f5c4820" data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f386" 
+                    	<div id="w-node-_1d188613-99eb-7eb0-d878-0bf26f04f386-4f5c4820" data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f386" 
 							style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" 
 							class="post-row-image"></div>
                       </a>
@@ -154,25 +159,28 @@
                     </div>
                   </div>
                 
-				<!-- 한)마이페이지 탭-->
+				<!-- 한)마이페이지 탭 start-->
 				 <div>
 					<div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8475-65b830fb">
 					  <h4></h4>
 					  <div class="spacer-large"></div>
-					  <a href="#프로필" class="tag-t w-inline-block">프로필 관리</a>
+					  <a href="/mypage/profile" class="tag-t w-inline-block">프로필 관리</a>
 
-					  <a href="#개인정보" class="tag-t w-inline-block">개인정보 관리</a>
+					  <a href="/mypage/memberInfo" class="tag-t w-inline-block">개인정보 관리</a>
 					  
-					  <a href="#댓글" class="tag-t w-inline-block">내가 작성한 댓글</a>
+					  <a href="/mypage/newsComment" class="tag-t w-inline-block">내가 작성한 댓글</a>
 					  
-					  <a href="#관심상품 목록" class="tag-t w-inline-block">관심상품 목록</a>
+					  <a href="/mypage/product" class="tag-t w-inline-block">관심상품 목록</a>
 					  
-					  <a href="#충전소 즐겨찾기" class="tag-t w-inline-block">충전소 즐겨찾기</a>
+					  <a href="/mypage/ev" class="tag-t w-inline-block">충전소 즐겨찾기</a>
 					  
-					  <a href="#1:1문의" class="tag-t w-inline-block">1 : 1 문의</a>				  				  
+					  <a href="/mypage/question" class="tag-t w-inline-block">1 : 1 문의</a>				  				  
 					</div>
 				</div>
-				<!-- 한)마이페이지 상세-->			
+				<!-- 한)마이페이지 탭 end-->	
+				
+				
+				<!-- 한)마이페이지 상세 start-->			
 				 <div>
 					  <h4></h4>
 					  <div class="spacer-large"></div>					  
@@ -194,7 +202,7 @@
 						  <a href="#등록" class="tag-b w-inline-block">등록</a>
 						  <a href="#삭제" class="tag-b w-inline-block">삭제</a>				  				  
 					</div>
-																			
+					<!-- 한)마이페이지 상세 end-->														
 					
 				</div>					
               </div>
@@ -202,10 +210,12 @@
           </div>
         </div>
       </div>
+      <!--한) 마이페이지 end-->
+      
     </div>
-	<!--한) 마이페이지 end-->
+	<!-- main-wrapper end -->
 	
-<!--    <div class="section-newsletter">
+    <div class="section-newsletter">
       <div class="padding-global">
         <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-black">
           <div class="_2-column-grid-uneven-left">
@@ -226,6 +236,8 @@
         </div>
       </div>
     </div>
+    <!-- section-newsletter end -->
+    
     <div class="section-footer">
       <div class="padding-global">
         <div class="spacer-xxlarge"></div>
@@ -272,10 +284,14 @@
             </div>
           </div>
         </div>
-        <div class="spacer-xxlarge"></div>-->
+        <div class="spacer-xxlarge"></div>
       </div>
     </div>
+    <!-- section-footer end -->
+    
   </div>
+  <!-- page-wrapper end -->
+  
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="/js/webflow.js" type="text/javascript"></script>
 </body>

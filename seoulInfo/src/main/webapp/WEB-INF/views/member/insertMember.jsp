@@ -17,16 +17,16 @@
   <meta content="summary_large_image" name="twitter:card">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
-  <link href="../css/normalize.css" rel="stylesheet" type="text/css">
-  <link href="../css/webflow.css" rel="stylesheet" type="text/css">
-  <link href="../css/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet" type="text/css">
+  <link href="/css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="/css/webflow.css" rel="stylesheet" type="text/css">
+  <link href="/css/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
   <script type="text/javascript">WebFont.load({  google: {    families: ["Plus Jakarta Sans:regular,600,italic,600italic"]  }});</script>
   <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
-  <link href="../images/favicon.png" rel="shortcut icon" type="image/x-icon">
-  <link href="../images/webclip.png" rel="apple-touch-icon">
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="/images/webclip.png" rel="apple-touch-icon">
 </head>
 <body>
   <div class="page-wrapper">
@@ -44,7 +44,7 @@
 				<a href="/member/login" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a>
 				<a href="/mypage/profile" class="button-primary-large max-width-full-mobile-portrait w-button">마이페이지</a>
 				
-			</form>
+			  </form>
 	          <div class="form-success-message w-form-done">
 	            <div class="text-size-regular text-color-white">Thank you! Your submission has been received!</div>
 	          </div>
@@ -58,32 +58,32 @@
 	</div>
 	<!-- 한) 상단:회원가입/로그인/마이페이지 버튼 end -->	
 	
-	
+	<!-- 검색 start -->
     <div class="navigation-wrapper">
       <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar_m w-nav">
         <div class="nav-wrapper">
-          <a href="index" class="brand w-nav-brand"><img src="images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
+          <a href="/" class="brand w-nav-brand"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
           <div class="links-and-search-wrapper">
             <nav role="navigation" class="nav-links-wrapper w-nav-menu">
               <a href="about" class="nav-link w-nav-link">About</a>
               <a href="contact" aria-current="page" class="nav-link w-nav-link w--current">Contact</a>
             </nav>
             <form action="/search" data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5" class="search w-form">
-              <div class="search-div"><img src="images/ph_magnifying-glass-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
+              <div class="search-div"><img src="/images/ph_magnifying-glass-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
               <div class="nav-search-outer-wrapper">
                 <div class="nav-search-internal-wrapper"><input class="form-field w-input" maxlength="256" name="query" placeholder="Search…" type="search" id="search" required="">
                   <div class="search-button-wrapper"><input type="submit" class="button-primary-small w-button" value="Search">
-                    <a data-w-id="a72c4d20-babf-897f-e150-4948b59e5bfb" href="#" class="close-search-link-block w-inline-block"><img src="images/ph_x-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></a>
+                    <a data-w-id="a72c4d20-babf-897f-e150-4948b59e5bfb" href="#" class="close-search-link-block w-inline-block"><img src="/images/ph_x-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></a>
                   </div>
                 </div>
               </div>
             </form>
           </div>
-          <div class="menu-button w-nav-button"><img src="images/ph_list-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
+          <div class="menu-button w-nav-button"><img src="/images/ph_list-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
         </div>
       </div>
     </div>
-	
+	<!-- 검색 end -->	
 	
 	<!--한) 회원가입 start-->
     <div class="main-wrapper">
@@ -92,6 +92,8 @@
           <div class="padding-section-medium">
             <div class="container-large">
               <div class="_2-column-grid-uneven-right">
+              
+              	<!-- 왼쪽 컬럼 -->
                 <div id="w-node-dcacb4c5-0e4e-5bd9-3310-1e984a55f96a-4f5c4825" data-w-id="dcacb4c5-0e4e-5bd9-3310-1e984a55f96a" style="opacity:0">
                   <div class="accent">서울 지역 안내 서비스에 오신 것을 환영합니다.</div>
                   <div class="spacer-large"></div>
@@ -100,6 +102,7 @@
                   <p></p>
                 </div>
 				
+				<!-- 오른쪽 컬럼 -->
                 <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">				  
                   <form action="insertMember" method="post" name="wf-form-Contact-Form" data-name="Contact Form" method="get" id="wf-form-Contact-Form" 
 				  		class="form" data-wf-page-id="6684f0fb2a5375354f5c4825" data-wf-element-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a65">
@@ -156,7 +159,8 @@
           </div>
         </div>
       </div>
-    </div>
+    </div><!-- section-newsletter end -->
+    
     <div class="section-footer">
       <div class="padding-global">
         <div class="spacer-xxlarge"></div>
@@ -164,7 +168,7 @@
           <div class="padding-global">
             <div class="padding-section-medium">
               <div class="_2-column-grid">
-                <a href="index.html" class="w-inline-block"><img src="images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
+                <a href="index.html" class="w-inline-block"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
                 <div>
                   <h3>The stories of a travel photographer and blogger exploring the world .</h3>
                   <div id="w-node-e1165d61-2cbb-cc22-6e05-5b6165b83107-65b830fb" class="spacer-xxlarge"></div>
@@ -205,11 +209,13 @@
         </div>
         <div class="spacer-xxlarge"></div>
       </div>
-    </div>
-  </div>
+    </div><!-- section-footer end -->           
+    
+  </div><!-- page-wrapper end -->
+  
   <div class="template-info">
     <div class="template-widget w-clearfix">
-      <a data-w-id="d363bd8c-96e4-5230-7b4c-f448082630b9" href="#" class="pop-up-close w-inline-block"><img loading="lazy" src="images/close.svg" alt="" class="icon-1x1-xxsmall"></a>
+      <a data-w-id="d363bd8c-96e4-5230-7b4c-f448082630b9" href="#" class="pop-up-close w-inline-block"><img loading="lazy" src="/images/close.svg" alt="" class="icon-1x1-xxsmall"></a>
       <div class="heading-style-h3">Hello!</div>
       <div class="spacer-small"></div>
       <p class="text-size-small">This is a website template by <a href="https://www.callistodigitalstudio.com/" target="_blank" class="link-underline text-size-small">Callisto Digital Studio</a>.</p>
@@ -236,19 +242,19 @@
         </div>
         <div class="spacer-xxxlarge"></div>
         <div class="_3-column-grid">
-          <div id="w-node-d363bd8c-96e4-5230-7b4c-f448082630dd-082630b7"><img sizes="100vw" srcset="images/Frame-3-p-500.jpg 500w, images/Frame-3-p-800.jpg 800w, images/Frame-3.jpg 864w" alt="" src="images/Frame-3.jpg" loading="lazy" class="pop-up-image">
+          <div id="w-node-d363bd8c-96e4-5230-7b4c-f448082630dd-082630b7"><img sizes="100vw" srcset="/images/Frame-3-p-500.jpg 500w, /images/Frame-3-p-800.jpg 800w, /images/Frame-3.jpg 864w" alt="" src="/images/Frame-3.jpg" loading="lazy" class="pop-up-image">
             <div class="spacer-large"></div>
             <div class="heading-style-h4">Pages and Features</div>
             <div class="spacer-small"></div>
             <p class="text-size-regular">Designed to share travel photography and stories with elegant animations and interactions. With support for multiple authors, easily organize posts by destination, making it easy for readers to find what they are looking for.</p>
           </div>
-          <div id="w-node-d363bd8c-96e4-5230-7b4c-f448082630e5-082630b7"><img sizes="100vw" srcset="images/Frame-2-p-500.jpg 500w, images/Frame-2-p-800.jpg 800w, images/Frame-2.jpg 864w" alt="" src="images/Frame-2.jpg" loading="lazy" class="pop-up-image">
+          <div id="w-node-d363bd8c-96e4-5230-7b4c-f448082630e5-082630b7"><img sizes="100vw" srcset="/images/Frame-2-p-500.jpg 500w, /images/Frame-2-p-800.jpg 800w, /images/Frame-2.jpg 864w" alt="" src="/images/Frame-2.jpg" loading="lazy" class="pop-up-image">
             <div class="spacer-large"></div>
             <div class="heading-style-h4">Custom Creative Sections</div>
             <div class="spacer-small"></div>
             <p class="text-size-regular">Easily rearrange, add, or remove the variety of pre-built section designs to suit your layout needs. Our clear site structure makes integrating custom sections into our template a straightforward process.</p>
           </div>
-          <div id="w-node-d363bd8c-96e4-5230-7b4c-f448082630ed-082630b7"><img sizes="100vw" srcset="images/Frame-1-p-500.jpg 500w, images/Frame-1-p-800.jpg 800w, images/Frame-1.jpg 864w" alt="" src="images/Frame-1.jpg" loading="lazy" class="pop-up-image">
+          <div id="w-node-d363bd8c-96e4-5230-7b4c-f448082630ed-082630b7"><img sizes="100vw" srcset="/images/Frame-1-p-500.jpg 500w, /images/Frame-1-p-800.jpg 800w, /images/Frame-1.jpg 864w" alt="" src="/images/Frame-1.jpg" loading="lazy" class="pop-up-image">
             <div class="spacer-large"></div>
             <div class="heading-style-h4">Make It Your Own</div>
             <div class="spacer-small"></div>
@@ -259,7 +265,7 @@
         <div class="_2-column-grid">
           <div id="w-node-d363bd8c-96e4-5230-7b4c-f448082630f7-082630b7" class="pop-up-grid-item-wrapper">
             <div>
-              <div class="logo-and-text-wrapper"><img loading="lazy" src="images/Figma-logo.svg" alt="" class="pop-up-icon">
+              <div class="logo-and-text-wrapper"><img loading="lazy" src="/images/Figma-logo.svg" alt="" class="pop-up-icon">
                 <div class="heading-style-h4">Access the Figma file</div>
               </div>
               <div class="spacer-small"></div>
@@ -270,7 +276,7 @@
           </div>
           <div id="w-node-d363bd8c-96e4-5230-7b4c-f44808263103-082630b7" class="pop-up-grid-item-wrapper">
             <div>
-              <div class="logo-and-text-wrapper"><img loading="lazy" src="images/doc.svg" alt="" class="pop-up-icon">
+              <div class="logo-and-text-wrapper"><img loading="lazy" src="/images/doc.svg" alt="" class="pop-up-icon">
                 <div class="heading-style-h4-2">Documentation</div>
               </div>
               <div class="spacer-small"></div>
@@ -281,12 +287,14 @@
           </div>
         </div>
         <div class="spacer-xxxlarge"></div>
-        <a id="w-node-d363bd8c-96e4-5230-7b4c-f44808263110-082630b7" href="https://www.callistodigitalstudio.com/" target="_blank" class="pop-up-logo w-inline-block"><img loading="lazy" src="images/cds.svg" alt=""></a>
+        <a id="w-node-d363bd8c-96e4-5230-7b4c-f44808263110-082630b7" href="https://www.callistodigitalstudio.com/" target="_blank" class="pop-up-logo w-inline-block"><img loading="lazy" src="/images/cds.svg" alt=""></a>
       </div>
     </div>
     <div class="pop-up-overlay"></div>
-  </div>
+  </div><!-- template-info end-->
+  
+  
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-  <script src="../js/webflow.js" type="text/javascript"></script>
+  <script src="/js/webflow.js" type="text/javascript"></script>
 </body>
 </html>
