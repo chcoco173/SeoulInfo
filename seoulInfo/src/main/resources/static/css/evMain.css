@@ -1,15 +1,51 @@
-
 /* 동적 화면 설정 */
 
 @media (max-width: 1700px) {
-	#map{ width:100%; }
-	.mapFilter{ position: absolute;}
-	 
+	#map {
+		width: 100%;
+	}
+	.mapFilter {
+		position: absolute;
+	}
 }
 
 @media (max-width: 1000px) {
+	.filter {
+		font-size: 16px;
+		font-weight: bold;
+		height: 50px;
+		width: 100%;
+	}
 
+	.search_map, .search_favorite {
+		position: fixed;
+		width: 281px;
+		height: 40%;
+		top: 50%; /* 화면 세로 중앙 정렬을 위해 top 값을 50%로 설정 */
+		left: 50%; /* 화면 가로 중앙 정렬을 위해 left 값을 50%로 설정 */
+		transform: translate(-50%, -10%); /* 화면 중앙으로 이동하는 transform 설정 */
+		justify-content: center;
+		border: 2px solid #1E90FF;
+		background-color: white;
+		z-index: 101;
+		padding: 10px;
+	}
 }
+
+@media (max-height: 200px) {
+    .search_map,
+    .search_favorite {
+        display: none; /* 화면 높이가 600px 이하일 때 숨김 */
+    }
+}
+
+
+
+.search_map, .search_favorite {
+	display: none; /* 초기에는 화면에 보이지 않도록 설정 */
+}
+
+
 .filter {
 	font-size : 16;
 	font-weight : bold;
@@ -17,43 +53,52 @@
 	width : 100%
 }
 
-.search_map{
+.search_map , .search_favorite{
+	
 	position : fixed;
 	width : 281px;
-	height : 461px;
+	height : 45%;
 	top : 35%;
 	justify-content: center; 
 	border : 2px solid #1E90FF ;
 	background-color : white;
 	z-index: 101;
 	padding:10px;
+	display: none;
+	overflow-y: auto; /* 세로 스크롤바 추가 */
 }
 
-.search_favorite{
+.search_map form {
+    max-height: 100%; /* 내부 form 요소들이 최대 div 높이를 초과하지 않도록 설정 */
+}
+
+.map-option {
 	position : fixed;
 	width : 281px;
-	height : 461px;
+	height : 45%;
 	top : 35%;
 	justify-content: center; 
-	border : 2px solid #1E90FF ;
-	background-color : white;
-	z-index: 101;
-	padding:10px;
-	
-	display: none;	
+	right : 10px;
 }
+
+.serviceCate {
+    position: absolute; /* 절대 위치로 설정하여 다른 요소들과 겹치지 않도록 함 */
+    z-index: 1000; 		/* Kakao 지도 API의 z-index보다 더 높은 값으로 설정하여 위로 올려줌 */
+}
+
+
 
 /* kakao map Css style */
 #map {
 	width:100%;
-	height:735px;
+	height:780px;
 	position:relative;
 	overflow:hidden;
 }
 
 #category {
 	position:absolute;
-	top:10px;
+	top:100px;
 	left:10px;
 	border-radius: 5px;
 	border:1px solid #909090;

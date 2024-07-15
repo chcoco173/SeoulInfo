@@ -1,26 +1,16 @@
 $(function(){
 	
-	// 중개인 버튼 클릭 시, overlay 실행
-	$(".open-btn").click(function() {
-	    $(".overlay").fadeIn();
-		/*
-			    $('.searchFilter').css({'display': 'flex'});
-				$('.search button').css({'background-color': 'yellowgreen'})
-			    $('.navigationFilter').css({'display': 'none'});
-				$('.navigation button').css({'background-color': 'orange'})
-			    $('.likeFilter').css({'display': 'none'});
-				$('.like button').css({'background-color': 'orange'})
-				*/
-	});
-	// 취소 버튼 클릭 시, overlay 종료
-	$(".close-btn").click(function() {
-	    $(".overlay").fadeOut();
-	});
-	// 오버레이 내부를 클릭할 때 이벤트 전파를 방지합니다.
-	$(".overlay-inner").click(function(event){
-	    event.stopPropagation();
-	});
+	// serviceCate 요소의 위치를 Kakao 지도 위에 고정
+	var serviceCateElement = document.querySelector('.serviceCate');
+	var mapElement = document.getElementById('map');
+	var mapParentElement = mapElement.parentElement;
+	
+	mapParentElement.style.position = 'relative'; // Kakao 지도를 감싸고 있는 부모 요소의 position을 relative로 설정
 
+	// serviceCate 요소를 mapElement의 자식 요소로 추가
+	mapElement.appendChild(serviceCateElement);
+	
+	// 각 버튼 별 아이템 띄우기
 	$('#filterBtn1').click(function () {
 	    // alert("search1");
 		$(".overlay").fadeIn();
@@ -45,34 +35,24 @@ $(function(){
 		$(".search_navigation").css({"display":"none"});
 	});
 	
-	
-	
+	// 즐겨찾기 로그인 
 	$('.login').click(function(){
 		$('.afterLogin').css({"display":"inherit"});
 		$('.beforeLogin').css({"display":"none"});
 	});
 	
-	
-	
-	
-	$('.navigation').click(function () {
-	    //alert("navi");
-	    $('.navigationFilter').css({'display': 'flex'});
-		$('.navigation button').css({'background-color': 'yellowgreen'})
-	    $('.searchFilter').css({'display': 'none'});
-		$('.search button').css({'background-color': 'orange'});
-	    $('.likeFilter').css({'display': 'none'});
-		$('.like button').css({'background-color': 'orange'})
+	// 닫기 버튼
+	$('.btn-close').click(function(event){
+		event.stopPropagation();
+		event.preventDefault();
+		
+		$(".search_map").css({"display":"none"});
+		$(".search_navigation").css({"display":"none"});
+		$(".search_favorite").css({"display":"none"});
 	});
 	
-	$('.like').click(function () {
-	    //alert("like");
-	    $('.likeFilter').css({'display': 'flex'});
-		$('.like button').css({'background-color': 'yellowgreen'})
-	    $('.navigationFilter').css({'display': 'none'});
-		$('.navigation button').css({'background-color': 'orange'})
-	    $('.searchFilter').css({'display': 'none'});
-		$('.search button').css({'background-color': 'orange'});
+	$('.result-list').click(function(){
+		
 	});
 
 });

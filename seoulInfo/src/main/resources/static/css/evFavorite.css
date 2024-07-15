@@ -1,0 +1,28 @@
+.search_favorite {
+    position: fixed;
+    width: 281px;
+    height: 461px;
+    top: 35%;
+    justify-content: center; 
+    border: 2px solid #1E90FF;
+    background-color: white;
+    z-index: 101;
+    padding: 10px;
+}
+        
+.beforeLogin, .afterLogin {
+    overflow: auto;
+    height: 78%;
+}
+
+.pagination {
+    position: fixed;
+    width: 100%;
+    bottom: 27%;
+    text-align: center;
+	z-index: 102;
+}
+
+.pagination button {
+    margin: 0 5px;
+}
