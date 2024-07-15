@@ -21,6 +21,11 @@
   margin-right: 10px;
 }
 
+.search-select {
+  margin-top: 9px;
+  height : 35px;
+}
+
 .admin-cards {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -113,7 +118,7 @@
   border-radius: 5px;
 }
 
-.update-admin {
+.update-admin, .delete-admin {
   padding: 8px 16px;
   background-color: #5c5c5c;
   color: white;
@@ -122,8 +127,16 @@
   cursor: pointer;
 }
 
-.update-admin:hover {
+.update-admin:hover, .delete-admin:hover {
   background-color: #2c2c2c;
+}
+
+.update-admin {
+  margin-right: 5px;
+}
+
+.delete-admin {
+  margin-left: 5px;
 }
 
 

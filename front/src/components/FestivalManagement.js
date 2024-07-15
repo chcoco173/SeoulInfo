@@ -5,21 +5,25 @@ import { format } from 'date-fns';
 import '../css/FestivalManagement.css';
 
 function FestivalCard({ festival, onClick }) {
+  const isLocalPath = festival.festival_imageurl && !festival.festival_imageurl.startsWith('http');
+  const imagePath = isLocalPath ? `http://localhost:8000${festival.festival_imageurl}` : festival.festival_imageurl;
   const StartDate = format(new Date(festival.festival_startdate), 'yyyy-MM-dd');
   const EndDate = format(new Date(festival.festival_enddate), 'yyyy-MM-dd');
 
   return (
     <div className="festival-card" onClick={() => onClick(festival)}>
-      <img src={festival.festival_imageurl} className="festival-photo"/>
+      <img src={imagePath} className="festival-photo" alt={festival.festival_name} />
       <p className="festival-name">{festival.festival_name}</p>
       <p className="festival-area">{festival.festival_area}</p>
       <span className="festival-start">{StartDate} ~ </span><span className="festival-end">{EndDate}</span>
     </div>
   );
 }
+
 function Festivalpopup({ festival, onClose }) {
   const [editableFestival, setEditableFestival] = useState({ ...festival });
   const [isEditing, setIsEditing] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,14 +33,75 @@ function Festivalpopup({ festival, onClose }) {
     }));
   };
 
-  const handleUpdateFestival = () => {
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
+
+  const handleUpdateFestival = async () => {
     if (isEditing) {
       if (window.confirm('수정하시겠습니까?')) {
-        // Update Festival logic here
-        onClose();
+        const formData = new FormData();
+        formData.append('festival_id', editableFestival.festival_id);
+        formData.append('festival_name', editableFestival.festival_name);
+        formData.append('festival_area', editableFestival.festival_area);
+        formData.append('festival_address', editableFestival.festival_address);
+        formData.append('festival_content', editableFestival.festival_content);
+        formData.append('festival_startdate', editableFestival.festival_startdate);
+        formData.append('festival_enddate', editableFestival.festival_enddate);
+        formData.append('festival_siteurl', editableFestival.festival_siteurl);
+        if (selectedFile) {
+          formData.append('festival_image', selectedFile);
+        }
+
+        try {
+          const response = await axios.post('http://localhost:8000/data/update-festival', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+          if (response.status === 200) {
+            alert('축제 수정 완료');
+            onClose();
+            window.location.reload();
+          } else {
+            alert('축제 수정 실패');
+          }
+        } catch (error) {
+          console.error('에러 발생:', error);
+          alert('축제 수정 실패');
+        }
       }
     } else {
       setIsEditing(true);
+    }
+  };
+
+  const handleDeleteFestival = (festivalId) => {
+    if (window.confirm('삭제하시겠습니까?')) {
+      axios.delete(
+        `http://localhost:8000/data/delete-festival/${festivalId}`,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+        .then(response => {
+          if (response.status === 200) {
+            console.log(response.data);
+            alert('축제 정보 삭제 완료');
+            onClose();
+            window.location.reload();
+          } else {
+            console.error('축제정보 삭제 실패', response.statusText);
+            alert('축제정보 삭제 실패');
+          }
+        })
+        .catch(error => {
+          console.error('에러 발생:', error);
+        });
+    } else {
+      console.log('삭제 취소');
     }
   };
 
@@ -44,20 +109,25 @@ function Festivalpopup({ festival, onClose }) {
     return date ? format(new Date(date), 'yyyy-MM-dd') : '';
   };
 
+  const isLocalPath = festival.festival_imageurl && !festival.festival_imageurl.startsWith('http');
+  const imagePath = isLocalPath ? `http://localhost:8000${festival.festival_imageurl}` : festival.festival_imageurl;
   const StartDate = formatDate(festival.festival_startdate);
   const EndDate = formatDate(festival.festival_enddate);
   
-
   return (
-    
     <div className="popup">
       <div className="popup-content">
-        <img src={festival.festival_imageurl} className="festival-photo" />
+        <img src={imagePath} className="festival-photo" alt={festival.festival_name} />
         <span className="close-button" onClick={onClose}>&times;</span>
+        <input
+         type="hidden"
+        name="festival_id"
+        value={festival.festival_id}
+          />
         <p><strong>축제 제목 : </strong>{isEditing ? (
           <input
             type="text"
-            name="name"
+            name="festival_name"
             value={editableFestival.festival_name}
             onChange={handleChange}
           />
@@ -86,7 +156,7 @@ function Festivalpopup({ festival, onClose }) {
         )}</span>
         <p><strong>축제 지역 :</strong> {isEditing ? (
           <select             
-          name="festival_address"
+          name="festival_area"
           value={editableFestival.festival_area}
           onChange={handleChange}>
             <option value="강남구">강남구</option>
@@ -148,8 +218,17 @@ function Festivalpopup({ festival, onClose }) {
         ) : (
             <a href={festival.festival_siteurl}>축제 사이트로 이동</a>
         )}</p>
+        {isEditing && (
+          <div>
+            <strong>프로필 이미지:</strong> 
+            <input type="file" name="festival_image" onChange={handleFileChange}/>
+          </div>
+        )}
         <button className="update-festival" onClick={handleUpdateFestival}>
           {isEditing ? '저장' : '수정'}
+        </button>
+        <button className="delete-festival" onClick={() => handleDeleteFestival(festival.festival_id)}>
+          삭제
         </button>
       </div>
     </div>
@@ -208,7 +287,6 @@ function FestivalManagement() {
   const handleClosepopup = () => {
     setSelectedFestival(null);
   };
-
 
   return (
     <div className="festival-info">

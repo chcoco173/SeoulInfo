@@ -1,21 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../css/AdminInfo.css';
 import { useNavigate } from 'react-router-dom';
-
-const adminData = [
-  { id: 'imningning', name: '닝닝', photo: '/images/admin/닝닝.jpeg', email: 'admin1@naver.com', tel: '010-1111-1111' },
-  { id: 'yujinan', name: '안유진', photo: '/images/admin/안유진.jpg', email: 'admin2@naver.com', tel: '010-2222-2222' },
-  { id: 'seasonwinter', name: '윈터', photo: '/images/admin/윈터.jpeg', email: 'admin3@naver.com', tel: '010-3333-3333' },
-  { id: 'oneyoungj', name: '장원영', photo: '/images/admin/장원영.jpg', email: 'admin4@naver.com', tel: '010-4444-4444' },
-  { id: 'blackswan', name: '지젤', photo: '/images/admin/지젤.jpg', email: 'admin5@naver.com', tel: '010-5555-5555' },
-  { id: 'mynikarina', name: '카리나', photo: '/images/admin/카리나.jpeg', email: 'admin6@naver.com', tel: '010-6666-6666' }
-];
+import axios from 'axios';
 
 function AdminCard({ admin, onClick }) {
+  const imagePath = `http://localhost:8000${admin.admin_image}`; // 이미지 경로 설정
+  
   return (
     <div className="admin-card" onClick={() => onClick(admin)}>
-      <img src={admin.photo} className="admin-photo" alt={admin.name} />
-      <p className="admin-name">{admin.name}</p>
+      <img src={imagePath} className="admin-photo" alt={admin.admin_name} />
+      <p className="admin-name">{admin.admin_name}</p>
     </div>
   );
 }
@@ -23,6 +17,7 @@ function AdminCard({ admin, onClick }) {
 function Adminpopup({ admin, onClose }) {
   const [editableAdmin, setEditableAdmin] = useState({ ...admin });
   const [isEditing, setIsEditing] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,55 +27,133 @@ function Adminpopup({ admin, onClose }) {
     }));
   };
 
-  const handleUpdateAdmin = () => {
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
+
+  const handleDeleteAdmin = (adminId) => {
+    if (window.confirm('삭제하시겠습니까?')) {
+      axios.delete(
+        `http://localhost:8000/data/delete-admin/${adminId}`,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+        .then(response => {
+          if (response.status === 200) {
+            console.log(response.data);
+            alert('관리자 삭제 완료');
+            onClose();
+            window.location.reload();
+          } else {
+            console.error('관리자 삭제 실패', response.statusText);
+            alert('관리자 삭제 실패');
+          }
+        })
+        .catch(error => {
+          console.error('에러 발생:', error);
+        });
+    } else {
+      console.log('삭제 취소');
+    }
+  };
+
+  const handleUpdateAdmin = async () => {
     if (isEditing) {
       if (window.confirm('수정하시겠습니까?')) {
-        // Update admin logic here
-        onClose();
+        const formData = new FormData();
+        formData.append('admin_id', editableAdmin.admin_id);
+        formData.append('admin_name', editableAdmin.admin_name);
+        formData.append('admin_email', editableAdmin.admin_email);
+        formData.append('admin_tel', editableAdmin.admin_tel);
+        if (selectedFile) {
+          formData.append('admin_image', selectedFile);
+        }
+
+        try {
+          const response = await axios.post('http://localhost:8000/data/update-admin', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+          if (response.status === 200) {
+            alert('관리자 수정 완료');
+            onClose();
+            window.location.reload();
+          } else {
+            alert('관리자 수정 실패');
+          }
+        } catch (error) {
+          console.error('에러 발생:', error);
+          alert('관리자 수정 실패');
+        }
       }
     } else {
       setIsEditing(true);
     }
   };
 
+  const imagePath = `http://localhost:8000${admin.admin_image}`; // 이미지 경로 설정
+
   return (
     <div className="popup">
       <div className="popup-content">
-        <img src={admin.photo} className="admin-photo" alt={admin.name} />
+        <img src={imagePath} className="admin-photo" alt={admin.admin_name} />
         <span className="close-button" onClick={onClose}>&times;</span>
-        <h2>{isEditing ? (
+        <p><strong>이름 : </strong>{isEditing ? (
           <input
             type="text"
-            name="name"
-            value={editableAdmin.name}
+            name="admin_name"
+            value={editableAdmin.admin_name}
             onChange={handleChange}
           />
         ) : (
-          admin.name
-        )}</h2>
-        <p><strong>아이디:</strong> {admin.id}</p>
+            admin.admin_name
+        )}</p>
+        <p><strong>아이디:</strong> {isEditing ? (
+          <input
+            type="text"
+            name="admin_id"
+            value={editableAdmin.admin_id}
+            onChange={handleChange}
+            readOnly // 아이디는 수정 불가
+          />
+        ) : (
+            admin.admin_id
+        )}</p>
         <p><strong>이메일:</strong> {isEditing ? (
           <input
-            type="email"
-            name="email"
-            value={editableAdmin.email}
+            type="text"
+            name="admin_email"
+            value={editableAdmin.admin_email}
             onChange={handleChange}
           />
         ) : (
-          admin.email
+            admin.admin_email
         )}</p>
         <p><strong>전화번호:</strong> {isEditing ? (
           <input
             type="tel"
-            name="tel"
-            value={editableAdmin.tel}
+            name="admin_tel"
+            value={editableAdmin.admin_tel}
             onChange={handleChange}
           />
         ) : (
-          admin.tel
+          admin.admin_tel
         )}</p>
+        {isEditing && (
+          <div>
+            <strong>프로필 이미지:</strong> 
+            <input type="file" name="admin_image" onChange={handleFileChange}/>
+          </div>
+        )}
         <button className="update-admin" onClick={handleUpdateAdmin}>
           {isEditing ? '저장' : '수정'}
+        </button>
+        <button className="delete-admin" onClick={() => handleDeleteAdmin(admin.admin_id)}>
+          삭제
         </button>
       </div>
     </div>
@@ -90,6 +163,17 @@ function Adminpopup({ admin, onClose }) {
 function AdminInfo() {
   const navigate = useNavigate();
   const [selectedAdmin, setSelectedAdmin] = useState(null);
+  const [viewContent, setViewContent] = useState([]);
+
+  useEffect(() => { adminList() }, [])
+
+  const adminList = async () => {
+    await axios.get('http://localhost:8000/data/getalladmin')
+      .then((res) => {
+        console.log(res);
+        setViewContent(res.data);
+      })
+  }
 
   const handleInsertAdmin = () => {
     navigate('/dashboard/insert-admin/');
@@ -116,16 +200,16 @@ function AdminInfo() {
         <input type="text" placeholder="검색" className="search-input" />
         <button className="search-button">검색</button>
       </div>
-     
+
       <div className="admin-cards-container">
         <div className="admin-cards">
-          {adminData.map(admin => (
-            <AdminCard key={admin.id} admin={admin} onClick={handleCardClick} />
+          {viewContent.map(admin => (
+            <AdminCard key={admin.admin_id} admin={admin} onClick={handleCardClick} />
           ))}
         </div>
         <div className="insert-admin-container" id='insert-admin-container'>
-        <button className="insert-admin" onClick={handleInsertAdmin}>관리자 등록</button>
-      </div>
+          <button className="insert-admin" onClick={handleInsertAdmin}>관리자 등록</button>
+        </div>
       </div>
       {selectedAdmin && <Adminpopup admin={selectedAdmin} onClose={handleClosepopup} />}
     </div>

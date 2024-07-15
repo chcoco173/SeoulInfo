@@ -13,54 +13,47 @@ function InsertFestival() {
     const [festivalSiteUrl, setFestivalSiteUrl] = useState('');
     const [festivalContent, setFestivalContent] = useState('');
     const navigate = useNavigate();  
-  
 
     const handleImageChange = (e) => {
         setFestivalImage(e.target.files[0]);
     };
 
-    const handleInsertfestival = async (e) => {
+    const handleInsertFestival = async (e) => {
         e.preventDefault(); // 폼 제출 방지
 
-        const data = {
-            festival_name: festivalName,
-            festival_area: festivalArea,
-            festival_address: festivalAddress,
-            festival_startdate: festivalStartDate,
-            festival_enddate: festivalEndDate,
-            festival_content: festivalContent,
-            festival_siteurl: festivalSiteUrl
-        };
+        const formData = new FormData();
+        formData.append('festival_name', festivalName);
+        formData.append('festival_area', festivalArea);
+        formData.append('festival_address', festivalAddress);
+        formData.append('festival_startdate', festivalStartDate);
+        formData.append('festival_enddate', festivalEndDate);
+        formData.append('festival_content', festivalContent);
+        formData.append('festival_siteurl', festivalSiteUrl);
+        formData.append('festival_image', festivalImage);
 
-        console.log(data);
-        axios.post(
-            'http://localhost:8000/data/insert-festival',
-            data,
-            {
+        try {
+            const response = await axios.post('http://localhost:8000/data/insert-festival', formData, {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'multipart/form-data'
                 }
-            }
-        )
-        .then(response => {
-            if (response === 'success') {
+            });
+            if (response.status >= 200 && response.status < 300) {
                 console.log(response.data);
                 alert('축제 등록 완료');
                 navigate('/dashboard/festival');
-                
             } else {
                 console.error('축제 등록 실패', response.statusText);
                 alert('축제 등록 실패');
             }
-        })
-        .catch(error => {
+        } catch (error) {
             console.error('에러 발생:', error);
-        });
+            alert('에러 발생: ' + error.message);
+        }
     };
-    
+
     return (
         <div className="insert-festival-container">
-            <form className="insert-festival-form" onSubmit={handleInsertfestival}>
+            <form className="insert-festival-form" onSubmit={handleInsertFestival}>
                 <h3>축제 등록</h3>
                 <input
                     type="text"
@@ -138,7 +131,7 @@ function InsertFestival() {
                 />
                 <input
                     type="file"
-                    name="festival_imageurl"
+                    name="festival_image"
                     accept="image/*"
                     onChange={handleImageChange}
                 />
@@ -147,6 +140,5 @@ function InsertFestival() {
         </div>
     );
 }
-
 
 export default InsertFestival;

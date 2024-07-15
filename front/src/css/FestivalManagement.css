@@ -20,6 +20,11 @@
   .search-button {
     margin-right: 10px;
   }
+
+  .search-select {
+    margin-top: 9px;
+    height : 35px;
+  }
   
   .festival-cards {
     display: grid;
@@ -133,7 +138,7 @@
     border-radius: 5px;
   }
   
-  .update-festival {
+  .update-festival, .delete-festival {
     padding: 8px 16px;
     background-color: #5c5c5c;
     color: white;
@@ -141,8 +146,16 @@
     border-radius: 5px;
     cursor: pointer;
   }
+
+  .update-festival {
+    margin-right: 5px;
+  }
+
+  .delete-festival {
+    margin-left: 5px;
+  }
   
-  .update-festival:hover {
+  .update-festival:hover, .delete-festival:hover {
     background-color: #2c2c2c;
   }
 
