@@ -278,7 +278,7 @@
 														id="w-node-e144bf26-0d49-109b-1b5b-756bc18db838-4f5c4823"
 														data-w-id="e144bf26-0d49-109b-1b5b-756bc18db838" href="#"
 														class="button-icon hide-mobile-landscape w-inline-block"><img
-														src="images/ph_arrow-up-right-light-xxsmall-dark-gray.svg"
+														src="/images/ph_arrow-up-right-light-xxsmall-dark-gray.svg"
 														loading="lazy" alt="" class="icon-1x1-xxsmall"></a>
 												</div>
 											</div>
@@ -290,13 +290,13 @@
 											class="w-pagination-wrapper pagination">
 											<a href="#" aria-label="Previous Page"
 												class="w-pagination-previous previous"><img
-												src="images/ph_arrow-left-light-xxsmall.svg" loading="lazy"
+												src="/images/ph_arrow-left-light-xxsmall.svg" loading="lazy"
 												alt="" class="icon-1x1-xxsmall">
 												<div class="text-size-small w-inline-block">Previous</div> </a>
 											<a href="#" aria-label="Next Page"
 												class="w-pagination-next next">
 												<div class="text-size-small w-inline-block">Next</div> <img
-												src="images/ph_arrow-right-light-xxsmall.svg" loading="lazy"
+												src="/images/ph_arrow-right-light-xxsmall.svg" loading="lazy"
 												alt="" class="icon-1x1-xxsmall">
 											</a>
 										</div>
@@ -349,8 +349,8 @@
 							<div class="padding-global">
 								<div class="padding-section-medium">
 									<div class="_2-column-grid">
-										<a href="index.html" class="w-inline-block"><img
-											src="images/ph_globe-simple-light-medium.svg" loading="lazy"
+										<a href="/" class="w-inline-block"><img
+											src="/images/ph_globe-simple-light-medium.svg" loading="lazy"
 											alt=""></a>
 										<div>
 											<h3>The stories of a travel photographer and blogger

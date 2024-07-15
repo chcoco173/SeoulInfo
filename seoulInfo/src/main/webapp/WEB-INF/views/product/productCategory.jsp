@@ -315,7 +315,7 @@
 							<div class="padding-global">
 								<div class="padding-section-medium">
 									<div class="_2-column-grid">
-										<a href="index.html" class="w-inline-block"><img
+										<a href="/" class="w-inline-block"><img
 											src="/images/ph_globe-simple-light-medium.svg" loading="lazy"
 											alt=""></a>
 										<div>

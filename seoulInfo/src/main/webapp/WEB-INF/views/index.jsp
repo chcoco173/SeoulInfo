@@ -30,6 +30,36 @@
 </head>
 <body>
   <div class="page-wrapper">
+	
+	<!-- 한) 상단:회원가입/로그인/마이페이지 버튼 start -->
+		<div class="section-newsletter">
+		  <div class="padding-global">
+		    <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-black">
+		      <div class="_2-column-grid-uneven-left">
+		        <h3 class="newsletter-heading">서울 지역 안내 서비스</h3>
+		        <div id="Style-Guide-Form" class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form">
+		          <form name="wf-form-Newsletter-Form" data-name="Newsletter Form" method="get" id="wf-form-Newsletter-Form" class="newsletter-form" data-wf-page-id="6684f0fb2a5375354f5c4820" data-wf-element-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9d2">
+					
+					<a href="member/insertMember" class="button-primary-large max-width-full-mobile-portrait w-button">회원가입</a>
+					<a href="member/login" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a>
+					<a href="mypage/profile" class="button-primary-large max-width-full-mobile-portrait w-button">마이페이지</a>
+					
+				</form>
+		          <div class="form-success-message w-form-done">
+		            <div class="text-size-regular text-color-white">Thank you! Your submission has been received!</div>
+		          </div>
+		          <div class="form-error-message w-form-fail">
+		            <div class="text-size-regular">Oops! Something went wrong while submitting the form.</div>
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<!-- 한) 상단:회원가입/로그인/마이페이지 버튼 end -->	
+	
+	
+	
     <div class="navigation-wrapper">
       <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar_m w-nav">
         <div class="nav-wrapper">
@@ -93,7 +123,7 @@
           <div class="padding-global">
             <div class="padding-section-medium">
               <div class="_2-column-grid">
-                <a href="index.html" aria-current="page" class="w-inline-block w--current"><img src="images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
+                <a href="/" aria-current="page" class="w-inline-block w--current"><img src="images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
                 <div>
                   <h3>The stories of a travel photographer and blogger exploring the world .</h3>
                   <div id="w-node-e1165d61-2cbb-cc22-6e05-5b6165b83107-65b830fb" class="spacer-xxlarge"></div>

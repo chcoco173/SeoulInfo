@@ -17,16 +17,16 @@
   <meta content="summary_large_image" name="twitter:card">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
-  <link href="../css/normalize.css" rel="stylesheet" type="text/css">
-  <link href="../css/webflow.css" rel="stylesheet" type="text/css">
-  <link href="../css/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet" type="text/css">
+  <link href="/css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="/css/webflow.css" rel="stylesheet" type="text/css">
+  <link href="/css/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
   <script type="text/javascript">WebFont.load({  google: {    families: ["Plus Jakarta Sans:regular,600,italic,600italic"]  }});</script>
   <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
-  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
-  <link href="images/webclip.png" rel="apple-touch-icon">
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="/images/webclip.png" rel="apple-touch-icon">
 </head>
 <body>
   <div class="page-wrapper">
@@ -62,24 +62,24 @@
     <div class="navigation-wrapper">
       <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar_m w-nav">
         <div class="nav-wrapper">
-          <a href="index" class="brand w-nav-brand"><img src="images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
+          <a href="/" class="brand w-nav-brand"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
           <div class="links-and-search-wrapper">
             <nav role="navigation" class="nav-links-wrapper w-nav-menu">
               <a href="about" class="nav-link w-nav-link">About</a>
               <a href="contact" aria-current="page" class="nav-link w-nav-link w--current">Contact</a>
             </nav>
             <form action="/search" data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5" class="search w-form">
-              <div class="search-div"><img src="images/ph_magnifying-glass-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
+              <div class="search-div"><img src="/images/ph_magnifying-glass-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
               <div class="nav-search-outer-wrapper">
                 <div class="nav-search-internal-wrapper"><input class="form-field w-input" maxlength="256" name="query" placeholder="Search…" type="search" id="search" required="">
                   <div class="search-button-wrapper"><input type="submit" class="button-primary-small w-button" value="Search">
-                    <a data-w-id="a72c4d20-babf-897f-e150-4948b59e5bfb" href="#" class="close-search-link-block w-inline-block"><img src="images/ph_x-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></a>
+                    <a data-w-id="a72c4d20-babf-897f-e150-4948b59e5bfb" href="#" class="close-search-link-block w-inline-block"><img src="/images/ph_x-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></a>
                   </div>
                 </div>
               </div>
             </form>
           </div>
-          <div class="menu-button w-nav-button"><img src="images/ph_list-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
+          <div class="menu-button w-nav-button"><img src="/images/ph_list-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
         </div>
       </div>
     </div>
@@ -158,7 +158,7 @@
           <div class="padding-global">
             <div class="padding-section-medium">
               <div class="_2-column-grid">
-                <a href="index.html" class="w-inline-block"><img src="images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
+                <a href="/" class="w-inline-block"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
                 <div>
                   <h3>The stories of a travel photographer and blogger exploring the world .</h3>
                   <div id="w-node-e1165d61-2cbb-cc22-6e05-5b6165b83107-65b830fb" class="spacer-xxlarge"></div>
@@ -203,7 +203,7 @@
   </div>
   <div class="template-info">
     <div class="template-widget w-clearfix">
-      <a data-w-id="d363bd8c-96e4-5230-7b4c-f448082630b9" href="#" class="pop-up-close w-inline-block"><img loading="lazy" src="images/close.svg" alt="" class="icon-1x1-xxsmall"></a>
+      <a data-w-id="d363bd8c-96e4-5230-7b4c-f448082630b9" href="#" class="pop-up-close w-inline-block"><img loading="lazy" src="/images/close.svg" alt="" class="icon-1x1-xxsmall"></a>
       <div class="heading-style-h3">Hello!</div>
       <div class="spacer-small"></div>
       <p class="text-size-small">This is a website template by <a href="https://www.callistodigitalstudio.com/" target="_blank" class="link-underline text-size-small">Callisto Digital Studio</a>.</p>
@@ -230,7 +230,7 @@
         </div>
         <div class="spacer-xxxlarge"></div>
         <div class="_3-column-grid">
-          <div id="w-node-d363bd8c-96e4-5230-7b4c-f448082630dd-082630b7"><img sizes="100vw" srcset="images/Frame-3-p-500.jpg 500w, images/Frame-3-p-800.jpg 800w, images/Frame-3.jpg 864w" alt="" src="images/Frame-3.jpg" loading="lazy" class="pop-up-image">
+          <div id="w-node-d363bd8c-96e4-5230-7b4c-f448082630dd-082630b7"><img sizes="100vw" srcset="images/Frame-3-p-500.jpg 500w, images/Frame-3-p-800.jpg 800w, images/Frame-3.jpg 864w" alt="" src="/images/Frame-3.jpg" loading="lazy" class="pop-up-image">
             <div class="spacer-large"></div>
             <div class="heading-style-h4">Pages and Features</div>
             <div class="spacer-small"></div>

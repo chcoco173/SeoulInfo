@@ -23,7 +23,7 @@
 						<a href="productCategory?category=의류" class="style-guide-nav-link w-nav-link">의류</a>
 						<a href="productCategory?category=기타" class="style-guide-nav-link w-nav-link">기타</a>
  
-						<a href="myPage" class="style-guide-nav-link w-nav-link">마이페이지</a>
+						<a href="myProduct" class="style-guide-nav-link w-nav-link">마이페이지</a>
 						<a href="" class="style-guide-nav-link w-nav-link">채팅</a>
 
 					</nav>
