@@ -20,7 +20,7 @@
 	.search_map, .search_favorite {
 		position: fixed;
 		width: 281px;
-		height: 40%;
+		height: 45%;
 		top: 50%; /* 화면 세로 중앙 정렬을 위해 top 값을 50%로 설정 */
 		left: 50%; /* 화면 가로 중앙 정렬을 위해 left 값을 50%로 설정 */
 		transform: translate(-50%, -10%); /* 화면 중앙으로 이동하는 transform 설정 */
@@ -52,11 +52,6 @@
     background-color: #fff; /* 배경색 설정 (필요에 따라) */
 }
 
-/* tjqldtm */
-.search_map, .search_favorite {
-	display: none; /* 초기에는 화면에 보이지 않도록 설정 */
-}
-
 .filter {
 	font-size : 16;
 	font-weight : bold;
@@ -68,15 +63,18 @@
 	
 	position : fixed;
 	width : 281px;
-	height : 45%;
+	height : 46%;
 	top : 35%;
 	justify-content: center; 
 	border : 2px solid #1E90FF ;
 	background-color : white;
 	z-index: 101;
-	padding:10px;
+	padding-top:10px;
+	padding-right:10px;
+	padding-left:10px;
 	display: none;
 	overflow-y: auto; /* 세로 스크롤바 추가 */
+	border-radius: 5px;
 }
 
 .search_map form {

@@ -1,32 +1,19 @@
-.search_favorite {
-    position: fixed;
-    width: 281px;
-    height: 461px;
-    top: 35%;
-    justify-content: center; 
-    border: 2px solid #1E90FF;
-    background-color: white;
-    z-index: 101;
-    padding: 10px;
-}
+
         
 .beforeLogin, .afterLogin {
     overflow: auto;
-    height: 78%;
+    height: 100%;
 }
 
 .pagination {
-    position: fixed;
     width: 100%;
-    bottom: 17.7%;
-    left: 4%;
     text-align: center;
 	z-index: 102;
-	
+	padding-left : 10px;
 }
 
 .pagination button {
-    margin: 0 5px;
+    margin: 0 3px;
 }
 
 td {
@@ -39,4 +26,8 @@ td {
     border: 2px solid black;
     border-radius: 10px;
     overflow: hidden; 
+}
+
+#favoriteList {
+	padding-left : 10px;
 }
