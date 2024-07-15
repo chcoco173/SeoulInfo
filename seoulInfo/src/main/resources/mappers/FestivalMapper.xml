@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.dao.FestivalDAO">
+
+	<select id="getFestival" resultType="FestivalVO"
+		parameterType="String">
+		SELECT *
+		FROM Festival
+		<if test="area != '전체'">
+		Where festival_area = #{festival_area}
+		</if>
+	</select>
+
+</mapper>

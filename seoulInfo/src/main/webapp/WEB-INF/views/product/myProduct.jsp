@@ -37,14 +37,11 @@
 </script>
 <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
 <link href="/images/webclip.png" rel="apple-touch-icon">
-<link href="/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
+<!-- 부트스트랩 태그 추가-->
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- 별점아이콘 링크 https://sisiblog.tistory.com/355 -->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
 <!-- 외부 css -->
-<link href="/css/product/productReview.css" rel="stylesheet" type="text/css">
+<link href="/css/product/myProduct.css" rel="stylesheet" type="text/css">
 
 </head>
 <body>
@@ -54,94 +51,31 @@
 		<%@include file="../productNav/productMyPageNav.jsp"%>
 
 		<main class="main-wrapper">
-			<section class="section-style-guide-header">
-				<div class="padding-section-medium remove-bottom-padding">
-					<div class="padding-global">
-						<div class="container-large">
-							<h1>구매내역</h1>
-						</div>
-
-						<div class="container-large">
-							<div class="row">
-								<div class="col-md-4">
-									<div class="product-card">
-										<div class="product-details">
-											<img src="https://via.placeholder.com/50" alt="상품 1">
-											<div>
-												<h5>구매 상품 1</h5>
-												<p>
-													구매한 날짜<br>구매 상태 (예약/구매완료)
-												</p>
-											</div>
-										</div>
-										<button class="btn btn-secondary">후기 남기기</button>
-									</div>
-									<div class="product-card">
-										<div class="product-details">
-											<img src="https://via.placeholder.com/50" alt="상품 1">
-											<div>
-												<h5>구매 상품 1</h5>
-												<p>
-													구매한 날짜<br>구매 상태 (예약/구매완료)
-												</p>
-											</div>
-										</div>
-										<button class="btn btn-secondary">후기 남기기</button>
-									</div>
-
-								</div>
-
-								<div class="col-md-8 text-center">
-									<div class="product-card">
-										<h2>판매자 거래 후기 남기기</h2>
-										<p>받은 상품은 만족하나요?</p>
-										<div class="review-buttons btn-group">
-											<input type="radio" id="satisfied" name="satisfaction"
-												value="satisfied"> <label for="satisfied">만족해요!</label>
-											<input type="radio" id="unsatisfied" name="satisfaction"
-												value="unsatisfied"> <label for="unsatisfied">아쉬워요..</label>
-										</div>
-
-										<p>대화 매너는 어땠나요?</p>
-										<div class="review-buttons btn-group">
-											<input type="radio" id="polite" name="manner" value="polite">
-											<label for="polite">친절해요!</label> <input type="radio"
-												id="impolite" name="manner" value="impolite"> <label
-												for="impolite">별로에요..</label>
-										</div>
-
-										<p>약속은 잘 지켜졌나요?</p>
-										<div class="review-buttons btn-group">
-											<input type="radio" id="kept" name="commitment" value="kept">
-											<label for="kept">잘 지켰어요!</label> <input type="radio"
-												id="notkept" name="commitment" value="notkept"> <label
-												for="notkept">아니요..</label>
-										</div>
-										<p>기타</p>
-										<div class="review-buttons">
-											<input type="text" id="etc" name="etc"
-												placeholder="기타 의견을 입력하세요">
-										</div>
-
-										<p>별점 평가</p>
-										<div class="rating center">
-											<span class="rating__result"></span> <i
-												class="rating__star far fa-star"></i> <i
-												class="rating__star far fa-star"></i> <i
-												class="rating__star far fa-star"></i> <i
-												class="rating__star far fa-star"></i> <i
-												class="rating__star far fa-star"></i>
-										</div>
-										
-									</div>
-								</div>
-							</div>
-						</div>
+			<div class="product-cards-container">
+				<div class="product-card">
+					<img src="https://via.placeholder.com/100" alt="상품 1">
+					<div class="product-details">
+						<h5>판매 상품 1</h5>
+						<p>
+							판매 등록 날짜<br>판매 상태 (예약/판매완료)
+						</p>
 					</div>
+					<button class="btn btn-secondary update">수정</button>
+					<button class="btn btn-secondary delete">삭제</button>
 				</div>
-			</section>
+				<div class="product-card">
+					<img src="https://via.placeholder.com/100" alt="상품 2">
+					<div class="product-details">
+						<h5>판매 상품 2</h5>
+						<p>
+							판매 등록 날짜<br>판매 상태 (예약/판매완료)
+						</p>
+					</div>
+					<button class="btn btn-secondary update">수정</button>
+					<button class="btn btn-secondary delete">삭제</button>
+				</div>
+			</div>
 		</main>
-
 		<div class="section-footer">
 			<div class="padding-global">
 				<div class="spacer-xxlarge"></div>
@@ -219,31 +153,16 @@
 		integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
 		crossorigin="anonymous"></script>
 	<script src="/js/webflow.js" type="text/javascript"></script>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<!-- 제이쿼리 라이브러리 추가 + 상품클릭시 디테일페이지로이동 -->
 	<script type="text/javascript">
-	const ratingStars = [...document.getElementsByClassName("rating__star")];
+		// 나중에 상품번호 들고가서 수정예정
+		$(".update").click(function() {
+			location.href = "productUpdate";
 
-	function executeRating(stars) {
-	  const starClassActive = "rating__star fas fa-star";
-	  const starClassInactive = "rating__star far fa-star";
-	  const starsLength = stars.length;
-	  let i;
-
-	  stars.map((star) => {
-	    star.onclick = () => {
-	      i = stars.indexOf(star);
-
-	      if (star.className===starClassInactive) {
-	        for (i; i >= 0; --i) stars[i].className = starClassActive;
-	      } else {
-	        for (i; i < starsLength; ++i) stars[i].className = starClassInactive;
-	      }
-	    };
-	  });
-	}
-
-	executeRating(ratingStars);
-	
-
+		});
 	</script>
 </body>
 </html>
