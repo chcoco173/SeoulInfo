@@ -16,6 +16,8 @@
   --medium-yellow: #F7EA6E;
   --light-violet: #E8D9FF;
   --medium-violet: #BFA0ED;
+  --violet: #8080ff;
+  --green: #408080;
   --light-pink: #FFF0F5;
   --dark-green: #2F4F4F;
   --dim-gray: #696969;
@@ -1276,12 +1278,12 @@ figcaption {
 .tag-b {
   border: 1px solid var(--medium-gray);
   color: var(--white);
-  background-color: var(--dim-gray);
+  background-color: var(--violet);
   border-radius: 999px;
   padding: .5rem 1rem;
 }
 .tag-b:hover {
-  background-color: var(--dark-green);
+  background-color: var(--green);
   color: var(--white);
   text-decoration: none;
 }

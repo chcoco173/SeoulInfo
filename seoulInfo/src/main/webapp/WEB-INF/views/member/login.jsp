@@ -163,7 +163,9 @@
           <div class="padding-global">
             <div class="padding-section-medium">
               <div class="_2-column-grid">
+
                 <a href="/" class="w-inline-block"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
+
                 <div>
                   <h3>The stories of a travel photographer and blogger exploring the world .</h3>
                   <div id="w-node-e1165d61-2cbb-cc22-6e05-5b6165b83107-65b830fb" class="spacer-xxlarge"></div>
@@ -235,19 +237,21 @@
         </div>
         <div class="spacer-xxxlarge"></div>
         <div class="_3-column-grid">
+
           <div id="w-node-d363bd8c-96e4-5230-7b4c-f448082630dd-082630b7"><img sizes="100vw" srcset="/images/Frame-3-p-500.jpg 500w, images/Frame-3-p-800.jpg 800w, images/Frame-3.jpg 864w" alt="" src="/images/Frame-3.jpg" loading="lazy" class="pop-up-image">
+
             <div class="spacer-large"></div>
             <div class="heading-style-h4">Pages and Features</div>
             <div class="spacer-small"></div>
             <p class="text-size-regular">Designed to share travel photography and stories with elegant animations and interactions. With support for multiple authors, easily organize posts by destination, making it easy for readers to find what they are looking for.</p>
           </div>
-          <div id="w-node-d363bd8c-96e4-5230-7b4c-f448082630e5-082630b7"><img sizes="100vw" srcset="images/Frame-2-p-500.jpg 500w, images/Frame-2-p-800.jpg 800w, images/Frame-2.jpg 864w" alt="" src="images/Frame-2.jpg" loading="lazy" class="pop-up-image">
+          <div id="w-node-d363bd8c-96e4-5230-7b4c-f448082630e5-082630b7"><img sizes="100vw" srcset="/images/Frame-2-p-500.jpg 500w, /images/Frame-2-p-800.jpg 800w, /images/Frame-2.jpg 864w" alt="" src="/images/Frame-2.jpg" loading="lazy" class="pop-up-image">
             <div class="spacer-large"></div>
             <div class="heading-style-h4">Custom Creative Sections</div>
             <div class="spacer-small"></div>
             <p class="text-size-regular">Easily rearrange, add, or remove the variety of pre-built section designs to suit your layout needs. Our clear site structure makes integrating custom sections into our template a straightforward process.</p>
           </div>
-          <div id="w-node-d363bd8c-96e4-5230-7b4c-f448082630ed-082630b7"><img sizes="100vw" srcset="images/Frame-1-p-500.jpg 500w, images/Frame-1-p-800.jpg 800w, images/Frame-1.jpg 864w" alt="" src="images/Frame-1.jpg" loading="lazy" class="pop-up-image">
+          <div id="w-node-d363bd8c-96e4-5230-7b4c-f448082630ed-082630b7"><img sizes="100vw" srcset="/images/Frame-1-p-500.jpg 500w, /images/Frame-1-p-800.jpg 800w, /images/Frame-1.jpg 864w" alt="" src="/images/Frame-1.jpg" loading="lazy" class="pop-up-image">
             <div class="spacer-large"></div>
             <div class="heading-style-h4">Make It Your Own</div>
             <div class="spacer-small"></div>
@@ -258,7 +262,7 @@
         <div class="_2-column-grid">
           <div id="w-node-d363bd8c-96e4-5230-7b4c-f448082630f7-082630b7" class="pop-up-grid-item-wrapper">
             <div>
-              <div class="logo-and-text-wrapper"><img loading="lazy" src="images/Figma-logo.svg" alt="" class="pop-up-icon">
+              <div class="logo-and-text-wrapper"><img loading="lazy" src="/images/Figma-logo.svg" alt="" class="pop-up-icon">
                 <div class="heading-style-h4">Access the Figma file</div>
               </div>
               <div class="spacer-small"></div>
@@ -269,7 +273,7 @@
           </div>
           <div id="w-node-d363bd8c-96e4-5230-7b4c-f44808263103-082630b7" class="pop-up-grid-item-wrapper">
             <div>
-              <div class="logo-and-text-wrapper"><img loading="lazy" src="images/doc.svg" alt="" class="pop-up-icon">
+              <div class="logo-and-text-wrapper"><img loading="lazy" src="/images/doc.svg" alt="" class="pop-up-icon">
                 <div class="heading-style-h4-2">Documentation</div>
               </div>
               <div class="spacer-small"></div>
@@ -280,12 +284,12 @@
           </div>
         </div>
         <div class="spacer-xxxlarge"></div>
-        <a id="w-node-d363bd8c-96e4-5230-7b4c-f44808263110-082630b7" href="https://www.callistodigitalstudio.com/" target="_blank" class="pop-up-logo w-inline-block"><img loading="lazy" src="images/cds.svg" alt=""></a>
+        <a id="w-node-d363bd8c-96e4-5230-7b4c-f44808263110-082630b7" href="https://www.callistodigitalstudio.com/" target="_blank" class="pop-up-logo w-inline-block"><img loading="lazy" src="/images/cds.svg" alt=""></a>
       </div>
     </div>
     <div class="pop-up-overlay"></div>
   </div>
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-  <script src="../js/webflow.js" type="text/javascript"></script>
+  <script src="/js/webflow.js" type="text/javascript"></script>
 </body>
 </html>
