@@ -84,6 +84,7 @@
 				</td>
 			</tr>
 		</table>
+		
 	    <ul id="category">
 	        <li id="BK9" data-order="0"> 
 	            <span class="category_bg bank"></span>
@@ -113,7 +114,7 @@
 	</div>
 	<!--페이지 수정-->
 	<div class="service_list">
-		<%@include file="./ev_MapFilter2.jsp"%>		
+		<%@include file="./ev_MapFilter.jsp"%>		
 	</div>
 	<div class="service_list">
 		<%@include file="./ev_Navigation.jsp"%>
@@ -135,7 +136,8 @@
 	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	    mapOption = {
 	        center: new kakao.maps.LatLng(37.5665, 126.9780), // 지도의 중심좌표
-	        level: 8 // 지도의 확대 레벨
+	        level: 8, // 지도의 확대 레벨 // 지도의 최소 확대 레벨
+			maxLevel: 8 // 지도의 최대 확대 레벨
 	    };  
 	
 	// 지도를 생성합니다    
