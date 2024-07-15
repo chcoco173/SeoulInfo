@@ -51,8 +51,39 @@ $(function(){
 		$(".search_favorite").css({"display":"none"});
 	});
 	
+	// 상세정보
 	$('.result-list').click(function(){
+		$('.charger_Information').css({'display':'inherit','z-index':'110'});
+	});
+	
+	// 검색
+	$('.btn-search').click(function(event){
+		event.stopPropagation();
+		event.preventDefault();
 		
+		$('.search-filter').css({'display':'none'})
+		$('.result-list').css({'display':'inherit'})
+	});
+	
+	// 재검색
+	$('.btn-back').click(function(event){
+		event.stopPropagation();
+		event.preventDefault();
+			
+		$('.search-filter').css({'display':'inherit'})
+		$('.result-list').css({'display':'none'})
+	});
+	
+	// 검색 초기화
+	$('.btn-reset').click(function(event){
+	    event.stopPropagation();
+	    event.preventDefault();
+	    
+	    $('#type').val('all');
+	    $('#area').val('all');
+	    $('#loc').val('all');
+	    $('#name').val('all');
+	    $('#name_detail').val('');
 	});
 
 });
