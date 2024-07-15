@@ -1,0 +1,16 @@
+.main-wrapper {
+	margin-top: 20px;
+}
+
+.form-group label {
+	font-weight: bold;
+}
+
+.checkbox-group label {
+	margin-right: 10px;
+}
+
+.submit-button {
+	display: flex;
+	justify-content: center;
+}

@@ -1,0 +1,38 @@
+.category-tab {
+	margin-bottom: 20px;
+	justify-content: center;
+}
+
+.category-tab .col-md-2 {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.category-tab p {
+	margin: 0;
+	padding: 10px 0;
+}
+
+.category-tab img {
+	width: 24px;
+	height: 24px;
+	margin-bottom: 5px;
+}
+
+.category-tab .active {
+	background-color: #e0e0e0;
+	border-radius: 5px;
+}
+
+.product-card {
+	margin: 20px 0;
+}
+
+.product-card img {
+	width: 100%;
+	height: auto;
+}
+
+.product-info {
+	text-align: left;
+}

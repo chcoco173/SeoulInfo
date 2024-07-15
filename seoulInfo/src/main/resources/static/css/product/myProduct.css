@@ -1,0 +1,41 @@
+.main-wrapper {
+	margin-top: 20px;
+	display: flex;
+	justify-content: center;
+}
+
+.product-cards-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+}
+
+.product-card {
+	border: 1px solid #ddd;
+	padding: 10px;
+	margin: 10px;
+	width: 80%; /* Adjust width as needed */
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	text-align: center;
+}
+
+.product-card .btn {
+	margin-left: 10px; /* Add margin between buttons */
+}
+
+.product-card img {
+	width: 100px; /* Increased width */
+	height: 100px; /* Increased height */
+	margin-right: 20px; /* Increased margin for better spacing */
+}
+
+.product-details {
+	flex-grow: 1; /* Allows the text to take up remaining space */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}

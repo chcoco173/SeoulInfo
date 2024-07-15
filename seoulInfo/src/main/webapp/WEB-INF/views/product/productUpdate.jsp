@@ -38,24 +38,9 @@
 <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
 <link href="/images/webclip.png" rel="apple-touch-icon">
 <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<style>
-.main-wrapper {
-	margin-top: 20px;
-}
+<!-- 외부 css -->
+<link href="/css/product/productCU.css" rel="stylesheet" type="text/css">
 
-.form-group label {
-	font-weight: bold;
-}
-
-.checkbox-group label {
-	margin-right: 10px;
-}
-
-.submit-button {
-	display: flex;
-	justify-content: center;
-}
-</style>
 </head>
 <body>
 	<div class="page-wrapper">

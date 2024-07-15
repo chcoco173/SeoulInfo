@@ -90,7 +90,7 @@
           <div class="padding-section-medium">
             <div class="container-full-width">
               <div class="home-banner-grid">
-                <div id="w-node-_5c016d07-4646-372f-7182-acb2647505ea-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505ea" style="opacity:0" class="heading-extra-large">지역안내</div>
+                <div id="w-node-_5c016d07-4646-372f-7182-acb2647505ea-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505ea" style="opacity:0" class="heading-extra-large"><a href="gu" class="heading-extra-large">지역안내</a></div>
                 <div id="w-node-_3d4d8ab8-3340-abe8-c6d1-7a7819bb55e4-4f5c4820" data-w-id="3d4d8ab8-3340-abe8-c6d1-7a7819bb55e4" style="opacity:0" class="image-overflow-wrapper">
                   <div id="w-node-_3d4d8ab8-3340-abe8-c6d1-7a7819bb55e5-4f5c4820" data-w-id="3d4d8ab8-3340-abe8-c6d1-7a7819bb55e5" style="-webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform-style:preserve-3d" class="banner-image"></div>
                 </div>
@@ -101,14 +101,11 @@
                 <div id="w-node-_5c016d07-4646-372f-7182-acb2647505ef-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505ef" style="opacity:0"><a href="ev/evMain" class="heading-extra-large">전기차</a></div>
                 
                 
-                <div id="w-node-_5c016d07-4646-372f-7182-acb2647505e8-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505e8" style="opacity:0" class="heading-extra-large">중고거래</div>
+                <div id="w-node-_5c016d07-4646-372f-7182-acb2647505e8-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505e8" style="opacity:0" class="heading-extra-large"><a href="product/productMain" class="heading-extra-large">중고거래</a></div>
                 <div id="w-node-_5c016d07-4646-372f-7182-acb2647505f2-4f5c4820" data-w-id="1d794ecd-05bb-619d-bbd5-40cd36ea927b" style="opacity:0" class="image-overflow-wrapper">
                   <div id="w-node-_5c016d07-4646-372f-7182-acb2647505f1-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505ee" style="-webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform-style:preserve-3d" class="banner-image _3"></div>
                 </div>
-				<!--<div id="w-node-_5c016d07-4646-372f-7182-acb2647505e8-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505e8" style="opacity:0" class="heading-extra-large">중고거래</div>
-					<div id="w-node-_1d794ecd-05bb-619d-bbd5-40cd36ea927b-4f5c4820" data-w-id="1d794ecd-05bb-619d-bbd5-40cd36ea927b" style="opacity:0" class="image-overflow-wrapper">
-				   	<div id="w-node-_5c016d07-4646-372f-7182-acb2647505ee-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505ee" style="-webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform-style:preserve-3d" class="banner-image _3"></div>
-				</div>-->
+				
               </div>
             </div>
           </div>
@@ -170,21 +167,25 @@
   <script src="/js/webflow.js" type="text/javascript"></script>
   <script>
 		
-		// 지역 안내
-		var local = document.getElementById('w-node-_5c016d07-4646-372f-7182-acb2647505ea-4f5c4820');
-		var local2 = document.getElementById('w-node-_3d4d8ab8-3340-abe8-c6d1-7a7819bb55e4-4f5c4820');
-		console.log(local.text)
+		// 지역 안내 이미지
+		var local = document.getElementById('w-node-_3d4d8ab8-3340-abe8-c6d1-7a7819bb55e4-4f5c4820');
+		
 		local.onclick = function(){
 			location.href = 'gu';
 		}
-		local2.onclick = function(){
-			location.href = 'gu';
+		
+		// 전기차 이미지
+		var ev = document.getElementById('w-node-_5c016d07-4646-372f-7182-acb2647505ec-4f5c4820');
+		ev.onclick = function(){
+			location.href = 'ev/evMain';
 		}
 		
-		var product = document.getElementById('w-node-_5c016d07-4646-372f-7182-acb2647505e8-4f5c4820');
+		// 중고거래 이미지
+		var product = document.getElementById('w-node-_5c016d07-4646-372f-7182-acb2647505f1-4f5c4820');
 		product.onclick = function(){
-					location.href = 'product/productMain';
+			location.href = 'product/productMain';
 		}
+		
 		
   </script>
 </body>
