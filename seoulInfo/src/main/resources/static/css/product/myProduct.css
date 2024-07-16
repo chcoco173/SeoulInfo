@@ -2,6 +2,7 @@
 	margin-top: 20px;
 	display: flex;
 	justify-content: center;
+	flex-wrap: wrap; /* 추가: 작은 화면에서 행이 넘어가도록 설정 */
 }
 
 .product-cards-container {
@@ -16,15 +17,19 @@
 	padding: 10px;
 	margin: 10px;
 	width: 80%; /* Adjust width as needed */
+	max-width: 500px; /* 추가: 최대 너비 설정 */
 	box-sizing: border-box;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	text-align: center;
+	flex-wrap: wrap; /* 추가: 작은 화면에서 요소들이 넘어가도록 설정 */
+	
 }
 
 .product-card .btn {
 	margin-left: 10px; /* Add margin between buttons */
+	margin-top: 10px; /* 추가: 작은 화면에서 위아래 간격 추가 */
 }
 
 .product-card img {
@@ -39,3 +44,19 @@
 	flex-direction: column;
 	align-items: center;
 }
+
+@media (max-width: 768px) {
+	.product-card {
+		flex-direction: column; /* 작은 화면에서는 세로 배열로 변경 */
+		align-items: center;
+	}
+	
+	.product-card img {
+		margin: 0 0 10px 0; /* 이미지 아래에 간격 추가 */
+	}
+	
+	.product-card .btn {
+		margin: 10px 0 0 0; /* 버튼 사이 간격 설정 */
+	}
+}
+
