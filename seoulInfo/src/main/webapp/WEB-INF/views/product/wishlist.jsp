@@ -40,11 +40,9 @@
 <link href="/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
 
-<!-- 별점아이콘 링크 https://sisiblog.tistory.com/355 -->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
 <!-- 외부 css -->
-<link href="/css/product/productReview.css" rel="stylesheet" type="text/css">
+<link href="/css/product/myProduct.css" rel="stylesheet" type="text/css">
+
 
 </head>
 <body>
@@ -54,92 +52,28 @@
 		<%@include file="../productNav/productMyPageNav.jsp"%>
 
 		<main class="main-wrapper">
-			<section class="section-style-guide-header">
-				<div class="padding-section-medium remove-bottom-padding">
-					<div class="padding-global">
-						<div class="container-large">
-							<h1>구매내역</h1>
-						</div>
-
-						<div class="container-large">
-							<div class="row">
-								<div class="col-md-4">
-									<div class="product-card">
-										<div class="product-details">
-											<img src="https://via.placeholder.com/50" alt="상품 1">
-											<div>
-												<h5>구매 상품 1</h5>
-												<p>
-													구매한 날짜<br>구매 상태 (예약/구매완료)
-												</p>
-											</div>
-										</div>
-										<button class="btn btn-secondary">후기 남기기</button>
-									</div>
-									<div class="product-card">
-										<div class="product-details">
-											<img src="https://via.placeholder.com/50" alt="상품 1">
-											<div>
-												<h5>구매 상품 1</h5>
-												<p>
-													구매한 날짜<br>구매 상태 (예약/구매완료)
-												</p>
-											</div>
-										</div>
-										<button class="btn btn-secondary">후기 남기기</button>
-									</div>
-
-								</div>
-
-								<div class="col-md-8 text-center">
-									<div class="product-card">
-										<h2>판매자 거래 후기 남기기</h2>
-										<p>받은 상품은 만족하나요?</p>
-										<div class="review-buttons btn-group">
-											<input type="radio" id="satisfied" name="satisfaction"
-												value="satisfied"> <label for="satisfied">만족해요!</label>
-											<input type="radio" id="unsatisfied" name="satisfaction"
-												value="unsatisfied"> <label for="unsatisfied">아쉬워요..</label>
-										</div>
-
-										<p>대화 매너는 어땠나요?</p>
-										<div class="review-buttons btn-group">
-											<input type="radio" id="polite" name="manner" value="polite">
-											<label for="polite">친절해요!</label> <input type="radio"
-												id="impolite" name="manner" value="impolite"> <label
-												for="impolite">별로에요..</label>
-										</div>
-
-										<p>약속은 잘 지켜졌나요?</p>
-										<div class="review-buttons btn-group">
-											<input type="radio" id="kept" name="commitment" value="kept">
-											<label for="kept">잘 지켰어요!</label> <input type="radio"
-												id="notkept" name="commitment" value="notkept"> <label
-												for="notkept">아니요..</label>
-										</div>
-										<p>기타</p>
-										<div class="review-buttons">
-											<input type="text" id="etc" name="etc"
-												placeholder="기타 의견을 입력하세요">
-										</div>
-
-										<p>별점 평가</p>
-										<div class="rating center">
-											<span class="rating__result"></span> <i
-												class="rating__star far fa-star"></i> <i
-												class="rating__star far fa-star"></i> <i
-												class="rating__star far fa-star"></i> <i
-												class="rating__star far fa-star"></i> <i
-												class="rating__star far fa-star"></i>
-										</div>
-										
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
+		    <div class="product-cards-container">
+		        <div class="product-card">
+		            <img src="https://via.placeholder.com/100" alt="상품 1">
+		            <div class="product-details">
+		                <h5>찜한 상품 1</h5>
+		                <p>
+		                    판매 상태 (예약/판매완료)
+		                </p>
+		            </div>
+		            <button class="btn btn-secondary">삭제</button>
+		        </div>
+		        <div class="product-card">
+		            <img src="https://via.placeholder.com/100" alt="상품 2">
+		            <div class="product-details">
+		                <h5>찜한 상품 2</h5>
+		                <p>
+		                   판매 상태 (예약/판매완료)
+		                </p>
+		            </div>
+		            <button class="btn btn-secondary">삭제</button>
+		        </div>
+		    </div>
 		</main>
 
 		<div class="section-footer">

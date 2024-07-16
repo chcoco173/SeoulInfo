@@ -1,0 +1,52 @@
+.charger_Information {
+    position: fixed;
+    border: 5px solid black;
+    border-radius : 10px;
+    background-color: white;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 중앙으로 정확히 이동 */
+    z-index: 200;
+    overflow-y: auto;
+    width: 80%; /* 화면 크기에 따라 유동적으로 변경 */
+    height:55%;
+    max-width: 600px; /* 최대 너비 설정 */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+table {
+    width: 100%; /* 테이블 너비를 부모 요소에 맞춤 */
+    padding: 5px;
+    text-align: justify;
+}
+
+p {
+    padding-left: 10px;
+}
+
+.charger_Information form {
+    max-height: 100%; /* 내부 form 요소들이 최대 div 높이를 초과하지 않도록 설정 */
+}
+
+@media (max-width: 600px) {
+    .charger_Information {
+        width: 90%; /* 작은 화면에서는 너비를 90%로 설정 */
+        border-width: 3px;
+    }
+
+    p {
+        padding-left: 5px;
+    }
+}
+
+
+
+.chargers td, .chargers_detail_info td{
+	border: 2px solid green;
+}
+
+.chargers thead{
+	text-align : center;
+	background-color: yellowgreen;
+}

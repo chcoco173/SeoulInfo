@@ -38,7 +38,6 @@
 <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
 <link href="/images/webclip.png" rel="apple-touch-icon">
 <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
 <!-- 외부 css -->
 <link href="/css/product/productCU.css" rel="stylesheet" type="text/css">
 
@@ -52,7 +51,7 @@
 				<div class="padding-section-medium remove-bottom-padding">
 					<div class="padding-global">
 						<div class="container-large">
-							<h1>상품 등록</h1>
+							<h1>상품 수정</h1>
 						</div>
 					</div>
 				</div>
@@ -289,7 +288,7 @@
 									</div>
 								</div>
 								<div class="form-group submit-button">
-									<button type="submit" class="btn btn-primary">상품 등록</button>
+									<button type="submit" class="btn btn-primary">상품 수정</button>
 								</div>
 							</form>
 						</div>

@@ -30,6 +30,36 @@
 </head>
 <body>
   <div class="page-wrapper">
+	
+	<!-- 한) 상단:회원가입/로그인/마이페이지 버튼 start -->
+		<div class="section-newsletter">
+		  <div class="padding-global">
+		    <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-black">
+		      <div class="_2-column-grid-uneven-left">
+		        <h3 class="newsletter-heading">서울 지역 안내 서비스</h3>
+		        <div id="Style-Guide-Form" class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form">
+		          <form name="wf-form-Newsletter-Form" data-name="Newsletter Form" method="get" id="wf-form-Newsletter-Form" class="newsletter-form" data-wf-page-id="6684f0fb2a5375354f5c4820" data-wf-element-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9d2">
+					
+					<a href="member/insertMember" class="button-primary-large max-width-full-mobile-portrait w-button">회원가입</a>
+					<a href="member/login" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a>
+					<a href="mypage/profile" class="button-primary-large max-width-full-mobile-portrait w-button">마이페이지</a>
+					
+				</form>
+		          <div class="form-success-message w-form-done">
+		            <div class="text-size-regular text-color-white">Thank you! Your submission has been received!</div>
+		          </div>
+		          <div class="form-error-message w-form-fail">
+		            <div class="text-size-regular">Oops! Something went wrong while submitting the form.</div>
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<!-- 한) 상단:회원가입/로그인/마이페이지 버튼 end -->	
+	
+	
+	
     <div class="navigation-wrapper">
       <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar_m w-nav">
         <div class="nav-wrapper">
@@ -60,7 +90,7 @@
           <div class="padding-section-medium">
             <div class="container-full-width">
               <div class="home-banner-grid">
-                <div id="w-node-_5c016d07-4646-372f-7182-acb2647505ea-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505ea" style="opacity:0" class="heading-extra-large">지역안내</div>
+                <div id="w-node-_5c016d07-4646-372f-7182-acb2647505ea-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505ea" style="opacity:0" class="heading-extra-large"><a href="gu" class="heading-extra-large">지역안내</a></div>
                 <div id="w-node-_3d4d8ab8-3340-abe8-c6d1-7a7819bb55e4-4f5c4820" data-w-id="3d4d8ab8-3340-abe8-c6d1-7a7819bb55e4" style="opacity:0" class="image-overflow-wrapper">
                   <div id="w-node-_3d4d8ab8-3340-abe8-c6d1-7a7819bb55e5-4f5c4820" data-w-id="3d4d8ab8-3340-abe8-c6d1-7a7819bb55e5" style="-webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform-style:preserve-3d" class="banner-image"></div>
                 </div>
@@ -68,17 +98,14 @@
                 <div id="w-node-_5c016d07-4646-372f-7182-acb2647505ec-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505ec" style="opacity:0" class="image-overflow-wrapper">
                   <div id="w-node-_5c016d07-4646-372f-7182-acb2647505ed-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505ed" style="-webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform-style:preserve-3d" class="banner-image _2"></div>
                 </div>	
-                <div id="w-node-_5c016d07-4646-372f-7182-acb2647505ef-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505ef" style="opacity:0" class="heading-extra-large">전기차</div>
+                <div id="w-node-_5c016d07-4646-372f-7182-acb2647505ef-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505ef" style="opacity:0"><a href="ev/evMain" class="heading-extra-large">전기차</a></div>
                 
                 
-                <div id="w-node-_5c016d07-4646-372f-7182-acb2647505e8-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505e8" style="opacity:0" class="heading-extra-large">중고거래</div>
+                <div id="w-node-_5c016d07-4646-372f-7182-acb2647505e8-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505e8" style="opacity:0" class="heading-extra-large"><a href="product/productMain" class="heading-extra-large">중고거래</a></div>
                 <div id="w-node-_5c016d07-4646-372f-7182-acb2647505f2-4f5c4820" data-w-id="1d794ecd-05bb-619d-bbd5-40cd36ea927b" style="opacity:0" class="image-overflow-wrapper">
                   <div id="w-node-_5c016d07-4646-372f-7182-acb2647505f1-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505ee" style="-webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform-style:preserve-3d" class="banner-image _3"></div>
                 </div>
-				<!--<div id="w-node-_5c016d07-4646-372f-7182-acb2647505e8-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505e8" style="opacity:0" class="heading-extra-large">중고거래</div>
-					<div id="w-node-_1d794ecd-05bb-619d-bbd5-40cd36ea927b-4f5c4820" data-w-id="1d794ecd-05bb-619d-bbd5-40cd36ea927b" style="opacity:0" class="image-overflow-wrapper">
-				   	<div id="w-node-_5c016d07-4646-372f-7182-acb2647505ee-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505ee" style="-webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform-style:preserve-3d" class="banner-image _3"></div>
-				</div>-->
+				
               </div>
             </div>
           </div>
@@ -93,7 +120,7 @@
           <div class="padding-global">
             <div class="padding-section-medium">
               <div class="_2-column-grid">
-                <a href="index.html" aria-current="page" class="w-inline-block w--current"><img src="images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
+                <a href="/" aria-current="page" class="w-inline-block w--current"><img src="images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
                 <div>
                   <h3>The stories of a travel photographer and blogger exploring the world .</h3>
                   <div id="w-node-e1165d61-2cbb-cc22-6e05-5b6165b83107-65b830fb" class="spacer-xxlarge"></div>
@@ -140,21 +167,25 @@
   <script src="/js/webflow.js" type="text/javascript"></script>
   <script>
 		
-		// 지역 안내
-		var local = document.getElementById('w-node-_5c016d07-4646-372f-7182-acb2647505ea-4f5c4820');
-		var local2 = document.getElementById('w-node-_3d4d8ab8-3340-abe8-c6d1-7a7819bb55e4-4f5c4820');
-		console.log(local.text)
+		// 지역 안내 이미지
+		var local = document.getElementById('w-node-_3d4d8ab8-3340-abe8-c6d1-7a7819bb55e4-4f5c4820');
+		
 		local.onclick = function(){
 			location.href = 'gu';
 		}
-		local2.onclick = function(){
-			location.href = 'gu';
+		
+		// 전기차 이미지
+		var ev = document.getElementById('w-node-_5c016d07-4646-372f-7182-acb2647505ec-4f5c4820');
+		ev.onclick = function(){
+			location.href = 'ev/evMain';
 		}
 		
-		var product = document.getElementById('w-node-_5c016d07-4646-372f-7182-acb2647505e8-4f5c4820');
+		// 중고거래 이미지
+		var product = document.getElementById('w-node-_5c016d07-4646-372f-7182-acb2647505f1-4f5c4820');
 		product.onclick = function(){
-					location.href = 'product/productMain';
+			location.href = 'product/productMain';
 		}
+		
 		
   </script>
 </body>

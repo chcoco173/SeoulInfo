@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html data-wf-page="6684f0fb2a5375354f5c4823"
 	data-wf-site="6684f0fb2a5375354f5c47e9">
@@ -84,7 +85,7 @@
 							<div class="container my-5">
 								<div class="row">
 									<div class="col-12">
-										<h1 class="text-center">중고나라 상품 목록</h1>
+										<h1 class="text-center">${category}</h1>
 									</div>
 								</div>
 
@@ -161,9 +162,89 @@
 							</div>
 						</div>
 					</div>
+					<div class="section-posts-row">
+						<div class="padding-global">
+							<div class="padding-section-medium remove-top-padding">
+								<div class="container-full-width">
+									<h2 data-w-id="e144bf26-0d49-109b-1b5b-756bc18db81f"
+										style="opacity: 0">Most recent captures</h2>
+									<div class="spacer-xlarge"></div>
+									<div data-w-id="e144bf26-0d49-109b-1b5b-756bc18db822"
+										style="opacity: 0" class="divider-line"></div>
+									<div class="spacer-xlarge"></div>
+									<div class="w-dyn-list">
+										<div role="list" class="w-dyn-items">
+											<div data-w-id="e144bf26-0d49-109b-1b5b-756bc18db826"
+												style="opacity: 0" role="listitem" class="w-dyn-item">
+												<div class="post-row-grid">
+													<a
+														id="w-node-e144bf26-0d49-109b-1b5b-756bc18db828-4f5c4823"
+														data-w-id="e144bf26-0d49-109b-1b5b-756bc18db828" href="#"
+														class="post-row-image-overflow-container w-inline-block">
+														<div
+															id="w-node-e144bf26-0d49-109b-1b5b-756bc18db829-4f5c4823"
+															data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"
+															style="-webkit-transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); -moz-transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); -ms-transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
+															class="post-row-image"></div>
+													</a>
+													<div
+														id="w-node-e144bf26-0d49-109b-1b5b-756bc18db82a-4f5c4823"
+														class="post-row-wrapper">
+														<div class="tags-wrappers">
+															<a href="#" class="tag w-inline-block">
+																<div class="text-size-small w-dyn-bind-empty"></div>
+															</a> <a href="#" class="tag w-inline-block">
+																<div class="text-size-small w-dyn-bind-empty"></div>
+															</a>
+														</div>
+														<a
+															id="w-node-e144bf26-0d49-109b-1b5b-756bc18db830-4f5c4823"
+															href="#" class="w-inline-block">
+															<h3 class="w-dyn-bind-empty"></h3>
+														</a>
+														<div class="small-author-wrapper">
+															<a href="#"
+																class="author-pic-and-name-wrapper w-inline-block">
+																<div class="small-author-thumbnail"></div>
+																<div class="text-size-regular w-dyn-bind-empty"></div>
+															</a>
+															<div class="line-divider"></div>
+															<div
+																class="text-size-regular text-color-dark-gray w-dyn-bind-empty"></div>
+														</div>
+													</div>
+													<a
+														id="w-node-e144bf26-0d49-109b-1b5b-756bc18db838-4f5c4823"
+														data-w-id="e144bf26-0d49-109b-1b5b-756bc18db838" href="#"
+														class="button-icon hide-mobile-landscape w-inline-block"><img
+														src="/images/ph_arrow-up-right-light-xxsmall-dark-gray.svg"
+														loading="lazy" alt="" class="icon-1x1-xxsmall"></a>
+												</div>
+											</div>
+										</div>
+										<div class="empty-state w-dyn-empty">
+											<div class="text-size-regular">No items found.</div>
+										</div>
+										<div role="navigation" aria-label="List"
+											class="w-pagination-wrapper pagination">
+											<a href="#" aria-label="Previous Page"
+												class="w-pagination-previous previous"><img
+												src="/images/ph_arrow-left-light-xxsmall.svg" loading="lazy"
+												alt="" class="icon-1x1-xxsmall">
+												<div class="text-size-small w-inline-block">Previous</div> </a>
+											<a href="#" aria-label="Next Page"
+												class="w-pagination-next next">
+												<div class="text-size-small w-inline-block">Next</div> <img
+												src="/images/ph_arrow-right-light-xxsmall.svg"
+												loading="lazy" alt="" class="icon-1x1-xxsmall">
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<!--  end of padding-global -->
-
 				<div class="section-footer">
 					<div class="padding-global">
 						<div class="spacer-xxlarge"></div>
@@ -246,14 +327,16 @@
 				type="text/javascript"
 				integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
 				crossorigin="anonymous"></script>
-
 			<script src="/js/webflow.js" type="text/javascript"></script>
+			
 			<!-- 제이쿼리 라이브러리 추가 -->
 			<script
 				src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 			<!-- 제이쿼리 라이브러리 추가 + 상품클릭시 디테일페이지로이동 -->
 			<script type="text/javascript">
 				$(".product").click(function() {
+					
+					// 나중에 상품번호들고가서 수정예정
 					location.href = "detail_post";
 
 				});

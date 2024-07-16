@@ -1,0 +1,33 @@
+
+        
+.beforeLogin, .afterLogin {
+    overflow: auto;
+    height: 100%;
+}
+
+.pagination {
+    width: 100%;
+    text-align: center;
+	z-index: 102;
+	padding-left : 10px;
+}
+
+.pagination button {
+    margin: 0 3px;
+}
+
+td {
+	padding: 6px;
+}
+
+.favorite-list {
+	border-collapse: separate;
+    border-spacing: 0;
+    border: 2px solid black;
+    border-radius: 10px;
+    overflow: hidden; 
+}
+
+#favoriteList {
+	padding-left : 10px;
+}
