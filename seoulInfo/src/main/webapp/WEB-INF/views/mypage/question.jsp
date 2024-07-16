@@ -193,7 +193,7 @@
 	                  <option value="category4">전기차</option>
 	                </select>
 	              </div>
-	              <button class="inquiry-button" onclick="openPopup()">1:1 문의하기</button>
+	              <button class="inquiry-button" onclick="openPopup()">문의하기</button>
 	            </div>            
 	            
 	            <!-- 1:1문의 목록 -->
@@ -235,9 +235,9 @@
 	  <div class="popup-content">
 	    <span class="close-btn" onclick="closePopup()">&times;</span>
 	    <div class="spacer-large"></div>
-	    <h3>[ 1:1 문의하기 ]</h3>
+	    <h3>1 : 1 문의</h3>
 	    <div class="spacer-large"></div>
-	    <form>
+	    <form class="inquiry-form">
 	      <!-- 폼 필드 추가 -->
 	      <div class="form-row">
 	      <label for="category">카테고리</label>
@@ -255,6 +255,10 @@
 	      <div class="form-row">
 	        <label for="content">문의내용</label>
 	        <textarea id="content" name="content" required></textarea>
+	      </div>
+	      <div class="form-row reply">
+	        <label for="reply">답변내용</label>
+	        <textarea id="reply" name="reply" required></textarea>
 	      </div>
 	      <div class="spacer-large"></div>
 	      <div class="form-submit-row">
@@ -297,7 +301,7 @@
           <div class="padding-global">
             <div class="padding-section-medium">
               <div class="_2-column-grid">
-                <a href="index.html" class="w-inline-block"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
+                <a href="/" class="w-inline-block"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
                 <div>
                   <h3>The stories of a travel photographer and blogger exploring the world .</h3>
                   <div id="w-node-e1165d61-2cbb-cc22-6e05-5b6165b83107-65b830fb" class="spacer-xxlarge"></div>

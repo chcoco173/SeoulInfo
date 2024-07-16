@@ -23,7 +23,7 @@ public class MypageController {
 
 	@RequestMapping("/")
 	public String index() {
-		return "index";
+		return "/index";
 	}
 	
 	@RequestMapping("/{step}")
@@ -31,6 +31,19 @@ public class MypageController {
 		System.out.println(step);
 		return "mypage/"+step;
 	}
+	
+	// 관심상품 목록 출력
+//    @GetMapping("/products")
+//    public String getProductList() {
+//        return "productList";
+//    }
+//
+//    @GetMapping("/product/{id}")
+//    public String getProductDetail(@PathVariable Long id, Model model) {
+//        model.addAttribute("productId", id);
+//        return "productDetail";
+//    }
+
 
 	
 

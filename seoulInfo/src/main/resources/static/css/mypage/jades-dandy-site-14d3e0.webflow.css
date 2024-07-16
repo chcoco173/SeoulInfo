@@ -1270,7 +1270,8 @@ figcaption {
   padding: .5rem 1rem;
 }
 .tag-t:hover {
-  background-color: var(--dark-red);  
+  background-color: var(--dark-red);
+  /* background-color: #004080; */  
   text-decoration: none;
   color: var(--white);
 }
