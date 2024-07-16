@@ -176,7 +176,7 @@
 				            <tr>
 				                <th class="narrow-col">댓글번호</th>
 				                <th class="wide-col">댓글내용</th>
-				                <th class="narrow-col">등록일</th>
+				                <th class="narrow-col">작성일</th>
 				                <th class="narrow-col">삭제</th>
 				            </tr>
 				        </thead>
@@ -232,7 +232,7 @@
           <div class="padding-global">
             <div class="padding-section-medium">
               <div class="_2-column-grid">
-                <a href="index.html" class="w-inline-block"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
+                <a href="/" class="w-inline-block"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
                 <div>
                   <h3>The stories of a travel photographer and blogger exploring the world .</h3>
                   <div id="w-node-e1165d61-2cbb-cc22-6e05-5b6165b83107-65b830fb" class="spacer-xxlarge"></div>
