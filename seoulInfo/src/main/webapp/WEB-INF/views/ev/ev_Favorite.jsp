@@ -7,7 +7,7 @@
 <!-- Bootstrap core CSS -->
 <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!-- ev css -->
-<link href="/css/evFavorite.css" rel="stylesheet" type="text/css">
+<link href="/css/ev/evFavorite.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <div class="search_favorite">
@@ -25,7 +25,7 @@
                 <dd>
                     <table class="favorite-list">
                         <tr>
-                            <td rowspan=2><img src="/images/goverment-logo.png" /></td>
+                            <td rowspan=2><img src="/images/ev/goverment-logo.png" /></td>
                             <td colspan=2>충전소 이름1</td>
                         </tr>
                         <tr>
@@ -38,7 +38,7 @@
                 <dd>
                     <table class="favorite-list">
                         <tr>
-                            <td rowspan=2><img src="/images/goverment-logo.png" /></td>
+                            <td rowspan=2><img src="/images/ev/goverment-logo.png" /></td>
                             <td colspan=2>충전소 이름1</td>
                         </tr>
                         <tr>
@@ -51,7 +51,7 @@
                 <dd>
                     <table class="favorite-list">
                         <tr>
-                            <td rowspan=2><img src="/images/goverment-logo.png" /></td>
+                            <td rowspan=2><img src="/images/ev/goverment-logo.png" /></td>
                             <td colspan=2>충전소 이름8</td>
                         </tr>
                         <tr>
@@ -64,7 +64,7 @@
                 <dd>
                     <table class="favorite-list">
                         <tr>
-                            <td rowspan=2><img src="/images/goverment-logo.png" /></td>
+                            <td rowspan=2><img src="/images/ev/goverment-logo.png" /></td>
                             <td colspan=2>충전소 이름4</td>
                         </tr>
                         <tr>
@@ -77,7 +77,7 @@
                 <dd>
                     <table class="favorite-list">
                         <tr>
-                            <td rowspan=2><img src="/images/goverment-logo.png" /></td>
+                            <td rowspan=2><img src="/images/ev/goverment-logo.png" /></td>
                             <td colspan=2>충전소 이름5</td>
                         </tr>
                         <tr>
@@ -90,7 +90,7 @@
                 <dd>
                     <table class="favorite-list">
                         <tr>
-                            <td rowspan=2><img src="/images/goverment-logo.png" /></td>
+                            <td rowspan=2><img src="/images/ev/goverment-logo.png" /></td>
                             <td colspan=2>충전소 이름6</td>
                         </tr>
                         <tr>
@@ -103,7 +103,7 @@
                 <dd>
                     <table class="favorite-list">
                         <tr>
-                            <td rowspan=2><img src="/images/goverment-logo.png" /></td>
+                            <td rowspan=2><img src="/images/ev/goverment-logo.png" /></td>
                             <td colspan=2>충전소 이름7</td>
                         </tr>
                         <tr>
@@ -116,7 +116,7 @@
                 <dd>
                     <table class="favorite-list">
                         <tr>
-                            <td rowspan=2><img src="/images/goverment-logo.png" /></td>
+                            <td rowspan=2><img src="/images/ev/goverment-logo.png" /></td>
                             <td colspan=2>충전소 이름8</td>
                         </tr>
                         <tr>
@@ -129,7 +129,7 @@
                 <dd>
                     <table class="favorite-list">
                         <tr>
-                            <td rowspan=2><img src="/images/goverment-logo.png" /></td>
+                            <td rowspan=2><img src="/images/ev/goverment-logo.png" /></td>
                             <td colspan=2>충전소 이름9</td>
                         </tr>
                         <tr>
@@ -188,6 +188,5 @@
             showFavoritePage(favoriteCurrentPage);
         });
     </script>
-
 </body>
 </html>

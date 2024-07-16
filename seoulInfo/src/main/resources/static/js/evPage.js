@@ -85,5 +85,24 @@ $(function(){
 	    $('#name').val('all');
 	    $('#name_detail').val('');
 	});
+	
+	//상세정보
+	$('.closeInfo').click(function(event){
+		event.stopPropagation();
+		event.preventDefault();
+		
+		$('.charger_Information').css({'display':'none'})
+	});
+	
+	// 즐겨찾기
+	$('.setFavorite').click(function(event) {
+	    event.stopPropagation();
+		event.preventDefault();
+	               
+		var img = $('#favoriteImage');
+		var currentSrc = img.attr('src');
+	    var newImageUrl = (currentSrc === '/images/ev/like_off.png') ? '/images/ev/like_on.png' : '/images/ev/like_off.png';
+	    img.attr('src', newImageUrl);
+	});
 
 });

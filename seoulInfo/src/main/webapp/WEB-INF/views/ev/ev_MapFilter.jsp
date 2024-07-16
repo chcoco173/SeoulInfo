@@ -7,7 +7,7 @@
 <!-- Bootstrap core CSS -->
 <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!-- Custom CSS -->
-<link href="/css/evSearch.css" rel="stylesheet" type="text/css">
+<link href="/css/ev/evSearch.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -101,7 +101,7 @@
 				<dd>
 					<table class="filtered-list result-list">
 						<tr>
-							<td rowspan="2"><img src="/images/goverment-logo.png" /></td>
+							<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>
 							<td colspan="2">충전소 이름1</td>
 						</tr>
 						<tr>
@@ -114,7 +114,7 @@
 				<dd>
 					<table class="filtered-list result-list">
 						<tr>
-							<td rowspan="2"><img src="/images/goverment-logo.png" /></td>
+							<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>
 							<td colspan="2">충전소 이름2</td>
 						</tr>
 						<tr>
@@ -127,7 +127,7 @@
 				<dd>
 					<table class="filtered-list result-list">
 						<tr>
-							<td rowspan="2"><img src="/images/goverment-logo.png" /></td>
+							<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>
 							<td colspan="2">충전소 이름3</td>
 						</tr>
 						<tr>
@@ -140,7 +140,7 @@
 				<dd>
 					<table class="filtered-list result-list">
 						<tr>
-							<td rowspan="2"><img src="/images/goverment-logo.png" /></td>
+							<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>
 							<td colspan="2">충전소 이름4</td>
 						</tr>
 						<tr>
@@ -153,7 +153,7 @@
 				<dd>
 					<table class="filtered-list result-list">
 						<tr>
-							<td rowspan="2"><img src="/images/goverment-logo.png" /></td>
+							<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>
 							<td colspan="2">충전소 이름5</td>
 						</tr>
 						<tr>
