@@ -17,7 +17,8 @@
 		width: 100%;
 	}
 
-	.search_map, .search_favorite {
+	.search_map,
+	.search_favorite {
 		position: fixed;
 		width: 281px;
 		height: 45%;
@@ -49,7 +50,7 @@
 
 .map_wrap {
     grid-row: 2; /* 두 번째 행에 배치 */
-    background-color: #fff; /* 배경색 설정 (필요에 따라) */
+    background-color: #EEEE; /* 배경색 설정 (필요에 따라) */
 }
 
 .filter {
@@ -60,7 +61,6 @@
 }
 
 .search_map , .search_favorite{
-	
 	position : fixed;
 	width : 281px;
 	height : 46%;
