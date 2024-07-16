@@ -1,0 +1,16 @@
+package com.example.dao;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.example.domain.ProductImageVO;
+
+@Mapper
+public interface ProductImageDAO {
+	
+	public void insertProductImage(ProductImageVO pivo);
+	
+	public ProductImageVO selectProductImage(ProductImageVO pivo);
+
+	public Integer selectMember_id();
+
+}

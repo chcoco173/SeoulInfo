@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.ProductImageDAO">
+
+   <!-- 상품 이미지 업로드 -->
+   <insert id="insertProductImage" parameterType="ProductImageVO">
+      INSERT INTO product_image
+      (
+         productimg_name
+         ,productimg_alias
+         ,productimg_url
+      )
+      VALUES(
+         #{productimg_name}
+         ,#{productimg_alias}
+         ,#{productimg_url}
+      )
+   </insert>
+   
+   <!-- 해당 상품 상세 조회 이미지 -->
+   <select id="selectProductImage" parameterType="ProductImageVO" resultType="ProductImageVO">
+      SELECT*
+      FROM product_image
+      WHERE productimg_no=#{productimg_no}
+   </select>
+   
+   <!-- 이게 머였지..? -->
+   <select id="selectMember_id" resultType='String'>
+      SELECT productimg_no
+      FROM product_image
+      ORDER BY productimg_no DESC
+      limit 1
+   </select>
+   
+   
+   
+   
+</mapper>
