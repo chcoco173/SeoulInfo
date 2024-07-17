@@ -100,13 +100,12 @@
 	}
 	function toggleHeart() {
 		var img = document.getElementById('heartImage');
-		var speechBubble = document.getElementById('speechBubble');
+		
 		if (img.src.includes('heart_off.png')) {
 			img.src = '/productimages/heart_on.png';
-			speechBubble.textContent = '찜 해제';
 		} else {
 			img.src = '/productimages/heart_off.png';
-			speechBubble.textContent = '찜하기';
+			
 		}
 	}
 </script>

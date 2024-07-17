@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html data-wf-page="6684f0fb2a5375354f5c4823"
 	data-wf-site="6684f0fb2a5375354f5c47e9">
@@ -91,23 +92,33 @@
 								<div class="container my-5">
 									<!--  상품 ( jstl로 들어갈 예정 ) -->
 									<div class="row">
+										<c:forEach items="${productList}" var="productList">
 										<div class="col-md-3 product">
 											<div class="product-card">
-												<img src="https://via.placeholder.com/200" alt="상품 1"
-													class="product-image">
+												<c:choose>
+												    <c:when test="${not empty productList.productimg_alias}">
+												        <img src="/productImage/${productList.productimg_alias}" alt="상품 이미지" class="product-image" style="height: 250px; width:250px;">
+												    </c:when>
+												    <c:otherwise>
+														<img src="https://via.placeholder.com/200" alt="이미지없음"
+																											class="product-image">
+												    </c:otherwise>
+												</c:choose>
+												
 												<div class="product-info">
-													<h4>상품 1</h4>
+													<h4>${productList.sale_name}</h4>
 													<p>상품 1 설명</p>
 													<p>
-														<strong>₩10,000</strong>
+														<strong>${productList.sale_price}</strong>
 													</p>
 													<p>
-														관심 5 <span style="margin-left: 20px;">상태: 판매중</span>
+														관심 ${productList.favorite_count}<span style="margin-left: 20px;">상태: ${productList.sale_status}</span>
 													</p>
 												</div>
 											</div>
 										</div>
-										<div class="col-md-3 product">
+										</c:forEach>
+										<!--<div class="col-md-3 product">
 											<div class="product-card">
 												<img src="https://via.placeholder.com/200" alt="상품 2"
 													class="product-image">
@@ -154,7 +165,8 @@
 													</p>
 												</div>
 											</div>
-										</div>
+										</div>-->
+										
 									</div>
 
 								</div>
@@ -257,6 +269,7 @@
 					location.href = "detail_post";
 
 				});
+
 			</script>
 </body>
 </html>
