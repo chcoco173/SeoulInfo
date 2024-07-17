@@ -16,7 +16,7 @@
 			<b>충전소 검색</b>
 		</p>
 		<hr>
-		<form class="search-filter">
+		<form class="search-filter" action="ev_MapFilter" method="get">
 			<table>
 				<tr>
 					<td>충전기 타입</td>
@@ -89,11 +89,10 @@
 				</tr>
 			</table>
 			<hr>
-			<button type="button" class="btn btn-dark btn-close">
+			<button type="button" class="btn btn-dark btn-close" >
 				<b>X</b>
 			</button>
-			<button type="button" class="btn btn-primary btn-search"
-				style="width: 50%">검색</button>
+			<button type="submit" class="btn btn-primary btn-search" style="width: 50%">검색</button>
 			<button type="button" class="btn btn-danger btn-reset">초기화</button>
 		</form>
 		<div class="result-list" style="display: none;">

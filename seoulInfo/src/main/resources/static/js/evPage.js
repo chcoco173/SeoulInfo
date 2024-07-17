@@ -70,7 +70,7 @@ $(function(){
 	});
 	
 	// 상세정보 - 검색결과
-	$('.result-list').click(function(){
+	$('.result-list-table').click(function(){
 		$('.charger_Information').css({'display':'inherit','z-index':'110'});
 	});
 	
@@ -80,9 +80,7 @@ $(function(){
 	});
 	
 	// 검색
-	$('.btn-search').click(function(event){
-		event.stopPropagation();
-		event.preventDefault();
+	$('.btn-search').click(function(){
 		
 		$('.search-filter').css({'display':'none'})
 		$('.result-list').css({'display':'inherit'})

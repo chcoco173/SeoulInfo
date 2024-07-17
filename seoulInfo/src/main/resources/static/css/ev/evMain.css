@@ -119,10 +119,7 @@
     overflow: hidden;
 	z-index: 2;
 	white-space: nowrap; 	/* 텍스트 줄 바꿈 방지 */
-   
 }
-
-
 
 /* kakao map Css style */
 #map {
