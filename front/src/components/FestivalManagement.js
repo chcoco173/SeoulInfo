@@ -5,8 +5,9 @@ import { format } from 'date-fns';
 import '../css/FestivalManagement.css';
 
 function FestivalCard({ festival, onClick }) {
-  const isLocalPath = festival.festival_imageurl && !festival.festival_imageurl.startsWith('http');
-  const imagePath = isLocalPath ? `http://localhost:8000${festival.festival_imageurl}` : festival.festival_imageurl;
+  const imagePath = festival.festival_imageurl && festival.festival_imageurl.startsWith('http') 
+    ? festival.festival_imageurl 
+    : `http://localhost:8000${festival.festival_imageurl || ''}`;
   const StartDate = format(new Date(festival.festival_startdate), 'yyyy-MM-dd');
   const EndDate = format(new Date(festival.festival_enddate), 'yyyy-MM-dd');
 
@@ -109,8 +110,9 @@ function Festivalpopup({ festival, onClose }) {
     return date ? format(new Date(date), 'yyyy-MM-dd') : '';
   };
 
-  const isLocalPath = festival.festival_imageurl && !festival.festival_imageurl.startsWith('http');
-  const imagePath = isLocalPath ? `http://localhost:8000${festival.festival_imageurl}` : festival.festival_imageurl;
+  const imagePath = festival.festival_imageurl && festival.festival_imageurl.startsWith('http') 
+  ? festival.festival_imageurl 
+  : `http://localhost:8000${festival.festival_imageurl || ''}`;
   const StartDate = formatDate(festival.festival_startdate);
   const EndDate = formatDate(festival.festival_enddate);
   
@@ -239,45 +241,73 @@ function FestivalManagement() {
   const navigate = useNavigate();
   const [selectedFestival, setSelectedFestival] = useState(null);
   const [viewContent, setViewContent] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [searching, setSearching] = useState(false);
   const [page, setPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const loadingRef = useRef(null);
+  const [searchCategory, setSearchCategory] = useState('festival_name');
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   useEffect(() => {
-    const loadMoreFestivals = async () => {
-      if (isLoading || !hasMore) return;
-      setIsLoading(true);
+    if (!searching) {
+      const loadMoreFestivals = async () => {
+        if (isLoading || !hasMore) return;
+        setIsLoading(true);
 
-      try {
-        const response = await axios.get(`http://localhost:8000/data/getallfestival?page=${page}`);
-        if (response.data.length < 15) {
-          setHasMore(false); // 데이터가 더 이상 없으면 추가 로드 중지
+        try {
+          const response = await axios.get(`http://localhost:8000/data/getallfestival?page=${page}`);
+          if (response.data.length < 15) {
+            setHasMore(false); // 데이터가 더 이상 없으면 추가 로드 중지
+          }
+          setViewContent(prev => [...prev, ...response.data]);
+          setPage(prev => prev + 1);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+          setHasMore(false); // 에러 발생 시 데이터 로드 중단
         }
-        setViewContent(prev => [...prev, ...response.data]);
-        setPage(prev => prev + 1);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setHasMore(false); // 에러 발생 시 데이터 로드 중단
-      }
-      setIsLoading(false);
-    };
+        setIsLoading(false);
+      };
 
-    const observer = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && !isLoading && hasMore) {
-        loadMoreFestivals();
-      }
-    }, { threshold: 1.0 });
+      const observer = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting && !isLoading && hasMore) {
+          loadMoreFestivals();
+        }
+      }, { threshold: 1.0 });
 
-    if (loadingRef.current) {
-      observer.observe(loadingRef.current);
+      if (loadingRef.current) {
+        observer.observe(loadingRef.current);
+      }
+
+      return () => observer.disconnect(); // 컴포넌트 언마운트 시 옵저버 해제
     }
-
-    return () => observer.disconnect(); // 컴포넌트 언마운트 시 옵저버 해제
-  }, [isLoading, hasMore]);
+  }, [isLoading, hasMore, searching]);
 
   const handleInsertFestival = () => {
     navigate('/dashboard/insert-festival/');
+  };
+
+  const handleSearch = async () => {
+    setSearching(true);
+    try {
+      const res = await axios.get('http://localhost:8000/data/search-festival', {
+        params: {
+          category: searchCategory,
+          keyword: searchKeyword
+        }
+      });
+      const processedResults = res.data.map(festival => {
+        // 이미지 경로 처리
+        if (festival.festival_imageurl && !festival.festival_imageurl.startsWith('http')) {
+          festival.festival_imageurl = `http://localhost:8000${festival.festival_imageurl}`;
+        }
+        return festival;
+      });
+      setSearchResults(processedResults);
+    } catch (error) {
+      console.error('검색 실패:', error);
+    }
   };
 
   const handleCardClick = (festival) => {
@@ -288,23 +318,25 @@ function FestivalManagement() {
     setSelectedFestival(null);
   };
 
+  const resultsToDisplay = searching ? searchResults : viewContent;
+
   return (
     <div className="festival-info">
       <h1>축제 관리</h1>
       <div className="search-section">
-        <select className="search-select">
+        <select className="search-select" value={searchCategory} onChange={(e) => setSearchCategory(e.target.value)}>
           <option value="festival_name">제목</option>
           <option value="festival_area">지역</option>
         </select>
-        <input type="text" placeholder="검색" className="search-input" />
-        <button className="search-button">검색</button>
+        <input type="text" placeholder="검색" className="search-input" value={searchKeyword} onChange={(e) => setSearchKeyword(e.target.value)}/>
+        <button className="search-button" onClick={handleSearch}>검색</button>
       </div>
 
       <div className="festival-cards">
-        {viewContent.map(festival => (
+        {resultsToDisplay.map(festival => (
           <FestivalCard key={festival.festival_id} festival={festival} onClick={handleCardClick} />
         ))}
-        <div ref={loadingRef} style={{ gridColumn: '1 / -1' }}></div>
+        {!searching && <div ref={loadingRef} style={{ gridColumn: '1 / -1' }}></div>}
       </div>
 
       {selectedFestival && <Festivalpopup festival={selectedFestival} onClose={handleClosepopup} />}

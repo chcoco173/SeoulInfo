@@ -1,12 +1,11 @@
-const express = require('express');
-const cors = require('cors');
-const mysql = require('mysql');
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-const dbconfig = require('./config/database.js');
-
-const conn = mysql.createConnection(dbconfig);
+const express = require('express'); 
+const cors = require('cors'); // 다른 포트끼리 호환
+const mysql = require('mysql'); // sql 연결
+const multer = require('multer'); // 파일 업로드
+const path = require('path'); // 경로 설정
+const fs = require('fs'); // 날짜 설정
+const dbconfig = require('./config/database.js'); 
+const conn = mysql.createConnection(dbconfig); //데이터베이스 연결
 const app = express();
 const PORT = 8000;
 
@@ -22,6 +21,31 @@ conn.connect(err => {
 app.use(cors());
 app.use(express.json());
 
+// 로그인
+
+app.post('/login', (req, res) => {
+    const { adminId, adminPw } = req.body;
+    const query = 'SELECT * FROM admin WHERE admin_id = ?';
+  
+    conn.query(query, [adminId], (err, results) => {
+      if (err) throw err;
+  
+      if (results.length === 0) {
+        return res.status(400).json({ message: '존재하지 않는 아이디입니다.' });
+      }
+  
+      const admin = results[0];
+  
+      if (admin.admin_pw !== adminPw) {
+        return res.status(400).json({ message: '비밀번호가 일치하지 않습니다.' });
+      }
+  
+      res.json({ message: '로그인 성공', admin });
+    });
+  });
+  
+  
+
 // 이미지 업로드 설정
 const storageAdmin = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -32,7 +56,7 @@ const storageAdmin = multer.diskStorage({
         cb(null, dir);
     },
     filename: (req, file, cb) => {
-        cb(null, req.body.admin_id + path.extname(file.originalname)); // 파일 이름을 admin_id + 확장자로 설정
+        cb(null, req.body.admin_id + path.extname(file.originalname))
     }
 });
 const uploadAdmin = multer({ storage: storageAdmin });
@@ -46,8 +70,7 @@ const storageFestival = multer.diskStorage({
         cb(null, dir);
     },
     filename: (req, file, cb) => {
-        const festivalId = req.body.festival_id || Date.now();
-        cb(null, festivalId + path.extname(file.originalname)); // 파일 이름을 festival_id + 확장자로 설정
+        cb(null, `${Date.now()}${path.extname(file.originalname)}`);
     }
 });
 const uploadFestival = multer({ storage: storageFestival });
@@ -76,16 +99,13 @@ app.get('/data/getallfestival', (req, res) => {
   
     conn.query(sql, function(err, result, fields) {
       if (err) throw err;
-      console.log(`Fetched ${result.length} items`);  // 반환된 데이터 수 로깅
+      console.log(`Fetched ${result.length} items`); 
       res.send(result);
     });
 });
 
 // 축제 데이터 입력하기
 app.post('/data/insert-festival', uploadFestival.single('festival_image'), (req, res) => {
-    console.log('파일 정보:', req.file); // 업로드된 파일 정보 로그 출력
-    console.log('본문 데이터:', req.body); // 본문 데이터 로그 출력
-
     const { festival_name, festival_area, festival_address, festival_content, festival_startdate, festival_enddate, festival_siteurl } = req.body;
     const festival_imageurl = req.file ? `/images/festival/${req.file.filename}` : null;
     const formattedStartDate = formatDate(festival_startdate);
@@ -96,10 +116,8 @@ app.post('/data/insert-festival', uploadFestival.single('festival_image'), (req,
     
     conn.query(sql, param, function(err, result) {
         if (err) {
-            console.error('Error: ', err);
             res.status(500).send('Error');
         } else {
-            console.log('파일 저장 경로:', festival_imageurl); // 파일 저장 경로 확인
             res.status(201).send('success');
         }
     });
@@ -107,9 +125,6 @@ app.post('/data/insert-festival', uploadFestival.single('festival_image'), (req,
 
 // 축제 데이터 수정
 app.post('/data/update-festival', uploadFestival.single('festival_image'), (req, res) => {
-    console.log('파일 정보:', req.file); // 업로드된 파일 정보 로그 출력
-    console.log('본문 데이터:', req.body); // 본문 데이터 로그 출력
-
     const { festival_id, festival_name, festival_area, festival_address, festival_content, festival_startdate, festival_enddate, festival_siteurl } = req.body;
     const festival_imageurl = req.file ? `/images/festival/${req.file.filename}` : null;
     const formattedStartDate = formatDate(festival_startdate);
@@ -131,7 +146,6 @@ app.post('/data/update-festival', uploadFestival.single('festival_image'), (req,
             console.error('Error: ', err);
             res.status(500).send('Error');
         } else {
-            console.log('파일 저장 경로:', festival_imageurl); // 파일 저장 경로 확인
             res.status(200).send('success');
         }
     });
@@ -146,6 +160,33 @@ app.delete('/data/delete-festival/:festivalId', (req, res) => {
         } else {
             res.status(200).send('success');
         }
+    });
+});
+
+// 축제 검색 기능
+app.get('/data/search-festival', (req, res) => {
+    const { category, keyword } = req.query;
+  
+    if (!category || !keyword) {
+      return res.status(400).json({ error: '검색어를 입력하세요.' });
+    }
+  
+    // 카테고리 설정
+    let query = '';
+    if (category === 'festival_name') {
+      query = 'SELECT * FROM festival WHERE festival_name LIKE ?';
+    } else if (category === 'festival_area') {
+      query = 'SELECT * FROM festival WHERE festival_area LIKE ?';
+    } else {
+      return res.status(400).json({ error: '카테고리 오류.' });
+    }
+  
+    conn.query(query, [`%${keyword}%`], (err, results) => {
+      if (err) {
+        console.error('검색 중 에러 발생:', err);
+        return res.status(500).json({ error: '서버 에러' });
+      }
+      res.json(results);
     });
 });
 
@@ -171,7 +212,6 @@ app.post('/data/insert-admin', uploadAdmin.single('admin_image'), (req, res) => 
             console.error('Error: ', err);
             res.status(500).send('Error');
         } else {
-            console.log('파일 저장 경로:', admin_image); // 파일 저장 경로 확인
             res.status(201).send('success');
         }
     });
@@ -210,11 +250,81 @@ app.post('/data/update-admin', uploadAdmin.single('admin_image'), (req, res) => 
             console.error('Error: ', err);
             res.status(500).send('Error');
         } else {
-            console.log('파일 저장 경로:', admin_image); // 파일 저장 경로 확인
             res.status(200).send('success');
         }
     });
 });
 
-// 정적 파일 제공
+app.get('/data/search-admin', (req, res) => {
+    const { category, keyword } = req.query;
+  
+    if (!category || !keyword) {
+      return res.status(400).json({ error: '검색어를 입력하세요.' });
+    }
+  
+    // 카테고리 설정
+    let query = '';
+    if (category === 'name') {
+      query = 'SELECT * FROM admin WHERE admin_name LIKE ?';
+    } else if (category === 'id') {
+      query = 'SELECT * FROM admin WHERE admin_id LIKE ?';
+    } else if (category === 'email') {
+      query = 'SELECT * FROM admin WHERE admin_email LIKE ?';
+    } else if (category === 'tel') {
+      query = 'SELECT * FROM admin WHERE admin_tel LIKE ?';
+    } else {
+      return res.status(400).json({ error: '카테고리 오류' });
+    }
+  
+    conn.query(query, [`%${keyword}%`], (err, results) => {
+      if (err) {
+        console.error('검색 에러:', err);
+        return res.status(500).json({ error: '서버 에러' });
+      }
+      res.json(results);
+    });
+  });
+
+// 뉴스 데이터 불러오기 (페이징 포함)
+app.get('/data/getallnews', (req, res) => {
+  const pageNumber = parseInt(req.query.page) || 0;
+  const pageSize = 10;
+  const offset = pageNumber * pageSize;
+
+  const sqlCount = 'SELECT COUNT(*) AS total FROM news';
+  conn.query(sqlCount, (err, countResult) => {
+    if (err) throw err;
+    const totalItems = countResult[0].total;
+    const totalPages = Math.ceil(totalItems / pageSize);
+
+    const sql = `
+      SELECT news_id, news_area, news_title, news_imageurl, news_link, news_content
+      FROM news
+      ORDER BY news_id
+      LIMIT ${pageSize} OFFSET ${offset}
+    `;
+    
+    conn.query(sql, function(err, result, fields) {
+      if (err) throw err;
+      res.send({
+        news: result,
+        totalPages
+      });
+    });
+  });
+});
+
+// 뉴스 데이터 삭제
+app.delete('/data/delete-news/:newsId', (req, res) => {
+  const sql = "DELETE FROM news WHERE news_id = ? ";
+  conn.query(sql, [req.params.newsId], (err, result, fields) => {
+    if (err) {
+      res.status(500).send('Error');
+    } else {
+      res.status(200).send('success');
+    }
+  });
+});
+
+// 파일 경로
 app.use(express.static('public'));

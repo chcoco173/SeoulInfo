@@ -164,6 +164,9 @@ function AdminInfo() {
   const navigate = useNavigate();
   const [selectedAdmin, setSelectedAdmin] = useState(null);
   const [viewContent, setViewContent] = useState([]);
+  const [searchCategory, setSearchCategory] = useState('name');
+  const [searchKeyword, setSearchKeyword] = useState('');
+
 
   useEffect(() => { adminList() }, [])
 
@@ -175,9 +178,23 @@ function AdminInfo() {
       })
   }
 
-  const handleInsertAdmin = () => {
-    navigate('/dashboard/insert-admin/');
+  const handleSearch = async () => {
+    try {
+      const res = await axios.get('http://localhost:8000/data/search-admin', {
+        params: {
+          category: searchCategory,
+          keyword: searchKeyword
+        }
+      });
+      setViewContent(res.data);
+    } catch (error) {
+      console.error('검색 실패:', error);
+    }
   };
+
+  const handleInsertAdmin = () => {
+    navigate('/dashboard/insert-admin');
+};
 
   const handleCardClick = (admin) => {
     setSelectedAdmin(admin);
@@ -191,14 +208,14 @@ function AdminInfo() {
     <div className="admin-info">
       <h1>관리자 정보</h1>
       <div className="search-section">
-        <select className="search-select">
+      <select className="search-select" value={searchCategory} onChange={(e) => setSearchCategory(e.target.value)}>
           <option value="name">이름</option>
           <option value="id">아이디</option>
           <option value="email">이메일</option>
           <option value="tel">전화번호</option>
         </select>
-        <input type="text" placeholder="검색" className="search-input" />
-        <button className="search-button">검색</button>
+        <input type="text" placeholder="검색" className="search-input" value={searchKeyword} onChange={(e) => setSearchKeyword(e.target.value)}/>
+        <button className="search-button" onClick={handleSearch}>검색</button>
       </div>
 
       <div className="admin-cards-container">

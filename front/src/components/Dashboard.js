@@ -11,6 +11,7 @@ import '../css/Dashboard.css';
 import Login from './Login';
 import InsertAdmin from './InsertAdmin';
 import InsertFestival from './InsertFestival';
+import Question from './Question';
 
 function Dashboard() {
 
@@ -35,6 +36,7 @@ function Dashboard() {
           <li className="menu-item"><Link to="ev">전기차관리</Link></li>
           <li className="menu-item"><Link to="news">뉴스관리</Link></li>
           <li className="menu-item"><Link to="report">신고관리</Link></li>
+          <li className="menu-item"><Link to="question">문의관리</Link></li>
           <li className="menu-item"><Link to="charts">차트</Link></li>
           <li className="menu-item login-out"><Link to="/login">로그아웃</Link></li>
         </ul>
@@ -46,6 +48,7 @@ function Dashboard() {
         <Route path="ev" element={<EVManagement />} />
         <Route path="news" element={<NewsManagement />} />
         <Route path="report" element={<ReportManagement />} />
+        <Route path="question" element={<Question />} />
         <Route path="charts" element={<Charts />} />
         <Route path="/login" element={<Login />} />
         <Route path="insert-admin" element={<InsertAdmin />} />
