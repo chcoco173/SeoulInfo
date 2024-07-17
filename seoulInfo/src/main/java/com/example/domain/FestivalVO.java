@@ -13,8 +13,6 @@ public class FestivalVO {
 	private String 		festival_address;		// 축제주소
 	private String 		festival_imageUrl;		// 축제이미지url
 	private String 		festival_siteUrl;		// 축제사이트url
-	
-
 }
 
 /*

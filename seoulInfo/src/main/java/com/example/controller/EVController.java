@@ -16,7 +16,4 @@ public class EVController {
 		return "ev/"+step;
 	}
 	
-	//충전소
-	
-	
 }
