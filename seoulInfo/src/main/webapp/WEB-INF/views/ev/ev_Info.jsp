@@ -33,19 +33,15 @@
 			<p><h5><b>충전기</b></h5></p>
 			<table class="chargers" style="border: 2px solid green">
 				<thead>
-					<td>구분
-					</td>
-					<td>충전기 타입
-					</td>
-					<td>충전기 상태<br>(갱신일시)
-					</td>
+					<td>구분</td>
+					<td>충전기 타입</td>
+					<td>충전기 상태<br>(갱신일시)</td>
 				</thead>
 				<tbody>
 					<tr>
 						<td>급속</td>
 						<td>DC콤보</td>
-						<td>사용가능<br>(시간)
-						</td>
+						<td>사용가능<br>(시간)</td>
 					</tr>
 				</tbody>
 			</table>

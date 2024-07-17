@@ -39,7 +39,25 @@ $(function(){
 	$('.login').click(function(){
 		$('.afterLogin').css({"display":"inherit"});
 		$('.beforeLogin').css({"display":"none"});
+		
+		// 새 창의 크기
+		var newWindowWidth = 1500;
+		var newWindowHeight = 500;
+
+		// 화면의 크기
+		var screenWidth = window.screen.width;
+		var screenHeight = window.screen.height;
+
+		// 새 창의 위치 계산
+		var leftPosition = (screenWidth / 2) - (newWindowWidth / 2);
+		var topPosition = (screenHeight / 2) - (newWindowHeight / 2);
+
+		// 새로운 윈도우 창 띄우기 (중앙에 위치하도록)
+		window.open('/member/login', '로그인', 'width=' + newWindowWidth + ',height=' + newWindowHeight + ',top=' + topPosition + ',left=' + leftPosition);
+		
 	});
+	
+	
 	
 	// 닫기 버튼
 	$('.btn-close').click(function(event){
@@ -51,8 +69,13 @@ $(function(){
 		$(".search_favorite").css({"display":"none"});
 	});
 	
-	// 상세정보
+	// 상세정보 - 검색결과
 	$('.result-list').click(function(){
+		$('.charger_Information').css({'display':'inherit','z-index':'110'});
+	});
+	
+	// 상세정보 - 즐겨찾기
+	$('.favorite-list').click(function(){
 		$('.charger_Information').css({'display':'inherit','z-index':'110'});
 	});
 	

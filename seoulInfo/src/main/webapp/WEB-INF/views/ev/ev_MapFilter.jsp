@@ -99,7 +99,7 @@
 		<div class="result-list" style="display: none;">
 			<dl id="filteredList">
 				<dd>
-					<table class="filtered-list result-list">
+					<table class="filtered-list result-list result-list-table">
 						<tr>
 							<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>
 							<td colspan="2">충전소 이름1</td>
@@ -112,7 +112,7 @@
 					<br>
 				</dd>
 				<dd>
-					<table class="filtered-list result-list">
+					<table class="filtered-list result-list result-list-table">
 						<tr>
 							<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>
 							<td colspan="2">충전소 이름2</td>
@@ -125,7 +125,7 @@
 					<br>
 				</dd>
 				<dd>
-					<table class="filtered-list result-list">
+					<table class="filtered-list result-list result-list-table">
 						<tr>
 							<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>
 							<td colspan="2">충전소 이름3</td>
@@ -138,7 +138,7 @@
 					<br>
 				</dd>
 				<dd>
-					<table class="filtered-list result-list">
+					<table class="filtered-list result-list result-list-table">
 						<tr>
 							<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>
 							<td colspan="2">충전소 이름4</td>
@@ -151,7 +151,7 @@
 					<br>
 				</dd>
 				<dd>
-					<table class="filtered-list result-list">
+					<table class="filtered-list result-list result-list-table">
 						<tr>
 							<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>
 							<td colspan="2">충전소 이름5</td>

@@ -112,41 +112,13 @@
                <span class="category_bg store"></span>
                편의점
            </li>
-		   <li>
-			<button class="btn btn-info" id="btnTerrain" data-enabled="false" onclick="setOverlayMapTypeId()">Enable Terrain</button>
-			</li>    
        </ul>
 	   
-	   <ul id="category" style="top:50%">
-	              <li id="BK9" data-order="0"> 
-	                  <span class="category_bg bank"></span>
-	                  은dd행
-	              </li>       
-	              <li id="MT1" data-order="1"> 
-	                  <span class="category_bg mart"></span>
-	                  마트
-	              </li>  
-	              <li id="PM9" data-order="2"> 
-	                  <span class="category_bg pharmacy"></span>
-	                  약국
-	              </li>  
-	              <li id="OL7" data-order="3"> 
-	                  <span class="category_bg oil"></span>
-	                  주유소
-	              </li>  
-	              <li id="CE7" data-order="4"> 
-	                  <span class="category_bg cafe"></span>
-	                  카페
-	              </li>  
-	              <li id="CS2" data-order="5"> 
-	                  <span class="category_bg store"></span>
-	                  편의점
-	              </li>
-	   		   <li>
-	   			<button class="btn btn-info" id="btnTerrain" data-enabled="false" onclick="setOverlayMapTypeId()">Enable Terrain</button>
-	   			</li>    
-	          </ul>
-	   
+	   <div id="map_show_type" >
+		   	<button class="btn btn-info" id="btnTerrain" data-enabled="false" onclick="setOverlayMapTypeId()">
+				지형도
+			</button>
+	   </div>
    </div>
    <!--페이지 수정-->
    <div class="service_list">
@@ -375,7 +347,9 @@
 		var center = map.getCenter();
 		if (!seoulBounds.contain(center)) {
 			map.setCenter(new kakao.maps.LatLng(37.5665, 126.9780)); // 초기 중심 좌표
+			alert("서울시 정보만 제공됩니다.");
 			}
+			
 		});
 
 	// --------------------------------------------------------------------------------------------------------
@@ -390,11 +364,15 @@
 	    if (isTerrainEnabled) {
 	        map.removeOverlayMapTypeId(mapTypes.terrain);
 	        btnTerrain.setAttribute('data-enabled', 'false');
-	        btnTerrain.innerText = "Enable Terrain";
+	        btnTerrain.innerText = "지형도";
+			btnTerrain.classList.remove('btn-warning'); // 기존 클래스 제거
+			btnTerrain.classList.add('btn-info'); // 새로운 클래스 추가
 	    } else {
 	        map.addOverlayMapTypeId(mapTypes.terrain);
 	        btnTerrain.setAttribute('data-enabled', 'true');
-	        btnTerrain.innerText = "Disable Terrain";
+	        btnTerrain.innerText = "이미지";
+			btnTerrain.classList.remove('btn-info'); // 기존 클래스 제거
+			btnTerrain.classList.add('btn-warning'); // 새로운 클래스 추가
 	    }
 	}
 
