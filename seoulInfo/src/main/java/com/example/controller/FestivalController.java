@@ -33,7 +33,7 @@ public class FestivalController {
 	}
 	
 	@GetMapping("/festival")
-	public String productCategory(@RequestParam(value = "area", required = false) String area, Model model) {
+	public String festivalArea(@RequestParam(value = "area", required = false) String area, Model model) {
 		System.out.println(area);
 		List<FestivalVO> festivalList = festivalService.getFestivalList(area);
 		System.out.println(festivalList);

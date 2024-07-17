@@ -70,7 +70,8 @@
 <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- 외부css-->
-<link href="/css/product/productMain.css" rel="stylesheet" type="text/css">
+<link href="/css/product/productMain.css" rel="stylesheet"
+	type="text/css">
 </head>
 <body>
 	<div class="page-wrapper">
@@ -92,23 +93,37 @@
 								<div class="container my-5">
 									<!--  상품 ( jstl로 들어갈 예정 ) -->
 									<div class="row">
-										<div class="col-md-3 product">
-											<div class="product-card">
-												<img src="https://via.placeholder.com/200" alt="상품 1"
-													class="product-image">
-												<div class="product-info">
-													<h4>상품 1</h4>
-													<p>상품 1 설명</p>
-													<p>
-														<strong>₩10,000</strong>
-													</p>
-													<p>
-														관심 5 <span style="margin-left: 20px;">상태: 판매중</span>
-													</p>
+										<c:forEach items="${productCateList}" var="productCateList">
+											<div class="col-md-3 product">
+												<div class="product-card">
+													<c:choose>
+														<c:when test="${not empty productCateList.productimg_alias}">
+															<img src="/productImage/${productCateList.productimg_alias}"
+																alt="상품 이미지" class="product-image"
+																style="height: 250px; width: 250px;">
+														</c:when>
+														<c:otherwise>
+															<img src="https://via.placeholder.com/200" alt="이미지없음"
+																class="product-image">
+														</c:otherwise>
+													</c:choose>
+
+													<div class="product-info">
+														<h4>${productCateList.sale_name}</h4>
+														<p>상품 1 설명</p>
+														<p>
+															<strong>${productCateList.sale_price}</strong>
+														</p>
+														<p>
+															관심 ${productCateList.favorite_count}<span
+																style="margin-left: 20px;">상태:
+																${productCateList.sale_status}</span>
+														</p>
+													</div>
 												</div>
 											</div>
-										</div>
-										<div class="col-md-3 product">
+										</c:forEach>
+										<!--<div class="col-md-3 product">
 											<div class="product-card">
 												<img src="https://via.placeholder.com/200" alt="상품 2"
 													class="product-image">
@@ -155,7 +170,7 @@
 													</p>
 												</div>
 											</div>
-										</div>
+										</div>-->
 									</div>
 
 								</div>
@@ -328,7 +343,7 @@
 				integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
 				crossorigin="anonymous"></script>
 			<script src="/js/webflow.js" type="text/javascript"></script>
-			
+
 			<!-- 제이쿼리 라이브러리 추가 -->
 			<script
 				src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

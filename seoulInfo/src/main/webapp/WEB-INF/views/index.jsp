@@ -101,7 +101,7 @@
                 <div id="w-node-_5c016d07-4646-372f-7182-acb2647505ef-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505ef" style="opacity:0"><a href="ev/evMain" class="heading-extra-large">전기차</a></div>
                 
                 
-                <div id="w-node-_5c016d07-4646-372f-7182-acb2647505e8-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505e8" style="opacity:0" class="heading-extra-large"><a href="product/productMain" class="heading-extra-large">중고거래</a></div>
+                <div id="w-node-_5c016d07-4646-372f-7182-acb2647505e8-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505e8" style="opacity:0" class="heading-extra-large"><a href="useTradeGu" class="heading-extra-large">중고거래</a></div>
                 <div id="w-node-_5c016d07-4646-372f-7182-acb2647505f2-4f5c4820" data-w-id="1d794ecd-05bb-619d-bbd5-40cd36ea927b" style="opacity:0" class="image-overflow-wrapper">
                   <div id="w-node-_5c016d07-4646-372f-7182-acb2647505f1-4f5c4820" data-w-id="5c016d07-4646-372f-7182-acb2647505ee" style="-webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform-style:preserve-3d" class="banner-image _3"></div>
                 </div>
@@ -183,7 +183,7 @@
 		// 중고거래 이미지
 		var product = document.getElementById('w-node-_5c016d07-4646-372f-7182-acb2647505f1-4f5c4820');
 		product.onclick = function(){
-			location.href = 'product/productMain';
+			location.href = 'useTradeGu';
 		}
 		
 		
