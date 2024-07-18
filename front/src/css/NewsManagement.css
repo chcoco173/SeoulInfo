@@ -70,15 +70,19 @@
 }
 
 .newstitle {
-  width: 30%;
+  width: 40%;
 }
 
 .newsarea {
-  width: 4%; 
+  width: 8%; 
 }
 
 .newslink {
-  width: 60%; 
+  width: 36%; 
+}
+
+.newsdate {
+  width: 10%; 
 }
 
 .newslink a {

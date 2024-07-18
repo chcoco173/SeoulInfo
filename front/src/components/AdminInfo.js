@@ -214,19 +214,20 @@ function AdminInfo() {
           <option value="email">이메일</option>
           <option value="tel">전화번호</option>
         </select>
+
         <input type="text" placeholder="검색" className="search-input" value={searchKeyword} onChange={(e) => setSearchKeyword(e.target.value)}/>
         <button className="search-button" onClick={handleSearch}>검색</button>
       </div>
-
+      <div className="insert-admin-container" id='insert-admin-container'>
+          <button className="insert-admin" onClick={handleInsertAdmin}>관리자 등록</button>
+        </div>
       <div className="admin-cards-container">
         <div className="admin-cards">
           {viewContent.map(admin => (
             <AdminCard key={admin.admin_id} admin={admin} onClick={handleCardClick} />
           ))}
         </div>
-        <div className="insert-admin-container" id='insert-admin-container'>
-          <button className="insert-admin" onClick={handleInsertAdmin}>관리자 등록</button>
-        </div>
+        
       </div>
       {selectedAdmin && <Adminpopup admin={selectedAdmin} onClose={handleClosepopup} />}
     </div>

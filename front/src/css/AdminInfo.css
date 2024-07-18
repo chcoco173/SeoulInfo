@@ -58,7 +58,7 @@
 #insert-admin-container {
   display: flex;
   justify-content: right;
-  height: 10vh;
+  height: 5vh;
 }
 
 .insert-admin {

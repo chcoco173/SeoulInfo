@@ -323,6 +323,7 @@ function FestivalManagement() {
   return (
     <div className="festival-info">
       <h1>축제 관리</h1>
+
       <div className="search-section">
         <select className="search-select" value={searchCategory} onChange={(e) => setSearchCategory(e.target.value)}>
           <option value="festival_name">제목</option>
@@ -331,7 +332,9 @@ function FestivalManagement() {
         <input type="text" placeholder="검색" className="search-input" value={searchKeyword} onChange={(e) => setSearchKeyword(e.target.value)}/>
         <button className="search-button" onClick={handleSearch}>검색</button>
       </div>
-
+      <div className="insert-festival-container" id='insert-festival-container'>
+        <button className="insert-festival" id='insert-festival' onClick={handleInsertFestival}>축제 등록</button>
+      </div>
       <div className="festival-cards">
         {resultsToDisplay.map(festival => (
           <FestivalCard key={festival.festival_id} festival={festival} onClick={handleCardClick} />
@@ -341,9 +344,6 @@ function FestivalManagement() {
 
       {selectedFestival && <Festivalpopup festival={selectedFestival} onClose={handleClosepopup} />}
 
-      <div className="insert-festival-container" id='insert-festival-container'>
-        <button className="insert-festival" id='insert-festival' onClick={handleInsertFestival}>축제 등록</button>
-      </div>
     </div>
   );
 }

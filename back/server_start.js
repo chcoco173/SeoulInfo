@@ -167,12 +167,13 @@ app.delete('/data/delete-festival/:festivalId', (req, res) => {
 app.get('/data/search-festival', (req, res) => {
     const { category, keyword } = req.query;
   
-    if (!category || !keyword) {
-      return res.status(400).json({ error: '검색어를 입력하세요.' });
+    let query = '';
+    
+    if (!keyword) {
+      query = 'SELECT * FROM festival';
     }
   
     // 카테고리 설정
-    let query = '';
     if (category === 'festival_name') {
       query = 'SELECT * FROM festival WHERE festival_name LIKE ?';
     } else if (category === 'festival_area') {
@@ -255,15 +256,19 @@ app.post('/data/update-admin', uploadAdmin.single('admin_image'), (req, res) => 
     });
 });
 
+// 관리자 데이터 검색
+
 app.get('/data/search-admin', (req, res) => {
     const { category, keyword } = req.query;
   
-    if (!category || !keyword) {
-      return res.status(400).json({ error: '검색어를 입력하세요.' });
+    let query = '';
+
+    if (!keyword) {
+      query = 'SELECT * FROM admin';
     }
   
     // 카테고리 설정
-    let query = '';
+
     if (category === 'name') {
       query = 'SELECT * FROM admin WHERE admin_name LIKE ?';
     } else if (category === 'id') {
@@ -298,7 +303,7 @@ app.get('/data/getallnews', (req, res) => {
     const totalPages = Math.ceil(totalItems / pageSize);
 
     const sql = `
-      SELECT news_id, news_area, news_title, news_imageurl, news_link, news_content
+      SELECT news_id, news_area, news_title, news_imageurl, news_link, news_content, news_date
       FROM news
       ORDER BY news_id
       LIMIT ${pageSize} OFFSET ${offset}
@@ -306,8 +311,12 @@ app.get('/data/getallnews', (req, res) => {
     
     conn.query(sql, function(err, result, fields) {
       if (err) throw err;
+      const formattedResult = result.map(news => ({
+        ...news,
+        news_date: formatDate(news.news_date)
+      }));
       res.send({
-        news: result,
+        news: formattedResult,
         totalPages
       });
     });
@@ -326,6 +335,57 @@ app.delete('/data/delete-news/:newsId', (req, res) => {
   });
 });
 
+// 뉴스 검색
+
+app.get('/data/search-news', (req, res) => {
+  const { category, keyword, page } = req.query;
+  const pageNumber = parseInt(page) || 0;
+  const pageSize = 10;
+  const offset = pageNumber * pageSize;
+
+  let query = '';
+  let countQuery = '';
+  let params = [`%${keyword}%`, pageSize, offset];
+
+  if (!keyword) {
+      query = 'SELECT * FROM news LIMIT ? OFFSET ?';
+      countQuery = 'SELECT COUNT(*) AS total FROM news';
+      params = [pageSize, offset];
+  } else {
+      if (category === 'title') {
+          query = 'SELECT * FROM news WHERE news_title LIKE ? LIMIT ? OFFSET ?';
+          countQuery = 'SELECT COUNT(*) AS total FROM news WHERE news_title LIKE ?';
+      } else if (category === 'area') {
+          query = 'SELECT * FROM news WHERE news_area LIKE ? LIMIT ? OFFSET ?';
+          countQuery = 'SELECT COUNT(*) AS total FROM news WHERE news_area LIKE ?';
+      } else {
+          return res.status(400).json({ error: '카테고리 오류' });
+      }
+  }
+
+  conn.query(countQuery, [`%${keyword}%`], (err, countResult) => {
+      if (err) {
+          console.error('카운트 에러:', err);
+          return res.status(500).json({ error: '서버 에러' });
+      }
+      const totalItems = countResult[0].total;
+      const totalPages = Math.ceil(totalItems / pageSize);
+
+      conn.query(query, params, (err, results) => {
+          if (err) {
+              console.error('검색 에러:', err);
+              return res.status(500).json({ error: '서버 에러' });
+          }
+          const formattedResults = results.map(news => ({
+              ...news,
+              news_date: formatDate(news.news_date)
+          }));
+          res.json({ news: formattedResults, totalPages });
+      });
+  });
+});
+
+
 // 전기차 데이터 불러오기
 app.get('/data/getallev', (req, res) => {
   const pageNumber = parseInt(req.query.page) || 0;
@@ -339,7 +399,7 @@ app.get('/data/getallev', (req, res) => {
     const totalPages = Math.ceil(totalItems / pageSize);
 
     const sql = `
-      SELECT evc_id, evc_area, evc_address, evc_name, evc_type, evc_mbig, evc_opbig
+      SELECT evc_id, evc_area, evc_address, evc_name
       FROM evc
       ORDER BY evc_id
       LIMIT ${pageSize} OFFSET ${offset}
@@ -359,6 +419,139 @@ app.get('/data/getallev', (req, res) => {
 app.delete('/data/delete-ev/:evc_id', (req, res) => {
   const sql = "DELETE FROM evc WHERE evc_id = ? ";
   conn.query(sql, [req.params.evc_id], (err, result, fields) => {
+    if (err) {
+      res.status(500).send('Error');
+    } else {
+      res.status(200).send('success');
+    }
+  });
+});
+
+// 전기차 데이터 수정
+app.post('/data/update-ev', (req, res) => {
+  const { evc_id, evc_name, evc_area, evc_address } = req.body;
+  const sql = 'UPDATE evc SET evc_name = ?, evc_area = ?, evc_address = ? WHERE evc_id = ?';
+  const params = [evc_name, evc_area, evc_address, evc_id];
+
+  conn.query(sql, params, (err, result) => {
+    if (err) {
+      console.error('Error updating ev:', err);
+      res.status(500).send('Error');
+    } else {
+      res.status(200).send('success');
+    }
+  });
+});
+
+
+  // 전기차  데이터 검색
+
+  app.get('/data/search-ev', (req, res) => {
+    const { category, keyword, page } = req.query;
+    const pageNumber = parseInt(page) || 0;
+    const pageSize = 10;
+    const offset = pageNumber * pageSize;
+  
+    let query = '';
+    let countQuery = '';
+    let params = [`%${keyword}%`, pageSize, offset];
+  
+    if (!keyword) {
+      query = 'SELECT * FROM evc LIMIT ? OFFSET ?';
+      countQuery = 'SELECT COUNT(*) AS total FROM evc';
+      params = [pageSize, offset];
+    } else {
+      if (category === 'evcName') {
+        query = 'SELECT * FROM evc WHERE evc_name LIKE ? LIMIT ? OFFSET ?';
+        countQuery = 'SELECT COUNT(*) AS total FROM evc WHERE evc_name LIKE ?';
+      } else if (category === 'evcArea') {
+        query = 'SELECT * FROM evc WHERE evc_area LIKE ? LIMIT ? OFFSET ?';
+        countQuery = 'SELECT COUNT(*) AS total FROM evc WHERE evc_area LIKE ?';
+      } else {
+        return res.status(400).json({ error: '카테고리 오류' });
+      }
+    }
+  
+    conn.query(countQuery, [`%${keyword}%`], (err, countResult) => {
+      if (err) {
+        console.error('카운트 에러:', err);
+        return res.status(500).json({ error: '서버 에러' });
+      }
+      const totalItems = countResult[0].total;
+      const totalPages = Math.ceil(totalItems / pageSize);
+  
+      conn.query(query, params, (err, results) => {
+        if (err) {
+          console.error('검색 에러:', err);
+          return res.status(500).json({ error: '서버 에러' });
+        }
+        res.json({ ev: results, totalPages });
+      });
+    });
+  });
+
+// 충전기 데이터 불러오기
+
+app.get('/data/getallevc', (req, res) => {
+  const pageNumber = parseInt(req.query.page) || 0;
+  const pageSize = 10;
+  const offset = pageNumber * pageSize;
+
+  const sqlCount = 'SELECT COUNT(*) AS total FROM evc_cg';
+  conn.query(sqlCount, (err, countResult) => {
+    if (err) throw err;
+    const totalItems = countResult[0].total;
+    const totalPages = Math.ceil(totalItems / pageSize);
+
+    const sql = `
+      SELECT 
+        evc.evc_name,
+        evc_cg.charger_id,
+        evc_cg.charger_status,
+        evc_cg.charger_type,
+        evc_cg.charger_facsmall
+      FROM 
+        evc_cg
+      LEFT JOIN 
+        evc
+      ON 
+        evc.evc_id = evc_cg.evc_id
+      ORDER BY 
+        evc.evc_id
+      LIMIT 
+        ${pageSize} OFFSET ${offset}
+    `;
+    
+    conn.query(sql, function(err, result, fields) {
+      if (err) throw err;
+      res.send({
+        evc: result,
+        totalPages
+      });
+    });
+  });
+});
+
+// 충전기 데이터 수정
+app.post('/data/update-evc', (req, res) => {
+  const { charger_id, charger_type, charger_status, charger_facsmall } = req.body;
+  const sql = 'UPDATE evc_cg SET charger_type = ?, charger_status = ?, charger_facsmall = ? WHERE charger_id = ?';
+  const params = [charger_type, charger_status, charger_facsmall, charger_id];
+
+  conn.query(sql, params, (err, result) => {
+    if (err) {
+      console.error('Error updating evc:', err);
+      res.status(500).send('Error');
+    } else {
+      res.status(200).send('success');
+    }
+  });
+});
+
+// 충전기 데이터 삭제
+app.delete('/data/delete-evc/:charger_id', (req, res) => {
+  const sql = "DELETE FROM evc_cg WHERE charger_id = ? ";
+  conn.query(sql, [req.params.charger_id], (err, result, fields) => {
     if (err) {
       res.status(500).send('Error');
     } else {
@@ -393,6 +586,53 @@ app.get('/data/getallmember', (req, res) => {
         totalPages
       });
     });
+  });
+});
+
+app.get('/data/search-member', (req, res) => {
+  const { category, keyword } = req.query;
+  let query = '';
+
+  if (!keyword) {
+    query = 'SELECT * FROM member';
+  }
+
+  // 회원 데이터 검색
+
+  if (category === 'name') {
+    query = 'SELECT * FROM member WHERE member_name LIKE ?';
+  } else if (category === 'id') {
+    query = 'SELECT * FROM member WHERE member_id LIKE ?';
+  } else if (category === 'loc') {
+    query = 'SELECT * FROM member WHERE member_area LIKE ?';
+  } else if (category === 'tel') {
+    query = 'SELECT * FROM member WHERE member_tel LIKE ?';
+  } else {
+    return res.status(400).json({ error: '카테고리 오류' });
+  }
+
+  conn.query(query, [`%${keyword}%`], (err, results) => {
+    if (err) {
+      console.error('검색 에러:', err);
+      return res.status(500).json({ error: '서버 에러' });
+    }
+    res.json(results);
+  });
+});
+
+
+app.post('/data/update-member-status/:member_id', (req, res) => {
+  const { status } = req.body;
+  const { member_id } = req.params;
+  const sql = 'UPDATE member SET member_status = ? WHERE member_id = ?';
+
+  conn.query(sql, [status, member_id], (err, result) => {
+    if (err) {
+      console.error('Error updating member status:', err);
+      res.status(500).send('Error');
+    } else {
+      res.status(200).send('success');
+    }
   });
 });
 
