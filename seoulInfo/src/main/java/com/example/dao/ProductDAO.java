@@ -11,12 +11,16 @@ import com.example.domain.ProductVO;
 @Mapper
 public interface ProductDAO {
 	
+	// 상품등록
 	public void insertProduct(ProductVO pvo);
 	
+	// 상품등록한 최근 상품pk 값 가져오기
 	public Integer productNum();
 	
-	public List<Map<String, Object>> productList(String area);
-	
+	// 상품 리스트 출력 (검색 + 카테고리 + main)
 	public List<Map<String, Object>> productCateList(HashMap map);
+	
+	// id 값에 해당하는 상품 list
+	public List<Map<String, Object>> myProductList(String member_id);
 
 }

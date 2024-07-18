@@ -7,21 +7,25 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.domain.ProductImageVO;
+import com.example.domain.ProductSearchVO;
 import com.example.domain.ProductVO;
 
 public interface ProductService {
 	
 	// 상품등록
 	public Integer insertProduct(ProductVO pvo);
+	
 	// 상품 이미지 등록
 	public void insertProductImage(ProductImageVO pivo);
-	
-	// 상품 리스트 출력
-	public List<Map<String, Object>> productList(String area);
-	
-	// 상품 리스트 출력
+
+	// 상품 리스트 출력 (검색 + 카테고리 + main)
 	public List<Map<String, Object>> productCateList(HashMap map);
+	
+	// 검색 키워드 insert
+	public void insertProductSearch(ProductSearchVO psvo);
 		
+	// id 값에 해당하는 상품 list
+	public List<Map<String, Object>> myProductList(String member_id);
 
 	
 

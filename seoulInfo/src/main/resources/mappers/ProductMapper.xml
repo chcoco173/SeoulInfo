@@ -3,6 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.dao.ProductDAO">
 
+	<!-- 상품등록 -->
 	<insert id="insertProduct" parameterType="ProductVO">
 	INSERT INTO product_sale
 	(
@@ -28,6 +29,7 @@
 	)
 	</insert>
 	
+	<!-- 상품등록한 최근 상품pk 값 가져오기 -->
 	<select id="productNum" resultType='integer'>
 		SELECT sale_id
 		FROM product_sale
@@ -35,35 +37,7 @@
 		limit 1
 	</select>
 	
-	<select id="productList" resultType="java.util.Map" parameterType="String">
-	
-		SELECT 
-    		ps.sale_id,
-   		 	ps.sale_cate,
-    		ps.sale_name, 
-    		ps.sale_status, 
-    		ps.sale_price, 
-    		MAX(pi.productimg_url) AS productimg_url,
-    		MAX(pi.productimg_alias) AS productimg_alias,
-    		COUNT(DISTINCT fp.member_id) AS favorite_count
-		FROM 
-    		product_sale ps
-		LEFT OUTER JOIN 
-    		product_image pi ON ps.sale_id = pi.sale_id 
-		LEFT OUTER JOIN 
-    		favorite_product fp ON ps.sale_id = fp.sale_id
-    	<if test="area != '전체'">
-    	where ps.sale_area = #{area}
-    	</if>
-		GROUP BY 
-    		ps.sale_id, 
-    		ps.sale_cate, 
-    		ps.sale_name, 
-    		ps.sale_status, 
-    		ps.sale_price
-	
-	</select>
-	
+	<!-- 상품리스트출력 -->
 	<select id="productCateList" resultType="java.util.Map" parameterType="hashmap">
     SELECT 
         ps.sale_id,
@@ -84,6 +58,9 @@
     <if test="area != '전체'">
         AND ps.sale_area = #{area}
     </if>
+    <if test="prediction != 'null' and  category == null">
+    	AND ps.sale_cate = #{prediction}
+    </if>
     <if test="category != null">
         <if test="category == '전자제품'">
             AND ps.sale_cate in ( '디지털' ,'가전제품' )
@@ -101,6 +78,9 @@
             AND ps.sale_cate in ( '키덜트', '뷰티/미용' , '유아동/출산' , '차량/오토바이' , '반려동물용품' , '기타')
         </if>
     </if>
+    <if test="keyword != null">
+    	 AND ps.sale_name LIKE CONCAT('%', #{keyword}, '%')
+    </if>
     GROUP BY 
         ps.sale_id, 
         ps.sale_cate, 
@@ -109,7 +89,33 @@
         ps.sale_price
 	</select>
 
-	
+	<!-- id 값에 해당하는 상품 list -->
+	<select id="myProductList" resultType="java.util.Map" parameterType="string">
+		SELECT 
+    		ps.sale_id,
+    		ps.sale_cate,
+    		ps.sale_name, 
+    		ps.sale_status, 
+    		ps.sale_price, 
+    		ps.sale_area ,
+    		ps.sale_regdate,
+    		MAX(pi.productimg_url) AS productimg_url,
+    		MAX(pi.productimg_alias) AS productimg_alias,
+    		COUNT(DISTINCT fp.member_id) AS favorite_count
+		FROM 
+    		product_sale ps
+		LEFT OUTER JOIN 
+    		product_image pi ON ps.sale_id = pi.sale_id 
+		LEFT OUTER JOIN 
+    		favorite_product fp ON ps.sale_id = fp.sale_id
+		where ps.member_id  = 'chen0120'
+		GROUP BY 
+    		ps.sale_id, 
+    		ps.sale_cate, 
+    		ps.sale_name, 
+    		ps.sale_status, 
+    		ps.sale_price;
+	</select>
 	
 	
 	

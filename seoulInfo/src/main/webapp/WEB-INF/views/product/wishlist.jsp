@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html data-wf-page="6684f0fb2a5375354f5c4829"
 	data-wf-site="6684f0fb2a5375354f5c47e9">
@@ -37,12 +38,11 @@
 </script>
 <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
 <link href="/images/webclip.png" rel="apple-touch-icon">
-<link href="/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
+<!-- 부트스트랩 태그 추가-->
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- 외부 css -->
 <link href="/css/product/myProduct.css" rel="stylesheet" type="text/css">
-
 
 </head>
 <body>
@@ -52,30 +52,88 @@
 		<%@include file="../productNav/productMyPageNav.jsp"%>
 
 		<main class="main-wrapper">
-		    <div class="product-cards-container">
-		        <div class="product-card">
-		            <img src="https://via.placeholder.com/100" alt="상품 1">
-		            <div class="product-details">
-		                <h5>찜한 상품 1</h5>
-		                <p>
-		                    판매 상태 (예약/판매완료)
-		                </p>
-		            </div>
-		            <button class="btn btn-secondary">삭제</button>
-		        </div>
-		        <div class="product-card">
-		            <img src="https://via.placeholder.com/100" alt="상품 2">
-		            <div class="product-details">
-		                <h5>찜한 상품 2</h5>
-		                <p>
-		                   판매 상태 (예약/판매완료)
-		                </p>
-		            </div>
-		            <button class="btn btn-secondary">삭제</button>
-		        </div>
-		    </div>
-		</main>
+			<section class="section-style-guide-header">
+				<div class="container_a">
+					<h1>찜목록</h1>
+					<div class="product-cards-container">
+						<div class="product-card">
+							<img src="https://via.placeholder.com/100" alt="상품 1">
+							<div class="product-details">
+								<h5>찜한 상품 1</h5>
+								<p>판매 상태 (예약/판매완료)</p>
+							</div>
+							<button class="btn btn-secondary">삭제</button>
+						</div>
+						<div class="product-card">
+							<img src="https://via.placeholder.com/100" alt="상품 2">
+							<div class="product-details">
+								<h5>찜한 상품 2</h5>
+								<p>판매 상태 (예약/판매완료)</p>
+							</div>
+							<button class="btn btn-secondary">삭제</button>
+						</div>
+						<div class="product-card">
+							<img src="https://via.placeholder.com/100" alt="상품 1">
+							<div class="product-details">
+								<h5>찜한 상품 1</h5>
+								<p>판매 상태 (예약/판매완료)</p>
+							</div>
+							<button class="btn btn-secondary">삭제</button>
+						</div>
+						<div class="product-card">
+							<img src="https://via.placeholder.com/100" alt="상품 2">
+							<div class="product-details">
+								<h5>찜한 상품 2</h5>
+								<p>판매 상태 (예약/판매완료)</p>
+							</div>
+							<button class="btn btn-secondary">삭제</button>
+						</div>
+						<div class="product-card">
+							<img src="https://via.placeholder.com/100" alt="상품 1">
+							<div class="product-details">
+								<h5>찜한 상품 1</h5>
+								<p>판매 상태 (예약/판매완료)</p>
+							</div>
+							<button class="btn btn-secondary">삭제</button>
+						</div>
+						<div class="product-card">
+							<img src="https://via.placeholder.com/100" alt="상품 2">
+							<div class="product-details">
+								<h5>찜한 상품 2</h5>
+								<p>판매 상태 (예약/판매완료)</p>
+							</div>
+							<button class="btn btn-secondary">삭제</button>
+						</div>
+						<!--<c:forEach items="${myProductList}" var="myProductList">
+							<div class="product-card">
+								<c:choose>
+									<c:when test="${not empty myProductList.productimg_alias}">
+										<img src="/productImage/${myProductList.productimg_alias}"
+											alt="상품 이미지" class="product-image"
+											style="height: 100px; width: 100px;">
+									</c:when>
+									<c:otherwise>
+										<img src="https://via.placeholder.com/100" alt="이미지없음"
+											class="product-image">
+									</c:otherwise>
+								</c:choose>
+								<div class="product-details">
+									<h5>${myProductList.sale_name}</h5>
+									<p>
+										${myProductList.sale_regdate}<br>${myProductList.sale_status}
+									</p>
+								</div>
+								<input type="hidden" name="sale_id"
+									value="${myProductList.sale_id}">
 
+								<button class="btn btn-secondary update">수정</button>
+								<button class="btn btn-secondary delete">삭제</button>
+							</div>
+						</c:forEach>-->
+					</div>
+				</div>
+			</section>
+		</main>
 		<div class="section-footer">
 			<div class="padding-global">
 				<div class="spacer-xxlarge"></div>
@@ -153,31 +211,12 @@
 		integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
 		crossorigin="anonymous"></script>
 	<script src="/js/webflow.js" type="text/javascript"></script>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<!-- 제이쿼리 라이브러리 추가 + 상품클릭시 디테일페이지로이동 -->
 	<script type="text/javascript">
-	const ratingStars = [...document.getElementsByClassName("rating__star")];
-
-	function executeRating(stars) {
-	  const starClassActive = "rating__star fas fa-star";
-	  const starClassInactive = "rating__star far fa-star";
-	  const starsLength = stars.length;
-	  let i;
-
-	  stars.map((star) => {
-	    star.onclick = () => {
-	      i = stars.indexOf(star);
-
-	      if (star.className===starClassInactive) {
-	        for (i; i >= 0; --i) stars[i].className = starClassActive;
-	      } else {
-	        for (i; i < starsLength; ++i) stars[i].className = starClassInactive;
-	      }
-	    };
-	  });
-	}
-
-	executeRating(ratingStars);
 	
-
 	</script>
 </body>
 </html>

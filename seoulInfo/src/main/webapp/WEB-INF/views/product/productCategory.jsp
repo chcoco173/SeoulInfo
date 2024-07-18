@@ -93,12 +93,12 @@
 								<div class="container my-5">
 									<!--  상품 ( jstl로 들어갈 예정 ) -->
 									<div class="row">
-										<c:forEach items="${productCateList}" var="productCateList">
+										<c:forEach items="${productList}" var="productList">
 											<div class="col-md-3 product">
 												<div class="product-card">
 													<c:choose>
-														<c:when test="${not empty productCateList.productimg_alias}">
-															<img src="/productImage/${productCateList.productimg_alias}"
+														<c:when test="${not empty productList.productimg_alias}">
+															<img src="/productImage/${productList.productimg_alias}"
 																alt="상품 이미지" class="product-image"
 																style="height: 250px; width: 250px;">
 														</c:when>
@@ -109,68 +109,21 @@
 													</c:choose>
 
 													<div class="product-info">
-														<h4>${productCateList.sale_name}</h4>
+														<h4>${productList.sale_name}</h4>
 														<p>상품 1 설명</p>
 														<p>
-															<strong>${productCateList.sale_price}</strong>
+															<strong>${productList.sale_price}</strong>
 														</p>
 														<p>
-															관심 ${productCateList.favorite_count}<span
+															관심 ${productList.favorite_count}<span
 																style="margin-left: 20px;">상태:
-																${productCateList.sale_status}</span>
+																${productList.sale_status}</span>
 														</p>
 													</div>
 												</div>
 											</div>
 										</c:forEach>
-										<!--<div class="col-md-3 product">
-											<div class="product-card">
-												<img src="https://via.placeholder.com/200" alt="상품 2"
-													class="product-image">
-												<div class="product-info">
-													<h4>상품 2</h4>
-													<p>상품 2 설명</p>
-													<p>
-														<strong>₩20,000</strong>
-													</p>
-													<p>
-														관심 10 <span style="margin-left: 20px;">상태: 판매완료</span>
-													</p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-3 product">
-											<div class="product-card">
-												<img src="https://via.placeholder.com/200" alt="상품 3"
-													class="product-image">
-												<div class="product-info">
-													<h4>상품 3</h4>
-													<p>상품 3 설명</p>
-													<p>
-														<strong>₩30,000</strong>
-													</p>
-													<p>
-														관심 2 <span style="margin-left: 20px;">상태: 예약중</span>
-													</p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-3 product">
-											<div class="product-card">
-												<img src="https://via.placeholder.com/200" alt="상품 4"
-													class="product-image">
-												<div class="product-info">
-													<h4>상품 4</h4>
-													<p>상품 4 설명</p>
-													<p>
-														<strong>₩40,000</strong>
-													</p>
-													<p>
-														관심 8 <span style="margin-left: 20px;">상태: 판매중</span>
-													</p>
-												</div>
-											</div>
-										</div>-->
+										
 									</div>
 
 								</div>

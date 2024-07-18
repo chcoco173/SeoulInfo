@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ page language="java" %>
+	<%
+	    String area = request.getParameter("area");
+		System.out.println(area);
+	%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +32,7 @@
 						<a href="" class="style-guide-nav-link w-nav-link">채팅</a>
 
 					</nav>
-					<form action="/search"
+					<form action="productSearch?area=${param.area}"
 						data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5"
 						class="search w-form">
 						<div class="search-div">
@@ -36,7 +41,8 @@
 						</div>
 						<div class="nav-search-outer-wrapper">
 							<div class="nav-search-internal-wrapper">
-								<input class="form-field w-input" maxlength="256" name="query"
+								<input type="hidden" name="area" value="${param.area}"/>
+								<input class="form-field w-input" maxlength="256" name="productsearch_keyword"
 									placeholder="Search…" type="search" id="search" required="">
 								<div class="search-button-wrapper">
 									<input type="submit" class="button-primary-small w-button"
