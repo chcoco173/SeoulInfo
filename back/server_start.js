@@ -326,5 +326,76 @@ app.delete('/data/delete-news/:newsId', (req, res) => {
   });
 });
 
+// 전기차 데이터 불러오기
+app.get('/data/getallev', (req, res) => {
+  const pageNumber = parseInt(req.query.page) || 0;
+  const pageSize = 10;
+  const offset = pageNumber * pageSize;
+
+  const sqlCount = 'SELECT COUNT(*) AS total FROM evc';
+  conn.query(sqlCount, (err, countResult) => {
+    if (err) throw err;
+    const totalItems = countResult[0].total;
+    const totalPages = Math.ceil(totalItems / pageSize);
+
+    const sql = `
+      SELECT evc_id, evc_area, evc_address, evc_name, evc_type, evc_mbig, evc_opbig
+      FROM evc
+      ORDER BY evc_id
+      LIMIT ${pageSize} OFFSET ${offset}
+    `;
+    
+    conn.query(sql, function(err, result, fields) {
+      if (err) throw err;
+      res.send({
+        ev: result,
+        totalPages
+      });
+    });
+  });
+});
+
+// 전기차 데이터 삭제
+app.delete('/data/delete-ev/:evc_id', (req, res) => {
+  const sql = "DELETE FROM evc WHERE evc_id = ? ";
+  conn.query(sql, [req.params.evc_id], (err, result, fields) => {
+    if (err) {
+      res.status(500).send('Error');
+    } else {
+      res.status(200).send('success');
+    }
+  });
+});
+
+// 회원 데이터 불러오기
+app.get('/data/getallmember', (req, res) => {
+  const pageNumber = parseInt(req.query.page) || 0;
+  const pageSize = 10;
+  const offset = pageNumber * pageSize;
+
+  const sqlCount = 'SELECT COUNT(*) AS total FROM member';
+  conn.query(sqlCount, (err, countResult) => {
+    if (err) throw err;
+    const totalItems = countResult[0].total;
+    const totalPages = Math.ceil(totalItems / pageSize);
+
+    const sql = `
+      SELECT member_id, member_area, member_name, member_name, member_tel, member_status, member_email
+      FROM member
+      ORDER BY member_id
+      LIMIT ${pageSize} OFFSET ${offset}
+    `;
+    
+    conn.query(sql, function(err, result, fields) {
+      if (err) throw err;
+      res.send({
+        member: result,
+        totalPages
+      });
+    });
+  });
+});
+
+
 // 파일 경로
 app.use(express.static('public'));

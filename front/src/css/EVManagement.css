@@ -14,6 +14,38 @@
     justify-content: space-between;
     margin-bottom: 20px;
   }
+
+  .evc_name {
+    width: 25%;
+  }
+  
+  .evc_area {
+    width: 10%;
+  }
+  
+  .evc_address {
+    width: 25%; 
+  }
+  
+  .evc_type {
+    width: 17%; 
+  }
+  
+  .evc_mbig {
+    width: 5%; 
+  }
+
+  .evc_opbig {
+    width: 8%; 
+  }
+
+  .evupdate {
+    width: 5%; 
+  }
+
+  .evdelete {
+    width: 5%; 
+  }
   
   .search-select {
     width: 20%;
@@ -47,6 +79,7 @@
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    table-layout: fixed; 
   }
   
   .ev-table th,
@@ -58,4 +91,58 @@
   
   .ev-table th {
     background-color: #f4f4f4;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  .evdelete-button {
+    padding: 8px 16px;
+    background-color: #8c8c8c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .evdelete-button:hover {
+    background-color: #5c5c5c;
+  }
+
+  .evupdate-button {
+    padding: 8px 16px;
+    background-color: #8c8c8c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .evupdate-button:hover {
+    background-color: #5c5c5c;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .pagination button {
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: 1px solid #ddd;
+    background-color: transparent; 
+    cursor: pointer;
+  }
+  
+  .pagination button:hover {
+    border-color: #999;
+  }
+  
+  .pagination button.active {
+    font-weight: bold;
+    border-color: #333;
   }

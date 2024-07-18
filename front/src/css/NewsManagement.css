@@ -55,6 +55,7 @@
   text-align: left;
   padding: 8px;
   border-bottom: 1px solid #ddd;
+  word-break: break-word; /* 단어를 줄바꿈 */
 }
 
 .news-table th {
@@ -80,12 +81,33 @@
   width: 60%; 
 }
 
+.newslink a {
+  word-wrap: break-word; /* 긴 링크를 줄바꿈 */
+  display: block;
+}
+
 .newsdelete {
   width: 3%; 
 }
 
 .news-table td {
   background-color: white; 
+}
+
+.newsdelete-button {
+  width: 100%; /* 버튼이 셀의 전체 너비를 차지하도록 함 */
+  padding: 8px 16px;
+  background-color: #8c8c8c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-sizing: border-box; /* 패딩과 보더를 포함한 크기 계산 */
+  overflow: hidden;
+}
+
+.newsdelete-button:hover {
+  background-color: #5c5c5c;
 }
 
 .pagination {
@@ -111,4 +133,14 @@
 .pagination button.active {
   font-weight: bold;
   border-color: #333;
+}
+
+@media screen and (max-width: 768px) {
+  .news-table th, .news-table td {
+    font-size: 14px;
+  }
+
+  .pagination button {
+    padding: 3px 6px;
+  }
 }

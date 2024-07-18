@@ -5,7 +5,7 @@ import '../css/NewsManagement.css';
 function NewsManagement() {
   const [newsData, setNewsData] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0); // 전체 페이지 수를 관리합니다.
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     fetchNewsData(currentPage);
@@ -24,14 +24,17 @@ function NewsManagement() {
   };
 
   const deleteNews = async (newsId) => {
-    try {
-      await axios.delete(`http://localhost:8000/data/delete-news/${newsId}`);
-      fetchNewsData(currentPage); // 현재 페이지의 데이터를 다시 불러옵니다.
-    } catch (error) {
-      console.error('Error deleting news:', error);
+    const confirmDelete = window.confirm("삭제하시겠습니까?");
+    if (confirmDelete) {
+      try {
+        await axios.delete(`http://localhost:8000/data/delete-news/${newsId}`);
+        fetchNewsData(currentPage); // 현재 페이지의 데이터를 다시 불러옵니다.
+      } catch (error) {
+        console.error('Error deleting news:', error);
+      }
     }
   };
-
+  
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
@@ -102,7 +105,7 @@ function NewsManagement() {
                 </a>
               </td>
               <td className='newsdelete'>
-                <button onClick={() => deleteNews(news.news_id)}>삭제</button>
+                <button className='newsdelete-button' onClick={() => deleteNews(news.news_id)}>삭제</button>
               </td>
             </tr>
           ))}
