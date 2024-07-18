@@ -1,8 +1,8 @@
-.main-wrapper {
+/* .main-wrapper {
 	margin-top: 20px;
 	display: flex;
 	justify-content: center;
-	flex-wrap: wrap; /* 추가: 작은 화면에서 행이 넘어가도록 설정 */
+	flex-wrap: wrap; 추가: 작은 화면에서 행이 넘어가도록 설정
 }
 
 .product-cards-container {
@@ -16,30 +16,30 @@
 	border: 1px solid #ddd;
 	padding: 10px;
 	margin: 10px;
-	width: 80%; /* Adjust width as needed */
-	max-width: 500px; /* 추가: 최대 너비 설정 */
+	width: 80%; Adjust width as needed
+	max-width: 500px; 추가: 최대 너비 설정
 	box-sizing: border-box;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	text-align: center;
-	flex-wrap: wrap; /* 추가: 작은 화면에서 요소들이 넘어가도록 설정 */
+	flex-wrap: wrap; 추가: 작은 화면에서 요소들이 넘어가도록 설정
 	
 }
 
 .product-card .btn {
-	margin-left: 10px; /* Add margin between buttons */
-	margin-top: 10px; /* 추가: 작은 화면에서 위아래 간격 추가 */
+	margin-left: 10px; Add margin between buttons
+	margin-top: 10px; 추가: 작은 화면에서 위아래 간격 추가
 }
 
 .product-card img {
-	width: 100px; /* Increased width */
-	height: 100px; /* Increased height */
-	margin-right: 20px; /* Increased margin for better spacing */
+	width: 100px; Increased width
+	height: 100px; Increased height
+	margin-right: 20px; Increased margin for better spacing
 }
 
 .product-details {
-	flex-grow: 1; /* Allows the text to take up remaining space */
+	flex-grow: 1; Allows the text to take up remaining space
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -47,16 +47,82 @@
 
 @media (max-width: 768px) {
 	.product-card {
-		flex-direction: column; /* 작은 화면에서는 세로 배열로 변경 */
+		flex-direction: column; 작은 화면에서는 세로 배열로 변경
 		align-items: center;
 	}
 	
 	.product-card img {
-		margin: 0 0 10px 0; /* 이미지 아래에 간격 추가 */
+		margin: 0 0 10px 0; 이미지 아래에 간격 추가
 	}
 	
 	.product-card .btn {
-		margin: 10px 0 0 0; /* 버튼 사이 간격 설정 */
+		margin: 10px 0 0 0; 버튼 사이 간격 설정
 	}
 }
 
+ */
+ .container_a {
+    max-width: 1300px;
+    margin: 50px auto 0; /* 위쪽 여백 추가 */
+    padding: 0 15px;
+    position: relative; /* 위치 설정 */
+    z-index: 1; /* 필요한 경우 z-index 설정 */
+}
+
+.product-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.product-card {
+    width: calc(33.33% - 20px); /* 반응형 컬럼 너비 조정 */
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.product-image {
+    height: 100px;
+    width: 100px;
+    object-fit: cover; /* 이미지가 찌그러지지 않도록 */
+    border-radius: 8px; /* 둥근 모서리 이미지 */
+}
+
+.product-details {
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .product-card {
+        width: calc(50% - 20px); /* 작은 화면에서 두 개의 컬럼으로 표시 */
+    }
+}
+
+@media (max-width: 576px) {
+    .product-card {
+        width: 100%; /* 모바일에서는 전체 너비로 표시 */
+    }
+}
+.button-group {
+    display: flex;
+    gap: 10px; /* 버튼 사이의 간격 설정 */
+}
+
+.select-wrapper {
+    margin-top: 10px; /* 선택 영역과 버튼 그룹 사이의 간격 설정 */
+}
+
+/* 예시로 버튼과 선택 영역을 같은 줄에 배치 */
+@media (max-width: 576px) {
+    .button-group,
+    .select-wrapper {
+        display: block; /* 모바일 화면에서는 세로로 배치 */
+        width: 100%; /* 너비를 100%로 설정하여 창에 맞춤 */
+    }
+}
+ 
+ 

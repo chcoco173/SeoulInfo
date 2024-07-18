@@ -1,5 +1,6 @@
 package com.example.controller;
 
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -13,18 +14,29 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.domain.FestivalVO;
+
 import com.example.domain.ProductImageVO;
+import com.example.domain.ProductSearchVO;
 import com.example.domain.ProductVO;
 import com.example.service.ProductService;
 import com.example.util.MD5Generator;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @Controller
 @RequestMapping("/product")
 public class ProductController {
+
+	// flask url ( ml )
+	private final String mlServerUrl = "http://localhost:5000/predict";
+
+	// 빈설정 필수 (AppConfig.java에 설정해둠)
+	@Autowired
+	private RestTemplate restTemplate; // http 요청을 구성하고 응답을 처리할 수 있는 메서드 제공,  간편하게 Rest 방식 API를 호출할 수 있는 Spring 내장 클래스
 
 
 	@Autowired
@@ -43,22 +55,81 @@ public class ProductController {
 		return "product/"+step;
 	}
 
-	// 상품리스트 출력
+	// 상품 검색 기능 (select + insert)
+	@GetMapping("/productSearch")
+	public String productSearch(@RequestParam(value="productsearch_keyword", required = false) String keyword, String area,  Model model) {
+		System.out.println(area);
+		System.out.println(keyword);
+
+		HashMap map = new HashMap();
+		map.put("area", area);
+		map.put("keyword", keyword);
+
+
+		ProductSearchVO psvo = new ProductSearchVO();
+		psvo.setProductsearch_keyword(keyword);
+		// 나중에 세션으로 들어갈 예정
+		psvo.setMember_id("chen0120");
+
+		// 검색결과 리스트 
+		List<Map<String, Object>> productList = productService.productCateList(map);
+
+		// 검색 keyword insert
+		productService.insertProductSearch(psvo);
+
+		model.addAttribute("category", "검색결과");
+		model.addAttribute("productList",productList);
+
+		return "product/productCategory";
+	}
+
+
+	// 상품리스트 출력 + ml 완료 ( select + ml )
 	@GetMapping("/productMain")
-	public String productArea(@RequestParam(value = "area", required = false) String area, Model model) {
+	public String productArea(@RequestParam(value = "area", required = true) String area, Model model) {
+
 		if(area == null || area.isEmpty()) {
 			area="전체";
 		}
-		List<Map<String, Object>> productList = productService.productList(area);
+		HashMap map = new HashMap();
+		map.put("area", area);
+
+		// flask 로 보낼 객체 생성
+		Map<String, String> requestBody = new HashMap<>();
+		requestBody.put("id", "chen0120"); // 나중엔 세션으로 들어갈 예정
+
+
+		try {
+			// Flask 서버로 POST 요청 + 응답 받기
+			String result = restTemplate.postForObject(mlServerUrl, requestBody, String.class); // url, 요청본문, 응답받는타입
+			System.out.println("Prediction result: " + result); // json 형식
+			
+			// JSON 응답 파싱
+            ObjectMapper objectMapper = new ObjectMapper(); // json 데이터를 파싱하기위한 객체생성
+            JsonNode jsonNode = objectMapper.readTree(result);	// 문자열 파싱후 json 트리 구조를 반환
+            String prediction = jsonNode.get("prediction").asText(); // asText() jsonNode의 텍스트값 반환
+            System.out.println(prediction);
+            
+    		map.put("prediction", prediction);
+
+    		
+		} catch (Exception e) {
+			e.printStackTrace();
+			// 서버가 꺼졋을대 대비
+			map.put("prediction", "null");	
+		}
+		
+		List<Map<String, Object>> productList = productService.productCateList(map);
+
 		System.out.println(productList);
 		model.addAttribute("productList", productList);
+
 
 		return "product/productMain";
 	}
 
 
-
-	// 7/12 오전 추가
+	// 7/12 오전 추가 ( 각 카테고리 상픔 list 출력 ) (select)
 	@GetMapping("/productCategory")
 	public String productCategory(@RequestParam(value = "category", required = false) String category,
 			@RequestParam(value = "area", required = false) String area, Model model) {
@@ -75,18 +146,18 @@ public class ProductController {
 
 		System.out.println(category);
 
-		List<Map<String, Object>> productCateList = productService.productCateList(map);
+		List<Map<String, Object>> productList = productService.productCateList(map);
 
-		System.out.println(productCateList);
+		System.out.println(productList);
 
 		// 모델에 카테고리 속성 추가
 		model.addAttribute("category", category);
-		model.addAttribute("productCateList", productCateList);
+		model.addAttribute("productList", productList);
 
 		return "product/productCategory";
 	}
 
-	// 상품 등록 controller
+	// 상품 등록 controller (insert)
 	@PostMapping("/insertProduct")
 	public String insertProduct(ProductVO pvo, @RequestParam("file") List<MultipartFile> files) {
 
@@ -121,7 +192,6 @@ public class ProductController {
 					pivo.setProductimg_alias(productimg_alias);
 					pivo.setProductimg_url(productimg_url);
 
-
 					productService.insertProductImage(pivo);
 
 				}
@@ -132,49 +202,27 @@ public class ProductController {
 			e.printStackTrace();
 		}
 
-
-
-
 		return "redirect:/product/myProduct";
 
 	}
 
-
-	//	// 해당 지역 상품 전체 조회
-	//	@RequestMapping("/getProductList")
-	//	public void getProductList(Model m, String sale_area) {
-	//		ProductVO vo = new ProductVO();
-	//		List<ProductVO> list = productService.getProductList(sale_area);
-	//		m.addAttribute("productList", list);
-	//	}
-	//	
-	//	// 상품 글 상세보기
-	//	@RequestMapping("/getProduct")
-	//	public void getProduct(ProductVO vo, Model m) {
-	//		ProductVO result = productService.getProduct(vo);
-	//		m.addAttribute("product",result);
-	//	}
-	//	
-	////	// 상품 등록
-	////   @RequestMapping("/insertProduct")
-	////   public String insertProduct( @RequestParam("productimg_no") MultipartFile files, ProductVO vo) {
-	////      
-	////     
-	////   }
-	//
-	//	// 상품 글 수정하기
-	//	@RequestMapping("/updateProduct")
-	//	public String updateProduct(ProductVO vo) {
-	//		productService.updateProduct(vo);
-	//		return "redirect:/product/productMain";
-	//	}
-	//	
-	//	// 상품 글 삭제하기
-	//	@RequestMapping("/deleteProduct")
-	//	public String DeleteProduct(ProductVO vo) {
-	//		productService.deleteProduct(vo);
-	//		return "redirect:/product/productMain";
-	//	}
-
-
+	// 내상품 select
+	@RequestMapping("/myProduct")
+	public String myProduct(Model model) {
+		// 세션에서 id 값 받아오기 ( 나중 )
+		String member_id = "chen0120";
+		
+		List<Map<String, Object>> myProductList = productService.myProductList(member_id);
+		System.out.println(myProductList);
+		model.addAttribute("myProductList", myProductList);
+		
+		return "product/myProduct";
+	}
+	@RequestMapping("/productUpdateData")
+	public String productUpdateData(Integer sale_id, Model model) {
+		System.out.println(sale_id);
+		return "product/productUpdate";
+	}
+	
+	
 }

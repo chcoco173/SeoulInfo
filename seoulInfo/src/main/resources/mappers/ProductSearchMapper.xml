@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.ProductSearchDAO">
+
+	<insert id="insertProductSearch" parameterType="ProductSearchVO">
+		INSERT INTO product_search
+		(
+			productsearch_keyword,
+			productsearch_date,
+			member_id
+		)
+		VALUES
+		(
+			#{productsearch_keyword},
+			now(),
+			#{member_id}
+		)
+	</insert>
+	
+
+</mapper>

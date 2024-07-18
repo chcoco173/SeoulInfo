@@ -85,7 +85,7 @@
 							<div class="container my-5">
 								<div class="row">
 									<div class="col-12">
-										<h1 class="text-center">중고나라 상품 목록</h1>
+										<h1 class="text-center">추천상품</h1>
 									</div>
 								</div>
 

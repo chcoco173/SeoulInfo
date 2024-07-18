@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html data-wf-page="6684f0fb2a5375354f5c4829"
 	data-wf-site="6684f0fb2a5375354f5c47e9">
@@ -51,30 +52,54 @@
 		<%@include file="../productNav/productMyPageNav.jsp"%>
 
 		<main class="main-wrapper">
-			<div class="product-cards-container">
-				<div class="product-card">
-					<img src="https://via.placeholder.com/100" alt="상품 1">
-					<div class="product-details">
-						<h5>판매 상품 1</h5>
-						<p>
-							판매 등록 날짜<br>판매 상태 (예약/판매완료)
-						</p>
+			<section class="section-style-guide-header">
+				<div class="container_a">
+					<h1>판매목록</h1>
+					<div class="product-cards-container">
+						<c:forEach items="${myProductList}" var="myProductList">
+							<div class="product-card">
+								<c:choose>
+									<c:when test="${not empty myProductList.productimg_alias}">
+										<img src="/productImage/${myProductList.productimg_alias}"
+											alt="상품 이미지" class="product-image"
+											style="height: 100px; width: 100px;">
+									</c:when>
+									<c:otherwise>
+										<img src="https://via.placeholder.com/100" alt="이미지없음"
+											class="product-image">
+									</c:otherwise>
+								</c:choose>
+								<div class="product-details">
+									<h5>${myProductList.sale_name}</h5>
+									<p>
+										${myProductList.sale_regdate}
+									</p>
+								</div>
+								
+								<!--<input type="hidden" name="sale_id" id="sale_id""
+									value="${myProductList.sale_id}">
+								-->
+								<input type="hidden" class="sale_id" name="sale_id" value="${myProductList.sale_id}">
+
+								<div class="button-group">
+									<button class="btn btn-secondary update">수정</button>
+									<button class="btn btn-secondary delete">삭제</button>
+								</div>
+								<div class="select-wrapper">
+									<select class="form-control" id="status" name="status">
+										<option value="판매중"
+											${myProductList.sale_status eq '판매중' ? 'selected' : ''}>판매중</option>
+										<option value="거래중"
+											${myProductList.sale_status eq '거래중' ? 'selected' : ''}>거래중</option>
+										<option value="판매완료"
+											${myProductList.sale_status eq '판매완료' ? 'selected' : ''}>판매완료</option>
+									</select>
+								</div>
+							</div>
+						</c:forEach>
 					</div>
-					<button class="btn btn-secondary update">수정</button>
-					<button class="btn btn-secondary delete">삭제</button>
 				</div>
-				<div class="product-card">
-					<img src="https://via.placeholder.com/100" alt="상품 2">
-					<div class="product-details">
-						<h5>판매 상품 2</h5>
-						<p>
-							판매 등록 날짜<br>판매 상태 (예약/판매완료)
-						</p>
-					</div>
-					<button class="btn btn-secondary update">수정</button>
-					<button class="btn btn-secondary delete">삭제</button>
-				</div>
-			</div>
+			</section>
 		</main>
 		<div class="section-footer">
 			<div class="padding-global">
@@ -158,11 +183,20 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<!-- 제이쿼리 라이브러리 추가 + 상품클릭시 디테일페이지로이동 -->
 	<script type="text/javascript">
-		// 나중에 상품번호 들고가서 수정예정
+		
 		$(".update").click(function() {
-			location.href = "productUpdate";
+			// 클릭된 버튼의 상위 product-card 요소에서 sale_id 값을 가져옴
+			 var sale_id = $(this).closest('.product-card').find('.sale_id').val();
+			 alert(sale_id);
+			            
+			
+			location.href = "productUpdateData?sale_id="+sale_id;
 
 		});
+		
+		// 상태값은 ajax 처리할 예정
+		// 선택된 상태 값 가져오기
+		var status = $(this).closest('.product-card').find('.status').val();
 	</script>
 </body>
 </html>
