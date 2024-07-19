@@ -443,6 +443,23 @@ app.post('/data/update-ev', (req, res) => {
   });
 });
 
+// 전기차 데이터 추가
+app.post('/data/insert-ev', (req, res) => {
+  const { evc_id, evc_area, evc_address, evc_name, evc_lat, evc_long } = req.body;
+
+  const sql = "INSERT INTO evc (evc_id, evc_area, evc_address, evc_name, evc_lat, evc_long) VALUES (?, ?, ?, ?, ?, ?)";
+  const params = [evc_id, evc_area, evc_address, evc_name, evc_lat, evc_long];
+
+  conn.query(sql, params, function(err, result) {
+      if (err) {
+          console.error('Error: ', err);
+          res.status(500).send('Error');
+      } else {
+          res.status(201).send('success');
+      }
+  });
+});
+
 
   // 전기차  데이터 검색
 
@@ -507,7 +524,7 @@ app.get('/data/getallevc', (req, res) => {
       SELECT 
         evc.evc_name,
         evc_cg.charger_id,
-        evc_cg.charger_status,
+        evc_cg.charger_userlimit,
         evc_cg.charger_type,
         evc_cg.charger_facsmall
       FROM 
@@ -534,8 +551,8 @@ app.get('/data/getallevc', (req, res) => {
 
 // 충전기 데이터 수정
 app.post('/data/update-evc', (req, res) => {
-  const { charger_id, charger_type, charger_status, charger_facsmall } = req.body;
-  const sql = 'UPDATE evc_cg SET charger_type = ?, charger_status = ?, charger_facsmall = ? WHERE charger_id = ?';
+  const { charger_id, charger_type, charger_userlimit, charger_facsmall } = req.body;
+  const sql = 'UPDATE evc_cg SET charger_type = ?, charger_userlimit = ?, charger_facsmall = ? WHERE charger_id = ?';
   const params = [charger_type, charger_status, charger_facsmall, charger_id];
 
   conn.query(sql, params, (err, result) => {
@@ -556,6 +573,23 @@ app.delete('/data/delete-evc/:charger_id', (req, res) => {
       res.status(500).send('Error');
     } else {
       res.status(200).send('success');
+    }
+  });
+});
+
+//충전기 데이터 추가
+app.post('/data/insert-evc', (req, res) => {
+  const { evc_id, charger_no, charger_type, charger_status, charger_facsmall, charger_userlimit, charger_opbig, charger_opsmall, charger_mechine, charger_facbig } = req.body;
+
+  const sql = "INSERT INTO evc_cg (evc_id, charger_no, charger_type, charger_status, charger_facsmall, charger_userlimit, charger_opbig, charger_opsmall, charger_mechine, charger_facbig) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  const params = [evc_id, charger_no, charger_type, charger_status, charger_facsmall, charger_userlimit, charger_opbig, charger_opsmall, charger_mechine, charger_facbig];
+
+  conn.query(sql, params, function(err, result) {
+    if (err) {
+      console.error('Error: ', err);
+      res.status(500).send('Error');
+    } else {
+      res.status(201).send('success');
     }
   });
 });

@@ -78,11 +78,11 @@ function EVManagement() {
   };
 
   const handleInsertEv = () => {
-    navigate('/dashboard/insert-festival/');
+    navigate('/dashboard/insert-ev/');
   };
 
   const handleInsertEvc = () => {
-    navigate('/dashboard/insert-festival/');
+    navigate('/dashboard/insert-evc/');
   };
 
   const handlePageChange = (page) => {

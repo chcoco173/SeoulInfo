@@ -12,6 +12,8 @@ import Login from './Login';
 import InsertAdmin from './InsertAdmin';
 import InsertFestival from './InsertFestival';
 import Question from './Question';
+import InsertEVC from './InsertEVC';
+import InsertEv from './InsertEv';
 
 function Dashboard() {
 
@@ -53,6 +55,8 @@ function Dashboard() {
         <Route path="/login" element={<Login />} />
         <Route path="insert-admin" element={<InsertAdmin />} />
         <Route path="insert-festival" element={<InsertFestival />} />
+        <Route path="insert-ev" element={<InsertEv />} />
+        <Route path="insert-evc" element={<InsertEVC />} />
       </Routes>
     </div>
   );
