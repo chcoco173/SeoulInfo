@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,11 +16,9 @@
             <b> 즐겨찾기 </b>
         </p>
         <hr>
-        <div class="beforeLogin" style="text-align: center">
-            <p>로그인 후 서비스 이용 가능</p>
-            <input type="button" value="로그인" class="login btn btn-primary">
-			<button class="btn btn-dark btn-close"><b> X </b></button>
-        </div>
+
+		
+		<%	if(session.getAttribute("user")!=null){ %>
         <div class="afterLogin" style="display: none;">
             <dl id="favoriteList">
                 <dd>
@@ -148,6 +147,13 @@
                 <button class="btn btn-dark btn-close"><b> X </b></button>
             </div>
         </div>
+		<% } else { %>
+		<div class="beforeLogin" style="text-align: center">
+		    <p>로그인 후 서비스 이용 가능</p>
+		    <a href="/member/login"><input type="button" value="로그인" class="login btn btn-primary"></a>
+			<button class="btn btn-dark btn-close"><b> X </b></button>
+		</div>
+		<% } %>
     </div>
 
     <!-- jQuery 및 Bootstrap JS -->
