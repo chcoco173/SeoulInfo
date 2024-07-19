@@ -1,12 +1,17 @@
 package com.example.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.example.domain.NewsVO;
+import com.example.service.NewsService;
 
 //import com.example.service.MemberService;
 
@@ -20,6 +25,9 @@ public class NewsController {
 //	
 //	@Autowired
 //	private MemberService memberservice;
+	
+	@Autowired
+	private NewsService newsService;
 
 	@RequestMapping("/")
 	public String index() {
@@ -32,6 +40,23 @@ public class NewsController {
 		return "news/"+step;
 	}
 
+	// Model model 변수 이름 고정하기!
+	@GetMapping("/news")
+	public String newsArea(@RequestParam(value = "area", required = false) String area, Model model) {
+		System.out.println(area);
+		List<NewsVO> newsList = newsService.getNewsList(area);
+		System.out.println(newsList);
+		
+		model.addAttribute("newsList", newsList);
+		return "news/news";
+	}
 	
-
+    @GetMapping("/newsDetail")
+    public String newsDetail(@RequestParam("news_id") Integer news_id, @RequestParam("area") String area, Model model) {
+        NewsVO news = newsService.getNewsById(news_id);
+        model.addAttribute("news", news);
+        model.addAttribute("area", area);
+        return "news/newsDetail";
+    }
+	
 }

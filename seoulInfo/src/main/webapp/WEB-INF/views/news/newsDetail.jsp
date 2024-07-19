@@ -1,5 +1,6 @@
 <%@page contentType="text/html; charset=UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Wed Jul 03 2024 06:37:30 GMT+0000 (Coordinated Universal Time)  -->
 <html data-wf-page="6684f0fb2a5375354f5c4823" data-wf-site="6684f0fb2a5375354f5c47e9">
@@ -32,6 +33,7 @@
           <a href="/" class="brand w-nav-brand"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
           <div class="links-and-search-wrapper">
             <nav role="navigation" class="nav-links-wrapper w-nav-menu">
+			  <a href="news?area=${param.area}" class="nav-link w-nav-link">뉴스</a>
               <a href="about.html" class="nav-link w-nav-link">About</a>
               <a href="/mypage/profile" class="nav-link w-nav-link">마이페이지</a>
             </nav>
@@ -53,40 +55,39 @@
     <!-- 검색창 end -->
             
             <div class="main-wrapper">   
-            	<!-- 뉴스(제목,이미지) start-->         
-                <div class="section-post-banner background-black">
-                    <div class="padding-global">
-                        <div class="padding-section-medium">
-                            <div class="container-full-width">
-                                <h1 data-w-id="180b513c-4540-bab3-7036-972b35d8ddc4" style="opacity:1" class="text-color-white">뉴스제목</h1>
-                                <div class="spacer-xlarge"></div>
-                                <div class="spacer-xlarge"></div>
-                                <div class="image-overflow-wrapper">
-                                    <div data-w-id="10bfb973-e4fc-fd4f-7f86-22b02dc42218" style="background-image:url(&quot;https://cdn.prod.website-files.com/628ab4b42cc6d53cbb36640b/6295395986070f52d4f090a1_web-nomadic-julien-uBfK5i6j1B8-unsplash.jpg&quot;);-webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform-style:preserve-3d" class="post-featured-image"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- 뉴스(제목,이미지) end-->
-                
-                <!-- 뉴스(내용) start -->
-                <div class="section-post-text">
-                    <div class="padding-global">
-                        <div class="padding-section-medium remove-bottom-padding">
-                            <div class="container-small">
-                                <div data-w-id="ea3e6aa5-b9ca-36db-ec21-7072a097305a" style="opacity:1" class="rich-text w-richtext">
-                                    <h2>뉴스 내용...., enim eget hendrerit pretium, ante nisl imperdiet purus, vitae tristique enim ante vitae risus.</h2>
-                                    <p>Maecenas pulvinar augue eget dolor lacinia fringilla. Mauris facilisis condimentum rutrum. Integer efficitur mollis tincidunt. Etiam ullamcorper, elit sit amet eleifend iaculis, tellus ligula volutpat magna, id eleifend nulla leo sed lacus. Cras ut mattis neque, sed consequat purus. Sed non ante lacus. Integer elit ipsum, pharetra sit amet enim eu, pharetra suscipit nisl.</p>
-                                    <p>Nullam id orci ex. Quisque vitae mauris porta ipsum tempus fringilla. Aenean in sollicitudin justo. Phasellus placerat justo a mauris pharetra, non scelerisque sapien luctus. Praesent elementum imperdiet metus, a pharetra ex vehicula vitae. In scelerisque tellus et tortor blandit, nec cursus massa sollicitudin. </p>
-                                    <p>Aliquam sem risus, convallis in turpis et, rhoncus consectetur quam. Vivamus malesuada lorem in diam dictum, mattis maximus augue cursus. Aenean quam lacus, tristique ut imperdiet sed, aliquet sed nisi. Maecenas libero nisi, facilisis id nunc non, finibus fringilla orci. Phasellus lorem lacus, cursus quis erat gravida, molestie interdum felis. Curabitur ac eleifend arcu. Donec non quam tellus. Duis hendrerit eros erat, et finibus metus aliquet vitae. Suspendisse vitae ligula tortor.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>                               
-                <div class="spacer-xxlarge"></div>
-                <!-- 뉴스(내용) end -->
+				<!-- 뉴스(제목,이미지) start-->         
+				<div class="section-post-banner background-black">
+				    <div class="padding-global">
+				        <div class="padding-section-medium">
+				            <div class="container-full-width">
+				                <h1 class="text-color-white">${news.news_title}</h1>
+				                <div class="spacer-xlarge"></div>
+				                <div class="spacer-xlarge"></div>
+				                <div class="image-overflow-wrapper">
+				                    <div style="background-image:url('${news.news_imageurl}');" class="post-featured-image"></div>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				<!-- 뉴스(제목,이미지) end-->
+
+				<!-- 뉴스(내용) start -->
+				<div class="section-post-text">
+				    <div class="padding-global">
+				        <div class="padding-section-medium remove-bottom-padding">
+				            <div class="container-small">
+				                <div class="rich-text w-richtext">
+				                    <fmt:formatDate value="${news.news_date}" pattern="yyyy-MM-dd"/>
+									<div class="text-size-regular text-color-dark-gray w-dyn-bind"><a href="${news.news_link}">뉴스 사이트 바로 가기</a></div>
+				                    <p>${news.news_content}</p>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>                               
+				<div class="spacer-xxlarge"></div>
+				<!-- 뉴스(내용) end -->
                 
             </div>
             <!-- main-wrapper end -->
