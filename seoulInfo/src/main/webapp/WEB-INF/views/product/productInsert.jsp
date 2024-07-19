@@ -286,7 +286,8 @@
 										<input type="file" class="form-control-file mt-2" name="file">
 										<input type="file" class="form-control-file mt-2" name="file">
 										<input type="file" class="form-control-file mt-2" name="file">
-										
+										<input type="file" class="form-control-file mt-2" name="file">
+										<input type="file" class="form-control-file mt-2" name="file">
 									</div>
 								</div>
 								<div class="form-group submit-button">
