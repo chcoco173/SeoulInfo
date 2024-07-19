@@ -108,13 +108,19 @@
     		product_image pi ON ps.sale_id = pi.sale_id 
 		LEFT OUTER JOIN 
     		favorite_product fp ON ps.sale_id = fp.sale_id
-		where ps.member_id  = 'chen0120'
+		where ps.member_id  = #{member_id}
 		GROUP BY 
     		ps.sale_id, 
     		ps.sale_cate, 
     		ps.sale_name, 
     		ps.sale_status, 
     		ps.sale_price;
+	</select>
+	
+	
+	<!-- 상품 id에 해당하는 상품상세 -->
+	<select id="myProductSaleId" resultType="ProductVO" parameterType="integer">
+		SELECT * FROM product_sale WHERE sale_id = #{sale_id}
 	</select>
 	
 	

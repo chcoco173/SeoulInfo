@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.domain.ProductImageVO;
 import com.example.domain.ProductSearchVO;
 import com.example.domain.ProductVO;
+import com.example.service.ProductImageService;
 import com.example.service.ProductService;
 import com.example.util.MD5Generator;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -41,6 +43,9 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private ProductImageService productImageService;
 
 
 	@RequestMapping("/")
@@ -218,10 +223,39 @@ public class ProductController {
 		
 		return "product/myProduct";
 	}
+	
+	// 상품 id 값 가지고 해당 상품에 대한 내용 화면에 뿌려주는 작업
 	@RequestMapping("/productUpdateData")
 	public String productUpdateData(Integer sale_id, Model model) {
 		System.out.println(sale_id);
+		
+		ProductVO pvo = productService.myProductSaleId(sale_id);
+		List<ProductImageVO> imageList = productImageService.myProductSaleId(sale_id);
+		
+		model.addAttribute("productSaleId", pvo);
+		model.addAttribute("productImageSaleId",imageList);
+		
+		System.out.println(pvo);
+		System.out.println(imageList);
+		
+		
 		return "product/productUpdate";
+	
+	}
+	
+	// 상품 이미지 삭제 ajax 처리
+	@PostMapping("deleteImage")
+	@ResponseBody
+	public String deleteImage(@RequestParam Integer productimg_no) {
+	    System.out.println("이미지번호 " + productimg_no);
+	    
+	    Integer result = productImageService.deleteImage(productimg_no);
+	    
+	    if ( result != null) {
+	    	return "1";
+	    }
+	    
+	    return null;
 	}
 	
 	

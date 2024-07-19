@@ -61,9 +61,12 @@ public class ProductServiceImpl implements ProductService{
 		return productDAO.myProductList(member_id);
 	}
 
-	
-
-
+	// sale_id에 해당하는 상품상세 들고오기
+	@Override
+	public ProductVO myProductSaleId(Integer sale_id) {
+		// TODO Auto-generated method stub
+		return productDAO.myProductSaleId(sale_id);
+	}
 
 	
 

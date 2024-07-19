@@ -21,6 +21,16 @@
 		)
 	</insert>
 	
+	<!-- 상품 id에 해당하는 상품상세 -->
+	<select id="myProductSaleId" resultType="ProductImageVO" parameterType="integer">
+		SELECT * FROM product_image WHERE sale_id = #{sale_id}
+	</select>
+	
+	<!-- productImageno에 해당하는 이미지 지우기  -->
+	<delete id="deleteImage" parameterType="integer">
+		DELETE FROM product_image WHERE productimg_no = #{productimg_no}
+	</delete>
+	
 	
 
 </mapper>
