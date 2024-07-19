@@ -35,30 +35,6 @@ $(function(){
 		$(".search_navigation").css({"display":"none"});
 	});
 	
-	// 즐겨찾기 로그인 
-	$('.login').click(function(){
-		$('.afterLogin').css({"display":"inherit"});
-		$('.beforeLogin').css({"display":"none"});
-		
-		// 새 창의 크기
-		var newWindowWidth = 1500;
-		var newWindowHeight = 500;
-
-		// 화면의 크기
-		var screenWidth = window.screen.width;
-		var screenHeight = window.screen.height;
-
-		// 새 창의 위치 계산
-		var leftPosition = (screenWidth / 2) - (newWindowWidth / 2);
-		var topPosition = (screenHeight / 2) - (newWindowHeight / 2);
-
-		// 새로운 윈도우 창 띄우기 (중앙에 위치하도록)
-		window.open('/member/login', '로그인', 'width=' + newWindowWidth + ',height=' + newWindowHeight + ',top=' + topPosition + ',left=' + leftPosition);
-		
-	});
-	
-	
-	
 	// 닫기 버튼
 	$('.btn-close').click(function(event){
 		event.stopPropagation();
@@ -84,6 +60,24 @@ $(function(){
 		
 		$('.search-filter').css({'display':'none'})
 		$('.result-list').css({'display':'inherit'})
+		// Make an AJAX call to fetch data
+		                $.ajax({
+		                    url: '/fetchCoordinates',
+		                    method: 'GET',
+		                    dataType: 'json',
+		                    success: function(data) {
+		                        var $resultList = $('#resultList');
+		                        $resultList.empty(); // Clear previous results
+
+		                        data.forEach(function(item) {
+		                            var $listItem = $('<li></li>').text(item.name + ' - ' + item.address);
+		                            $resultList.append($listItem);
+		                        });
+		                    },
+		                    error: function(err) {
+		                        console.error('Error fetching coordinates:', err);
+		                    }
+		                });
 	});
 	
 	// 재검색
@@ -125,5 +119,7 @@ $(function(){
 	    var newImageUrl = (currentSrc === '/images/ev/like_off.png') ? '/images/ev/like_on.png' : '/images/ev/like_off.png';
 	    img.attr('src', newImageUrl);
 	});
+	
+	
 
 });
