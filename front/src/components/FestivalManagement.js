@@ -45,8 +45,11 @@ function Festivalpopup({ festival, onClose }) {
         formData.append('festival_id', editableFestival.festival_id);
         formData.append('festival_name', editableFestival.festival_name);
         formData.append('festival_area', editableFestival.festival_area);
-        formData.append('festival_address', editableFestival.festival_address);
-        formData.append('festival_content', editableFestival.festival_content);
+        formData.append('festival_address', editableFestival.festival_loc);
+        formData.append('festival_host', editableFestival.festival_host);
+        formData.append('festival_fee', editableFestival.festival_fee);
+        formData.append('festival_target', editableFestival.festival_target);
+        formData.append('festival_type', editableFestival.festival_type);
         formData.append('festival_startdate', editableFestival.festival_startdate);
         formData.append('festival_enddate', editableFestival.festival_enddate);
         formData.append('festival_siteurl', editableFestival.festival_siteurl);
@@ -61,15 +64,15 @@ function Festivalpopup({ festival, onClose }) {
             }
           });
           if (response.status === 200) {
-            alert('축제 수정 완료');
+            alert('행사 수정 완료');
             onClose();
             window.location.reload();
           } else {
-            alert('축제 수정 실패');
+            alert('행사 수정 실패');
           }
         } catch (error) {
           console.error('에러 발생:', error);
-          alert('축제 수정 실패');
+          alert('행사 수정 실패');
         }
       }
     } else {
@@ -90,12 +93,12 @@ function Festivalpopup({ festival, onClose }) {
         .then(response => {
           if (response.status === 200) {
             console.log(response.data);
-            alert('축제 정보 삭제 완료');
+            alert('행사 정보 삭제 완료');
             onClose();
             window.location.reload();
           } else {
-            console.error('축제정보 삭제 실패', response.statusText);
-            alert('축제정보 삭제 실패');
+            console.error('행사정보 삭제 실패', response.statusText);
+            alert('행사정보 삭제 실패');
           }
         })
         .catch(error => {
@@ -126,7 +129,7 @@ function Festivalpopup({ festival, onClose }) {
         name="festival_id"
         value={festival.festival_id}
           />
-        <p><strong>축제 제목 : </strong>{isEditing ? (
+        <p><strong>행사 제목 : </strong>{isEditing ? (
           <input
             type="text"
             name="festival_name"
@@ -136,7 +139,17 @@ function Festivalpopup({ festival, onClose }) {
         ) : (
             festival.festival_name
         )}</p>
-        <span><strong>축제 기간 : </strong>{isEditing ? (
+                <p><strong>행사 타입 : </strong>{isEditing ? (
+          <input
+            type="text"
+            name="festival_type"
+            value={editableFestival.festival_type}
+            onChange={handleChange}
+          />
+        ) : (
+            festival.festival_type
+        )}</p>
+        <span><strong>행사 기간 : </strong>{isEditing ? (
           <input
             type="date"
             name="festival_startdate"
@@ -156,7 +169,7 @@ function Festivalpopup({ festival, onClose }) {
         ) : (
           EndDate
         )}</span>
-        <p><strong>축제 지역 :</strong> {isEditing ? (
+        <p><strong>지역 :</strong> {isEditing ? (
           <select             
           name="festival_area"
           value={editableFestival.festival_area}
@@ -190,27 +203,47 @@ function Festivalpopup({ festival, onClose }) {
         ) : (
             festival.festival_area
         )}</p>
-        <p><strong>축제 주소 :</strong> {isEditing ? (
+        <p><strong>주소 :</strong> {isEditing ? (
           <input
             type="text"
             name="festival_address"
-            value={editableFestival.festival_address}
+            value={editableFestival.festival_loc}
             onChange={handleChange}
           />
         ) : (
-            festival.festival_address
+            festival.festival_loc
         )}</p>
-        <p><strong>축제 내용 :</strong> {isEditing ? (
-          <textarea
-            name="festival_content"
-            value={editableFestival.festival_content}
+        <p><strong>관람 대상 :</strong> {isEditing ? (
+          <input
+            type="text"
+            name="festival_target"
+            value={editableFestival.festival_target}
             onChange={handleChange}
-            rows="10"
           />
         ) : (
-            festival.festival_content
+            festival.festival_target
         )}</p>
-        <p><strong>축제 사이트 :</strong> {isEditing ? (
+                <p><strong>관람 요금 :</strong> {isEditing ? (
+          <input
+            type="text"
+            name="festival_fee"
+            value={editableFestival.festival_fee}
+            onChange={handleChange}
+          />
+        ) : (
+            festival.festival_fee
+        )}</p>
+                        <p><strong>주최 :</strong> {isEditing ? (
+          <input
+            type="text"
+            name="festival_host"
+            value={editableFestival.festival_host}
+            onChange={handleChange}
+          />
+        ) : (
+            festival.festival_host
+        )}</p>
+        <p><strong>행사 사이트 :</strong> {isEditing ? (
           <input
             type="text"
             name="festival_siteurl"
@@ -218,11 +251,11 @@ function Festivalpopup({ festival, onClose }) {
             onChange={handleChange}
           />
         ) : (
-            <a href={festival.festival_siteurl}>축제 사이트로 이동</a>
+            <a href={festival.festival_siteurl}>행사 사이트로 이동</a>
         )}</p>
         {isEditing && (
           <div>
-            <strong>프로필 이미지:</strong> 
+            <strong>대표 이미지:</strong> 
             <input type="file" name="festival_image" onChange={handleFileChange}/>
           </div>
         )}
@@ -322,7 +355,7 @@ function FestivalManagement() {
 
   return (
     <div className="festival-info">
-      <h1>축제 관리</h1>
+      <h1>행사 관리</h1>
 
       <div className="search-section">
         <select className="search-select" value={searchCategory} onChange={(e) => setSearchCategory(e.target.value)}>
@@ -333,7 +366,7 @@ function FestivalManagement() {
         <button className="search-button" onClick={handleSearch}>검색</button>
       </div>
       <div className="insert-festival-container" id='insert-festival-container'>
-        <button className="insert-festival" id='insert-festival' onClick={handleInsertFestival}>축제 등록</button>
+        <button className="insert-festival" id='insert-festival' onClick={handleInsertFestival}>행사 등록</button>
       </div>
       <div className="festival-cards">
         {resultsToDisplay.map(festival => (

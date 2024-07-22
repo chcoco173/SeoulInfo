@@ -11,7 +11,14 @@ function InsertFestival() {
     const [festivalArea, setFestivalArea] = useState('');
     const [festivalImage, setFestivalImage] = useState(null);
     const [festivalSiteUrl, setFestivalSiteUrl] = useState('');
-    const [festivalContent, setFestivalContent] = useState('');
+    const [festivalType, setFestivalType] = useState('');
+    const [festivalTarget, setFestivalTarget] = useState('');
+    const [festivalFee, setFestivalFee] = useState('');
+    const [festivalHost, setFestivalHost] = useState('');
+    const [festivalAppdate, setFestivalAppdate] = useState('');
+    const [festivalLat, setFestivalLat] = useState('');
+    const [festivalLong, setFestivalLong] = useState('');
+    const [festivalFree, setFestivalFree] = useState('');
     const navigate = useNavigate();  
 
     const handleImageChange = (e) => {
@@ -24,12 +31,19 @@ function InsertFestival() {
         const formData = new FormData();
         formData.append('festival_name', festivalName);
         formData.append('festival_area', festivalArea);
-        formData.append('festival_address', festivalAddress);
+        formData.append('festival_loc', festivalAddress);
         formData.append('festival_startdate', festivalStartDate);
         formData.append('festival_enddate', festivalEndDate);
-        formData.append('festival_content', festivalContent);
+        formData.append('festival_target', festivalTarget);
+        formData.append('festival_type', festivalType);
+        formData.append('festival_fee', festivalFee);
+        formData.append('festival_host', festivalHost);
         formData.append('festival_siteurl', festivalSiteUrl);
         formData.append('festival_image', festivalImage);
+        formData.append('festival_appdate', festivalAppdate);
+        formData.append('festival_lat', festivalLat);
+        formData.append('festival_long', festivalLong);
+        formData.append('festival_free', festivalFree);
 
         try {
             const response = await axios.post('http://localhost:8000/data/insert-festival', formData, {
@@ -52,15 +66,22 @@ function InsertFestival() {
     };
 
     return (
-        <div className="insert-festival-container">
+         <div className="insert-festival-container">
             <form className="insert-festival-form" onSubmit={handleInsertFestival}>
                 <h3>축제 등록</h3>
                 <input
                     type="text"
-                    placeholder="축제 이름"
+                    placeholder="행사 이름"
                     name='festival_name'
                     value={festivalName}
                     onChange={(e) => setFestivalName(e.target.value)}
+                />
+                 <input
+                    type="text"
+                    placeholder="행사 타입"
+                    name='festival_type'
+                    value={festivalType}
+                    onChange={(e) => setFestivalType(e.target.value)}
                 />
                 <select
                     name='festival_area'
@@ -95,33 +116,76 @@ function InsertFestival() {
                 </select>
                 <input
                     type="text"
-                    placeholder="축제 주소"
-                    name='festival_address'
+                    placeholder="주소"
+                    name='festival_loc'
                     value={festivalAddress}
                     onChange={(e) => setFestivalAddress(e.target.value)}
                 />
                 <span>
-                    축제 시작일 : <input
+                    행사 시작일 : <input
                         type="date"
                         name='festival_startdate'
                         value={festivalStartDate}
                         onChange={(e) => setFestivalStartDate(e.target.value)}
                     /></span>
                 <span>
-                    축제 종료일 : <input
+                    행사 종료일 : <input
                         type="date"
                         name='festival_enddate'
                         value={festivalEndDate}
                         onChange={(e) => setFestivalEndDate(e.target.value)}
                     /></span>
-                <textarea
-                    placeholder="축제 내용"
-                    name='festival_content'
-                    value={festivalContent}
-                    onChange={(e) => setFestivalContent(e.target.value)}
-                    rows="10"
+                                    <input
+                    type="text"
+                    placeholder="요금"
+                    name='festival_fee'
+                    value={festivalFee}
+                    onChange={(e) => setFestivalFee(e.target.value)}
                 />
-                <br />
+                                <select
+                    name='festival_free'
+                    value={festivalFree}
+                    onChange={(e) => setFestivalFree(e.target.value)}>
+                    <option value="" disabled>유료여부선택</option>
+                    <option value="무료">무료</option>
+                    <option value="유료">유료</option>
+                </select>
+                                                    <input
+                    type="text"
+                    placeholder="대상"
+                    name='festival_target'
+                    value={festivalTarget}
+                    onChange={(e) => setFestivalTarget(e.target.value)}
+                />
+                        
+                                <input
+                    type="text"
+                    placeholder="주최"
+                    name='festival_host'
+                    value={festivalHost}
+                    onChange={(e) => setFestivalHost(e.target.value)}
+                />
+                                                <input
+                    type="date"
+                    placeholder="예매일"
+                    name='festival_appdate'
+                    value={festivalAppdate}
+                    onChange={(e) => setFestivalAppdate(e.target.value)}
+                />
+                                                <input
+                    type="text"
+                    placeholder="위도"
+                    name='festival_Lat'
+                    value={festivalLat}
+                    onChange={(e) => setFestivalLat(e.target.value)}
+                />
+                                                <input
+                    type="text"
+                    placeholder="경도"
+                    name='festival_long'
+                    value={festivalLong}
+                    onChange={(e) => setFestivalLong(e.target.value)}
+                />
                 <input
                     type="text"
                     placeholder="축제 사이트 url"
@@ -135,7 +199,7 @@ function InsertFestival() {
                     accept="image/*"
                     onChange={handleImageChange}
                 />
-                <button type="submit">축제등록</button>
+                <button type="submit">행사등록</button>
             </form>
         </div>
     );

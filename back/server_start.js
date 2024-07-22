@@ -91,7 +91,7 @@ app.get('/data/getallfestival', (req, res) => {
     const offset = pageNumber * pageSize;
   
     const sql = `
-      SELECT festival_id, festival_name, festival_startdate, festival_enddate, festival_address, festival_imageurl, festival_siteurl, festival_content, festival_area
+      SELECT *
       FROM festival
       ORDER BY festival_id
       LIMIT ${pageSize} OFFSET ${offset}
@@ -106,32 +106,33 @@ app.get('/data/getallfestival', (req, res) => {
 
 // 축제 데이터 입력하기
 app.post('/data/insert-festival', uploadFestival.single('festival_image'), (req, res) => {
-    const { festival_name, festival_area, festival_address, festival_content, festival_startdate, festival_enddate, festival_siteurl } = req.body;
-    const festival_imageurl = req.file ? `/images/festival/${req.file.filename}` : null;
-    const formattedStartDate = formatDate(festival_startdate);
-    const formattedEndDate = formatDate(festival_enddate);
+  const { festival_name, festival_area, festival_loc, festival_startdate, festival_enddate, festival_siteurl, festival_fee, festival_type, festival_target, festival_host, festival_appdate, festival_lat, festival_long, festival_free } = req.body;
+  const festival_imageurl = req.file ? `/images/festival/${req.file.filename}` : null;
+  const formattedStartDate = formatDate(festival_startdate);
+  const formattedEndDate = formatDate(festival_enddate);
 
-    const param = [festival_name, festival_area, festival_address, festival_content, formattedStartDate, formattedEndDate, festival_siteurl, festival_imageurl];
-    const sql = "INSERT INTO festival (festival_name, festival_area, festival_address, festival_content, festival_startdate, festival_enddate, festival_siteurl, festival_imageurl) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    
-    conn.query(sql, param, function(err, result) {
-        if (err) {
-            res.status(500).send('Error');
-        } else {
-            res.status(201).send('success');
-        }
-    });
+  const param = [festival_name, festival_area, festival_loc, formattedStartDate, formattedEndDate, festival_siteurl, festival_imageurl, festival_fee, festival_type, festival_target, festival_host, festival_appdate, festival_lat, festival_long, festival_free];
+  const sql = "INSERT INTO festival (festival_name, festival_area, festival_loc, festival_startdate, festival_enddate, festival_siteurl, festival_imageurl, festival_fee, festival_type, festival_target, festival_host, festival_appdate, festival_lat, festival_long, festival_free) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?)";
+
+  conn.query(sql, param, function (err, result) {
+      if (err) {
+          console.error(err);
+          res.status(500).send('Error');
+      } else {
+          res.status(201).send('success');
+      }
+  });
 });
 
 // 축제 데이터 수정
 app.post('/data/update-festival', uploadFestival.single('festival_image'), (req, res) => {
-    const { festival_id, festival_name, festival_area, festival_address, festival_content, festival_startdate, festival_enddate, festival_siteurl } = req.body;
+    const { festival_id, festival_name, festival_area, festival_address, festival_content, festival_startdate, festival_enddate, festival_siteurl, festival_fee, festival_type, festival_target, festival_host } = req.body;
     const festival_imageurl = req.file ? `/images/festival/${req.file.filename}` : null;
     const formattedStartDate = formatDate(festival_startdate);
     const formattedEndDate = formatDate(festival_enddate);
 
-    let sql = "UPDATE festival SET festival_name = ?, festival_area = ?, festival_address = ?, festival_content = ?, festival_startdate = ?, festival_enddate = ?, festival_siteurl = ?";
-    let params = [festival_name, festival_area, festival_address, festival_content, formattedStartDate, formattedEndDate, festival_siteurl];
+    let sql = "UPDATE festival SET festival_name = ?, festival_area = ?, festival_loc = ?, festival_startdate = ?, festival_enddate = ?, festival_siteurl = ?, festival_fee = ?, festival_type = ?, festival_target = ?, festival_host = ?";
+    let params = [festival_name, festival_area, festival_address, formattedStartDate, formattedEndDate, festival_siteurl, festival_fee, festival_type, festival_target, festival_host];
 
     if (festival_imageurl) {
         sql += ", festival_imageurl = ?";
@@ -670,6 +671,98 @@ app.post('/data/update-member-status/:member_id', (req, res) => {
   });
 });
 
+// 신고테이블 리스트
+app.get('/data/reports', (req, res) => {
+  const sql = `
+    SELECT m.member_id, m.member_name, m.member_email, m.member_status, IFNULL(r.report_count, 0) AS report_count
+    FROM member m
+    LEFT JOIN (
+        SELECT member_id, COUNT(*) AS report_count
+        FROM report
+        GROUP BY member_id
+    ) r ON m.member_id = r.member_id
+    ORDER BY r.report_count DESC, m.member_id;
+  `;
+
+  conn.query(sql, (err, results) => {
+    if (err) {
+      console.error('Error fetching reports:', err);
+      res.status(500).send('Error');
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+// 신고 사유 리스트
+app.get('/data/reports/:member_id', (req, res) => {
+  const memberId = req.params.member_id;
+  const sql = 'SELECT report_id, report_reason FROM report WHERE member_id = ?';
+
+  conn.query(sql, [memberId], (err, results) => {
+    if (err) {
+      console.error('Error fetching report details: ', err);
+      res.status(500).send('Error fetching report details');
+      return;
+    }
+    if (results.length > 0) {
+      res.json(results);  // 전체 신고 이유 배열 반환
+    } else {
+      res.status(404).send('No reports found for this member');
+    }
+  });
+});
+
+// 신고횟수 증가
+app.post('/data/increase-report-count/:memberId', (req, res) => {
+  const { memberId } = req.params;
+
+  const sql = `
+    UPDATE member 
+    SET member_reportcount = member_reportcount + 1 
+    WHERE member_id = ?;
+  `;
+
+  conn.query(sql, [memberId], (err, result) => {
+    if (err) {
+      console.error('신고 횟수 업데이트 중 오류 발생:', err);
+      res.status(500).send('신고 횟수 업데이트 실패');
+    } else {
+      res.send({ message: '신고 횟수가 성공적으로 업데이트 되었습니다', result });
+    }
+  });
+});
+
+// 신고 내용 삭제
+app.delete('/data/delete-report/:reportId', (req, res) => {
+  const { reportId } = req.params;
+
+  const sql = "DELETE FROM report WHERE report_id = ?";
+
+  conn.query(sql, [reportId], (err, result) => {
+    if (err) {
+      console.error('신고 내용 삭제 중 오류 발생:', err);
+      res.status(500).send('신고 내용 삭제 실패');
+    } else {
+      res.send({ message: '신고 내용이 성공적으로 삭제되었습니다', result });
+    }
+  });
+});
+
+// 회원삭제
+app.delete('/data/delete-member/:memberId', (req, res) => {
+  const memberId = req.params.memberId;
+  const sql = "DELETE FROM member WHERE member_id = ?";
+
+  conn.query(sql, [memberId], (err, result) => {
+    if (err) {
+      console.error('Error deleting member:', err);
+      res.status(500).send('Error');
+    } else {
+      res.status(200).send('Member deleted successfully');
+    }
+  });
+});
 
 // 파일 경로
 app.use(express.static('public'));
