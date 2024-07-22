@@ -20,6 +20,25 @@
     <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
     <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
     <link href="/images/webclip.png" rel="apple-touch-icon">
+	<style>
+		/* 상단 nav 와 .destination-banner 를 떨어뜨려 놓음 */
+		.navbar_m.w-nav {
+		    margin-bottom: 120px; /* 기본 마진 */
+		}
+
+		@media (max-width: 768px) {
+		    .navbar_m.w-nav {
+		        margin-bottom: 10px; /* 작은 화면에서는 마진을 줄임 */
+		    }
+		}
+
+		@media (max-width: 480px) {
+		    .navbar_m.w-nav {
+		        margin-bottom: 5px; /* 매우 작은 화면에서는 마진을 더 줄임 */
+		    }
+		}
+
+	</style>
 </head>
 <body>
     <div class="page-wrapper">
@@ -54,7 +73,7 @@
                 <div class="padding-global">
                     <div class="padding-section-medium">
                         <div class="container-full-width">
-                            <div data-w-id="a984475f-e10a-c912-ac29-53a066823d5a" style="opacity:0" class="_3-column-grid">
+<!--                            <div data-w-id="a984475f-e10a-c912-ac29-53a066823d5a" style="opacity:0" class="_3-column-grid">
                                 <div id="w-node-_9eb9e867-d75f-01e1-e35b-5c8e2fc339e3-4f5c4823" data-w-id="9eb9e867-d75f-01e1-e35b-5c8e2fc339e3" style="opacity:0" class="image-overflow-wrapper">
                                     <div id="w-node-a984475f-e10a-c912-ac29-53a066823d5b-4f5c4823" data-w-id="a984475f-e10a-c912-ac29-53a066823d5b" style="-webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform-style:preserve-3d" class="destination-featured-image"></div>
                                 </div>
@@ -64,7 +83,7 @@
                                 <div id="w-node-_1c6c9f9c-e700-79e7-a980-d3dfc5bb86cd-4f5c4823" data-w-id="1c6c9f9c-e700-79e7-a980-d3dfc5bb86cd" style="opacity:0" class="image-overflow-wrapper">
                                     <div id="w-node-a984475f-e10a-c912-ac29-53a066823d5d-4f5c4823" data-w-id="a984475f-e10a-c912-ac29-53a066823d5d" style="-webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform-style:preserve-3d" class="destination-featured-image hide-mobile-landscape"></div>
                                 </div>
-                            </div>
+                            </div>-->
                             <div data-w-id="a984475f-e10a-c912-ac29-53a066823d5e" style="opacity:0" class="destination-banner">
                                 <c:forEach items="${newsList}" var="news" varStatus="status">
                                     <c:if test="${status.first}">
@@ -211,8 +230,9 @@
     <script src="/js/webflow.js" type="text/javascript"></script>
     
     <script>
+	// 페이지 넘기기 + 페이지 넘기면 상단으로 스크롤
     $(document).ready(function() {
-        var itemsPerPage = 3; // 페이지당 보여줄 항목 수
+        var itemsPerPage = 6; // 페이지당 보여줄 항목 수
         var currentPage = 1; // 현재 페이지
         var $filteredItems = $('#filteredList dd'); // 필터링된 항목들
         var totalItems = $filteredItems.length; // 전체 항목 수
@@ -225,11 +245,18 @@
             $('#filtered-prevPage').prop('disabled', page === 1);
             $('#filtered-nextPage').prop('disabled', page === totalPages);
         }
+		
+		function scrollToFirstArticle() {
+		    $('html, body').animate({
+		        scrollTop: $('#filteredList dd:visible:first').offset().top
+		    }, 500);
+		}
 
         $('#filtered-prevPage').click(function() {
             if (currentPage > 1) {
                 currentPage--;
                 showPage(currentPage);
+				scrollToFirstArticle();
             }
         });
 
@@ -237,8 +264,14 @@
             if (currentPage < totalPages) {
                 currentPage++;
                 showPage(currentPage);
+				scrollToFirstArticle();
             }
         });
+		
+		// 각 기사의 구를 클릭하면 역시 상단으로 스크롤
+		$('.tag.w-inline-block').click(function() {
+		    scrollToFirstArticle();
+		});
 
         // 초기 페이지 로드
         showPage(currentPage);
