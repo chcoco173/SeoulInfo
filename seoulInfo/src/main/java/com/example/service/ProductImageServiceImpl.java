@@ -28,6 +28,13 @@ public class ProductImageServiceImpl implements ProductImageService{
 		return productImageDAO.deleteImage(productimg_no);
 	}
 
+	
+	// 해당 sale_id 를 가지고 있는 모든 상품 이미지 삭제
+	@Override
+	public Integer deleteProductImage(Integer sale_id) {
+		return productImageDAO.deleteProductImage(sale_id);
+	}
+
 
 	
 

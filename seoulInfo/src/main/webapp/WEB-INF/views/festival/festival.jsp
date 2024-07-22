@@ -108,13 +108,13 @@
 										<li class="media mb-3">
 											<input type="hidden" id="festival_id" name="festival_id" value="${festival.festival_id }"> 
 											<img class="mr-3" 
-												src="${festival.festival_imageUrl}"
+												src="${festival.festival_imageurl}"
 												alt="매물 이미지" style="width: 200px; height: 200px"/>
 											<div class="media-body">
 											<p>${festival.festival_name}</p><br/>
 											<p>${festival.festival_startDate}</p>
 											<p>${festival.festival_endDate}</p><br/>
-											<a href="${festival.festival_siteUrl}">사이트 바로가기</a>																	
+											<a href="${festival.festival_siteurl}">사이트 바로가기</a>																	
 											</div>
 										</li>
 									</c:forEach>

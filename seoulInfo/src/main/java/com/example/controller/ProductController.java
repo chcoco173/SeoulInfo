@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,7 +44,7 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
-	
+
 	@Autowired
 	private ProductImageService productImageService;
 
@@ -108,22 +109,22 @@ public class ProductController {
 			// Flask 서버로 POST 요청 + 응답 받기
 			String result = restTemplate.postForObject(mlServerUrl, requestBody, String.class); // url, 요청본문, 응답받는타입
 			System.out.println("Prediction result: " + result); // json 형식
-			
-			// JSON 응답 파싱
-            ObjectMapper objectMapper = new ObjectMapper(); // json 데이터를 파싱하기위한 객체생성
-            JsonNode jsonNode = objectMapper.readTree(result);	// 문자열 파싱후 json 트리 구조를 반환
-            String prediction = jsonNode.get("prediction").asText(); // asText() jsonNode의 텍스트값 반환
-            System.out.println(prediction);
-            
-    		map.put("prediction", prediction);
 
-    		
+			// JSON 응답 파싱
+			ObjectMapper objectMapper = new ObjectMapper(); // json 데이터를 파싱하기위한 객체생성
+			JsonNode jsonNode = objectMapper.readTree(result);	// 문자열 파싱후 json 트리 구조를 반환
+			String prediction = jsonNode.get("prediction").asText(); // asText() jsonNode의 텍스트값 반환
+			System.out.println(prediction);
+
+			map.put("prediction", prediction);
+
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			// 서버가 꺼졋을대 대비
 			map.put("prediction", "null");	
 		}
-		
+
 		List<Map<String, Object>> productList = productService.productCateList(map);
 
 		System.out.println(productList);
@@ -164,6 +165,7 @@ public class ProductController {
 
 	// 상품 등록 controller (insert)
 	@PostMapping("/insertProduct")
+	@Transactional
 	public String insertProduct(ProductVO pvo, @RequestParam("file") List<MultipartFile> files) {
 
 		pvo.setMember_id("chen0120");
@@ -216,47 +218,153 @@ public class ProductController {
 	public String myProduct(Model model) {
 		// 세션에서 id 값 받아오기 ( 나중 )
 		String member_id = "chen0120";
-		
+
 		List<Map<String, Object>> myProductList = productService.myProductList(member_id);
 		System.out.println(myProductList);
 		model.addAttribute("myProductList", myProductList);
-		
+
 		return "product/myProduct";
 	}
-	
+
 	// 상품 id 값 가지고 해당 상품에 대한 내용 화면에 뿌려주는 작업
 	@RequestMapping("/productUpdateData")
 	public String productUpdateData(Integer sale_id, Model model) {
 		System.out.println(sale_id);
-		
+
 		ProductVO pvo = productService.myProductSaleId(sale_id);
 		List<ProductImageVO> imageList = productImageService.myProductSaleId(sale_id);
-		
+
 		model.addAttribute("productSaleId", pvo);
 		model.addAttribute("productImageSaleId",imageList);
-		
+
 		System.out.println(pvo);
 		System.out.println(imageList);
-		
-		
+
+
 		return "product/productUpdate";
-	
+
 	}
-	
+
 	// 상품 이미지 삭제 ajax 처리
 	@PostMapping("deleteImage")
 	@ResponseBody
 	public String deleteImage(@RequestParam Integer productimg_no) {
-	    System.out.println("이미지번호 " + productimg_no);
-	    
-	    Integer result = productImageService.deleteImage(productimg_no);
-	    
-	    if ( result != null) {
-	    	return "1";
-	    }
-	    
-	    return null;
+		System.out.println("이미지번호 " + productimg_no);
+
+		Integer result = productImageService.deleteImage(productimg_no);
+
+		if ( result != null) {
+			return "1";
+		}
+
+		return null;
+	}
+
+	// 상품 상태 수정
+	@PostMapping("updateStatus")
+	@ResponseBody
+	public String updateStatus(@RequestParam String sale_status, @RequestParam Integer sale_id) {
+		System.out.println(sale_status);
+		System.out.println(sale_id);
+		ProductVO pvo = new ProductVO();
+		pvo.setMember_id("chen0120");
+		pvo.setSale_id(sale_id);
+		pvo.setSale_status(sale_status);
+		
+		Integer result =  productService.updateStatus(pvo);
+		
+		if ( result != null) {
+			return "1";
+		}
+
+		return null;
+
+	}
+	@PostMapping("deleteProduct")
+	@ResponseBody
+	@Transactional
+	public String deleteProduct(@RequestParam Integer sale_id) {
+		System.out.println(sale_id);
+		
+		ProductVO pvo = new ProductVO();
+		pvo.setSale_id(sale_id);
+		pvo.setMember_id("chen0120");
+		
+		Integer imageResult =  productImageService.deleteProductImage(sale_id);
+		
+		// 상품 삭제
+		Integer productResult = productService.deleteProduct(pvo);
+			
+		
+//		List<ProductImageVO> images = productImageService.myProductSaleId(sale_id);
+//		
+//		if (images != null && !images.isEmpty()) {
+//	        
+//	        
+//	        if(productResult != null & imageResult != null) {
+//	        	return "1";
+//	        }
+//	        
+//	    }
+//		
+//		if (productResult != null) {
+//			return "1";
+//		}
+//
+//		
+		return "1";
 	}
 	
 	
+	
+	// 상품 수정
+	@RequestMapping("/productUpdate")
+	@Transactional
+	public String productUpdate( @RequestParam("file") List<MultipartFile> files, ProductVO pvo ) {
+		// 임의로 지정
+		pvo.setMember_id("chen0120");
+		// 상품수정
+		productService.updateProduct(pvo);
+		
+		try {
+			for (MultipartFile file : files) {
+				String productimg_name = file.getOriginalFilename();
+				System.out.println(productimg_name + "파일원래이름");
+
+				if( productimg_name != null && !productimg_name.equals("")) {
+					String productimg_alias = new MD5Generator(productimg_name).toString();
+					System.out.println("변경된 파일명"+productimg_alias);
+
+					String savepath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\productImage";
+					System.out.println("저장경로 : " + savepath);
+
+					if (! new File(savepath).exists()) {
+						new File(savepath).mkdir();
+					}
+
+					String productimg_url = savepath + "\\" + productimg_alias;
+					file.transferTo(new File(productimg_url));
+					System.out.println("저장완료");
+
+					ProductImageVO pivo = new ProductImageVO();
+					pivo.setSale_id(pvo.getSale_id());
+					pivo.setProductimg_name(productimg_name);
+					pivo.setProductimg_alias(productimg_alias);
+					pivo.setProductimg_url(productimg_url);
+
+					productService.insertProductImage(pivo);
+
+				}
+			}
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
+		return "redirect:/product/myProduct";
+	}
+
+
 }

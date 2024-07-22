@@ -69,5 +69,24 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	
+	// 상품 수정
+	@Override
+	public void updateProduct(ProductVO pvo) {
+		productDAO.updateProduct(pvo);	
+	}
+
+	// 상품 상태 수정
+	@Override
+	public Integer updateStatus(ProductVO pvo) {
+		return productDAO.updateStatus(pvo);
+		
+	}
+
+	@Override
+	public Integer deleteProduct(ProductVO pvo) {
+		return productDAO.deleteProduct(pvo);
+	}
+
+	
 
 }

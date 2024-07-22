@@ -6,13 +6,22 @@ import lombok.Data;
 public class FestivalVO {
 	private Integer 	festival_id;			// 축제번호
 	private String 		festival_name;			// 축제이름
-	private String 		festival_content;		// 축제내용
 	private String 		festival_startDate;		// 축제시작일
 	private String 		festival_endDate;		// 축제종료일
 	private String 		festival_area;			// 축제구
-	private String 		festival_address;		// 축제주소
-	private String 		festival_imageUrl;		// 축제이미지url
-	private String 		festival_siteUrl;		// 축제사이트url
+	private String 		festival_loc;			// 축제주소
+	private String 		festival_imageurl;		// 축제이미지url
+	private String 		festival_siteurl;		// 축제사이트url
+	private String		festival_type;
+	private String		festival_target;
+	private String		festival_fee;
+	private String		festival_appdate;
+	private String		festival_lat;
+	private String		festival_long;
+	private String		festival_free;
+	private String		festival_host;
+	
+	
 }
 
 /*
