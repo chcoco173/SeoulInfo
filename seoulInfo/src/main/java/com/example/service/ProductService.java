@@ -29,6 +29,15 @@ public interface ProductService {
 
 	// sale_id에 해당하는 상품 정보
 	public ProductVO myProductSaleId(Integer sale_id);
+	
+	// 상품 수정
+	public void updateProduct(ProductVO pvo);
+	
+	// 상품 상태 수정
+	public Integer updateStatus(ProductVO pvo);
+	
+	// 상품 삭제
+	public Integer deleteProduct(ProductVO pvo);
 
 
 

@@ -36,7 +36,7 @@ public class FestivalController {
 	public String festivalArea(@RequestParam(value = "area", required = false) String area, Model model) {
 		System.out.println(area);
 		List<FestivalVO> festivalList = festivalService.getFestivalList(area);
-		System.out.println(festivalList);
+		
 		
 		// 모델에 카테고리 속성 추가
 		model.addAttribute("festivalList", festivalList);

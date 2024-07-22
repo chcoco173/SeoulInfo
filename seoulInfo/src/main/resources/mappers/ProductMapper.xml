@@ -123,6 +123,30 @@
 		SELECT * FROM product_sale WHERE sale_id = #{sale_id}
 	</select>
 	
+	<!-- 상품수정 -->
+	<update id="updateProduct" parameterType="ProductVO">
+		UPDATE product_sale
+		set sale_cate = #{sale_cate},
+		 	sale_name = #{sale_name},
+		 	sale_descript = #{sale_descript},
+		 	sale_price = #{sale_price},
+		 	sale_regdate = now(),
+		 	sale_area = #{sale_area}
+		WHERE sale_id = #{sale_id} AND member_id = #{member_id}
+	</update>
+	
+	<!-- 상품 상태 수정 -->
+	<update id="updateStatus" parameterType="ProductVO">
+		UPDATE product_sale 
+		set sale_status = #{sale_status}
+		WHERE sale_id = #{sale_id} AND member_id = #{member_id}
+	</update>
+	
+	<!-- 상품 삭제 -->
+	<delete id="deleteProduct" parameterType="ProductVO">
+		DELETE FROM product_sale
+		WHERE sale_id = #{sale_id} AND member_id = #{member_id}
+	</delete>
 	
 	
 	

@@ -117,15 +117,16 @@
 					<div class="row">
 						<div class="col-md-2"></div>
 						<div class="col-md-8">
-							<form action="" method="post" enctype="multipart/form-data">
+							<form action="productUpdate" method="post" enctype="multipart/form-data">
+								<input type="hidden" name="sale_id" value="${productSaleId.sale_id}">
 								<div class="form-group">
 									<label for="productName">상품명</label> <input type="text"
-										class="form-control" id="productName"
+										class="form-control" id="sale_name" name="sale_name"
 										placeholder="상품명을 입력해주세요" value=${productSaleId.sale_name}>
 								</div>
 								<div class="form-group">
 									<label for="productDescription">상품 설명</label>
-									<textarea class="form-control" id="productDescription" rows="3"
+									<textarea class="form-control" id="sale_descript" rows="3" name="sale_descript"
 										placeholder="상품 설명을 입력해주세요">${productSaleId.sale_descript}</textarea>
 								</div>
 								<div class="form-group">
@@ -133,207 +134,207 @@
 									<div class="row">
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryElectronics1" value="여성의류"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cate" value="여성의류"
 													${productSaleId.sale_cate eq '여성의류' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryElectronics1">여성의류</label>
+												<label class="form-check-label" for="sale_cate1">여성의류</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryElectronics2" value="남성의류"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateElectronics2" value="남성의류"
 													${productSaleId.sale_cate eq '남성의류' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryElectronics2">남성의류</label>
+												<label class="form-check-label" for="sale_cate2">남성의류</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryElectronics3" value="신발"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateElectronics3" value="신발"
 													${productSaleId.sale_cate eq '신발' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryElectronics3">신발</label>
+												<label class="form-check-label" for="sale_cateElectronics3">신발</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryElectronics4" value="가방/지갑"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateElectronics4" value="가방/지갑"
 													${productSaleId.sale_cate eq '가방/지갑' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryElectronics4">가방/지갑</label>
+												<label class="form-check-label" for="sale_cateElectronics4">가방/지갑</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryElectronics5" value="시계"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateElectronics5" value="시계"
 													${productSaleId.sale_cate eq '시계' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryElectronics5">시계</label>
+												<label class="form-check-label" for="sale_cateElectronics5">시계</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryElectronics6" value="쥬얼리"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateElectronics6" value="쥬얼리"
 													${productSaleId.sale_cate eq '쥬얼리' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryElectronics6">쥬얼리</label>
+												<label class="form-check-label" for="sale_cateElectronics6">쥬얼리</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryElectronics7" value="패션 액세서리"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateElectronics7" value="패션 액세서리"
 													${productSaleId.sale_cate eq '패션 액세서리' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryElectronics7">패션
+												<label class="form-check-label" for="sale_cateElectronics7">패션
 													액세서리</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryElectronics8" value="디지털"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateElectronics8" value="디지털"
 													${productSaleId.sale_cate eq '디지털' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryElectronics8">디지털</label>
+												<label class="form-check-label" for="sale_cateElectronics8">디지털</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryElectronics9" value="가전제품"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateElectronics9" value="가전제품"
 													${productSaleId.sale_cate eq '가전제품' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryElectronics9">가전제품</label>
+												<label class="form-check-label" for="sale_cateElectronics9">가전제품</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryHousehold" value="스포츠/레저"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateHousehold" value="스포츠/레저"
 													${productSaleId.sale_cate eq '스포츠/레저' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryHousehold">스포츠/레저</label>
+												<label class="form-check-label" for="sale_cateHousehold">스포츠/레저</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryBooks" value="차량/오토바이"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateBooks" value="차량/오토바이"
 													${productSaleId.sale_cate eq '차량/오토바이' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryBooks">차량/오토바이</label>
+												<label class="form-check-label" for="sale_cateBooks">차량/오토바이</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryClothing" value="스타굿즈"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateClothing" value="스타굿즈"
 													${productSaleId.sale_cate eq '스타굿즈' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryClothing">스타굿즈</label>
+												<label class="form-check-label" for="sale_cateClothing">스타굿즈</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryOthers1" value="키덜트"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateOthers1" value="키덜트"
 													${productSaleId.sale_cate eq '키덜트' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryOthers1">키덜트</label>
+												<label class="form-check-label" for="sale_cateOthers1">키덜트</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryOthers2" value="예술/희귀/수집품"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateOthers2" value="예술/희귀/수집품"
 													${productSaleId.sale_cate eq '예술/희귀/수집품' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryOthers2">예술/희귀/수집품</label>
+												<label class="form-check-label" for="sale_cateOthers2">예술/희귀/수집품</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryOthers3" value="음반/악기"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateOthers3" value="음반/악기"
 													${productSaleId.sale_cate eq '음반/악기' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryOthers3">음반/악기</label>
+												<label class="form-check-label" for="sale_cateOthers3">음반/악기</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryOthers4" value="도서/티켓/문구"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateOthers4" value="도서/티켓/문구"
 													${productSaleId.sale_cate eq '도서/티켓/문구' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryOthers4">도서/티켓/문구</label>
+												<label class="form-check-label" for="sale_cateOthers4">도서/티켓/문구</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryOthers5" value="뷰티/미용"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateOthers5" value="뷰티/미용"
 													${productSaleId.sale_cate eq '뷰티/미용' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryOthers5">뷰티/미용</label>
+												<label class="form-check-label" for="sale_cateOthers5">뷰티/미용</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryOthers6" value="가구/인테리어"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateOthers6" value="가구/인테리어"
 													${productSaleId.sale_cate eq '가구/인테리어' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryOthers6">가구/인테리어</label>
+												<label class="form-check-label" for="sale_cateOthers6">가구/인테리어</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryOthers7" value="생활/주방용품"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateOthers7" value="생활/주방용품"
 													${productSaleId.sale_cate eq '생활/주방용품' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryOthers7">생활/주방용품</label>
+												<label class="form-check-label" for="sale_cateOthers7">생활/주방용품</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryOthers8" value="공구/산업용품"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateOthers8" value="공구/산업용품"
 													${productSaleId.sale_cate eq '공구/산업용품' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryOthers8">공구/산업용품</label>
+												<label class="form-check-label" for="sale_cateOthers8">공구/산업용품</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryOthers9" value="식품"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateOthers9" value="식품"
 													${productSaleId.sale_cate eq '식품' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryOthers9">식품</label>
+												<label class="form-check-label" for="sale_cateOthers9">식품</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryOthers10" value="유아동/출산"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateOthers10" value="유아동/출산"
 													${productSaleId.sale_cate eq '유아동/출산' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryOthers10">유아동/출산</label>
+												<label class="form-check-label" for="sale_cateOthers10">유아동/출산</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryOthers11" value="반려동물용품"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateOthers11" value="반려동물용품"
 													${productSaleId.sale_cate eq '반려동물용품' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryOthers11">반려동물용품</label>
+												<label class="form-check-label" for="sale_cateOthers11">반려동물용품</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category"
-													id="categoryOthers12" value="기타"
+												<input class="form-check-input" type="radio" name="sale_cate"
+													id="sale_cateOthers12" value="기타"
 													${productSaleId.sale_cate eq '기타' ? 'checked' : ''}>
-												<label class="form-check-label" for="categoryOthers12">기타</label>
+												<label class="form-check-label" for="sale_cateOthers12">기타</label>
 											</div>
 										</div>
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="productPrice">판매가</label> <input type="text"
-										class="form-control" id="productPrice"
+										class="form-control" id="sale_price" name="sale_price"
 										placeholder="가격을 입력해주세요" value=${productSaleId.sale_price}>
 								</div>
 								<div class="form-group">
-									<label for="productLocation">거래 주소</label> <select
-										class="form-control" id="locationSelect">
+									<label for="productLocation">거래 주소</label>
+									<select class="form-control" id="sale_area" name="sale_area">
 										<option ${productSaleId.sale_area eq '전체' ? 'selected' : ''}>전체</option>
 										<option ${productSaleId.sale_area eq '강남구' ? 'selected' : ''}>강남구</option>
 										<option ${productSaleId.sale_area eq '강동구' ? 'selected' : ''}>강동구</option>
@@ -373,7 +374,7 @@
 														name="orginal_imgNo" value="${product.productimg_no}">
 													<img src="/productImage/${product.productimg_alias}"
 														alt="상품 이미지" class="product-image">
-													<button class="delete-btn deletebtn" onclick="removeItem(this)">&#10005;</button>
+													<button class="delete-btn deletebtn">&#10005;</button>
 												</div>
 											</c:forEach>
 										</div>
@@ -388,28 +389,6 @@
 													name="file">
 											</div>
 										</c:forEach>
-										<div>
-											<!--
-										<c:forEach var="product" items="${productImageSaleId}"
-											varStatus="status">
-											<div class="form-group">
-
-												<input type="file" id="file_${status.index}"
-													class="form-control-file mt-2" name="file">
-
-											</div>
-										</c:forEach>
-
-										<c:forEach begin="${productImageSaleId.size()}" end="3"
-											varStatus="status">
-											<div class="form-group">
-												<input type="file" id="file_new_${status.index}"
-													class="form-control-file mt-2" name="file">
-											</div>
-										</c:forEach>
-										-->
-
-										</div>
 									</div>
 									<div class="form-group submit-button">
 										<button type="submit" class="btn btn-primary">상품 수정</button>
@@ -515,9 +494,7 @@
 		}
 		 */
 
-		$('.deletebtn').on(
-				'click',
-				function() {
+		$('.deletebtn').on('click', function() {
 					// 클릭된 버튼의 부모 요소인 .scroll-item을 찾습니다.
 					var $item = $(this).closest('.scroll-item');
 
@@ -551,8 +528,9 @@
 		$('.file-input').on('change', function(event) {
 			previewFile(event);
 		});
-
-		/* 이거 추가하면 db 삭제 안됨 하지만 스크롤에 이미지 추가는 됨...
+/*
+		
+		//이거 추가하면 db 삭제 안됨 하지만 스크롤에 이미지 추가는 됨...
 		function previewFile(event) {
 			var input = event.target;
 			var files = input.files;
@@ -579,11 +557,52 @@
 				reader.readAsDataURL(file);
 			}
 		}
+	
+*/	
+		var fileNames = []; // 파일 이름을 저장할 배열
+		var fileInputs = []; // 파일 input 요소를 참조할 배열
 
-		function removeItem(button) {
-			$(button).closest('.scroll-item').remove();
+
+		$('#fileInput').on('change', previewFile);
+		
+		// 상품 등록시 스크롤 추가 + 삭제시 스크롤 아웃 + file 초기화
+		function previewFile(event) {
+		    var input = event.target;
+		    var files = input.files;
+		    var scrollWrapper = $('#scrollWrapper');
+
+		    fileInputs.push(input); // 파일 input 요소를 배열에 추가
+
+		    for (var i = 0; i < files.length; i++) {
+		        var file = files[i];
+		        fileNames.push(file.name); // 배열에 파일 이름 추가
+		        var reader = new FileReader();
+
+		        reader.onload = function(e) {
+		            var imgSrc = e.target.result;
+		            var scrollItem = $('<div class="scroll-item"></div>');
+		            var img = $('<img src="' + imgSrc + '" alt="상품 이미지" class="product-image">');
+		            var deleteBtn = $('<button class="delete-btn delete">&#10005;</button>');
+
+		            deleteBtn.on('click', function() {
+		                var index = $(this).closest('.scroll-item').index() - $('.scroll-item').length + fileInputs.length;
+		                fileNames.splice(index, 1); // 배열에서 파일 이름 제거
+		                fileInputs[index].value = ""; // 파일 input 요소 초기화
+		                fileInputs.splice(index, 1); // 배열에서 파일 input 요소 제거
+		                $(this).closest('.scroll-item').remove(); // 이미지와 삭제 버튼을 DOM에서 제거
+		            });
+
+		            scrollItem.append(img).append(deleteBtn);
+		            scrollWrapper.append(scrollItem);
+		        }
+
+		        reader.readAsDataURL(file);
+		    }
 		}
-		*/
+		
+		
+		
+		
 	</script>
 </body>
 </html>

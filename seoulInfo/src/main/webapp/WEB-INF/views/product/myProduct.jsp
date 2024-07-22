@@ -86,7 +86,7 @@
 									<button class="btn btn-secondary delete">삭제</button>
 								</div>
 								<div class="select-wrapper">
-									<select class="form-control" id="status" name="status">
+									<select class="form-control status" name="status">
 										<option value="판매중"
 											${myProductList.sale_status eq '판매중' ? 'selected' : ''}>판매중</option>
 										<option value="거래중"
@@ -194,9 +194,62 @@
 
 		});
 		
-		// 상태값은 ajax 처리할 예정
-		// 선택된 상태 값 가져오기
-		var status = $(this).closest('.product-card').find('.status').val();
+		
+		
+		$(".delete").click(function() {
+			var button = $(this); // 원래의 this 값을 변수에 저장
+			// 클릭된 버튼의 상위 product-card 요소에서 sale_id 값을 가져옴
+			var sale_id = $(this).closest('.product-card').find('.sale_id').val();
+			alert("해당 상품을 삭제 하시겠습니까?");
+			
+			$.ajax({
+				type : 'POST',
+				url : '/product/deleteProduct',
+				data : {
+					"sale_id" : sale_id
+				},
+				success : function(result){
+					if(result === '1'){
+						button.closest('.product-card').remove();
+					}
+				},error : function(err){
+					console.log(err);
+				}
+			})			            
+					
+		});
+		
+		$(".select-wrapper").change(function(){
+			// 상태값은 ajax 처리할 예정
+			// 선택된 상태 값 가져오기
+			var status = $(this).closest('.product-card').find('.status').val();
+			var sale_id = $(this).closest('.product-card').find('.sale_id').val();
+			alert(sale_id);
+			
+			$.ajax({
+				type:'POST',
+				url : '/product/updateStatus',
+				data :{
+					"sale_status" : status,
+					"sale_id": sale_id
+				},
+				success : function(result){
+					if(result == '1'){
+						// 선택한 값 상태 변경
+						$(this).closest('.product-card').find('.status').val(status);
+						
+					}
+				},
+				error : function(err){
+					console.log(err);
+				}
+			})
+			
+		});
+		
+		
+		
+		
 	</script>
 </body>
 </html>
