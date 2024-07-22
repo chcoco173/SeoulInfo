@@ -9,6 +9,12 @@ import com.example.domain.EVStationVO;
 
 @Mapper
 public interface EVStationDAO {
+	
 	public List<EVStationVO> getStation();
+
+	public List<EVStationVO> getFilteredStation(HashMap map);
+	
+	public List<EVStationVO> getStationDataInfo();
+
 
 }

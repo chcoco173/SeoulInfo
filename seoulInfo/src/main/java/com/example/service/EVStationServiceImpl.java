@@ -21,6 +21,17 @@ public class EVStationServiceImpl implements EVStationService{
 		return evStationDAO.getStation();
 	}
 	
-	
+	@Override
+	public List<EVStationVO> getFilteredStation(HashMap map){
+		
+		return evStationDAO.getFilteredStation(map);
+		
+	}
+
+	@Override
+	public List<EVStationVO> getStationDataInfo() {
+		return evStationDAO.getStationDataInfo();
+	}
+
 
 }

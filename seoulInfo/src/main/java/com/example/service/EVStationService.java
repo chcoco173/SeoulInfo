@@ -9,4 +9,8 @@ public interface EVStationService {
 
 	public List<EVStationVO> getStation();
 
+	public List<EVStationVO> getFilteredStation(HashMap map);
+
+	public List<EVStationVO> getStationDataInfo();
+
 }

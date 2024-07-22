@@ -4,10 +4,48 @@
 
 <mapper namespace="com.example.dao.EVStationDAO">
 	<select id="getStation"  resultType="EVStationVO">
-	select *
-	from evc
-	limit 100
+	SELECT  *
+	FROM evc
+	limit 800
 	</select>
+	
+	
+	<select id="getStationDataInfo"  resultType="EVStationVO">
+		SELECT e.evc_id as evc_id, e.evc_address as evc_address,  e.evc_name as evc_name, e.evc_lat as evc_lat, e.evc_long as evc_long,
+			c.charger_facsmall as charger_facsmall, c.charger_opsmall as charger_opsmall, c.charger_userlimit as charger_userlimit, c.charger_mechine as charger_mechine, c.charger_type as charger_type
+	FROM evc	e
+	JOIN evc_cg c
+	ON e.evc_id = c.evc_id
+	</select>
+	
+	<select id="getFilteredStation" parameterType="hashmap" resultType="EVchargerVO">
+	SELECT e.evc_id 		 as evc_id, 
+           e.evc_name 		 as evc_name, 
+           e.evc_lat 		 as evc_lat, 
+           e.evc_long 		 as evc_long,
+	       c.charger_mechine as charger_mechine, 
+           c.charger_type 	 as charger_type
+	FROM evc e
+	JOIN evc_cg c ON e.evc_id = c.evc_id
+	WHERE 1=1
+	<if test="chargerType != null and chargerType != ''">
+		AND c.charger_type = #{type}
+	</if>
+	<if test="area != null and area != ''">
+		AND e.evc_area LIKE CONCAT('%', #{area}, '%')
+	</if>
+	<if test="charger_opbig != null and charger_opbig != ''">
+		AND c.charger_opbig = #{charger_opbig}
+	</if>
+	<if test="name = '충전소명'">
+		AND evc_name LIKE CONCAT('%', #{nameDetail}, '%')
+	</if>
+	<if test="name = '운영기관명'">
+		AND charger_opsmall LIKE CONCAT('%', #{nameDetail}, '%')
+	</if>
+	
+	LIMIT 1000;
+</select>
 	
     
 </mapper>

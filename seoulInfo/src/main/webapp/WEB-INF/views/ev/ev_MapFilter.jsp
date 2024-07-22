@@ -82,7 +82,7 @@
 					<td style="width: 40%;">검색</td>
 					<td><select id="name" name="name" style="width: 95%">
 							<option value="all">전체</option>
-							<option value="지역명">지역명</option>
+							<option value="운영기관명">운영기관명</option>
 							<option value="충전소명">충전소명</option>
 					</select> <input id="name_detail" name="name_detail" type="text"
 						placeholder="검색어를 입력하세요." style="width: 95%"></td>
