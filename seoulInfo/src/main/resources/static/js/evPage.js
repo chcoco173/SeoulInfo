@@ -13,24 +13,28 @@ $(function(){
 	// 각 버튼 별 아이템 띄우기
 	$('#filterBtn1').click(function () {
 	    // alert("search1");
-		$(".overlay").fadeIn();
-		$(".search_map").css({"display":"inherit"});
+		$(".overlay").show();
+		$('.overlay').css({'z-index':'1099'});
+		$(".search_map").css({"display":"inherit",'z-index':'1100'});
 		$(".search_favorite").css({"display":"none"});
 		$(".search_favorite").css({"display":"none"});
 	});
 	
 	$('#filterBtn2').click(function () {
 	    // alert("search2");
-		$(".overlay").fadeIn();
-		$(".search_navigation").css({"display":"inherit"});
+		// 화면을 검은색으로 레이아웃 변경 및 정보 표시
+		$(".overlay").show();
+		$('.overlay').css({'z-index':'1099'});
+		$(".search_navigation").css({"display":"inherit",'z-index':'1100'});
 		$(".search_map").css({"display":"none"});
-		$(".search_favorite").css({"display":"none"});
+		$(".search_favorite").css({"display":"none"});   
 	});
 	
 	$('#filterBtn3').click(function () {
 	    //alert("search3");
-		$(".overlay").fadeIn();
-		$(".search_favorite").css({"display":"inherit"});
+		$(".overlay").show();
+		$('.overlay').css({'z-index':'1099'});
+		$(".search_favorite").css({"display":"inherit",'z-index':'1100'});
 		$(".search_map").css({"display":"none"});
 		$(".search_navigation").css({"display":"none"});
 	});
@@ -43,11 +47,15 @@ $(function(){
 		$(".search_map").css({"display":"none"});
 		$(".search_navigation").css({"display":"none"});
 		$(".search_favorite").css({"display":"none"});
+		// 화면을 원래대로 복귀
+		$('.overlay').hide();
+		$('.charger_Information').css({'display':'none','z-index':'-1'});
 	});
 	
 	// 상세정보 - 검색결과
 	$('.result-list-table').click(function(){
 		$('.charger_Information').css({'display':'inherit','z-index':'110'});
+		
 	});
 	
 	// 상세정보 - 즐겨찾기
@@ -106,7 +114,13 @@ $(function(){
 		event.stopPropagation();
 		event.preventDefault();
 		
-		$('.charger_Information').css({'display':'none'})
+		var originalImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+		currentClickedMarker.setImage(originalImage);
+		currentClickedMarker.isClicked = false;
+		
+		// 화면을 원래대로 복귀
+		$('.overlay').hide();
+		$('.charger_Information').css({'display':'none','z-index':'-1'});
 	});
 	
 	// 즐겨찾기

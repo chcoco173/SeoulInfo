@@ -34,8 +34,28 @@
    <!-- Bootstrap core CSS -->
    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+   
+   <style>
+       /* Overlay style */
+       .overlay {
+           position: fixed;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           background-color: rgba(0, 0, 0, 0.7);
+           z-index: 100;
+           display: none;
+       }
+
+       .charger_Information {
+           /* Your existing styles */
+       }
+   </style>
 </head>
 <body onload="initMap()">
+	<!-- Overlay for black background -->
+	    <div class="overlay"></div>
 <!-- header navigation -->
    <div class="navigation-wrapper">
       <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar_m w-nav">
@@ -131,102 +151,150 @@
    </div>
    <!--
    <div class="service_list">
-      <%@include file="./ev_Navigation.jsp"%>
+
    </div>
    -->
    <div class="service_list">
-      <%@include file="./ev_Favorite.jsp"%>
+   		<%@include file="./ev_Favorite.jsp"%>
    </div>
    <div class="service_detail">
-   <%@include file="./ev_Info.jsp"%>
+   		<%@include file="./ev_Info.jsp"%>
    <div>
 <!-- end of kakao map API -->
 
 <!-- kakao map Script-->
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=008b79e594d7ab4e1058e1180ccf546c"></script>
-	<script>
-		// 지도를 표시할 div와 지도 옵션으로 지도를 생성합니다		
-		var mapContainer = document.getElementById('map'); // 지도를 표시할 div 
-		var mapOption = {
-			center: new kakao.maps.LatLng(37.566826, 126.9786567),
-			level: 8,
-			maxLevel: 8 // 확대 최대 레벨
-		};  
-		var map = new kakao.maps.Map(mapContainer, mapOption);
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=008b79e594d7ab4e1058e1180ccf546c&libraries=clusterer"></script>
+    <script>
+        var mapContainer = document.getElementById('map'); // 지도를 표시할 div 
+        var mapOption = {
+            center: new kakao.maps.LatLng(37.566826, 126.9786567),
+            level: 8,
+            maxLevel: 8 // 확대 최대 레벨
+        };  
+        var map = new kakao.maps.Map(mapContainer, mapOption);
 
-		// 마커를 표시할 위치와 title 객체 배열입니다 	
-		var positions = [
-			<c:forEach var="coordinate" items="${evStationList}" varStatus="status">
-				{
-					title: "${coordinate.evc_name}",
-					latlng: new kakao.maps.LatLng(${coordinate.evc_lat}, ${coordinate.evc_long})
-				}
-				<c:if test="${!status.last}">,</c:if>
-			</c:forEach>
-		];
-		
-		// 기능 0 : 지도에 마커 표시 (100개 제한) ------------------------------------------------------------------
-		// 마커 이미지의 이미지 주소입니다
-		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
-		
-		for (var i = 0; i < positions.length; i++) {
-			// 마커 이미지의 이미지 크기입니다
-			var imageSize = new kakao.maps.Size(24, 35); 
-			
-			// 마커 이미지를 생성합니다    
-			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-			
-			// 마커를 생성합니다
-			var marker = new kakao.maps.Marker({
-				map: map, // 마커를 표시할 지도
-				position: positions[i].latlng, // 마커를 표시할 위치
-				title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-				image: markerImage // 마커 이미지 
-			});
-		}
-		// 기능 1 (지도 이동 범위 제한 : 서울시)------------------------------------------------------------------
-		// 서울시 좌표 범위 설정
-			var seoulBounds = new kakao.maps.LatLngBounds(
-				    new kakao.maps.LatLng(37.413294, 126.734086), // 남서쪽 좌표
-				    new kakao.maps.LatLng(37.715133, 127.269311)  // 북동쪽 좌표
-				);
-				
-			// 지도의 중심이 서울시 좌표 범위를 벗어날 때 초기 중심으로 되돌리기
-			kakao.maps.event.addListener(map, 'center_changed', function() {
-				var center = map.getCenter();
-				if (!seoulBounds.contain(center)) {
-					map.setCenter(new kakao.maps.LatLng(37.5665, 126.9780)); // 초기 중심 좌표
-					alert("서울시 정보만 제공됩니다.")
-					}
-				});
-		// 기능 2 (지도 이미지 변환) -----------------------------------------------------------------------
-		var mapTypes = {
-			    terrain: kakao.maps.MapTypeId.TERRAIN
-			};
+        var positions = [
+            <c:forEach var="coordinate" items="${evStationList}" varStatus="status">
+                {
+                    title: "${coordinate.evc_name}",
+                    latlng: new kakao.maps.LatLng(${coordinate.evc_lat}, ${coordinate.evc_long}),
+                    
+                }
+                <c:if test="${!status.last}">,</c:if>
+            </c:forEach>
+        ];
 
-			function setOverlayMapTypeId() {
-			    var btnTerrain = document.getElementById('btnTerrain');
-			    var isTerrainEnabled = btnTerrain.getAttribute('data-enabled') === 'true';
+        var imageSrc = "/images/ev/ev_normal.png"; 
+        var clickedImageSrc = "/images/ev/ev_click.png"; 
 
-			    if (isTerrainEnabled) {
-			        map.removeOverlayMapTypeId(mapTypes.terrain);
-			        btnTerrain.setAttribute('data-enabled', 'false');
-			        btnTerrain.innerText = "지형도";
-					btnTerrain.classList.remove('btn-warning'); // 기존 클래스 제거
-					btnTerrain.classList.add('btn-info'); // 새로운 클래스 추가
-			    } else {
-			        map.addOverlayMapTypeId(mapTypes.terrain);
-			        btnTerrain.setAttribute('data-enabled', 'true');
-			        btnTerrain.innerText = "이미지";
-					btnTerrain.classList.remove('btn-info'); // 기존 클래스 제거
-					btnTerrain.classList.add('btn-warning'); // 새로운 클래스 추가
-			    }
-			}
-	</script>
+        var markers = [];
+        var imageSize = new kakao.maps.Size(24, 24); 
+
+        var currentClickedMarker = null;
+
+        for (var i = 0; i < positions.length; i++) {        
+            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+            var marker = new kakao.maps.Marker({
+                position: positions[i].latlng,
+                title: positions[i].title,
+                image: markerImage,
+                isClicked: false,
+                info: positions[i] // 마커에 정보 추가
+            });
+
+            (function(marker) {
+                kakao.maps.event.addListener(marker, 'click', function() {
+                    if (currentClickedMarker && currentClickedMarker !== marker) {
+                        var originalImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+                        currentClickedMarker.setImage(originalImage);
+                        currentClickedMarker.isClicked = false;
+                    }
+
+                    if (marker.isClicked) {
+                        var originalImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+                        marker.setImage(originalImage);
+                        marker.isClicked = false;
+                    } else {
+                        var clickedImage = new kakao.maps.MarkerImage(clickedImageSrc, imageSize);
+                        marker.setImage(clickedImage);
+                        marker.isClicked = true;
+                        currentClickedMarker = marker;
+
+                    
+                        $('.overlay').show();
+						$('.overlay').css({'z-index':'1099'});
+                        $('.charger_Information').show();
+						$(".charger_Information").css({"display":"inherit",'z-index':'1100'});
+                    }
+                });
+            })(marker);
+            
+            markers.push(marker);
+        }
+        
+        var clusterer = new kakao.maps.MarkerClusterer({
+            map: map,
+            averageCenter: true,
+            minLevel: 2,
+            disableClickZoom: true
+        });
+        
+        clusterer.addMarkers(markers);
+
+        kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
+            var level = map.getLevel() - 1;
+            map.setLevel(level, { anchor: cluster.getCenter() });
+        });
+
+        var seoulBounds = new kakao.maps.LatLngBounds(
+            new kakao.maps.LatLng(37.413294, 126.734086),
+            new kakao.maps.LatLng(37.715133, 127.269311)
+        );
+
+        kakao.maps.event.addListener(map, 'center_changed', function() {
+            var center = map.getCenter();
+            if (!seoulBounds.contain(center)) {
+                map.setCenter(new kakao.maps.LatLng(37.5665, 126.9780));
+                alert("서울시 정보만 제공됩니다.");
+            }
+        });
+
+        var mapTypes = {
+            terrain: kakao.maps.MapTypeId.TERRAIN
+        };
+
+        function setOverlayMapTypeId() {
+            var btnTerrain = document.getElementById('btnTerrain');
+            var isTerrainEnabled = btnTerrain.getAttribute('data-enabled') === 'true';
+
+            if (isTerrainEnabled) {
+                map.removeOverlayMapTypeId(mapTypes.terrain);
+                btnTerrain.setAttribute('data-enabled', 'false');
+                btnTerrain.innerText = "지형도";
+                btnTerrain.classList.remove('btn-warning');
+                btnTerrain.classList.add('btn-info');
+            } else {
+                map.addOverlayMapTypeId(mapTypes.terrain);
+                btnTerrain.setAttribute('data-enabled', 'true');
+                btnTerrain.innerText = "이미지";
+                btnTerrain.classList.remove('btn-info');
+                btnTerrain.classList.add('btn-warning');
+            }
+        }
+	
+</script>
+
+<!-- end of kakao map Script -->
+
+
+
+
+
 
 <!-- end of kakao map Script -->
    <script src="/js/webflow.js" type="text/javascript"></script>
    <script src="/js/evPage.js" type="text/javascript"></script>
 </body>
 </html>
+
 

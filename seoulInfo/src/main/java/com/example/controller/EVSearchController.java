@@ -26,29 +26,5 @@ public class EVSearchController {
 	private EVStationService evStationService;
 	
 	  
-    @GetMapping("/ev_MapFilter")
-    public String findEVStation(
-        @RequestParam(name = "type", required = true, defaultValue = "all") String type,
-        @RequestParam(name = "area", required = true, defaultValue = "all") String area,
-        @RequestParam(name = "loc", required = true,  defaultValue = "all") String loc,
-        @RequestParam(name = "name", required = true, defaultValue = "all") String name,
-        @RequestParam(name = "name_detail", required = true, defaultValue = "null") String nameDetail,
-        Model model
-    ) {
-        // ... (기존 코드)
-        
-        List<EVStationVO> evo = evStationService.getStation();
-        
-        // JSON으로 변환
-        ObjectMapper objectMapper = new ObjectMapper();
-        String evStationsJson;
-		try {
-			evStationsJson = objectMapper.writeValueAsString(evo);
-			 model.addAttribute("evStationsJson", evStationsJson);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        return "evmain";
-    }
+   
 }
