@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.dao.MemberDAO">
+	
+	<!-- 회원가입 : DB입력 -->
+	<insert id="insertMember" parameterType="MemberVO">
+		INSERT INTO member ( member_id, member_pw, member_name, member_tel, member_email, member_area )
+		VALUES ( #{member_id}, #{member_pw}, #{member_name}, #{member_tel}, #{member_email}, #{member_area} )	
+	</insert>
+	
+	<!-- 로그인 : DB확인 -->
+	<select id="loginCheck" parameterType="MemberVO">
+		SELECT * FROM member
+		WHERE member_id=#{member_id} AND member_pw=#{member_pw}
+	</select>
+	
+	<!-- 아이디찾기 -->
+	<select id="idSearch" parameterType="MemberVO">
+		SELECT * FROM member
+		WHERE member_name=#{member_name} AND member_email=#{member_email}
+	</select>
+	
+	<!-- 비밀번호찾기 -->
+	<select id="pwSearch" parameterType="MemberVO">
+		SELECT * FROM member
+		WHERE member_name=#{member_name} AND member_email=#{member_email} AND member_id=#{member_id}				
+	</select>	
+	
+	<!-- 아이디 중복체크 -->
+	<select id="idChk" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM member
+		WHERE member_id=#{member_id}
+	</select>
+	
+	<!-- 이메일 중복체크 -->
+	<select id="emailChk" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM member
+		WHERE member_email=#{member_email}
+	</select>
+	
+	
+	
+
+</mapper>
