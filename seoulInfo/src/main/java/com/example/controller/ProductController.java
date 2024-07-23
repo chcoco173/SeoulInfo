@@ -2,9 +2,19 @@ package com.example.controller;
 
 
 import java.io.File;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -125,10 +135,65 @@ public class ProductController {
 			map.put("prediction", "null");	
 		}
 
+		// 상품 list
 		List<Map<String, Object>> productList = productService.productCateList(map);
-
 		System.out.println(productList);
+
+		 // 현재 시간을 LocalDateTime으로 가져오기
+        LocalDateTime now = LocalDateTime.now();
+        
+        // 결과를 저장할 배열
+        String[] timeDataList = new String[productList.size()];
+
+        for (int i = 0; i < productList.size(); i++) {
+            Map<String, Object> product = productList.get(i);
+            Object regdateObject = product.get("sale_regdate");
+            
+            System.out.println(regdateObject.getClass().getName()); // type : java.time.LocalDateTime
+
+            // regdateObject의 타입을 확인하고 출력
+            if (regdateObject instanceof LocalDateTime) {
+            	
+            	// 일, 시, 분, 초 비교
+                LocalDateTime regdateTime = (LocalDateTime) regdateObject;
+               
+
+                // LocalDateTime을 ZonedDateTime으로 변환하여 Duration을 사용
+                ZonedDateTime nowZoned = now.atZone(ZoneId.systemDefault());
+                ZonedDateTime regdateZoned = regdateTime.atZone(ZoneId.systemDefault());
+                Duration duration = Duration.between(regdateZoned, nowZoned);
+                
+                
+                // 밀리초, 분, 시간, 일로 변환
+                long differenceInMillis = duration.toMillis();
+                long differenceInMinutes = duration.toMinutes();
+                long differenceInHours = duration.toHours();
+                long differenceInDays = duration.toDays();
+
+
+                String result;
+                if (differenceInDays > 0) {
+                    // 하루 이상 지난 경우
+                    result = differenceInDays + "일 전";
+                    System.out.println(result);
+                } else if (differenceInHours > 0) {
+                    // 하루는 안 지났으나, 몇 시간 지난 경우
+                    result = differenceInHours + "시간 전";
+                    System.out.println(result);
+                } else {
+                    // 하루도 안 지났고, 몇 분 지난 경우
+                    result = differenceInMinutes + "분 전";
+                    System.out.println(result);
+                }
+
+                timeDataList[i] = result; // 결과 배열에 저장
+            } else {
+                timeDataList[i] = "Invalid date format for 'sale_regdate'";
+            }
+        }
+
 		model.addAttribute("productList", productList);
+		model.addAttribute("timeDataList", timeDataList);
 
 
 		return "product/productMain";
@@ -155,6 +220,7 @@ public class ProductController {
 		List<Map<String, Object>> productList = productService.productCateList(map);
 
 		System.out.println(productList);
+
 
 		// 모델에 카테고리 속성 추가
 		model.addAttribute("category", category);
@@ -221,7 +287,31 @@ public class ProductController {
 
 		List<Map<String, Object>> myProductList = productService.myProductList(member_id);
 		System.out.println(myProductList);
+		
+		
+		// 결과를 저장할 배열
+        String[] dateList = new String[myProductList.size()];
+        
+        // 날짜 포맷터 설정
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		
+		for (int i = 0; i < myProductList.size(); i++) {
+            Map<String, Object> product = myProductList.get(i);
+            Object regdateObject = product.get("sale_regdate");
+            
+            if (regdateObject instanceof LocalDateTime) {
+                LocalDateTime regdate = (LocalDateTime) regdateObject;
+                String formattedDate = regdate.format(formatter); // LocalDateTime을 지정된 포맷으로 변환
+                dateList[i] = formattedDate; // 결과 배열에 저장
+                System.out.println(formattedDate);
+            } else {
+            	dateList[i] = "Invalid date format for 'sale_regdate'";
+            }
+       
+            
+        }
 		model.addAttribute("myProductList", myProductList);
+		model.addAttribute("timeDataList", dateList);
 
 		return "product/myProduct";
 	}
@@ -259,6 +349,7 @@ public class ProductController {
 
 		return null;
 	}
+	
 
 	// 상품 상태 수정
 	@PostMapping("updateStatus")
@@ -270,9 +361,9 @@ public class ProductController {
 		pvo.setMember_id("chen0120");
 		pvo.setSale_id(sale_id);
 		pvo.setSale_status(sale_status);
-		
+
 		Integer result =  productService.updateStatus(pvo);
-		
+
 		if ( result != null) {
 			return "1";
 		}
@@ -280,52 +371,53 @@ public class ProductController {
 		return null;
 
 	}
+
+	// 상품 삭제
 	@PostMapping("deleteProduct")
 	@ResponseBody
 	@Transactional
 	public String deleteProduct(@RequestParam Integer sale_id) {
 		System.out.println(sale_id);
-		
+
 		ProductVO pvo = new ProductVO();
 		pvo.setSale_id(sale_id);
 		pvo.setMember_id("chen0120");
-		
+
 		Integer imageResult =  productImageService.deleteProductImage(sale_id);
-		
+
 		// 상품 삭제
 		Integer productResult = productService.deleteProduct(pvo);
-			
-		
-//		List<ProductImageVO> images = productImageService.myProductSaleId(sale_id);
-//		
-//		if (images != null && !images.isEmpty()) {
-//	        
-//	        
-//	        if(productResult != null & imageResult != null) {
-//	        	return "1";
-//	        }
-//	        
-//	    }
-//		
-//		if (productResult != null) {
-//			return "1";
-//		}
-//
-//		
+
+
+		//		List<ProductImageVO> images = productImageService.myProductSaleId(sale_id);
+		//		
+		//		if (images != null && !images.isEmpty()) {
+		//	        
+		//	        
+		//	        if(productResult != null & imageResult != null) {
+		//	        	return "1";
+		//	        }
+		//	        
+		//	    }
+		//		
+		//		if (productResult != null) {
+		//			return "1";
+		//		}
+		//
+		//		
 		return "1";
 	}
-	
-	
-	
+
+
 	// 상품 수정
 	@RequestMapping("/productUpdate")
 	@Transactional
-	public String productUpdate( @RequestParam("file") List<MultipartFile> files, ProductVO pvo ) {
+	public String updateProduct( @RequestParam("file") List<MultipartFile> files, ProductVO pvo ) {
 		// 임의로 지정
 		pvo.setMember_id("chen0120");
 		// 상품수정
 		productService.updateProduct(pvo);
-		
+
 		try {
 			for (MultipartFile file : files) {
 				String productimg_name = file.getOriginalFilename();
@@ -365,6 +457,21 @@ public class ProductController {
 
 		return "redirect:/product/myProduct";
 	}
+
+
+	// 상품 id에 대한 내용
+	@GetMapping("/detail_post")
+	public String detailProduct(@RequestParam Integer sale_id, Model model) {
+		System.out.println(sale_id);
+		ProductVO product = productService.myProductSaleId(sale_id);
+		List<ProductImageVO> productImgList = productImageService.myProductSaleId(sale_id);
+
+		model.addAttribute("product", product);
+		model.addAttribute("productImgList", productImgList);
+
+		return "product/detail_post";
+	}
+
 
 
 }

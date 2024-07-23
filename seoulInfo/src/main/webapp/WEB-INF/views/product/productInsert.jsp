@@ -281,14 +281,20 @@
 									</select>
 								</div>
 								<div class="form-group">
-									<label for="productimg_name">상품 사진 업로드</label>
-									<div>
-										<input type="file" class="form-control-file mt-2" name="file">
-										<input type="file" class="form-control-file mt-2" name="file">
-										<input type="file" class="form-control-file mt-2" name="file">
-										<input type="file" class="form-control-file mt-2" name="file">
-										<input type="file" class="form-control-file mt-2" name="file">
-									</div>
+									<!-- 상품 사진 업로드 스크롤 -->
+								    <div class="scroll-container">
+								        <div class="scroll-wrapper" id="scrollWrapper">     
+								        </div>
+								    </div>
+								    
+								    <label for="productImage">상품 사진 업로드</label>
+								    <div id="fileInputs">
+								        <input type="file" class="form-control-file mt-2 file-input" name="file">
+								        <input type="file" class="form-control-file mt-2 file-input" name="file">
+								        <input type="file" class="form-control-file mt-2 file-input" name="file">
+								        <input type="file" class="form-control-file mt-2 file-input" name="file">
+								        <input type="file" class="form-control-file mt-2 file-input" name="file">
+								    </div>
 								</div>
 								<div class="form-group submit-button">
 									<button type="submit" class="btn btn-primary">상품 등록</button>
@@ -381,5 +387,52 @@
 		integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
 		crossorigin="anonymous"></script>
 	<script src="/js/webflow.js" type="text/javascript"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script>
+	    var fileNames = []; // 파일 이름을 저장할 배열
+	    var fileInputs = []; // 파일 input 요소를 참조할 배열
+
+	    // 파일 입력 요소에 이벤트 리스너 추가
+	    $(document).ready(function() {
+	        $('.file-input').each(function(index, element) {
+	            $(element).on('change', previewFile);
+	        });
+	    });
+
+	    // 상품 등록 시 스크롤 추가 + 삭제 시 스크롤 제거 + file 초기화
+	    function previewFile(event) {
+	        var input = event.target;
+	        var files = input.files;
+	        var scrollWrapper = $('#scrollWrapper');
+
+	        fileInputs.push(input); // 파일 input 요소를 배열에 추가
+
+	        for (var i = 0; i < files.length; i++) {
+	            var file = files[i];
+	            fileNames.push(file.name); // 배열에 파일 이름 추가
+	            var reader = new FileReader();
+
+	            reader.onload = function(e) {
+	                var imgSrc = e.target.result;
+	                var scrollItem = $('<div class="scroll-item"></div>');
+	                var img = $('<img src="' + imgSrc + '" alt="상품 이미지" class="product-image">');
+	                var deleteBtn = $('<button class="delete-btn delete">&#10005;</button>');
+
+	                deleteBtn.on('click', function() {
+	                    var index = $(this).closest('.scroll-item').index();
+	                    fileNames.splice(index, 1); // 배열에서 파일 이름 제거
+	                    fileInputs[index].value = ""; // 파일 input 요소 초기화
+	                    fileInputs.splice(index, 1); // 배열에서 파일 input 요소 제거
+	                    $(this).closest('.scroll-item').remove(); // 이미지와 삭제 버튼을 DOM에서 제거
+	                });
+
+	                scrollItem.append(img).append(deleteBtn);
+	                scrollWrapper.append(scrollItem);
+	            }
+
+	            reader.readAsDataURL(file);
+	        }
+	    }
+	</script>
 </body>
 </html>

@@ -41,64 +41,7 @@
 <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!-- 외부 css -->
 <link href="/css/product/productCU.css" rel="stylesheet" type="text/css">
-<style>
-/* 컨테이너 스타일 */
-.scroll-container {
-	position: relative;
-	width: 100%;
-	overflow-x: auto; /* 가로 스크롤바 활성화 */
-	white-space: nowrap; /* 자식 요소가 가로로 나열되도록 설정 */
-	-webkit-overflow-scrolling: touch; /* 터치 스크롤링 활성화 (모바일 최적화) */
-	padding: 10px 0; /* 스크롤바와 이미지 사이에 패딩 추가 */
-}
 
-/* 이미지 래퍼 스타일 */
-.scroll-wrapper {
-	display: flex; /* 자식 요소를 가로로 나열 */
-	align-items: center; /* 이미지 수직 중앙 정렬 */
-}
-
-/* 개별 이미지 아이템 스타일 */
-.scroll-item {
-	flex: 0 0 auto; /* 자식 요소가 자동으로 크기 조정되도록 설정 */
-	margin-right: 10px; /* 이미지 간 간격 설정 */
-	width: 200px; /* 일정한 너비 설정 */
-	height: 200px; /* 일정한 높이 설정 */
-	overflow: hidden; /* 이미지가 컨테이너를 넘지 않도록 설정 */
-	position: relative; /* 삭제 버튼의 절대 위치를 기준으로 설정 */
-	border-radius: 10px; /* 이미지 모서리 둥글게 설정 */
-}
-
-/* 이미지 스타일 */
-.product-image {
-	width: 100%; /* 이미지의 너비를 컨테이너에 맞춤 */
-	height: 100%; /* 이미지의 높이를 컨테이너에 맞춤 */
-	object-fit: cover; /* 이미지 비율 유지하며 컨테이너에 맞춤 */
-}
-
-/* 삭제 버튼 스타일 */
-.delete-btn {
-	position: absolute;
-	top: 10px; /* 상단에서 10px 위치 */
-	right: 10px; /* 오른쪽에서 10px 위치 */
-	background: rgba(0, 0, 0, 0.5); /* 배경 색상 */
-	color: white; /* 글자 색상 */
-	border: none;
-	border-radius: 50%; /* 둥근 버튼 */
-	width: 24px;
-	height: 24px;
-	font-size: 16px; /* 글자 크기 */
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	z-index: 1; /* 버튼이 이미지 위에 위치하도록 설정 */
-}
-
-.delete-btn:hover {
-	background: rgba(0, 0, 0, 0.8); /* 호버 시 배경 색상 변경 */
-}
-</style>
 </head>
 <body>
 	<div class="page-wrapper">
@@ -382,13 +325,18 @@
 
 									<label for="productImage">상품 사진 업로드</label>
 									<div id="fileInputs">
-										<c:forEach var="i" begin="0"
-											end="${5 - productImageSaleId.size() - 1}" step="1">
-											<div class="form-group">
-												<input type="file" class="form-control-file mt-2 file-input"
-													name="file">
-											</div>
-										</c:forEach>
+										<c:choose>
+										        <c:when test="${productImageSaleId.size() < 5}">
+										            <c:forEach var="i" begin="0" end="${5 - productImageSaleId.size() - 1}" step="1">
+										                <div class="form-group">
+										                    <input type="file" class="form-control-file mt-2 file-input" name="file">
+										                </div>
+										            </c:forEach>
+										        </c:when>
+										        <c:otherwise>
+										            <p>이미지가 최대 개수(5개)에 도달했습니다.</p>
+										        </c:otherwise>
+										</c:choose>
 									</div>
 									<div class="form-group submit-button">
 										<button type="submit" class="btn btn-primary">상품 수정</button>
@@ -485,17 +433,12 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
-		/*
-		function removeItem(button) {
-		    // 클릭된 버튼의 부모 요소 (이미지 아이템)를 선택
-		    const itemToRemove = button.parentElement;
-		    // 해당 아이템을 DOM에서 제거
-		    itemToRemove.remove();
-		}
-		 */
-
-		$('.deletebtn').on('click', function() {
+		$('.deletebtn').on('click', function(evt) {
+				
+					evt.preventDefault();
+			
 					// 클릭된 버튼의 부모 요소인 .scroll-item을 찾습니다.
+					
 					var $item = $(this).closest('.scroll-item');
 
 					// .scroll-item에서 name 속성으로 sale_id와 productimg_no 값을 가져옵니다.
@@ -515,6 +458,7 @@
 							if (result === '1') {
 								// .scroll-item을 DOM에서 제거합니다.
 								$item.remove();
+								updateFileInputs();
 							} else {
 								alert('Failed to delete image');
 							}
@@ -524,41 +468,15 @@
 						}
 					});
 				});
+				
+				
 
 		$('.file-input').on('change', function(event) {
 			previewFile(event);
 		});
-/*
+
 		
-		//이거 추가하면 db 삭제 안됨 하지만 스크롤에 이미지 추가는 됨...
-		function previewFile(event) {
-			var input = event.target;
-			var files = input.files;
-			var scrollWrapper = $('#scrollWrapper');
-
-			for (var i = 0; i < files.length; i++) {
-				var file = files[i];
-				var reader = new FileReader();
-
-				reader.onload = function(e) {
-					var imgSrc = e.target.result;
-					var scrollItem = $('<div class="scroll-item"></div>');
-					var img = $('<img src="' + imgSrc + '" alt="상품 이미지" class="product-image">');
-					var deleteBtn = $('<button class="delete-btn delete">&#10005;</button>');
-
-					deleteBtn.on('click', function() {
-						$(this).closest('.scroll-item').remove();
-					});
-
-					scrollItem.append(img).append(deleteBtn);
-					scrollWrapper.append(scrollItem);
-				}
-
-				reader.readAsDataURL(file);
-			}
-		}
-	
-*/	
+		
 		var fileNames = []; // 파일 이름을 저장할 배열
 		var fileInputs = []; // 파일 input 요소를 참조할 배열
 
