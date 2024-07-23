@@ -68,7 +68,35 @@
 <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
 <link href="/images/webclip.png" rel="apple-touch-icon">
 <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    .product-card {
+        border: 1px solid #ddd; /* 얇은 테두리 */
+        border-radius: 5px; /* 테두리 둥글기 */
+        padding: 15px; /* 내부 여백 */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 약간의 그림자 */
+        background-color: #fff; /* 배경색 */
+        transition: box-shadow 0.3s ease; /* 테두리 효과 전환 */
+    }
 
+    .product-card:hover {
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2); /* 마우스 오버 시 그림자 효과 */
+    }
+
+    .product-image {
+        height: 250px; 
+        width: 250px; 
+        object-fit: cover; /* 이미지 비율 유지하며 컨테이너에 맞춤 */
+        display: block;
+        margin: 0 auto; /* 이미지 가운데 정렬 */
+        border: 2px solid #ddd; /* 얇은 테두리 추가 */
+        border-radius: 5px; /* 테두리 둥글기 (선택 사항) */
+    }
+
+    .product-info {
+        text-align: center; /* 상품 정보 중앙 정렬 */
+        margin-top: 10px;
+    }
+</style>
 <!-- 외부css-->
 <link href="/css/product/productMain.css" rel="stylesheet" type="text/css">
 </head>
@@ -92,83 +120,35 @@
 								<div class="container my-5">
 									<!--  상품 ( jstl로 들어갈 예정 ) -->
 									<div class="row">
-										<c:forEach items="${productList}" var="productList">
-										<div class="col-md-3 product">
-											<div class="product-card">
-												<c:choose>
-												    <c:when test="${not empty productList.productimg_alias}">
-												        <img src="/productImage/${productList.productimg_alias}" alt="상품 이미지" class="product-image" style="height: 250px; width:250px;">
-												    </c:when>
-												    <c:otherwise>
-														<img src="https://via.placeholder.com/200" alt="이미지없음"
-																											class="product-image">
-												    </c:otherwise>
-												</c:choose>
-												
-												<div class="product-info">
-													<h4>${productList.sale_name}</h4>
-													<p>상품 1 설명</p>
-													<p>
-														<strong>${productList.sale_price}</strong>
-													</p>
-													<p>
-														관심 ${productList.favorite_count}<span style="margin-left: 20px;">상태: ${productList.sale_status}</span>
-													</p>
+										<c:forEach items="${productList}" var="productList" varStatus="status">
+											<div class="col-md-3 product">
+												<div class="product-card">
+													<c:choose>
+													    <c:when test="${not empty productList.productimg_alias}">
+													        <img src="/productImage/${productList.productimg_alias}" alt="상품 이미지" class="product-image" style="height: 250px; width:250px;">
+													    </c:when>
+													    <c:otherwise>
+															<img src="https://via.placeholder.com/이미지없음" alt="이미지없음" class="product-image" style="height: 250px; width:250px;">
+													    </c:otherwise>
+													</c:choose>
+													
+													<div class="product-info">
+														<input type="hidden" class="sale_id" value="${productList.sale_id}">
+														<h4>${productList.sale_name}</h4>
+														<p>${productList.sale_area}</p>
+														<p>
+															<strong>${productList.sale_price}</strong>
+														</p>
+														<p>
+															관심 ${productList.favorite_count}<span style="margin-left: 20px;">상태: ${productList.sale_status}</span>
+														</p>
+														<!-- 날짜 차이 정보 추가 -->
+														<p>${timeDataList[status.index]}</p>
+													</div>
 												</div>
 											</div>
-										</div>
-										</c:forEach>
-										<!--<div class="col-md-3 product">
-											<div class="product-card">
-												<img src="https://via.placeholder.com/200" alt="상품 2"
-													class="product-image">
-												<div class="product-info">
-													<h4>상품 2</h4>
-													<p>상품 2 설명</p>
-													<p>
-														<strong>₩20,000</strong>
-													</p>
-													<p>
-														관심 10 <span style="margin-left: 20px;">상태: 판매완료</span>
-													</p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-3 product">
-											<div class="product-card">
-												<img src="https://via.placeholder.com/200" alt="상품 3"
-													class="product-image">
-												<div class="product-info">
-													<h4>상품 3</h4>
-													<p>상품 3 설명</p>
-													<p>
-														<strong>₩30,000</strong>
-													</p>
-													<p>
-														관심 2 <span style="margin-left: 20px;">상태: 예약중</span>
-													</p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-3 product">
-											<div class="product-card">
-												<img src="https://via.placeholder.com/200" alt="상품 4"
-													class="product-image">
-												<div class="product-info">
-													<h4>상품 4</h4>
-													<p>상품 4 설명</p>
-													<p>
-														<strong>₩40,000</strong>
-													</p>
-													<p>
-														관심 8 <span style="margin-left: 20px;">상태: 판매중</span>
-													</p>
-												</div>
-											</div>
-										</div>-->
-										
+										</c:forEach>									
 									</div>
-
 								</div>
 							</div>
 						</div>
@@ -265,8 +245,12 @@
 				src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 			<!-- 제이쿼리 라이브러리 추가 + 상품클릭시 디테일페이지로이동 -->
 			<script type="text/javascript">
+				
 				$(".product").click(function() {
-					location.href = "detail_post";
+					var sale_id = $(this).find('.sale_id').val();
+					alert(sale_id);
+					
+					location.href = "detail_post?sale_id="+sale_id;
 
 				});
 

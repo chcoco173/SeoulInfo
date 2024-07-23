@@ -44,7 +44,9 @@
         ps.sale_cate,
         ps.sale_name, 
         ps.sale_status, 
-        ps.sale_price, 
+        ps.sale_price,
+        ps.sale_area, 
+        ps.sale_regdate, 
         MAX(pi.productimg_url) AS productimg_url,
         MAX(pi.productimg_alias) AS productimg_alias,
         COUNT(DISTINCT fp.member_id) AS favorite_count

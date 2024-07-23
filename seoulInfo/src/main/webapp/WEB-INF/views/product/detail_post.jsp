@@ -1,5 +1,5 @@
 <%@page contentType="text/html; charset=UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <!--  This site was created in Webflow. https://webflow.com  -->
 <!--  Last Published: Wed Jul 03 2024 06:37:30 GMT+0000 (Coordinated Universal Time)  -->
@@ -88,6 +88,63 @@
 	
 <!-- 외부 css -->
 <link href="/css/product/product_detail.css" rel="stylesheet" type="text/css">
+<style>
+	.carousel-image-wrapper {
+	    background-color: #000000; /* 배경색 설정 */
+	    width: 100%;
+	    height: 400px;
+	    padding-top: 50%; /* 비율 설정, 예: 16:9 비율 */
+		position: relative; /* 자식 요소를 절대 위치로 설정하기 위한 준비 */
+	    display: flex; /* 중앙 정렬을 위한 flex 사용 */
+	    align-items: center;
+	    justify-content: center;
+	    overflow: hidden;
+		
+	}
+
+	.carousel-image-wrapper img {
+	    position: absolute; /* 절대 위치로 부모 요소에 맞게 조정 */
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-50%, -50%); /* 중앙 정렬 */
+	    width: 100%;
+	    height: 80%; /* 비율 유지 */
+	    max-width: 100%; /* 이미지가 컨테이너 너비를 넘지 않도록 설정 */
+	    max-height: 100%; /* 이미지가 컨테이너 높이를 넘지 않도록 설정 */
+	    object-fit: contain; /* 이미지 비율 유지하며 컨테이너에 맞춰 조정 */
+	}
+
+	/* 미디어 쿼리: 화면 크기에 따라 비율을 조정 */
+	@media (max-width: 1200px) {
+	    .carousel-image-wrapper {
+	        padding-top: 50%; /* 비율 조정 예: 2:1 비율 */
+	    }
+	}
+
+	@media (max-width: 992px) {
+	    .carousel-image-wrapper {
+	        padding-top: 75%; /* 비율 조정 예: 4:3 비율 */
+	    }
+	}
+
+	@media (max-width: 768px) {
+	    .carousel-image-wrapper {
+	        padding-top: 100%; /* 비율 조정 예: 1:1 비율 */
+	    }
+	}
+
+	@media (max-width: 576px) {
+	    .carousel-image-wrapper {
+	        padding-top: 120%; /* 비율 조정 예: 더 작은 화면에서 비율 조정 */
+	    }
+	}
+
+	
+	
+
+	
+
+</style>
 
 
 <script>
@@ -128,7 +185,7 @@
 									<a href="#" class="large-author-wrapper w-inline-block"
 										onmouseover="showBubble()" onmouseout="hideBubble()">
 										<div class="large-author-thumbnail"></div>
-										<h5 class="author-name">판매자 이름</h5>
+										<h5 class="author-name">${product.member_id}</h5>
 										<div class="speech-bubble-right">대화 매너가 좋아요!</div>
 										<div>
 											<div
@@ -145,84 +202,74 @@
 
 								<div class="spacer-xlarge"></div>
 								<div class="row">
-									<div class="col-md-6">
-										<div class="image-overflow-wrapper">
-											<div id="carouselExampleIndicators" class="carousel slide"
-												data-ride="carousel">
-												<ol class="carousel-indicators">
-													<li data-target="#carouselExampleIndicators"
-														data-slide-to="0" class="active"></li>
-													<li data-target="#carouselExampleIndicators"
-														data-slide-to="1"></li>
-													<li data-target="#carouselExampleIndicators"
-														data-slide-to="2"></li>
-												</ol>
-												<div class="carousel-inner">
-													<div class="carousel-item active">
-														<img src="http://placehold.it/650x400"
-															class="d-block w-40 mx-auto" alt="...">
-													</div>
-													<div class="carousel-item">
-														<img src="http://placehold.it/650x400"
-															class="d-block w-40 mx-auto" alt="...">
-													</div>
-													<div class="carousel-item">
-														<img src="http://placehold.it/650x400"
-															class="d-block w-40 mx-auto" alt="...">
-													</div>
-												</div>
-												<a class="carousel-control-prev"
-													href="#carouselExampleIndicators" role="button"
-													data-slide="prev"> <span
-													class="carousel-control-prev-icon" aria-hidden="true"></span>
-													<span class="sr-only">Previous</span>
-												</a> <a class="carousel-control-next"
-													href="#carouselExampleIndicators" role="button"
-													data-slide="next"> <span
-													class="carousel-control-next-icon" aria-hidden="true"></span>
-													<span class="sr-only">Next</span>
-												</a>
-											</div>
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="product-description">
-											<h3 class="product-header">
-												상품명 <img id="heartImage" src="/productimages/heart_off.png"
-													class="heart-image" onclick="toggleHeart()"/>
-												
-											</h3>
-											<h6>
-												<img id="wonImage" src="/productimages/won.png" class="won-image" />
-												가격
-											</h6>
-											<h6>
-												<img id="deal_stateImage" src="/productimages/deal_state.png"
-													class="deal_state-image" /> 거래 상태
-											</h6>
-											<h6>카테고리</h6>
-											<h6>
-												<img id="lociImage" src="/productimages/loci.png"
-													class="loci-image" /> 상세 주소
-											</h6>
-											<div class="form-field-wrapper">
-												<label for="Style-Guide-Form-Message"
-													class="form-field-label">상품 상세</label>
-												<textarea id="Style-Guide-Form-Message" name="Message"
-													maxlength="5000" data-name="Message" placeholder="Message"
-													class="form-field text-area w-input" readonly></textarea>
-											</div>
-											<br />
-											<div class="container mt-5 text-center">
-												<button class="button-primary-small w-button">판매자와
-													채팅</button>
-												<button class="button-primary-small w-button">바로
-													구입하기</button>
-											</div>
-											<br />
-										</div>
-									</div>
-								</div>
+								    <div class="col-md-6">
+								        <div class="image-overflow-wrapper">
+								            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+								                <!-- 인디케이터 (슬라이드 표시점) -->
+								                <ol class="carousel-indicators">
+								                    <c:forEach var="image" items="${productImgList}" varStatus="status">
+								                        <li data-target="#carouselExampleIndicators" data-slide-to="${status.index}" class="${status.index == 0 ? 'active' : ''}"></li>
+								                    </c:forEach>
+								                </ol>
+
+								                <!-- 슬라이드 항목 -->
+								                <div class="carousel-inner">
+								                    <c:forEach var="image" items="${productImgList}" varStatus="status">
+								                        <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
+								                            <div class="carousel-image-wrapper">
+								                                <img src="/productImage/${image.productimg_alias}" class="d-block img-fluid mx-auto"/>
+								                            </div>
+								                        </div>
+								                    </c:forEach>
+								                </div>
+
+								                <!-- 이전 버튼 -->
+								                <a class="carousel-control-prev" href="javascript:void(0)" role="button" data-target="#carouselExampleIndicators" data-slide="prev">
+								                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								                    <span class="sr-only">Previous</span>
+								                </a>
+
+								                <!-- 다음 버튼 -->
+								                <a class="carousel-control-next" href="javascript:void(0)" role="button" data-target="#carouselExampleIndicators" data-slide="next">
+								                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+								                    <span class="sr-only">Next</span>
+								                </a>
+								            </div>
+								        </div>
+								    </div>
+								    <div class="col-md-6">
+								        <div class="product-description">
+								            <h3 class="product-header">
+								                ${product.sale_name} 
+								                <img id="heartImage" src="/productimages/heart_off.png" class="heart-image" onclick="toggleHeart()"/>
+								            </h3>
+								            <h6>
+								                <img id="wonImage" src="/productimages/won.png" class="won-image" />
+								                ${product.sale_price}
+								            </h6>
+								            <h6>
+								                <img id="deal_stateImage" src="/productimages/deal_state.png" class="deal_state-image" /> 
+								                ${product.sale_status}
+								            </h6>
+								            <h6>${product.sale_cate}</h6>
+								            <h6>
+								                <img id="lociImage" src="/productimages/loci.png" class="loci-image" /> 
+								                ${product.sale_area}
+								            </h6>
+								            <div class="form-field-wrapper">
+								                <label for="Style-Guide-Form-Message" class="form-field-label">상품 상세</label>
+								                <textarea id="Style-Guide-Form-Message" name="Message" maxlength="5000" data-name="Message" placeholder="Message" class="form-field text-area w-input" readonly>${product.sale_descript}</textarea>
+								            </div>
+								            <br />
+								            <div class="container mt-5 text-center">
+								                <button class="button-primary-small w-button">판매자와 채팅</button>
+								                <button class="button-primary-small w-button">바로 구입하기</button>
+								            </div>
+								            <br />
+								        </div>
+								    </div>
+								</div> <!-- row 끝-->
+
 							</div>
 						</div>
 					</div>

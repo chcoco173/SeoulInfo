@@ -56,7 +56,7 @@
 				<div class="container_a">
 					<h1>판매목록</h1>
 					<div class="product-cards-container">
-						<c:forEach items="${myProductList}" var="myProductList">
+						<c:forEach items="${myProductList}" var="myProductList" varStatus="status">
 							<div class="product-card">
 								<c:choose>
 									<c:when test="${not empty myProductList.productimg_alias}">
@@ -72,7 +72,7 @@
 								<div class="product-details">
 									<h5>${myProductList.sale_name}</h5>
 									<p>
-										${myProductList.sale_regdate}
+										${timeDataList[status.index]}
 									</p>
 								</div>
 								
