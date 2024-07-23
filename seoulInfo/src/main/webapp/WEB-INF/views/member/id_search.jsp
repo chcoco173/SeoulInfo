@@ -31,7 +31,7 @@
 <body>
   <div class="page-wrapper">
 	
-	<!-- 한) 상단:회원가입/로그인/마이페이지 버튼 start -->
+	<!-- 한) 상단:회원가입/로그인 버튼 start -->
 	<div class="section-newsletter">
 	  <div class="padding-global">
 	    <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-black">
@@ -42,9 +42,8 @@
 				
 				<a href="/member/insertMember" class="button-primary-large max-width-full-mobile-portrait w-button">회원가입</a>
 				<a href="/member/login" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a>
-				<a href="/mypage/profile" class="button-primary-large max-width-full-mobile-portrait w-button">마이페이지</a>
 				
-			</form>
+			  </form>
 	          <div class="form-success-message w-form-done">
 	            <div class="text-size-regular text-color-white">Thank you! Your submission has been received!</div>
 	          </div>
@@ -56,7 +55,7 @@
 	    </div>
 	  </div>
 	</div>
-	<!-- 한) 상단:회원가입/로그인/마이페이지 버튼 end -->
+	<!-- 한) 상단:회원가입/로그인 버튼 end -->
 	
 	
     <div class="navigation-wrapper">
@@ -65,8 +64,8 @@
           <a href="/" class="brand w-nav-brand"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
           <div class="links-and-search-wrapper">
             <nav role="navigation" class="nav-links-wrapper w-nav-menu">
-              <a href="about" class="nav-link w-nav-link">About</a>
-              <a href="contact" aria-current="page" class="nav-link w-nav-link w--current">Contact</a>
+              <a href="about" class="nav-link w-nav-link"></a>
+              <a href="contact" aria-current="page" class="nav-link w-nav-link w--current"></a>
             </nav>
             <form action="/search" data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5" class="search w-form">
               <div class="search-div"><img src="/images/ph_magnifying-glass-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
@@ -101,28 +100,19 @@
                 </div>
                 <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">
 				  
-					<form action="id_search" method="post" name="wf-form-Contact-Form" data-name="Contact Form" method="get" id="wf-form-Contact-Form" class="form" data-wf-page-id="6684f0fb2a5375354f5c4825" data-wf-element-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a65">
-					<div class="form-field-wrapper-copy">						
-						<input class="form-field w-input" maxlength="256" name="mName" data-name="mName" placeholder="이름" type="text" id="mName" pattern="[가-힣]{2,}" required>						
+					<form action="id_search" method="post" name="wf-form-Contact-Form" id="wf-form-Contact-Form" class="form" data-wf-page-id="6684f0fb2a5375354f5c4825" data-wf-element-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a65">
+					<div class="form-field-wrapper">						
+						<input class="form-field w-input" maxlength="256" name="member_name" placeholder="이름" type="text" id="name" pattern="[가-힣]{2,}" required>						
 					</div>
-					<div class="form-field-wrapper-copy">						
-						<input class="form-field w-input" maxlength="256" name="mEmail" data-name="mEmail" placeholder="이메일" type="email" id="mEmail" required>
+					<div class="form-field-wrapper">						
+						<input class="form-field w-input" maxlength="256" name="member_email" placeholder="이메일" type="email" id="email" required>
 					</div>
 
 					<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
-						<input type="submit" data-wait="Please wait..." class="button-primary-large w-button" value="확인">
-					</div>
-					
-					
-					</form>				  
+						<input type="submit" class="button-primary-large w-button" value="확인">
+					</div>										
+					</form>				  				  
 				  
-<!--              <div class="form-success-message w-form-done">
-                    <div class="text-size-regular">Thank you! Your submission has been received!</div>
-                  </div>
-                  <div class="form-error-message w-form-fail">
-                    <div class="text-size-regular">Oops! Something went wrong while submitting the form.</div>
-                  </div>
-				  -->				  
                 </div>
               </div>
             </div>
