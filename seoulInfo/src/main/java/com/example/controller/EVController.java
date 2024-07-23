@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.domain.EVStationVO;
+import com.example.domain.EVchargerVO;
 import com.example.service.EVStationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -52,23 +53,24 @@ public class EVController {
     }
 	
 	// 검색 결과
-	 @GetMapping("/ev_MapFilter")
+	 @GetMapping("/ev_search-filter")
 	    public String findEVStation(
-	        @RequestParam(name = "type", required = true, defaultValue = "") String type,
-	        @RequestParam(name = "area", required = true, defaultValue = "") String area,
-	        @RequestParam(name = "charger_opbig", required = true,  defaultValue = "") String charger_opbig,
+	        @RequestParam(name = "charger_type", required = true, defaultValue = "") String charger_type,
+	        @RequestParam(name = "evc_area", required = true, defaultValue = "") String evc_area,
+	        @RequestParam(name = "charger_opbig", required = true, defaultValue = "") String charger_opbig,
 	        @RequestParam(name = "name", required = true, defaultValue = "") String name,
-	        @RequestParam(name = "name_detail", required = true, defaultValue = "") String nameDetail,
+	        @RequestParam(name = "searchText", required = true, defaultValue = "") String searchText,
 	        Model model
-	    ) {	        
+	    ) {
 		 	HashMap map = new HashMap();
-		 	map.put("type", type);
-		 	map.put("area", area);
+		 	map.put("charger_type", charger_type);
+		 	map.put("evc_area", evc_area);
 		 	map.put("charger_opbig", charger_opbig);
 		 	map.put("name", name);
-		 	map.put("nameDetail", nameDetail);
-	        List<EVStationVO> evo = evStationService.getFilteredStation(map);
+		 	map.put("searchText", searchText);
+	        List<EVchargerVO> evo = evStationService.getFilteredStation(map);
 	        
+	        System.out.println("result : "+evo);
 	        
 	        return "/ev/evMain";
 	    }

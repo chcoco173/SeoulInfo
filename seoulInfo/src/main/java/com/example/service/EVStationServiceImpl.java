@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.dao.EVStationDAO;
 import com.example.domain.EVStationVO;
+import com.example.domain.EVchargerVO;
 
 @Service
 public class EVStationServiceImpl implements EVStationService{
@@ -22,7 +23,7 @@ public class EVStationServiceImpl implements EVStationService{
 	}
 	
 	@Override
-	public List<EVStationVO> getFilteredStation(HashMap map){
+	public List<EVchargerVO> getFilteredStation(HashMap map){
 		
 		return evStationDAO.getFilteredStation(map);
 		
