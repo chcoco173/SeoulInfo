@@ -12,6 +12,7 @@ import Login from './Login';
 import InsertAdmin from './InsertAdmin';
 import InsertFestival from './InsertFestival';
 import Question from './Question';
+import Answer from './Answer';
 import InsertEVC from './InsertEVC';
 import InsertEv from './InsertEv';
 
@@ -57,6 +58,7 @@ function Dashboard() {
         <Route path="insert-festival" element={<InsertFestival />} />
         <Route path="insert-ev" element={<InsertEv />} />
         <Route path="insert-evc" element={<InsertEVC />} />
+        <Route path="answer/:question_no" element={<Answer />} />
       </Routes>
     </div>
   );

@@ -62,9 +62,15 @@ function NewsManagement() {
     }
   };
 
+  const handleKeyUp = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   const renderPageNumbers = () => {
     const pageNumbers = [];
-    const maxPagesToShow = 10; // 한 번에 표시할 최대 페이지 수
+    const maxPagesToShow = 10; 
     const totalPageBlocks = Math.ceil(totalPages / maxPagesToShow);
     const currentBlock = Math.floor(currentPage / maxPagesToShow);
     
@@ -102,7 +108,14 @@ function NewsManagement() {
           <option value="title">제목</option>
           <option value="area">지역</option>
         </select>
-        <input type="text" placeholder="검색" className="search-input" value={searchKeyword} onChange={(e) => setSearchKeyword(e.target.value)} />
+        <input
+          type="text"
+          placeholder="검색"
+          className="search-input"
+          value={searchKeyword}
+          onChange={(e) => setSearchKeyword(e.target.value)}
+          onKeyUp={handleKeyUp} // onKeyUp 이벤트 추가
+        />
         <button className="search-button" onClick={() => handleSearch(0)}>검색</button>
       </div>
       <table className="news-table">

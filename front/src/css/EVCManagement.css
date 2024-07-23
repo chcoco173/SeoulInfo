@@ -132,6 +132,7 @@
     border: 1px solid #ddd;
     background-color: transparent; 
     cursor: pointer;
+    color : black;
   }
   
   .pagination button:hover {

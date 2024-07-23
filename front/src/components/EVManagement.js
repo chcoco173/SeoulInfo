@@ -158,6 +158,12 @@ function EVManagement() {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch(0);
+    }
+  };
+
   const renderPageNumbers = () => {
     const pageNumbers = [];
     const maxPagesToShow = 10;
@@ -232,7 +238,14 @@ function EVManagement() {
             <option value="evcName">이름</option>
             <option value="evcArea">지역</option>
           </select>
-          <input type="text" placeholder="검색" className="search-input" value={searchKeyword} onChange={(e) => setSearchKeyword(e.target.value)} />
+          <input 
+            type="text" 
+            placeholder="검색" 
+            className="search-input" 
+            value={searchKeyword} 
+            onChange={(e) => setSearchKeyword(e.target.value)} 
+            onKeyUp={handleKeyPress} // onKeyUp 이벤트 추가
+          />
           <button className="search-button" onClick={() => handleSearch(0)}>검색</button>
         </div>
         <div className="insert-ev-container" id='insert-ev-container'>
@@ -319,7 +332,7 @@ function EVManagement() {
               <th className='evc_name'>충전소이름</th>
               <th className='charger_id'>충전기번호</th>
               <th className='charger_type'>충전기타입</th>
-              <th className='charger_status'>충전기상태</th>
+              <th className='charger_userlimit'>충전기상태</th>
               <th className='charger_facsmall'>시설구분</th>
               <th className='charger-update'>수정</th>
               <th className='charger-delete'>삭제</th>
@@ -365,16 +378,16 @@ function EVManagement() {
                     evc.charger_type
                   )}
                 </td>
-                <td className='charger_status'>
+                <td className='charger_userlimit'>
                   {editingEvcId === evc.charger_id ? (
                     <input
                       type="text"
-                      name="charger_status"
-                      value={editEvcData.charger_status}
+                      name="charger_userlimit"
+                      value={editEvcData.charger_userlimit}
                       onChange={handleChangeEvc}
                     />
                   ) : (
-                    evc.charger_status
+                    evc.charger_userlimit
                   )}
                 </td>
                 <td className='charger_facsmall'>

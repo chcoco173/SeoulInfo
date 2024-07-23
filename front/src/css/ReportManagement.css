@@ -1,124 +1,230 @@
 .report-info {
-    padding: 20px;
-    width: 90%;
-    margin: auto;
-  }
-  
-  .report-info h1 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .search-section {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .search-select {
-    width: 20%;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  .search-input {
-    flex-grow: 2;
-    margin: 0 10px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .search-button {
-    padding: 8px 16px;
-    background-color: #5c5c5c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .search-button:hover {
-    background-color: #2c2c2c;
-  }
-  
-  .report-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .report-table th,
-  .report-table td {
-    text-align: left;
-    padding: 8px;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .report-table th {
-    background-color: #f4f4f4;
-  }
+  padding: 20px;
+  width: 90%;
+  margin: auto;
+}
 
-  .ball {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 5px;
-    background-color: #ccc; /* 기본 회색 */
-  }
-  
-  .colored {
-    background-color: #f00; /* 색칠될 때 빨간색 */
-  }
+.report-info h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-  .delete-button {
-    padding: 8px 16px;
-    background-color: #8c8c8c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .delete-button:hover {
-    background-color: #5c5c5c;
-  }
+.search-section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
 
-  .popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .popup-content {
-    position: relative;
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: auto;
-    max-width: 500px; /* 모달의 최대 너비 설정 */
-  }
-  
-  .close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    border: none;
-    background: none;
-    color: #aaa;
-    font-size: 1.5em;
-    cursor: pointer;
-  }
-  
-  .close-button:hover {
-    color: #777;
-  }
+.search-select {
+  width: 20%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.search-input {
+  flex-grow: 2;
+  margin: 0 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.search-button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.report-table th,
+.report-table td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.report-table th {
+  background-color: #f4f4f4;
+}
+
+.ball {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+  background-color: #ccc;
+}
+
+.colored {
+  background-color: #f00;
+}
+
+.delete-button {
+  padding: 8px 16px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+.delete-button:disabled {
+  cursor: not-allowed;
+  background-color: #ccc;
+  color: #999;
+}
+
+.delete-button:disabled:hover {
+  background-color: #ccc;
+  color: #999;
+}
+
+.popup-button {
+  padding: 8px 16px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  position: relative;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 600px;
+}
+
+.popup-content p {
+  font-size: 1.em;
+}
+
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  border: none;
+  background: none;
+  color: #aaa;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  color: #777;
+}
+
+.processed-label {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #626b64;
+  color: white;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+.popup-button {
+  padding: 8px 16px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.approve-button,
+.reject-button {
+  width: calc(50% - 12px); 
+  display: inline-block;
+  margin: 0 2px; 
+}
+
+.approve-button {
+  background-color: #5c9269;
+  color: white;
+}
+
+.approve-button:hover {
+  background-color: #3d5c43;
+}
+
+.reject-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.reject-button:hover {
+  background-color: #99202c;
+}
+
+.processed-label {
+  display: inline-block;
+  width: calc(100% - 16px);
+  padding: 8px 0; 
+  background-color: #565e58;
+  color: white;
+  border-radius: 3px;
+  font-size: 1em;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  list-style-type: none;
+  padding: 0;
+}
+
+.pagination button {
+  padding: 8px 12px;
+  margin: 0 5px;
+  border: 1px solid #ddd;
+  background-color: transparent; 
+  cursor: pointer;
+  color : black;
+}
+
+.pagination button:hover {
+  border-color: #999;
+  color : white;
+}
+
+.pagination button.active {
+  font-weight: bold;
+  border-color: #333;
+}

@@ -343,6 +343,12 @@ function FestivalManagement() {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   const handleCardClick = (festival) => {
     setSelectedFestival(festival);
   };
@@ -362,7 +368,14 @@ function FestivalManagement() {
           <option value="festival_name">제목</option>
           <option value="festival_area">지역</option>
         </select>
-        <input type="text" placeholder="검색" className="search-input" value={searchKeyword} onChange={(e) => setSearchKeyword(e.target.value)}/>
+        <input 
+          type="text" 
+          placeholder="검색" 
+          className="search-input" 
+          value={searchKeyword} 
+          onChange={(e) => setSearchKeyword(e.target.value)}
+          onKeyUp={handleKeyPress} // onKeyUp 이벤트 추가
+        />
         <button className="search-button" onClick={handleSearch}>검색</button>
       </div>
       <div className="insert-festival-container" id='insert-festival-container'>

@@ -30,6 +30,12 @@ function Login() {
     }
   };
 
+  const handleKeyUp = (e) => {
+    if (e.key === 'Enter') {
+      handleLogin();
+    }
+  };
+
   return (
     <div className="login-container">
       <div className="login-form">
@@ -39,12 +45,14 @@ function Login() {
           placeholder="아이디"
           value={adminId}
           onChange={(e) => setAdminId(e.target.value)}
+          onKeyUp={handleKeyUp}
         />
         <input
           type="password"
           placeholder="비밀번호"
           value={adminPw}
           onChange={(e) => setAdminPw(e.target.value)}
+          onKeyUp={handleKeyUp} 
         />
         {errorMessage && <div className="error-message">{errorMessage}</div>}
         <button onClick={handleLogin}>로그인</button>

@@ -671,33 +671,62 @@ app.post('/data/update-member-status/:member_id', (req, res) => {
   });
 });
 
-// 신고테이블 리스트
+// 신고 테이블 리스트
 app.get('/data/reports', (req, res) => {
-  const sql = `
-    SELECT m.member_id, m.member_name, m.member_email, m.member_status, IFNULL(r.report_count, 0) AS report_count
+  const { page = 1, search = '' } = req.query;
+  const limit = 10;
+  const offset = (page - 1) * limit;
+
+  const searchSql = `
+    SELECT m.member_id, m.member_reportcount, IFNULL(r.report_count, 0) AS report_count
     FROM member m
     LEFT JOIN (
         SELECT member_id, COUNT(*) AS report_count
         FROM report
         GROUP BY member_id
     ) r ON m.member_id = r.member_id
-    ORDER BY r.report_count DESC, m.member_id;
+    WHERE m.member_id LIKE ? OR m.member_reportcount LIKE ?
+    ORDER BY m.member_reportcount DESC, m.member_id
+    LIMIT ? OFFSET ?;
   `;
 
-  conn.query(sql, (err, results) => {
+  const countSql = `
+    SELECT COUNT(*) as total
+    FROM member m
+    LEFT JOIN (
+        SELECT member_id, COUNT(*) AS report_count
+        FROM report
+        GROUP BY member_id
+    ) r ON m.member_id = r.member_id
+    WHERE m.member_id LIKE ? OR m.member_reportcount LIKE ?;
+  `;
+
+  const searchQuery = `%${search}%`;
+
+  conn.query(countSql, [searchQuery, searchQuery], (err, countResult) => {
     if (err) {
-      console.error('Error fetching reports:', err);
+      console.error('Error counting reports:', err);
       res.status(500).send('Error');
-    } else {
-      res.json(results);
+      return;
     }
+    
+    const total = countResult[0].total;
+
+    conn.query(searchSql, [searchQuery, searchQuery, limit, offset], (err, results) => {
+      if (err) {
+        console.error('Error fetching reports:', err);
+        res.status(500).send('Error');
+      } else {
+        res.json({ results, total });
+      }
+    });
   });
 });
 
 // 신고 사유 리스트
 app.get('/data/reports/:member_id', (req, res) => {
   const memberId = req.params.member_id;
-  const sql = 'SELECT report_id, report_reason FROM report WHERE member_id = ?';
+  const sql = 'SELECT report_id, report_reason, member_id, is_processed FROM report WHERE member_id = ?';
 
   conn.query(sql, [memberId], (err, results) => {
     if (err) {
@@ -706,30 +735,57 @@ app.get('/data/reports/:member_id', (req, res) => {
       return;
     }
     if (results.length > 0) {
-      res.json(results);  // 전체 신고 이유 배열 반환
+      res.json(results);
     } else {
       res.status(404).send('No reports found for this member');
     }
   });
 });
 
-// 신고횟수 증가
+// 신고 횟수 증가 및 처리 완료 상태 업데이트
 app.post('/data/increase-report-count/:memberId', (req, res) => {
   const { memberId } = req.params;
+  const { reportId } = req.body;
 
-  const sql = `
+  const updateReportCountSql = `
     UPDATE member 
     SET member_reportcount = member_reportcount + 1 
     WHERE member_id = ?;
   `;
 
-  conn.query(sql, [memberId], (err, result) => {
-    if (err) {
-      console.error('신고 횟수 업데이트 중 오류 발생:', err);
-      res.status(500).send('신고 횟수 업데이트 실패');
-    } else {
-      res.send({ message: '신고 횟수가 성공적으로 업데이트 되었습니다', result });
-    }
+  const markReportsProcessedSql = `
+    UPDATE report 
+    SET is_processed = TRUE 
+    WHERE report_id = ?;
+  `;
+
+  conn.beginTransaction((err) => {
+    if (err) { throw err; }
+    
+    conn.query(updateReportCountSql, [memberId], (err, result) => {
+      if (err) {
+        return conn.rollback(() => {
+          res.status(500).send('신고 횟수 업데이트 실패');
+        });
+      }
+
+      conn.query(markReportsProcessedSql, [reportId], (err, result) => {
+        if (err) {
+          return conn.rollback(() => {
+            res.status(500).send('신고 처리 완료 상태 업데이트 실패');
+          });
+        }
+        
+        conn.commit((err) => {
+          if (err) {
+            return conn.rollback(() => {
+              res.status(500).send('Transaction commit failed');
+            });
+          }
+          res.send({ message: '신고 횟수가 성공적으로 업데이트 되었고, 신고가 처리 완료 상태로 변경되었습니다' });
+        });
+      });
+    });
   });
 });
 
@@ -749,7 +805,7 @@ app.delete('/data/delete-report/:reportId', (req, res) => {
   });
 });
 
-// 회원삭제
+// 회원 삭제
 app.delete('/data/delete-member/:memberId', (req, res) => {
   const memberId = req.params.memberId;
   const sql = "DELETE FROM member WHERE member_id = ?";
@@ -761,6 +817,111 @@ app.delete('/data/delete-member/:memberId', (req, res) => {
     } else {
       res.status(200).send('Member deleted successfully');
     }
+  });
+});
+
+//문의 테이블 리스트
+app.get('/data/getallquestion', (req, res) => {
+  const pageNumber = parseInt(req.query.page) || 0;
+  const pageSize = 10;
+  const offset = pageNumber * pageSize;
+
+  const sqlCount = 'SELECT COUNT(*) AS total FROM question';
+  conn.query(sqlCount, (err, countResult) => {
+    if (err) throw err;
+    const totalItems = countResult[0].total;
+    const totalPages = Math.ceil(totalItems / pageSize);
+
+    const sql = `
+      SELECT question_no, question_cate, question_title, question_status, question_date, member_id
+      FROM question
+      ORDER BY question_no
+      LIMIT ${pageSize} OFFSET ${offset}
+    `;
+    
+    conn.query(sql, function(err, result, fields) {
+      if (err) throw err;
+      const formattedResult = result.map(question => ({
+        ...question,
+        question_date: formatDate(question.question_date)
+      }));
+      res.send({
+        questions: formattedResult,
+        totalPages
+      });
+    });
+  });
+});
+
+//문의 검색
+app.get('/data/search-question', (req, res) => {
+  const { category, keyword, page } = req.query;
+  const pageNumber = parseInt(page) || 0;
+  const pageSize = 10;
+  const offset = pageNumber * pageSize;
+
+  let query = '';
+  let countQuery = '';
+  let params = [`%${keyword}%`, pageSize, offset];
+
+  if (!keyword) {
+    query = 'SELECT * FROM question LIMIT ? OFFSET ?';
+    countQuery = 'SELECT COUNT(*) AS total FROM question';
+    params = [pageSize, offset];
+  } else {
+    if (category === 'question_title') {
+      query = 'SELECT * FROM question WHERE question_title LIKE ? LIMIT ? OFFSET ?';
+      countQuery = 'SELECT COUNT(*) AS total FROM question WHERE question_title LIKE ?';
+    } else if (category === 'question_cate') {
+      query = 'SELECT * FROM question WHERE question_cate LIKE ? LIMIT ? OFFSET ?';
+      countQuery = 'SELECT COUNT(*) AS total FROM question WHERE question_cate LIKE ?';
+    } else if (category === 'question_status') {
+      query = 'SELECT * FROM question WHERE question_status LIKE ? LIMIT ? OFFSET ?';
+      countQuery = 'SELECT COUNT(*) AS total FROM question WHERE question_status LIKE ?';
+    } else if (category === 'member_id') {
+      query = 'SELECT * FROM question WHERE member_id LIKE ? LIMIT ? OFFSET ?';
+      countQuery = 'SELECT COUNT(*) AS total FROM question WHERE member_id LIKE ?';
+    } else {
+      return res.status(400).json({ error: '카테고리 오류' });
+    }
+  }
+
+  conn.query(countQuery, [`%${keyword}%`], (err, countResult) => {
+    if (err) {
+      console.error('카운트 에러:', err);
+      return res.status(500).json({ error: '서버 에러' });
+    }
+    const totalItems = countResult[0].total;
+    const totalPages = Math.ceil(totalItems / pageSize);
+
+    conn.query(query, params, (err, results) => {
+      if (err) {
+        console.error('검색 에러:', err);
+        return res.status(500).json({ error: '서버 에러' });
+      }
+      const formattedResults = results.map(question => ({
+        ...question,
+        question_date: formatDate(question.question_date)
+      }));
+      res.json({ questions: formattedResults, totalPages });
+    });
+  });
+});
+
+// 질문내용 답변페이지에서 띄우기
+app.get('/data/getquestion/:question_no', (req, res) => {
+  const questionNo = req.params.question_no;
+  const sql = 'SELECT * FROM question WHERE question_no = ?';
+
+  conn.query(sql, [questionNo], (err, results) => {
+    if (err) {
+      console.error('Error fetching question data:', err);
+      return res.status(500).json({ error: '서버 에러' });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ error: '질문을 찾을 수 없습니다.' });
+    }
+    res.json(results[0]);
   });
 });
 

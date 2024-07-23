@@ -167,7 +167,6 @@ function AdminInfo() {
   const [searchCategory, setSearchCategory] = useState('name');
   const [searchKeyword, setSearchKeyword] = useState('');
 
-
   useEffect(() => { adminList() }, [])
 
   const adminList = async () => {
@@ -192,9 +191,15 @@ function AdminInfo() {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   const handleInsertAdmin = () => {
     navigate('/dashboard/insert-admin');
-};
+  };
 
   const handleCardClick = (admin) => {
     setSelectedAdmin(admin);
@@ -208,26 +213,31 @@ function AdminInfo() {
     <div className="admin-info">
       <h1>관리자 정보</h1>
       <div className="search-section">
-      <select className="search-select" value={searchCategory} onChange={(e) => setSearchCategory(e.target.value)}>
+        <select className="search-select" value={searchCategory} onChange={(e) => setSearchCategory(e.target.value)}>
           <option value="name">이름</option>
           <option value="id">아이디</option>
           <option value="email">이메일</option>
           <option value="tel">전화번호</option>
         </select>
-
-        <input type="text" placeholder="검색" className="search-input" value={searchKeyword} onChange={(e) => setSearchKeyword(e.target.value)}/>
+        <input 
+          type="text" 
+          placeholder="검색" 
+          className="search-input" 
+          value={searchKeyword} 
+          onChange={(e) => setSearchKeyword(e.target.value)} 
+          onKeyUp={handleKeyPress} // onKeyUp 이벤트 추가
+        />
         <button className="search-button" onClick={handleSearch}>검색</button>
       </div>
       <div className="insert-admin-container" id='insert-admin-container'>
-          <button className="insert-admin" onClick={handleInsertAdmin}>관리자 등록</button>
-        </div>
+        <button className="insert-admin" onClick={handleInsertAdmin}>관리자 등록</button>
+      </div>
       <div className="admin-cards-container">
         <div className="admin-cards">
           {viewContent.map(admin => (
             <AdminCard key={admin.admin_id} admin={admin} onClick={handleCardClick} />
           ))}
         </div>
-        
       </div>
       {selectedAdmin && <Adminpopup admin={selectedAdmin} onClose={handleClosepopup} />}
     </div>

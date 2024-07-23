@@ -58,6 +58,12 @@ function UserInfo() {
     }
   };
 
+  const handleKeyUp = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
@@ -104,7 +110,14 @@ function UserInfo() {
           <option value="loc">지역</option>
           <option value="tel">전화번호</option>
         </select>
-        <input type="text" placeholder="검색" className="search-input" value={searchKeyword} onChange={(e) => setSearchKeyword(e.target.value)} />
+        <input
+          type="text"
+          placeholder="검색"
+          className="search-input"
+          value={searchKeyword}
+          onChange={(e) => setSearchKeyword(e.target.value)}
+          onKeyUp={handleKeyUp} // onKeyUp 이벤트 추가
+        />
         <button className="search-button" onClick={handleSearch}>검색</button>
       </div>
       <table className="users-table">
