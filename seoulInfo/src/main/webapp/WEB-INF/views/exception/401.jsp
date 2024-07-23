@@ -53,10 +53,10 @@
         <div style="display:none" class="w-password-page w-embed w-script"><input type="hidden" name="path" value="<%WF_FORM_VALUE_PATH%>"><input type="hidden" name="page" value="<%WF_FORM_VALUE_PAGE%>"></div>
         <div style="display:none" class="w-password-page w-embed w-script">
           <script type="application/javascript">(function _handlePasswordPageOnload() {
-	  if (/[?&]e=1(&|$)/.test(document.location.search)) {
-	    document.querySelector('.w-password-page.w-form-fail').style.display = 'block';
-	  }
-	})()</script>
+     if (/[?&]e=1(&|$)/.test(document.location.search)) {
+       document.querySelector('.w-password-page.w-form-fail').style.display = 'block';
+     }
+   })()</script>
         </div>
       </form>
     </div>

@@ -28,11 +28,20 @@
   <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
   <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
   <link href="/images/webclip.png" rel="apple-touch-icon">
+  
+  <style type="text/css">
+  	/* 로그인 성공 메세지 */
+    .login-success-title {
+      color: #007bff;
+      font-weight: bold;
+    }
+  </style>   
+  
 </head>
 <body>
   <div class="page-wrapper">
 	
-	<!-- 한) 상단:회원가입/로그인/마이페이지 버튼 start -->
+	<!-- 한) 상단:회원가입/로그인 버튼 start -->
 	<div class="section-newsletter">
 	  <div class="padding-global">
 	    <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-black">
@@ -43,7 +52,6 @@
 				
 				<a href="/member/insertMember" class="button-primary-large max-width-full-mobile-portrait w-button">회원가입</a>
 				<a href="/member/login" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a>
-				<a href="/mypage/profile" class="button-primary-large max-width-full-mobile-portrait w-button">마이페이지</a>
 				
 			  </form>
 	          <div class="form-success-message w-form-done">
@@ -57,7 +65,7 @@
 	    </div>
 	  </div>
 	</div>
-	<!-- 한) 상단:회원가입/로그인/마이페이지 버튼 end -->	
+	<!-- 한) 상단:회원가입/로그인 버튼 end -->	
 	
 	<!-- 검색 start -->
     <div class="navigation-wrapper">
@@ -66,8 +74,9 @@
           <a href="/" class="brand w-nav-brand"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
           <div class="links-and-search-wrapper">
             <nav role="navigation" class="nav-links-wrapper w-nav-menu">
-              <a href="about" class="nav-link w-nav-link">About</a>
-              <a href="contact" aria-current="page" class="nav-link w-nav-link w--current">Contact</a>
+              <div class="login-success-title">${sessionScope.sess.member_name}님, 환영합니다.</div>
+              <a href="/mypage/profile" class="nav-link w-nav-link">마이페이지</a>
+              <a href="/" class="nav-link w-nav-link">로그아웃</a>
             </nav>
             <form action="/search" data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5" class="search w-form">
               <div class="search-div"><img src="/images/ph_magnifying-glass-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
