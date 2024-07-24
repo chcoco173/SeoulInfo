@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -74,7 +75,7 @@ public class MemberController {
 		return String.valueOf(result);		
 	}		
 	
-	 //로그인 : DB데이터 가져오기
+	// 로그인 : DB데이터 가져오기
 	@PostMapping("/loginCheck")
 	public String loginCheck(MemberVO vo, Model model, HttpSession session) {
 		System.out.println("화면에서 넘어온 값: "+ vo);
@@ -95,30 +96,12 @@ public class MemberController {
 		}
 	}
 	
-//	// 로그인 : DB데이터 세션에 저장
-//	@PostMapping("/loginCheck")
-//	@ResponseBody
-//	public Map<String, Object> loginCheck(@RequestBody MemberVO vo, HttpSession session) {
-//	    System.out.println("화면에서 넘어온 값: " + vo);
-//	    
-//	    MemberVO result = memberService.loginCheck(vo);
-//	    System.out.println("결과: " + result);
-//	    
-//	    Map<String, Object> response = new HashMap<>();
-//	    
-//	    if(result != null) {
-//	        // 세션에 저장 : ${sessionScope.member.member_name}
-//	        session.setAttribute("member", result);
-//	        
-//	        // JSON 응답 구성
-//	        response.put("isLoggedIn", true);
-//	        response.put("memberName", result.getMember_name());
-//	    } else {
-//	        response.put("isLoggedIn", false);
-//	    }
-//	    
-//	    return response;
-//	}	
+    // 로그아웃 
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();  // 세션 무효화
+        return "redirect:/";    // 초기 페이지로 리디렉션
+    }	
 	
 	
 	
