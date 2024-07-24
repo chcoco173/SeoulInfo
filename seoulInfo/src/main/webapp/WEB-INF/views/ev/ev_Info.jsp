@@ -78,7 +78,7 @@
     <script>
         function showChargerInfo(marker) {
             $.ajax({
-                url: '/getChargerInfo',
+                url: 'ev_info',
                 type: 'POST',
                 data: { evc_id: marker.info.evc_id },
                 success: function(data) {
@@ -90,7 +90,6 @@
                     $('#charger_facsmall').text(data.charger_facsmall);
                     $('#charger_opsmall').text(data.charger_opsmall);
                     $('#charger_userlimit').text(data.charger_userlimit);
-
                     $('.charger_Information').show();
                 },
                 error: function(err) {
@@ -101,7 +100,10 @@
 
         $(document).ready(function() {
             $('.closeInfo').click(function() {
-                $('.charger_Information').hide();
+				$('.overlay').hide();
+				$('.overlay').css({'display':'none','z-index':'-1'});
+				$('.charger_Information').hide();
+				$('.charger_Information').css({'display':'none','z-index':'-1'});
             });
         });
     </script>
