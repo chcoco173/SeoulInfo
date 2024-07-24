@@ -139,7 +139,7 @@ function Question() {
               <td className='question_status'>{question.question_status}</td>
               <td className='question_date'>{question.question_date}</td>
               <td className='answerbutton'>
-                <button className='answer-button' onClick={() => Answer(question.question_no)}>답변등록</button>
+                <button className='answer-button' disabled={question.question_status === '처리완료'} onClick={() => Answer(question.question_no)}>답변등록</button>
               </td>
             </tr>
           ))

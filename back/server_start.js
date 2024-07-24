@@ -192,6 +192,148 @@ app.get('/data/search-festival', (req, res) => {
     });
 });
 
+app.get('/data/getallfestivalboard', (req, res) => {
+  const { page = 0, area = 'all', type = 'all', festival = 'all' } = req.query;
+  const pageSize = 10; // 페이지당 게시물 수
+  const offset = page * pageSize;
+
+  let query = `
+    SELECT fr.fr_id, fr.fr_content, fr.fr_regdate, fr.festival_id, f.festival_name
+    FROM festival_review fr
+    JOIN festival f ON fr.festival_id = f.festival_id
+    WHERE 1=1
+  `;
+  let countQuery = `
+    SELECT COUNT(*) AS total
+    FROM festival_review fr
+    JOIN festival f ON fr.festival_id = f.festival_id
+    WHERE 1=1
+  `;
+  const params = [];
+
+  if (area !== 'all') {
+    query += ' AND f.festival_area = ?';
+    countQuery += ' AND f.festival_area = ?';
+    params.push(area);
+  }
+
+  if (type !== 'all') {
+    query += ' AND f.festival_type = ?';
+    countQuery += ' AND f.festival_type = ?';
+    params.push(type);
+  }
+
+  if (festival !== 'all') {
+    query += ' AND f.festival_name = ?';
+    countQuery += ' AND f.festival_name = ?';
+    params.push(festival);
+  }
+
+  query += ' LIMIT ? OFFSET ?';
+  params.push(pageSize, offset);
+
+  conn.query(query, params, (err, boardRows) => {
+    if (err) {
+      console.error('Error fetching festival board data:', err); // 에러 로그 출력
+      return res.status(500).send('Error fetching festival board data');
+    }
+
+    const formattedBoardRows = boardRows.map(row => ({
+      ...row,
+      fr_regdate: formatDate(row.fr_regdate)
+    }));
+
+    conn.query(countQuery, params.slice(0, -2), (err, countRows) => {
+      if (err) {
+        console.error('Error fetching festival board data:', err); // 에러 로그 출력
+        return res.status(500).send('Error fetching festival board data');
+      }
+
+      const totalPages = Math.ceil(countRows[0].total / pageSize);
+
+      res.json({
+        festivalboard: formattedBoardRows,
+        totalPages
+      });
+    });
+  });
+});
+
+
+// 지역 목록 불러오기
+app.get('/data/get-area-names', (req, res) => {
+  const query = `
+    SELECT DISTINCT festival_area
+    FROM festival
+  `;
+  conn.query(query, (err, results) => {
+    if (err) {
+      console.error('Error retrieving area names:', err); // 에러 로그 출력
+      return res.status(500).send('Error retrieving area names');
+    }
+    res.json(results.map(row => row.festival_area));
+  });
+});
+
+// 타입 목록 불러오기
+app.get('/data/get-type-names', (req, res) => {
+  const query = `
+    SELECT DISTINCT festival_type
+    FROM festival
+  `;
+  conn.query(query, (err, results) => {
+    if (err) {
+      console.error('Error retrieving type names:', err); // 에러 로그 출력
+      return res.status(500).send('Error retrieving type names');
+    }
+    res.json(results.map(row => row.festival_type));
+  });
+});
+
+// 축제 이름 목록 불러오기
+app.get('/data/get-festival-names', (req, res) => {
+  const { area, type } = req.query;
+  let query = `
+    SELECT festival_name
+    FROM festival
+    WHERE 1=1
+  `;
+  const params = [];
+
+  if (area && area !== 'all') {
+    query += ' AND festival_area = ?';
+    params.push(area);
+  }
+
+  if (type && type !== 'all') {
+    query += ' AND festival_type = ?';
+    params.push(type);
+  }
+
+  conn.query(query, params, (err, results) => {
+    if (err) {
+      console.error('Error retrieving festival names:', err);
+      return res.status(500).send('Error retrieving festival names');
+    }
+    res.json(results.map(row => row.festival_name));
+  });
+});
+
+//축제 게시글 삭제
+app.delete('/data/delete-festivalboard/:fr_id', (req, res) => {
+  console.log('Delete request received for fr_id:', req.params.fr_id); // 로그 추가
+  const sql = "DELETE FROM festival_review WHERE fr_id = ? ";
+  conn.query(sql, [req.params.fr_id], (err, result) => {
+      if (err) {
+          console.error('Error deleting festival board:', err); // 에러 로그 출력
+          res.status(500).send('Error');
+      } else {
+          res.status(200).send('success');
+      }
+  });
+});
+
+
 // 관리자 데이터 불러오기
 app.get('/data/getalladmin', (req, res) => {
     const sql = "SELECT admin_id, admin_pw, admin_name, admin_tel, admin_email, admin_image FROM admin";
@@ -835,7 +977,7 @@ app.get('/data/getallquestion', (req, res) => {
     const sql = `
       SELECT question_no, question_cate, question_title, question_status, question_date, member_id
       FROM question
-      ORDER BY question_no
+      ORDER BY question_no desc
       LIMIT ${pageSize} OFFSET ${offset}
     `;
     
@@ -922,6 +1064,30 @@ app.get('/data/getquestion/:question_no', (req, res) => {
       return res.status(404).json({ error: '질문을 찾을 수 없습니다.' });
     }
     res.json(results[0]);
+  });
+});
+
+
+//답변작성
+
+app.post('/data/submit-answer', (req, res) => {
+  const { question_no, answer_content } = req.body;
+
+
+  const insertAnswer = `INSERT INTO answer (question_no, answer_content) VALUES (?, ?)`;
+  conn.query(insertAnswer, [question_no, answer_content], (err, result) => {
+    if (err) {
+      return res.status(500).send('입력실패');
+    }
+
+    const updateQuestionStatus = `UPDATE question SET question_status = '처리완료' WHERE question_no = ?`;
+    conn.query(updateQuestionStatus, [question_no], (err, result) => {
+      if (err) {
+        return res.status(500).send('수정실패');
+      }
+
+      res.send('답변작성처리완료');
+    });
   });
 });
 

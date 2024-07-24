@@ -1,10 +1,10 @@
-.news-info {
+.festivalboard-info {
   padding: 20px;
   width: 90%;
   margin: auto;
 }
 
-.news-info h1 {
+.festivalboard-info h1 {
   text-align: center;
   margin-bottom: 20px;
 }
@@ -30,7 +30,7 @@
   border-radius: 5px;
 }
 
-.news-info .search-button {
+.festivalboard-info .search-button {
   padding: 8px 16px;
   background-color: #5c5c5c;
   color: white;
@@ -39,66 +39,57 @@
   cursor: pointer;
 }
 
-.news-info .search-button:hover {
+.festivalboard-info .search-button:hover {
   background-color: #2c2c2c;
 }
 
-.news-table {
+.board-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
   table-layout: fixed; 
 }
 
-.news-table th,
-.news-table td {
+.board-table th,
+.board-table td {
   text-align: left;
   padding: 8px;
   border-bottom: 1px solid #ddd;
   word-break: break-word; /* 단어를 줄바꿈 */
 }
 
-.news-table th {
+.board-table th {
   background-color: #f4f4f4;
   position: sticky;
   top: 0;
   z-index: 1;
 }
 
-.newsnum {
-  width: 3%;
+.board_id {
+  width: 5%;
 }
 
-.newstitle {
+.board_cate {
   width: 40%;
 }
 
-.newsarea {
-  width: 8%; 
+.board_title {
+  width: 35%; 
 }
 
-.newslink {
-  width: 36%; 
+.board_date {
+  width: 15%; 
 }
 
-.newsdate {
-  width: 10%; 
+.board_delete {
+  width: 5%; 
 }
 
-.newslink a {
-  word-wrap: break-word; /* 긴 링크를 줄바꿈 */
-  display: block;
-}
-
-.newsdelete {
-  width: 3%; 
-}
-
-.news-table td {
+.board-table td {
   background-color: white; 
 }
 
-.newsdelete-button {
+.boarddelete-button {
   width: 100%; /* 버튼이 셀의 전체 너비를 차지하도록 함 */
   padding: 8px 16px;
   background-color: #8c8c8c;
@@ -110,7 +101,7 @@
   overflow: hidden;
 }
 
-.newsdelete-button:hover {
+.boarddelete-button:hover {
   background-color: #5c5c5c;
 }
 
@@ -148,4 +139,8 @@
   .pagination button {
     padding: 3px 6px;
   }
+}
+
+.space-bar {
+  margin-right : 10px;
 }

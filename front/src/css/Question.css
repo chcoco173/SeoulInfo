@@ -153,3 +153,14 @@
     border-right : none;
     border-left : none;
   }
+
+  .answer-button:disabled {
+    cursor: not-allowed;
+    background-color: #ccc;
+    color: #999;
+  }
+  
+  .answer-button:disabled:hover {
+    background-color: #ccc;
+    color: #999;
+  }

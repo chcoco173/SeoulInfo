@@ -15,6 +15,7 @@ import Question from './Question';
 import Answer from './Answer';
 import InsertEVC from './InsertEVC';
 import InsertEv from './InsertEv';
+import FestivalBoardManagement from './FestivalBoardManagement';
 
 function Dashboard() {
 
@@ -35,7 +36,8 @@ function Dashboard() {
         <ul className={`menu-list ${isOpen ? 'active' : ''}`}>
           <li className="menu-item"><Link to="user-info">회원정보</Link></li>
           <li className="menu-item"><Link to="admin-info">관리자정보</Link></li>
-          <li className="menu-item"><Link to="festival">축제관리</Link></li>
+          <li className="menu-item"><Link to="festival">행사관리</Link></li>
+          <li className="menu-item"><Link to="festival-board">행사게시판</Link></li>
           <li className="menu-item"><Link to="ev">전기차관리</Link></li>
           <li className="menu-item"><Link to="news">뉴스관리</Link></li>
           <li className="menu-item"><Link to="report">신고관리</Link></li>
@@ -48,6 +50,7 @@ function Dashboard() {
         <Route path="user-info" element={<UserInfo />} />
         <Route path="admin-info" element={<AdminInfo />} />
         <Route path="festival" element={<FestivalManagement />} />
+        <Route path="festival-board" element={<FestivalBoardManagement />} />
         <Route path="ev" element={<EVManagement />} />
         <Route path="news" element={<NewsManagement />} />
         <Route path="report" element={<ReportManagement />} />

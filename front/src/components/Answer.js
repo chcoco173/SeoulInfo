@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/Answer.css';
 
 function Answer() {
   const { question_no } = useParams();
   const [questionData, setQuestionData] = useState(null);
+  const [answerContent, setAnswerContent] = useState('');
+  const navigate = useNavigate();  
 
   useEffect(() => {
     console.log("question_no:", question_no); // 콘솔에 question_no 출력
@@ -26,6 +28,20 @@ function Answer() {
   if (!questionData) {
     return <div>Loading...</div>;
   }
+
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/data/submit-answer', {
+        question_no,
+        answer_content: answerContent,
+      });
+      alert('답변 작성 완료');
+      navigate('/dashboard/question');
+    } catch (error) {
+      console.error('Error submitting answer:', error);
+      alert('답변 작성 실패');
+    }
+  };
 
   return (
     <div className="question">
@@ -56,12 +72,16 @@ function Answer() {
           <tr>
             <td className='answer_content'>답변내용</td>
             <td className='questions'>
-              <textarea className='answer-textarea'></textarea>
+              <textarea 
+                className='answer-textarea' 
+                value={answerContent}
+                onChange={(e) => setAnswerContent(e.target.value)}
+              ></textarea>
             </td>
           </tr>
           <tr>
             <td colSpan="2" className="button-cell">
-              <button>답변작성</button>
+              <button onClick={handleSubmit}>답변작성</button>
             </td>
           </tr>
         </tbody>

@@ -39,7 +39,7 @@
     text-align: left;
   }
 
-  .button-cell button{
+  .question .answer-table .button-cell{
     text-align: right;
   }
 
@@ -79,4 +79,18 @@
   
   button:hover {
     background-color: #2c2c2c;
+  }
+
+  .question .question-table tbody td {
+    background-color: white;
+    font-weight: normal;
+    border-right : solid 1px #ddd;
+    border-left : solid 1px #ddd;
+  }
+
+  .answer-table tbody td {
+    background-color: white;
+    font-weight: normal;
+    border-right : solid 1px #ddd;
+    border-left : solid 1px #ddd;
   }
