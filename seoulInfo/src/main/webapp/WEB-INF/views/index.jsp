@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html data-wf-page="6684f0fb2a5375354f5c4820" data-wf-site="6684f0fb2a5375354f5c47e9">
 <head>
@@ -27,62 +28,85 @@
   <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
   <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
   <link href="/images/webclip.png" rel="apple-touch-icon">
+  
+  <style type="text/css">
+  	/* 로그인 성공 메세지 */
+    .login-success-title {
+      color: #007bff;
+      font-weight: bold;
+    }
+  </style> 
+    
 </head>
 <body>
   <div class="page-wrapper">
-	
-	<!-- 한) 상단:회원가입/로그인 버튼 start -->
-		<div class="section-newsletter">
-		  <div class="padding-global">
-		    <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-black">
-		      <div class="_2-column-grid-uneven-left">
-		        <h3 class="newsletter-heading">서울 지역 안내 서비스</h3>
-		        <div id="Style-Guide-Form" class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form">
-		          <form name="wf-form-Newsletter-Form" data-name="Newsletter Form" method="get" id="wf-form-Newsletter-Form" class="newsletter-form" data-wf-page-id="6684f0fb2a5375354f5c4820" data-wf-element-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9d2">
-					
-					<a href="member/insertMember" class="button-primary-large max-width-full-mobile-portrait w-button">회원가입</a>
-					<a href="member/login" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a>
-					
-				</form>
-		          <div class="form-success-message w-form-done">
-		            <div class="text-size-regular text-color-white">Thank you! Your submission has been received!</div>
-		          </div>
-		          <div class="form-error-message w-form-fail">
-		            <div class="text-size-regular">Oops! Something went wrong while submitting the form.</div>
-		          </div>
-		        </div>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-		<!-- 한) 상단:회원가입/로그인 버튼 end -->	
-	
-	
-	
-    <div class="navigation-wrapper">
-      <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar_m w-nav">
-        <div class="nav-wrapper">
-          <a href="/" aria-current="page" class="brand w-nav-brand w--current"><img src="images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
-          <div class="links-and-search-wrapper">
-            <nav role="navigation" class="nav-links-wrapper w-nav-menu">
-              <a href="about.html" class="nav-link w-nav-link"></a>
-              <a href="contact.html" class="nav-link w-nav-link"></a>
-            </nav>
-            <form action="/search" data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5" class="search w-form">
-              <div class="search-div"><img src="images/ph_magnifying-glass-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
-              <div class="nav-search-outer-wrapper">
-                <div class="nav-search-internal-wrapper"><input class="form-field w-input" maxlength="256" name="query" placeholder="Search…" type="search" id="search" required="">
-                  <div class="search-button-wrapper"><input type="submit" class="button-primary-small w-button" value="Search">
-                    <a data-w-id="a72c4d20-babf-897f-e150-4948b59e5bfb" href="#" class="close-search-link-block w-inline-block"><img src="images/ph_x-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></a>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="menu-button w-nav-button"><img src="images/ph_list-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
-        </div>
-      </div>
-    </div>
+	<c:choose>
+	        <c:when test="${sessionScope.member.member_name == null}">
+	            <%@ include file="./member_top.jsp" %>
+				<div class="login-before navigation-wrapper">
+				      <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar_m w-nav">
+				        <div class="nav-wrapper">        
+				          <a href="/" aria-current="page" class="brand w-nav-brand w--current"><img src="images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
+				          <div class="links-and-search-wrapper">
+				            <nav role="navigation" class="nav-links-wrapper w-nav-menu">
+				              <a href="about.html" class="nav-link w-nav-link"></a>
+				              <a href="contact.html" class="nav-link w-nav-link"></a>
+				            </nav>                                    
+				            <form action="/search" data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5" class="search w-form">
+				              <div class="search-div"><img src="/images/ph_magnifying-glass-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
+				              <div class="nav-search-outer-wrapper">
+				                <div class="nav-search-internal-wrapper"><input class="form-field w-input" maxlength="256" name="query" placeholder="Search…" type="search" id="search" required="">
+				                  <div class="search-button-wrapper"><input type="submit" class="button-primary-small w-button" value="Search">
+				                    <a data-w-id="a72c4d20-babf-897f-e150-4948b59e5bfb" href="#" class="close-search-link-block w-inline-block"><img src="/images/ph_x-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></a>
+				                  </div>
+				                </div>
+				              </div>
+				            </form>
+				          </div>
+				          <div class="menu-button w-nav-button"><img src="/images/ph_list-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
+				        </div>
+				      </div>
+				   </div>
+	        </c:when>
+			<c:otherwise>
+			           <div class="login-after navigation-wrapper">
+			               <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar_m w-nav">
+			                   <div class="nav-wrapper">
+			                       <a href="/" aria-current="page" class="brand w-nav-brand w--current">
+			                           <img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt="">
+			                       </a>
+			                       <div class="links-and-search-wrapper">
+			                           <nav role="navigation" class="nav-links-wrapper w-nav-menu">
+			                               <div class="login-success-title">${sessionScope.member.member_name}님, 환영합니다.</div>
+			                               <a href="/mypage/profile" class="nav-link w-nav-link">마이페이지</a>
+			                               <a href="/member/logout" class="nav-link w-nav-link">로그아웃</a>
+			                           </nav>
+			                           <form action="/search" data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5" class="search w-form">
+			                               <div class="search-div">
+			                                   <img src="/images/ph_magnifying-glass-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall">
+			                               </div>
+			                               <div class="nav-search-outer-wrapper">
+			                                   <div class="nav-search-internal-wrapper">
+			                                       <input class="form-field w-input" maxlength="256" name="query" placeholder="Search…" type="search" id="search" required="">
+			                                       <div class="search-button-wrapper">
+			                                           <input type="submit" class="button-primary-small w-button" value="Search">
+			                                           <a data-w-id="a72c4d20-babf-897f-e150-4948b59e5bfb" href="#" class="close-search-link-block w-inline-block">
+			                                               <img src="/images/ph_x-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall">
+			                                           </a>
+			                                       </div>
+			                                   </div>
+			                               </div>
+			                           </form>
+			                       </div>
+			                       <div class="menu-button w-nav-button">
+			                           <img src="/images/ph_list-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall">
+			                       </div>
+			                   </div>
+			               </div>
+			           </div>
+			       </c:otherwise>
+	    </c:choose>
+		
     <div class="main-wrapper">
       <div class="section-home-banner">
         <div class="padding-global">
@@ -164,6 +188,7 @@
   </div>
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="/js/webflow.js" type="text/javascript"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script>
 		
 		// 지역 안내 이미지
@@ -184,6 +209,16 @@
 		product.onclick = function(){
 			location.href = 'useTradeGu';
 		}
+		
+		// 로그아웃
+/* 		$(".logout").click(function(){
+		
+			//alert("ee");
+			location.href = 'logout';
+			
+		}) */
+		
+		
 		
 		
   </script>

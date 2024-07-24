@@ -54,7 +54,7 @@
   <div class="page-wrapper">
 	
 	<!-- 한) 상단:회원가입/로그인 버튼 start -->
-	<div class="section-newsletter">
+<!-- 	<div class="section-newsletter">
 	  <div class="padding-global">
 	    <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-black">
 	      <div class="_2-column-grid-uneven-left">
@@ -76,19 +76,19 @@
 	      </div>
 	    </div>
 	  </div>
-	</div>
+	</div> -->
 	<!-- 한) 상단:회원가입/로그인 버튼 end -->	
 	
 	<!-- 검색 start -->
     <div class="navigation-wrapper">
       <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar_m w-nav">
         <div class="nav-wrapper">
-          <a href="/" class="brand w-nav-brand"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
+          <a href="/" aria-current="page" class="brand w-nav-brand w--current"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
           <div class="links-and-search-wrapper">
             <nav role="navigation" class="nav-links-wrapper w-nav-menu">
-              <div class="login-success-title">${sessionScope.sess.member_name}님, 환영합니다.</div>
+              <div class="login-success-title">${sessionScope.member.member_name}님, 환영합니다.</div>
               <a href="/mypage/profile" class="nav-link w-nav-link">마이페이지</a>
-              <a href="/" class="nav-link w-nav-link">로그아웃</a>
+              <a href="/member/logout" class="nav-link w-nav-link">로그아웃</a>
             </nav>
             <form action="/search" data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5" class="search w-form">
               <div class="search-div"><img src="/images/ph_magnifying-glass-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
@@ -310,7 +310,7 @@
           <div class="padding-global">
             <div class="padding-section-medium">
               <div class="_2-column-grid">
-                <a href="/" class="w-inline-block"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
+                <a href="/member/loginSuccess" class="w-inline-block"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
                 <div>
                   <h3>The stories of a travel photographer and blogger exploring the world .</h3>
                   <div id="w-node-e1165d61-2cbb-cc22-6e05-5b6165b83107-65b830fb" class="spacer-xxlarge"></div>

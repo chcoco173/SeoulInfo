@@ -1,5 +1,6 @@
-<%@page contentType="text/html; charset=UTF-8"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <!--  This site was created in Webflow. https://webflow.com  -->
 <!--  Last Published: Wed Jul 03 2024 06:37:30 GMT+0000 (Coordinated Universal Time)  -->
@@ -86,7 +87,36 @@
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-	<link href="/css/product/product_detail.css" rel="stylesheet" type="text/css">
+<link href="/css/product/product_detail.css" rel="stylesheet" type="text/css">
+<link href="/css/product/productMain.css" rel="stylesheet" type="text/css">
+	<style>
+		.product-card {
+			margin: 0 0 30px 0;
+		}
+	    .product-card {
+	        border: 1px solid #ddd; /* 얇은 테두리 */
+	        border-radius: 5px; /* 테두리 둥글기 */
+	        padding: 15px; /* 내부 여백 */
+	        box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 약간의 그림자 */
+	        background-color: #fff; /* 배경색 */
+	        transition: box-shadow 0.3s ease; /* 테두리 효과 전환 */
+	    }
+
+	    .product-card:hover {
+	        box-shadow: 0 8px 16px rgba(0,0,0,0.2); /* 마우스 오버 시 그림자 효과 */
+	    }
+
+	    .product-image {
+	        height: 250px; 
+	        width: 250px; 
+	        object-fit: cover; /* 이미지 비율 유지하며 컨테이너에 맞춤 */
+	        display: block;
+	        margin: 0 auto; /* 이미지 가운데 정렬 */
+	        border: 2px solid #ddd; /* 얇은 테두리 추가 */
+	        border-radius: 5px; /* 테두리 둥글기 (선택 사항) */
+	    }
+	</style>
+
 
 </head>
 <body>
@@ -108,7 +138,8 @@
 								<a href="#" class="large-author-wrapper w-inline-block"
 									onmouseover="showBubble()" onmouseout="hideBubble()">
 									<div class="large-author-thumbnail"></div>
-									<h5 class="author-name">판매자 이름</h5> <!-- Added class 'author-name' -->
+									<h5 class="author-name">${sessionScope.member.member_name}</h5>
+									<!-- Added class 'author-name' -->
 
 								</a>
 							</div>
@@ -116,74 +147,46 @@
 								<div class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;
 								</div>
 							</div>
-							<div class="spacer-xlarge"></div>
+							
 							<div class="container my-5">
 								<!--  상품 ( jstl로 들어갈 예정 ) -->
 								<div class="row">
-									<div class="col-md-3 product">
-										<div class="product-card">
-											<img src="https://via.placeholder.com/200" alt="상품 1"
-												class="product-image">
-											<div class="product-info">
-												<h4>상품 1</h4>
-												<p>상품 1 설명</p>
-												<p>
-													<strong>₩10,000</strong>
-												</p>
-												<p>
-													관심 5 <span style="margin-left: 20px;">상태: 판매중</span>
-												</p>
+									<c:forEach items="${myProductList}" var="productList"
+										varStatus="status">
+										<div class="col-md-3 product">
+											<div class="product-card">
+												<c:choose>
+													<c:when test="${not empty productList.productimg_alias}">
+														<img src="/productImage/${productList.productimg_alias}"
+															alt="상품 이미지" class="product-image"
+															style="height: 250px; width: 250px;">
+													</c:when>
+													<c:otherwise>
+														<img src="https://via.placeholder.com/이미지없음" alt="이미지없음"
+															class="product-image"
+															style="height: 250px; width: 250px;">
+													</c:otherwise>
+												</c:choose>
+
+												<div class="product-info">
+													<input type="hidden" class="sale_id"
+														value="${productList.sale_id}">
+													<h4>${productList.sale_name}</h4>
+													<p>${productList.sale_area}</p>
+													<p>
+														<strong>${productList.sale_price}</strong>
+													</p>
+													<p>
+														관심 ${productList.favorite_count}<span
+															style="margin-left: 20px;">상태:
+															${productList.sale_status}</span>
+													</p>
+													<!-- 날짜 차이 정보 추가 -->
+													<p>${timeDataList[status.index]}</p>
+												</div>
 											</div>
 										</div>
-									</div>
-									<div class="col-md-3 product">
-										<div class="product-card">
-											<img src="https://via.placeholder.com/200" alt="상품 2"
-												class="product-image">
-											<div class="product-info">
-												<h4>상품 2</h4>
-												<p>상품 2 설명</p>
-												<p>
-													<strong>₩20,000</strong>
-												</p>
-												<p>
-													관심 10 <span style="margin-left: 20px;">상태: 판매완료</span>
-												</p>
-											</div>
-										</div>
-									</div>
-									<div class="col-md-3 product">
-										<div class="product-card">
-											<img src="https://via.placeholder.com/200" alt="상품 3"
-												class="product-image">
-											<div class="product-info">
-												<h4>상품 3</h4>
-												<p>상품 3 설명</p>
-												<p>
-													<strong>₩30,000</strong>
-												</p>
-												<p>
-													관심 2 <span style="margin-left: 20px;">상태: 예약중</span>
-												</p>
-											</div>
-										</div>
-									</div>
-									<div class="col-md-3 product">
-										<div class="product-card">
-											<img src="https://via.placeholder.com/200" alt="상품 4"
-												class="product-image">
-											<div class="product-info">
-												<h4>상품 4</h4>
-												<p>상품 4 설명</p>
-												<p>
-													<strong>₩40,000</strong>
-												</p>
-												<p>
-													관심 8 <span style="margin-left: 20px;">상태: 판매중</span>
-												</p>
-											</div>
-										</div>
-									</div>
+									</c:forEach>
 								</div>
 							</div>
 

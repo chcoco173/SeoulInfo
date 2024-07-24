@@ -42,8 +42,8 @@
 	        <div id="Style-Guide-Form" class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form">
 	          <form name="wf-form-Newsletter-Form" data-name="Newsletter Form" method="get" id="wf-form-Newsletter-Form" class="newsletter-form" data-wf-page-id="6684f0fb2a5375354f5c4820" data-wf-element-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9d2">
 				
-				<a href="member/insertMember" class="button-primary-large max-width-full-mobile-portrait w-button">회원가입</a>
-				<a href="member/login" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a>
+				<a href="/member/insertMember" class="button-primary-large max-width-full-mobile-portrait w-button">회원가입</a>
+				<a href="/member/login" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a>
 				
 				
 			</form>
