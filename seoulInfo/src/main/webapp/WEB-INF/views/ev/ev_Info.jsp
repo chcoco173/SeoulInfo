@@ -1,17 +1,15 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>전기차 - 상세정보</title>
-<!-- Bootstrap core CSS -->
-<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<!-- ev css -->
-<link href="/css/ev/evInfo.css" rel="stylesheet" type="text/css">
-
+    <meta charset="utf-8">
+    <title>전기차 - 상세정보</title>
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/ev/evInfo.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <div class="charger_Information">
+    <div class="charger_Information" style="display: none;">
         <table class="title">
             <tr>
                 <td>
@@ -75,21 +73,30 @@
         </div>
     </div>
 
-    <!-- jQuery 및 Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script>
         function showChargerInfo(marker) {
-            $('#ev_name').text(marker.info.name);
-            $('#evc_address').text(marker.info.address);
-            $('#charger_machine').text(marker.info.machine);
-            $('#charger_type').text(marker.info.type);
-            $('#charger_state').text(marker.info.state);
-            $('#charger_facsmall').text(marker.info.facility);
-            $('#charger_opsmall').text(marker.info.operator);
-            $('#charger_userlimit').text(marker.info.userLimit);
+            $.ajax({
+                url: '/getChargerInfo',
+                type: 'POST',
+                data: { evc_id: marker.info.evc_id },
+                success: function(data) {
+                    $('#ev_name').text(data.evc_name);
+                    $('#evc_address').text(data.evc_address);
+                    $('#charger_machine').text(data.charger_machine);
+                    $('#charger_type').text(data.charger_type);
+                    $('#charger_state').text(data.charger_state);
+                    $('#charger_facsmall').text(data.charger_facsmall);
+                    $('#charger_opsmall').text(data.charger_opsmall);
+                    $('#charger_userlimit').text(data.charger_userlimit);
 
-            $('.charger_Information').show();
+                    $('.charger_Information').show();
+                },
+                error: function(err) {
+                    console.error("Error fetching charger info: ", err);
+                }
+            });
         }
 
         $(document).ready(function() {

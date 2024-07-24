@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +10,7 @@
 <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!-- Custom CSS -->
 <link href="/css/ev/evSearch.css" rel="stylesheet" type="text/css">
+
 </head>
 <body>
 
@@ -16,19 +19,24 @@
 			<b>충전소 검색</b>
 		</p>
 		<hr>
-		<form class="search-filter" action="ev_MapFilter" method="get">
+		<form class="search-filter" id="searchForm" action="ev_MapFilter"
+			method="post">
 			<table>
 				<tr>
 					<td>충전기 타입</td>
-					<td><select id="type" name="type" style="width: 95%">
-							<option value="all">전체</option>
-							<option value="AC3상">AC3상</option>
-							<option value="AC완속">AC완속</option>
-							<option value="DC차데모">DC차데모</option>
-							<option value="DC차데모+AC3상">DC차데모+AC3상</option>
-							<option value="DC차데모+AC3상+DC콤보">DC차데모+AC3상+DC콤보</option>
-							<option value="DC차데모+DC콤보">DC차데모+DC콤보</option>
-							<option value="DC콤보">DC콤보</option>
+					<td><select id="charger_type" name="charger_type"
+						style="width: 95%">
+							<option ${coordinate.charger_type eq '전체' ? 'selected' : ''}>전체</option>
+							<option ${coordinate.charger_type eq 'AC3상' ? 'selected' : ''}>AC3상</option>
+							<option ${coordinate.charger_type eq 'AC완속' ? 'selected' : ''}>AC완속</option>
+							<option ${coordinate.charger_type eq 'DC차데모' ? 'selected' : ''}>DC차데모</option>
+							<option
+								${coordinate.charger_type eq 'DC차데모+AC3상' ? 'selected' : ''}>DC차데모+AC3상</option>
+							<option
+								${coordinate.charger_type eq 'DC차데모+AC3상+DC콤보' ? 'selected' : ''}>DC차데모+AC3상+DC콤보</option>
+							<option
+								${coordinate.charger_type eq 'DC차데모+DC콤보' ? 'selected' : ''}>DC차데모+DC콤보</option>
+							<option ${coordinate.charger_type eq 'DC콤보' ? 'selected' : ''}>DC콤보</option>
 					</select></td>
 				</tr>
 				<tr>
@@ -37,33 +45,33 @@
 				</tr>
 				<tr>
 					<td>지역 선택</td>
-					<td><select id="area" name="area" style="width: 95%">
-							<option value="all">전체</option>
-							<option value="강남구">강남구</option>
-							<option value="강동구">강동구</option>
-							<option value="강서구">강서구</option>
-							<option value="강북구">강북구</option>
-							<option value="관악구">관악구</option>
-							<option value="광진구">광진구</option>
-							<option value="구로구">구로구</option>
-							<option value="금천구">금천구</option>
-							<option value="노원구">노원구</option>
-							<option value="동대문구">동대문구</option>
-							<option value="도봉구">도봉구</option>
-							<option value="동작구">동작구</option>
-							<option value="마포구">마포구</option>
-							<option value="서대문구">서대문구</option>
-							<option value="성동구">성동구</option>
-							<option value="성북구">성북구</option>
-							<option value="서초구">서초구</option>
-							<option value="송파구">송파구</option>
-							<option value="영등포구">영등포구</option>
-							<option value="용산구">용산구</option>
-							<option value="양천구">양천구</option>
-							<option value="은평구">은평구</option>
-							<option value="종로구">종로구</option>
-							<option value="중구">중구</option>
-							<option value="중랑구">중랑구</option>
+					<td><select id="evc_area" name="evc_area" style="width: 95%">
+							<option ${coordinate.evc_area eq '전체' ? 'selected' : ''}>전체</option>
+							<option ${coordinate.evc_area eq '강남구' ? 'selected' : ''}>강남구</option>
+							<option ${coordinate.evc_area eq '강동구' ? 'selected' : ''}>강동구</option>
+							<option ${coordinate.evc_area eq '강서구' ? 'selected' : ''}>강서구</option>
+							<option ${coordinate.evc_area eq '강북구' ? 'selected' : ''}>강북구</option>
+							<option ${coordinate.evc_area eq '관악구' ? 'selected' : ''}>관악구</option>
+							<option ${coordinate.evc_area eq '광진구' ? 'selected' : ''}>광진구</option>
+							<option ${coordinate.evc_area eq '구로구' ? 'selected' : ''}>구로구</option>
+							<option ${coordinate.evc_area eq '금천구' ? 'selected' : ''}>금천구</option>
+							<option ${coordinate.evc_area eq '노원구' ? 'selected' : ''}>노원구</option>
+							<option ${coordinate.evc_area eq '동대문구' ? 'selected' : ''}>동대문구</option>
+							<option ${coordinate.evc_area eq '도봉구' ? 'selected' : ''}>도봉구</option>
+							<option ${coordinate.evc_area eq '동작구' ? 'selected' : ''}>동작구</option>
+							<option ${coordinate.evc_area eq '마포구' ? 'selected' : ''}>마포구</option>
+							<option ${coordinate.evc_area eq '서대문구' ? 'selected' : ''}>서대문구</option>
+							<option ${coordinate.evc_area eq '성동구' ? 'selected' : ''}>성동구</option>
+							<option ${coordinate.evc_area eq '성북구' ? 'selected' : ''}>성북구</option>
+							<option ${coordinate.evc_area eq '서초구' ? 'selected' : ''}>서초구</option>
+							<option ${coordinate.evc_area eq '송파구' ? 'selected' : ''}>송파구</option>
+							<option ${coordinate.evc_area eq '영등포구' ? 'selected' : ''}>영등포구</option>
+							<option ${coordinate.evc_area eq '용산구' ? 'selected' : ''}>용산구</option>
+							<option ${coordinate.evc_area eq '양천구' ? 'selected' : ''}>양천구</option>
+							<option ${coordinate.evc_area eq '은평구' ? 'selected' : ''}>은평구</option>
+							<option ${coordinate.evc_area eq '종로구' ? 'selected' : ''}>종로구</option>
+							<option ${coordinate.evc_area eq '중구' ? 'selected' : ''}>중구</option>
+							<option ${coordinate.evc_area eq '중랑구' ? 'selected' : ''}>중랑구</option>
 					</select></td>
 				</tr>
 				<tr>
@@ -72,102 +80,36 @@
 				</tr>
 				<tr>
 					<td>운영시설</td>
-					<td><select id="loc" name="loc" style="width: 95%">
-							<option value="all">전체</option>
-							<option value="환경부">환경부</option>
-							<option value="타기관">타기관</option>
+					<td><select id="charger_opbig" name="charger_opbig"
+						style="width: 95%">
+							<option ${coordinate.charger_opbig eq '전체' ? 'selected' : ''}>전체</option>
+							<option ${coordinate.charger_opbig eq '환경부' ? 'selected' : ''}>환경부</option>
+							<option ${coordinate.charger_opbig eq '타기관' ? 'selected' : ''}>타기관</option>
 					</select></td>
 				</tr>
 				<tr>
 					<td style="width: 40%;">검색</td>
 					<td><select id="name" name="name" style="width: 95%">
-							<option value="all">전체</option>
-							<option value="운영기관명">운영기관명</option>
-							<option value="충전소명">충전소명</option>
-					</select> <input id="name_detail" name="name_detail" type="text"
-						placeholder="검색어를 입력하세요." style="width: 95%"></td>
+							<option>전체</option>
+							<option
+								${coordinate.charger_opsmall eq '운영기관명' ? 'selected' : ''}>운영기관명</option>
+							<option ${coordinate.evc_name eq '충전소명' ? 'selected' : ''}>충전소명</option>
+					</select> <input type="text" class="form-control" id="searchText"
+						name="searchText" placeholder="검색어를 입력하세요." style="width: 95%"></td>
 				</tr>
 			</table>
 			<hr>
-			<button type="button" class="btn btn-dark btn-close" >
+			<button type="button" class="btn btn-dark btn-close">
 				<b>X</b>
 			</button>
-			<button type="submit" class="btn btn-primary btn-search" style="width: 50%">검색</button>
+			<button type="submit" class="btn btn-primary btn-search"
+				style="width: 50%">검색</button>
 			<button type="button" class="btn btn-danger btn-reset">초기화</button>
 		</form>
-		<div class="result-list" style="display: none;">
-			<dl id="filteredList">
-				<dd>
-					<table class="filtered-list result-list result-list-table">
-						<tr>
-							<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>
-							<td colspan="2">충전소 이름1</td>
-						</tr>
-						<tr>
-							<td><span style="font-size: 12px">사용가능</span></td>
-							<td><span style="font-size: 12px">충전기 타입</span></td>
-						</tr>
-					</table>
-					<br>
-				</dd>
-				<dd>
-					<table class="filtered-list result-list result-list-table">
-						<tr>
-							<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>
-							<td colspan="2">충전소 이름2</td>
-						</tr>
-						<tr>
-							<td><span style="font-size: 12px">사용가능</span></td>
-							<td><span style="font-size: 12px">충전기 타입</span></td>
-						</tr>
-					</table>
-					<br>
-				</dd>
-				<dd>
-					<table class="filtered-list result-list result-list-table">
-						<tr>
-							<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>
-							<td colspan="2">충전소 이름3</td>
-						</tr>
-						<tr>
-							<td><span style="font-size: 12px">사용가능</span></td>
-							<td><span style="font-size: 12px">충전기 타입</span></td>
-						</tr>
-					</table>
-					<br>
-				</dd>
-				<dd>
-					<table class="filtered-list result-list result-list-table">
-						<tr>
-							<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>
-							<td colspan="2">충전소 이름4</td>
-						</tr>
-						<tr>
-							<td><span style="font-size: 12px">사용가능</span></td>
-							<td><span style="font-size: 12px">충전기 타입</span></td>
-						</tr>
-					</table>
-					<br>
-				</dd>
-				<dd>
-					<table class="filtered-list result-list result-list-table">
-						<tr>
-							<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>
-							<td colspan="2">충전소 이름5</td>
-						</tr>
-						<tr>
-							<td><span style="font-size: 12px">사용가능</span></td>
-							<td><span style="font-size: 12px">충전기 타입</span></td>
-						</tr>
-					</table>
-					<br>
-				</dd>
 
-				<!-- 이하 생략 -->
-			</dl>
+		<div id="resultContainer" class="result-list" style="display: none;">
 			<div class="filtered-list result-list-pagination"
 				style="text-align: center; margin-top: 20px;">
-
 				<button type="button" class="btn btn-secondary"
 					id="filtered-prevPage" disabled>이전</button>
 				<span id="filtered-pageInfo">1 / 1</span>
@@ -181,9 +123,9 @@
 				<button type="button" class="btn btn-dark btn-close">
 					<b>X</b>
 				</button>
-
 			</div>
 		</div>
+
 	</div>
 
 	<!-- Bootstrap 및 jQuery JS -->
@@ -191,39 +133,159 @@
 	<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 	<script>
-$(document).ready(function() {
-    var itemsPerPage = 3; // 페이지당 보여줄 항목 수
-    var currentPage = 1; // 현재 페이지
-    var $filteredItems = $('#filteredList dd'); // 필터링된 항목들
-    var totalItems = $filteredItems.length; // 전체 항목 수
-    var totalPages = Math.ceil(totalItems / itemsPerPage); // 전체 페이지 수
+	$(document).ready(function() {
+		
+		function initializePagination() {
+		    var itemsPerPage = 3; // 페이지당 보여줄 항목 수
+		    var currentPage = 1; // 현재 페이지
+		    var $filteredItems = $('#resultContainer dl'); // 필터링된 항목들
+		    var totalItems = $filteredItems.length; // 전체 항목 수
+		    var totalPages = Math.ceil(totalItems / itemsPerPage); // 전체 페이지 수
 
-    function showPage(page) {
-        $filteredItems.hide();
-        $filteredItems.slice((page - 1) * itemsPerPage, page * itemsPerPage).show();
-        $('#filtered-pageInfo').text(page + ' / ' + totalPages);
-        $('#filtered-prevPage').prop('disabled', page === 1);
-        $('#filtered-nextPage').prop('disabled', page === totalPages);
-    }
+		    function showPage(page) {
+		        $filteredItems.hide();
+		        $filteredItems.slice((page - 1) * itemsPerPage, page * itemsPerPage).show();
+		        $('#filtered-pageInfo').text(page + ' / ' + totalPages);
+		        $('#filtered-prevPage').prop('disabled', page === 1);
+		        $('#filtered-nextPage').prop('disabled', page === totalPages);
+		    }
+			
+		    $('#filtered-prevPage').click(function() {
+		        if (currentPage > 1) {
+		            currentPage--;
+		            showPage(currentPage);
+		        }
+		    });
+			
+		    $('#filtered-nextPage').click(function() {
+		        if (currentPage < totalPages) {
+		            currentPage++;
+		            showPage(currentPage);
+		        }
+		    });
+			
+		    // 초기 페이지 로드
+		    showPage(currentPage);
+		}
+		
+		
+		// 폼 제출 이벤트 핸들러
+			    $('#searchForm').on('submit', function(e) {
+			        e.preventDefault(); // 폼 기본 제출 방지
+			        $.ajax({
+			            url: 'ev_MapFilter',
+			            type: 'POST',
+			            data: $(this).serialize(),
+			            success: function(data) {
+							console.log(data);
+			                $('#resultContainer').html(''); // 결과 영역 초기화
+							if (data && data.length > 0) {
+							                        data.forEach(function(item) {
+							                            var resultHTML = '<dl id="filteredList" class="high-z-index">';
+							                            resultHTML += '<dd>';
+							                            resultHTML += '<table class="filtered-list result-list result-list-table">';
+							                            resultHTML += '<tr>';
+							                            resultHTML += '<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>';
+							                            resultHTML += '<td colspan="2">' + item.evc_name + '</td>';
+							                            resultHTML += '</tr>';
+							                            resultHTML += '<tr>';
+							                            resultHTML += '<td><span style="font-size: 12px">' + item.charger_userlimit + '</span></td>';
+							                            resultHTML += '<td><span style="font-size: 12px">' + item.charger_type + '</span></td>';
+							                            resultHTML += '</tr>';
+							                            resultHTML += '</table>';
+							                            resultHTML += '<br>';
+							                            resultHTML += '</dd>';
+							                            resultHTML += '</dl>';
+							                            $('#resultContainer').append(resultHTML);
+							                        });
+													var paginationHTML = `
+													    <div class="filtered-list result-list-pagination" style="text-align: center; margin-top: 20px;">
+													         <button type="button" class="btn btn-secondary" id="filtered-prevPage" disabled>이전</button>
+													         	<span id="filtered-pageInfo">1 / 1</span>
+													            	<button type="button" class="btn btn-secondary" id="filtered-nextPage">다음</button>
+													                <hr>
+													                <button type="button" class="btn btn-primary btn-back" style="width: 50%"><b>재검색</b></button>
+													                <button type="button" class="btn btn-dark btn-close"><b>X</b></button>
+													            </div>`;
+													$('#resultContainer').append(paginationHTML);
+							                        $('#resultContainer').show(); // 결과 영역 표시
+													
+													// 페이지네이션 기능 초기화
+													initializePagination();
+													$(document).on('click', '.btn-back', function(event) {
+													               event.stopPropagation();
+													               event.preventDefault();
 
-    $('#filtered-prevPage').click(function() {
-        if (currentPage > 1) {
-            currentPage--;
-            showPage(currentPage);
-        }
-    });
+													               $('.search-filter').css({'display':'inherit'});
+													               $('.result-list').css({'display':'none'});
+													           });
 
-    $('#filtered-nextPage').click(function() {
-        if (currentPage < totalPages) {
-            currentPage++;
-            showPage(currentPage);
-        }
-    });
+													// 닫기 버튼
+													$(document).on('click', '.btn-close', function(event) {
+														event.stopPropagation();
+													    event.preventDefault();
 
-    // 초기 페이지 로드
-    showPage(currentPage);
-});
-</script>
+													    $(".search_map").css({"display":"none"});
+													    $(".search_navigation").css({"display":"none"});
+													    $(".search_favorite").css({"display":"none"});
+													    // 화면을 원래대로 복귀
+													    $('.overlay').hide();
+													    $('.charger_Information').css({'display':'none','z-index':'-1'});
+																   
+													    });
+														
+														// 상세정보 클릭 핸들러
+														           $(document).on('click', '.result-list-table', function() {
+														               $('.charger_Information').css({'display':'inherit', 'z-index':'110'});
+														               var latitude = $(this).data('evc_lat');
+														               var longitude = $(this).data('evc_long');
+														               updateMapCenter(latitude, longitude); // 지도의 중심 좌표를 업데이트하는 함수 호출
+														           });
+																		  
+																		  
+							                    } else {						
+							                        $('#resultContainer').html('<p>검색 결과가 없습니다.</p>');
+													var paginationHTML = `<div class="filtered-list result-list-pagination" style="text-align: center; margin-top: 20px;">
+																		  	<button type="button" class="btn btn-secondary" id="filtered-prevPage" disabled>이전</button>
+																			<span id="filtered-pageInfo">1 / 1</span>
+																			<button type="button" class="btn btn-secondary" id="filtered-nextPage">다음</button>
+																			<hr>
+																			<button type="button" class="btn btn-primary btn-back" style="width: 50%"><b>재검색</b></button>
+																			<button type="button" class="btn btn-dark btn-close"><b>X</b></button>
+																		  </div>`;
+												  $(document).on('click', '.btn-back', function(event) {
+																	event.stopPropagation();
+																	event.preventDefault();
+																	$('.search-filter').css({'display':'inherit'});
+																	$('.result-list').css({'display':'none'});
+																	});
+																	
+																	// 닫기 버튼
+																	$(document).on('click', '.btn-close', function(event) {
+																	event.stopPropagation();
+																	event.preventDefault();
+																	
+																	$(".search_map").css({"display":"none"});
+																	$(".search_navigation").css({"display":"none"});
+																	$(".search_favorite").css({"display":"none"});
+																	// 화면을 원래대로 복귀
+																	$('.overlay').hide();
+																	$('.charger_Information').css({'display':'none','z-index':'-1'});
+																	});
+																	$('#resultContainer').append(paginationHTML);
+																	$('#resultContainer').show(); // 결과 영역 표시	
+																	}
+						},
+						error: function(err) {
+							$('#resultContainer').html('');
+							$('#resultContainer').show(); // 결과 영역 표시
+							alert(err);
+							console.log(err);
+						}
+				});
+			});
+	});
+	</script>
 
 </body>
 </html>
