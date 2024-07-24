@@ -39,6 +39,8 @@ import com.example.util.MD5Generator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.servlet.http.HttpSession;
+
 
 @Controller
 @RequestMapping("/product")
@@ -234,6 +236,8 @@ public class ProductController {
 	@Transactional
 	public String insertProduct(ProductVO pvo, @RequestParam("file") List<MultipartFile> files) {
 
+		//String memberId = (String) session.getAttribute("member");
+		//System.out.println("세션값"+memberId);
 		pvo.setMember_id("chen0120");
 
 		try {
