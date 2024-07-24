@@ -29,17 +29,20 @@
   <link href="/images/webclip.png" rel="apple-touch-icon">
   
   <style>
-        .login-title {
-            color: green;
-            margin-top: 5px;
-        }
+  	/* 회원가입 성공 메세지 */
+    .login-title {
+        color: green;
+        margin-top: 5px;
+        font-weight: bold;
+    }
   
   </style>
+  
 </head>
 <body>
   <div class="page-wrapper">
 	
-	<!-- 한) 상단:회원가입/로그인/마이페이지 버튼 start -->
+	<!-- 한) 상단:회원가입/로그인 버튼 start -->
 	<div class="section-newsletter">
 	  <div class="padding-global">
 	    <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-black">
@@ -50,9 +53,8 @@
 				
 				<a href="/member/insertMember" class="button-primary-large max-width-full-mobile-portrait w-button">회원가입</a>
 				<a href="/member/login" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a>
-				<a href="/mypage/profile" class="button-primary-large max-width-full-mobile-portrait w-button">마이페이지</a>
 				
-			</form>
+			  </form>
 	          <div class="form-success-message w-form-done">
 	            <div class="text-size-regular text-color-white">Thank you! Your submission has been received!</div>
 	          </div>
@@ -64,7 +66,7 @@
 	    </div>
 	  </div>
 	</div>
-	<!-- 한) 상단:회원가입/로그인/마이페이지 버튼 end -->
+	<!-- 한) 상단:회원가입/로그인 버튼 end -->
 	
 	
     <div class="navigation-wrapper">
@@ -73,8 +75,8 @@
           <a href="/" class="brand w-nav-brand"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
           <div class="links-and-search-wrapper">
             <nav role="navigation" class="nav-links-wrapper w-nav-menu">
-              <a href="about" class="nav-link w-nav-link">About</a>
-              <a href="contact" aria-current="page" class="nav-link w-nav-link w--current">Contact</a>
+              <a href="about" class="nav-link w-nav-link"></a>
+              <a href="contact" aria-current="page" class="nav-link w-nav-link w--current"></a>
             </nav>
             <form action="/search" data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5" class="search w-form">
               <div class="search-div"><img src="/images/ph_magnifying-glass-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
@@ -101,8 +103,9 @@
             <div class="container-large">
               <div class="_2-column-grid-uneven-right">
                 <div id="w-node-dcacb4c5-0e4e-5bd9-3310-1e984a55f96a-4f5c4825" data-w-id="dcacb4c5-0e4e-5bd9-3310-1e984a55f96a" style="opacity:0">
-                  <div class="accent login-title">회원가입을 축하드립니다.</div>	
-                  <div class="accent">보다 나은 서비스를 위해 노력하겠습니다.</div>
+                  <h5 class="login-title">회원가입을 축하드립니다.</h5>
+                  <div class="spacer-small"></div>
+				  <div class="accent">계속 이용하시려면 로그인해주세요.</div>
                   <div class="spacer-large"></div>
                   <h1>로그인</h1>
                   <div class="spacer-large"></div>

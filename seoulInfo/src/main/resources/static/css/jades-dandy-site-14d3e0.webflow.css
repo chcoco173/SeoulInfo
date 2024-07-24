@@ -249,12 +249,13 @@ figcaption {
   border-color: #000;
 }
 
+/* 한)상단 회원가입/로그인 버튼 */
 .newsletter-form {
-  grid-column-gap: .5rem;
-  grid-row-gap: .5rem;
+  grid-column-gap: .5rem; /* 이 속성은 flexbox에서는 적용되지 않습니다. */
+  grid-row-gap: .5rem; /* 이 속성은 flexbox에서는 적용되지 않습니다. */
   flex-flow: row;
-  justify-content: flex-start;
-  align-items: center;
+  justify-content: flex-end; /* 자식 요소들을 오른쪽 정렬 */
+  align-items: center; /* 자식 요소들을 수직 중앙 정렬 */
   display: flex;
 }
 
