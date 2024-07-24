@@ -1,5 +1,8 @@
 package com.example.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -70,20 +74,20 @@ public class MemberController {
 		return String.valueOf(result);		
 	}		
 	
-	// 로그인 : DB데이터 가져오기
+	 //로그인 : DB데이터 가져오기
 	@PostMapping("/loginCheck")
-	public String loginCheck(MemberVO vo, Model m, HttpSession session) {
+	public String loginCheck(MemberVO vo, Model model, HttpSession session) {
 		System.out.println("화면에서 넘어온 값: "+ vo);
 		
 		MemberVO result = memberService.loginCheck(vo);
 		System.out.println("결과: "+ result);
 		
 		if(result != null) {
-			//뷰페이지에 데이타 전송 : ${mem.name}
-			m.addAttribute("mem", result);
+			//뷰페이지에 데이타 전송 : ${mem.member_name}
+			model.addAttribute("mem", result);
 			
-			//세션에 저장(모든 뷰페이지에서 데이타를 사용 가능함) : ${sessionScope.sess.name}
-			session.setAttribute("sess", result);
+			//세션에 저장(모든 뷰페이지에서 데이타를 사용 가능함) : ${sessionScope.member.member_name}
+			session.setAttribute("member", result);
 			
 			return "member/loginSuccess";
 		}else {
@@ -91,19 +95,46 @@ public class MemberController {
 		}
 	}
 	
+//	// 로그인 : DB데이터 세션에 저장
+//	@PostMapping("/loginCheck")
+//	@ResponseBody
+//	public Map<String, Object> loginCheck(@RequestBody MemberVO vo, HttpSession session) {
+//	    System.out.println("화면에서 넘어온 값: " + vo);
+//	    
+//	    MemberVO result = memberService.loginCheck(vo);
+//	    System.out.println("결과: " + result);
+//	    
+//	    Map<String, Object> response = new HashMap<>();
+//	    
+//	    if(result != null) {
+//	        // 세션에 저장 : ${sessionScope.member.member_name}
+//	        session.setAttribute("member", result);
+//	        
+//	        // JSON 응답 구성
+//	        response.put("isLoggedIn", true);
+//	        response.put("memberName", result.getMember_name());
+//	    } else {
+//	        response.put("isLoggedIn", false);
+//	    }
+//	    
+//	    return response;
+//	}	
+	
+	
+	
 	// 아이디 찾기 : DB데이터 가져오기
 	@PostMapping("/id_search")
-	public String id_search(MemberVO vo, Model m, HttpSession session) {
+	public String id_search(MemberVO vo, Model model, HttpSession session) {
 		
 		MemberVO result = memberService.idSearch(vo);
 		
 		if(result == null) {
 			return "member/id_searchRe";
 		}else {
-			//뷰페이지에 데이타 전송 : ${mem.id}
-			m.addAttribute("mem", result);
+			//뷰페이지에 데이타 전송 : ${mem.member_id}
+			model.addAttribute("mem", result);
 			
-			//이름과 이메일이 DB에 있는 아이디를 세션에 저장 : ${sessionScope.logid.id}
+			//이름과 이메일이 DB에 있는 아이디를 세션에 저장 : ${sessionScope.logid.member_id}
 			session.setAttribute("logid", result);
 			return "member/id_searchOk";
 		}
@@ -111,17 +142,17 @@ public class MemberController {
 	
 	// 비밀번호 찾기 : DB데이터 가져오기
 	@PostMapping("/pw_search")
-	public String pw_search(MemberVO vo, Model m, HttpSession session) {
+	public String pw_search(MemberVO vo, Model model, HttpSession session) {
 		
 		MemberVO result = memberService.pwSearch(vo);
 		
 		if(result == null) {
 			return "member/pw_searchRe";
 		}else {
-			//뷰페이지에 데이타 전송 : ${mem.id}
-			m.addAttribute("mem", result);
+			//뷰페이지에 데이타 전송 : ${mem.member_pw}
+			model.addAttribute("mem", result);
 			
-			//이름, 아이디, 이메일이 DB에 있는 비밀번호를 세션에 저장 : ${sessionScope.logpw.pw}
+			//이름, 아이디, 이메일이 DB에 있는 비밀번호를 세션에 저장 : ${sessionScope.logpw.member_pw}
 			session.setAttribute("logpw", result);
 			return "member/pw_searchOk";
 		}
