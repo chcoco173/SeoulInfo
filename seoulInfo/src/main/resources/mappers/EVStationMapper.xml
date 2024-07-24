@@ -9,43 +9,91 @@
 	limit 800
 	</select>
 	
-	<select id="getStationDataInfo"  resultType="EVStationVO">
-	SELECT  *
-	FROM evc
-	limit 800
-	</select>
-	
 	<select id="getFilteredStation" parameterType="hashmap" resultType="EVchargerVO">
-		SELECT*FROM evc_cg
-		<if test="evc_area == '전체' and charger_type == '전체' and searchText == ''">
+		 SELECT DISTINCT
+	        e.evc_id 				AS evc_id
+	        ,e.evc_area 			AS evc_area
+	        ,e.evc_address 			AS evc_address
+	        ,e.evc_name 			AS evc_name 
+	        ,e.evc_lat 				AS evc_lat 
+	        ,e.evc_long 			AS evc_long
+	        ,c.charger_type 		AS charger_type
+	        ,c.charger_userlimit 	AS charger_userlimit
+	        ,c.charger_facsmall 	AS charger_facsmall
+	        ,c.charger_mechine 		AS charger_mechine 
+	        ,c.charger_opbig 		AS charger_opbig
+	        ,c.charger_opsmall 		AS charger_opsmall
+	    FROM evc    e
+	    JOIN evc_cg c 
+	    ON e.evc_id = c.evc_id
+		<if test=" charger_type == '전체' and evc_area == '전체' and charger_opbig == '전체' and searchText == '' ">
 			WHERE 1 = 1
 		</if>
-		<if test="evc_area != '전체' and charger_type == '전체' and searchText == ''">
-			WHERE evc_area = #{evc_area}
-		</if>
-		<if test="evc_area == '전체' and charger_type != '전체' and searchText == ''">
+		<if test=" charger_type != '전체' and evc_area == '전체' and charger_opbig == '전체' and searchText == '' ">
 			WHERE charger_type = #{property_type}
 		</if>
-		<if test="evc_area == '전체' and charger_type == '전체' and searchText != ''">
+		<if test=" charger_type == '전체' and evc_area != '전체' and charger_opbig == '전체' and searchText == '' ">
+			WHERE evc_area = #{evc_area}
+		</if>
+		<if test=" charger_type == '전체' and evc_area == '전체' and charger_opbig != '전체' and searchText == '' ">
+			WHERE charger_opbig = #{charger_opbig}
+		</if>
+		<if test=" charger_type == '전체' and evc_area == '전체' and charger_opbig == '전체' and searchText != '' ">
 			WHERE charger_opsmall like '%${searchText}%'
 		</if>
-		<if test="evc_area != '전체' and charger_type != '전체' and searchText == ''">
-			WHERE evc_area = #{evc_area} AND charger_type =
-			#{charger_type}
+		<if test=" charger_type != '전체' and evc_area != '전체' and charger_opbig == '전체' and searchText == '' ">
+			WHERE charger_type = #{charger_type} AND evc_area = #{evc_area}
 		</if>
-		<if test="evc_area == '전체' and charger_type != '전체' and searchText != ''">
-			WHERE charger_type = #{charger_type} AND charger_opsmall like
-			'%${searchText}%'
+		<if test=" charger_type != '전체' and evc_area == '전체' and charger_opbig != '전체' and searchText != '' ">
+			WHERE charger_type = #{charger_type} AND charger_opbig = #{charger_opbig}
 		</if>
-		<if test="evc_area != '전체' and charger_type == '전체' and searchText != ''">
-			WHERE evc_area = #{evc_area} AND charger_opsmall like
-			'%${searchText}%'
+		<if test=" charger_type != '전체' and evc_area == '전체' and charger_opbig == '전체' and searchText != '' ">
+			WHERE charger_type = #{charger_type} AND charger_opsmall like '%${searchText}%'
 		</if>
-		<if test="evc_area != '전체' and charger_type != '전체' and searchText != ''">
-			WHERE evc_area = #{evc_area} AND charger_type =
-			#{charger_type} AND charger_opsmall like '%${searchText}%'
+		<if test=" charger_type == '전체' and evc_area != '전체' and charger_opbig != '전체' and searchText == '' ">
+			WHERE evc_area = #{evc_area} AND charger_opbig = #{charger_opbig}
 		</if>
-		limit 100
+		<if test=" charger_type == '전체' and evc_area != '전체' and charger_opbig == '전체' and searchText != '' ">
+			WHERE evc_area = #{evc_area} AND charger_opsmall like '%${searchText}%'
+		</if>
+		<if test=" charger_type == '전체' and evc_area == '전체' and charger_opbig != '전체' and searchText != '' ">
+			WHERE charger_opbig = #{charger_opbig} AND charger_opsmall like '%${searchText}%'
+		</if>
+		<if test=" charger_type != '전체' and evc_area != '전체' and charger_opbig != '전체' and searchText == '' ">
+			WHERE charger_type = #{charger_type} AND evc_area = #{evc_area} AND charger_opbig = #{charger_opbig}
+		</if>
+		<if test=" charger_type != '전체' and evc_area != '전체' and charger_opbig == '전체' and searchText != '' ">
+			WHERE charger_type = #{charger_type} AND evc_area = #{evc_area} AND charger_opsmall like '%${searchText}%'
+		</if>
+		<if test=" charger_type != '전체' and evc_area == '전체' and charger_opbig != '전체' and searchText != '' ">
+			WHERE charger_type = #{charger_type} AND charger_opbig = #{charger_opbig} AND charger_opsmall like '%${searchText}%'
+		</if>
+		<if test=" charger_type == '전체' and evc_area != '전체' and charger_opbig != '전체' and searchText != '' ">
+			WHERE charger_opbig = #{charger_opbig} AND evc_area = #{evc_area} AND charger_opsmall like '%${searchText}%'
+		</if>
+		<if test=" charger_type != '전체' and evc_area != '전체' and charger_opbig == '전체' and searchText != '' ">
+			WHERE charger_type = #{charger_type} AND evc_area = #{evc_area} AND charger_opbig = #{charger_opbig} AND charger_opsmall like '%${searchText}%'
+		</if>
+		limit 300
 	</select>
 
+	<select id="getStationDataInfo" parameterType="String" resultType="EVStationVO">
+ 		SELECT
+	        e.evc_id 				AS evc_id
+	        ,e.evc_area 			AS evc_area
+	        ,e.evc_address 			AS evc_address
+	        ,e.evc_name 			AS evc_name 
+	        ,e.evc_lat 				AS evc_lat 
+	        ,e.evc_long 			AS evc_long
+	        ,c.charger_type 		AS charger_type
+	        ,c.charger_userlimit 	AS charger_userlimit
+	        ,c.charger_facsmall 	AS charger_facsmall
+	        ,c.charger_mechine 		AS charger_mechine 
+	        ,c.charger_opbig 		AS charger_opbig
+	        ,c.charger_opsmall 		AS charger_opsmall
+	    FROM evc    e
+	    JOIN evc_cg c 
+	    ON e.evc_id = c.evc_id
+	    WHERE e.evc_id = #{evc_id}
+	</select>
 </mapper>

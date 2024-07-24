@@ -26,12 +26,11 @@ public class EVStationServiceImpl implements EVStationService{
 	public List<EVchargerVO> getFilteredStation(HashMap map){
 		
 		return evStationDAO.getFilteredStation(map);
-		
 	}
 
 	@Override
-	public List<EVStationVO> getStationDataInfo() {
-		return evStationDAO.getStationDataInfo();
+	public List<EVchargerVO> getStationDataInfo(String evc_id) {
+		return evStationDAO.getStationDataInfo(evc_id);
 	}
 
 

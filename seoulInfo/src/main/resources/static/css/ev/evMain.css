@@ -16,9 +16,6 @@
 		height: 50px;
 		width: 100%;
 	}
-	
-	
-	
 	.search_map,
 	.search_favorite {
 		position: fixed;
@@ -63,7 +60,7 @@
 	width : 100%
 }
 
-.search_map , .search_favorite{
+.search_map ,.search_favorite{
 	position : fixed;
 	width : 281px;
 	height : 46%;
@@ -79,7 +76,6 @@
 	overflow-y: auto; /* 세로 스크롤바 추가 */
 	border-radius: 5px;
 }
-
 .search_map form {
     max-height: 100%; /* 내부 form 요소들이 최대 div 높이를 초과하지 않도록 설정 */
 }
