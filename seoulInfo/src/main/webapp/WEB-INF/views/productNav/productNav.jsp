@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 	<%@ page language="java" %>
 	<%
 	    String area = request.getParameter("area");
 		System.out.println(area);
 	%>
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,9 +30,10 @@
 						<a href="productCategory?area=${param.area}&category=의류" class="style-guide-nav-link w-nav-link">의류</a>
 						<a href="productCategory?area=${param.area}&category=기타" class="style-guide-nav-link w-nav-link">기타</a>
  
-						<a href="productMypage" class="style-guide-nav-link w-nav-link">마이페이지</a>
-						<a href="" class="style-guide-nav-link w-nav-link">채팅</a>
-
+						<c:if test="${sessionScope.member != null}">
+							<a href="productMypage" class="style-guide-nav-link w-nav-link">마이페이지</a>
+							<a href="" class="style-guide-nav-link w-nav-link">채팅</a>
+						</c:if>
 					</nav>
 					<form action="productSearch?area=${param.area}"
 						data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5"

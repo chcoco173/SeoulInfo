@@ -239,6 +239,7 @@
 								    </div>
 								    <div class="col-md-6">
 								        <div class="product-description">
+											
 								            <h3 class="product-header">
 								                ${product.sale_name} 
 								                <img id="heartImage" src="/productimages/heart_off.png" class="heart-image" onclick="toggleHeart()"/>
@@ -262,7 +263,8 @@
 								            </div>
 								            <br />
 								            <div class="container mt-5 text-center">
-								                <button class="button-primary-small w-button">판매자와 채팅</button>
+												<input type="hidden" class="sale_id" value="${product.sale_id}">
+								                <button class="button-primary-small w-button chat">판매자와 채팅</button>
 								                <button class="button-primary-small w-button">바로 구입하기</button>
 								            </div>
 								            <br />
@@ -421,5 +423,13 @@
 		integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
 		crossorigin="anonymous"></script>
 	<script src="/js/webflow.js" type="text/javascript"></script>
+	<script
+			src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+			<script>
+				$(".chat").click(function(){
+					var sale_id = $(this).closest('.product-description').find('.sale_id').val();
+					alert(sale_id);
+				});
+			</script>
 </body>
 </html>
