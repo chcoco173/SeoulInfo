@@ -187,12 +187,12 @@ public class ProductController {
 
 		List<Map<String, Object>> productList = productService.productCateList(map);
 
-		System.out.println(productList);
-
 
 		// 모델에 카테고리 속성 추가
 		model.addAttribute("category", category);
 		model.addAttribute("productList", productList);
+		// 시간 변환 메소드 호출 후 model작업
+		model.addAttribute("timeDataList", timeConversion(productList));
 
 		return "product/productCategory";
 	}

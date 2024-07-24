@@ -93,7 +93,7 @@
 								<div class="container my-5">
 									<!--  상품 ( jstl로 들어갈 예정 ) -->
 									<div class="row">
-										<c:forEach items="${productList}" var="productList">
+										<c:forEach items="${productList}" var="productList" varStatus="status">
 											<div class="col-md-3 product">
 												<div class="product-card">
 													<c:choose>
@@ -109,8 +109,9 @@
 													</c:choose>
 
 													<div class="product-info">
+														<input type="hidden" class="sale_id" value="${productList.sale_id}">
 														<h4>${productList.sale_name}</h4>
-														<p>상품 1 설명</p>
+														<p>${productList.sale_area}</p>
 														<p>
 															<strong>${productList.sale_price}</strong>
 														</p>
@@ -119,6 +120,8 @@
 																style="margin-left: 20px;">상태:
 																${productList.sale_status}</span>
 														</p>
+														<!-- 날짜 차이 정보 추가 -->
+														<p>${timeDataList[status.index]}</p>
 													</div>
 												</div>
 											</div>
@@ -303,9 +306,11 @@
 			<!-- 제이쿼리 라이브러리 추가 + 상품클릭시 디테일페이지로이동 -->
 			<script type="text/javascript">
 				$(".product").click(function() {
+					var sale_id = $(this).find('.sale_id').val();
+					alert(sale_id);
 					
 					// 나중에 상품번호들고가서 수정예정
-					location.href = "detail_post";
+					location.href = "detail_post?sale_id="+sale_id;
 
 				});
 			</script>
