@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-
+import com.example.domain.MemberVO;
 import com.example.domain.ProductImageVO;
 import com.example.domain.ProductSearchVO;
 import com.example.domain.ProductVO;
@@ -75,7 +75,7 @@ public class ProductController {
 
 	// 상품 검색 기능 (select + insert)
 	@GetMapping("/productSearch")
-	public String productSearch(@RequestParam(value="productsearch_keyword", required = false) String keyword, String area,  Model model) {
+	public String productSearch(@RequestParam(value="productsearch_keyword", required = false) String keyword, String area,  Model model, HttpSession session) {
 		System.out.println(area);
 		System.out.println(keyword);
 
@@ -86,8 +86,12 @@ public class ProductController {
 
 		ProductSearchVO psvo = new ProductSearchVO();
 		psvo.setProductsearch_keyword(keyword);
+
+		// 세션값 받아오기
+		MemberVO mvo = (MemberVO) session.getAttribute("member");
+
 		// 나중에 세션으로 들어갈 예정
-		psvo.setMember_id("chen0120");
+		psvo.setMember_id(mvo.getMember_id());
 
 		// 검색결과 리스트 
 		List<Map<String, Object>> productList = productService.productCateList(map);
@@ -104,7 +108,7 @@ public class ProductController {
 
 	// 상품리스트 출력 + ml 완료 ( select + ml )
 	@GetMapping("/productMain")
-	public String productArea(@RequestParam(value = "area", required = true) String area, Model model) {
+	public String productArea(@RequestParam(value = "area", required = true) String area, Model model, HttpSession session) {
 
 		if(area == null || area.isEmpty()) {
 			area="전체";
@@ -112,28 +116,39 @@ public class ProductController {
 		HashMap map = new HashMap();
 		map.put("area", area);
 
-		// flask 로 보낼 객체 생성
-		Map<String, String> requestBody = new HashMap<>();
-		requestBody.put("id", "chen0120"); // 나중엔 세션으로 들어갈 예정
+		// 세션값 받아오기
+		MemberVO mvo = (MemberVO) session.getAttribute("member");
+		
+		// 세션값이 null이 아니라면
+		if(mvo != null) {
+			// 세션안의 id를 받아오기
+			String memberId = mvo.getMember_id();
+
+			// flask 로 보낼 객체 생성
+			Map<String, String> requestBody = new HashMap<>();
+			requestBody.put("id", memberId); // 나중엔 세션으로 들어갈 예정
 
 
-		try {
-			// Flask 서버로 POST 요청 + 응답 받기
-			String result = restTemplate.postForObject(mlServerUrl, requestBody, String.class); // url, 요청본문, 응답받는타입
-			System.out.println("Prediction result: " + result); // json 형식
+			try {
+				// Flask 서버로 POST 요청 + 응답 받기
+				String result = restTemplate.postForObject(mlServerUrl, requestBody, String.class); // url, 요청본문, 응답받는타입
+				System.out.println("Prediction result: " + result); // json 형식
 
-			// JSON 응답 파싱
-			ObjectMapper objectMapper = new ObjectMapper(); // json 데이터를 파싱하기위한 객체생성
-			JsonNode jsonNode = objectMapper.readTree(result);	// 문자열 파싱후 json 트리 구조를 반환
-			String prediction = jsonNode.get("prediction").asText(); // asText() jsonNode의 텍스트값 반환
-			System.out.println(prediction);
+				// JSON 응답 파싱
+				ObjectMapper objectMapper = new ObjectMapper(); // json 데이터를 파싱하기위한 객체생성
+				JsonNode jsonNode = objectMapper.readTree(result);	// 문자열 파싱후 json 트리 구조를 반환
+				String prediction = jsonNode.get("prediction").asText(); // asText() jsonNode의 텍스트값 반환
+				System.out.println(prediction);
 
-			map.put("prediction", prediction);
+				map.put("prediction", prediction);
 
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			// 서버가 꺼졋을대 대비
+			} catch (Exception e) {
+				e.printStackTrace();
+				// 서버가 꺼졋을대 대비
+				map.put("prediction", "null");	
+			}
+		}else {
 			map.put("prediction", "null");	
 		}
 
@@ -141,66 +156,17 @@ public class ProductController {
 		List<Map<String, Object>> productList = productService.productCateList(map);
 		System.out.println(productList);
 
-		 // 현재 시간을 LocalDateTime으로 가져오기
-        LocalDateTime now = LocalDateTime.now();
-        
-        // 결과를 저장할 배열
-        String[] timeDataList = new String[productList.size()];
-
-        for (int i = 0; i < productList.size(); i++) {
-            Map<String, Object> product = productList.get(i);
-            Object regdateObject = product.get("sale_regdate");
-            
-            System.out.println(regdateObject.getClass().getName()); // type : java.time.LocalDateTime
-
-            // regdateObject의 타입을 확인하고 출력
-            if (regdateObject instanceof LocalDateTime) {
-            	
-            	// 일, 시, 분, 초 비교
-                LocalDateTime regdateTime = (LocalDateTime) regdateObject;
-               
-
-                // LocalDateTime을 ZonedDateTime으로 변환하여 Duration을 사용
-                ZonedDateTime nowZoned = now.atZone(ZoneId.systemDefault());
-                ZonedDateTime regdateZoned = regdateTime.atZone(ZoneId.systemDefault());
-                Duration duration = Duration.between(regdateZoned, nowZoned);
-                
-                
-                // 밀리초, 분, 시간, 일로 변환
-                long differenceInMillis = duration.toMillis();
-                long differenceInMinutes = duration.toMinutes();
-                long differenceInHours = duration.toHours();
-                long differenceInDays = duration.toDays();
-
-
-                String result;
-                if (differenceInDays > 0) {
-                    // 하루 이상 지난 경우
-                    result = differenceInDays + "일 전";
-                    System.out.println(result);
-                } else if (differenceInHours > 0) {
-                    // 하루는 안 지났으나, 몇 시간 지난 경우
-                    result = differenceInHours + "시간 전";
-                    System.out.println(result);
-                } else {
-                    // 하루도 안 지났고, 몇 분 지난 경우
-                    result = differenceInMinutes + "분 전";
-                    System.out.println(result);
-                }
-
-                timeDataList[i] = result; // 결과 배열에 저장
-            } else {
-                timeDataList[i] = "Invalid date format for 'sale_regdate'";
-            }
-        }
 
 		model.addAttribute("productList", productList);
-		model.addAttribute("timeDataList", timeDataList);
+		
+		// 시간 변환 메소드 호출 후 model작업
+		model.addAttribute("timeDataList", timeConversion(productList));
 
 
 		return "product/productMain";
 	}
 
+	
 
 	// 7/12 오전 추가 ( 각 카테고리 상픔 list 출력 ) (select)
 	@GetMapping("/productCategory")
@@ -234,11 +200,11 @@ public class ProductController {
 	// 상품 등록 controller (insert)
 	@PostMapping("/insertProduct")
 	@Transactional
-	public String insertProduct(ProductVO pvo, @RequestParam("file") List<MultipartFile> files) {
+	public String insertProduct(ProductVO pvo, @RequestParam("file") List<MultipartFile> files, HttpSession session) {
 
-		//String memberId = (String) session.getAttribute("member");
-		//System.out.println("세션값"+memberId);
-		pvo.setMember_id("chen0120");
+		// 세션 받아오기
+		MemberVO mvo = (MemberVO) session.getAttribute("member");
+		pvo.setMember_id(mvo.getMember_id());
 
 		try {
 			// 상품 등록후 pk 값 가져오기
@@ -285,35 +251,35 @@ public class ProductController {
 
 	// 내상품 select
 	@RequestMapping("/myProduct")
-	public String myProduct(Model model) {
-		// 세션에서 id 값 받아오기 ( 나중 )
-		String member_id = "chen0120";
+	public String myProduct(Model model, HttpSession session) {
+		// 세션값
+		MemberVO mvo = (MemberVO) session.getAttribute("member");
 
-		List<Map<String, Object>> myProductList = productService.myProductList(member_id);
+		List<Map<String, Object>> myProductList = productService.myProductList(mvo.getMember_id());
 		System.out.println(myProductList);
-		
-		
+
+
 		// 결과를 저장할 배열
-        String[] dateList = new String[myProductList.size()];
-        
-        // 날짜 포맷터 설정
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		
+		String[] dateList = new String[myProductList.size()];
+
+		// 날짜 포맷터 설정
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
 		for (int i = 0; i < myProductList.size(); i++) {
-            Map<String, Object> product = myProductList.get(i);
-            Object regdateObject = product.get("sale_regdate");
-            
-            if (regdateObject instanceof LocalDateTime) {
-                LocalDateTime regdate = (LocalDateTime) regdateObject;
-                String formattedDate = regdate.format(formatter); // LocalDateTime을 지정된 포맷으로 변환
-                dateList[i] = formattedDate; // 결과 배열에 저장
-                System.out.println(formattedDate);
-            } else {
-            	dateList[i] = "Invalid date format for 'sale_regdate'";
-            }
-       
-            
-        }
+			Map<String, Object> product = myProductList.get(i);
+			Object regdateObject = product.get("sale_regdate");
+
+			if (regdateObject instanceof LocalDateTime) {
+				LocalDateTime regdate = (LocalDateTime) regdateObject;
+				String formattedDate = regdate.format(formatter); // LocalDateTime을 지정된 포맷으로 변환
+				dateList[i] = formattedDate; // 결과 배열에 저장
+				System.out.println(formattedDate);
+			} else {
+				dateList[i] = "Invalid date format for 'sale_regdate'";
+			}
+
+
+		}
 		model.addAttribute("myProductList", myProductList);
 		model.addAttribute("timeDataList", dateList);
 
@@ -353,16 +319,17 @@ public class ProductController {
 
 		return null;
 	}
-	
+
 
 	// 상품 상태 수정
 	@PostMapping("updateStatus")
 	@ResponseBody
-	public String updateStatus(@RequestParam String sale_status, @RequestParam Integer sale_id) {
-		System.out.println(sale_status);
-		System.out.println(sale_id);
+	public String updateStatus(@RequestParam String sale_status, @RequestParam Integer sale_id, HttpSession session) {
+		// 세션값
+		MemberVO mvo = (MemberVO) session.getAttribute("member");
+
 		ProductVO pvo = new ProductVO();
-		pvo.setMember_id("chen0120");
+		pvo.setMember_id(mvo.getMember_id());
 		pvo.setSale_id(sale_id);
 		pvo.setSale_status(sale_status);
 
@@ -380,12 +347,13 @@ public class ProductController {
 	@PostMapping("deleteProduct")
 	@ResponseBody
 	@Transactional
-	public String deleteProduct(@RequestParam Integer sale_id) {
-		System.out.println(sale_id);
+	public String deleteProduct(@RequestParam Integer sale_id, HttpSession session) {
+		// 세션값
+		MemberVO mvo = (MemberVO) session.getAttribute("member");
 
 		ProductVO pvo = new ProductVO();
 		pvo.setSale_id(sale_id);
-		pvo.setMember_id("chen0120");
+		pvo.setMember_id(mvo.getMember_id());
 
 		Integer imageResult =  productImageService.deleteProductImage(sale_id);
 
@@ -416,9 +384,12 @@ public class ProductController {
 	// 상품 수정
 	@RequestMapping("/productUpdate")
 	@Transactional
-	public String updateProduct( @RequestParam("file") List<MultipartFile> files, ProductVO pvo ) {
+	public String updateProduct( @RequestParam("file") List<MultipartFile> files, ProductVO pvo, HttpSession session ) {
+		// 세션값
+		MemberVO mvo = (MemberVO) session.getAttribute("member");
+
 		// 임의로 지정
-		pvo.setMember_id("chen0120");
+		pvo.setMember_id(mvo.getMember_id());
 		// 상품수정
 		productService.updateProduct(pvo);
 
@@ -474,6 +445,76 @@ public class ProductController {
 		model.addAttribute("productImgList", productImgList);
 
 		return "product/detail_post";
+	}
+	
+	@RequestMapping("/productMypage")
+	public String productMypage(HttpSession session, Model model) {
+		MemberVO mvo = (MemberVO) session.getAttribute("member");
+		List<Map<String, Object>> myProductList = productService.myProductList(mvo.getMember_id());
+		
+		model.addAttribute("myProductList", myProductList);
+		// 시간 변환 메소드 호출 후 model작업
+		model.addAttribute("timeDataList", timeConversion(myProductList));
+		
+		return "product/productMypage";
+	}
+	
+	
+	// 시간 변환 메소드
+	public String[] timeConversion(List<Map<String, Object>> productList ) {
+		LocalDateTime now = LocalDateTime.now();
+
+		// 결과를 저장할 배열
+		String[] timeDataList = new String[productList.size()];
+
+		for (int i = 0; i < productList.size(); i++) {
+			Map<String, Object> product = productList.get(i);
+			Object regdateObject = product.get("sale_regdate");
+
+			System.out.println(regdateObject.getClass().getName()); // type : java.time.LocalDateTime
+
+			// regdateObject의 타입을 확인하고 출력
+			if (regdateObject instanceof LocalDateTime) {
+
+				// 일, 시, 분, 초 비교
+				LocalDateTime regdateTime = (LocalDateTime) regdateObject;
+
+
+				// LocalDateTime을 ZonedDateTime으로 변환하여 Duration을 사용
+				ZonedDateTime nowZoned = now.atZone(ZoneId.systemDefault());
+				ZonedDateTime regdateZoned = regdateTime.atZone(ZoneId.systemDefault());
+				Duration duration = Duration.between(regdateZoned, nowZoned);
+
+
+				// 밀리초, 분, 시간, 일로 변환
+				long differenceInMillis = duration.toMillis();
+				long differenceInMinutes = duration.toMinutes();
+				long differenceInHours = duration.toHours();
+				long differenceInDays = duration.toDays();
+
+
+				String result;
+				if (differenceInDays > 0) {
+					// 하루 이상 지난 경우
+					result = differenceInDays + "일 전";
+					System.out.println(result);
+				} else if (differenceInHours > 0) {
+					// 하루는 안 지났으나, 몇 시간 지난 경우
+					result = differenceInHours + "시간 전";
+					System.out.println(result);
+				} else {
+					// 하루도 안 지났고, 몇 분 지난 경우
+					result = differenceInMinutes + "분 전";
+					System.out.println(result);
+				}
+
+				timeDataList[i] = result; // 결과 배열에 저장
+			} else {
+				timeDataList[i] = "Invalid date format for 'sale_regdate'";
+			}
+		}
+		
+		return timeDataList;
 	}
 
 
