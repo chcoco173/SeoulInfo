@@ -13,7 +13,6 @@
 
 </head>
 <body>
-
 	<div class="search_map">
 		<p style="text-align: center">
 			<b>충전소 검색</b>
@@ -26,17 +25,22 @@
 					<td>충전기 타입</td>
 					<td><select id="charger_type" name="charger_type"
 						style="width: 95%">
-							<option ${coordinate.charger_type eq '전체' ? 'selected' : ''}>전체</option>
-							<option ${coordinate.charger_type eq 'AC3상' ? 'selected' : ''}>AC3상</option>
-							<option ${coordinate.charger_type eq 'AC완속' ? 'selected' : ''}>AC완속</option>
-							<option ${coordinate.charger_type eq 'DC차데모' ? 'selected' : ''}>DC차데모</option>
-							<option
-								${coordinate.charger_type eq 'DC차데모+AC3상' ? 'selected' : ''}>DC차데모+AC3상</option>
-							<option
-								${coordinate.charger_type eq 'DC차데모+AC3상+DC콤보' ? 'selected' : ''}>DC차데모+AC3상+DC콤보</option>
-							<option
-								${coordinate.charger_type eq 'DC차데모+DC콤보' ? 'selected' : ''}>DC차데모+DC콤보</option>
-							<option ${coordinate.charger_type eq 'DC콤보' ? 'selected' : ''}>DC콤보</option>
+							<option ${coordinate.charger_type eq '전체' ? 'selected' : ''}>
+								전체</option>
+							<option ${coordinate.charger_type eq 'AC3상' ? 'selected' : ''}>
+								AC3상</option>
+							<option ${coordinate.charger_type eq 'AC완속' ? 'selected' : ''}>
+								AC완속</option>
+							<option ${coordinate.charger_type eq 'DC차데모' ? 'selected' : ''}>
+								DC차데모</option>
+							<option	${coordinate.charger_type eq 'DC차데모+AC3상' ? 'selected' : ''}>
+								DC차데모+AC3상</option>
+							<option	${coordinate.charger_type eq 'DC차데모+AC3상+DC콤보' ? 'selected' : ''}>
+								DC차데모+AC3상+DC콤보</option>
+							<option	${coordinate.charger_type eq 'DC차데모+DC콤보' ? 'selected' : ''}>
+								DC차데모+DC콤보</option>
+							<option ${coordinate.charger_type eq 'DC콤보' ? 'selected' : ''}>
+								DC콤보</option>
 					</select></td>
 				</tr>
 				<tr>
@@ -106,35 +110,145 @@
 				style="width: 50%">검색</button>
 			<button type="button" class="btn btn-danger btn-reset">초기화</button>
 		</form>
-
-		<div id="resultContainer" class="result-list" style="display: none;">
-			<div class="filtered-list result-list-pagination"
-				style="text-align: center; margin-top: 20px;">
-				<button type="button" class="btn btn-secondary"
-					id="filtered-prevPage" disabled>이전</button>
-				<span id="filtered-pageInfo">1 / 1</span>
-				<button type="button" class="btn btn-secondary"
-					id="filtered-nextPage">다음</button>
-				<hr>
-				<button type="button" class="btn btn-primary btn-back"
-					style="width: 50%">
-					<b>재검색</b>
-				</button>
-				<button type="button" class="btn btn-dark btn-close">
-					<b>X</b>
-				</button>
-			</div>
-		</div>
+		
+		<!-- 결과가 출력될 div -->
+		<div id="resultContainer" class="result-list" style="display: none;"></div>
 
 	</div>
 
-	<!-- Bootstrap 및 jQuery JS -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
-
 	<script>
 	$(document).ready(function() {
+				
+		// search button 이벤트 핸들러
+		$('#searchForm').on('submit', function(e) {
+			e.preventDefault();
+			$.ajax({
+				url: 'ev_MapFilter',
+				type: 'POST',
+			    data: $(this).serialize(),
+			    success: function(data) {
+				console.log(data);
+			    $('#resultContainer').html(''); // 결과 영역 초기화
+				if (data && data.length > 0) {
+					data.forEach(function(item) {
+						var resultHTML =  '<dl id="filteredList" class="high-z-index">';
+							resultHTML += 	'<dd>';
+							resultHTML += 		'<table class="filtered-list result-list result-list-table" data-lat="' + item.evc_lat + '" data-lng="' + item.evc_long + '" data-title="' + item.evc_name + '">';
+							resultHTML += 			'<tr>';
+							resultHTML += 				'<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>';
+							resultHTML += 				'<td colspan="2">' + item.evc_name + '</td>';
+							resultHTML += 			'</tr>';
+							resultHTML += 			'<tr>';
+							resultHTML += 				'<td><span style="font-size: 12px">' + item.charger_userlimit + '</span></td>';
+							resultHTML += 				'<td><span style="font-size: 12px">' + item.charger_type + '</span></td>';
+							resultHTML += 			'</tr>';
+							resultHTML += 		'</table>';
+							resultHTML += 		'<br>';
+							resultHTML += 	'</dd>';
+							resultHTML += '</dl>';
+							$('#resultContainer').append(resultHTML);
+							});
+						var paginationHTML = `
+							<div class="filtered-list result-list-pagination" style="text-align: center; margin-top: 20px;">
+								<button type="button" class="btn btn-secondary" id="filtered-prevPage" disabled>이전</button>
+									<span id="filtered-pageInfo">1 / 1</span>
+									<button type="button" class="btn btn-secondary" id="filtered-nextPage">다음</button><hr>
+									<button type="button" class="btn btn-primary btn-back" style="width: 50%"><b>재검색</b></button>
+									<button type="button" class="btn btn-dark btn-close"><b>X</b></button>
+							</div>`;
+						$('#resultContainer').append(paginationHTML);
+						$('#resultContainer').show(); // 결과 영역 표시
+
+						// 페이지네이션 기능 초기화
+						initializePagination();
+						$(document).on('click', '.btn-back', function(event) {
+								event.stopPropagation();
+								event.preventDefault();
+								$('.search-filter').css({'display':'inherit'});
+								$('.result-list').css({'display':'none'});
+						});
+						// 닫기 버튼
+						$(document).on('click', '.btn-close', function(event) {
+								event.stopPropagation();
+							    event.preventDefault();
+							    $(".search_map").css({"display":"none"});
+							    $(".search_navigation").css({"display":"none"});
+							    $(".search_favorite").css({"display":"none"});
+								
+						    	// 화면을 원래대로 복귀
+					    		$('.charger_Information').css({'display':'none','z-index':'-1'});
+						});						
+						// 상세정보 클릭 핸들러
+						$(document).on('click', '.result-list-table', function() {
+						    var lat   = $(this).data('lat');
+						    var lng   = $(this).data('lng');
+							var title = $(this).data('title');
+							$('.charger_Information').css({'display':'inherit', 'z-index':'1100'});
+							$('.overlay').show();
+							$('.overlay').css({'display':'inherit', 'z-index':'1090'});
+							panTo(lat, lng, 1, title);
+						});
+				} else {						
+						$('#resultContainer').html('<p>검색 결과가 없습니다.</p>');
+						var paginationHTML = `<div class="filtered-list result-list-pagination" style="text-align: center; margin-top: 20px;">
+												<button type="button" class="btn btn-secondary" id="filtered-prevPage" disabled>이전</button>
+												<span id="filtered-pageInfo">1 / 1</span>
+												<button type="button" class="btn btn-secondary" id="filtered-nextPage">다음</button><hr>
+												<button type="button" class="btn btn-primary btn-back" style="width: 50%"><b>재검색</b></button>
+												<button type="button" class="btn btn-dark btn-close"><b>X</b></button>
+								  			  </div>`;
+						// 재검색
+						$(document).on('click', '.btn-back', function(event) {
+								event.stopPropagation();
+								event.preventDefault();
+								$('.search-filter').css({'display':'inherit'});
+								$('.result-list').css({'display':'none'});
+						});
+						
+						// 닫기 버튼
+						$(document).on('click', '.btn-close', function(event) {
+								event.stopPropagation();
+								event.preventDefault();												
+								$(".search_map").css({"display":"none"});
+								$(".search_navigation").css({"display":"none"});
+								$(".search_favorite").css({"display":"none"});
+								// 화면을 원래대로 복귀
+								$('.overlay').hide();
+								$('.overlay').css({'display':'none','z-index':'-1'});
+								$('.charger_Information').css({'display':'none','z-index':'-1'});
+						});
+						$('#resultContainer').append(paginationHTML);
+						$('#resultContainer').show(); // 결과 영역 표시	
+					}
+				},
+				error: function(err) {
+						$('#resultContainer').html('');
+						$('#resultContainer').show(); // 결과 영역 표시
+						alert(err);
+						console.log(err);
+				}
+				});
+		});
 		
+		// map moving smooth
+		function panTo(lat, lng, level) {
+		    var moveLatLon = new kakao.maps.LatLng(lat, lng);
+		    map.panTo(moveLatLon);
+			map.setLevel(level);
+			
+			var markerImage = new kakao.maps.MarkerImage('/images/ev/ev_normal.png', new kakao.maps.Size(24, 24));
+			var marker = new kakao.maps.Marker({
+			    position: moveLatLon,
+			    image: markerImage,
+			    title: title
+			});
+
+			// 마커를 지도에 추가
+			marker.setMap(map);
+		}
+
+		// paging event function
 		function initializePagination() {
 		    var itemsPerPage = 3; // 페이지당 보여줄 항목 수
 		    var currentPage = 1; // 현재 페이지
@@ -167,124 +281,7 @@
 		    // 초기 페이지 로드
 		    showPage(currentPage);
 		}
-		
-		
-		// 폼 제출 이벤트 핸들러
-			    $('#searchForm').on('submit', function(e) {
-			        e.preventDefault(); // 폼 기본 제출 방지
-			        $.ajax({
-			            url: 'ev_MapFilter',
-			            type: 'POST',
-			            data: $(this).serialize(),
-			            success: function(data) {
-							console.log(data);
-			                $('#resultContainer').html(''); // 결과 영역 초기화
-							if (data && data.length > 0) {
-							                        data.forEach(function(item) {
-							                            var resultHTML = '<dl id="filteredList" class="high-z-index">';
-							                            resultHTML += '<dd>';
-							                            resultHTML += '<table class="filtered-list result-list result-list-table">';
-							                            resultHTML += '<tr>';
-							                            resultHTML += '<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>';
-							                            resultHTML += '<td colspan="2">' + item.evc_name + '</td>';
-							                            resultHTML += '</tr>';
-							                            resultHTML += '<tr>';
-							                            resultHTML += '<td><span style="font-size: 12px">' + item.charger_userlimit + '</span></td>';
-							                            resultHTML += '<td><span style="font-size: 12px">' + item.charger_type + '</span></td>';
-							                            resultHTML += '</tr>';
-							                            resultHTML += '</table>';
-							                            resultHTML += '<br>';
-							                            resultHTML += '</dd>';
-							                            resultHTML += '</dl>';
-							                            $('#resultContainer').append(resultHTML);
-							                        });
-													var paginationHTML = `
-													    <div class="filtered-list result-list-pagination" style="text-align: center; margin-top: 20px;">
-													         <button type="button" class="btn btn-secondary" id="filtered-prevPage" disabled>이전</button>
-													         	<span id="filtered-pageInfo">1 / 1</span>
-													            	<button type="button" class="btn btn-secondary" id="filtered-nextPage">다음</button>
-													                <hr>
-													                <button type="button" class="btn btn-primary btn-back" style="width: 50%"><b>재검색</b></button>
-													                <button type="button" class="btn btn-dark btn-close"><b>X</b></button>
-													            </div>`;
-													$('#resultContainer').append(paginationHTML);
-							                        $('#resultContainer').show(); // 결과 영역 표시
-													
-													// 페이지네이션 기능 초기화
-													initializePagination();
-													$(document).on('click', '.btn-back', function(event) {
-													               event.stopPropagation();
-													               event.preventDefault();
-
-													               $('.search-filter').css({'display':'inherit'});
-													               $('.result-list').css({'display':'none'});
-													           });
-
-													// 닫기 버튼
-													$(document).on('click', '.btn-close', function(event) {
-														event.stopPropagation();
-													    event.preventDefault();
-
-													    $(".search_map").css({"display":"none"});
-													    $(".search_navigation").css({"display":"none"});
-													    $(".search_favorite").css({"display":"none"});
-													    // 화면을 원래대로 복귀
-													    $('.overlay').hide();
-													    $('.charger_Information').css({'display':'none','z-index':'-1'});
-																   
-													    });
-														
-														// 상세정보 클릭 핸들러
-														           $(document).on('click', '.result-list-table', function() {
-														               $('.charger_Information').css({'display':'inherit', 'z-index':'110'});
-														               var latitude = $(this).data('evc_lat');
-														               var longitude = $(this).data('evc_long');
-														               updateMapCenter(latitude, longitude); // 지도의 중심 좌표를 업데이트하는 함수 호출
-														           });
-																		  
-																		  
-							                    } else {						
-							                        $('#resultContainer').html('<p>검색 결과가 없습니다.</p>');
-													var paginationHTML = `<div class="filtered-list result-list-pagination" style="text-align: center; margin-top: 20px;">
-																		  	<button type="button" class="btn btn-secondary" id="filtered-prevPage" disabled>이전</button>
-																			<span id="filtered-pageInfo">1 / 1</span>
-																			<button type="button" class="btn btn-secondary" id="filtered-nextPage">다음</button>
-																			<hr>
-																			<button type="button" class="btn btn-primary btn-back" style="width: 50%"><b>재검색</b></button>
-																			<button type="button" class="btn btn-dark btn-close"><b>X</b></button>
-																		  </div>`;
-												  $(document).on('click', '.btn-back', function(event) {
-																	event.stopPropagation();
-																	event.preventDefault();
-																	$('.search-filter').css({'display':'inherit'});
-																	$('.result-list').css({'display':'none'});
-																	});
-																	
-																	// 닫기 버튼
-																	$(document).on('click', '.btn-close', function(event) {
-																	event.stopPropagation();
-																	event.preventDefault();
-																	
-																	$(".search_map").css({"display":"none"});
-																	$(".search_navigation").css({"display":"none"});
-																	$(".search_favorite").css({"display":"none"});
-																	// 화면을 원래대로 복귀
-																	$('.overlay').hide();
-																	$('.charger_Information').css({'display':'none','z-index':'-1'});
-																	});
-																	$('#resultContainer').append(paginationHTML);
-																	$('#resultContainer').show(); // 결과 영역 표시	
-																	}
-						},
-						error: function(err) {
-							$('#resultContainer').html('');
-							$('#resultContainer').show(); // 결과 영역 표시
-							alert(err);
-							console.log(err);
-						}
-				});
-			});
-	});
+});
 	</script>
 
 </body>

@@ -20,9 +20,16 @@ $(function(){
 	
 	$('#filterBtn2').click(function () {
 	    // alert("search2");
+		
 		$(".search_navigation").css({"display":"inherit",'z-index':'1100'});
 		$(".search_map").css({"display":"none"});
-		$(".search_favorite").css({"display":"none"});   
+		$(".search_favorite").css({"display":"none"});
+		
+		$('#charger_type').prop('selectedIndex', 0);
+		$('#evc_area').prop('selectedIndex', 0);
+		$('#charger_opbig').prop('selectedIndex', 0);
+		$('#name').prop('selectedIndex', 0);
+		$('#searchText').val('');
 	});
 	
 	$('#filterBtn3').click(function () {
@@ -48,17 +55,20 @@ $(function(){
 	// 상세정보 - 검색결과
 	$('.result-list-table').click(function(){
 		$('.charger_Information').css({'display':'inherit','z-index':'110'});
+		$('.overlay').show();
+		$('.overlay').css({'display':'inherit','z-index':'109'});
 		
 	});
 	
 	// 상세정보 - 즐겨찾기
 	$('.favorite-list').click(function(){
 		$('.charger_Information').css({'display':'inherit','z-index':'110'});
+		$('.overlay').show();
+		$('.overlay').css({'display':'inherit','z-index':'109'});
 	});
 	
 	// 검색
 	$('.btn-search').click(function(){
-		
 		$('.search-filter').css({'display':'none'})
 		$('.result-list').css({'display':'inherit'})
 	});
@@ -74,14 +84,11 @@ $(function(){
 	
 	// 검색 초기화
 	$('.btn-reset').click(function(event){
-	    event.stopPropagation();
-	    event.preventDefault();
-	    
-	    $('#type').val('all');
-	    $('#area').val('all');
-	    $('#loc').val('all');
-	    $('#name').val('all');
-	    $('#name_detail').val('');
+		$('#charger_type').prop('selectedIndex', 0);
+		$('#evc_area').prop('selectedIndex', 0);
+		$('#charger_opbig').prop('selectedIndex', 0);
+		$('#name').prop('selectedIndex', 0);
+	    $('#searchText').val('');
 	});
 	
 	//상세정보

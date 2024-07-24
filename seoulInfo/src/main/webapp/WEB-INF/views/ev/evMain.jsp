@@ -19,39 +19,16 @@
    <link href="/css/webflow.css" rel="stylesheet" type="text/css">
    <link href="/css/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet" type="text/css">
 
-   <link href="https://fonts.googleapis.com" rel="preconnect">
-   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
    <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
    <link href="/images/webclip.png" rel="apple-touch-icon">
    
-   <script type="text/javascript">WebFont.load({ google: { families: ["Plus Jakarta Sans:regular,600,italic,600italic"] }});</script>
-   <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
-   
-   <!-- EV add -->
+   <!-- EV setting -->
    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
    <link href="/css/ev/evMain.css" rel="stylesheet" type="text/css">
    
    <!-- Bootstrap core CSS -->
    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-   
-   <style>
-       /* Overlay style */
-       .overlay {
-           position: fixed;
-           top: 0;
-           left: 0;
-           width: 100%;
-           height: 100%;
-           background-color: rgba(0, 0, 0, 0.7);
-           z-index: 100;
-           display: none;
-       }
-
-       .charger_Information {
-           /* Your existing styles */
-       }
-   </style>
 </head>
 <body onload="initMap()">
 <!-- Overlay for black background -->
@@ -84,7 +61,7 @@
                      </div>
                   </div>
                </form>
-            </div>
+            </div>			
             <div class="menu-button w-nav-button">
                <img src="/images/ph_list-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall">
             </div>
@@ -164,6 +141,7 @@
 <!-- kakao map Script-->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=008b79e594d7ab4e1058e1180ccf546c&libraries=clusterer"></script>
     <script>
+		// ########### 지도 생성 ############## 
         var mapContainer = document.getElementById('map'); // 지도를 표시할 div 
         var mapOption = {
             center: new kakao.maps.LatLng(37.566826, 126.9786567),
@@ -171,13 +149,14 @@
             maxLevel: 8 // 확대 최대 레벨
         };  
         var map = new kakao.maps.Map(mapContainer, mapOption);
-
+		
+		// ######## 마커/클러스터러 생성 ##############
         var positions = [
             <c:forEach var="coordinate" items="${evStationList}" varStatus="status">
                 {
                     title: "${coordinate.evc_name}",
                     latlng: new kakao.maps.LatLng(${coordinate.evc_lat}, ${coordinate.evc_long}),
-                    
+                    id: "${coordinate.evc_id}"
                 }
                 <c:if test="${!status.last}">,</c:if>
             </c:forEach>
@@ -187,7 +166,7 @@
         var clickedImageSrc = "/images/ev/ev_click.png"; 
 
         var markers = [];
-        var imageSize = new kakao.maps.Size(24, 24); 
+        var imageSize = new kakao.maps.Size(30, 30); 
 
         var currentClickedMarker = null;
 
@@ -198,7 +177,8 @@
                 title: positions[i].title,
                 image: markerImage,
                 isClicked: false,
-                info: positions[i] // 마커에 정보 추가
+                info: positions[i], // 마커에 정보 추가
+				id:positions[i].id
             });
 
             (function(marker) {
@@ -223,22 +203,24 @@
 						$('.overlay').css({'z-index':'1099'});
                         $('.charger_Information').show();
 						$(".charger_Information").css({"display":"inherit",'z-index':'1100'});
+						
+						alert(marker.title);
                     }
                 });
             })(marker);
-            
             markers.push(marker);
         }
         
         var clusterer = new kakao.maps.MarkerClusterer({
             map: map,
             averageCenter: true,
-            minLevel: 2,
+            minLevel: 4,
             disableClickZoom: true
         });
         
         clusterer.addMarkers(markers);
-
+		
+		// ######## 클러스터러 확대 이벤트 ##############
         kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
             var level = map.getLevel() - 1;
             map.setLevel(level, { anchor: cluster.getCenter() });
@@ -256,7 +238,8 @@
                 alert("서울시 정보만 제공됩니다.");
             }
         });
-
+		
+		// ######## 지도 이미지 변경 이벤트 ##############
         var mapTypes = {
             terrain: kakao.maps.MapTypeId.TERRAIN
         };
@@ -279,6 +262,10 @@
                 btnTerrain.classList.add('btn-warning');
             }
         }
+		
+		// ##########################  test  ###########################
+		
+		
 </script>
 
 <!-- end of kakao map Script -->
