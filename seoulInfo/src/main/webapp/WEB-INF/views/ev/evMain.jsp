@@ -54,8 +54,8 @@
    </style>
 </head>
 <body onload="initMap()">
-	<!-- Overlay for black background -->
-	    <div class="overlay"></div>
+<!-- Overlay for black background -->
+   <div class="overlay"></div>
 <!-- header navigation -->
    <div class="navigation-wrapper">
       <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar_m w-nav">
@@ -111,7 +111,6 @@
             </td>
          </tr>
       </table>
-      
        <ul id="category">
            <li id="BK9" data-order="0"> 
                <span class="category_bg bank"></span>
@@ -220,7 +219,6 @@
                         marker.isClicked = true;
                         currentClickedMarker = marker;
 
-                    
                         $('.overlay').show();
 						$('.overlay').css({'z-index':'1099'});
                         $('.charger_Information').show();
@@ -281,15 +279,7 @@
                 btnTerrain.classList.add('btn-warning');
             }
         }
-	
 </script>
-
-<!-- end of kakao map Script -->
-
-
-
-
-
 
 <!-- end of kakao map Script -->
    <script src="/js/webflow.js" type="text/javascript"></script>

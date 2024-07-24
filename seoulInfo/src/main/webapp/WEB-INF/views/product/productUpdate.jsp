@@ -458,7 +458,7 @@
 							if (result === '1') {
 								// .scroll-item을 DOM에서 제거합니다.
 								$item.remove();
-								updateFileInputs();
+								updateFileInputs(); // 파일 입력 필드 업데이트 함수 호출
 							} else {
 								alert('Failed to delete image');
 							}
@@ -470,7 +470,24 @@
 				});
 				
 				
+				// 파일 입력 필드를 업데이트하는 함수
+				function updateFileInputs() {
+				    var maxFiles = 5;
+				    var currentImages = $('#scrollWrapper .scroll-item').length;
+				    var fileInputsContainer = $('#fileInputs');
 
+				    // 파일 입력 필드 초기화
+				    fileInputsContainer.empty();
+
+				    // 현재 이미지 수에 따라 파일 입력 필드 추가
+				    if (currentImages < maxFiles) {
+				        for (var i = 0; i < (maxFiles - currentImages); i++) {
+				            fileInputsContainer.append('<div class="form-group"><input type="file" class="form-control-file mt-2 file-input" name="file"></div>');
+				        }
+				    } else {
+				        fileInputsContainer.append('<p>이미지가 최대 개수(5개)에 도달했습니다.</p>');
+				    }
+				}
 		$('.file-input').on('change', function(event) {
 			previewFile(event);
 		});
