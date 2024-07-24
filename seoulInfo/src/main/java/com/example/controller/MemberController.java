@@ -89,7 +89,7 @@ public class MemberController {
 			//세션에 저장(모든 뷰페이지에서 데이타를 사용 가능함) : ${sessionScope.member.member_name}
 			session.setAttribute("member", result);
 			
-			return "member/loginSuccess";
+			return "redirect:/";
 		}else {
 			return "member/loginRe";
 		}
