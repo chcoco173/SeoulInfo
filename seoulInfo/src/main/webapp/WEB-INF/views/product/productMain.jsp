@@ -68,41 +68,11 @@
 <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
 <link href="/images/webclip.png" rel="apple-touch-icon">
 <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<style>
-    .product-card {
-        border: 1px solid #ddd; /* 얇은 테두리 */
-        border-radius: 5px; /* 테두리 둥글기 */
-        padding: 15px; /* 내부 여백 */
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 약간의 그림자 */
-        background-color: #fff; /* 배경색 */
-        transition: box-shadow 0.3s ease; /* 테두리 효과 전환 */
-    }
-
-    .product-card:hover {
-        box-shadow: 0 8px 16px rgba(0,0,0,0.2); /* 마우스 오버 시 그림자 효과 */
-    }
-
-    .product-image {
-        height: 250px; 
-        width: 250px; 
-        object-fit: cover; /* 이미지 비율 유지하며 컨테이너에 맞춤 */
-        display: block;
-        margin: 0 auto; /* 이미지 가운데 정렬 */
-        border: 2px solid #ddd; /* 얇은 테두리 추가 */
-        border-radius: 5px; /* 테두리 둥글기 (선택 사항) */
-    }
-
-    .product-info {
-        text-align: center; /* 상품 정보 중앙 정렬 */
-        margin-top: 10px;
-    }
-</style>
 <!-- 외부css-->
 <link href="/css/product/productMain.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div class="page-wrapper">
-
 		<%@include file="../productNav/productNav.jsp"%>
 
 		<div class="main-wrapper">
