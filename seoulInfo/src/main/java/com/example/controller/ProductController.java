@@ -74,7 +74,7 @@ public class ProductController {
 	}
 
 	@RequestMapping("/chat")
-	public String chat(@RequestParam Integer memberId, @RequestParam Integer sale_id, HttpSession session) {
+	public String chat(@RequestParam String member_id, @RequestParam Integer sale_id, HttpSession session) {
 		return "product/chat";
 	}
 
