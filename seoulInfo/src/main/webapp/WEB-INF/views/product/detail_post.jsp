@@ -264,6 +264,7 @@
 								            <br />
 								            <div class="container mt-5 text-center">
 												<input type="hidden" class="sale_id" value="${product.sale_id}">
+												<input type="hidden" class="member_id" value="${product.member_id}">
 								                <button href="chat" class="button-primary-small w-button chat">판매자와 채팅</button>
 								                <button class="button-primary-small w-button">바로 구입하기</button>
 								            </div>
@@ -425,12 +426,14 @@
 	<script
 			src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 			<script>
-				$(".chat").click(function(){
-					var member_id = $(this).data('member_id');
-						        var saleId = $(this).data('sale_id');
-						        var url = `chat?member_id=${member_id}&sale_id=${sale_id}`;
-						        window.location.href = url;
-				});
-			</script>
+							$(".chat").click(function(){
+								var memberId = $(this).closest('.product-description').find('.member_id').val();
+								var sale_id = $(this).closest('.product-description').find('.sale_id').val();
+								alert(memberId);
+								alert(sale_id);
+								var url = `chat?memberId=${memberId}&saleId=${saleId}`;
+								window.location.href = "chatCreate?member_id="+memberId+"&sale_id="+sale_id;
+							});
+						</script>
 </body>
 </html>

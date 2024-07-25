@@ -72,11 +72,20 @@ public class ProductController {
 		System.out.println(step);
 		return "product/"+step;
 	}
-
-	@RequestMapping("/chat")
-	public String chat(@RequestParam String member_id, @RequestParam Integer sale_id, HttpSession session) {
+	
+	
+	// 상품 상세에서 판매자와 채팅 
+	@RequestMapping("/chatCreate")
+	public String chatCreate(@RequestParam String member_id, @RequestParam Integer sale_id, HttpSession session) {
 		return "product/chat";
 	}
+	
+	// 내가한 채팅들
+	@RequestMapping("/chat")
+	public String chat(HttpSession session) {
+		return "product/chat";
+	}
+	
 
 	// 상품 검색 기능 (select + insert)
 	@GetMapping("/productSearch")
