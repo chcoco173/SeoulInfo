@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function AdminCard({ admin, onClick }) {
-  const imagePath = `http://localhost:8000${admin.admin_image}`; // 이미지 경로 설정
+  const imagePath = `http://localhost:8000${admin.admin_image}`; 
   
   return (
     <div className="admin-card" onClick={() => onClick(admin)}>
@@ -118,7 +118,7 @@ function Adminpopup({ admin, onClose }) {
             name="admin_id"
             value={editableAdmin.admin_id}
             onChange={handleChange}
-            readOnly // 아이디는 수정 불가
+            readOnly
           />
         ) : (
             admin.admin_id
@@ -225,7 +225,7 @@ function AdminInfo() {
           className="search-input" 
           value={searchKeyword} 
           onChange={(e) => setSearchKeyword(e.target.value)} 
-          onKeyUp={handleKeyPress} // onKeyUp 이벤트 추가
+          onKeyUp={handleKeyPress}
         />
         <button className="search-button" onClick={handleSearch}>검색</button>
       </div>

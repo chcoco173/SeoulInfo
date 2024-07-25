@@ -70,11 +70,15 @@
 }
 
 .board_cate {
-  width: 40%;
+  width: 30%;
 }
 
 .board_title {
   width: 35%; 
+}
+
+.board_member {
+  width: 10%; 
 }
 
 .board_date {

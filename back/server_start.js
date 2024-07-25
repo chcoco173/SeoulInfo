@@ -192,13 +192,14 @@ app.get('/data/search-festival', (req, res) => {
     });
 });
 
+// 축제 게시물 리스트
 app.get('/data/getallfestivalboard', (req, res) => {
   const { page = 0, area = 'all', type = 'all', festival = 'all' } = req.query;
   const pageSize = 10; // 페이지당 게시물 수
   const offset = page * pageSize;
 
   let query = `
-    SELECT fr.fr_id, fr.fr_content, fr.fr_regdate, fr.festival_id, f.festival_name
+    SELECT fr.fr_id, fr.fr_title, fr.fr_regdate, fr.festival_id, f.festival_name, fr.member_id
     FROM festival_review fr
     JOIN festival f ON fr.festival_id = f.festival_id
     WHERE 1=1
@@ -259,6 +260,86 @@ app.get('/data/getallfestivalboard', (req, res) => {
   });
 });
 
+//축제 게시물 검색
+
+app.get('/data/search-festivalboard', (req, res) => {
+  const { category, keyword, page = 0, area = 'all', type = 'all', festival = 'all' } = req.query;
+  const pageSize = 10; // 페이지당 게시물 수
+  const offset = page * pageSize;
+
+  let query = `
+    SELECT fr.fr_id, fr.fr_title, fr.fr_regdate, fr.festival_id, f.festival_name, fr.member_id
+    FROM festival_review fr
+    JOIN festival f ON fr.festival_id = f.festival_id
+    WHERE 1=1
+  `;
+  let countQuery = `
+    SELECT COUNT(*) AS total
+    FROM festival_review fr
+    JOIN festival f ON fr.festival_id = f.festival_id
+    WHERE 1=1
+  `;
+  const params = [];
+
+  if (area !== 'all') {
+    query += ' AND f.festival_area = ?';
+    countQuery += ' AND f.festival_area = ?';
+    params.push(area);
+  }
+
+  if (type !== 'all') {
+    query += ' AND f.festival_type = ?';
+    countQuery += ' AND f.festival_type = ?';
+    params.push(type);
+  }
+
+  if (festival !== 'all') {
+    query += ' AND f.festival_name = ?';
+    countQuery += ' AND f.festival_name = ?';
+    params.push(festival);
+  }
+
+  if (category && keyword) {
+    if (category === 'title') {
+      query += ' AND fr.fr_content LIKE ?';
+      countQuery += ' AND fr.fr_content LIKE ?';
+      params.push(`%${keyword}%`);
+    } else if (category === 'content') {
+      query += ' AND fr.fr_content LIKE ?';
+      countQuery += ' AND fr.fr_content LIKE ?';
+      params.push(`%${keyword}%`);
+    }
+  }
+
+  query += ' LIMIT ? OFFSET ?';
+  params.push(pageSize, offset);
+
+  conn.query(query, params, (err, boardRows) => {
+    if (err) {
+      console.error('Error searching festival board data:', err);
+      return res.status(500).send('Error searching festival board data');
+    }
+
+    const formattedBoardRows = boardRows.map(row => ({
+      ...row,
+      fr_regdate: formatDate(row.fr_regdate)
+    }));
+
+    conn.query(countQuery, params.slice(0, -2), (err, countRows) => {
+      if (err) {
+        console.error('Error searching festival board data:', err);
+        return res.status(500).send('Error searching festival board data');
+      }
+
+      const totalPages = Math.ceil(countRows[0].total / pageSize);
+
+      res.json({
+        festivalboard: formattedBoardRows,
+        totalPages
+      });
+    });
+  });
+});
 
 // 지역 목록 불러오기
 app.get('/data/get-area-names', (req, res) => {

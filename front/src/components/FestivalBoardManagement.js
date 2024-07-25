@@ -96,7 +96,10 @@ function FestivalBoardManagement() {
         params: {
           category: searchCategory,
           keyword: searchKeyword,
-          page
+          page,
+          area: selectAreaCategory,
+          type: selectTypeCategory,
+          festival: selectFestivalCategory
         }
       });
       setFestivalBoardData(res.data.festivalboard);
@@ -150,8 +153,8 @@ function FestivalBoardManagement() {
       <h1>행사별 게시판 관리</h1>
       <div className="search-section">
         <select className="search-select" value={searchCategory} onChange={(e) => setSearchCategory(e.target.value)}>
-          <option value="title">제목</option>
-          <option value="content">내용</option>
+          <option value="fr_title">제목</option>
+          <option value="member_id">게시자</option>
         </select>
         <input
           type="text"
@@ -187,6 +190,7 @@ function FestivalBoardManagement() {
             <th className='board_id'>게시물번호</th>
             <th className='board_cate'>행사이름</th>
             <th className='board_title'>게시물제목</th>
+            <th className='board_member'>게시자</th>
             <th className='board_date'>업로드날짜</th>
             <th className='board_delete'>삭제</th>
           </tr>
@@ -196,7 +200,8 @@ function FestivalBoardManagement() {
             <tr key={festivalboard.fr_id}>
               <td className='board_id'>{festivalboard.fr_id}</td>
               <td className='board_cate'>{festivalboard.festival_name}</td>
-              <td className='board_title'>{festivalboard.fr_content}</td>
+              <td className='board_title'>{festivalboard.fr_title}</td>
+              <td className='board_member'>{festivalboard.member_id}</td>
               <td className='board_date'>{festivalboard.fr_regdate}</td>
               <td className='board_delete'>
                 <button className='boarddelete-button' onClick={() => deleteFestivalBoard(festivalboard.fr_id)}>삭제</button>
