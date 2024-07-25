@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import '../css/ReportManagement.css';
+import { useAuth } from './AuthContext';
 
 function ReportPopup({ isOpen, onClose, reportDetails, handleApprove, handleReject }) {
   if (!isOpen) return null;
@@ -58,6 +58,7 @@ function ReportBall({ count, onClick }) {
 }
 
 function ReportManagement() {
+  const { instance } = useAuth(); // AuthContext에서 axios 인스턴스를 가져옵니다.
   const [reports, setReports] = useState([]); 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [currentReportDetails, setCurrentReportDetails] = useState([]);
@@ -72,7 +73,7 @@ function ReportManagement() {
 
   const fetchReports = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/data/reports', {
+      const response = await instance.get('/data/reports', {
         params: { page, search },
       });
       console.log("받아온 데이터:", response.data); // 데이터 구조 확인
@@ -86,7 +87,7 @@ function ReportManagement() {
 
   const handleApprove = async (memberId, reportId, index) => {
     try {
-      await axios.post(`http://localhost:8000/data/increase-report-count/${memberId}`, { reportId });
+      await instance.post(`/data/increase-report-count/${memberId}`, { reportId });
       alert('신고 횟수가 성공적으로 증가하였습니다.');
       const updatedDetails = [...currentReportDetails];
       updatedDetails[index].is_processed = true;
@@ -100,7 +101,7 @@ function ReportManagement() {
 
   const handleReject = async (reportId) => {
     try {
-      await axios.delete(`http://localhost:8000/data/delete-report/${reportId}`);
+      await instance.delete(`/data/delete-report/${reportId}`);
       alert('신고 내용이 성공적으로 삭제되었습니다.');
       fetchReports(); // 삭제 후 데이터 새로고침
       setIsPopupOpen(false);
@@ -115,7 +116,7 @@ function ReportManagement() {
       return;
     }
     try {
-      const response = await axios.get(`http://localhost:8000/data/reports/${memberId}`);
+      const response = await instance.get(`/data/reports/${memberId}`);
       if (response.data && response.data.length > 0) {
         setCurrentReportDetails(response.data);
         setIsPopupOpen(true);
@@ -132,7 +133,7 @@ function ReportManagement() {
   const handleDelete = async (memberId) => {
     if (window.confirm('정지하시겠습니까?')) {
       try {
-        await axios.delete(`http://localhost:8000/data/delete-member/${memberId}`);
+        await instance.delete(`/data/delete-member/${memberId}`);
         alert('회원이 삭제되었습니다.');
         fetchReports(); 
       } catch (error) {

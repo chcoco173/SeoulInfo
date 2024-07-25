@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import '../css/Question.css'; 
+import '../css/Question.css';
+import { useAuth } from './AuthContext';
 
 function Question() {
-
+  const { instance } = useAuth(); // AuthContext에서 axios 인스턴스를 가져옵니다.
   const [QuestionData, setQuestionData] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -22,7 +22,7 @@ function Question() {
 
   const fetchQuestionData = async (page) => {
     try {
-      const response = await axios.get('http://localhost:8000/data/getallquestion', {
+      const response = await instance.get('/data/getallquestion', {
         params: { page }
       });
       setQuestionData(response.data.questions);
@@ -42,7 +42,7 @@ function Question() {
 
   const handleSearch = async (page = 0) => {
     try {
-      const res = await axios.get('http://localhost:8000/data/search-question', {
+      const res = await instance.get('/data/search-question', {
         params: {
           category: searchCategory,
           keyword: searchKeyword,
@@ -65,10 +65,10 @@ function Question() {
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
-    const maxPagesToShow = 10; 
+    const maxPagesToShow = 10;
     const totalPageBlocks = Math.ceil(totalPages / maxPagesToShow);
     const currentBlock = Math.floor(currentPage / maxPagesToShow);
-    
+
     const startPage = currentBlock * maxPagesToShow;
     const endPage = Math.min(startPage + maxPagesToShow, totalPages);
 
@@ -98,7 +98,7 @@ function Question() {
   return (
     <div className="question">
       <h1>문의 관리</h1>
-        
+
       <div className="search-section">
         <select className="search-select" value={searchCategory} onChange={(e) => setSearchCategory(e.target.value)}>
           <option value="member_id">아이디</option>
@@ -106,10 +106,10 @@ function Question() {
           <option value="question_cate">카테고리</option>
           <option value="question_status">처리상태</option>
         </select>
-        <input 
-          type="text" 
-          placeholder="검색" 
-          className="search-input" 
+        <input
+          type="text"
+          placeholder="검색"
+          className="search-input"
           value={searchKeyword}
           onChange={(e) => setSearchKeyword(e.target.value)}
           onKeyUp={handleKeyUp}
@@ -129,25 +129,25 @@ function Question() {
           </tr>
         </thead>
         <tbody>
-        {QuestionData && QuestionData.length > 0 ? (
-          QuestionData.map(question => (
-            <tr key={question.question_no}>
-              <td className='question_no'>{question.question_no}</td>
-              <td className='member_id'>{question.member_id}</td>
-              <td className='question_cate'>{question.question_cate}</td>
-              <td className='question_title'>{question.question_title}</td>
-              <td className='question_status'>{question.question_status}</td>
-              <td className='question_date'>{question.question_date}</td>
-              <td className='answerbutton'>
-                <button className='answer-button' disabled={question.question_status === '처리완료'} onClick={() => Answer(question.question_no)}>답변등록</button>
-              </td>
+          {QuestionData && QuestionData.length > 0 ? (
+            QuestionData.map(question => (
+              <tr key={question.question_no}>
+                <td className='question_no'>{question.question_no}</td>
+                <td className='member_id'>{question.member_id}</td>
+                <td className='question_cate'>{question.question_cate}</td>
+                <td className='question_title'>{question.question_title}</td>
+                <td className='question_status'>{question.question_status}</td>
+                <td className='question_date'>{question.question_date}</td>
+                <td className='answerbutton'>
+                  <button className='answer-button' disabled={question.question_status === '처리완료'} onClick={() => Answer(question.question_no)}>답변등록</button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6">데이터가 없습니다.</td>
             </tr>
-          ))
-        ) : (
-          <tr>
-            <td colSpan="6">데이터가 없습니다.</td>
-          </tr>
-        )}
+          )}
         </tbody>
       </table>
       <div className="pagination">

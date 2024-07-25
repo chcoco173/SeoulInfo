@@ -1,4 +1,3 @@
-
 .menu-bar {
   background-color: #333;
   width: 100%;
@@ -7,8 +6,12 @@
   align-items: center;
   justify-content: center;
   padding: 0; 
-  position: relative;
+  position: fixed;
+  top: 0; 
+  left: 0;
+  z-index: 1000;
 }
+
 
 .menu-list {
   list-style: none;
@@ -24,19 +27,24 @@
   margin: 0 20px;
 }
 
-.menu-item a {
+.menu-item a,
+.menu-item a:link,
+.menu-item a:visited {
   text-decoration: none;
   color: white;
   font-size: 16px;
   transition: color 0.3s;
+  cursor: pointer;
 }
 
-.menu-item a:hover {
+.menu-item a:hover,
+.menu-item a:active {
   color: #b6b6b6;
 }
 
-.login-out {
-  text-align: right;
+.logout-item a {
+  color: white;
+  cursor: pointer;
 }
 
 .menu-toggle {
@@ -84,4 +92,8 @@
   .menu-toggle {
     display: block;
   }
+}
+
+.main-content {
+  padding-top: 70px; /* 상단 메뉴 높이만큼 패딩 추가 */
 }

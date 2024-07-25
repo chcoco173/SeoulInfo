@@ -1,7 +1,7 @@
 import '../css/InsertEVC.css';
 import { useNavigate } from 'react-router-dom'; 
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useAuth } from './AuthContext';
 
 function InsertEVC() {
     const [evcId, setEvcId] = useState('');
@@ -13,7 +13,8 @@ function InsertEVC() {
     const [chargerMechcine, setChargerMechcine] = useState('');
     const [chargerOpbig, setChargerOpbig] = useState('');
     const [chargerOpsmall, setChargerOpsmall] = useState('');
-    const navigate = useNavigate();  
+    const navigate = useNavigate();
+    const { instance } = useAuth(); // AuthContext에서 axios 인스턴스를 가져옵니다.
 
     const handleCheckboxChange = (e) => {
         const value = e.target.value;
@@ -44,7 +45,7 @@ function InsertEVC() {
         formData.append('charger_opsmall', chargerOpsmall);
 
         try {
-            const response = await axios.post('http://localhost:8000/data/insert-evc', formData, {
+            const response = await instance.post('/data/insert-evc', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -89,7 +90,7 @@ function InsertEVC() {
                     <option value="이용가능">이용가능</option>
                     <option value="이용자제한">이용자제한</option>
                 </select>
-                 <label name="charging">충전기 타입</label><br/>
+                <label name="charging">충전기 타입</label><br/>
                 <label>
                     <input
                         type="checkbox"
@@ -126,7 +127,7 @@ function InsertEVC() {
                         onChange={handleCheckboxChange}
                     /> DC콤보
                 </label><br/>
-    <select
+                <select
                     name='charger_facbig'
                     value={chargerFacbig}
                     onChange={(e) => setChargerFacbig(e.target.value)}>

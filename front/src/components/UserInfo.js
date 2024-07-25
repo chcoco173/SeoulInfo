@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import '../css/UserInfo.css';
+import { useAuth } from './AuthContext';
 
 function UserInfo() {
-
+  const { instance } = useAuth(); // AuthContext에서 axios 인스턴스를 가져옵니다.
   const [memberData, setMemberData] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -16,7 +16,7 @@ function UserInfo() {
 
   const fetchMemberData = async (page) => {
     try {
-      const response = await axios.get('http://localhost:8000/data/getallmember', {
+      const response = await instance.get('/data/getallmember', {
         params: { page }
       });
       setMemberData(response.data.member);
@@ -28,7 +28,7 @@ function UserInfo() {
 
   const updateMemberStatus = async (member_id, newStatus) => {
     try {
-      await axios.post(`http://localhost:8000/data/update-member-status/${member_id}`, {
+      await instance.post(`/data/update-member-status/${member_id}`, {
         status: newStatus
       });
       fetchMemberData(currentPage);
@@ -46,7 +46,7 @@ function UserInfo() {
 
   const handleSearch = async () => {
     try {
-      const res = await axios.get('http://localhost:8000/data/search-member', {
+      const res = await instance.get('/data/search-member', {
         params: {
           category: searchCategory,
           keyword: searchKeyword

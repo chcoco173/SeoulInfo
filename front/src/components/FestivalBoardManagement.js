@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import '../css/FestivalBoardManagement.css';
+import { useAuth } from './AuthContext'; // AuthContext에서 useAuth 훅을 가져옵니다.
 
 function FestivalBoardManagement() {
+  const { instance } = useAuth(); // AuthContext에서 axios 인스턴스를 가져옵니다.
   const [festivalBoardData, setFestivalBoardData] = useState([]);
   const [areaNames, setAreaNames] = useState([]);
   const [typeNames, setTypeNames] = useState([]);
@@ -22,6 +23,10 @@ function FestivalBoardManagement() {
 
   useEffect(() => {
     fetchFestivalNames(selectAreaCategory, selectTypeCategory);
+    setCurrentPage(0); // 카테고리가 변경되면 페이지를 1(0)로 초기화
+  }, [selectAreaCategory, selectTypeCategory]);
+
+  useEffect(() => {
     fetchFestivalBoardData(currentPage, selectAreaCategory, selectTypeCategory, selectFestivalCategory);
   }, [currentPage, selectAreaCategory, selectTypeCategory, selectFestivalCategory]);
 
@@ -35,7 +40,7 @@ function FestivalBoardManagement() {
 
   const fetchAreaNames = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/data/get-area-names');
+      const response = await instance.get('/data/get-area-names');
       setAreaNames(response.data);
     } catch (error) {
       console.error('Error fetching area names:', error);
@@ -44,7 +49,7 @@ function FestivalBoardManagement() {
 
   const fetchTypeNames = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/data/get-type-names');
+      const response = await instance.get('/data/get-type-names');
       setTypeNames(response.data);
     } catch (error) {
       console.error('Error fetching type names:', error);
@@ -53,7 +58,7 @@ function FestivalBoardManagement() {
 
   const fetchFestivalNames = async (area, type) => {
     try {
-      const response = await axios.get('http://localhost:8000/data/get-festival-names', {
+      const response = await instance.get('/data/get-festival-names', {
         params: { area, type }
       });
       setFestivalNames(response.data);
@@ -64,7 +69,7 @@ function FestivalBoardManagement() {
 
   const fetchFestivalBoardData = async (page, area, type, festival) => {
     try {
-      const response = await axios.get('http://localhost:8000/data/getallfestivalboard', {
+      const response = await instance.get('/data/getallfestivalboard', {
         params: { page, area, type, festival }
       });
       setFestivalBoardData(response.data.festivalboard);
@@ -78,7 +83,7 @@ function FestivalBoardManagement() {
     const confirmDelete = window.confirm("삭제하시겠습니까?");
     if (confirmDelete) {
       try {
-        await axios.delete(`http://localhost:8000/data/delete-festivalboard/${fr_id}`);
+        await instance.delete(`/data/delete-festivalboard/${fr_id}`);
         window.location.reload();
       } catch (error) {
         console.error('Error deleting festival board:', error);
@@ -92,7 +97,7 @@ function FestivalBoardManagement() {
 
   const handleSearch = async (page = 0) => {
     try {
-      const res = await axios.get('http://localhost:8000/data/search-festivalboard', {
+      const res = await instance.get('/data/search-festivalboard', {
         params: {
           category: searchCategory,
           keyword: searchKeyword,

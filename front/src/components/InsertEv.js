@@ -1,7 +1,7 @@
 import '../css/InsertEV.css';
 import { useNavigate } from 'react-router-dom'; 
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useAuth } from './AuthContext';
 
 function InsertEv() {
     const [evId, setEvId] = useState('');
@@ -10,8 +10,8 @@ function InsertEv() {
     const [evName, setEvName] = useState('');
     const [evLat, setEvLat] = useState('');
     const [evLong, setEvLong] = useState('');
-    const navigate = useNavigate();  
-
+    const navigate = useNavigate();
+    const { instance } = useAuth(); // AuthContext에서 axios 인스턴스를 가져옵니다.
 
     const handleInsertEv = async (e) => {
         e.preventDefault(); // 폼 제출 방지
@@ -25,11 +25,15 @@ function InsertEv() {
         formData.append('evc_long', evLong);
 
         try {
-            const response = await axios.post('http://localhost:8000/data/insert-ev', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
+            const response = await instance.post(
+                '/data/insert-ev',
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
                 }
-            });
+            );
             if (response.status >= 200 && response.status < 300) {
                 console.log(response.data);
                 alert('충전소 등록 완료');
@@ -93,21 +97,21 @@ function InsertEv() {
                     value={evAddress}
                     onChange={(e) => setEvAddress(e.target.value)}
                 />
-                  <input
+                <input
                     type="text"
                     placeholder="충전소 이름"
                     name='evc_name'
                     value={evName}
                     onChange={(e) => setEvName(e.target.value)}
                 />
-                  <input
+                <input
                     type="text"
                     placeholder="위도"
                     name='evc_lat'
                     value={evLat}
                     onChange={(e) => setEvLat(e.target.value)}
                 />
-                  <input
+                <input
                     type="text"
                     placeholder="경도"
                     name='evc_long'

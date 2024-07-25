@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import '../css/NewsManagement.css';
+import { useAuth } from './AuthContext';
 
 function NewsManagement() {
+  const { instance } = useAuth(); // AuthContext에서 axios 인스턴스를 가져옵니다.
   const [newsData, setNewsData] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -19,7 +20,7 @@ function NewsManagement() {
 
   const fetchNewsData = async (page) => {
     try {
-      const response = await axios.get('http://localhost:8000/data/getallnews', {
+      const response = await instance.get('/data/getallnews', {
         params: { page }
       });
       setNewsData(response.data.news);
@@ -33,21 +34,21 @@ function NewsManagement() {
     const confirmDelete = window.confirm("삭제하시겠습니까?");
     if (confirmDelete) {
       try {
-        await axios.delete(`http://localhost:8000/data/delete-news/${newsId}`);
+        await instance.delete(`/data/delete-news/${newsId}`);
         window.location.reload(); // 페이지 새로고침
       } catch (error) {
         console.error('Error deleting news:', error);
       }
     }
   };
-  
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
   const handleSearch = async (page = 0) => {
     try {
-      const res = await axios.get('http://localhost:8000/data/search-news', {
+      const res = await instance.get('/data/search-news', {
         params: {
           category: searchCategory,
           keyword: searchKeyword,

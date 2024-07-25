@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import '../css/FestivalManagement.css';
+import { useAuth } from './AuthContext';
 
 function FestivalCard({ festival, onClick }) {
   const imagePath = festival.festival_imageurl && festival.festival_imageurl.startsWith('http') 
@@ -22,6 +22,7 @@ function FestivalCard({ festival, onClick }) {
 }
 
 function Festivalpopup({ festival, onClose }) {
+  const { instance } = useAuth(); // AuthContext에서 axios 인스턴스를 가져옵니다.
   const [editableFestival, setEditableFestival] = useState({ ...festival });
   const [isEditing, setIsEditing] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -58,7 +59,7 @@ function Festivalpopup({ festival, onClose }) {
         }
 
         try {
-          const response = await axios.post('http://localhost:8000/data/update-festival', formData, {
+          const response = await instance.post('/data/update-festival', formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
@@ -82,14 +83,11 @@ function Festivalpopup({ festival, onClose }) {
 
   const handleDeleteFestival = (festivalId) => {
     if (window.confirm('삭제하시겠습니까?')) {
-      axios.delete(
-        `http://localhost:8000/data/delete-festival/${festivalId}`,
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
+      instance.delete(`/data/delete-festival/${festivalId}`, {
+        headers: {
+          'Content-Type': 'application/json'
         }
-      )
+      })
         .then(response => {
           if (response.status === 200) {
             console.log(response.data);
@@ -272,6 +270,7 @@ function Festivalpopup({ festival, onClose }) {
 
 function FestivalManagement() {
   const navigate = useNavigate();
+  const { instance } = useAuth(); // AuthContext에서 axios 인스턴스를 가져옵니다.
   const [selectedFestival, setSelectedFestival] = useState(null);
   const [viewContent, setViewContent] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
@@ -290,7 +289,7 @@ function FestivalManagement() {
         setIsLoading(true);
 
         try {
-          const response = await axios.get(`http://localhost:8000/data/getallfestival?page=${page}`);
+          const response = await instance.get(`/data/getallfestival?page=${page}`);
           if (response.data.length < 15) {
             setHasMore(false); // 데이터가 더 이상 없으면 추가 로드 중지
           }
@@ -324,7 +323,7 @@ function FestivalManagement() {
   const handleSearch = async () => {
     setSearching(true);
     try {
-      const res = await axios.get('http://localhost:8000/data/search-festival', {
+      const res = await instance.get('/data/search-festival', {
         params: {
           category: searchCategory,
           keyword: searchKeyword

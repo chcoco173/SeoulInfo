@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../css/AdminInfo.css';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useAuth } from './AuthContext'; // useAuth 훅 임포트
 
 function AdminCard({ admin, onClick }) {
   const imagePath = `http://localhost:8000${admin.admin_image}`; 
@@ -15,6 +15,7 @@ function AdminCard({ admin, onClick }) {
 }
 
 function Adminpopup({ admin, onClose }) {
+  const { instance } = useAuth(); // useAuth 훅으로 instance 가져오기
   const [editableAdmin, setEditableAdmin] = useState({ ...admin });
   const [isEditing, setIsEditing] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -33,14 +34,7 @@ function Adminpopup({ admin, onClose }) {
 
   const handleDeleteAdmin = (adminId) => {
     if (window.confirm('삭제하시겠습니까?')) {
-      axios.delete(
-        `http://localhost:8000/data/delete-admin/${adminId}`,
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      )
+      instance.delete(`/data/delete-admin/${adminId}`)
         .then(response => {
           if (response.status === 200) {
             console.log(response.data);
@@ -73,7 +67,7 @@ function Adminpopup({ admin, onClose }) {
         }
 
         try {
-          const response = await axios.post('http://localhost:8000/data/update-admin', formData, {
+          const response = await instance.post('/data/update-admin', formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
@@ -161,6 +155,7 @@ function Adminpopup({ admin, onClose }) {
 }
 
 function AdminInfo() {
+  const { instance } = useAuth(); // useAuth 훅으로 instance 가져오기
   const navigate = useNavigate();
   const [selectedAdmin, setSelectedAdmin] = useState(null);
   const [viewContent, setViewContent] = useState([]);
@@ -170,7 +165,7 @@ function AdminInfo() {
   useEffect(() => { adminList() }, [])
 
   const adminList = async () => {
-    await axios.get('http://localhost:8000/data/getalladmin')
+    await instance.get('/data/getalladmin')
       .then((res) => {
         console.log(res);
         setViewContent(res.data);
@@ -179,7 +174,7 @@ function AdminInfo() {
 
   const handleSearch = async () => {
     try {
-      const res = await axios.get('http://localhost:8000/data/search-admin', {
+      const res = await instance.get('/data/search-admin', {
         params: {
           category: searchCategory,
           keyword: searchKeyword

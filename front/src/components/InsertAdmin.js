@@ -1,7 +1,7 @@
 import '../css/InsertAdmin.css';
 import { useNavigate } from 'react-router-dom'; 
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useAuth } from './AuthContext';
 
 function InsertAdmin() {
     const [adminId, setAdminId] = useState('');
@@ -10,7 +10,8 @@ function InsertAdmin() {
     const [adminTel, setAdminTel] = useState('');
     const [adminEmail, setAdminEmail] = useState('');
     const [adminImage, setAdminImage] = useState(null);
-    const navigate = useNavigate();  
+    const navigate = useNavigate();
+    const { instance } = useAuth(); // AuthContext에서 axios 인스턴스를 가져옵니다.
 
     const handleImageChange = (e) => {
         setAdminImage(e.target.files[0]);
@@ -28,8 +29,8 @@ function InsertAdmin() {
         formData.append('admin_image', adminImage);
 
         try {
-            const response = await axios.post(
-                'http://localhost:8000/data/insert-admin',
+            const response = await instance.post(
+                '/data/insert-admin',
                 formData,
                 {
                     headers: {

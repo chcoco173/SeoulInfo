@@ -1,7 +1,7 @@
 import '../css/InsertFestival.css';
 import { useNavigate } from 'react-router-dom'; 
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useAuth } from './AuthContext';
 
 function InsertFestival() {
     const [festivalName, setFestivalName] = useState('');
@@ -20,6 +20,7 @@ function InsertFestival() {
     const [festivalLong, setFestivalLong] = useState('');
     const [festivalFree, setFestivalFree] = useState('');
     const navigate = useNavigate();  
+    const { instance } = useAuth(); // AuthContext에서 axios 인스턴스를 가져옵니다.
 
     const handleImageChange = (e) => {
         setFestivalImage(e.target.files[0]);
@@ -46,7 +47,7 @@ function InsertFestival() {
         formData.append('festival_free', festivalFree);
 
         try {
-            const response = await axios.post('http://localhost:8000/data/insert-festival', formData, {
+            const response = await instance.post('/data/insert-festival', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -135,14 +136,14 @@ function InsertFestival() {
                         value={festivalEndDate}
                         onChange={(e) => setFestivalEndDate(e.target.value)}
                     /></span>
-                                    <input
+                <input
                     type="text"
                     placeholder="요금"
                     name='festival_fee'
                     value={festivalFee}
                     onChange={(e) => setFestivalFee(e.target.value)}
                 />
-                                <select
+                <select
                     name='festival_free'
                     value={festivalFree}
                     onChange={(e) => setFestivalFree(e.target.value)}>
@@ -150,36 +151,35 @@ function InsertFestival() {
                     <option value="무료">무료</option>
                     <option value="유료">유료</option>
                 </select>
-                                                    <input
+                <input
                     type="text"
                     placeholder="대상"
                     name='festival_target'
                     value={festivalTarget}
                     onChange={(e) => setFestivalTarget(e.target.value)}
                 />
-                        
-                                <input
+                <input
                     type="text"
                     placeholder="주최"
                     name='festival_host'
                     value={festivalHost}
                     onChange={(e) => setFestivalHost(e.target.value)}
                 />
-                                                <input
+                <input
                     type="date"
                     placeholder="예매일"
                     name='festival_appdate'
                     value={festivalAppdate}
                     onChange={(e) => setFestivalAppdate(e.target.value)}
                 />
-                                                <input
+                <input
                     type="text"
                     placeholder="위도"
                     name='festival_Lat'
                     value={festivalLat}
                     onChange={(e) => setFestivalLat(e.target.value)}
                 />
-                                                <input
+                <input
                     type="text"
                     placeholder="경도"
                     name='festival_long'

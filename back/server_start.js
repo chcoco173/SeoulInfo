@@ -1,201 +1,261 @@
-const express = require('express'); 
-const cors = require('cors'); // 다른 포트끼리 호환
-const mysql = require('mysql'); // sql 연결
-const multer = require('multer'); // 파일 업로드
-const path = require('path'); // 경로 설정
-const fs = require('fs'); // 날짜 설정
-const dbconfig = require('./config/database.js'); 
-const conn = mysql.createConnection(dbconfig); //데이터베이스 연결
+const express = require('express');
+const cors = require('cors');
+const mysql = require('mysql');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+const dbconfig = require('./config/database.js');
+const session = require('express-session');
+const FileStore = require('session-file-store')(session);
+
+const conn = mysql.createConnection(dbconfig);
 const app = express();
 const PORT = 8000;
 
-app.listen(PORT, () => {
-    console.log("Express 서버 시작 포트는 >>> : ", PORT);
+// 디버깅: 서버 시작
+app.listen(PORT, (err) => {
+  if (err) {
+    console.error('Error starting server:', err);
+  } else {
+    console.log('Server is running on port', PORT);
+  }
 });
 
+// 디버깅: 데이터베이스 연결
 conn.connect(err => {
-    if (err) console.log("연결실패: ", err);
+  if (err) {
+    console.log('연결실패:', err);
+  } else {
     console.log('연결성공');
+  }
 });
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// 로그인
+// 디버깅: 세션 설정
+app.use(session({
+  secret: 'your_secret_key',
+  resave: false,
+  saveUninitialized: true,
+  store: new FileStore({
+    path: path.join(__dirname, 'sessions')
+  }),
+  cookie: {
+    secure: false,
+    httpOnly: true,
+    maxAge: 1000 * 60 * 30 
+  }
+}));
 
+// 로그인 라우트 설정
 app.post('/login', (req, res) => {
-    const { adminId, adminPw } = req.body;
-    const query = 'SELECT * FROM admin WHERE admin_id = ?';
-  
-    conn.query(query, [adminId], (err, results) => {
-      if (err) throw err;
-  
-      if (results.length === 0) {
-        return res.status(400).json({ message: '존재하지 않는 아이디입니다.' });
+  const { adminId, adminPw } = req.body;
+  const query = 'SELECT * FROM admin WHERE admin_id = ?';
+
+  conn.query(query, [adminId], (err, results) => {
+    if (err) {
+      console.error('로그인 쿼리 에러:', err);
+      return res.status(500).json({ message: '서버 에러' });
+    }
+
+    if (results.length === 0) {
+      return res.status(400).json({ message: '존재하지 않는 아이디입니다.' });
+    }
+
+    const admin = results[0];
+
+    if (admin.admin_pw !== adminPw) {
+      return res.status(400).json({ message: '비밀번호가 일치하지 않습니다.' });
+    }
+
+    req.session.adminId = admin.admin_id;
+    req.session.save(err => {
+      if (err) {
+        console.error('세션 저장 에러:', err);
+        return res.status(500).json({ message: '서버 에러' });
       }
-  
-      const admin = results[0];
-  
-      if (admin.admin_pw !== adminPw) {
-        return res.status(400).json({ message: '비밀번호가 일치하지 않습니다.' });
-      }
-  
       res.json({ message: '로그인 성공', admin });
     });
   });
-  
-  
+});
+
+app.get('/check-auth', (req, res) => {
+  if (req.session.adminId) {
+    const query = 'SELECT * FROM admin WHERE admin_id = ?';
+    conn.query(query, [req.session.adminId], (err, results) => {
+      if (err) {
+        console.error('인증 확인 쿼리 에러:', err);
+        return res.status(500).json({ message: '서버 에러' });
+      }
+
+      if (results.length === 0) {
+        return res.status(401).json({ message: '인증 실패' });
+      }
+
+      res.json({ admin: results[0] });
+    });
+  } else {
+    res.status(401).json({ message: '로그인 필요' });
+  }
+});
+
+function checkSession(req, res, next) {
+  if (!req.session.adminId) {
+    return res.status(401).json({ message: '로그인이 필요합니다.' });
+  }
+  next();
+}
+
+app.post('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      return res.status(500).send('로그아웃 실패');
+    }
+    res.clearCookie('connect.sid'); // 세션 쿠키 삭제
+    res.send('로그아웃 성공');
+  });
+});
 
 // 이미지 업로드 설정
-const storageAdmin = multer.diskStorage({
+const createStorage = (folder) => {
+  return multer.diskStorage({
     destination: (req, file, cb) => {
-        const dir = path.join(__dirname, 'public/images/admin');
-        if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, { recursive: true });
-        }
-        cb(null, dir);
+      const dir = path.join(__dirname, `public/images/${folder}`);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      cb(null, dir);
     },
     filename: (req, file, cb) => {
-        cb(null, req.body.admin_id + path.extname(file.originalname))
+      cb(null, `${Date.now()}${path.extname(file.originalname)}`);
     }
-});
-const uploadAdmin = multer({ storage: storageAdmin });
+  });
+};
 
-const storageFestival = multer.diskStorage({
-    destination: (req, file, cb) => {
-        const dir = path.join(__dirname, 'public/images/festival');
-        if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, { recursive: true });
-        }
-        cb(null, dir);
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}${path.extname(file.originalname)}`);
-    }
-});
-const uploadFestival = multer({ storage: storageFestival });
+const uploadAdmin = multer({ storage: createStorage('admin') });
+const uploadFestival = multer({ storage: createStorage('festival') });
 
 // 날짜 변환 함수
 const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = (`0${date.getMonth() + 1}`).slice(-2);
-    const day = (`0${date.getDate()}`).slice(-2);
-    return `${year}-${month}-${day}`;
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = (`0${date.getMonth() + 1}`).slice(-2);
+  const day = (`0${date.getDate()}`).slice(-2);
+  return `${year}-${month}-${day}`;
 };
 
 // 축제 데이터 불러오기
-app.get('/data/getallfestival', (req, res) => {
-    const pageNumber = parseInt(req.query.page) || 0;
-    const pageSize = 15;
-    const offset = pageNumber * pageSize;
-  
-    const sql = `
-      SELECT *
-      FROM festival
-      ORDER BY festival_id
-      LIMIT ${pageSize} OFFSET ${offset}
-    `;
-  
-    conn.query(sql, function(err, result, fields) {
-      if (err) throw err;
-      console.log(`Fetched ${result.length} items`); 
-      res.send(result);
-    });
+app.get('/data/getallfestival', checkSession, (req, res) => {
+  const pageNumber = parseInt(req.query.page) || 0;
+  const pageSize = 15;
+  const offset = pageNumber * pageSize;
+
+  const sql = `
+    SELECT *
+    FROM festival
+    ORDER BY festival_id
+    LIMIT ${pageSize} OFFSET ${offset}
+  `;
+
+  conn.query(sql, function(err, result) {
+    if (err) {
+      console.error('축제 데이터 불러오기 에러:', err);
+      return res.status(500).send('Error fetching festival data');
+    }
+    res.send(result);
+  });
 });
 
 // 축제 데이터 입력하기
-app.post('/data/insert-festival', uploadFestival.single('festival_image'), (req, res) => {
+app.post('/data/insert-festival', checkSession, uploadFestival.single('festival_image'), (req, res) => {
   const { festival_name, festival_area, festival_loc, festival_startdate, festival_enddate, festival_siteurl, festival_fee, festival_type, festival_target, festival_host, festival_appdate, festival_lat, festival_long, festival_free } = req.body;
   const festival_imageurl = req.file ? `/images/festival/${req.file.filename}` : null;
   const formattedStartDate = formatDate(festival_startdate);
   const formattedEndDate = formatDate(festival_enddate);
 
   const param = [festival_name, festival_area, festival_loc, formattedStartDate, formattedEndDate, festival_siteurl, festival_imageurl, festival_fee, festival_type, festival_target, festival_host, festival_appdate, festival_lat, festival_long, festival_free];
-  const sql = "INSERT INTO festival (festival_name, festival_area, festival_loc, festival_startdate, festival_enddate, festival_siteurl, festival_imageurl, festival_fee, festival_type, festival_target, festival_host, festival_appdate, festival_lat, festival_long, festival_free) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?)";
+  const sql = "INSERT INTO festival (festival_name, festival_area, festival_loc, festival_startdate, festival_enddate, festival_siteurl, festival_imageurl, festival_fee, festival_type, festival_target, festival_host, festival_appdate, festival_lat, festival_long, festival_free) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-  conn.query(sql, param, function (err, result) {
-      if (err) {
-          console.error(err);
-          res.status(500).send('Error');
-      } else {
-          res.status(201).send('success');
-      }
+  conn.query(sql, param, function (err) {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error');
+    } else {
+      res.status(201).send('success');
+    }
   });
 });
 
 // 축제 데이터 수정
-app.post('/data/update-festival', uploadFestival.single('festival_image'), (req, res) => {
-    const { festival_id, festival_name, festival_area, festival_address, festival_content, festival_startdate, festival_enddate, festival_siteurl, festival_fee, festival_type, festival_target, festival_host } = req.body;
-    const festival_imageurl = req.file ? `/images/festival/${req.file.filename}` : null;
-    const formattedStartDate = formatDate(festival_startdate);
-    const formattedEndDate = formatDate(festival_enddate);
+app.post('/data/update-festival', checkSession, uploadFestival.single('festival_image'), (req, res) => {
+  const { festival_id, festival_name, festival_area, festival_address, festival_startdate, festival_enddate, festival_siteurl, festival_fee, festival_type, festival_target, festival_host } = req.body;
+  const festival_imageurl = req.file ? `/images/festival/${req.file.filename}` : null;
+  const formattedStartDate = formatDate(festival_startdate);
+  const formattedEndDate = formatDate(festival_enddate);
 
-    let sql = "UPDATE festival SET festival_name = ?, festival_area = ?, festival_loc = ?, festival_startdate = ?, festival_enddate = ?, festival_siteurl = ?, festival_fee = ?, festival_type = ?, festival_target = ?, festival_host = ?";
-    let params = [festival_name, festival_area, festival_address, formattedStartDate, formattedEndDate, festival_siteurl, festival_fee, festival_type, festival_target, festival_host];
+  let sql = "UPDATE festival SET festival_name = ?, festival_area = ?, festival_loc = ?, festival_startdate = ?, festival_enddate = ?, festival_siteurl = ?, festival_fee = ?, festival_type = ?, festival_target = ?, festival_host = ?";
+  let params = [festival_name, festival_area, festival_address, formattedStartDate, formattedEndDate, festival_siteurl, festival_fee, festival_type, festival_target, festival_host];
 
-    if (festival_imageurl) {
-        sql += ", festival_imageurl = ?";
-        params.push(festival_imageurl);
+  if (festival_imageurl) {
+    sql += ", festival_imageurl = ?";
+    params.push(festival_imageurl);
+  }
+
+  sql += " WHERE festival_id = ?";
+  params.push(festival_id);
+
+  conn.query(sql, params, function (err) {
+    if (err) {
+      console.error('Error: ', err);
+      res.status(500).send('Error');
+    } else {
+      res.status(200).send('success');
     }
-    
-    sql += " WHERE festival_id = ?";
-    params.push(festival_id);
-
-    conn.query(sql, params, function(err, result) {
-        if (err) {
-            console.error('Error: ', err);
-            res.status(500).send('Error');
-        } else {
-            res.status(200).send('success');
-        }
-    });
+  });
 });
 
 // 축제 데이터 삭제
-app.delete('/data/delete-festival/:festivalId', (req, res) => {
-    const sql = "DELETE FROM festival WHERE festival_id = ? ";
-    conn.query(sql, [req.params.festivalId], (err, result, fields) => {
-        if (err) {
-            res.status(500).send('Error');
-        } else {
-            res.status(200).send('success');
-        }
-    });
+app.delete('/data/delete-festival/:festivalId', checkSession, (req, res) => {
+  const sql = "DELETE FROM festival WHERE festival_id = ?";
+  conn.query(sql, [req.params.festivalId], (err) => {
+    if (err) {
+      res.status(500).send('Error');
+    } else {
+      res.status(200).send('success');
+    }
+  });
 });
 
 // 축제 검색 기능
-app.get('/data/search-festival', (req, res) => {
-    const { category, keyword } = req.query;
-  
-    let query = '';
-    
-    if (!keyword) {
-      query = 'SELECT * FROM festival';
+app.get('/data/search-festival', checkSession, (req, res) => {
+  const { category, keyword } = req.query;
+
+  let query = 'SELECT * FROM festival';
+  const params = [];
+
+  if (keyword) {
+    query += ` WHERE ${category} LIKE ?`;
+    params.push(`%${keyword}%`);
+  }
+
+  conn.query(query, params, (err, results) => {
+    if (err) {
+      console.error('검색 중 에러 발생:', err);
+      return res.status(500).json({ error: '서버 에러' });
     }
-  
-    // 카테고리 설정
-    if (category === 'festival_name') {
-      query = 'SELECT * FROM festival WHERE festival_name LIKE ?';
-    } else if (category === 'festival_area') {
-      query = 'SELECT * FROM festival WHERE festival_area LIKE ?';
-    } else {
-      return res.status(400).json({ error: '카테고리 오류.' });
-    }
-  
-    conn.query(query, [`%${keyword}%`], (err, results) => {
-      if (err) {
-        console.error('검색 중 에러 발생:', err);
-        return res.status(500).json({ error: '서버 에러' });
-      }
-      res.json(results);
-    });
+    res.json(results);
+  });
 });
 
 // 축제 게시물 리스트
-app.get('/data/getallfestivalboard', (req, res) => {
+app.get('/data/getallfestivalboard', checkSession, (req, res) => {
   const { page = 0, area = 'all', type = 'all', festival = 'all' } = req.query;
-  const pageSize = 10; // 페이지당 게시물 수
+  const pageSize = 10;
   const offset = page * pageSize;
 
   let query = `
@@ -235,7 +295,7 @@ app.get('/data/getallfestivalboard', (req, res) => {
 
   conn.query(query, params, (err, boardRows) => {
     if (err) {
-      console.error('Error fetching festival board data:', err); // 에러 로그 출력
+      console.error('Error fetching festival board data:', err);
       return res.status(500).send('Error fetching festival board data');
     }
 
@@ -246,7 +306,7 @@ app.get('/data/getallfestivalboard', (req, res) => {
 
     conn.query(countQuery, params.slice(0, -2), (err, countRows) => {
       if (err) {
-        console.error('Error fetching festival board data:', err); // 에러 로그 출력
+        console.error('Error fetching festival board data:', err);
         return res.status(500).send('Error fetching festival board data');
       }
 
@@ -260,11 +320,10 @@ app.get('/data/getallfestivalboard', (req, res) => {
   });
 });
 
-//축제 게시물 검색
-
-app.get('/data/search-festivalboard', (req, res) => {
+// 축제 게시물 검색
+app.get('/data/search-festivalboard', checkSession, (req, res) => {
   const { category, keyword, page = 0, area = 'all', type = 'all', festival = 'all' } = req.query;
-  const pageSize = 10; // 페이지당 게시물 수
+  const pageSize = 10;
   const offset = page * pageSize;
 
   let query = `
@@ -301,8 +360,8 @@ app.get('/data/search-festivalboard', (req, res) => {
 
   if (category && keyword) {
     if (category === 'title') {
-      query += ' AND fr.fr_content LIKE ?';
-      countQuery += ' AND fr.fr_content LIKE ?';
+      query += ' AND fr.fr_title LIKE ?';
+      countQuery += ' AND fr.fr_title LIKE ?';
       params.push(`%${keyword}%`);
     } else if (category === 'content') {
       query += ' AND fr.fr_content LIKE ?';
@@ -342,14 +401,14 @@ app.get('/data/search-festivalboard', (req, res) => {
 });
 
 // 지역 목록 불러오기
-app.get('/data/get-area-names', (req, res) => {
+app.get('/data/get-area-names', checkSession, (req, res) => {
   const query = `
     SELECT DISTINCT festival_area
     FROM festival
   `;
   conn.query(query, (err, results) => {
     if (err) {
-      console.error('Error retrieving area names:', err); // 에러 로그 출력
+      console.error('Error retrieving area names:', err);
       return res.status(500).send('Error retrieving area names');
     }
     res.json(results.map(row => row.festival_area));
@@ -357,14 +416,14 @@ app.get('/data/get-area-names', (req, res) => {
 });
 
 // 타입 목록 불러오기
-app.get('/data/get-type-names', (req, res) => {
+app.get('/data/get-type-names', checkSession, (req, res) => {
   const query = `
     SELECT DISTINCT festival_type
     FROM festival
   `;
   conn.query(query, (err, results) => {
     if (err) {
-      console.error('Error retrieving type names:', err); // 에러 로그 출력
+      console.error('Error retrieving type names:', err);
       return res.status(500).send('Error retrieving type names');
     }
     res.json(results.map(row => row.festival_type));
@@ -372,7 +431,7 @@ app.get('/data/get-type-names', (req, res) => {
 });
 
 // 축제 이름 목록 불러오기
-app.get('/data/get-festival-names', (req, res) => {
+app.get('/data/get-festival-names', checkSession, (req, res) => {
   const { area, type } = req.query;
   let query = `
     SELECT festival_name
@@ -400,122 +459,107 @@ app.get('/data/get-festival-names', (req, res) => {
   });
 });
 
-//축제 게시글 삭제
-app.delete('/data/delete-festivalboard/:fr_id', (req, res) => {
-  console.log('Delete request received for fr_id:', req.params.fr_id); // 로그 추가
-  const sql = "DELETE FROM festival_review WHERE fr_id = ? ";
-  conn.query(sql, [req.params.fr_id], (err, result) => {
-      if (err) {
-          console.error('Error deleting festival board:', err); // 에러 로그 출력
-          res.status(500).send('Error');
-      } else {
-          res.status(200).send('success');
-      }
+// 축제 게시글 삭제
+app.delete('/data/delete-festivalboard/:fr_id', checkSession, (req, res) => {
+  const sql = "DELETE FROM festival_review WHERE fr_id = ?";
+  conn.query(sql, [req.params.fr_id], (err) => {
+    if (err) {
+      console.error('Error deleting festival board:', err);
+      res.status(500).send('Error');
+    } else {
+      res.status(200).send('success');
+    }
   });
 });
 
-
 // 관리자 데이터 불러오기
-app.get('/data/getalladmin', (req, res) => {
-    const sql = "SELECT admin_id, admin_pw, admin_name, admin_tel, admin_email, admin_image FROM admin";
-    conn.query(sql, function(err, result, fields) {
-        if (err) throw err;
-        res.send(result);
-    });
+app.get('/data/getalladmin', checkSession, (req, res) => {
+  const sql = "SELECT admin_id, admin_pw, admin_name, admin_tel, admin_email, admin_image FROM admin";
+  conn.query(sql, function(err, result) {
+    if (err) throw err;
+    res.send(result);
+  });
 });
 
 // 관리자 데이터 입력
-app.post('/data/insert-admin', uploadAdmin.single('admin_image'), (req, res) => {
-    const { admin_id, admin_pw, admin_name, admin_tel, admin_email } = req.body;
-    const admin_image = req.file ? `/images/admin/${req.file.filename}` : null;
+app.post('/data/insert-admin', checkSession, uploadAdmin.single('admin_image'), (req, res) => {
+  const { admin_id, admin_pw, admin_name, admin_tel, admin_email } = req.body;
+  const admin_image = req.file ? `/images/admin/${req.file.filename}` : null;
 
-    const param = [admin_id, admin_pw, admin_name, admin_tel, admin_email, admin_image];
-    const sql = "INSERT INTO admin (admin_id, admin_pw, admin_name, admin_tel, admin_email, admin_image) VALUES (?, ?, ?, ?, ?, ?)";
-    
-    conn.query(sql, param, function(err, result) {
-        if (err) {
-            console.error('Error: ', err);
-            res.status(500).send('Error');
-        } else {
-            res.status(201).send('success');
-        }
-    });
+  const param = [admin_id, admin_pw, admin_name, admin_tel, admin_email, admin_image];
+  const sql = "INSERT INTO admin (admin_id, admin_pw, admin_name, admin_tel, admin_email, admin_image) VALUES (?, ?, ?, ?, ?, ?)";
+
+  conn.query(sql, param, function(err) {
+    if (err) {
+      console.error('Error: ', err);
+      res.status(500).send('Error');
+    } else {
+      res.status(201).send('success');
+    }
+  });
 });
 
 // 관리자 데이터 삭제
-app.delete('/data/delete-admin/:adminId', (req, res) => {
-    const sql = "DELETE FROM admin WHERE admin_id = ? ";
-    conn.query(sql, [req.params.adminId], (err, result, fields) => {
-        if (err) {
-            res.status(500).send('Error');
-        } else {
-            res.status(200).send('success');
-        }
-    });
+app.delete('/data/delete-admin/:adminId', checkSession, (req, res) => {
+  const sql = "DELETE FROM admin WHERE admin_id = ?";
+  conn.query(sql, [req.params.adminId], (err) => {
+    if (err) {
+      res.status(500).send('Error');
+    } else {
+      res.status(200).send('success');
+    }
+  });
 });
 
 // 관리자 데이터 수정
-app.post('/data/update-admin', uploadAdmin.single('admin_image'), (req, res) => {
-    const { admin_id, admin_name, admin_email, admin_tel } = req.body;
-    const admin_image = req.file ? `/images/admin/${req.file.filename}` : null;
+app.post('/data/update-admin', checkSession, uploadAdmin.single('admin_image'), (req, res) => {
+  const { admin_id, admin_name, admin_email, admin_tel } = req.body;
+  const admin_image = req.file ? `/images/admin/${req.file.filename}` : null;
 
-    let sql = "UPDATE admin SET admin_name = ?, admin_email = ?, admin_tel = ?";
-    let params = [admin_name, admin_email, admin_tel];
+  let sql = "UPDATE admin SET admin_name = ?, admin_email = ?, admin_tel = ?";
+  let params = [admin_name, admin_email, admin_tel];
 
-    if (admin_image) {
-        sql += ", admin_image = ?";
-        params.push(admin_image);
+  if (admin_image) {
+    sql += ", admin_image = ?";
+    params.push(admin_image);
+  }
+
+  sql += " WHERE admin_id = ?";
+  params.push(admin_id);
+
+  conn.query(sql, params, function(err) {
+    if (err) {
+      console.error('Error: ', err);
+      res.status(500).send('Error');
+    } else {
+      res.status(200).send('success');
     }
-    
-    sql += " WHERE admin_id = ?";
-    params.push(admin_id);
-
-    conn.query(sql, params, function(err, result) {
-        if (err) {
-            console.error('Error: ', err);
-            res.status(500).send('Error');
-        } else {
-            res.status(200).send('success');
-        }
-    });
+  });
 });
 
 // 관리자 데이터 검색
+app.get('/data/search-admin', checkSession, (req, res) => {
+  const { category, keyword } = req.query;
 
-app.get('/data/search-admin', (req, res) => {
-    const { category, keyword } = req.query;
-  
-    let query = '';
+  let query = 'SELECT * FROM admin';
+  const params = [];
 
-    if (!keyword) {
-      query = 'SELECT * FROM admin';
+  if (keyword) {
+    query += ` WHERE ${category} LIKE ?`;
+    params.push(`%${keyword}%`);
+  }
+
+  conn.query(query, params, (err, results) => {
+    if (err) {
+      console.error('검색 에러:', err);
+      return res.status(500).json({ error: '서버 에러' });
     }
-  
-    // 카테고리 설정
-
-    if (category === 'name') {
-      query = 'SELECT * FROM admin WHERE admin_name LIKE ?';
-    } else if (category === 'id') {
-      query = 'SELECT * FROM admin WHERE admin_id LIKE ?';
-    } else if (category === 'email') {
-      query = 'SELECT * FROM admin WHERE admin_email LIKE ?';
-    } else if (category === 'tel') {
-      query = 'SELECT * FROM admin WHERE admin_tel LIKE ?';
-    } else {
-      return res.status(400).json({ error: '카테고리 오류' });
-    }
-  
-    conn.query(query, [`%${keyword}%`], (err, results) => {
-      if (err) {
-        console.error('검색 에러:', err);
-        return res.status(500).json({ error: '서버 에러' });
-      }
-      res.json(results);
-    });
+    res.json(results);
   });
+});
 
 // 뉴스 데이터 불러오기 (페이징 포함)
-app.get('/data/getallnews', (req, res) => {
+app.get('/data/getallnews', checkSession, (req, res) => {
   const pageNumber = parseInt(req.query.page) || 0;
   const pageSize = 10;
   const offset = pageNumber * pageSize;
@@ -532,8 +576,8 @@ app.get('/data/getallnews', (req, res) => {
       ORDER BY news_id
       LIMIT ${pageSize} OFFSET ${offset}
     `;
-    
-    conn.query(sql, function(err, result, fields) {
+
+    conn.query(sql, function(err, result) {
       if (err) throw err;
       const formattedResult = result.map(news => ({
         ...news,
@@ -548,9 +592,9 @@ app.get('/data/getallnews', (req, res) => {
 });
 
 // 뉴스 데이터 삭제
-app.delete('/data/delete-news/:newsId', (req, res) => {
-  const sql = "DELETE FROM news WHERE news_id = ? ";
-  conn.query(sql, [req.params.newsId], (err, result, fields) => {
+app.delete('/data/delete-news/:newsId', checkSession, (req, res) => {
+  const sql = "DELETE FROM news WHERE news_id = ?";
+  conn.query(sql, [req.params.newsId], (err) => {
     if (err) {
       res.status(500).send('Error');
     } else {
@@ -560,58 +604,46 @@ app.delete('/data/delete-news/:newsId', (req, res) => {
 });
 
 // 뉴스 검색
-
-app.get('/data/search-news', (req, res) => {
+app.get('/data/search-news', checkSession, (req, res) => {
   const { category, keyword, page } = req.query;
   const pageNumber = parseInt(page) || 0;
   const pageSize = 10;
   const offset = pageNumber * pageSize;
 
-  let query = '';
-  let countQuery = '';
-  let params = [`%${keyword}%`, pageSize, offset];
+  let query = 'SELECT * FROM news';
+  let countQuery = 'SELECT COUNT(*) AS total FROM news';
+  const params = [pageSize, offset];
 
-  if (!keyword) {
-      query = 'SELECT * FROM news LIMIT ? OFFSET ?';
-      countQuery = 'SELECT COUNT(*) AS total FROM news';
-      params = [pageSize, offset];
-  } else {
-      if (category === 'title') {
-          query = 'SELECT * FROM news WHERE news_title LIKE ? LIMIT ? OFFSET ?';
-          countQuery = 'SELECT COUNT(*) AS total FROM news WHERE news_title LIKE ?';
-      } else if (category === 'area') {
-          query = 'SELECT * FROM news WHERE news_area LIKE ? LIMIT ? OFFSET ?';
-          countQuery = 'SELECT COUNT(*) AS total FROM news WHERE news_area LIKE ?';
-      } else {
-          return res.status(400).json({ error: '카테고리 오류' });
-      }
+  if (keyword) {
+    query += ` WHERE ${category} LIKE ? LIMIT ? OFFSET ?`;
+    countQuery += ` WHERE ${category} LIKE ?`;
+    params.unshift(`%${keyword}%`);
   }
 
-  conn.query(countQuery, [`%${keyword}%`], (err, countResult) => {
-      if (err) {
-          console.error('카운트 에러:', err);
-          return res.status(500).json({ error: '서버 에러' });
-      }
-      const totalItems = countResult[0].total;
-      const totalPages = Math.ceil(totalItems / pageSize);
+  conn.query(countQuery, params.slice(0, -2), (err, countResult) => {
+    if (err) {
+      console.error('카운트 에러:', err);
+      return res.status(500).json({ error: '서버 에러' });
+    }
+    const totalItems = countResult[0].total;
+    const totalPages = Math.ceil(totalItems / pageSize);
 
-      conn.query(query, params, (err, results) => {
-          if (err) {
-              console.error('검색 에러:', err);
-              return res.status(500).json({ error: '서버 에러' });
-          }
-          const formattedResults = results.map(news => ({
-              ...news,
-              news_date: formatDate(news.news_date)
-          }));
-          res.json({ news: formattedResults, totalPages });
-      });
+    conn.query(query, params, (err, results) => {
+      if (err) {
+        console.error('검색 에러:', err);
+        return res.status(500).json({ error: '서버 에러' });
+      }
+      const formattedResults = results.map(news => ({
+        ...news,
+        news_date: formatDate(news.news_date)
+      }));
+      res.json({ news: formattedResults, totalPages });
+    });
   });
 });
 
-
 // 전기차 데이터 불러오기
-app.get('/data/getallev', (req, res) => {
+app.get('/data/getallev', checkSession, (req, res) => {
   const pageNumber = parseInt(req.query.page) || 0;
   const pageSize = 10;
   const offset = pageNumber * pageSize;
@@ -628,8 +660,8 @@ app.get('/data/getallev', (req, res) => {
       ORDER BY evc_id
       LIMIT ${pageSize} OFFSET ${offset}
     `;
-    
-    conn.query(sql, function(err, result, fields) {
+
+    conn.query(sql, function(err, result) {
       if (err) throw err;
       res.send({
         ev: result,
@@ -640,9 +672,9 @@ app.get('/data/getallev', (req, res) => {
 });
 
 // 전기차 데이터 삭제
-app.delete('/data/delete-ev/:evc_id', (req, res) => {
-  const sql = "DELETE FROM evc WHERE evc_id = ? ";
-  conn.query(sql, [req.params.evc_id], (err, result, fields) => {
+app.delete('/data/delete-ev/:evc_id', checkSession, (req, res) => {
+  const sql = "DELETE FROM evc WHERE evc_id = ?";
+  conn.query(sql, [req.params.evc_id], (err) => {
     if (err) {
       res.status(500).send('Error');
     } else {
@@ -652,12 +684,12 @@ app.delete('/data/delete-ev/:evc_id', (req, res) => {
 });
 
 // 전기차 데이터 수정
-app.post('/data/update-ev', (req, res) => {
+app.post('/data/update-ev', checkSession, (req, res) => {
   const { evc_id, evc_name, evc_area, evc_address } = req.body;
   const sql = 'UPDATE evc SET evc_name = ?, evc_area = ?, evc_address = ? WHERE evc_id = ?';
   const params = [evc_name, evc_area, evc_address, evc_id];
 
-  conn.query(sql, params, (err, result) => {
+  conn.query(sql, params, (err) => {
     if (err) {
       console.error('Error updating ev:', err);
       res.status(500).send('Error');
@@ -668,72 +700,59 @@ app.post('/data/update-ev', (req, res) => {
 });
 
 // 전기차 데이터 추가
-app.post('/data/insert-ev', (req, res) => {
+app.post('/data/insert-ev', checkSession, (req, res) => {
   const { evc_id, evc_area, evc_address, evc_name, evc_lat, evc_long } = req.body;
 
   const sql = "INSERT INTO evc (evc_id, evc_area, evc_address, evc_name, evc_lat, evc_long) VALUES (?, ?, ?, ?, ?, ?)";
   const params = [evc_id, evc_area, evc_address, evc_name, evc_lat, evc_long];
 
-  conn.query(sql, params, function(err, result) {
-      if (err) {
-          console.error('Error: ', err);
-          res.status(500).send('Error');
-      } else {
-          res.status(201).send('success');
-      }
+  conn.query(sql, params, function(err) {
+    if (err) {
+      console.error('Error: ', err);
+      res.status(500).send('Error');
+    } else {
+      res.status(201).send('success');
+    }
   });
 });
 
+// 전기차 데이터 검색
+app.get('/data/search-ev', checkSession, (req, res) => {
+  const { category, keyword, page } = req.query;
+  const pageNumber = parseInt(page) || 0;
+  const pageSize = 10;
+  const offset = pageNumber * pageSize;
 
-  // 전기차  데이터 검색
+  let query = 'SELECT * FROM evc';
+  let countQuery = 'SELECT COUNT(*) AS total FROM evc';
+  const params = [pageSize, offset];
 
-  app.get('/data/search-ev', (req, res) => {
-    const { category, keyword, page } = req.query;
-    const pageNumber = parseInt(page) || 0;
-    const pageSize = 10;
-    const offset = pageNumber * pageSize;
-  
-    let query = '';
-    let countQuery = '';
-    let params = [`%${keyword}%`, pageSize, offset];
-  
-    if (!keyword) {
-      query = 'SELECT * FROM evc LIMIT ? OFFSET ?';
-      countQuery = 'SELECT COUNT(*) AS total FROM evc';
-      params = [pageSize, offset];
-    } else {
-      if (category === 'evcName') {
-        query = 'SELECT * FROM evc WHERE evc_name LIKE ? LIMIT ? OFFSET ?';
-        countQuery = 'SELECT COUNT(*) AS total FROM evc WHERE evc_name LIKE ?';
-      } else if (category === 'evcArea') {
-        query = 'SELECT * FROM evc WHERE evc_area LIKE ? LIMIT ? OFFSET ?';
-        countQuery = 'SELECT COUNT(*) AS total FROM evc WHERE evc_area LIKE ?';
-      } else {
-        return res.status(400).json({ error: '카테고리 오류' });
-      }
+  if (keyword) {
+    query += ` WHERE ${category} LIKE ? LIMIT ? OFFSET ?`;
+    countQuery += ` WHERE ${category} LIKE ?`;
+    params.unshift(`%${keyword}%`);
+  }
+
+  conn.query(countQuery, params.slice(0, -2), (err, countResult) => {
+    if (err) {
+      console.error('카운트 에러:', err);
+      return res.status(500).json({ error: '서버 에러' });
     }
-  
-    conn.query(countQuery, [`%${keyword}%`], (err, countResult) => {
+    const totalItems = countResult[0].total;
+    const totalPages = Math.ceil(totalItems / pageSize);
+
+    conn.query(query, params, (err, results) => {
       if (err) {
-        console.error('카운트 에러:', err);
+        console.error('검색 에러:', err);
         return res.status(500).json({ error: '서버 에러' });
       }
-      const totalItems = countResult[0].total;
-      const totalPages = Math.ceil(totalItems / pageSize);
-  
-      conn.query(query, params, (err, results) => {
-        if (err) {
-          console.error('검색 에러:', err);
-          return res.status(500).json({ error: '서버 에러' });
-        }
-        res.json({ ev: results, totalPages });
-      });
+      res.json({ ev: results, totalPages });
     });
   });
+});
 
 // 충전기 데이터 불러오기
-
-app.get('/data/getallevc', (req, res) => {
+app.get('/data/getallevc', checkSession, (req, res) => {
   const pageNumber = parseInt(req.query.page) || 0;
   const pageSize = 10;
   const offset = pageNumber * pageSize;
@@ -762,8 +781,8 @@ app.get('/data/getallevc', (req, res) => {
       LIMIT 
         ${pageSize} OFFSET ${offset}
     `;
-    
-    conn.query(sql, function(err, result, fields) {
+
+    conn.query(sql, function(err, result) {
       if (err) throw err;
       res.send({
         evc: result,
@@ -774,12 +793,12 @@ app.get('/data/getallevc', (req, res) => {
 });
 
 // 충전기 데이터 수정
-app.post('/data/update-evc', (req, res) => {
+app.post('/data/update-evc', checkSession, (req, res) => {
   const { charger_id, charger_type, charger_userlimit, charger_facsmall } = req.body;
   const sql = 'UPDATE evc_cg SET charger_type = ?, charger_userlimit = ?, charger_facsmall = ? WHERE charger_id = ?';
-  const params = [charger_type, charger_status, charger_facsmall, charger_id];
+  const params = [charger_type, charger_userlimit, charger_facsmall, charger_id];
 
-  conn.query(sql, params, (err, result) => {
+  conn.query(sql, params, (err) => {
     if (err) {
       console.error('Error updating evc:', err);
       res.status(500).send('Error');
@@ -790,9 +809,9 @@ app.post('/data/update-evc', (req, res) => {
 });
 
 // 충전기 데이터 삭제
-app.delete('/data/delete-evc/:charger_id', (req, res) => {
-  const sql = "DELETE FROM evc_cg WHERE charger_id = ? ";
-  conn.query(sql, [req.params.charger_id], (err, result, fields) => {
+app.delete('/data/delete-evc/:charger_id', checkSession, (req, res) => {
+  const sql = "DELETE FROM evc_cg WHERE charger_id = ?";
+  conn.query(sql, [req.params.charger_id], (err) => {
     if (err) {
       res.status(500).send('Error');
     } else {
@@ -801,14 +820,14 @@ app.delete('/data/delete-evc/:charger_id', (req, res) => {
   });
 });
 
-//충전기 데이터 추가
-app.post('/data/insert-evc', (req, res) => {
+// 충전기 데이터 추가
+app.post('/data/insert-evc', checkSession, (req, res) => {
   const { evc_id, charger_no, charger_type, charger_status, charger_facsmall, charger_userlimit, charger_opbig, charger_opsmall, charger_mechine, charger_facbig } = req.body;
 
   const sql = "INSERT INTO evc_cg (evc_id, charger_no, charger_type, charger_status, charger_facsmall, charger_userlimit, charger_opbig, charger_opsmall, charger_mechine, charger_facbig) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
   const params = [evc_id, charger_no, charger_type, charger_status, charger_facsmall, charger_userlimit, charger_opbig, charger_opsmall, charger_mechine, charger_facbig];
 
-  conn.query(sql, params, function(err, result) {
+  conn.query(sql, params, function(err) {
     if (err) {
       console.error('Error: ', err);
       res.status(500).send('Error');
@@ -819,7 +838,7 @@ app.post('/data/insert-evc', (req, res) => {
 });
 
 // 회원 데이터 불러오기
-app.get('/data/getallmember', (req, res) => {
+app.get('/data/getallmember', checkSession, (req, res) => {
   const pageNumber = parseInt(req.query.page) || 0;
   const pageSize = 10;
   const offset = pageNumber * pageSize;
@@ -831,13 +850,13 @@ app.get('/data/getallmember', (req, res) => {
     const totalPages = Math.ceil(totalItems / pageSize);
 
     const sql = `
-      SELECT member_id, member_area, member_name, member_name, member_tel, member_status, member_email
+      SELECT member_id, member_area, member_name, member_tel, member_status, member_email
       FROM member
       ORDER BY member_id
       LIMIT ${pageSize} OFFSET ${offset}
     `;
-    
-    conn.query(sql, function(err, result, fields) {
+
+    conn.query(sql, function(err, result) {
       if (err) throw err;
       res.send({
         member: result,
@@ -847,29 +866,19 @@ app.get('/data/getallmember', (req, res) => {
   });
 });
 
-app.get('/data/search-member', (req, res) => {
+// 회원 데이터 검색
+app.get('/data/search-member', checkSession, (req, res) => {
   const { category, keyword } = req.query;
-  let query = '';
 
-  if (!keyword) {
-    query = 'SELECT * FROM member';
+  let query = 'SELECT * FROM member';
+  const params = [];
+
+  if (keyword) {
+    query += ` WHERE ${category} LIKE ?`;
+    params.push(`%${keyword}%`);
   }
 
-  // 회원 데이터 검색
-
-  if (category === 'name') {
-    query = 'SELECT * FROM member WHERE member_name LIKE ?';
-  } else if (category === 'id') {
-    query = 'SELECT * FROM member WHERE member_id LIKE ?';
-  } else if (category === 'loc') {
-    query = 'SELECT * FROM member WHERE member_area LIKE ?';
-  } else if (category === 'tel') {
-    query = 'SELECT * FROM member WHERE member_tel LIKE ?';
-  } else {
-    return res.status(400).json({ error: '카테고리 오류' });
-  }
-
-  conn.query(query, [`%${keyword}%`], (err, results) => {
+  conn.query(query, params, (err, results) => {
     if (err) {
       console.error('검색 에러:', err);
       return res.status(500).json({ error: '서버 에러' });
@@ -878,13 +887,12 @@ app.get('/data/search-member', (req, res) => {
   });
 });
 
-
-app.post('/data/update-member-status/:member_id', (req, res) => {
+app.post('/data/update-member-status/:member_id', checkSession, (req, res) => {
   const { status } = req.body;
   const { member_id } = req.params;
   const sql = 'UPDATE member SET member_status = ? WHERE member_id = ?';
 
-  conn.query(sql, [status, member_id], (err, result) => {
+  conn.query(sql, [status, member_id], (err) => {
     if (err) {
       console.error('Error updating member status:', err);
       res.status(500).send('Error');
@@ -895,7 +903,7 @@ app.post('/data/update-member-status/:member_id', (req, res) => {
 });
 
 // 신고 테이블 리스트
-app.get('/data/reports', (req, res) => {
+app.get('/data/reports', checkSession, (req, res) => {
   const { page = 1, search = '' } = req.query;
   const limit = 10;
   const offset = (page - 1) * limit;
@@ -932,7 +940,7 @@ app.get('/data/reports', (req, res) => {
       res.status(500).send('Error');
       return;
     }
-    
+
     const total = countResult[0].total;
 
     conn.query(searchSql, [searchQuery, searchQuery, limit, offset], (err, results) => {
@@ -947,7 +955,7 @@ app.get('/data/reports', (req, res) => {
 });
 
 // 신고 사유 리스트
-app.get('/data/reports/:member_id', (req, res) => {
+app.get('/data/reports/:member_id', checkSession, (req, res) => {
   const memberId = req.params.member_id;
   const sql = 'SELECT report_id, report_reason, member_id, is_processed FROM report WHERE member_id = ?';
 
@@ -966,7 +974,7 @@ app.get('/data/reports/:member_id', (req, res) => {
 });
 
 // 신고 횟수 증가 및 처리 완료 상태 업데이트
-app.post('/data/increase-report-count/:memberId', (req, res) => {
+app.post('/data/increase-report-count/:memberId', checkSession, (req, res) => {
   const { memberId } = req.params;
   const { reportId } = req.body;
 
@@ -984,21 +992,21 @@ app.post('/data/increase-report-count/:memberId', (req, res) => {
 
   conn.beginTransaction((err) => {
     if (err) { throw err; }
-    
-    conn.query(updateReportCountSql, [memberId], (err, result) => {
+
+    conn.query(updateReportCountSql, [memberId], (err) => {
       if (err) {
         return conn.rollback(() => {
           res.status(500).send('신고 횟수 업데이트 실패');
         });
       }
 
-      conn.query(markReportsProcessedSql, [reportId], (err, result) => {
+      conn.query(markReportsProcessedSql, [reportId], (err) => {
         if (err) {
           return conn.rollback(() => {
             res.status(500).send('신고 처리 완료 상태 업데이트 실패');
           });
         }
-        
+
         conn.commit((err) => {
           if (err) {
             return conn.rollback(() => {
@@ -1013,27 +1021,27 @@ app.post('/data/increase-report-count/:memberId', (req, res) => {
 });
 
 // 신고 내용 삭제
-app.delete('/data/delete-report/:reportId', (req, res) => {
+app.delete('/data/delete-report/:reportId', checkSession, (req, res) => {
   const { reportId } = req.params;
 
   const sql = "DELETE FROM report WHERE report_id = ?";
 
-  conn.query(sql, [reportId], (err, result) => {
+  conn.query(sql, [reportId], (err) => {
     if (err) {
       console.error('신고 내용 삭제 중 오류 발생:', err);
       res.status(500).send('신고 내용 삭제 실패');
     } else {
-      res.send({ message: '신고 내용이 성공적으로 삭제되었습니다', result });
+      res.send({ message: '신고 내용이 성공적으로 삭제되었습니다' });
     }
   });
 });
 
 // 회원 삭제
-app.delete('/data/delete-member/:memberId', (req, res) => {
+app.delete('/data/delete-member/:memberId', checkSession, (req, res) => {
   const memberId = req.params.memberId;
   const sql = "DELETE FROM member WHERE member_id = ?";
 
-  conn.query(sql, [memberId], (err, result) => {
+  conn.query(sql, [memberId], (err) => {
     if (err) {
       console.error('Error deleting member:', err);
       res.status(500).send('Error');
@@ -1043,8 +1051,8 @@ app.delete('/data/delete-member/:memberId', (req, res) => {
   });
 });
 
-//문의 테이블 리스트
-app.get('/data/getallquestion', (req, res) => {
+// 문의 테이블 리스트
+app.get('/data/getallquestion', checkSession, (req, res) => {
   const pageNumber = parseInt(req.query.page) || 0;
   const pageSize = 10;
   const offset = pageNumber * pageSize;
@@ -1058,11 +1066,11 @@ app.get('/data/getallquestion', (req, res) => {
     const sql = `
       SELECT question_no, question_cate, question_title, question_status, question_date, member_id
       FROM question
-      ORDER BY question_no desc
+      ORDER BY question_no DESC
       LIMIT ${pageSize} OFFSET ${offset}
     `;
-    
-    conn.query(sql, function(err, result, fields) {
+
+    conn.query(sql, function(err, result) {
       if (err) throw err;
       const formattedResult = result.map(question => ({
         ...question,
@@ -1076,40 +1084,24 @@ app.get('/data/getallquestion', (req, res) => {
   });
 });
 
-//문의 검색
-app.get('/data/search-question', (req, res) => {
+// 문의 검색
+app.get('/data/search-question', checkSession, (req, res) => {
   const { category, keyword, page } = req.query;
   const pageNumber = parseInt(page) || 0;
   const pageSize = 10;
   const offset = pageNumber * pageSize;
 
-  let query = '';
-  let countQuery = '';
-  let params = [`%${keyword}%`, pageSize, offset];
+  let query = 'SELECT * FROM question';
+  let countQuery = 'SELECT COUNT(*) AS total FROM question';
+  const params = [pageSize, offset];
 
-  if (!keyword) {
-    query = 'SELECT * FROM question LIMIT ? OFFSET ?';
-    countQuery = 'SELECT COUNT(*) AS total FROM question';
-    params = [pageSize, offset];
-  } else {
-    if (category === 'question_title') {
-      query = 'SELECT * FROM question WHERE question_title LIKE ? LIMIT ? OFFSET ?';
-      countQuery = 'SELECT COUNT(*) AS total FROM question WHERE question_title LIKE ?';
-    } else if (category === 'question_cate') {
-      query = 'SELECT * FROM question WHERE question_cate LIKE ? LIMIT ? OFFSET ?';
-      countQuery = 'SELECT COUNT(*) AS total FROM question WHERE question_cate LIKE ?';
-    } else if (category === 'question_status') {
-      query = 'SELECT * FROM question WHERE question_status LIKE ? LIMIT ? OFFSET ?';
-      countQuery = 'SELECT COUNT(*) AS total FROM question WHERE question_status LIKE ?';
-    } else if (category === 'member_id') {
-      query = 'SELECT * FROM question WHERE member_id LIKE ? LIMIT ? OFFSET ?';
-      countQuery = 'SELECT COUNT(*) AS total FROM question WHERE member_id LIKE ?';
-    } else {
-      return res.status(400).json({ error: '카테고리 오류' });
-    }
+  if (keyword) {
+    query += ` WHERE ${category} LIKE ? LIMIT ? OFFSET ?`;
+    countQuery += ` WHERE ${category} LIKE ?`;
+    params.unshift(`%${keyword}%`);
   }
 
-  conn.query(countQuery, [`%${keyword}%`], (err, countResult) => {
+  conn.query(countQuery, params.slice(0, -2), (err, countResult) => {
     if (err) {
       console.error('카운트 에러:', err);
       return res.status(500).json({ error: '서버 에러' });
@@ -1131,8 +1123,8 @@ app.get('/data/search-question', (req, res) => {
   });
 });
 
-// 질문내용 답변페이지에서 띄우기
-app.get('/data/getquestion/:question_no', (req, res) => {
+// 질문 내용 답변 페이지에서 띄우기
+app.get('/data/getquestion/:question_no', checkSession, (req, res) => {
   const questionNo = req.params.question_no;
   const sql = 'SELECT * FROM question WHERE question_no = ?';
 
@@ -1148,26 +1140,23 @@ app.get('/data/getquestion/:question_no', (req, res) => {
   });
 });
 
-
-//답변작성
-
-app.post('/data/submit-answer', (req, res) => {
+// 답변 작성
+app.post('/data/submit-answer', checkSession, (req, res) => {
   const { question_no, answer_content } = req.body;
 
-
-  const insertAnswer = `INSERT INTO answer (question_no, answer_content) VALUES (?, ?)`;
-  conn.query(insertAnswer, [question_no, answer_content], (err, result) => {
+  const insertAnswer = 'INSERT INTO answer (question_no, answer_content) VALUES (?, ?)';
+  conn.query(insertAnswer, [question_no, answer_content], (err) => {
     if (err) {
-      return res.status(500).send('입력실패');
+      return res.status(500).send('입력 실패');
     }
 
-    const updateQuestionStatus = `UPDATE question SET question_status = '처리완료' WHERE question_no = ?`;
-    conn.query(updateQuestionStatus, [question_no], (err, result) => {
+    const updateQuestionStatus = 'UPDATE question SET question_status = "처리완료" WHERE question_no = ?';
+    conn.query(updateQuestionStatus, [question_no], (err) => {
       if (err) {
-        return res.status(500).send('수정실패');
+        return res.status(500).send('수정 실패');
       }
 
-      res.send('답변작성처리완료');
+      res.send('답변 작성 처리 완료');
     });
   });
 });

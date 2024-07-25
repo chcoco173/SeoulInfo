@@ -1,25 +1,20 @@
 import React, { useState } from 'react';
 import '../css/Login.css'; 
 import { useNavigate } from 'react-router-dom';  
-import axios from 'axios';
+import { useAuth } from './AuthContext';
 
 function Login() {
   const [adminId, setAdminId] = useState('');
   const [adminPw, setAdminPw] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();  
+  const { login } = useAuth();
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/login', {
-        adminId,
-        adminPw,
-      });
-
-      if (response.status === 200) {
+      const response = await login(adminId, adminPw);
+      if (response) {
         navigate('/dashboard/user-info/');
-      } else {
-        setErrorMessage(response.data.message);
       }
     } catch (error) {
       if (error.response) {

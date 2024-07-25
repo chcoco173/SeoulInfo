@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import '../css/Answer.css';
+import { useAuth } from './AuthContext';
 
 function Answer() {
   const { question_no } = useParams();
   const [questionData, setQuestionData] = useState(null);
   const [answerContent, setAnswerContent] = useState('');
   const navigate = useNavigate();  
+  const { instance } = useAuth(); // AuthContext에서 instance 가져오기
 
   useEffect(() => {
     console.log("question_no:", question_no); // 콘솔에 question_no 출력
     const fetchQuestionData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/data/getquestion/${question_no}`);
+        const response = await instance.get(`/data/getquestion/${question_no}`);
         setQuestionData(response.data);
       } catch (error) {
         console.error('Error fetching question data:', error);
@@ -23,7 +24,7 @@ function Answer() {
     if (question_no) {
       fetchQuestionData();
     }
-  }, [question_no]);
+  }, [question_no, instance]);
 
   if (!questionData) {
     return <div>Loading...</div>;
@@ -31,7 +32,7 @@ function Answer() {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/data/submit-answer', {
+      const response = await instance.post('/data/submit-answer', {
         question_no,
         answer_content: answerContent,
       });

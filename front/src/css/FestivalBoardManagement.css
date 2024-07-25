@@ -128,6 +128,7 @@
 
 .pagination button:hover {
   border-color: #999;
+  color : black;
 }
 
 .pagination button.active {

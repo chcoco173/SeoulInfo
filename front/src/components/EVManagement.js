@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../css/EVManagement.css';
 import '../css/EVCManagement.css';
+import { useAuth } from './AuthContext';
 
 function EVManagement() {
+  const { instance } = useAuth(); // AuthContext에서 axios 인스턴스 가져오기
   const [evData, setEvData] = useState([]);
   const [evcData, setEvcData] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -30,7 +31,7 @@ function EVManagement() {
 
   const fetchEvData = async (page) => {
     try {
-      const response = await axios.get('http://localhost:8000/data/getallev', {
+      const response = await instance.get('/data/getallev', {
         params: { page }
       });
       setEvData(response.data.ev);
@@ -42,7 +43,7 @@ function EVManagement() {
 
   const fetchEvcData = async (page) => {
     try {
-      const response = await axios.get('http://localhost:8000/data/getallevc', {
+      const response = await instance.get('/data/getallevc', {
         params: { page }
       });
       setEvcData(response.data.evc);
@@ -56,8 +57,8 @@ function EVManagement() {
     const confirmDelete = window.confirm("삭제하시겠습니까?");
     if (confirmDelete) {
       try {
-        await axios.delete(`http://localhost:8000/data/delete-ev/${evc_id}`);
-        window.location.reload(); // 페이지 새로고침
+        await instance.delete(`/data/delete-ev/${evc_id}`);
+        fetchEvData(currentPage); // 데이터만 새로고침
       } catch (error) {
         console.error('Error deleting ev:', error);
       }
@@ -68,9 +69,8 @@ function EVManagement() {
     const confirmDelete = window.confirm("삭제하시겠습니까?");
     if (confirmDelete) {
       try {
-        await axios.delete(`http://localhost:8000/data/delete-evc/${charger_id}`);
+        await instance.delete(`/data/delete-evc/${charger_id}`);
         fetchEvcData(currentPage2);
-        window.location.reload();
       } catch (error) {
         console.error('Error deleting evc:', error);
       }
@@ -95,7 +95,7 @@ function EVManagement() {
 
   const handleSearch = async (page = 0) => {
     try {
-      const res = await axios.get('http://localhost:8000/data/search-ev', {
+      const res = await instance.get('/data/search-ev', {
         params: {
           category: searchCategory,
           keyword: searchKeyword,
@@ -134,10 +134,9 @@ function EVManagement() {
     const confirmSave = window.confirm("수정하시겠습니까?");
     if (confirmSave) {
       try {
-        await axios.post(`http://localhost:8000/data/update-ev`, editEvData);
+        await instance.post('/data/update-ev', editEvData);
         setEditingEvId(null);
         fetchEvData(currentPage);
-        window.location.reload();
       } catch (error) {
         console.error('Error saving ev:', error);
       }
@@ -148,10 +147,9 @@ function EVManagement() {
     const confirmSave = window.confirm("수정하시겠습니까?");
     if (confirmSave) {
       try {
-        await axios.post(`http://localhost:8000/data/update-evc`, editEvcData);
+        await instance.post('/data/update-evc', editEvcData);
         setEditingEvcId(null);
         fetchEvcData(currentPage2);
-        window.location.reload();
       } catch (error) {
         console.error('Error saving evc:', error);
       }
@@ -249,8 +247,8 @@ function EVManagement() {
           <button className="search-button" onClick={() => handleSearch(0)}>검색</button>
         </div>
         <div className="insert-ev-container" id='insert-ev-container'>
-        <button className="insert-ev" id='insert-ev' onClick={handleInsertEv}>충전소 등록</button>
-      </div>
+          <button className="insert-ev" id='insert-ev' onClick={handleInsertEv}>충전소 등록</button>
+        </div>
         <table className="ev-table">
           <thead>
             <tr>
@@ -318,14 +316,14 @@ function EVManagement() {
           {renderPageNumbers()}
         </div>
       </div>
-            <br></br>
-            <br></br>
-            <br></br>
+      <br />
+      <br />
+      <br />
       <div className="charger-info">
         <h1>전기차 충전기 관리</h1>
         <div className="insert-ev-container" id='insert-ev-container'>
-        <button className="insert-ev" id='insert-ev' onClick={handleInsertEvc}>충전기 등록</button>
-      </div>
+          <button className="insert-ev" id='insert-ev' onClick={handleInsertEvc}>충전기 등록</button>
+        </div>
         <table className="charger-table">
           <thead>
             <tr>
