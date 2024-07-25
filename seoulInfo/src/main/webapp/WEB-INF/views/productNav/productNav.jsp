@@ -32,7 +32,7 @@
  
 						<c:if test="${sessionScope.member != null}">
 							<a href="productMypage" class="style-guide-nav-link w-nav-link">마이페이지</a>
-							<a href="" class="style-guide-nav-link w-nav-link">채팅</a>
+							<a href="chat" class="style-guide-nav-link w-nav-link">채팅</a>
 						</c:if>
 					</nav>
 					<form action="productSearch?area=${param.area}"
