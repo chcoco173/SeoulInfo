@@ -416,7 +416,14 @@
 	</div>
 
 	</div>
-
+	<script>
+	    $(".chat").click(function() {
+	        var memberId = $(this).data('member-id');
+	        var saleId = $(this).data('sale-id');
+	        var url = `/chat/create?memberId=${memberId}&saleId=${saleId}`;
+	        window.location.href = url;
+	    });
+	</script>
 	<script
 		src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9"
 		type="text/javascript"
