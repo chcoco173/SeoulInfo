@@ -264,7 +264,7 @@
 								            <br />
 								            <div class="container mt-5 text-center">
 												<input type="hidden" class="sale_id" value="${product.sale_id}">
-								                <button class="button-primary-small w-button chat">판매자와 채팅</button>
+								                <button href="chat" class="button-primary-small w-button chat">판매자와 채팅</button>
 								                <button class="button-primary-small w-button">바로 구입하기</button>
 								            </div>
 								            <br />
@@ -416,14 +416,6 @@
 	</div>
 
 	</div>
-	<script>
-	    $(".chat").click(function() {
-	        var memberId = $(this).data('member-id');
-	        var saleId = $(this).data('sale-id');
-	        var url = `/chat/create?memberId=${memberId}&saleId=${saleId}`;
-	        window.location.href = url;
-	    });
-	</script>
 	<script
 		src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9"
 		type="text/javascript"
@@ -434,8 +426,10 @@
 			src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 			<script>
 				$(".chat").click(function(){
-					var sale_id = $(this).closest('.product-description').find('.sale_id').val();
-					alert(sale_id);
+					var memberId = $(this).data('member-id');
+						        var saleId = $(this).data('sale-id');
+						        var url = `chat?memberId=${memberId}&saleId=${saleId}`;
+						        window.location.href = url;
 				});
 			</script>
 </body>

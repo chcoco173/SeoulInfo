@@ -73,6 +73,11 @@ public class ProductController {
 		return "product/"+step;
 	}
 
+	@RequestMapping("/chat")
+	public String chat(@RequestParam Integer memberId, @RequestParam Integer sale_id, HttpSession session) {
+		return "product/chat";
+	}
+
 	// 상품 검색 기능 (select + insert)
 	@GetMapping("/productSearch")
 	public String productSearch(@RequestParam(value="productsearch_keyword", required = false) String keyword, String area,  Model model, HttpSession session) {
@@ -517,6 +522,6 @@ public class ProductController {
 		return timeDataList;
 	}
 
-
+	
 
 }
