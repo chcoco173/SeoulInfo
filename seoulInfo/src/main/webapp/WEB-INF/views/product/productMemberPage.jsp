@@ -123,8 +123,6 @@
 	<div class="page-wrapper">
 		<%@include file="../productNav/productNav.jsp"%>
 
-		<%@include file="../productNav/productMyPageNav.jsp"%>
-
 		<div class="main-wrapper">
 			<div class="section-post-banner">
 				<div class="padding-global">
@@ -138,7 +136,7 @@
 								<a href="#" class="large-author-wrapper w-inline-block"
 									onmouseover="showBubble()" onmouseout="hideBubble()">
 									<div class="large-author-thumbnail"></div>
-									<h5 class="author-name">${sessionScope.member.member_id}</h5>
+									<h5 class="author-name">${param.member_id}</h5>
 									<!-- Added class 'author-name' -->
 
 								</a>

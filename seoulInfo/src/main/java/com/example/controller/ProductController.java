@@ -23,12 +23,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.domain.FavoriteProductVO;
 import com.example.domain.MemberVO;
 import com.example.domain.ProductImageVO;
 import com.example.domain.ProductSearchVO;
@@ -72,20 +74,7 @@ public class ProductController {
 		System.out.println(step);
 		return "product/"+step;
 	}
-	
-	
-	// 상품 상세에서 판매자와 채팅 
-	@RequestMapping("/chatCreate")
-	public String chatCreate(@RequestParam String member_id, @RequestParam Integer sale_id, HttpSession session) {
-		return "product/chat";
-	}
-	
-	// 내가한 채팅들
-	@RequestMapping("/chat")
-	public String chat(HttpSession session) {
-		return "product/chat";
-	}
-	
+
 
 	// 상품 검색 기능 (select + insert)
 	@GetMapping("/productSearch")
@@ -132,7 +121,7 @@ public class ProductController {
 
 		// 세션값 받아오기
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
-		
+
 		// 세션값이 null이 아니라면
 		if(mvo != null) {
 			// 세션안의 id를 받아오기
@@ -172,7 +161,7 @@ public class ProductController {
 
 
 		model.addAttribute("productList", productList);
-		
+
 		// 시간 변환 메소드 호출 후 model작업
 		model.addAttribute("timeDataList", timeConversion(productList));
 
@@ -180,7 +169,6 @@ public class ProductController {
 		return "product/productMain";
 	}
 
-	
 
 	// 7/12 오전 추가 ( 각 카테고리 상픔 list 출력 ) (select)
 	@GetMapping("/productCategory")
@@ -334,8 +322,7 @@ public class ProductController {
 		return null;
 	}
 
-
-	// 상품 상태 수정
+	// 상품 상태 수정 ajax
 	@PostMapping("updateStatus")
 	@ResponseBody
 	public String updateStatus(@RequestParam String sale_status, @RequestParam Integer sale_id, HttpSession session) {
@@ -357,7 +344,7 @@ public class ProductController {
 
 	}
 
-	// 상품 삭제
+	// 상품 삭제 ajax
 	@PostMapping("deleteProduct")
 	@ResponseBody
 	@Transactional
@@ -373,24 +360,7 @@ public class ProductController {
 
 		// 상품 삭제
 		Integer productResult = productService.deleteProduct(pvo);
-
-
-		//		List<ProductImageVO> images = productImageService.myProductSaleId(sale_id);
-		//		
-		//		if (images != null && !images.isEmpty()) {
-		//	        
-		//	        
-		//	        if(productResult != null & imageResult != null) {
-		//	        	return "1";
-		//	        }
-		//	        
-		//	    }
-		//		
-		//		if (productResult != null) {
-		//			return "1";
-		//		}
-		//
-		//		
+	
 		return "1";
 	}
 
@@ -450,28 +420,127 @@ public class ProductController {
 
 	// 상품 id에 대한 내용
 	@GetMapping("/detail_post")
-	public String detailProduct(@RequestParam Integer sale_id, Model model) {
+	public String detailProduct(@RequestParam Integer sale_id, Model model, HttpSession session) {
+		// 세션값
+		MemberVO mvo = (MemberVO) session.getAttribute("member");
 		System.out.println(sale_id);
 		ProductVO product = productService.myProductSaleId(sale_id);
 		List<ProductImageVO> productImgList = productImageService.myProductSaleId(sale_id);
 
+		Boolean wishCheck = false;
+		// 세션 값이 널이 아닌경우에만 실행
+		if(mvo != null) {
+			FavoriteProductVO fpvo = new FavoriteProductVO();
+			fpvo.setMember_id(mvo.getMember_id());
+			fpvo.setSale_id(sale_id);
+
+			wishCheck = productService.wishCheck(fpvo);
+
+		}
+
 		model.addAttribute("product", product);
 		model.addAttribute("productImgList", productImgList);
+		model.addAttribute("wishCheck", wishCheck);
 
 		return "product/detail_post";
 	}
-	
+
+	// 위시등록
+	@ResponseBody
+	@PostMapping("/wishInsert")
+	public String wishInsert(@RequestParam Integer sale_id, HttpSession session) {
+		FavoriteProductVO fpvo = new FavoriteProductVO();
+		MemberVO mvo = (MemberVO) session.getAttribute("member");
+
+		fpvo.setMember_id(mvo.getMember_id());
+		fpvo.setSale_id(sale_id);
+
+		Integer result = productService.insertFavProduct(fpvo);
+		System.out.println(result);
+		if ( result != null) {
+			return "1";
+		}
+
+		return null;
+	}
+
+	// 위시제거
+	@ResponseBody
+	@PostMapping("/wishDelete")
+	public String wishDelete(@RequestParam Integer sale_id, HttpSession session) {
+		FavoriteProductVO fpvo = new FavoriteProductVO();
+		MemberVO mvo = (MemberVO) session.getAttribute("member");
+
+		fpvo.setMember_id(mvo.getMember_id());
+		fpvo.setSale_id(sale_id);
+
+		Integer result = productService.deleteFavProduct(fpvo);
+		System.out.println(result);
+		if ( result != null) {
+			return "1";
+		}
+
+		return null;
+	}
+
+	// 마이페이지 내 상품 조회
 	@RequestMapping("/productMypage")
 	public String productMypage(HttpSession session, Model model) {
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 		List<Map<String, Object>> myProductList = productService.myProductList(mvo.getMember_id());
+
+		model.addAttribute("myProductList", myProductList);
+		// 시간 변환 메소드 호출 후 model작업
+		model.addAttribute("timeDataList", timeConversion(myProductList));
+
+		return "product/productMypage";
+	}
+
+
+	// wishlist 출력
+	@RequestMapping("/wishlist")
+	public String wishList(HttpSession session, Model model) {
+		MemberVO mvo = (MemberVO) session.getAttribute("member");
 		
+		List<Map<String, Object>> wishList = productService.wishList(mvo.getMember_id());
+		System.out.println(wishList);
+		model.addAttribute("wishList", wishList);
+			
+		return "product/wishlist";
+	}
+	
+	// wish 삭제 ajax deleteWish
+	@ResponseBody
+	@PostMapping("/deleteWish")
+	public String deleteWish(@RequestParam Integer sale_id, HttpSession session) {
+		MemberVO mvo = (MemberVO) session.getAttribute("member");
+		FavoriteProductVO fpvo = new FavoriteProductVO();
+		fpvo.setSale_id(sale_id);
+		fpvo.setMember_id(mvo.getMember_id());
+		
+		Integer result = productService.deleteFavProduct(fpvo);
+		
+		if(result != null) {
+			return "1";
+		}
+		
+		return null;
+	}
+	
+	// detail_post에서 id 눌렀을때
+	@RequestMapping("/productMemberPage")
+	public String productMemberPage(String member_id, Model model) {
+		System.out.println(member_id);
+		List<Map<String, Object>> myProductList = productService.myProductList(member_id);
+
 		model.addAttribute("myProductList", myProductList);
 		// 시간 변환 메소드 호출 후 model작업
 		model.addAttribute("timeDataList", timeConversion(myProductList));
 		
-		return "product/productMypage";
+		return "product/productMemberPage";
 	}
+	
+	
 	
 	
 	// 시간 변환 메소드
@@ -527,10 +596,10 @@ public class ProductController {
 				timeDataList[i] = "Invalid date format for 'sale_regdate'";
 			}
 		}
-		
+
 		return timeDataList;
 	}
 
-	
+
 
 }

@@ -150,6 +150,33 @@
 		WHERE sale_id = #{sale_id} AND member_id = #{member_id}
 	</delete>
 	
+	<!-- member_id에 해당하는 찜 목록 출력 -->
+	<select id="wishList" parameterType="string" resultType="java.util.Map">
+		SELECT 
+    		ps.sale_id,
+    		ps.sale_cate,
+    		ps.sale_name, 
+    		ps.sale_status, 
+    		ps.sale_price, 
+    		ps.sale_area ,
+    		ps.sale_regdate,
+   	 		MAX(pi.productimg_url) AS productimg_url,
+    		MAX(pi.productimg_alias) AS productimg_alias,
+    		COUNT(DISTINCT fp.member_id) AS favorite_count
+		FROM 
+    		product_sale ps
+		LEFT OUTER JOIN 
+    		product_image pi ON ps.sale_id = pi.sale_id 
+		RIGHT  OUTER JOIN 
+    		favorite_product fp ON ps.sale_id = fp.sale_id
+			where fp.member_id = #{member_id}
+		GROUP BY 
+    		ps.sale_id, 
+    		ps.sale_cate, 
+    		ps.sale_name, 
+   			ps.sale_status, 
+    		ps.sale_price
+	</select>
 	
 	
 
