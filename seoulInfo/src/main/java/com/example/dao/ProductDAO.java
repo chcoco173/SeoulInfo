@@ -34,4 +34,7 @@ public interface ProductDAO {
 
 	// 상품 삭제
 	public Integer deleteProduct(ProductVO pvo);
+	
+	// 찜 상품 출력
+	public List<Map<String, Object>> wishList(String member_id);
 }

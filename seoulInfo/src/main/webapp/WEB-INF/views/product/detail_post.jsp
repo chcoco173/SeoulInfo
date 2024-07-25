@@ -85,67 +85,60 @@
 	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	
+
 <!-- 외부 css -->
-<link href="/css/product/product_detail.css" rel="stylesheet" type="text/css">
+<link href="/css/product/product_detail.css" rel="stylesheet"
+	type="text/css">
 <style>
+.carousel-image-wrapper {
+	background-color: #000000; /* 배경색 설정 */
+	width: 100%;
+	height: 400px;
+	padding-top: 50%; /* 비율 설정, 예: 16:9 비율 */
+	position: relative; /* 자식 요소를 절대 위치로 설정하기 위한 준비 */
+	display: flex; /* 중앙 정렬을 위한 flex 사용 */
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.carousel-image-wrapper img {
+	position: absolute; /* 절대 위치로 부모 요소에 맞게 조정 */
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%); /* 중앙 정렬 */
+	width: 100%;
+	height: 80%; /* 비율 유지 */
+	max-width: 100%; /* 이미지가 컨테이너 너비를 넘지 않도록 설정 */
+	max-height: 100%; /* 이미지가 컨테이너 높이를 넘지 않도록 설정 */
+	object-fit: contain; /* 이미지 비율 유지하며 컨테이너에 맞춰 조정 */
+}
+
+/* 미디어 쿼리: 화면 크기에 따라 비율을 조정 */
+@media ( max-width : 1200px) {
 	.carousel-image-wrapper {
-	    background-color: #000000; /* 배경색 설정 */
-	    width: 100%;
-	    height: 400px;
-	    padding-top: 50%; /* 비율 설정, 예: 16:9 비율 */
-		position: relative; /* 자식 요소를 절대 위치로 설정하기 위한 준비 */
-	    display: flex; /* 중앙 정렬을 위한 flex 사용 */
-	    align-items: center;
-	    justify-content: center;
-	    overflow: hidden;
-		
+		padding-top: 50%; /* 비율 조정 예: 2:1 비율 */
 	}
+}
 
-	.carousel-image-wrapper img {
-	    position: absolute; /* 절대 위치로 부모 요소에 맞게 조정 */
-	    top: 50%;
-	    left: 50%;
-	    transform: translate(-50%, -50%); /* 중앙 정렬 */
-	    width: 100%;
-	    height: 80%; /* 비율 유지 */
-	    max-width: 100%; /* 이미지가 컨테이너 너비를 넘지 않도록 설정 */
-	    max-height: 100%; /* 이미지가 컨테이너 높이를 넘지 않도록 설정 */
-	    object-fit: contain; /* 이미지 비율 유지하며 컨테이너에 맞춰 조정 */
+@media ( max-width : 992px) {
+	.carousel-image-wrapper {
+		padding-top: 75%; /* 비율 조정 예: 4:3 비율 */
 	}
+}
 
-	/* 미디어 쿼리: 화면 크기에 따라 비율을 조정 */
-	@media (max-width: 1200px) {
-	    .carousel-image-wrapper {
-	        padding-top: 50%; /* 비율 조정 예: 2:1 비율 */
-	    }
+@media ( max-width : 768px) {
+	.carousel-image-wrapper {
+		padding-top: 100%; /* 비율 조정 예: 1:1 비율 */
 	}
+}
 
-	@media (max-width: 992px) {
-	    .carousel-image-wrapper {
-	        padding-top: 75%; /* 비율 조정 예: 4:3 비율 */
-	    }
+@media ( max-width : 576px) {
+	.carousel-image-wrapper {
+		padding-top: 120%; /* 비율 조정 예: 더 작은 화면에서 비율 조정 */
 	}
-
-	@media (max-width: 768px) {
-	    .carousel-image-wrapper {
-	        padding-top: 100%; /* 비율 조정 예: 1:1 비율 */
-	    }
-	}
-
-	@media (max-width: 576px) {
-	    .carousel-image-wrapper {
-	        padding-top: 120%; /* 비율 조정 예: 더 작은 화면에서 비율 조정 */
-	    }
-	}
-
-	
-	
-
-	
-
+}
 </style>
-
 
 <script>
 	function showBubble() {
@@ -155,16 +148,7 @@
 	function hideBubble() {
 		document.querySelector('.speech-bubble-right').style.display = 'none';
 	}
-	function toggleHeart() {
-		var img = document.getElementById('heartImage');
-		
-		if (img.src.includes('heart_off.png')) {
-			img.src = '/productimages/heart_on.png';
-		} else {
-			img.src = '/productimages/heart_off.png';
-			
-		}
-	}
+
 </script>
 </head>
 <body>
@@ -202,76 +186,113 @@
 
 								<div class="spacer-xlarge"></div>
 								<div class="row">
-								    <div class="col-md-6">
-								        <div class="image-overflow-wrapper">
-								            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-								                <!-- 인디케이터 (슬라이드 표시점) -->
-								                <ol class="carousel-indicators">
-								                    <c:forEach var="image" items="${productImgList}" varStatus="status">
-								                        <li data-target="#carouselExampleIndicators" data-slide-to="${status.index}" class="${status.index == 0 ? 'active' : ''}"></li>
-								                    </c:forEach>
-								                </ol>
+									<div class="col-md-6">
+										<div class="image-overflow-wrapper">
+											<div id="carouselExampleIndicators" class="carousel slide"
+												data-ride="carousel">
+												<!-- 인디케이터 (슬라이드 표시점) -->
+												<ol class="carousel-indicators">
+													<c:forEach var="image" items="${productImgList}"
+														varStatus="status">
+														<li data-target="#carouselExampleIndicators"
+															data-slide-to="${status.index}"
+															class="${status.index == 0 ? 'active' : ''}"></li>
+													</c:forEach>
+												</ol>
 
-								                <!-- 슬라이드 항목 -->
-								                <div class="carousel-inner">
-								                    <c:forEach var="image" items="${productImgList}" varStatus="status">
-								                        <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
-								                            <div class="carousel-image-wrapper">
-								                                <img src="/productImage/${image.productimg_alias}" class="d-block img-fluid mx-auto"/>
-								                            </div>
-								                        </div>
-								                    </c:forEach>
-								                </div>
+												<!-- 슬라이드 항목 -->
+												<div class="carousel-inner">
+													<c:forEach var="image" items="${productImgList}"
+														varStatus="status">
+														<div
+															class="carousel-item ${status.index == 0 ? 'active' : ''}">
+															<div class="carousel-image-wrapper">
+																<img src="/productImage/${image.productimg_alias}"
+																	class="d-block img-fluid mx-auto" />
+															</div>
+														</div>
+													</c:forEach>
+												</div>
 
-								                <!-- 이전 버튼 -->
-								                <a class="carousel-control-prev" href="javascript:void(0)" role="button" data-target="#carouselExampleIndicators" data-slide="prev">
-								                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-								                    <span class="sr-only">Previous</span>
-								                </a>
+												<!-- 이전 버튼 -->
+												<a class="carousel-control-prev" href="javascript:void(0)"
+													role="button" data-target="#carouselExampleIndicators"
+													data-slide="prev"> <span
+													class="carousel-control-prev-icon" aria-hidden="true"></span>
+													<span class="sr-only">Previous</span>
+												</a>
 
-								                <!-- 다음 버튼 -->
-								                <a class="carousel-control-next" href="javascript:void(0)" role="button" data-target="#carouselExampleIndicators" data-slide="next">
-								                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-								                    <span class="sr-only">Next</span>
-								                </a>
-								            </div>
-								        </div>
-								    </div>
-								    <div class="col-md-6">
-								        <div class="product-description">
-											
-								            <h3 class="product-header">
-								                ${product.sale_name} 
-								                <img id="heartImage" src="/productimages/heart_off.png" class="heart-image" onclick="toggleHeart()"/>
-								            </h3>
-								            <h6>
-								                <img id="wonImage" src="/productimages/won.png" class="won-image" />
-								                ${product.sale_price}
-								            </h6>
-								            <h6>
-								                <img id="deal_stateImage" src="/productimages/deal_state.png" class="deal_state-image" /> 
-								                ${product.sale_status}
-								            </h6>
-								            <h6>${product.sale_cate}</h6>
-								            <h6>
-								                <img id="lociImage" src="/productimages/loci.png" class="loci-image" /> 
-								                ${product.sale_area}
-								            </h6>
-								            <div class="form-field-wrapper">
-								                <label for="Style-Guide-Form-Message" class="form-field-label">상품 상세</label>
-								                <textarea id="Style-Guide-Form-Message" name="Message" maxlength="5000" data-name="Message" placeholder="Message" class="form-field text-area w-input" readonly>${product.sale_descript}</textarea>
-								            </div>
-								            <br />
-								            <div class="container mt-5 text-center">
-												<input type="hidden" class="sale_id" value="${product.sale_id}">
-												<input type="hidden" class="member_id" value="${product.member_id}">
-								                <button href="chat" class="button-primary-small w-button chat">판매자와 채팅</button>
-								                <button class="button-primary-small w-button">바로 구입하기</button>
-								            </div>
-								            <br />
-								        </div>
-								    </div>
-								</div> <!-- row 끝-->
+												<!-- 다음 버튼 -->
+												<a class="carousel-control-next" href="javascript:void(0)"
+													role="button" data-target="#carouselExampleIndicators"
+													data-slide="next"> <span
+													class="carousel-control-next-icon" aria-hidden="true"></span>
+													<span class="sr-only">Next</span>
+												</a>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="product-description">
+
+											<h3 class="product-header">
+												${product.sale_name}
+												<!-- 찜기능 구현 -->
+												<c:choose>
+													<c:when test="${wishCheck}">
+														<img src="/productimages/heart_on.png"
+															class="heart-image heartOn" />
+													</c:when>
+													<c:otherwise>
+														<img src="/productimages/heart_off.png"
+															class="heart-image heartOff" />
+													</c:otherwise>
+												</c:choose>
+
+											</h3>
+											<h6>
+												<img id="wonImage" src="/productimages/won.png"
+													class="won-image" /> ${product.sale_price}
+											</h6>
+											<h6>
+												<img id="deal_stateImage"
+													src="/productimages/deal_state.png"
+													class="deal_state-image" /> ${product.sale_status}
+											</h6>
+											<h6>${product.sale_cate}</h6>
+											<h6>
+												<img id="lociImage" src="/productimages/loci.png"
+													class="loci-image" /> ${product.sale_area}
+											</h6>
+											<div class="form-field-wrapper">
+												<label for="Style-Guide-Form-Message"
+													class="form-field-label">상품 상세</label>
+												<textarea id="Style-Guide-Form-Message" name="Message"
+													maxlength="5000" data-name="Message" placeholder="Message"
+													class="form-field text-area w-input" readonly>${product.sale_descript}</textarea>
+											</div>
+											<br />
+											<div class="container mt-5 text-center">
+												<input type="hidden" class="sale_id"
+													value="${product.sale_id}"> <input type="hidden"
+													class="member_id" value="${product.member_id}">
+												<c:choose>
+													<c:when
+														test="${product.member_id eq sessionScope.member.member_id}">
+														<button class="button-primary-small w-button chat">내채팅방 가기</button>
+													</c:when>
+													<c:otherwise>
+														<button class="button-primary-small w-button chatCreate">판매자와 채팅</button>
+													</c:otherwise>
+												</c:choose>
+												<button class="button-primary-small w-button">바로
+													구입하기</button>
+											</div>
+											<br />
+										</div>
+									</div>
+								</div>
+								<!-- row 끝-->
 
 							</div>
 						</div>
@@ -424,16 +445,93 @@
 		crossorigin="anonymous"></script>
 	<script src="/js/webflow.js" type="text/javascript"></script>
 	<script
-			src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-			<script>
-							$(".chat").click(function(){
-								var memberId = $(this).closest('.product-description').find('.member_id').val();
-								var sale_id = $(this).closest('.product-description').find('.sale_id').val();
-								alert(memberId);
-								alert(sale_id);
-								var url = `chat?memberId=${memberId}&saleId=${saleId}`;
-								window.location.href = "chatCreate?member_id="+memberId+"&sale_id="+sale_id;
-							});
-						</script>
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script>
+		$(".chatCreate").click( function(){
+			var memberId = $(this).closest('.product-description').find('.member_id').val();
+			var saleId = $(this).closest('.product-description').find('.sale_id').val();
+			alert(memberId);
+			alert(saleId);
+			                 
+			console.log(`memberId: ${memberId}, saleId: ${saleId}`); // 디버깅용 로그
+			var url = `chatCreate?member_id=${memberId}&sale_id=${saleId}`;
+			console.log(`URL: ${url}`); // 디버깅용 로그
+			location.href = 'chatCreate?member_id='+memberId+'&sale_id='+saleId;
+
+		});
+		
+		$(".chat").click(
+				function() {
+					var memberId = $(this).closest('.product-description')
+							.find('.member_id').val();
+					var sale_id = $(this).closest('.product-description').find(
+							'.sale_id').val();
+					alert(memberId);
+					alert(sale_id);
+
+					window.location.href = "chat";
+				});
+
+		$(document).on('click', '.heartOn', function() {
+					var $this = $(this);
+					var sale_id = $this.closest('.product-description').find(
+							'.sale_id').val();
+
+					$.ajax({
+						type : 'POST',
+						url : '/product/wishDelete',
+						data : {
+							"sale_id" : sale_id
+						},
+						success : function(result) {
+							if (result == '1') {
+								// heartOff로 바꾸기
+								$this.attr('src',
+										'/productimages/heart_off.png')
+										.removeClass('heartOn').addClass(
+												'heartOff');
+								alert('위시 삭제 성공');
+							}
+						},
+						error : function(err) {
+							console.log(err);
+						}
+					});
+				});
+
+		// heartOff 버튼 클릭 시
+		$(document).on('click', '.heartOff', function() {
+					var $this = $(this);
+					var sale_id = $this.closest('.product-description').find(
+							'.sale_id').val();
+
+					$.ajax({
+						type : 'POST',
+						url : '/product/wishInsert',
+						data : {
+							"sale_id" : sale_id
+						},
+						success : function(result) {
+							if (result == '1') {
+								// heartOn로 바꾸기
+								$this.attr('src','/productimages/heart_on.png').removeClass('heartOff').addClass(
+												'heartOn');
+								alert('위시 등록 성공');
+							}
+						},
+						error : function(err) {
+							console.log(err);
+						}
+					});
+				});
+				
+		//author-name 클릭시
+		
+		$(".author-name").click(function(){
+			var memberId = $(this).closest('.author-name').text();
+			
+			location.href = "productMemberPage?member_id="+memberId;
+		})
+	</script>
 </body>
 </html>

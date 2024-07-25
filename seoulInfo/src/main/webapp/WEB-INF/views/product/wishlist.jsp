@@ -56,80 +56,27 @@
 				<div class="container_a">
 					<h1>찜목록</h1>
 					<div class="product-cards-container">
+						<c:forEach items="${wishList}" var="wishList">
 						<div class="product-card">
-							<img src="https://via.placeholder.com/100" alt="상품 1">
+							<input type="hidden" class="sale_id" value="${wishList.sale_id}">
+							<c:choose>
+								<c:when test="${not empty wishList.productimg_alias}">
+									<img src="/productImage/${wishList.productimg_alias}"
+									alt="상품 이미지" class="product-image"style="height: 100px; width: 100px;">
+								</c:when>
+								<c:otherwise>
+									<img src="https://via.placeholder.com/100" alt="이미지없음"class="product-image">
+								</c:otherwise>
+							</c:choose>
 							<div class="product-details">
-								<h5>찜한 상품 1</h5>
-								<p>판매 상태 (예약/판매완료)</p>
+								<h5>${wishList.sale_name}</h5>
+								<p>${wishList.sale_status}</p>
+								<p>${wishList.sale_price}</p>
+																
 							</div>
-							<button class="btn btn-secondary">삭제</button>
+							<button class="btn btn-secondary delete">삭제</button>
 						</div>
-						<div class="product-card">
-							<img src="https://via.placeholder.com/100" alt="상품 2">
-							<div class="product-details">
-								<h5>찜한 상품 2</h5>
-								<p>판매 상태 (예약/판매완료)</p>
-							</div>
-							<button class="btn btn-secondary">삭제</button>
-						</div>
-						<div class="product-card">
-							<img src="https://via.placeholder.com/100" alt="상품 1">
-							<div class="product-details">
-								<h5>찜한 상품 1</h5>
-								<p>판매 상태 (예약/판매완료)</p>
-							</div>
-							<button class="btn btn-secondary">삭제</button>
-						</div>
-						<div class="product-card">
-							<img src="https://via.placeholder.com/100" alt="상품 2">
-							<div class="product-details">
-								<h5>찜한 상품 2</h5>
-								<p>판매 상태 (예약/판매완료)</p>
-							</div>
-							<button class="btn btn-secondary">삭제</button>
-						</div>
-						<div class="product-card">
-							<img src="https://via.placeholder.com/100" alt="상품 1">
-							<div class="product-details">
-								<h5>찜한 상품 1</h5>
-								<p>판매 상태 (예약/판매완료)</p>
-							</div>
-							<button class="btn btn-secondary">삭제</button>
-						</div>
-						<div class="product-card">
-							<img src="https://via.placeholder.com/100" alt="상품 2">
-							<div class="product-details">
-								<h5>찜한 상품 2</h5>
-								<p>판매 상태 (예약/판매완료)</p>
-							</div>
-							<button class="btn btn-secondary">삭제</button>
-						</div>
-						<!--<c:forEach items="${myProductList}" var="myProductList">
-							<div class="product-card">
-								<c:choose>
-									<c:when test="${not empty myProductList.productimg_alias}">
-										<img src="/productImage/${myProductList.productimg_alias}"
-											alt="상품 이미지" class="product-image"
-											style="height: 100px; width: 100px;">
-									</c:when>
-									<c:otherwise>
-										<img src="https://via.placeholder.com/100" alt="이미지없음"
-											class="product-image">
-									</c:otherwise>
-								</c:choose>
-								<div class="product-details">
-									<h5>${myProductList.sale_name}</h5>
-									<p>
-										${myProductList.sale_regdate}<br>${myProductList.sale_status}
-									</p>
-								</div>
-								<input type="hidden" name="sale_id"
-									value="${myProductList.sale_id}">
-
-								<button class="btn btn-secondary update">수정</button>
-								<button class="btn btn-secondary delete">삭제</button>
-							</div>
-						</c:forEach>-->
+						</c:forEach>
 					</div>
 				</div>
 			</section>
@@ -212,10 +159,33 @@
 		crossorigin="anonymous"></script>
 	<script src="/js/webflow.js" type="text/javascript"></script>
 
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-	<!-- 제이쿼리 라이브러리 추가 + 상품클릭시 디테일페이지로이동 -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script type="text/javascript">
+		
+		// 위시 삭제
+		$(".delete").on('click', function(){
+			var $item = $(this).closest('.product-card');
+			var saleId = $item.find('.sale_id').val();
+			alert(saleId);
+			
+			$.ajax({
+				type : 'POST',
+				url  : '/product/deleteWish',
+				data : {
+					'sale_id' : saleId
+				},
+				success : function(result){
+					if(result == '1'){
+						$item.remove();
+					}else{
+						alert('위시삭제실패');
+					}
+				},error : function(err){
+					console.log(err);
+				}
+			});
+			
+		});
 	
 	</script>
 </body>
