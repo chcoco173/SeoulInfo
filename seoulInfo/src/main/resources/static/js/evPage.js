@@ -13,7 +13,7 @@ $(function(){
 	// 각 버튼 별 아이템 띄우기
 	$('#filterBtn1').click(function () {
 	    // alert("search1");
-		$(".search_map").css({"display":"inherit",'z-index':'1100'});
+		$(".search_map").css({"display":"inherit",'z-index':'110'});
 		$(".search_favorite").css({"display":"none"});
 		$(".search_favorite").css({"display":"none"});
 	});
@@ -21,7 +21,7 @@ $(function(){
 	$('#filterBtn2').click(function () {
 	    // alert("search2");
 		
-		$(".search_navigation").css({"display":"inherit",'z-index':'1100'});
+		$(".search_navigation").css({"display":"inherit",'z-index':'110'});
 		$(".search_map").css({"display":"none"});
 		$(".search_favorite").css({"display":"none"});
 		
@@ -34,7 +34,7 @@ $(function(){
 	
 	$('#filterBtn3').click(function () {
 	    //alert("search3");
-		$(".search_favorite").css({"display":"inherit",'z-index':'1100'});
+		$(".search_favorite").css({"display":"inherit",'z-index':'110'});
 		$(".search_map").css({"display":"none"});
 		$(".search_navigation").css({"display":"none"});
 	});
@@ -116,6 +116,4 @@ $(function(){
 	    img.attr('src', newImageUrl);
 	});
 	
-	
-
 });
