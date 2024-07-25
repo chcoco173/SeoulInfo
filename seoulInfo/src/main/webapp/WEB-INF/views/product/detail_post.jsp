@@ -426,9 +426,9 @@
 			src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 			<script>
 				$(".chat").click(function(){
-					var memberId = $(this).data('member-id');
-						        var saleId = $(this).data('sale-id');
-						        var url = `chat?memberId=${memberId}&saleId=${saleId}`;
+					var member_id = $(this).data('member_id');
+						        var saleId = $(this).data('sale_id');
+						        var url = `chat?member_id=${member_id}&sale_id=${sale_id}`;
 						        window.location.href = url;
 				});
 			</script>
