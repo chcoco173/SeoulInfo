@@ -17,5 +17,4 @@ public interface EVStationDAO {
 	
 	public List<EVchargerVO> getStationDataInfo(String evc_id);
 
-
 }

@@ -44,13 +44,12 @@ public class EVController {
     }
 	
 	 // 1번 버튼 클릭 시, 충전기 출력 
-	 @PostMapping("/ev_info")
+	 @GetMapping("/ev_info")
 	 @ResponseBody
 	 public List<EVchargerVO> getChargerInfo(@RequestParam("evc_id") String evc_id) {
-	    // id를 사용하여 데이터베이스에서 충전소 정보를 조회합니다.
-	    // 예시: EVchargerVO chargerInfo = evStationService.getChargerById(id);
+		 System.out.println("get : "+evc_id);
 		 List<EVchargerVO> chargerInfo = evStationService.getStationDataInfo(evc_id);
-		 System.out.println("evo = "+chargerInfo);
+		 System.out.println("result = "+chargerInfo);
 	    return chargerInfo;
 	 }
 

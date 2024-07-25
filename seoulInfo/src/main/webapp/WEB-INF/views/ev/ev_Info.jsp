@@ -18,7 +18,7 @@
                     </button>
                 </td>
                 <td style="text-align:center;">
-                    <h3 id="ev_name">충전소 이름</h3>
+                    <h3 class="ev_name"></h3>
                 </td>
                 <td>
                     <button type="button" class="btn btn-dark closeInfo">
@@ -29,20 +29,23 @@
         </table>
         <hr>
         <div class="InfoDetail">
-            <p><h5><b>충전기 1</b></h5></p>
-            <table class="chargers" style="border: 2px solid green">
+            <table class="chargers" style="border: 2px solid green; text-align:center">
                 <thead>
                     <tr>
-                        <th>구분</th>
-                        <th>충전기 타입</th>
-                        <th>충전기 상태<br>(갱신일시)</th>
+						<th style="width:11%">충전기 no.</th>
+                        <th>구분		</th>
+                        <th>충전 타입	</th>
+                        <th>충전기 상태	<br/>(갱신일시)</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td id="charger_machine"></td>
-                        <td id="charger_type"></td>
-                        <td id="charger_state"><br>{(갱신한 시간)}</td>
+                <tbody id="chargerDetailsBody">
+                    <tr >
+						<td ><b id="charger_no" style="font-size:23px;"></b></td>
+                        <td id="charger_mechine"></td>
+						<td class="charger_type"></td>
+                        <td ><span style="border:1px solid orange; border-radius:5px; background-color: yellow; padding-left:10px; padding-right:10px; text-align:center"><b id="charger_state" >점검중</b></span>
+							 <br><span>{(갱신한 시간)}</span>
+						</td>
                     </tr>
                 </tbody>
             </table>
@@ -55,7 +58,7 @@
                 </tr>
                 <tr>
                     <td>상세위치</td>
-                    <td id="evc_name"></td>
+                    <td class="ev_name"></td>
                 </tr>
                 <tr>
                     <td>시설구분</td>
@@ -76,29 +79,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script>
-        function showChargerInfo(marker) {
-            $.ajax({
-                url: 'ev_info',
-                type: 'POST',
-                data: { evc_id: marker.info.evc_id },
-                success: function(data) {
-                    $('#ev_name').text(data.evc_name);
-                    $('#evc_address').text(data.evc_address);
-                    $('#charger_machine').text(data.charger_machine);
-                    $('#charger_type').text(data.charger_type);
-                    $('#charger_state').text(data.charger_state);
-                    $('#charger_facsmall').text(data.charger_facsmall);
-                    $('#charger_opsmall').text(data.charger_opsmall);
-                    $('#charger_userlimit').text(data.charger_userlimit);
-                    $('.charger_Information').show();
-                },
-                error: function(err) {
-                    console.error("Error fetching charger info: ", err);
-                }
-            });
-        }
-
-        $(document).ready(function() {
+		    $(document).ready(function() {
             $('.closeInfo').click(function() {
 				$('.overlay').hide();
 				$('.overlay').css({'display':'none','z-index':'-1'});

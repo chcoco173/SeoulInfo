@@ -28,11 +28,43 @@
    
    <!-- Bootstrap core CSS -->
    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   <style>
+           #loading {
+               position: fixed;
+               top: 0;
+               left: 0;
+               width: 100%;
+               height: 100%;
+               background: rgba(255, 255, 255, 0.8);
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               z-index: 9999;
+               flex-direction: column;
+           }
 
+           .spinner-border {
+               width: 3rem;
+               height: 3rem;
+               margin-bottom: 1rem;
+           }
+
+           .loading-text {
+               font-size: 1.5rem;
+               font-weight: bold;
+           }
+       </style>
 </head>
 <body onload="initMap()">
 <!-- Overlay for black background -->
-   <div class="overlay"></div>
+    <div class="overlay"></div>
+<!-- Delay for page loading -->
+<div id="loading">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="loading-text">Loading . . .</div>
+    </div>
 <!-- header navigation -->
    <div class="navigation-wrapper">
       <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar_m w-nav">
@@ -71,14 +103,14 @@
 <!-- end of header navigation -->
 
 <!-- kakao map API -->
-   <div class="map_wrap">
+   <div class="map_wrap after-loading">
 	<div  onload="initMap()">
        <div id="map"></div>
 	   </div>
       <table class="serviceCate" style="width: 100%; text-align:center;">
          <tr>
 			<td style="width:33%">
-				<a href="https://openapi.sk.com/products/preview/tmap?svcSeq=4&menuSeq=4"><button class="filter btn btn-success" id="filterBtn2">길찾기</button></a>
+				<a href="/ev/ev_Navigation"><button class="filter btn btn-success" id="filterBtn2">길찾기</button></a>
 			</td>
             <td style="width:33%">
                <button class="filter btn btn-primary" id="filterBtn1">충전소 검색</button>
@@ -141,6 +173,9 @@
 <!-- kakao map Script-->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=008b79e594d7ab4e1058e1180ccf546c&libraries=clusterer"></script>
     <script>
+		// ## delay 1 - 로딩 바 표시
+		document.getElementById('loading').style.display = 'flex';
+		
 		// ########### 지도 생성 ############## 
         var mapContainer = document.getElementById('map'); // 지도를 표시할 div 
         var mapOption = {
@@ -154,13 +189,13 @@
         var positions = [
             <c:forEach var="coordinate" items="${evStationList}" varStatus="status">
                 {
-                    title: "${coordinate.evc_name}",
-                    latlng: new kakao.maps.LatLng(${coordinate.evc_lat}, ${coordinate.evc_long}),
-                    id: "${coordinate.evc_id}"
+                    title: "${coordinate.evc_id}",
+                    latlng: new kakao.maps.LatLng(${coordinate.evc_lat}, ${coordinate.evc_long})
                 }
                 <c:if test="${!status.last}">,</c:if>
             </c:forEach>
         ];
+		console.log(positions);
 
         var imageSrc = "/images/ev/ev_normal.png"; 
         var clickedImageSrc = "/images/ev/ev_click.png"; 
@@ -177,10 +212,8 @@
                 title: positions[i].title,
                 image: markerImage,
                 isClicked: false,
-                info: positions[i], // 마커에 정보 추가
-				id:positions[i].id
             });
-
+			
             (function(marker) {
                 kakao.maps.event.addListener(marker, 'click', function() {
                     if (currentClickedMarker && currentClickedMarker !== marker) {
@@ -204,11 +237,51 @@
                         $('.charger_Information').show();
 						$(".charger_Information").css({"display":"inherit",'z-index':'1100'});
 						
-						alert(marker.title);
+						alert(marker.Gb);
+						// AJAX 요청 보내기
+						$.ajax({
+							url: 'ev_info',
+							type: 'GET',
+							data: { evc_id: marker.Gb },
+							success: function(data) {
+								console.log('data: '+data);
+								if (data.length > 0) {
+								            var chargerDetailsBody = $('#chargerDetailsBody');
+											chargerDetailsBody.empty();
+											data.forEach(function(charger) {
+											var row = '<tr>';
+												row += '<td><b id="charger_no" style="font-size:23px;">' + charger.charger_no + '</b></td>';
+												row += '<td id="charger_mechine">' + charger.charger_mechine + '</td>';
+												row += '<td class="charger_type">' + charger.charger_type + '</td>';
+												row += '<td><span style="border:1px solid orange; border-radius:5px; background-color: yellow; padding-left:10px; padding-right:10px; text-align:center"><b id="charger_state">' + charger.charger_state + '</b></span><br><span>{(갱신한 시간)}</span></td>';
+												row += '</tr>';
+												chargerDetailsBody.append(row);
+											});
+											
+											$('#evc_address').text(data[0].evc_address);
+											$('.ev_name').text(data[0].evc_name);
+											$('#charger_facsmall').text(data[0].charger_facsmall);
+											$('#charger_opsmall').text(data[0].charger_opsmall);
+											$('#charger_userlimit').text(data[0].charger_userlimit);
+											$('.charger_Information').show();
+								        } else {
+											var chargerDetailsBody = $('#chargerDetailsBody');
+											chargerDetailsBody.empty();
+											alert('No data found');
+								            console.log('No data found');
+											$('.charger_Information').hide();
+											$('.overlay').hide();
+								        }
+							},
+							error: function(err) {
+							console.error("Error fetching charger info: ", err);
+							}
+						});
                     }
                 });
             })(marker);
             markers.push(marker);
+			console.log(marker);
         }
         
         var clusterer = new kakao.maps.MarkerClusterer({
@@ -220,10 +293,24 @@
         
         clusterer.addMarkers(markers);
 		
+		// ## delay 2 - 지도 로드 완료 이벤트 등록
+		kakao.maps.event.addListener(map, 'tilesloaded', function() {
+		document.getElementById('loading').style.display = 'none';
+		});
+		
 		// ######## 클러스터러 확대 이벤트 ##############
         kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
+
+			document.getElementById('loading').style.display = 'flex';
+			
             var level = map.getLevel() - 1;
+			
             map.setLevel(level, { anchor: cluster.getCenter() });
+			
+			// 확대가 완료된 후 로딩 스피너 숨김
+			kakao.maps.event.addListenerOnce(map, 'tilesloaded', function() {
+				document.getElementById('loading').style.display = 'none';
+			});
         });
 
         var seoulBounds = new kakao.maps.LatLngBounds(
