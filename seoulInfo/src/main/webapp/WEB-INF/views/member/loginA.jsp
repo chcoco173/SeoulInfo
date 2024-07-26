@@ -111,29 +111,27 @@
                   <div class="spacer-large"></div>
                   <p></p>
                 </div>
-                <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">
-				  
-					<form action="loginForm" method="post" name="wf-form-Contact-Form" data-name="Contact Form" method="get" id="wf-form-Contact-Form" class="form" data-wf-page-id="6684f0fb2a5375354f5c4825" data-wf-element-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a65">
-					<div class="form-field-wrapper-copy">						
-						<input class="form-field w-input" maxlength="256" name="mId" data-name="mId" placeholder="아이디" type="text" id="mId" pattern="[A-Za-z0-9]{6,}" required>						
+                <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">				  
+					<form action="loginCheck" method="post" name="wf-form-Contact-Form" id="wf-form-Contact-Form" class="form" 
+						data-wf-page-id="6684f0fb2a5375354f5c4825" data-wf-element-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a65">
+					<div class="form-field-wrapper">						
+						<input class="form-field w-input" maxlength="256" name="member_id" placeholder="아이디" type="text" id="id" pattern="[A-Za-z0-9]{6,}" required>						
 					</div>
-					<div class="form-field-wrapper-copy">						
-						<input class="form-field w-input" maxlength="256" name="mPw" data-name="mPw" placeholder="비밀번호" type="password" id="mPw" pattern="[A-Za-z0-9]{4,}" required>
-					</div>
-
-					<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
-						<input type="submit" data-wait="Please wait..." class="button-primary-large w-button" value="로그인">
+					<div class="form-field-wrapper">						
+						<input class="form-field w-input" maxlength="256" name="member_pw" placeholder="비밀번호" type="password" id="pw" pattern="[A-Za-z0-9]{6,}" required>
 					</div>
 					
+					<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
+						<input type="submit" class="button-primary-large w-button loginBtn" value="로그인">
+					</div>
+					<div class="spacer-large"></div>
 					<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
 						<a href="id_search" class="button-primary-large w-button">아이디 찾기</a>
 						<a href="pw_search" class="button-primary-large w-button">비밀번호 찾기</a>
-					</div>					
-					
-					
-					</form>				  
-				  				  
+					</div>															
+					</form>				  				  				  
                 </div>
+                
               </div>
             </div>
           </div>

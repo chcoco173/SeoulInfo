@@ -13,7 +13,7 @@
 	<!-- 로그인 : DB확인 -->
 	<select id="loginCheck" parameterType="MemberVO">
 		SELECT * FROM member
-		WHERE member_id=#{member_id} AND member_pw=#{member_pw}
+		WHERE member_id=#{member_id}
 	</select>
 	
 	<!-- 아이디찾기 -->
@@ -40,7 +40,14 @@
 		WHERE member_email=#{member_email}
 	</select>
 	
-	
+	<!-- 이메일인증 -->
+	<select id="findByEmail" parameterType="String" resultType="MemberVO">
+		SELECT * FROM member
+		WHERE member_email=#{member_email}
+	</select>	
+    <select id="findMemberByEmail" parameterType="String" resultType="MemberVO">
+        SELECT * FROM member WHERE member_email=#{member_email}
+    </select>	
 	
 
 </mapper>
