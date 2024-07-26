@@ -90,10 +90,81 @@
 									</div>
 								</div>
 
+
 								<div class="container my-5">
+									<div class="row">
+										<div class="col-8"></div>
+										<div class="col-2">
+											<c:choose>
+												<c:when test="${category == '전자제품' || category == '디지털' || category == '가전제품'}">
+													<select class="form-control cate" name="cate">
+														<option ${category eq '전체' ? 'selected' : ''}>전체</option>
+														<option ${category eq '디지털' ? 'selected' : ''}>디지털</option>
+														<option ${category eq '가전제품' ? 'selected' : ''}>가전제품</option>
+													</select>
+												</c:when>
+												<c:when test="${category == '생활용품' || category == '생활/주방용품' || category == '공구/산업용품' || category == '가구/인테리어'}">
+													<select class="form-control cate" name="cate">
+														<option ${category eq '전체' ? 'selected' : ''}>전체</option>
+														<option ${category eq '생활/주방용품' ? 'selected' : ''}>생활/주방용품</option>
+														<option ${category eq '공구/산업용품' ? 'selected' : ''}>공구/산업용품</option>
+														<option ${category eq '가구/인테리어' ? 'selected' : ''}>가구/인테리어</option>
+													</select>
+												</c:when>
+												<c:when test="${category == '의류' || category == '여성의류' || category == '남성의류' || category == '신발'
+																|| category == '가방/지갑' || category == '패션 액세서리' || category == '쥬얼리' || category == '시계' }">
+													<select class="form-control cate" name="cate">
+														<option ${category eq '전체' ? 'selected' : ''}>전체</option>
+														<option ${category eq '여성의류' ? 'selected' : ''}>여성의류</option>
+														<option ${category eq '남성의류' ? 'selected' : ''}>남성의류</option>
+														<option ${category eq '신발' ? 'selected' : ''}>신발</option>
+														<option ${category eq '가방/지갑' ? 'selected' : ''}>가방/지갑</option>
+														<option ${category eq '패션 액세서리' ? 'selected' : ''}>패션 액세서리</option>
+														<option ${category eq '쥬얼리' ? 'selected' : ''}>쥬얼리</option>
+														<option ${category eq '시계' ? 'selected' : ''}>시계</option>
+													</select>
+												</c:when>
+												<c:when test="${category == '도서' || category == '도서/티켓/문구' || category == '예술/희귀/수집품' || category == '음반/악기' || category == '스타굿즈'}">
+													<select class="form-control cate" name="cate">
+														<option ${category eq '전체' ? 'selected' : ''}>전체</option>
+														<option ${category eq '도서/티켓/문구' ? 'selected' : ''}>도서/티켓/문구</option>
+														<option ${category eq '예술/희귀/수집품' ? 'selected' : ''}>예술/희귀/수집품</option>
+														<option ${category eq '음반/악기' ? 'selected' : ''}>음반/악기</option>
+														<option ${category eq '스타굿즈' ? 'selected' : ''}>스타굿즈</option>
+													</select>
+												</c:when>
+												<c:when test="${category == '기타' || category == '키덜트' || category == '식품' || category == '스포츠/레저' || category == '뷰티/미용'
+																|| category == '유아동/출산' || category == '차량/오토바이' || category == '반려동물용품' || category == '기타'}">
+													<select class="form-control cate" name="cate">
+														<option ${category eq '전체' ? 'selected' : ''}>전체</option>
+														<option ${category eq '키덜트' ? 'selected' : ''}>키덜트</option>
+														<option ${category eq '식품' ? 'selected' : ''}>식품</option>
+														<option ${category eq '스포츠/레저' ? 'selected' : ''}>스포츠/레저</option>
+														<option ${category eq '뷰티/미용' ? 'selected' : ''}>뷰티/미용</option>
+														<option ${category eq '유아동/출산' ? 'selected' : ''}>유아동/출산</option>
+														<option ${category eq '차량/오토바이' ? 'selected' : ''}>차량/오토바이</option>
+														<option ${category eq '반려동물용품' ? 'selected' : ''}>반려동물용품</option>
+														<option ${category eq '기타' ? 'selected' : ''}>기타</option>
+													</select>
+												</c:when>
+												
+											</c:choose>
+										</div>
+
+										<div class="col-2">
+											<select class="form-control type">
+												<option ${param.type eq '전체' ? 'selected' : ''}>전체</option>
+												<option ${param.type eq '가격낮은순' ? 'selected' : ''}>가격낮은순</option>
+												<option ${param.type eq '가격높은순' ? 'selected' : ''}>가격높은순</option>
+											</select>
+										</div>
+
+									</div>
+
 									<!--  상품 ( jstl로 들어갈 예정 ) -->
 									<div class="row">
-										<c:forEach items="${productList}" var="productList" varStatus="status">
+										<c:forEach items="${productList}" var="productList"
+											varStatus="status">
 											<div class="col-md-3 product">
 												<div class="product-card">
 													<c:choose>
@@ -109,7 +180,8 @@
 													</c:choose>
 
 													<div class="product-info">
-														<input type="hidden" class="sale_id" value="${productList.sale_id}">
+														<input type="hidden" class="sale_id"
+															value="${productList.sale_id}">
 														<h4>${productList.sale_name}</h4>
 														<p>${productList.sale_area}</p>
 														<p>
@@ -126,91 +198,8 @@
 												</div>
 											</div>
 										</c:forEach>
-										
 									</div>
 
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="section-posts-row">
-						<div class="padding-global">
-							<div class="padding-section-medium remove-top-padding">
-								<div class="container-full-width">
-									<h2 data-w-id="e144bf26-0d49-109b-1b5b-756bc18db81f"
-										style="opacity: 0">Most recent captures</h2>
-									<div class="spacer-xlarge"></div>
-									<div data-w-id="e144bf26-0d49-109b-1b5b-756bc18db822"
-										style="opacity: 0" class="divider-line"></div>
-									<div class="spacer-xlarge"></div>
-									<div class="w-dyn-list">
-										<div role="list" class="w-dyn-items">
-											<div data-w-id="e144bf26-0d49-109b-1b5b-756bc18db826"
-												style="opacity: 0" role="listitem" class="w-dyn-item">
-												<div class="post-row-grid">
-													<a
-														id="w-node-e144bf26-0d49-109b-1b5b-756bc18db828-4f5c4823"
-														data-w-id="e144bf26-0d49-109b-1b5b-756bc18db828" href="#"
-														class="post-row-image-overflow-container w-inline-block">
-														<div
-															id="w-node-e144bf26-0d49-109b-1b5b-756bc18db829-4f5c4823"
-															data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"
-															style="-webkit-transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); -moz-transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); -ms-transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
-															class="post-row-image"></div>
-													</a>
-													<div
-														id="w-node-e144bf26-0d49-109b-1b5b-756bc18db82a-4f5c4823"
-														class="post-row-wrapper">
-														<div class="tags-wrappers">
-															<a href="#" class="tag w-inline-block">
-																<div class="text-size-small w-dyn-bind-empty"></div>
-															</a> <a href="#" class="tag w-inline-block">
-																<div class="text-size-small w-dyn-bind-empty"></div>
-															</a>
-														</div>
-														<a
-															id="w-node-e144bf26-0d49-109b-1b5b-756bc18db830-4f5c4823"
-															href="#" class="w-inline-block">
-															<h3 class="w-dyn-bind-empty"></h3>
-														</a>
-														<div class="small-author-wrapper">
-															<a href="#"
-																class="author-pic-and-name-wrapper w-inline-block">
-																<div class="small-author-thumbnail"></div>
-																<div class="text-size-regular w-dyn-bind-empty"></div>
-															</a>
-															<div class="line-divider"></div>
-															<div
-																class="text-size-regular text-color-dark-gray w-dyn-bind-empty"></div>
-														</div>
-													</div>
-													<a
-														id="w-node-e144bf26-0d49-109b-1b5b-756bc18db838-4f5c4823"
-														data-w-id="e144bf26-0d49-109b-1b5b-756bc18db838" href="#"
-														class="button-icon hide-mobile-landscape w-inline-block"><img
-														src="/images/ph_arrow-up-right-light-xxsmall-dark-gray.svg"
-														loading="lazy" alt="" class="icon-1x1-xxsmall"></a>
-												</div>
-											</div>
-										</div>
-										<div class="empty-state w-dyn-empty">
-											<div class="text-size-regular">No items found.</div>
-										</div>
-										<div role="navigation" aria-label="List"
-											class="w-pagination-wrapper pagination">
-											<a href="#" aria-label="Previous Page"
-												class="w-pagination-previous previous"><img
-												src="/images/ph_arrow-left-light-xxsmall.svg" loading="lazy"
-												alt="" class="icon-1x1-xxsmall">
-												<div class="text-size-small w-inline-block">Previous</div> </a>
-											<a href="#" aria-label="Next Page"
-												class="w-pagination-next next">
-												<div class="text-size-small w-inline-block">Next</div> <img
-												src="/images/ph_arrow-right-light-xxsmall.svg"
-												loading="lazy" alt="" class="icon-1x1-xxsmall">
-											</a>
-										</div>
-									</div>
 								</div>
 							</div>
 						</div>
@@ -308,11 +297,29 @@
 				$(".product").click(function() {
 					var sale_id = $(this).find('.sale_id').val();
 					alert(sale_id);
-					
+
 					// 나중에 상품번호들고가서 수정예정
-					location.href = "detail_post?sale_id="+sale_id;
+					location.href = "detail_post?sale_id=" + sale_id;
 
 				});
+
+				$(".cate").change(
+						function() {
+							let cate = $('.cate').val();
+							let type = $('.type').val();
+							
+
+							location.href = "categoryOptionSelect?cate=" + cate
+									+ "&type="+type;
+
+						})
+
+				$(".type").change(function() {
+					let cate = $('.cate').val();
+					let type = $('.type').val();
+					alert(cate);
+					alert(type);
+				})
 			</script>
 </body>
 </html>
