@@ -14,29 +14,7 @@
     <link rel="stylesheet" href="/css/jades-dandy-site-14d3e0.webflow.css" type="text/css">
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
-	<script>
-	document.addEventListener("DOMContentLoaded", function () {
-	    fetch('/chat/list')
-	        .then(response => response.json())
-	        .then(chatRooms => {
-	            const connectedUsersList = document.getElementById('connectedUsers');
-	            connectedUsersList.innerHTML = '';
 
-	            chatRooms.forEach(chatRoom => {
-	                const listItem = document.createElement('li');
-	                listItem.classList.add('user-item');
-
-	                const link = document.createElement('a');
-	                link.href = `/product/chat?chatRoomId=${chatRoom.chatId}`;
-	                link.textContent = `Chat with ${chatRoom.recipientId} about sale ${chatRoom.saleId}`;
-
-	                listItem.appendChild(link);
-	                connectedUsersList.appendChild(listItem);
-	            });
-	        })
-	        .catch(error => console.error('Error fetching chat rooms:', error));
-	});
-	</script>
     <!-- Chat Specific CSS -->
     <link rel="stylesheet" href="/css/product/chat.css">
 	<style>
@@ -165,7 +143,7 @@
             <div class="users-list">  
                 <div class="users-list-container">
                     <h2>연결된 유저</h2>
-                    <ul id="connectedUsers">						
+                    <ul id="otherUsers">						
 					</ul>
                 </div>
                 <div>
@@ -208,28 +186,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script src="/js/chat.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    fetch('/chat/list')
-        .then(response => response.json())
-        .then(chatRooms => {
-            const connectedUsersList = document.getElementById('connectedUsers');
-            connectedUsersList.innerHTML = '';
 
-            chatRooms.forEach(chatRoom => {
-                const listItem = document.createElement('li');
-                listItem.classList.add('user-item');
-
-                const link = document.createElement('a');
-                link.href = `/product/chat?chatRoomId=${chatRoom.chatId}`;
-                link.textContent = `Chat with ${chatRoom.recipientId} about sale ${chatRoom.saleId}`;
-
-                listItem.appendChild(link);
-                connectedUsersList.appendChild(listItem);
-            });
-        })
-        .catch(error => console.error('Error fetching chat rooms:', error));
-});
-</script>
 </body>
 </html>

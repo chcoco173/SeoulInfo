@@ -13,10 +13,12 @@ public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
     
+    // 사용자가 있는 채팅방을 다 찾기 (구매자든 판매자든)
     public List<ChatRoom> findAllChatRooms(String userId) {
         return chatRoomRepository.findBySenderIdOrRecipientId(userId, userId);
     }
 
+    // 채팅방 id 가져오기
     public Optional<String> getChatRoomId(
             String senderId,
             String recipientId,
