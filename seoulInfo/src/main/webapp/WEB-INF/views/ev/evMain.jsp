@@ -107,6 +107,7 @@
 	<div  onload="initMap()">
        <div id="map"></div>
 	   </div>
+	  <!-- service Buttons -->
       <table class="serviceCate" style="width: 100%; text-align:center;">
          <tr>
 			<td style="width:33%">
@@ -120,7 +121,8 @@
             </td>
          </tr>
       </table>
-       <ul id="category">
+		<!-- convenience category Buttons -->
+		<ul id="category">
            <li id="BK9" data-order="0"> 
                <span class="category_bg bank"></span>
                은행
@@ -146,7 +148,7 @@
                편의점
            </li>
        </ul>
-	   
+	   <!-- show diffrent map type-->
 	   <div id="map_show_type" >
 		   	<button class="btn btn-info" id="btnTerrain" data-enabled="false" onclick="setOverlayMapTypeId()">
 				지형도
@@ -186,6 +188,7 @@
         var map = new kakao.maps.Map(mapContainer, mapOption);
 		
 		// ######## 마커/클러스터러 생성 ##############
+		// 각 DB data의 위도,경도를 forEach 문으로 마커정보 담기
         var positions = [
             <c:forEach var="coordinate" items="${evStationList}" varStatus="status">
                 {
@@ -213,7 +216,7 @@
                 image: markerImage,
                 isClicked: false,
             });
-			
+			//마커에 클릭 기능 넣어주기 
             (function(marker) {
                 kakao.maps.event.addListener(marker, 'click', function() {
                     if (currentClickedMarker && currentClickedMarker !== marker) {
