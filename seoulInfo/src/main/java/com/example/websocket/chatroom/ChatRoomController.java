@@ -66,9 +66,7 @@ public class ChatRoomController {
 	}
 
 	@GetMapping("/product/chat")
-	public String getChatPage(@RequestParam String chatRoomId, Model model) {
-
-		model.addAttribute("chatRoomId", chatRoomId);
+	public String getChatPage() {
 		return "product/chat"; // product/chat.jsp로 이동
 	}
 
