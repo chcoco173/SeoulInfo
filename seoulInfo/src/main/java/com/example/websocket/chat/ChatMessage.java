@@ -16,10 +16,11 @@ import java.util.Date;
 @Document
 public class ChatMessage {
     @Id
-    private String id;			// 메세지 id
-    private String chatId;		// sender id _ recipient id
-    private String senderId;	// 전송자
-    private String recipientId;	// 수신자
-    private String content;		// 메세지 내용
-    private Date timestamp;		// 전송 시간
+    private String id;
+    private String chatId;
+    private String senderId;
+    private String recipientId;
+    private String content;
+    private Date timestamp;
+    private Integer sale_id;
 }
