@@ -37,23 +37,45 @@ public class EVController {
 	@RequestMapping("/evMain")
     public String getMapData(Model model) {
         List<EVStationVO> evStationList = evStationService.getStation();
-        //System.out.println(evStationList);
-        
         model.addAttribute("evStationList", evStationList);
         return "/ev/evMain";
     }
 	
-	 // 1번 버튼 클릭 시, 충전기 출력 
+	 // 충전소의 충전기 내역 및 상세정보 출력 
 	 @GetMapping("/ev_info")
 	 @ResponseBody
 	 public List<EVchargerVO> getChargerInfo(@RequestParam("evc_id") String evc_id) {
-		 System.out.println("get : "+evc_id);
 		 List<EVchargerVO> chargerInfo = evStationService.getStationDataInfo(evc_id);
-		 System.out.println("result = "+chargerInfo);
 	    return chargerInfo;
 	 }
+	 
+	// 즐겨찾기 설정 - list 불러오기
+	 @GetMapping("/ev_Favorite")
+	 @ResponseBody
+	 public List<EVchargerVO> stroageChargerFav(String member_id ){
+		 System.out.println("insert : "+member_id);
+		 
+		 List<EVchargerVO> chargerlike = evStationService.selectEVFav(member_id);
+		 System.out.println("send : "+ chargerlike);
+		 return chargerlike;
+	 }
+	 
+	 @GetMapping("/ev_FavoriteInsert")
+	 public String showChargerInfo(String evc_id, String member_id ){
+		 System.out.println("insert : "+evc_id+","+member_id);
+		 //HashMap favMap = new HashMap();
+		 //favMap.put("evc_id",evc_id);
+		 //favMap.put("member_id",member_id);
+		 evStationService.insertEVFav(evc_id,member_id);
+		 System.out.println("fav data inserted");
+		 return "ev/ev_Favorite";
+	 }
 
-	// 검색 결과
+	 
+	 
+	 
+	 
+	// 충전소 검색 결과
 	@PostMapping("/ev_MapFilter")
 	@ResponseBody
 	public List<EVchargerVO> findEVStation(
@@ -71,7 +93,6 @@ public class EVController {
 	    map.put("searchText", searchText);
 	    
 	    List<EVchargerVO> evo = evStationService.getFilteredStation(map);
-	    System.out.println("evo = "+evo.toString());
 	    return evo;
 	}
 	    

@@ -105,15 +105,53 @@ $(function(){
 		$('.charger_Information').css({'display':'none','z-index':'-1'});
 	});
 	
+	
+	
+	
 	// 즐겨찾기
 	$('.setFavorite').click(function(event) {
 	    event.stopPropagation();
 		event.preventDefault();
-	               
-		var img = $('#favoriteImage');
-		var currentSrc = img.attr('src');
-	    var newImageUrl = (currentSrc === '/images/ev/like_off.png') ? '/images/ev/like_on.png' : '/images/ev/like_off.png';
-	    img.attr('src', newImageUrl);
+			
+		if(sessionResult === ''){
+			alert(" 이 기능은 회원가입 후 가능합니다.");
+		}else{
+
+			/*$.ajax({
+				url		: 'ev_FavoriteInsert'
+				,type	: 'GET'
+				,data 	: {evc_id : marker.Gb
+				,member_id : sessionResult
+				},
+				success: function(data){
+					alert("success",data);
+					console.log(data);
+				},
+				error	:function(err){
+					console.error(err);
+				}
+			});*/
+						
+			$.ajax({
+				url 	 : 'ev_FavoriteInsert'
+				,type 	 : 'GET'
+				,data	 : {evc_id : marker.Gb
+						  ,member_id : sessionResult
+				}
+				,succsess: function(success){
+					alert("즐겨찾기에 추가했습니다."+marker.Gb+","+sessionResult);
+					var img = $('#favoriteImage');
+					var currentSrc = img.attr('src');
+					var newImageUrl = (currentSrc === '/images/ev/like_off.png') ? '/images/ev/like_on.png' : '/images/ev/like_off.png';
+					
+					img.attr('src', newImageUrl);
+				}
+				,error	 : function(err){
+					console.error(err)
+				}
+			});
+		}
+		
 	});
 	
 });
