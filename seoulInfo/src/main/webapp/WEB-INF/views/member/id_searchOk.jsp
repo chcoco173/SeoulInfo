@@ -110,6 +110,7 @@
 					</div>
 					<div class="spacer-large"></div>
 					<div class="button-primary-large-msg-y">당신의 아이디는 ${sessionScope.logid.member_id} 입니다.</div>
+<%-- 					<div class="button-primary-large-msg-y">당신의 아이디는 ${memberId} 입니다.</div> --%>
 					<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
 						<input type="submit" class="button-primary-large w-button" value="확인">
 					</div>										
