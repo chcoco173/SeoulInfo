@@ -6,7 +6,7 @@
 	<select id="getStation"  resultType="EVStationVO">
 	SELECT  *
 	FROM evc
-	limit 10000
+	limit 100
 	</select>
 	
 	<select id="getFilteredStation" parameterType="hashmap" resultType="EVchargerVO">
