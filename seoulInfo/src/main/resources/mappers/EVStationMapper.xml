@@ -6,6 +6,7 @@
 	<select id="getStation"  resultType="EVStationVO">
 	SELECT  *
 	FROM evc
+	limit 100
 	</select>
 	
 	<select id="getFilteredStation" parameterType="hashmap" resultType="EVchargerVO">
@@ -76,7 +77,7 @@
 		limit 300
 	</select>
 
-	<select id="getStationDataInfo" parameterType="String" resultType="EVStationVO">
+	<select id="getStationDataInfo" parameterType="String" resultType="EVchargerVO">
  		SELECT
 	        e.evc_id 				AS evc_id
 	        ,e.evc_area 			AS evc_area
@@ -84,6 +85,7 @@
 	        ,e.evc_name 			AS evc_name 
 	        ,e.evc_lat 				AS evc_lat 
 	        ,e.evc_long 			AS evc_long
+	        ,c.charger_no			AS charger_no
 	        ,c.charger_type 		AS charger_type
 	        ,c.charger_userlimit 	AS charger_userlimit
 	        ,c.charger_facsmall 	AS charger_facsmall

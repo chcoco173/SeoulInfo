@@ -22,7 +22,7 @@
 			method="post">
 			<table>
 				<tr>
-					<td>충전기 타입</td>
+					<td>충전 타입</td>
 					<td><select id="charger_type" name="charger_type"
 						style="width: 95%">
 							<option ${coordinate.charger_type eq '전체' ? 'selected' : ''}>
@@ -134,7 +134,7 @@
 					data.forEach(function(item) {
 						var resultHTML =  '<dl id="filteredList" class="high-z-index">';
 							resultHTML += 	'<dd>';
-							resultHTML += 		'<table class="filtered-list result-list result-list-table" data-lat="' + item.evc_lat + '" data-lng="' + item.evc_long + '" data-title="' + item.evc_name + '">';
+							resultHTML += 		'<table class="filtered-list result-list result-list-table" data-lat="' + item.evc_lat + '" data-lng="' + item.evc_long + '" data-title="' + item.evc_name + '" data-id="' + item.evc_id + '">';
 							resultHTML += 			'<tr>';
 							resultHTML += 				'<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>';
 							resultHTML += 				'<td colspan="2">' + item.evc_name + '</td>';
@@ -162,6 +162,7 @@
 
 						// 페이지네이션 기능 초기화
 						initializePagination();
+						
 						$(document).on('click', '.btn-back', function(event) {
 								event.stopPropagation();
 								event.preventDefault();
@@ -184,11 +185,43 @@
 						    var lat   = $(this).data('lat');
 						    var lng   = $(this).data('lng');
 							var title = $(this).data('title');
+							var evcId = $(this).data('id');
 							$('.charger_Information').css({'display':'inherit', 'z-index':'1100'});
 							$('.overlay').show();
 							$('.overlay').css({'display':'inherit', 'z-index':'1090'});
-							panTo(lat, lng, 1, title);
+							
+							// AJAX 요청 보내기
+						$.ajax({
+							url: 'ev_info',
+							type: 'GET',
+							data: { evc_id: evcId },
+							success: function(data) {
+								if (data.length > 0) {
+									console.log('data: '+data);
+									var charger = data[0]; // 첫 번째 충전소 정보 가져오기 (필요에 따라 수정)
+									$('.ev_name'			).text(charger.evc_name);
+									$('#evc_address'		).text(charger.evc_address);
+									$('#charger_no'			).text(charger.charger_no);
+									$('#charger_mechine'	).text(charger.charger_mechine);
+									$('.charger_type'       ).text(charger.charger_type);
+									$('#charger_state'		).text(charger.charger_state);
+									$('#charger_facsmall'	).text(charger.charger_facsmall);
+									$('#charger_opsmall'	).text(charger.charger_opsmall);
+									$('#charger_userlimit'	).text(charger.charger_userlimit);
+									$('.charger_Information').show();
+								} else {
+									alert('No data found');
+									console.log('No data found');
+									$('.charger_Information').hide();
+									$('.overlay').hide();
+								}
+							},
+							error: function(err) {
+								console.error("Error fetching charger info: ", err);
+							}
 						});
+						panTo(lat, lng, 1, title);
+					});
 				} else {						
 						$('#resultContainer').html('<p>검색 결과가 없습니다.</p>');
 						var paginationHTML = `<div class="filtered-list result-list-pagination" style="text-align: center; margin-top: 20px;">

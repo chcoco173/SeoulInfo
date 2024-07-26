@@ -43,10 +43,44 @@
 <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
 <link href="/images/webclip.png" rel="apple-touch-icon">
 <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- 07/25 기진 추가 : loading style tag-->
+<style>
+           #loading {
+               position: fixed;
+               top: 0;
+               left: 0;
+               width: 100%;
+               height: 100%;
+               background: rgba(255, 255, 255, 0.8);
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               z-index: 9999;
+               flex-direction: column;
+           }
 
+           .spinner-border {
+               width: 3rem;
+               height: 3rem;
+               margin-bottom: 1rem;
+           }
+
+           .loading-text {
+               font-size: 1.5rem;
+               font-weight: bold;
+           }
+       </style>
 
 </head>
 <body>
+	<!-- 07/25  기진 추가 : Delay for page loading -->
+	<div id="loading">
+	        <div class="spinner-border text-primary" role="status">
+	            <span class="sr-only">Loading...</span>
+	        </div>
+	        <div class="loading-text">Loading . . .</div>
+	    </div>
+	<!-- festival info page-->
 	<div class="page-wrapper">
 		<div class="navigation-wrapper">
 			<div data-animation="default" data-collapse="medium"
@@ -335,7 +369,12 @@
     	    calendar.render();
     	  });
 */
-document.addEventListener('DOMContentLoaded', function() {
+ 
+		// 07/25 기진 추가 : loading delay 1 - 로딩 바 표시
+		document.getElementById('loading').style.display = 'flex';
+		
+		// 주석 추가 : -- calender script
+		document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
 
             // JSP로부터 festivalList 데이터를 JavaScript 배열로 변환
@@ -383,7 +422,11 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             calendar.render();
+			
+			// 07/25 기진 추가 : loading delay 2 - 로딩 바 숨김
+			document.getElementById('loading').style.display = 'none';
         });
+		
     </script>
 </body>
 </html>

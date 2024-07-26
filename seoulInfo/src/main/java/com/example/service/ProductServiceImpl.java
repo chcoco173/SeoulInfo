@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.dao.FavoriteProductDAO;
 import com.example.dao.ProductDAO;
 import com.example.dao.ProductImageDAO;
 import com.example.dao.ProductSearchDAO;
+import com.example.domain.FavoriteProductVO;
 import com.example.domain.ProductImageVO;
 import com.example.domain.ProductSearchVO;
 import com.example.domain.ProductVO;
@@ -26,6 +28,9 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Autowired 
 	private ProductSearchDAO productSearchDAO;
+	
+	@Autowired
+	private FavoriteProductDAO favoriteProductDAO;
 
 	// 상품 등록
 	@Override
@@ -86,7 +91,36 @@ public class ProductServiceImpl implements ProductService{
 	public Integer deleteProduct(ProductVO pvo) {
 		return productDAO.deleteProduct(pvo);
 	}
+	// 관심상품 등록
+	@Override
+	public Integer insertFavProduct(FavoriteProductVO fpvo) {
+		
+		return favoriteProductDAO.insertFavProduct(fpvo);
+	}
+	
+	// member_id + sale_id 관심상품 있는지 없는지 확인
+	@Override
+	public Boolean wishCheck(FavoriteProductVO fpvo) {
+		return favoriteProductDAO.wishCheck(fpvo);
+	}
 
+	// 관심상품 제거
+	@Override
+	public Integer deleteFavProduct(FavoriteProductVO fpvo) {
+		// TODO Auto-generated method stub
+		return favoriteProductDAO.deleteFavProduct(fpvo);
+	}
+	// 찜 상품 출력
+	@Override
+	public List<Map<String, Object>> wishList(String member_id) {
+		// TODO Auto-generated method stub
+		return productDAO.wishList(member_id);
+	}
+	
+	
+	
+	
+	
 	
 
 }

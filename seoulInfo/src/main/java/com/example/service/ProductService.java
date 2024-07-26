@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+import com.example.domain.FavoriteProductVO;
 import com.example.domain.ProductImageVO;
 import com.example.domain.ProductSearchVO;
 import com.example.domain.ProductVO;
@@ -29,16 +31,28 @@ public interface ProductService {
 
 	// sale_id에 해당하는 상품 정보
 	public ProductVO myProductSaleId(Integer sale_id);
-	
+
 	// 상품 수정
 	public void updateProduct(ProductVO pvo);
-	
+
 	// 상품 상태 수정
 	public Integer updateStatus(ProductVO pvo);
-	
+
 	// 상품 삭제
 	public Integer deleteProduct(ProductVO pvo);
 
+
+	// 관심상품 등록
+	public Integer insertFavProduct(FavoriteProductVO fpvo);
+
+	// member_id + sale_id 관심상품 있는지 없는지 확인
+	public Boolean wishCheck(FavoriteProductVO fpvo);
+
+	// 관심상품 삭제
+	public Integer deleteFavProduct(FavoriteProductVO fpvo);
+
+	// 찜 상품 출력
+	public List<Map<String, Object>> wishList(String member_id);
 
 
 }
