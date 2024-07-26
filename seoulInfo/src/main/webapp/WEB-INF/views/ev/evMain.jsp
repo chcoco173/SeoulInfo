@@ -240,8 +240,8 @@
                         $('.charger_Information').show();
 						$(".charger_Information").css({"display":"inherit",'z-index':'1100'});
 						
-						alert(marker.Gb);
-						// AJAX 요청 보내기
+						// alert(marker.Gb);
+						// AJAX 요청 보내기 - 마커에 해당하는 상세정보 불러오기
 						$.ajax({
 							url: 'ev_info',
 							type: 'GET',
@@ -303,19 +303,11 @@
 		
 		// ######## 클러스터러 확대 이벤트 ##############
         kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
-
-			document.getElementById('loading').style.display = 'flex';
-			
             var level = map.getLevel() - 1;
-			
-            map.setLevel(level, { anchor: cluster.getCenter() });
-			
-			// 확대가 완료된 후 로딩 스피너 숨김
-			kakao.maps.event.addListenerOnce(map, 'tilesloaded', function() {
-				document.getElementById('loading').style.display = 'none';
-			});
+            map.setLevel(level, { anchor: cluster.getCenter() });			
         });
 
+		// ######## 서울 범위 밖에 이동 시, 중심 지로 이동하는 기능 ####################
         var seoulBounds = new kakao.maps.LatLngBounds(
             new kakao.maps.LatLng(37.413294, 126.734086),
             new kakao.maps.LatLng(37.715133, 127.269311)

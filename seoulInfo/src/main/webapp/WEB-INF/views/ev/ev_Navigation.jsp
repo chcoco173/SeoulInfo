@@ -1,6 +1,72 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
-hello
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		   <!-- 모바일 화면 확대 방지-->
+		   <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+		 <meta content="Sightseer - Webflow Travel Photography Website Template" name="description">
+		 <meta content="width=device-width, initial-scale=1" name="viewport">
+		 <meta content="Webflow" name="generator">
+		 
+		 <link href="/css/normalize.css" rel="stylesheet" type="text/css">
+		 <link href="/css/webflow.css" rel="stylesheet" type="text/css">
+		 <link href="/css/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet" type="text/css">
 
+		 <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
+		 <link href="/images/webclip.png" rel="apple-touch-icon">
+		 
+		 <!-- EV setting -->
+		 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		 <link href="/css/ev/evMain.css" rel="stylesheet" type="text/css">
+		 
+		 <!-- Bootstrap core CSS -->
+		 <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+<!-- Header navigation -->
+<div class="navigation-wrapper">
+    <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar_m w-nav">
+        <div class="nav-wrapper">
+            <a href="/" aria-current="page" class="brand w-nav-brand w--current">
+                <img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt="">
+            </a>
+            <div class="links-and-search-wrapper">
+                <nav role="navigation" class="nav-links-wrapper w-nav-menu">
+                    <a href="/about" class="nav-link w-nav-link">About</a> 
+                    <a href="/contact" class="nav-link w-nav-link">Contact</a>
+                </nav>
+                <form action="/search" data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5" class="search w-form">
+                    <div class="search-div">
+                        <img src="/images/ph_magnifying-glass-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall">
+                    </div>
+                    <div class="nav-search-outer-wrapper">
+                        <div class="nav-search-internal-wrapper">
+                            <input class="form-field w-input" maxlength="256" name="query" placeholder="Search…" type="search" id="search" required="">
+                            <div class="search-button-wrapper">
+                                <input type="submit" class="button-primary-small w-button" value="Search">
+                                <a data-w-id="a72c4d20-babf-897f-e150-4948b59e5bfb" href="#" class="close-search-link-block w-inline-block">
+                                    <img src="/images/ph_x-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>			
+            <div class="menu-button w-nav-button">
+                <img src="/images/ph_list-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall">
+            </div>
+        </div>
+    </div>
+</div><br/><hr/>
+<!-- End of header navigation -->
+
+<table class="backToMain" style="width: 100%; text-align:center;">
+    <tr>
+        <td style="width:100%">
+            <a href="/ev/evMain"><button class="filter btn btn-success" id="btnBackToMain">돌아가기</button></a>
+        </td>
+    </tr>
+</table>
+</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,22 +76,23 @@ hello
     <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=B6cVULpkYQ5bwF3CIw3lF1YfFgRjCgYs9E0aFLuP"></script>
 </head>
 <body>
-    <div id="map_div" style="width: 750px; height: 750px;"></div>
+    <div id="map_div" style="width: 100%; height: 83%;"></div>
     <div>
         <input type="hidden" id="startx" />
         <input type="hidden" id="starty" />
         <input type="hidden" id="endx" />
         <input type="hidden" id="endy" />
-        <div>
-            <input type="text" id="searchStartAddress" placeholder="출발지를 입력하세요" onkeyup="onKeyupSearchPoi(this);">
-            <button onclick="clickSearchPois('start');">검색</button>
-            <input type="text" id="searchEndAddress" placeholder="목적지를 입력하세요" onkeyup="onKeyupSearchPoi(this);">
-            <button onclick="clickSearchPois('end');">검색</button>
-            <button onclick="searchRoute();">경로 검색</button>
+        <div style="position:fixed; left:10px; top:50%; border: 2px solid blue; border-radius : 10px;">
+            <input type="text" id="searchStartAddress" placeholder="출발지를 입력하세요" onkeyup="onKeyupSearchPoi(this);" style="padding-top:1%; padding-bottom:3%;">
+            <button class="btn btn-primary" onclick="clickSearchPois('start');">검색</button><br><br>
+            <input type="text" id="searchEndAddress" placeholder="목적지를 입력하세요" onkeyup="onKeyupSearchPoi(this);" style="padding-top:1%; padding-bottom:3%;">
+            <button class="btn btn-primary" onclick="clickSearchPois('end');">검색</button><hr>
+            <button class="btn btn-warning" style="width:100%; border-radius:10px;" onclick="searchRoute();">경로 검색</button>
         </div>
         <div id="result"></div>
     </div>
     <script>
+		
         var map = new Tmapv2.Map("map_div", {
             center: new Tmapv2.LatLng(37.54723135585498, 126.99680328369186),
             zoom: 14,
