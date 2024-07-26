@@ -1,4 +1,5 @@
 <%@page contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Wed Jul 03 2024 06:37:30 GMT+0000 (Coordinated Universal Time)  -->
@@ -98,8 +99,9 @@
                   <div class="spacer-large"></div>
                   <p></p>
                 </div>
-                <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">
-				  
+                <!-- 아이디 찾기(기본) -->
+              <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">
+				  <div class="w-button">이메일 인증</div>
 					<form action="id_search" method="post" name="wf-form-Contact-Form" id="wf-form-Contact-Form" class="form" data-wf-page-id="6684f0fb2a5375354f5c4825" data-wf-element-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a65">
 					<div class="form-field-wrapper">						
 						<input class="form-field w-input" maxlength="256" name="member_name" placeholder="이름" type="text" id="name" pattern="[가-힣]{2,}" required>						
@@ -107,13 +109,54 @@
 					<div class="form-field-wrapper">						
 						<input class="form-field w-input" maxlength="256" name="member_email" placeholder="이메일" type="email" id="email" required>
 					</div>
-
 					<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
 						<input type="submit" class="button-primary-large w-button" value="확인">
 					</div>										
-					</form>				  				  
-				  
+					</form>				  				  				  
                 </div>
+                <!-- 메일 보내기 -->
+<!-- 			    <form method="post" action="mail">
+			        <input type="text" name="receiver" placeholder="받는 사람 입력"><br>
+			        <input type="text" name="title" placeholder="제목"><br>
+			        <textarea name= "content" cols="10" rows="10"></textarea><br>
+			        <input type="submit" value="전송">
+			    </form> -->                
+                <!-- 아이디 찾기(이메일 인증) -->
+<%--                  <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">
+				  <div class="w-button">이메일 인증</div>
+					<form action="sendVerificationCode" method="post" name="wf-form-Contact-Form" id="wf-form-Contact-Form" class="form" data-wf-page-id="6684f0fb2a5375354f5c4825" data-wf-element-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a65">
+					<div class="form-field-wrapper">						
+						<input class="form-field w-input" maxlength="256" name="member_name" placeholder="이름" type="text" id="name" pattern="[가-힣]{2,}" required>						
+					</div>
+					<div class="form-field-wrapper">						
+						<input class="form-field w-input" maxlength="256" name="member_email" placeholder="이메일" type="email" id="email" required>
+					</div>
+					<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
+						<input type="submit" class="button-primary-large w-button" value="인증번호 받기">
+					</div>										
+					</form>
+					<!-- 인증번호 전송 -->	
+					<form action="verifyCode" method="post" name="wf-form-Contact-Form" id="wf-form-Contact-Form" class="form" data-wf-page-id="6684f0fb2a5375354f5c4825" data-wf-element-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a65">
+					<div class="form-field-wrapper">						
+						<input class="form-field w-input" maxlength="256" name="code" placeholder="인증번호" type="text" id="code" required>						
+					</div>
+					<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
+						<input type="submit" class="button-primary-large w-button" value="인증번호 전송">
+					</div>
+					<div>${message}</div>										
+					</form>	
+					
+					<h2>Find Member by Email</h2>
+				    <form action="findMemberByEmail" method="post">
+				        Email: <input type="text" name="member_email" id="email" required>
+				        <input type="submit" value="Find Member">
+				    </form>
+				
+				    <c:if test="${not empty message}">
+				        <p>${message}</p>
+				    </c:if>								  				  				  
+                </div> --%>
+                
               </div>
             </div>
           </div>

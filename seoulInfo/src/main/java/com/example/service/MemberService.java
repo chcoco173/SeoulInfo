@@ -8,7 +8,7 @@ public interface MemberService {
 	
 	public List<MemberVO> getMemberList(MemberVO vo);
 	
-	public MemberVO getMember(MemberVO vo);
+	public MemberVO getMember(MemberVO vo);	
 	
 	//회원가입 : DB입력
 	public void insertMember(MemberVO vo);	
@@ -28,5 +28,9 @@ public interface MemberService {
 	public int idChk(MemberVO vo);
 	//이메일 중복체크
 	public int emailChk(MemberVO vo);
+
+	
+	//이메일인증(확인코드 전송)
+    public MemberVO findByEmail(String member_email);
 
 }

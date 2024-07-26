@@ -11,6 +11,44 @@
   --light-gray: #f6f6f6;
 }
 
+/* 한)성공 메세지 */
+.button-primary-large-msg-y {
+  border: 1px solid var(--light-gray);
+  background-color: #007bff;
+  color: var(--white);
+  text-align: center;
+  border-radius: 999px;
+  padding: .625rem 2rem;
+  font-family: Plus Jakarta Sans, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 141%;
+}
+
+/* 한)실패 메세지 */
+.button-primary-large-msg-n {
+  border: 1px solid var(--light-gray);
+  background-color: #8B0000;
+  color: var(--white);
+  text-align: center;
+  border-radius: 999px;
+  padding: .625rem 2rem;
+  font-family: Plus Jakarta Sans, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 141%;
+}
+
+/* 한)상단 회원가입/로그인 버튼 */
+.newsletter-form {
+  grid-column-gap: .5rem; /* 이 속성은 flexbox에서는 적용되지 않습니다. */
+  grid-row-gap: .5rem; /* 이 속성은 flexbox에서는 적용되지 않습니다. */
+  flex-flow: row;
+  justify-content: flex-end; /* 자식 요소들을 오른쪽 정렬 */
+  align-items: center; /* 자식 요소들을 수직 중앙 정렬 */
+  display: flex;
+}
+
 .w-pagination-wrapper {
   flex-wrap: wrap;
   justify-content: center;
@@ -249,15 +287,7 @@ figcaption {
   border-color: #000;
 }
 
-/* 한)상단 회원가입/로그인 버튼 */
-.newsletter-form {
-  grid-column-gap: .5rem; /* 이 속성은 flexbox에서는 적용되지 않습니다. */
-  grid-row-gap: .5rem; /* 이 속성은 flexbox에서는 적용되지 않습니다. */
-  flex-flow: row;
-  justify-content: flex-end; /* 자식 요소들을 오른쪽 정렬 */
-  align-items: center; /* 자식 요소들을 수직 중앙 정렬 */
-  display: flex;
-}
+
 
 .grid-post-link-wrapper {
   justify-content: space-between;
@@ -586,33 +616,8 @@ figcaption {
   display: flex;
 }
 
-/* 한)성공 메세지 */
-.button-primary-large-msg-y {
-  border: 1px solid var(--light-gray);
-  background-color: #007bff;
-  color: var(--white);
-  text-align: center;
-  border-radius: 999px;
-  padding: .625rem 2rem;
-  font-family: Plus Jakarta Sans, sans-serif;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 141%;
-}
 
-/* 한)실패 메세지 */
-.button-primary-large-msg-n {
-  border: 1px solid var(--light-gray);
-  background-color: #8B0000;
-  color: var(--white);
-  text-align: center;
-  border-radius: 999px;
-  padding: .625rem 2rem;
-  font-family: Plus Jakarta Sans, sans-serif;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 141%;
-}
+
 
 .button-primary-large {
   border: 1px solid var(--black);

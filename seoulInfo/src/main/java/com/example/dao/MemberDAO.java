@@ -32,4 +32,9 @@ public interface MemberDAO {
 	//이메일 중복체크
 	public int emailChk(MemberVO vo);
 	
+
+	//이메일인증
+	public MemberVO findByEmail(String member_email);
+	public MemberVO findMemberByEmail(String member_email);
+	
 }
