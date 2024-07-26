@@ -26,15 +26,15 @@ public class ChatRoomController {
 
 	// member_id 판매자 (recipientId)
 	@GetMapping("/product/chatCreate")
-	public String createChatRoom(@RequestParam("member_id") String memberId, @RequestParam("sale_id") Integer sale_id, Model model) {
+	public String createChatRoom(@RequestParam("member_id") String member_id, @RequestParam("sale_id") Integer sale_id, Model model) {
 
 		// Debugging logs
-		System.out.println("member_id: " + memberId);
+		System.out.println("member_id: " + member_id);
 		System.out.println("sale_id: " + sale_id);
 
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 		String senderId = mvo.getMember_id(); // 현재 로그인한 사용자의 ID
-		String recipientId = memberId;
+		String recipientId = member_id;
 
 		// 새로운 채팅방 ID를 생성하거나 가져옴
 		String chatRoomId = chatRoomService.getChatRoomId(senderId, recipientId, true, sale_id)
@@ -64,29 +64,49 @@ public class ChatRoomController {
 		 */
 
 	}
-
+	
+//    @GetMapping("/users")
+//    public ResponseEntity<List<User>> findOtherUsers() {
+//		MemberVO mvo = (MemberVO) session.getAttribute("member");
+//		String user = mvo.getMember_id(); // 현재 로그인한 사용자의 ID
+//        return ResponseEntity.ok(userService.fi ndOtherUsers(user));
+//    }
+//
 	@GetMapping("/product/chat")
 	public String getChatPage() {
 		return "product/chat"; // product/chat.jsp로 이동
 	}
 
-    @GetMapping("/chat/list")
-    public ResponseEntity<List<User>> getChatRooms() {
+//    @GetMapping("/users")
+//    public ResponseEntity<List<User>> getChatRooms() {
+//        MemberVO mvo = (MemberVO) session.getAttribute("member");
+//        String userId = mvo.getMember_id();
+//        List<User> otherUsers = userService.findOtherUsers(userId);
+//        
+//        System.out.println("Connected Users: " + otherUsers);
+//        return ResponseEntity.ok(otherUsers);
+//    }
+    
+    @GetMapping("/users")
+    public ResponseEntity<List<ChatUserDTO>> getChatRooms() {
         MemberVO mvo = (MemberVO) session.getAttribute("member");
         String userId = mvo.getMember_id();
-        List<ChatRoom> chatRooms = chatRoomService.findAllChatRooms(userId);
-
-        // 현재 사용자가 참여하고 있는 채팅방의 다른 사용자 목록을 가져옴
-        List<String> otherUserIds = chatRooms.stream()
-                .map(chatRoom -> chatRoom.getRecipientId().equals(userId) ? chatRoom.getSenderId() : chatRoom.getRecipientId())
-                .collect(Collectors.toList());
-
-        List<User> connectedUsers = otherUserIds.stream()
-                .map(userService::findByUserId)
-                .collect(Collectors.toList());
-
-        System.out.println("Connected Users: " + connectedUsers); // 로그 추가
+        List<User> otherUsers = userService.findOtherUsers(userId);
         
-        return ResponseEntity.ok(connectedUsers);
+        List<ChatUserDTO> userDTOs = otherUsers.stream()
+                .map(user -> new ChatUserDTO(user.getMember_id(), user.getStatus(), getSaleId(userId, user.getMember_id())))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(userDTOs);
+    }
+    
+    private Integer getSaleId(String senderId, String recipientId) {
+        // 해당 사용자의 채팅방에서 sale_id를 찾아 반환하는 로직을 구현
+        List<ChatRoom> chatRooms = chatRoomService.findAllChatRooms(senderId);
+        return chatRooms.stream()
+                .filter(room -> room.getSenderId().equals(recipientId) || room.getRecipientId().equals(recipientId))
+                .findFirst()
+                .map(ChatRoom::getSale_id)
+                .orElse(null);
     }
 }

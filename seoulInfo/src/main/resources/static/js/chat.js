@@ -1,8 +1,6 @@
 'use strict';
 
-const usernamePage = document.querySelector('#username-page');
 const chatPage = document.querySelector('#chat-page');
-const usernameForm = document.querySelector('#usernameForm');
 const messageForm = document.querySelector('#messageForm');
 const messageInput = document.querySelector('#message');
 const connectingElement = document.querySelector('.connecting');
@@ -15,50 +13,58 @@ let lastMessageDate = null;
 
 
 let stompClient = null;
-let member_id = null;
-let fullname = null;
+let member_id = '${sessionScope.member.member_id}'; // 서버에서 가져온 member_id
 let selectedUserId = null;
+let selectedSaleId = null; // 선택된 sale_id 추가
 
-function connect(event) {
+// 페이지 로드 시 WebSocket 연결 설정
+document.addEventListener('DOMContentLoaded', () => {
+    connect();
+});
 
+function connect() {
     const socket = new SockJS('/ws');
     stompClient = Stomp.over(socket);
 
     stompClient.connect({}, onConnected, onError);
-    
-    event.preventDefault();
 }
-
 
 function onConnected() {
+    // 특정 사용자(member_id)에게 전송된 개인 메시지를 수신
     stompClient.subscribe(`/user/${member_id}/queue/messages`, onMessageReceived);
+    
+    // 모든 사용자에게 전송된 공용 메시지를 수신
     stompClient.subscribe(`/user/public`, onMessageReceived);
 
-    // register the connected user
+    // 사용자를 등록
+    stompClient.send("/app/chat.register", {}, JSON.stringify({member_id: member_id, status: 'ONLINE'}));
 
-    findAndDisplayConnectedUsers().then();
+    // 연결된 유저 목록을 가져와 표시
+    findAndDisplayotherUsers().then();
 }
 
-async function findAndDisplayConnectedUsers() {
+async function findAndDisplayotherUsers() {
     try {
-        const connectedUsersResponse = await fetch('/chat/list');
-        let connectedUsers = await connectedUsersResponse.json();
-        console.log('Fetched connected users:', connectedUsers); // 로그 추가
+        const otherUsersResponse = await fetch('/users');
+		console.log("11"+otherUsersResponse);
+        let otherUsers = await otherUsersResponse.json();
+        console.log('Fetched connected users:', otherUsers); // 로그 추가
 
         // 현재 사용자(내 이름)를 목록에서 제거
-        connectedUsers = connectedUsers.filter(user => user.member_id !== member_id);
-        console.log('Filtered connected users:', connectedUsers); // 로그 추가
+        otherUsers = otherUsers.filter(user => user.member_id !== member_id);
+        console.log('Filtered connected users:', otherUsers); // 로그 추가
 
-        const connectedUsersList = document.getElementById('connectedUsers');
-        connectedUsersList.innerHTML = '';
+        const otherUsersList = document.getElementById('otherUsers');
+        otherUsersList.innerHTML = '';
 
-        connectedUsers.forEach((user, index) => {
-            appendUserElement(user, connectedUsersList);
+
+        otherUsers.forEach((user, index) => {
+            appendUserElement(user, otherUsersList);
             // 마지막 요소가 아닐 때만 구분선 추가
-            if (index < connectedUsers.length - 1) {
+            if (index < otherUsers.length - 1) {
                 const separator = document.createElement('li');
                 separator.classList.add('separator');
-                connectedUsersList.appendChild(separator);
+                otherUsersList.appendChild(separator);
             }
         });
     } catch (error) {
@@ -66,7 +72,7 @@ async function findAndDisplayConnectedUsers() {
     }
 }
 
-function appendUserElement(user, connectedUsersList) {
+function appendUserElement(user, otherUsersList) {
     console.log('Appending user:', user); // 로그 추가
     const listItem = document.createElement('li');
     listItem.classList.add('user-item');
@@ -74,7 +80,7 @@ function appendUserElement(user, connectedUsersList) {
 
     // 사용자 프로필 사진으로 가져와야 함
     const userImage = document.createElement('img');
-    userImage.src = '/images/user_icon.png';
+    userImage.src = '/images/chat/user_icon.png';
     userImage.alt = user.member_id;
 
     // Container for name and status, allowing layout control
@@ -94,17 +100,25 @@ function appendUserElement(user, connectedUsersList) {
     statusSpan.textContent = `(${user.status})`;
     statusSpan.classList.add(user.status.toLowerCase(), 'status'); // Apply status styles here
 
+	// 숨겨진 요소로 sale_id 추가
+	const saleIdHidden = document.createElement('input'); // hidden 요소로 sale_id 추가
+	saleIdHidden.type = 'hidden';
+	saleIdHidden.value = user.sale_id;
+	saleIdHidden.classList.add('sale-id');
+	
     listItem.appendChild(userImage);
     // 안읽음 표시
     listItem.appendChild(receivedMsgs);
     userDetails.appendChild(usernameSpan);
 
     userDetails.appendChild(statusSpan);
+	listItem.appendChild(saleIdHidden); // Append sale_id hidden element
+
     listItem.appendChild(userDetails); // Append the details container to the list item
 
     listItem.addEventListener('click', userItemClick);
 
-    connectedUsersList.appendChild(listItem);
+    otherUsersList.appendChild(listItem);
 }
 
 function userItemClick(event) {
@@ -117,6 +131,8 @@ function userItemClick(event) {
     clickedUser.classList.add('active');
 
     selectedUserId = clickedUser.getAttribute('id');
+	selectedSaleId = clickedUser.querySelector('.sale-id').value; // hidden 요소에서 sale_id 가져오기
+
     fetchAndDisplayUserChat().then();
 
     const nbrMsg = clickedUser.querySelector('.nbr-msg');
@@ -200,7 +216,7 @@ function formatTimestamp(timestamp) {
 
 // Update fetchAndDisplayUserChat to include timestamp
 async function fetchAndDisplayUserChat() {
-    const userChatResponse = await fetch(`/messages/${member_id}/${selectedUserId}`);
+    const userChatResponse = await fetch(`/messages/${member_id}/${selectedUserId}?sale_id=${selectedSaleId}`);
     const userChat = await userChatResponse.json();
     chatArea.innerHTML = '';
     userChat.forEach(chat => {
@@ -229,7 +245,8 @@ function sendMessage(event) {
             senderId: member_id,
             recipientId: selectedUserId,
             content: messageInput.value.trim(),
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString(),
+			sale_id: selectedSaleId // sale_id 추가
         };
         stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
         displayMessage(member_id, messageInput.value.trim(), chatMessage.timestamp);
@@ -242,7 +259,7 @@ function sendMessage(event) {
 
 // Update onMessageReceived to include timestamp
 async function onMessageReceived(payload) {
-    await findAndDisplayConnectedUsers();
+    await findAndDisplayotherUsers();
 	await fetchAndDisplayUserChat();	// !! 이게 없어서 메세지 real-time 수신 안됐잖아!!
 
     console.log('Message received', payload);
@@ -283,7 +300,8 @@ async function uploadFile(file) {
             senderId: member_id,
             recipientId: selectedUserId,
             content: result.url,
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString(),
+			sale_id: selectedSaleId // sale_id 추가
         };
         stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
         displayMessage(member_id, chatMessage.content, chatMessage.timestamp);
@@ -304,14 +322,14 @@ fileUploadInput.addEventListener('change', (event) => {
 function onLogout() {
     stompClient.send("/app/user.disconnectUser",
         {},
-        JSON.stringify({member_id: member_id, fullName: fullname, status: 'OFFLINE'})
+        JSON.stringify({member_id: member_id, status: 'OFFLINE'})
     );
     window.location.reload();
 }
 
 
 
-usernameForm.addEventListener('submit', connect, true); // step 1
+/*usernameForm.addEventListener('submit', connect, true); // step 1*/
 messageForm.addEventListener('submit', sendMessage, true);
 logout.addEventListener('click', onLogout, true);
 window.onbeforeunload = () => onLogout();
