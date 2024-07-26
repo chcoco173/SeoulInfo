@@ -57,10 +57,10 @@
     LEFT OUTER JOIN 
         favorite_product fp ON ps.sale_id = fp.sale_id
     WHERE 1=1 <!-- 기본 조건, 항상 참 -->
-    <if test="area != '전체'">
+    <if test="area != '전체' and area != null">
         AND ps.sale_area = #{area}
     </if>
-    <if test="prediction != 'null' and  category == null">
+    <if test="prediction != 'null' and  category == null and optionCate == null">
     	AND ps.sale_cate = #{prediction}
     </if>
     <if test="category != null">
@@ -68,20 +68,23 @@
             AND ps.sale_cate in ( '디지털' ,'가전제품' )
         </if>
         <if test="category == '생활용품'">
-            AND ps.sale_cate in ( '생활/주방용품', '공구/산업용품' , '가구/인테리어' , '식품' )
+            AND ps.sale_cate in ( '생활/주방용품', '공구/산업용품' , '가구/인테리어' )
         </if>
         <if test="category == '도서'">
             AND ps.sale_cate in ( '도서/티켓/문구', '예술/희귀/수집품' , '음반/악기' , '스타굿즈' )
         </if>
         <if test="category == '의류'">
-            AND ps.sale_cate in ( '여성의류', '남성의류' , '신발' , '가방/지갑' , '패션 액세서리' , '쥬얼리' , '스포츠/레저' , '시계')
+            AND ps.sale_cate in ( '여성의류', '남성의류' , '신발' , '가방/지갑' , '패션 액세서리' , '쥬얼리' ,  '시계')
         </if>
         <if test="category == '기타'">
-            AND ps.sale_cate in ( '키덜트', '뷰티/미용' , '유아동/출산' , '차량/오토바이' , '반려동물용품' , '기타')
+            AND ps.sale_cate in ( '키덜트', '뷰티/미용' , '식품', '스포츠/레저' , '유아동/출산' , '차량/오토바이' , '반려동물용품' , '기타')
         </if>
     </if>
     <if test="keyword != null">
     	 AND ps.sale_name LIKE CONCAT('%', #{keyword}, '%')
+    </if>
+    <if test="optionCate != null">
+         AND ps.sale_cate = #{optionCate}
     </if>
     GROUP BY 
         ps.sale_id, 

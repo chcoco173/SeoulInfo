@@ -544,6 +544,24 @@ public class ProductController {
 	}
 
 
+	@RequestMapping("/categoryOptionSelect")
+	public String categoryOptionSelect(String cate, String type, Model model) {
+		
+		HashMap map = new HashMap();
+		map.put("optionCate", cate);
+		map.put("optionType", type);
+		
+		System.out.println(map.toString());		
+		List<Map<String, Object>> productList = productService.productCateList(map);
+
+		System.out.println(productList);
+		
+		
+		
+		model.addAttribute("category",cate);
+		model.addAttribute("productList", productList);
+		return "product/productCategory";
+	}
 
 
 	// 시간 변환 메소드
