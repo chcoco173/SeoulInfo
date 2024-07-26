@@ -16,10 +16,8 @@
             <b> 즐겨찾기 </b>
         </p>
         <hr>
-
-		
-		<%	if(session.getAttribute("user")!=null){ %>
-        <div class="afterLogin" style="display: none;">
+		<%	if(session.getAttribute("member")!=null){ %>
+        <div class="afterLogin">
             <dl id="favoriteList">
                 <dd>
                     <table class="favorite-list">
@@ -34,111 +32,6 @@
                     </table>
                     <br>
                 </dd>
-                <dd>
-                    <table class="favorite-list">
-                        <tr>
-                            <td rowspan=2><img src="/images/ev/goverment-logo.png" /></td>
-                            <td colspan=2>충전소 이름1</td>
-                        </tr>
-                        <tr>
-                            <td><span style="font-size: 12px">사용가능</span></td>
-                            <td><span style="font-size: 12px">충전기 타입</span></td>
-                        </tr>
-                    </table>
-                    <br>
-                </dd>
-                <dd>
-                    <table class="favorite-list">
-                        <tr>
-                            <td rowspan=2><img src="/images/ev/goverment-logo.png" /></td>
-                            <td colspan=2>충전소 이름8</td>
-                        </tr>
-                        <tr>
-                            <td><span style="font-size: 12px">사용가능</span></td>
-                            <td><span style="font-size: 12px">충전기 타입</span></td>
-                        </tr>
-                    </table>
-                    <br>
-                </dd>
-                <dd>
-                    <table class="favorite-list">
-                        <tr>
-                            <td rowspan=2><img src="/images/ev/goverment-logo.png" /></td>
-                            <td colspan=2>충전소 이름4</td>
-                        </tr>
-                        <tr>
-                            <td><span style="font-size: 12px">사용가능</span></td>
-                            <td><span style="font-size: 12px">충전기 타입</span></td>
-                        </tr>
-                    </table>
-                    <br>
-                </dd>
-                <dd>
-                    <table class="favorite-list">
-                        <tr>
-                            <td rowspan=2><img src="/images/ev/goverment-logo.png" /></td>
-                            <td colspan=2>충전소 이름5</td>
-                        </tr>
-                        <tr>
-                            <td><span style="font-size: 12px">사용가능</span></td>
-                            <td><span style="font-size: 12px">충전기 타입</span></td>
-                        </tr>
-                    </table>
-                    <br>
-                </dd>
-                <dd>
-                    <table class="favorite-list">
-                        <tr>
-                            <td rowspan=2><img src="/images/ev/goverment-logo.png" /></td>
-                            <td colspan=2>충전소 이름6</td>
-                        </tr>
-                        <tr>
-                            <td><span style="font-size: 12px">사용가능</span></td>
-                            <td><span style="font-size: 12px">충전기 타입</span></td>
-                        </tr>
-                    </table>
-                    <br>
-                </dd>
-                <dd>
-                    <table class="favorite-list">
-                        <tr>
-                            <td rowspan=2><img src="/images/ev/goverment-logo.png" /></td>
-                            <td colspan=2>충전소 이름7</td>
-                        </tr>
-                        <tr>
-                            <td><span style="font-size: 12px">사용가능</span></td>
-                            <td><span style="font-size: 12px">충전기 타입</span></td>
-                        </tr>
-                    </table>
-                    <br>
-                </dd>
-                <dd>
-                    <table class="favorite-list">
-                        <tr>
-                            <td rowspan=2><img src="/images/ev/goverment-logo.png" /></td>
-                            <td colspan=2>충전소 이름8</td>
-                        </tr>
-                        <tr>
-                            <td><span style="font-size: 12px">사용가능</span></td>
-                            <td><span style="font-size: 12px">충전기 타입</span></td>
-                        </tr>
-                    </table>
-                    <br>
-                </dd>
-                <dd>
-                    <table class="favorite-list">
-                        <tr>
-                            <td rowspan=2><img src="/images/ev/goverment-logo.png" /></td>
-                            <td colspan=2>충전소 이름9</td>
-                        </tr>
-                        <tr>
-                            <td><span style="font-size: 12px">사용가능</span></td>
-                            <td><span style="font-size: 12px">충전기 타입</span></td>
-                        </tr>
-                    </table>
-                    <br>
-                </dd>
-                <!-- 이하 생략 -->
             </dl>
             <div class="favorite-list-pagination" style="text-align: center; margin-top: 20px;">
                 <button class="btn btn-secondary" id="favorite-prevPage" disabled>이전</button>
@@ -162,7 +55,7 @@
 
     <script>
         $(document).ready(function() {
-            var favoriteItemsPerPage = 3; // 페이지당 보여줄 항목 수
+            var favoriteItemsPerPage = 4; // 페이지당 보여줄 항목 수
             var favoriteCurrentPage = 1; // 현재 페이지
             var $favoriteItems = $('#favoriteList dd'); // 즐겨찾기 항목들
             var favoriteTotalItems = $favoriteItems.length; // 전체 항목 수
