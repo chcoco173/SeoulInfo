@@ -14,10 +14,144 @@
     <link rel="stylesheet" href="/css/jades-dandy-site-14d3e0.webflow.css" type="text/css">
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
+	<script>
+	document.addEventListener("DOMContentLoaded", function () {
+	    fetch('/chat/list')
+	        .then(response => response.json())
+	        .then(chatRooms => {
+	            const connectedUsersList = document.getElementById('connectedUsers');
+	            connectedUsersList.innerHTML = '';
 
+	            chatRooms.forEach(chatRoom => {
+	                const listItem = document.createElement('li');
+	                listItem.classList.add('user-item');
+
+	                const link = document.createElement('a');
+	                link.href = `/product/chat?chatRoomId=${chatRoom.chatId}`;
+	                link.textContent = `Chat with ${chatRoom.recipientId} about sale ${chatRoom.saleId}`;
+
+	                listItem.appendChild(link);
+	                connectedUsersList.appendChild(listItem);
+	            });
+	        })
+	        .catch(error => console.error('Error fetching chat rooms:', error));
+	});
+	</script>
     <!-- Chat Specific CSS -->
     <link rel="stylesheet" href="/css/product/chat.css">
+	<style>
+		@media (max-width: 1200px) {
+		    .page-wrapper {
+		        padding: 20px;
+		    }
 
+		    #chat-section .chat-container {
+		        max-width: 100%;
+		        min-width: 100%;
+		    }
+		}
+
+		@media (max-width: 768px) {
+		    .page-wrapper {
+		        flex-direction: column;
+		        padding: 10px;
+		    }
+
+		    #chat-section .chat-container {
+		        flex-direction: column;
+		        max-width: 100%;
+		        min-width: 100%;
+		        min-height: auto;
+		        max-height: none;
+		    }
+
+		    #chat-section .users-list, #chat-section .chat-area {
+		        border-radius: 0;
+		        border-right: none;
+		        border-bottom: 1px solid #ccc;
+		    }
+
+		    #chat-section .chat-area {
+		        flex: 1;
+		        border-bottom: none;
+		        border-top-right-radius: 0;
+		        border-bottom-right-radius: 0;
+		    }
+
+		    #chat-section .users-list {
+		        flex: none;
+		        border-bottom: 1px solid #ccc;
+		        padding: 10px;
+		    }
+
+		    #chat-section .message-input {
+		        flex-direction: column;
+		    }
+
+		    #chat-section .message-input input {
+		        margin-right: 0;
+		        margin-bottom: 10px;
+		    }
+		}
+
+		@media (max-width: 480px) {
+		    #chat-section .users-list h2 {
+		        font-size: 1.2rem;
+		    }
+
+		    #chat-section .users-list ul {
+		        padding: 0;
+		    }
+
+		    #chat-section .user-item {
+		        flex-direction: column;
+		        align-items: flex-start;
+		    }
+
+		    #chat-section .user-item img {
+		        margin-right: 0;
+		        margin-bottom: 5px;
+		    }
+
+		    #chat-section .user-item span {
+		        display: block;
+		        margin-bottom: 5px;
+		    }
+
+		    #chat-section .message-input button {
+		        width: 100%;
+		    }
+		}
+
+	    .page-wrapper {
+	        display: flex;
+	        flex-direction: column;
+	        align-items: center;
+	        justify-content: center;
+	        height: 100vh;
+	        width: 100%;
+	    }
+
+	    #navbar {
+	        width: 100%;
+	        display: flex;
+	        justify-content: center;
+	    }
+
+	    #chat-section {
+	        width: 100%;
+	        display: flex;
+	        justify-content: center;
+	        margin-top: 20px;
+	    }
+
+	    .chat-container {
+	        max-width: 800px;
+	        min-width: 800px;
+	        min-height: 600px;
+	        max-height: 600px;
+	    }
+	</style>
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
 </head>
 <body>
@@ -31,18 +165,34 @@
             <div class="users-list">  
                 <div class="users-list-container">
                     <h2>연결된 유저</h2>
-                    <ul id="connectedUsers"></ul>
+                    <ul id="connectedUsers">						
+					</ul>
                 </div>
                 <div>
                     <p id="connected-user-fullname">${sessionScope.member.member_id} ( ${sessionScope.member.member_name}님 )</p>
-                    <!--<a class="logout" href="javascript:void(0)" id="logout">로그아웃</a>-->
                 </div>
             </div>
         
             <div class="chat-area">
+				<div class="chat-header">
+				    <div class="profile">
+				        <img src="/path/to/seller-profile-image.jpg" alt="Seller Profile Image">
+				        <div>
+				            <div>판매자 ID: seller_id</div>
+				            <div>상품명: product_name</div>
+				        </div>
+				    </div>
+				    <div>
+				        <img src="/path/to/product-image.jpg" alt="Product Image" style="width: 100px; height: 100px;">
+				        <div>거래 상태: transaction_status</div>
+				    </div>
+				    <div>
+				        <button onclick="reportSeller()">판매자 신고</button>
+				        <button onclick="exitChat()">채팅 나가기</button>
+				    </div>
+				</div>				
                 <div class="chat-area" id="chat-messages"></div>
-        
-                <form id="messageForm" name="messageForm" class="hidden">
+                <form id="messageForm" name="messageForm">
                     <div class="message-input">
                         <input autocomplete="off" type="text" id="message" placeholder="메세지 입력">
                         <input type="file" id="fileUpload" class="file-upload" style="display: none;" />
@@ -58,5 +208,28 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script src="/js/chat.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    fetch('/chat/list')
+        .then(response => response.json())
+        .then(chatRooms => {
+            const connectedUsersList = document.getElementById('connectedUsers');
+            connectedUsersList.innerHTML = '';
+
+            chatRooms.forEach(chatRoom => {
+                const listItem = document.createElement('li');
+                listItem.classList.add('user-item');
+
+                const link = document.createElement('a');
+                link.href = `/product/chat?chatRoomId=${chatRoom.chatId}`;
+                link.textContent = `Chat with ${chatRoom.recipientId} about sale ${chatRoom.saleId}`;
+
+                listItem.appendChild(link);
+                connectedUsersList.appendChild(listItem);
+            });
+        })
+        .catch(error => console.error('Error fetching chat rooms:', error));
+});
+</script>
 </body>
 </html>

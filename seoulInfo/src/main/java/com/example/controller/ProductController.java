@@ -63,6 +63,9 @@ public class ProductController {
 	private ProductImageService productImageService;
 
 
+	@Autowired
+	private HttpSession session;
+
 	@RequestMapping("/")
 	public String mainPage() {
 		return "/index";
@@ -78,7 +81,7 @@ public class ProductController {
 
 	// 상품 검색 기능 (select + insert)
 	@GetMapping("/productSearch")
-	public String productSearch(@RequestParam(value="productsearch_keyword", required = false) String keyword, String area,  Model model, HttpSession session) {
+	public String productSearch(@RequestParam(value="productsearch_keyword", required = false) String keyword, String area,  Model model) {
 		System.out.println(area);
 		System.out.println(keyword);
 
@@ -111,7 +114,7 @@ public class ProductController {
 
 	// 상품리스트 출력 + ml 완료 ( select + ml )
 	@GetMapping("/productMain")
-	public String productArea(@RequestParam(value = "area", required = true) String area, Model model, HttpSession session) {
+	public String productArea(@RequestParam(value = "area", required = true) String area, Model model) {
 
 		if(area == null || area.isEmpty()) {
 			area="전체";
@@ -202,7 +205,7 @@ public class ProductController {
 	// 상품 등록 controller (insert)
 	@PostMapping("/insertProduct")
 	@Transactional
-	public String insertProduct(ProductVO pvo, @RequestParam("file") List<MultipartFile> files, HttpSession session) {
+	public String insertProduct(ProductVO pvo, @RequestParam("file") List<MultipartFile> files) {
 
 		// 세션 받아오기
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
@@ -253,7 +256,7 @@ public class ProductController {
 
 	// 내상품 select
 	@RequestMapping("/myProduct")
-	public String myProduct(Model model, HttpSession session) {
+	public String myProduct(Model model) {
 		// 세션값
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 
@@ -325,7 +328,7 @@ public class ProductController {
 	// 상품 상태 수정 ajax
 	@PostMapping("updateStatus")
 	@ResponseBody
-	public String updateStatus(@RequestParam String sale_status, @RequestParam Integer sale_id, HttpSession session) {
+	public String updateStatus(@RequestParam String sale_status, @RequestParam Integer sale_id) {
 		// 세션값
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 
@@ -348,7 +351,7 @@ public class ProductController {
 	@PostMapping("deleteProduct")
 	@ResponseBody
 	@Transactional
-	public String deleteProduct(@RequestParam Integer sale_id, HttpSession session) {
+	public String deleteProduct(@RequestParam Integer sale_id) {
 		// 세션값
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 
@@ -360,7 +363,7 @@ public class ProductController {
 
 		// 상품 삭제
 		Integer productResult = productService.deleteProduct(pvo);
-	
+
 		return "1";
 	}
 
@@ -368,7 +371,7 @@ public class ProductController {
 	// 상품 수정
 	@RequestMapping("/productUpdate")
 	@Transactional
-	public String updateProduct( @RequestParam("file") List<MultipartFile> files, ProductVO pvo, HttpSession session ) {
+	public String updateProduct( @RequestParam("file") List<MultipartFile> files, ProductVO pvo ) {
 		// 세션값
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 
@@ -420,7 +423,7 @@ public class ProductController {
 
 	// 상품 id에 대한 내용
 	@GetMapping("/detail_post")
-	public String detailProduct(@RequestParam Integer sale_id, Model model, HttpSession session) {
+	public String detailProduct(@RequestParam Integer sale_id, Model model) {
 		// 세션값
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 		System.out.println(sale_id);
@@ -448,7 +451,7 @@ public class ProductController {
 	// 위시등록
 	@ResponseBody
 	@PostMapping("/wishInsert")
-	public String wishInsert(@RequestParam Integer sale_id, HttpSession session) {
+	public String wishInsert(@RequestParam Integer sale_id) {
 		FavoriteProductVO fpvo = new FavoriteProductVO();
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 
@@ -467,7 +470,7 @@ public class ProductController {
 	// 위시제거
 	@ResponseBody
 	@PostMapping("/wishDelete")
-	public String wishDelete(@RequestParam Integer sale_id, HttpSession session) {
+	public String wishDelete(@RequestParam Integer sale_id) {
 		FavoriteProductVO fpvo = new FavoriteProductVO();
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 
@@ -485,7 +488,7 @@ public class ProductController {
 
 	// 마이페이지 내 상품 조회
 	@RequestMapping("/productMypage")
-	public String productMypage(HttpSession session, Model model) {
+	public String productMypage( Model model) {
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 		List<Map<String, Object>> myProductList = productService.myProductList(mvo.getMember_id());
 
@@ -499,34 +502,34 @@ public class ProductController {
 
 	// wishlist 출력
 	@RequestMapping("/wishlist")
-	public String wishList(HttpSession session, Model model) {
+	public String wishList( Model model) {
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
-		
+
 		List<Map<String, Object>> wishList = productService.wishList(mvo.getMember_id());
 		System.out.println(wishList);
 		model.addAttribute("wishList", wishList);
-			
+
 		return "product/wishlist";
 	}
-	
+
 	// wish 삭제 ajax deleteWish
 	@ResponseBody
 	@PostMapping("/deleteWish")
-	public String deleteWish(@RequestParam Integer sale_id, HttpSession session) {
+	public String deleteWish(@RequestParam Integer sale_id) {
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 		FavoriteProductVO fpvo = new FavoriteProductVO();
 		fpvo.setSale_id(sale_id);
 		fpvo.setMember_id(mvo.getMember_id());
-		
+
 		Integer result = productService.deleteFavProduct(fpvo);
-		
+
 		if(result != null) {
 			return "1";
 		}
-		
+
 		return null;
 	}
-	
+
 	// detail_post에서 id 눌렀을때
 	@RequestMapping("/productMemberPage")
 	public String productMemberPage(String member_id, Model model) {
@@ -536,13 +539,13 @@ public class ProductController {
 		model.addAttribute("myProductList", myProductList);
 		// 시간 변환 메소드 호출 후 model작업
 		model.addAttribute("timeDataList", timeConversion(myProductList));
-		
+
 		return "product/productMemberPage";
 	}
-	
-	
-	
-	
+
+
+
+
 	// 시간 변환 메소드
 	public String[] timeConversion(List<Map<String, Object>> productList ) {
 		LocalDateTime now = LocalDateTime.now();
