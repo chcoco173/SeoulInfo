@@ -3,9 +3,11 @@ package com.example.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import com.example.dao.MemberDAO;
+import com.example.domain.MailVO;
 import com.example.domain.MemberVO;
 
 @Service
@@ -66,6 +68,17 @@ public class MemberServiceImpl implements MemberService{
     public MemberVO findByEmail(String member_email) {
         return memberDAO.findMemberByEmail(member_email);
     }
+    
+    
+    
+    //임시 비밀번호 변경
+    public Integer mailCheck(String member_email) {
+        return memberDAO.checkEmail(member_email);
+    }   
+    public void changePass(String member_email, String newPassword) {
+        memberDAO.updatePassword(member_email, newPassword);
+    }    
+        
 	
 
 }

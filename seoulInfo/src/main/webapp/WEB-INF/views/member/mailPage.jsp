@@ -1,4 +1,5 @@
-<%@page contentType="text/html; charset=UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 
@@ -35,11 +36,10 @@
   <div class="page-wrapper">
 	
 	<!-- 한) 이메일 인증번호 전송 start -->
-	<div class="section-newsletter">
+<!-- 	<div class="section-newsletter">
 	  <div class="padding-global">
 	    <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-gray2">
 	      <div class="_2-column-grid-uneven-left-mail">
-	        <!-- <h3 class="newsletter-heading">서울 지역 안내 서비스</h3> -->
 	        <div id="Style-Guide-Form" class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form">
 	          <form name="wf-form-Newsletter-Form" id="wf-form-Newsletter-Form" class="newsletter-form" data-wf-page-id="6684f0fb2a5375354f5c4820" data-wf-element-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9d2">				
 				  <div id="mail_input" name="mail_input">
@@ -52,28 +52,20 @@
 				    <button type="button" name="confirmBtn" id="confirmBtn" onclick="confirmNumber()">이메일 인증</button>
 				  </div>
 				  <br>
-				    <input type="text" id="Confirm" name="Confirm" style="display: none" value="">
-<!-- 				<a href="/member/insertMember" class="button-primary-large max-width-full-mobile-portrait w-button">회원가입</a>
-				<a href="/member/login" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a>	 -->											
+				    <input type="text" id="Confirm" name="Confirm" style="display: none" value="">									
 			</form>
-<!-- 	          <div class="form-success-message w-form-done">
-	            <div class="text-size-regular text-color-white">Thank you! Your submission has been received!</div>
-	          </div>
-	          <div class="form-error-message w-form-fail">
-	            <div class="text-size-regular">Oops! Something went wrong while submitting the form.</div>
-	          </div> -->
 	        </div>
 	      </div>
 	    </div>
 	  </div>
-	</div>
+	</div> -->
 	<!-- 한) 이메일 인증번호 전송  end -->	
 	
 	
 	
 
   </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
     function sendNumber(){
         $("#mail_number").css("display","block");
@@ -99,7 +91,7 @@
             alert("번호가 다릅니다.");
         }
     }
-</script>  
+</script> -->  
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="/js/webflow.js" type="text/javascript"></script>
 </body>

@@ -2,6 +2,7 @@ package com.example.service;
 
 import java.util.List;
 
+import com.example.domain.MailVO;
 import com.example.domain.MemberVO;
 
 public interface MemberService {
@@ -32,5 +33,13 @@ public interface MemberService {
 	
 	//이메일인증(확인코드 전송)
     public MemberVO findByEmail(String member_email);
+    
+    //임시비빌번호 변경
+    Integer mailCheck(String member_email);
+    void changePass(String member_email, String newPassword);
+    
+
+
+
 
 }

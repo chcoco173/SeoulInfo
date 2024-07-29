@@ -115,7 +115,7 @@
 					<div class="spacer-large"></div>
 					<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
 						<a href="id_search" class="button-primary-large w-button">아이디 찾기</a>
-						<a href="pw_search" class="button-primary-large w-button">비밀번호 찾기</a>
+						<a href="pw_change" class="button-primary-large w-button">비밀번호 찾기</a>
 					</div>															
 					</form>				  				  				  
                 </div>

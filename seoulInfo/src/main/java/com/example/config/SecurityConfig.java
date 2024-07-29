@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 //@EnableWebMvc
 @RequiredArgsConstructor
 public class SecurityConfig implements WebMvcConfigurer {
+	
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();        
