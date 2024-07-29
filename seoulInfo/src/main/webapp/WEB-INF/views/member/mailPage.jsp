@@ -30,7 +30,7 @@
   <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
   <link href="/images/webclip.png" rel="apple-touch-icon">
 </head>
-
+<!-- 7/29업데이트 -->
 <body>
   <div class="page-wrapper">
 	
