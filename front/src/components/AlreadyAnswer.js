@@ -3,19 +3,25 @@ import { useParams, useNavigate } from 'react-router-dom';
 import '../css/Answer.css';
 import { useAuth } from './AuthContext';
 
-function Answer() {
+function AlreadyAnswer() {
   const { question_no } = useParams();
   const [questionData, setQuestionData] = useState(null);
   const [answerContent, setAnswerContent] = useState('');
+  const [adminId, setAdminId] = useState('');
   const navigate = useNavigate();
   const { instance, admin } = useAuth();
 
   useEffect(() => {
     const questionView = async () => {
       try {
-        const response = await instance.get(`/data/getquestion/${question_no}`);
-        setQuestionData(response.data);
+        const questionResponse = await instance.get(`/data/getquestion/${question_no}`);
+        setQuestionData(questionResponse.data);
+
+        const answerResponse = await instance.get(`/data/getanswer/${question_no}`);
+        setAnswerContent(answerResponse.data.answer_content);
+        setAdminId(answerResponse.data.admin_id)
       } catch (error) {
+        console.error('Error fetching data:', error);
       }
     };
 
@@ -29,7 +35,6 @@ function Answer() {
       await instance.post('/data/submit-answer', {
         question_no,
         answer_content: answerContent,
-        admin_id: admin?.admin_id
       });
       alert('답변 작성 완료');
       navigate('/menubar/question');
@@ -40,7 +45,7 @@ function Answer() {
   };
 
   if (!questionData) {
-    return <div>Loading...</div>; // 데이터 로딩 중에는 로딩 메시지를 표시합니다.
+    return <div>Loading...</div>;
   }
 
   return (
@@ -72,7 +77,7 @@ function Answer() {
         <tr>
             <td className='answer_admin'>답변작성자</td>
             <td className='admin_id'>
-            {admin?.admin_id}
+            {adminId}
             </td>
           </tr>
           <tr>
@@ -82,12 +87,8 @@ function Answer() {
                 className='answer-textarea'
                 value={answerContent}
                 onChange={(e) => setAnswerContent(e.target.value)}
+                disabled
               ></textarea>
-            </td>
-          </tr>
-          <tr>
-            <td colSpan="2" className="button-cell">
-              <button onClick={handleSubmit}>답변작성</button>
             </td>
           </tr>
         </tbody>
@@ -96,4 +97,4 @@ function Answer() {
   );
 }
 
-export default Answer;
+export default AlreadyAnswer;

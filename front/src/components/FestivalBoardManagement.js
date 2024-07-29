@@ -1,73 +1,70 @@
 import React, { useEffect, useState } from 'react';
 import '../css/FestivalBoardManagement.css';
-import { useAuth } from './AuthContext'; // AuthContext에서 useAuth 훅을 가져옵니다.
+import { useAuth } from './AuthContext'; 
 
 function FestivalBoardManagement() {
-  const { instance } = useAuth(); // AuthContext에서 axios 인스턴스를 가져옵니다.
-  const [festivalBoardData, setFestivalBoardData] = useState([]);
-  const [areaNames, setAreaNames] = useState([]);
-  const [typeNames, setTypeNames] = useState([]);
-  const [festivalNames, setFestivalNames] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
-  const [selectAreaCategory, setSelectAreaCategory] = useState('all');
-  const [selectTypeCategory, setSelectTypeCategory] = useState('all');
-  const [selectFestivalCategory, setSelectFestivalCategory] = useState('all');
-  const [searchCategory, setSearchCategory] = useState('title');
-  const [searchKeyword, setSearchKeyword] = useState('');
+  const { instance } = useAuth(); 
+  const [festivalBoardData, setFestivalBoardData] = useState([]); // 게시판 데이터를 저장
+  const [areaNames, setAreaNames] = useState([]); // 지역 이름 저장
+  const [typeNames, setTypeNames] = useState([]); // 유형 이름 저장
+  const [festivalNames, setFestivalNames] = useState([]); // 행사 이름 저장
+  const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 번호 저장
+  const [totalPages, setTotalPages] = useState(0); // 총 페이지 수 저장
+  const [selectAreaCategory, setSelectAreaCategory] = useState('all'); // 선택된 지역 카테고리 저장
+  const [selectTypeCategory, setSelectTypeCategory] = useState('all'); // 선택된 유형 카테고리 저장
+  const [selectFestivalCategory, setSelectFestivalCategory] = useState('all'); // 선택된 행사 카테고리 저장
+  const [searchCategory, setSearchCategory] = useState('title'); // 검색 카테고리 저장
+  const [searchKeyword, setSearchKeyword] = useState(''); // 검색 키워드 저장
 
   useEffect(() => {
-    fetchAreaNames();
-    fetchTypeNames();
+    getAreaNames(); // 컴포넌트 마운트 시 지역 이름 데이터를 가져옴
+    getTypeNames(); // 컴포넌트 마운트 시 유형 이름 데이터를 가져옴
   }, []);
 
   useEffect(() => {
-    fetchFestivalNames(selectAreaCategory, selectTypeCategory);
-    setCurrentPage(0); // 카테고리가 변경되면 페이지를 1(0)로 초기화
+    getFestivalNames(selectAreaCategory, selectTypeCategory); // 선택된 지역과 유형에 따라 행사 이름 데이터 가져옴
+    setCurrentPage(0); // 카테고리가 변경되면 페이지 1로
   }, [selectAreaCategory, selectTypeCategory]);
 
   useEffect(() => {
-    fetchFestivalBoardData(currentPage, selectAreaCategory, selectTypeCategory, selectFestivalCategory);
+    getFestivalBoardData(currentPage, selectAreaCategory, selectTypeCategory, selectFestivalCategory); // 선택된 카테고리와 현재 페이지에 따라 게시판 데이터를 가져옴
   }, [currentPage, selectAreaCategory, selectTypeCategory, selectFestivalCategory]);
 
   useEffect(() => {
     if (searchKeyword) {
-      handleSearch(currentPage);
+      handleSearch(currentPage); // 검색어가 있을 경우 검색
     } else {
-      fetchFestivalBoardData(currentPage, selectAreaCategory, selectTypeCategory, selectFestivalCategory);
+      getFestivalBoardData(currentPage, selectAreaCategory, selectTypeCategory, selectFestivalCategory); // 검색어가 없을 경우 게시판 데이터 가져옴
     }
   }, [currentPage, selectAreaCategory, selectTypeCategory, selectFestivalCategory]);
 
-  const fetchAreaNames = async () => {
+  const getAreaNames = async () => { // 지역 이름 데이터 가져오는 함수
     try {
       const response = await instance.get('/data/get-area-names');
       setAreaNames(response.data);
     } catch (error) {
-      console.error('Error fetching area names:', error);
     }
   };
 
-  const fetchTypeNames = async () => {
+  const getTypeNames = async () => { // 유형 이름 데이터 가져오는 함수
     try {
       const response = await instance.get('/data/get-type-names');
       setTypeNames(response.data);
     } catch (error) {
-      console.error('Error fetching type names:', error);
     }
   };
 
-  const fetchFestivalNames = async (area, type) => {
+  const getFestivalNames = async (area, type) => { // 지역과 유형에 따른 행사 이름 데이터 가져오는 함수
     try {
       const response = await instance.get('/data/get-festival-names', {
         params: { area, type }
       });
       setFestivalNames(response.data);
     } catch (error) {
-      console.error('Error fetching festival names:', error);
     }
   };
 
-  const fetchFestivalBoardData = async (page, area, type, festival) => {
+  const getFestivalBoardData = async (page, area, type, festival) => { // 페이지, 지역, 유형, 행사에 따른 게시판 데이터 가져오는 함수
     try {
       const response = await instance.get('/data/getallfestivalboard', {
         params: { page, area, type, festival }
@@ -75,27 +72,26 @@ function FestivalBoardManagement() {
       setFestivalBoardData(response.data.festivalboard);
       setTotalPages(response.data.totalPages);
     } catch (error) {
-      console.error('Error fetching festival board data:', error);
     }
   };
 
-  const deleteFestivalBoard = async (fr_id) => {
+  const deleteFestivalBoard = async (fr_id) => { // 게시판 데이터 삭제
     const confirmDelete = window.confirm("삭제하시겠습니까?");
     if (confirmDelete) {
       try {
         await instance.delete(`/data/delete-festivalboard/${fr_id}`);
-        window.location.reload();
+        window.location.reload(); // 삭제 후 페이지 새로고침
       } catch (error) {
         console.error('Error deleting festival board:', error);
       }
     }
   };
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (page) => { // 페이지 변경 처리
     setCurrentPage(page);
   };
 
-  const handleSearch = async (page = 0) => {
+  const handleSearch = async (page = 0) => { // 검색 처리
     try {
       const res = await instance.get('/data/search-festivalboard', {
         params: {
@@ -115,13 +111,13 @@ function FestivalBoardManagement() {
     }
   };
 
-  const handleKeyUp = (e) => {
+  const handleKeyUp = (e) => { // 검색 입력 필드에서 엔터 키를 눌렀을 때 검색을 실행하는 함수
     if (e.key === 'Enter') {
       handleSearch();
     }
   };
 
-  const renderPageNumbers = () => {
+  const renderPageNumbers = () => { // 페이지 번호를 렌더링하는 함수
     const pageNumbers = [];
     const maxPagesToShow = 10; 
     const totalPageBlocks = Math.ceil(totalPages / maxPagesToShow);
@@ -223,3 +219,14 @@ function FestivalBoardManagement() {
 }
 
 export default FestivalBoardManagement;
+
+/* 
+
+1. FestivalBoardManagement 컴포넌트 렌더링 시 useEffect를 통해 getAreaNames와 getTypeNames 함수를 호출하여 데이터를 가져와 상태에 저장
+2. 선택된 지역과 유형에 따라 행사 이름 데이터를 가져오고 상태에 저장
+3. 선택된 카테고리와 현재 페이지에 따라 게시판 데이터를 가져와 상태에 저장
+4. 검색어가 입력되면 handleSearch 함수를 호출하여 검색 결과를 상태에 저장
+5. 각 게시판 데이터의 삭제 버튼 클릭 시 deleteFestivalBoard 함수 호출, 해당 데이터를 서버에서 삭제하고 페이지를 새로고침
+6. 페이지 번호 클릭 시 handlePageChange 함수 호출, 해당 페이지의 데이터를 가져와 상태에 저장
+
+*/

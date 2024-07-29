@@ -25,6 +25,7 @@ function Question() {
       const response = await instance.get('/data/getallquestion', {
         params: { page }
       });
+      console.log('Fetched questions:', response.data); // 데이터 로깅
       setQuestionData(response.data.questions);
       setTotalPages(response.data.totalPages);
     } catch (error) {
@@ -32,8 +33,12 @@ function Question() {
     }
   };
 
-  const Answer = (question_no) => {
-    navigate(`/dashboard/answer/${question_no}`);
+  const handleButtonClick = (question_no, status) => {
+    if (status === '처리완료') {
+      navigate(`/menubar/alreadyanswer/${question_no}`);
+    } else {
+      navigate(`/menubar/answer/${question_no}`);
+    }
   };
 
   const handlePageChange = (page) => {
@@ -49,6 +54,7 @@ function Question() {
           page
         }
       });
+      console.log('Search results:', res.data); // 데이터 로깅
       setQuestionData(res.data.questions);
       setTotalPages(res.data.totalPages);
       setCurrentPage(page);
@@ -125,7 +131,7 @@ function Question() {
             <th className='question_title'>문의제목</th>
             <th className='question_status'>문의상태</th>
             <th className='question_date'>문의일자</th>
-            <th className='answerbutton'>답변등록</th>
+            <th className='answerbutton'>답변등록/보기</th>
           </tr>
         </thead>
         <tbody>
@@ -139,13 +145,17 @@ function Question() {
                 <td className='question_status'>{question.question_status}</td>
                 <td className='question_date'>{question.question_date}</td>
                 <td className='answerbutton'>
-                  <button className='answer-button' disabled={question.question_status === '처리완료'} onClick={() => Answer(question.question_no)}>답변등록</button>
+                  <button 
+                    className='answer-button' 
+                    onClick={() => handleButtonClick(question.question_no, question.question_status)}>
+                    {question.question_status === '처리완료' ? '답변보기' : '답변등록'}
+                  </button>
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="6">데이터가 없습니다.</td>
+              <td colSpan="7">데이터가 없습니다.</td>
             </tr>
           )}
         </tbody>

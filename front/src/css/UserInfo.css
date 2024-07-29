@@ -28,7 +28,7 @@
 }
 
 .member-id {
-  width: 20%;
+  width: 15%;
   word-wrap: break-word; /* 아이디 줄바꿈 */
   overflow-wrap: break-word; /* 아이디 줄바꿈 */
 }
@@ -42,6 +42,11 @@
 .memberstop {
   width: 5%; 
   text-align: center; /* 버튼을 가운데 정렬 */
+}
+
+.member_update {
+  width:5%;
+  text-align: center;
 }
 
 .search-select {
@@ -85,6 +90,22 @@
 }
 
 .memberstop-button:hover {
+  background-color: #5c5c5c;
+}
+
+.memberupdate-button {
+  padding: 8px 16px;
+  background-color: #8c8c8c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%; /* 버튼이 셀의 전체 너비를 차지하도록 함 */
+  box-sizing: border-box; /* 패딩과 보더를 포함한 크기 계산 */
+  overflow: hidden; /* 버튼이 셀을 벗어나지 않도록 함 */
+}
+
+.memberupdate-button:hover {
   background-color: #5c5c5c;
 }
 

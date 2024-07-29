@@ -5,31 +5,31 @@ import '../css/EVCManagement.css';
 import { useAuth } from './AuthContext';
 
 function EVManagement() {
-  const { instance } = useAuth(); // AuthContext에서 axios 인스턴스 가져오기
-  const [evData, setEvData] = useState([]);
-  const [evcData, setEvcData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
-  const [searchCategory, setSearchCategory] = useState('evcName');
-  const [searchKeyword, setSearchKeyword] = useState('');
-  const [currentPage2, setCurrentPage2] = useState(0);
-  const [totalPages2, setTotalPages2] = useState(0);
-  const [editingEvId, setEditingEvId] = useState(null);
-  const [editingEvcId, setEditingEvcId] = useState(null);
-  const [editEvData, setEditEvData] = useState({});
-  const [editEvcData, setEditEvcData] = useState({});
+  const { instance } = useAuth(); 
+  const [evData, setEvData] = useState([]); // 전기차 충전소 데이터 저장
+  const [evcData, setEvcData] = useState([]); // 전기차 충전기 데이터 저장
+  const [currentPage, setCurrentPage] = useState(0); // 전기차 충전소의 현재 페이지 번호 저장
+  const [totalPages, setTotalPages] = useState(0); // 전기차 충전소 총 페이지 수 저장
+  const [searchCategory, setSearchCategory] = useState('evc_name'); // 검색 카테고리 저장
+  const [searchKeyword, setSearchKeyword] = useState(''); // 검색 키워드 저장
+  const [currentPage2, setCurrentPage2] = useState(0); // 전기차 충전기 현재 페이지 번호 저장
+  const [totalPages2, setTotalPages2] = useState(0); // 전기차 충전기 총 페이지 수 저장
+  const [editEvId, setEditEvId] = useState(null); // 수정 중인 전기차 충전소 ID를 저장하는 상태
+  const [editEvcId, setEditEvcId] = useState(null); // 수정 중인 전기차 충전기 ID를 저장하는 상태
+  const [editEvData, setEditEvData] = useState({}); // 수정 중인 전기차 충전소 데이터를 저장하는 상태
+  const [editEvcData, setEditEvcData] = useState({}); // 수정 중인 전기차 충전기 데이터를 저장하는 상태
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useEffect(() => { // 컴포넌트가 마운트될 때 혹은 currentPage 또는 currentPage2가 변경될 때 호출
     if (searchKeyword) {
       handleSearch(currentPage);
     } else {
-      fetchEvData(currentPage);
+      getEVData(currentPage);
     }
-    fetchEvcData(currentPage2);
+    getEvcData(currentPage2);
   }, [currentPage, currentPage2]);
 
-  const fetchEvData = async (page) => {
+  const getEVData = async (page) => { // 전기차 충전소 데이터를 가져오는 함수
     try {
       const response = await instance.get('/data/getallev', {
         params: { page }
@@ -37,63 +37,59 @@ function EVManagement() {
       setEvData(response.data.ev);
       setTotalPages(response.data.totalPages);
     } catch (error) {
-      console.error('Error fetching ev data:', error);
     }
   };
 
-  const fetchEvcData = async (page) => {
+  const getEvcData = async (page) => { // 전기차 충전기 데이터를 가져오는 함수
     try {
       const response = await instance.get('/data/getallevc', {
         params: { page }
       });
       setEvcData(response.data.evc);
-      setTotalPages2(response.data.totalPages);
+      setTotalPages2(response.data.totalPages2);
     } catch (error) {
-      console.error('Error fetching evc data:', error);
     }
   };
 
-  const deleteEv = async (evc_id) => {
+  const deleteEv = async (evc_id) => { // 전기차 충전소 데이터를 삭제하는 함수
     const confirmDelete = window.confirm("삭제하시겠습니까?");
     if (confirmDelete) {
       try {
         await instance.delete(`/data/delete-ev/${evc_id}`);
-        fetchEvData(currentPage); // 데이터만 새로고침
+        getEVData(currentPage); // 데이터만 새로고침
       } catch (error) {
-        console.error('Error deleting ev:', error);
       }
     }
   };
 
-  const deleteEvc = async (charger_id) => {
+  const deleteEvc = async (charger_id) => { // 전기차 충전기 데이터를 삭제하는 함수
     const confirmDelete = window.confirm("삭제하시겠습니까?");
     if (confirmDelete) {
       try {
         await instance.delete(`/data/delete-evc/${charger_id}`);
-        fetchEvcData(currentPage2);
+        getEvcData(currentPage2); // 데이터만 새로고침
       } catch (error) {
-        console.error('Error deleting evc:', error);
       }
     }
   };
 
-  const handleInsertEv = () => {
-    navigate('/dashboard/insert-ev/');
+  const handleInsertEv = () => { // 전기차 충전소 등록 페이지로 이동하는 함수
+    navigate('/menubar/insert-ev/');
   };
 
-  const handleInsertEvc = () => {
-    navigate('/dashboard/insert-evc/');
+  const handleInsertEvc = () => { // 전기차 충전기 등록 페이지로 이동하는 함수
+    navigate('/menubar/insert-evc/');
   };
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (page) => { // 전기차 충전소 페이지 변경을 처리하는 함수
     setCurrentPage(page);
   };
 
-  const handlePageChange2 = (page) => {
+  const handlePageChange2 = (page) => { // 전기차 충전기 페이지 변경을 처리하는 함수
     setCurrentPage2(page);
   };
 
-  const handleSearch = async (page = 0) => {
+  const handleSearch = async (page = 0) => { // 검색을 처리하는 함수
     try {
       const res = await instance.get('/data/search-ev', {
         params: {
@@ -106,70 +102,67 @@ function EVManagement() {
       setTotalPages(res.data.totalPages);
       setCurrentPage(page); // 검색 후에도 페이지 번호를 유지
     } catch (error) {
-      console.error('검색 실패:', error);
     }
   };
 
-  const handleEditEv = (ev) => {
-    setEditingEvId(ev.evc_id);
+  const handleEditEv = (ev) => { // 전기차 충전소 데이터를 수정 모드로 변경하는 함수
+    setEditEvId(ev.evc_id);
     setEditEvData(ev);
   };
 
-  const handleEditEvc = (evc) => {
-    setEditingEvcId(evc.charger_id);
+  const handleEditEvc = (evc) => { // 전기차 충전기 데이터를 수정 모드로 변경하는 함수
+    setEditEvcId(evc.charger_id);
     setEditEvcData(evc);
   };
 
-  const handleChangeEv = (e) => {
+  const handleChangeEv = (e) => { // 전기차 충전소 데이터 수정 시 호출되는 함수
     const { name, value } = e.target;
     setEditEvData({ ...editEvData, [name]: value });
   };
 
-  const handleChangeEvc = (e) => {
+  const handleChangeEvc = (e) => { // 전기차 충전기 데이터 수정 시 호출되는 함수
     const { name, value } = e.target;
     setEditEvcData({ ...editEvcData, [name]: value });
   };
 
-  const handleSaveEv = async () => {
+  const handleSaveEv = async () => { // 전기차 충전소 데이터를 저장하는 함수
     const confirmSave = window.confirm("수정하시겠습니까?");
     if (confirmSave) {
       try {
         await instance.post('/data/update-ev', editEvData);
-        setEditingEvId(null);
-        fetchEvData(currentPage);
+        setEditEvId(null);
+        getEVData(currentPage);
       } catch (error) {
-        console.error('Error saving ev:', error);
       }
     }
   };
 
-  const handleSaveEvc = async () => {
+  const handleSaveEvc = async () => { // 전기차 충전기 데이터를 저장하는 함수
     const confirmSave = window.confirm("수정하시겠습니까?");
     if (confirmSave) {
       try {
         await instance.post('/data/update-evc', editEvcData);
-        setEditingEvcId(null);
-        fetchEvcData(currentPage2);
+        setEditEvcId(null);
+        getEvcData(currentPage2);
       } catch (error) {
-        console.error('Error saving evc:', error);
       }
     }
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e) => { // 검색 엔터 키를 눌렀을 때 검색 실행
     if (e.key === 'Enter') {
       handleSearch(0);
     }
   };
 
-  const renderPageNumbers = () => {
+  const renderPageNumbers = () => { // 전기차 충전소의 페이지 번호 렌더링
     const pageNumbers = [];
-    const maxPagesToShow = 10;
-    const totalPageBlocks = Math.ceil(totalPages / maxPagesToShow);
-    const currentBlock = Math.floor(currentPage / maxPagesToShow);
+    const maxPage = 10;
+    const totalPageBlocks = Math.ceil(totalPages / maxPage);
+    const currentBlock = Math.floor(currentPage / maxPage);
     
-    const startPage = currentBlock * maxPagesToShow;
-    const endPage = Math.min(startPage + maxPagesToShow, totalPages);
+    const startPage = currentBlock * maxPage;
+    const endPage = Math.min(startPage + maxPage, totalPages);
 
     if (currentBlock > 0) {
       pageNumbers.push(<button key="prev-block" onClick={() => handlePageChange(startPage - 1)}>&lt;</button>);
@@ -194,14 +187,14 @@ function EVManagement() {
     return pageNumbers;
   };
 
-  const renderPageNumbers2 = () => {
+  const renderPageNumbers2 = () => { // 전기차 충전기 페이지 번호를 렌더링
     const pageNumbers2 = [];
-    const maxPagesToShow2 = 10;
-    const totalPageBlocks2 = Math.ceil(totalPages2 / maxPagesToShow2);
-    const currentBlock2 = Math.floor(currentPage2 / maxPagesToShow2);
+    const maxPage2 = 10;
+    const totalPageBlocks2 = Math.ceil(totalPages2 / maxPage2);
+    const currentBlock2 = Math.floor(currentPage2 / maxPage2);
     
-    const startPage2 = currentBlock2 * maxPagesToShow2;
-    const endPage2 = Math.min(startPage2 + maxPagesToShow2, totalPages2);
+    const startPage2 = currentBlock2 * maxPage2;
+    const endPage2 = Math.min(startPage2 + maxPage2, totalPages2);
 
     if (currentBlock2 > 0) {
       pageNumbers2.push(<button key="prev-block" onClick={() => handlePageChange2(startPage2 - 1)}>&lt;</button>);
@@ -233,8 +226,8 @@ function EVManagement() {
         
         <div className="search-section">
           <select className="search-select" value={searchCategory} onChange={(e) => setSearchCategory(e.target.value)}>
-            <option value="evcName">이름</option>
-            <option value="evcArea">지역</option>
+            <option value="evc_name">이름</option>
+            <option value="evc_area">지역</option>
           </select>
           <input 
             type="text" 
@@ -263,7 +256,7 @@ function EVManagement() {
             {evData.map(ev => (
               <tr key={ev.evc_id}>
                 <td className='evc_name'>
-                  {editingEvId === ev.evc_id ? (
+                  {editEvId === ev.evc_id ? (
                     <input
                       type="text"
                       name="evc_name"
@@ -275,7 +268,7 @@ function EVManagement() {
                   )}
                 </td>
                 <td className='evc_area'>
-                  {editingEvId === ev.evc_id ? (
+                  {editEvId === ev.evc_id ? (
                     <input
                       type="text"
                       name="evc_area"
@@ -287,7 +280,7 @@ function EVManagement() {
                   )}
                 </td>
                 <td className='evc_address'>
-                  {editingEvId === ev.evc_id ? (
+                  {editEvId === ev.evc_id ? (
                     <input
                       type="text"
                       name="evc_address"
@@ -299,7 +292,7 @@ function EVManagement() {
                   )}
                 </td>
                 <td className='evupdate'>
-                  {editingEvId === ev.evc_id ? (
+                  {editEvId === ev.evc_id ? (
                     <button className='evupdate-button' onClick={handleSaveEv}>확인</button>
                   ) : (
                     <button className='evupdate-button' onClick={() => handleEditEv(ev)}>수정</button>
@@ -340,7 +333,7 @@ function EVManagement() {
             {evcData.map(evc => (
               <tr key={evc.charger_id}>
                 <td className='evc_name'>
-                  {editingEvcId === evc.charger_id ? (
+                  {editEvcId === evc.charger_id ? (
                     <input
                       type="text"
                       name="evc_name"
@@ -353,7 +346,7 @@ function EVManagement() {
                   )}
                 </td>
                 <td className='charger_id'>
-                  {editingEvcId === evc.charger_id ? (
+                  {editEvcId === evc.charger_id ? (
                     <input
                       type="text"
                       name="charger_id"
@@ -365,7 +358,7 @@ function EVManagement() {
                   )}
                 </td>
                 <td className='charger_type'>
-                  {editingEvcId === evc.charger_id ? (
+                  {editEvcId === evc.charger_id ? (
                     <input
                       type="text"
                       name="charger_type"
@@ -377,7 +370,7 @@ function EVManagement() {
                   )}
                 </td>
                 <td className='charger_userlimit'>
-                  {editingEvcId === evc.charger_id ? (
+                  {editEvcId === evc.charger_id ? (
                     <input
                       type="text"
                       name="charger_userlimit"
@@ -389,7 +382,7 @@ function EVManagement() {
                   )}
                 </td>
                 <td className='charger_facsmall'>
-                  {editingEvcId === evc.charger_id ? (
+                  {editEvcId === evc.charger_id ? (
                     <input
                       type="text"
                       name="charger_facsmall"
@@ -401,7 +394,7 @@ function EVManagement() {
                   )}
                 </td>
                 <td className='charger-update'>
-                  {editingEvcId === evc.charger_id ? (
+                  {editEvcId === evc.charger_id ? (
                     <button className='charger-update-button' onClick={handleSaveEvc}>확인</button>
                   ) : (
                     <button className='charger-update-button' onClick={() => handleEditEvc(evc)}>수정</button>
@@ -423,3 +416,15 @@ function EVManagement() {
 }
 
 export default EVManagement;
+
+/* 
+
+1. EVManagement 컴포넌트 렌더링 시 useEffect를 통해 getEVData와 getEvcData 함수를 호출하여 데이터를 가져오고 상태에 저장
+2. 사용자가 검색어를 입력한 뒤 검색 버튼을 클릭하거나 엔터키를 누를 시 handleSearch 함수 호출, 검색 결과에 따른 목록을 상태에 저장
+3. 각 충전소 또는 충전기 데이터의 수정 버튼 클릭 시 handleEditEv 또는 handleEditEvc 함수 호출, 수정 모드로 전환
+4. 수정 모드에서 데이터 변경 시 handleChangeEv 또는 handleChangeEvc 함수 호출, 변경된 데이터 상태에 저장
+5. 수정 완료 후 확인 버튼 클릭 시 handleSaveEv 또는 handleSaveEvc 함수 호출, 변경된 데이터를 서버에 저장하고 상태 업데이트
+6. 각 충전소 또는 충전기 데이터의 삭제 버튼 클릭 시 deleteEv 또는 deleteEvc 함수 호출, 해당 데이터를 서버에서 삭제하고 상태 업데이트
+7. 페이지 번호 클릭 시 handlePageChange 또는 handlePageChange2 함수 호출, 해당 페이지의 데이터를 가져와 상태에 저장
+
+*/

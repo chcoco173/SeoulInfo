@@ -22,8 +22,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await instance.post('/login', { adminId, adminPw });
       setAdmin(response.data.admin);
-      sessionStorage.setItem('admin', JSON.stringify(response.data.admin)); // 세션 스토리지에 저장
-      console.log('로그인 성공:', response.data);
+      sessionStorage.setItem('admin', JSON.stringify(response.data.admin));
       return response.data;
     } catch (error) {
       console.error('로그인 에러:', error);
@@ -35,7 +34,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await instance.post('/logout');
       setAdmin(null);
-      sessionStorage.removeItem('admin'); // 세션 스토리지에서 제거
+      sessionStorage.removeItem('admin');
     } catch (error) {
       console.error('로그아웃 에러:', error);
     }
@@ -45,7 +44,7 @@ export const AuthProvider = ({ children }) => {
     admin,
     login,
     logout,
-    instance // axios 인스턴스 전달
+    instance
   };
 
   return (

@@ -7,6 +7,7 @@ const fs = require('fs');
 const dbconfig = require('./config/database.js');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
+const bcrypt = require('bcrypt');
 
 const conn = mysql.createConnection(dbconfig);
 const app = express();
@@ -57,7 +58,7 @@ app.post('/login', (req, res) => {
   const { adminId, adminPw } = req.body;
   const query = 'SELECT * FROM admin WHERE admin_id = ?';
 
-  conn.query(query, [adminId], (err, results) => {
+  conn.query(query, [adminId], async (err, results) => {
     if (err) {
       console.error('로그인 쿼리 에러:', err);
       return res.status(500).json({ message: '서버 에러' });
@@ -69,7 +70,8 @@ app.post('/login', (req, res) => {
 
     const admin = results[0];
 
-    if (admin.admin_pw !== adminPw) {
+    const match = await bcrypt.compare(adminPw, admin.admin_pw);
+    if (!match) {
       return res.status(400).json({ message: '비밀번호가 일치하지 않습니다.' });
     }
 
@@ -119,7 +121,8 @@ app.post('/logout', (req, res) => {
     res.clearCookie('connect.sid'); // 세션 쿠키 삭제
     res.send('로그아웃 성공');
   });
-});
+}); 
+
 
 // 이미지 업로드 설정
 const createStorage = (folder) => {
@@ -482,21 +485,29 @@ app.get('/data/getalladmin', checkSession, (req, res) => {
 });
 
 // 관리자 데이터 입력
-app.post('/data/insert-admin', checkSession, uploadAdmin.single('admin_image'), (req, res) => {
+app.post('/data/insert-admin', checkSession, uploadAdmin.single('admin_image'), async (req, res) => {
   const { admin_id, admin_pw, admin_name, admin_tel, admin_email } = req.body;
   const admin_image = req.file ? `/images/admin/${req.file.filename}` : null;
 
-  const param = [admin_id, admin_pw, admin_name, admin_tel, admin_email, admin_image];
-  const sql = "INSERT INTO admin (admin_id, admin_pw, admin_name, admin_tel, admin_email, admin_image) VALUES (?, ?, ?, ?, ?, ?)";
+  try {
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(admin_pw, saltRounds);
 
-  conn.query(sql, param, function(err) {
-    if (err) {
-      console.error('Error: ', err);
-      res.status(500).send('Error');
-    } else {
-      res.status(201).send('success');
-    }
-  });
+    const param = [admin_id, hashedPassword, admin_name, admin_tel, admin_email, admin_image];
+    const sql = "INSERT INTO admin (admin_id, admin_pw, admin_name, admin_tel, admin_email, admin_image) VALUES (?, ?, ?, ?, ?, ?)";
+
+    conn.query(sql, param, function(err) {
+      if (err) {
+        console.error('Error: ', err);
+        res.status(500).send('Error');
+      } else {
+        res.status(201).send('success');
+      }
+    });
+  } catch (error) {
+    console.error('Error during hashing or database operation: ', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 // 관리자 데이터 삭제
@@ -1051,6 +1062,24 @@ app.delete('/data/delete-member/:memberId', checkSession, (req, res) => {
   });
 });
 
+// 회원 수정
+
+app.post('/data/update-member', checkSession, (req, res) => {
+  const { member_id, member_name, member_email, member_tel, member_area } = req.body;
+
+  const sql = "UPDATE member SET member_name = ?, member_email = ?, member_tel = ?, member_area = ? WHERE member_id = ?";
+  const params = [member_name, member_email, member_tel, member_area, member_id];
+
+  conn.query(sql, params, (err) => {
+    if (err) {
+      console.error('Error updating member:', err);
+      res.status(500).send('Error');
+    } else {
+      res.status(200).send('Member updated successfully');
+    }
+  });
+});
+
 // 문의 테이블 리스트
 app.get('/data/getallquestion', checkSession, (req, res) => {
   const pageNumber = parseInt(req.query.page) || 0;
@@ -1059,7 +1088,10 @@ app.get('/data/getallquestion', checkSession, (req, res) => {
 
   const sqlCount = 'SELECT COUNT(*) AS total FROM question';
   conn.query(sqlCount, (err, countResult) => {
-    if (err) throw err;
+    if (err) {
+      console.error('Error counting questions:', err);
+      return res.status(500).json({ error: '서버 에러' });
+    }
     const totalItems = countResult[0].total;
     const totalPages = Math.ceil(totalItems / pageSize);
 
@@ -1071,7 +1103,10 @@ app.get('/data/getallquestion', checkSession, (req, res) => {
     `;
 
     conn.query(sql, function(err, result) {
-      if (err) throw err;
+      if (err) {
+        console.error('Error fetching questions:', err);
+        return res.status(500).json({ error: '서버 에러' });
+      }
       const formattedResult = result.map(question => ({
         ...question,
         question_date: formatDate(question.question_date)
@@ -1140,12 +1175,30 @@ app.get('/data/getquestion/:question_no', checkSession, (req, res) => {
   });
 });
 
+// 답변 내용 가져오기
+app.get('/data/getanswer/:question_no', checkSession, (req, res) => {
+  const questionNo = req.params.question_no;
+  const sql = 'SELECT answer_content, admin_id FROM answer WHERE question_no = ?';
+
+  conn.query(sql, [questionNo], (err, results) => {
+    if (err) {
+      console.error('Error fetching answer data:', err);
+      return res.status(500).json({ error: '서버 에러' });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ error: '답변을 찾을 수 없습니다.' });
+    }
+    res.json(results[0]);
+  });
+});
+
+
 // 답변 작성
 app.post('/data/submit-answer', checkSession, (req, res) => {
-  const { question_no, answer_content } = req.body;
+  const { question_no, answer_content, admin_id } = req.body; // admin_id도 함께 받음
 
-  const insertAnswer = 'INSERT INTO answer (question_no, answer_content) VALUES (?, ?)';
-  conn.query(insertAnswer, [question_no, answer_content], (err) => {
+  const insertAnswer = 'INSERT INTO answer (question_no, answer_content, admin_id) VALUES (?, ?, ?)'; // admin_id 포함
+  conn.query(insertAnswer, [question_no, answer_content, admin_id], (err) => {
     if (err) {
       return res.status(500).send('입력 실패');
     }

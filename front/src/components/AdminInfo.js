@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../css/AdminInfo.css';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthContext'; // useAuth 훅 임포트
+import { useAuth } from './AuthContext';
 
-function AdminCard({ admin, onClick }) {
+function AdminCard({ admin, onClick }) { // 관리자의 정보를 카드 형식으로 표시 관리자 이미지 + 이름
   const imagePath = `http://localhost:8000${admin.admin_image}`; 
   
   return (
@@ -13,55 +13,51 @@ function AdminCard({ admin, onClick }) {
     </div>
   );
 }
+ // back에 저장된 이미지 경로로 불러옴
 
-function Adminpopup({ admin, onClose }) {
-  const { instance } = useAuth(); // useAuth 훅으로 instance 가져오기
-  const [editableAdmin, setEditableAdmin] = useState({ ...admin });
-  const [isEditing, setIsEditing] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleChange = (e) => {
+function Adminpopup({ admin, onClose }) { // 선택된 관리자의 상세 정보를 팝업으로 표시. 수정 및 삭제
+  const { instance } = useAuth();
+  const [editAdmin, seteditAdmin] = useState({ ...admin }); // 관리자 수정시 수정 중인 관리자 정보 저장
+  const [isEditing, setIsEditing] = useState(false); // 일반모드 / 수정모드
+  const [selectedFile, setSelectedFile] = useState(null); // 업로드 된 사진 파일 저장
+
+  const handleChange = (e) => { // 입력값이 변경될때 호출되어 editAdmin 상태 업데이트
     const { name, value } = e.target;
-    setEditableAdmin((prevAdmin) => ({
+    seteditAdmin((prevAdmin) => ({
       ...prevAdmin,
       [name]: value,
     }));
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e) => { // 파일 선택시 호출되어 selectedFile 상태를 업데이트
     setSelectedFile(e.target.files[0]);
   };
 
-  const handleDeleteAdmin = (adminId) => {
+  const handleDeleteAdmin = (adminId) => { // 관리자 삭제
     if (window.confirm('삭제하시겠습니까?')) {
       instance.delete(`/data/delete-admin/${adminId}`)
         .then(response => {
           if (response.status === 200) {
-            console.log(response.data);
             alert('관리자 삭제 완료');
-            onClose();
-            window.location.reload();
+            onClose(); // 삭제 완료 후 팝업 닫기
+            window.location.reload(); // 삭제 완료 후 페이지 새로고침
           } else {
-            console.error('관리자 삭제 실패', response.statusText);
             alert('관리자 삭제 실패');
           }
         })
-        .catch(error => {
-          console.error('에러 발생:', error);
-        });
     } else {
-      console.log('삭제 취소');
     }
   };
 
-  const handleUpdateAdmin = async () => {
+  const handleUpdateAdmin = async () => { // 관리자 수정
     if (isEditing) {
       if (window.confirm('수정하시겠습니까?')) {
         const formData = new FormData();
-        formData.append('admin_id', editableAdmin.admin_id);
-        formData.append('admin_name', editableAdmin.admin_name);
-        formData.append('admin_email', editableAdmin.admin_email);
-        formData.append('admin_tel', editableAdmin.admin_tel);
+        formData.append('admin_id', editAdmin.admin_id);
+        formData.append('admin_name', editAdmin.admin_name);
+        formData.append('admin_email', editAdmin.admin_email);
+        formData.append('admin_tel', editAdmin.admin_tel);
         if (selectedFile) {
           formData.append('admin_image', selectedFile);
         }
@@ -74,13 +70,12 @@ function Adminpopup({ admin, onClose }) {
           });
           if (response.status === 200) {
             alert('관리자 수정 완료');
-            onClose();
-            window.location.reload();
+            onClose(); // 수정 완료 후 팝업창 닫기
+            window.location.reload(); // 수정 완료 후 페이지 새로고침
           } else {
             alert('관리자 수정 실패');
           }
         } catch (error) {
-          console.error('에러 발생:', error);
           alert('관리자 수정 실패');
         }
       }
@@ -89,7 +84,7 @@ function Adminpopup({ admin, onClose }) {
     }
   };
 
-  const imagePath = `http://localhost:8000${admin.admin_image}`; // 이미지 경로 설정
+  const imagePath = `http://localhost:8000${admin.admin_image}`;
 
   return (
     <div className="popup">
@@ -100,7 +95,7 @@ function Adminpopup({ admin, onClose }) {
           <input
             type="text"
             name="admin_name"
-            value={editableAdmin.admin_name}
+            value={editAdmin.admin_name}
             onChange={handleChange}
           />
         ) : (
@@ -110,7 +105,7 @@ function Adminpopup({ admin, onClose }) {
           <input
             type="text"
             name="admin_id"
-            value={editableAdmin.admin_id}
+            value={editAdmin.admin_id}
             onChange={handleChange}
             readOnly
           />
@@ -121,7 +116,7 @@ function Adminpopup({ admin, onClose }) {
           <input
             type="text"
             name="admin_email"
-            value={editableAdmin.admin_email}
+            value={editAdmin.admin_email}
             onChange={handleChange}
           />
         ) : (
@@ -131,7 +126,7 @@ function Adminpopup({ admin, onClose }) {
           <input
             type="tel"
             name="admin_tel"
-            value={editableAdmin.admin_tel}
+            value={editAdmin.admin_tel}
             onChange={handleChange}
           />
         ) : (
@@ -155,24 +150,23 @@ function Adminpopup({ admin, onClose }) {
 }
 
 function AdminInfo() {
-  const { instance } = useAuth(); // useAuth 훅으로 instance 가져오기
+  const { instance } = useAuth();
   const navigate = useNavigate();
-  const [selectedAdmin, setSelectedAdmin] = useState(null);
-  const [viewContent, setViewContent] = useState([]);
-  const [searchCategory, setSearchCategory] = useState('name');
-  const [searchKeyword, setSearchKeyword] = useState('');
+  const [selectedAdmin, setSelectedAdmin] = useState(null); // 관리자 선택시 선택된 관리자 정보 저장
+  const [adminView, setAdminView] = useState([]); // 화면에 띄워줄 관리자 목록 저장
+  const [searchCategory, setSearchCategory] = useState('admin_name'); // 검색 시 선택한 카테고리
+  const [searchKeyword, setSearchKeyword] = useState(''); // 검색 시 입력한 키워드
 
-  useEffect(() => { adminList() }, [])
+  useEffect(() => { adminList() }, []) // 랜더링 될 때 마다 adminList를 호출하여 관리자 목록 가져오기
 
-  const adminList = async () => {
+  const adminList = async () => { // 전체 관리자 목록
     await instance.get('/data/getalladmin')
       .then((res) => {
-        console.log(res);
-        setViewContent(res.data);
+        setAdminView(res.data);
       })
   }
 
-  const handleSearch = async () => {
+  const handleSearch = async () => { // 검색어에 맞는 관리자 목록
     try {
       const res = await instance.get('/data/search-admin', {
         params: {
@@ -180,27 +174,27 @@ function AdminInfo() {
           keyword: searchKeyword
         }
       });
-      setViewContent(res.data);
+      setAdminView(res.data); // 검색 내용에 맞는 데이터들을 adminView에 저장해서 화면에 띄워줌
     } catch (error) {
-      console.error('검색 실패:', error);
+      console.error(error);
     }
   };
 
-  const handleKeyPress = (e) => {
+  const handleEnter = (e) => { // 엔터키 입력 시 검색
     if (e.key === 'Enter') {
       handleSearch();
     }
   };
 
-  const handleInsertAdmin = () => {
-    navigate('/dashboard/insert-admin');
+  const handleInsertAdmin = () => { // 관리자 등록 페이지로 이동
+    navigate('/menubar/insert-admin');
   };
 
-  const handleCardClick = (admin) => {
+  const handleCardClick = (admin) => { // 관리자 카드 클릭 시 팝업 열기
     setSelectedAdmin(admin);
   };
 
-  const handleClosepopup = () => {
+  const handleClosepopup = () => { // 팝업 닫기
     setSelectedAdmin(null);
   };
 
@@ -209,10 +203,10 @@ function AdminInfo() {
       <h1>관리자 정보</h1>
       <div className="search-section">
         <select className="search-select" value={searchCategory} onChange={(e) => setSearchCategory(e.target.value)}>
-          <option value="name">이름</option>
-          <option value="id">아이디</option>
-          <option value="email">이메일</option>
-          <option value="tel">전화번호</option>
+          <option value="admin_name">이름</option>
+          <option value="admin_id">아이디</option>
+          <option value="admin_email">이메일</option>
+          <option value="admin_tel">전화번호</option>
         </select>
         <input 
           type="text" 
@@ -220,7 +214,7 @@ function AdminInfo() {
           className="search-input" 
           value={searchKeyword} 
           onChange={(e) => setSearchKeyword(e.target.value)} 
-          onKeyUp={handleKeyPress}
+          onKeyUp={handleEnter}
         />
         <button className="search-button" onClick={handleSearch}>검색</button>
       </div>
@@ -229,7 +223,7 @@ function AdminInfo() {
       </div>
       <div className="admin-cards-container">
         <div className="admin-cards">
-          {viewContent.map(admin => (
+          {adminView.map(admin => (
             <AdminCard key={admin.admin_id} admin={admin} onClick={handleCardClick} />
           ))}
         </div>
@@ -240,3 +234,15 @@ function AdminInfo() {
 }
 
 export default AdminInfo;
+
+/* 
+
+   1. AdminInfo 컴포넌트 렌더링 시 useEffect를 통해 adminList 함수 호출, 관리자 목록이 viewContent에 저장
+   2. 사용자가 검색어를 입력한 뒤 검색 버튼을 클릭하거나 엔터키 누를 시 handleSearch 함수 호출, 검색 결과에 따른 목록이 viewContent에 저장
+   3. 관리자 카드 클릭시 handleCardClick 함수 호출 selectedAdmin에 해당 관리자의 정보가 저장되고 팝업 띄움
+   4. 팝업 내에서 수정버튼을 클릭한 경우 isEditing 상태가 true로 변경되며 입력 활성화
+   5. 저장버튼 클릭 시 handleUpdateAdmin 함수가 호출되어 관리자 수정
+   6. 삭제버튼 클릭 시 handleDeleteAdmin 함수가 호출되어 관리자 삭제
+   7. 팝업에서 닫기 버튼 클릭시 handleClosepopup 함수 호출되어 팝업이 닫히고 selectedAdmin이 null로 바뀜
+
+*/

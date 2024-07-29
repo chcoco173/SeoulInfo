@@ -13,6 +13,7 @@ function InsertEVC() {
     const [chargerMechcine, setChargerMechcine] = useState('');
     const [chargerOpbig, setChargerOpbig] = useState('');
     const [chargerOpsmall, setChargerOpsmall] = useState('');
+    const [errors, setErrors] = useState({}); // 유효성 검사 오류 메시지를 저장할 상태
     const navigate = useNavigate();
     const { instance } = useAuth(); // AuthContext에서 axios 인스턴스를 가져옵니다.
 
@@ -30,8 +31,26 @@ function InsertEVC() {
         });
     };
 
+    // 유효성 검사 함수
+    const validate = () => {
+        const newErrors = {};
+        if (!evcId) newErrors.evcId = '충전소 아이디를 입력해주세요.';
+        if (!chargerNo) newErrors.chargerNo = '충전기 번호를 입력해주세요.';
+        if (chargerType.length === 0) newErrors.chargerType = '충전기 타입을 선택해주세요.';
+        if (!chargerUserLimit) newErrors.chargerUserLimit = '이용가능여부를 선택해주세요.';
+        if (!chargerFacbig) newErrors.chargerFacbig = '충전기 시설 대분류를 선택해주세요.';
+        if (!chargerFacsmall) newErrors.chargerFacsmall = '충전기 시설 소분류를 선택해주세요.';
+        if (!chargerMechcine) newErrors.chargerMechcine = '충전기 상태를 선택해주세요.';
+        if (!chargerOpbig) newErrors.chargerOpbig = '기관 대분류를 선택해주세요.';
+        if (!chargerOpsmall) newErrors.chargerOpsmall = '기관 소분류를 선택해주세요.';
+        setErrors(newErrors); // 오류 메시지를 상태에 저장
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleInsertEv = async (e) => {
         e.preventDefault(); // 폼 제출 방지
+
+        if (!validate()) return; // 유효성 검사 실패 시 제출 중단
 
         const formData = new FormData();
         formData.append('evc_id', evcId);
@@ -53,7 +72,7 @@ function InsertEVC() {
             if (response.status >= 200 && response.status < 300) {
                 console.log(response.data);
                 alert('충전기 등록 완료');
-                navigate('/dashboard/ev');
+                navigate('/menubar/ev');
             } else {
                 console.error('충전기 등록 실패', response.statusText);
                 alert('충전기 등록 실패');
@@ -75,6 +94,7 @@ function InsertEVC() {
                     value={evcId}
                     onChange={(e) => setEvcId(e.target.value)}
                 />
+                {errors.evcId && <span className="error">{errors.evcId}</span>}
                 <input
                     type="text"
                     placeholder="충전기 번호"
@@ -82,6 +102,7 @@ function InsertEVC() {
                     value={chargerNo}
                     onChange={(e) => setChargerNo(e.target.value)}
                 />
+                {errors.chargerNo && <span className="error">{errors.chargerNo}</span>}
                 <select
                     name='charger_userlimit'
                     value={chargerUserLimit}
@@ -90,6 +111,7 @@ function InsertEVC() {
                     <option value="이용가능">이용가능</option>
                     <option value="이용자제한">이용자제한</option>
                 </select>
+                {errors.chargerUserLimit && <span className="error">{errors.chargerUserLimit}</span>}
                 <label name="charging">충전기 타입</label><br/>
                 <label>
                     <input
@@ -127,6 +149,7 @@ function InsertEVC() {
                         onChange={handleCheckboxChange}
                     /> DC콤보
                 </label><br/>
+                {errors.chargerType && <span className="error">{errors.chargerType}</span>}
                 <select
                     name='charger_facbig'
                     value={chargerFacbig}
@@ -143,6 +166,7 @@ function InsertEVC() {
                     <option value="차량정비시설">휴게시설</option>
                     <option value="기타">기타</option>
                 </select>
+                {errors.chargerFacbig && <span className="error">{errors.chargerFacbig}</span>}
                 <select
                     name='charger_facsmall'
                     value={chargerFacsmall}
@@ -181,6 +205,7 @@ function InsertEVC() {
                     <option value="영화관">영화관</option>
                     <option value="사업장(사옥)">사업장(사옥)</option>
                 </select>
+                {errors.chargerFacsmall && <span className="error">{errors.chargerFacsmall}</span>}
                 <select
                     name='charger_mechcine'
                     value={chargerMechcine}
@@ -189,6 +214,7 @@ function InsertEVC() {
                     <option value="급속">급속</option>
                     <option value="완속">완속</option>
                 </select>
+                {errors.chargerMechcine && <span className="error">{errors.chargerMechcine}</span>}
                 <select
                     name='charger_opbig'
                     value={chargerOpbig}
@@ -198,6 +224,7 @@ function InsertEVC() {
                     <option value="타기관">타기관</option>
                     <option value="타기관(보조금)">타기관(보조금)</option>
                 </select>
+                {errors.chargerOpbig && <span className="error">{errors.chargerOpbig}</span>}
                 <select
                     name='charger_opsmall'
                     value={chargerOpsmall}
@@ -211,13 +238,9 @@ function InsertEVC() {
                     <option value="한국전력">한국전력</option>
                     <option value="환경부(협회)">환경부(협회)</option>
                 </select>
+                {errors.chargerOpsmall && <span className="error">{errors.chargerOpsmall}</span>}
                 <button type="submit">충전기등록</button>
             </form>
-            {chargerType.length === 2 && (
-                <div className="result">
-                    {chargerType.join(' + ')}
-                </div>
-            )}
         </div>
     );
 }

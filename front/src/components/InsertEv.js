@@ -10,11 +10,27 @@ function InsertEv() {
     const [evName, setEvName] = useState('');
     const [evLat, setEvLat] = useState('');
     const [evLong, setEvLong] = useState('');
+    const [errors, setErrors] = useState({}); // 유효성 검사 오류 메시지를 저장할 상태
     const navigate = useNavigate();
     const { instance } = useAuth(); // AuthContext에서 axios 인스턴스를 가져옵니다.
 
+    // 유효성 검사 함수
+    const validate = () => {
+        const newErrors = {};
+        if (!evId) newErrors.evId = '충전소 아이디를 입력해주세요.';
+        if (!evArea) newErrors.evArea = '지역을 선택해주세요.';
+        if (!evAddress) newErrors.evAddress = '충전소 주소를 입력해주세요.';
+        if (!evName) newErrors.evName = '충전소 이름을 입력해주세요.';
+        if (!evLat) newErrors.evLat = '위도를 입력해주세요.';
+        if (!evLong) newErrors.evLong = '경도를 입력해주세요.';
+        setErrors(newErrors); // 오류 메시지를 상태에 저장
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleInsertEv = async (e) => {
         e.preventDefault(); // 폼 제출 방지
+
+        if (!validate()) return; // 유효성 검사 실패 시 제출 중단
 
         const formData = new FormData();
         formData.append('evc_id', evId);
@@ -37,7 +53,7 @@ function InsertEv() {
             if (response.status >= 200 && response.status < 300) {
                 console.log(response.data);
                 alert('충전소 등록 완료');
-                navigate('/dashboard/ev');
+                navigate('/menubar/ev');
             } else {
                 console.error('충전소 등록 실패', response.statusText);
                 alert('충전소 등록 실패');
@@ -59,6 +75,7 @@ function InsertEv() {
                     value={evId}
                     onChange={(e) => setEvId(e.target.value)}
                 />
+                {errors.evId && <span className="error">{errors.evId}</span>}
                 <select
                     name='evc_area'
                     value={evArea}
@@ -90,6 +107,7 @@ function InsertEv() {
                     <option value="중구">중구</option>
                     <option value="중랑구">중랑구</option>
                 </select>
+                {errors.evArea && <span className="error">{errors.evArea}</span>}
                 <input
                     type="text"
                     placeholder="충전소 주소"
@@ -97,6 +115,7 @@ function InsertEv() {
                     value={evAddress}
                     onChange={(e) => setEvAddress(e.target.value)}
                 />
+                {errors.evAddress && <span className="error">{errors.evAddress}</span>}
                 <input
                     type="text"
                     placeholder="충전소 이름"
@@ -104,6 +123,7 @@ function InsertEv() {
                     value={evName}
                     onChange={(e) => setEvName(e.target.value)}
                 />
+                {errors.evName && <span className="error">{errors.evName}</span>}
                 <input
                     type="text"
                     placeholder="위도"
@@ -111,6 +131,7 @@ function InsertEv() {
                     value={evLat}
                     onChange={(e) => setEvLat(e.target.value)}
                 />
+                {errors.evLat && <span className="error">{errors.evLat}</span>}
                 <input
                     type="text"
                     placeholder="경도"
@@ -118,6 +139,7 @@ function InsertEv() {
                     value={evLong}
                     onChange={(e) => setEvLong(e.target.value)}
                 />
+                {errors.evLong && <span className="error">{errors.evLong}</span>}
                 <button type="submit">충전소등록</button>
             </form>
         </div>

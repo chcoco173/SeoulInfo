@@ -7,7 +7,7 @@ import EVManagement from './EVManagement';
 import NewsManagement from './NewsManagement';
 import ReportManagement from './ReportManagement';
 import Charts from './Charts';
-import '../css/Dashboard.css';
+import '../css/Menubar.css';
 import Login from './Login';
 import InsertAdmin from './InsertAdmin';
 import InsertFestival from './InsertFestival';
@@ -17,8 +17,9 @@ import InsertEVC from './InsertEVC';
 import InsertEv from './InsertEv';
 import FestivalBoardManagement from './FestivalBoardManagement';
 import { useAuth } from './AuthContext';
+import AlreadyAnswer from './AlreadyAnswer';
 
-function Dashboard() {
+function Menubar() {
   const [isOpen, setIsOpen] = useState(false);
   const { logout } = useAuth();
   const navigate = useNavigate();
@@ -68,10 +69,11 @@ function Dashboard() {
           <Route path="insert-ev" element={<InsertEv />} />
           <Route path="insert-evc" element={<InsertEVC />} />
           <Route path="answer/:question_no" element={<Answer />} />
+          <Route path="alreadyanswer/:question_no" element={<AlreadyAnswer />} />
         </Routes>
       </div>
     </div>
   );
 }
 
-export default Dashboard;
+export default Menubar;

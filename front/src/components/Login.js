@@ -14,13 +14,13 @@ function Login() {
     try {
       const response = await login(adminId, adminPw);
       if (response) {
-        navigate('/dashboard/user-info/');
+        navigate('/menubar/user-info/');
       }
     } catch (error) {
       if (error.response) {
         setErrorMessage(error.response.data.message);
       } else {
-        setErrorMessage('로그인 요청 중 오류가 발생했습니다.');
+        setErrorMessage('로그인 시도 중 오류가 발생했습니다.');
       }
     }
   };

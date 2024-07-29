@@ -19,15 +19,44 @@ function InsertFestival() {
     const [festivalLat, setFestivalLat] = useState('');
     const [festivalLong, setFestivalLong] = useState('');
     const [festivalFree, setFestivalFree] = useState('');
-    const navigate = useNavigate();  
+    const [errors, setErrors] = useState({}); // 유효성 검사 오류 메시지를 저장할 상태
+    const navigate = useNavigate();
     const { instance } = useAuth(); // AuthContext에서 axios 인스턴스를 가져옵니다.
 
     const handleImageChange = (e) => {
         setFestivalImage(e.target.files[0]);
     };
 
+    // 유효성 검사 함수
+    const validate = () => {
+        const newErrors = {};
+        if (!festivalName) newErrors.festivalName = '행사 이름을 입력해주세요.';
+        if (!festivalStartDate) newErrors.festivalStartDate = '행사 시작일을 선택해주세요.';
+        if (!festivalEndDate) newErrors.festivalEndDate = '행사 종료일을 선택해주세요.';
+        if (!festivalAddress) newErrors.festivalAddress = '주소를 입력해주세요.';
+        if (!festivalArea) newErrors.festivalArea = '지역을 선택해주세요.';
+        if (!festivalImage) newErrors.festivalImage = '이미지를 선택해주세요.';
+        if (!festivalSiteUrl) newErrors.festivalSiteUrl = '축제 사이트 URL을 입력해주세요.';
+        if (!festivalType) newErrors.festivalType = '행사 타입을 입력해주세요.';
+        if (!festivalTarget) newErrors.festivalTarget = '대상을 입력해주세요.';
+        if (!festivalFee) newErrors.festivalFee = '요금을 입력해주세요.';
+        if (!festivalHost) newErrors.festivalHost = '주최를 입력해주세요.';
+        if (!festivalAppdate) newErrors.festivalAppdate = '예매일을 입력해주세요.';
+        if (!festivalLat) newErrors.festivalLat = '위도를 입력해주세요.';
+        if (!festivalLong) newErrors.festivalLong = '경도를 입력해주세요.';
+        if (!festivalFree) newErrors.festivalFree = '유료 여부를 선택해주세요.';
+        setErrors(newErrors); // 오류 메시지를 상태에 저장
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleInsertFestival = async (e) => {
         e.preventDefault(); // 폼 제출 방지
+
+        if (!validate()){
+            
+            document.querySelector('.insert-festival-container').style.paddingTop = '160px';
+            
+            return;} // 유효성 검사 실패 시 제출 중단
 
         const formData = new FormData();
         formData.append('festival_name', festivalName);
@@ -55,7 +84,7 @@ function InsertFestival() {
             if (response.status >= 200 && response.status < 300) {
                 console.log(response.data);
                 alert('축제 등록 완료');
-                navigate('/dashboard/festival');
+                navigate('/menubar/festival');
             } else {
                 console.error('축제 등록 실패', response.statusText);
                 alert('축제 등록 실패');
@@ -67,7 +96,7 @@ function InsertFestival() {
     };
 
     return (
-         <div className="insert-festival-container">
+        <div className="insert-festival-container">
             <form className="insert-festival-form" onSubmit={handleInsertFestival}>
                 <h3>축제 등록</h3>
                 <input
@@ -77,13 +106,15 @@ function InsertFestival() {
                     value={festivalName}
                     onChange={(e) => setFestivalName(e.target.value)}
                 />
-                 <input
+                {errors.festivalName && <span className="error">{errors.festivalName}</span>}
+                <input
                     type="text"
                     placeholder="행사 타입"
                     name='festival_type'
                     value={festivalType}
                     onChange={(e) => setFestivalType(e.target.value)}
                 />
+                {errors.festivalType && <span className="error">{errors.festivalType}</span>}
                 <select
                     name='festival_area'
                     value={festivalArea}
@@ -115,6 +146,7 @@ function InsertFestival() {
                     <option value="중구">중구</option>
                     <option value="중랑구">중랑구</option>
                 </select>
+                {errors.festivalArea && <span className="error">{errors.festivalArea}</span>}
                 <input
                     type="text"
                     placeholder="주소"
@@ -122,6 +154,7 @@ function InsertFestival() {
                     value={festivalAddress}
                     onChange={(e) => setFestivalAddress(e.target.value)}
                 />
+                {errors.festivalAddress && <span className="error">{errors.festivalAddress}</span>}
                 <span>
                     행사 시작일 : <input
                         type="date"
@@ -129,6 +162,7 @@ function InsertFestival() {
                         value={festivalStartDate}
                         onChange={(e) => setFestivalStartDate(e.target.value)}
                     /></span>
+                {errors.festivalStartDate && <span className="error">{errors.festivalStartDate}</span>}
                 <span>
                     행사 종료일 : <input
                         type="date"
@@ -136,6 +170,7 @@ function InsertFestival() {
                         value={festivalEndDate}
                         onChange={(e) => setFestivalEndDate(e.target.value)}
                     /></span>
+                {errors.festivalEndDate && <span className="error">{errors.festivalEndDate}</span>}
                 <input
                     type="text"
                     placeholder="요금"
@@ -143,6 +178,7 @@ function InsertFestival() {
                     value={festivalFee}
                     onChange={(e) => setFestivalFee(e.target.value)}
                 />
+                {errors.festivalFee && <span className="error">{errors.festivalFee}</span>}
                 <select
                     name='festival_free'
                     value={festivalFree}
@@ -151,6 +187,7 @@ function InsertFestival() {
                     <option value="무료">무료</option>
                     <option value="유료">유료</option>
                 </select>
+                {errors.festivalFree && <span className="error">{errors.festivalFree}</span>}
                 <input
                     type="text"
                     placeholder="대상"
@@ -158,6 +195,7 @@ function InsertFestival() {
                     value={festivalTarget}
                     onChange={(e) => setFestivalTarget(e.target.value)}
                 />
+                {errors.festivalTarget && <span className="error">{errors.festivalTarget}</span>}
                 <input
                     type="text"
                     placeholder="주최"
@@ -165,6 +203,7 @@ function InsertFestival() {
                     value={festivalHost}
                     onChange={(e) => setFestivalHost(e.target.value)}
                 />
+                {errors.festivalHost && <span className="error">{errors.festivalHost}</span>}
                 <input
                     type="date"
                     placeholder="예매일"
@@ -172,6 +211,7 @@ function InsertFestival() {
                     value={festivalAppdate}
                     onChange={(e) => setFestivalAppdate(e.target.value)}
                 />
+                {errors.festivalAppdate && <span className="error">{errors.festivalAppdate}</span>}
                 <input
                     type="text"
                     placeholder="위도"
@@ -179,6 +219,7 @@ function InsertFestival() {
                     value={festivalLat}
                     onChange={(e) => setFestivalLat(e.target.value)}
                 />
+                {errors.festivalLat && <span className="error">{errors.festivalLat}</span>}
                 <input
                     type="text"
                     placeholder="경도"
@@ -186,6 +227,7 @@ function InsertFestival() {
                     value={festivalLong}
                     onChange={(e) => setFestivalLong(e.target.value)}
                 />
+                {errors.festivalLong && <span className="error">{errors.festivalLong}</span>}
                 <input
                     type="text"
                     placeholder="축제 사이트 url"
@@ -193,12 +235,14 @@ function InsertFestival() {
                     value={festivalSiteUrl}
                     onChange={(e) => setFestivalSiteUrl(e.target.value)}
                 />
+                {errors.festivalSiteUrl && <span className="error">{errors.festivalSiteUrl}</span>}
                 <input
                     type="file"
                     name="festival_image"
                     accept="image/*"
                     onChange={handleImageChange}
                 />
+                {errors.festivalImage && <span className="error">{errors.festivalImage}</span>}
                 <button type="submit">행사등록</button>
             </form>
         </div>
