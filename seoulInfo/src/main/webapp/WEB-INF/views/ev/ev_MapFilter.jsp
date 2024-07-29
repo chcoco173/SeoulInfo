@@ -200,6 +200,7 @@
 									console.log('data: '+data);
 									var charger = data[0]; // 첫 번째 충전소 정보 가져오기 (필요에 따라 수정)
 									$('.ev_name'			).text(charger.evc_name);
+									$('.evc_id'				).text(charger.evc_id);
 									$('#evc_address'		).text(charger.evc_address);
 									$('#charger_no'			).text(charger.charger_no);
 									$('#charger_mechine'	).text(charger.charger_mechine);

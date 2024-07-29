@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.example.domain.EVStationVO;
 import com.example.domain.EVchargerVO;
+import com.example.domain.MemberVO;
 
 @Mapper
 public interface EVStationDAO {
@@ -18,8 +19,12 @@ public interface EVStationDAO {
 	
 	public List<EVchargerVO> getStationDataInfo(String evc_id);
 
-	public void insertEVInfo(@Param("evc_id")String evc_id, @Param("member_id")String member_id);
-
 	public List<EVchargerVO> selectEVFav(String member_id);
+
+	public void insertEVFav(HashMap favMap);
+
+	public void deleteEVFav(HashMap delMap);
+
+	public MemberVO getUserLocation(String member_id);
 
 }

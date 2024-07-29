@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.domain.EVStationVO;
 import com.example.domain.EVchargerVO;
+import com.example.domain.MemberVO;
 import com.example.service.EVStationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/ev")
@@ -45,7 +49,9 @@ public class EVController {
 	 @GetMapping("/ev_info")
 	 @ResponseBody
 	 public List<EVchargerVO> getChargerInfo(@RequestParam("evc_id") String evc_id) {
+		 System.out.println("info insert : "+evc_id);
 		 List<EVchargerVO> chargerInfo = evStationService.getStationDataInfo(evc_id);
+		 System.out.println("info send : "+chargerInfo);
 	    return chargerInfo;
 	 }
 	 
@@ -61,19 +67,22 @@ public class EVController {
 	 }
 	 
 	 @GetMapping("/ev_FavoriteInsert")
-	 public String showChargerInfo(String evc_id, String member_id ){
-		 System.out.println("insert : "+evc_id+","+member_id);
-		 //HashMap favMap = new HashMap();
-		 //favMap.put("evc_id",evc_id);
-		 //favMap.put("member_id",member_id);
-		 evStationService.insertEVFav(evc_id,member_id);
-		 System.out.println("fav data inserted");
+	 public String FavoriteInsert(String evc_id, String member_id ){
+		 HashMap favMap = new HashMap();
+		 favMap.put("evc_id", evc_id);
+		 favMap.put("member_id", member_id);
+		 evStationService.insertEVFav(favMap);
 		 return "ev/ev_Favorite";
 	 }
-
 	 
-	 
-	 
+	 @GetMapping("/ev_FavoriteDelete")
+	 public String FavoriteDelete(String evc_id, String member_id ){
+		 HashMap delMap = new HashMap();
+		 delMap.put("evc_id", evc_id);
+		 delMap.put("member_id", member_id);
+		 evStationService.deleteEVFav(delMap);
+		 return "ev/ev_Favorite";
+	 }	 
 	 
 	// 충전소 검색 결과
 	@PostMapping("/ev_MapFilter")
@@ -95,6 +104,15 @@ public class EVController {
 	    List<EVchargerVO> evo = evStationService.getFilteredStation(map);
 	    return evo;
 	}
-	    
-
+	
+	@GetMapping("/getUserLocation")
+	@ResponseBody
+	public MemberVO getUserLocation(String member_id, HttpSession session ){
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		System.out.println(member);
+		System.out.println("insert - getUserLocation" + member_id);
+		MemberVO mvo = evStationService.getUserLocation(member_id);
+		System.out.println("send  : "+mvo);
+		return mvo;
+	 }
 }

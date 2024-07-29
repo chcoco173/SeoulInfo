@@ -19,6 +19,7 @@
                 </td>
                 <td style="text-align:center;">
                     <h3 class="ev_name"></h3>
+					<h3 class="evc_id" style="display:none;"></h3>
                 </td>
                 <td>
                     <button type="button" class="btn btn-dark closeInfo">
