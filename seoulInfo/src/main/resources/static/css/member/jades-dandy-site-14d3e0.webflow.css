@@ -919,6 +919,10 @@ figcaption {
   background-color: var(--black);
 }
 
+.background-gray2 {
+  background-color: #F0FFF0;
+}
+
 .accent {
   text-transform: uppercase;
   font-family: Plus Jakarta Sans, sans-serif;

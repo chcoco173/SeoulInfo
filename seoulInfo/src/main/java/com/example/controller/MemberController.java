@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.domain.MemberVO;
-import com.example.service.EmailService;
 import com.example.service.MemberService;
 
 import jakarta.servlet.http.HttpSession;
@@ -38,9 +37,6 @@ public class MemberController {
 	
     @Autowired
     private PasswordEncoder passwordEncoder;
-    
-    @Autowired
-    private EmailService emailService;
     
 
 	@RequestMapping("/")
@@ -214,5 +210,53 @@ public class MemberController {
 //        return "member/id_search";
 //    }
 	
-
+//	   ///  비밀번호 전송과 동시에 변경로직 
+//	   @PostMapping("member/sendPw.do")
+//	   @ResponseBody
+//	   public String sendPw(MemberVO vo, @RequestParam("email") String email) {              
+//	      System.out.println("hi");
+//	      Integer emailExists = userModeService.mailCheck(email);          
+//	      System.out.println("bye");
+//
+//	       if (emailExists != 0) {
+//	             // 임시 비밀번호 생성
+//	                  String tempPassword = getTempPswd(15);               
+//	                  // 이메일로 임시 비밀번호 전송
+//	                  emailService.sendTemporaryPassword(email, tempPassword);            
+//
+//	                  // 사용자의 비밀번호를 임시 비밀번호로 변경
+//	                  String enPass = passwordEncoder.encode(tempPassword);
+//	                  System.out.println("enPass  무작위비번 : " + enPass);
+//	                  userModeService.changePass(email, enPass);
+//
+//	         return "success";
+//	      } else {
+//	         return "fail";
+//	      }
+//
+//	   }
+//
+//	   //비밀번호랜덤생성
+//	   private String getTempPswd(int len) {
+//	      char[] charSet = new char[] { 
+//	            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
+//	            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 
+//	            'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 
+//	            'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 
+//	            'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 
+//	            'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' 
+//	      };
+//	      int idx;
+//	      StringBuilder buffer = new StringBuilder();
+//	      for(int i = 0; i < len; i++) {
+//	         idx = (int) (charSet.length * Math.random());
+//	         buffer.append(charSet[idx]);
+//	      }
+//	      return buffer.toString();
+//	   }
+//
+//	   //  비밀번호 전송과 동시에 변경로직 여기까지 
+	
+	
+	
 }
