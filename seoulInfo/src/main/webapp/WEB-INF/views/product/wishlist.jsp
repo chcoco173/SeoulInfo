@@ -74,7 +74,10 @@
 								<p>${wishList.sale_price}</p>
 																
 							</div>
-							<button class="btn btn-secondary delete">삭제</button>
+							<div class="button-group">
+								<button class="btn btn-secondary product">상품보러가기</button>
+								<button class="btn btn-secondary delete">삭제</button>
+							</div>
 						</div>
 						</c:forEach>
 					</div>
@@ -185,6 +188,15 @@
 				}
 			});
 			
+		});
+		
+		// 상품상세보기
+		$(".product").click(function() {
+			var sale_id = $(this).closest('.product-card').find('.sale_id').val();
+			alert(sale_id);
+			
+			// 나중에 상품번호들고가서 수정예정
+			location.href = "detail_post?sale_id=" + sale_id;
 		});
 	
 	</script>

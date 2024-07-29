@@ -550,6 +550,7 @@ public class ProductController {
 		HashMap map = new HashMap();
 		map.put("optionCate", cate);
 		map.put("optionType", type);
+
 		
 		System.out.println(map.toString());		
 		List<Map<String, Object>> productList = productService.productCateList(map);
@@ -560,6 +561,7 @@ public class ProductController {
 		
 		model.addAttribute("category",cate);
 		model.addAttribute("productList", productList);
+		model.addAttribute("timeDataList", timeConversion(productList));
 		return "product/productCategory";
 	}
 

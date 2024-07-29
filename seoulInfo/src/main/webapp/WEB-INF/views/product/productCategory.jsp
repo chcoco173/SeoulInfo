@@ -92,74 +92,74 @@
 
 
 								<div class="container my-5">
-									<div class="row">
-										<div class="col-8"></div>
-										<div class="col-2">
-											<c:choose>
-												<c:when test="${category == '전자제품' || category == '디지털' || category == '가전제품'}">
-													<select class="form-control cate" name="cate">
-														<option ${category eq '전체' ? 'selected' : ''}>전체</option>
-														<option ${category eq '디지털' ? 'selected' : ''}>디지털</option>
-														<option ${category eq '가전제품' ? 'selected' : ''}>가전제품</option>
-													</select>
-												</c:when>
-												<c:when test="${category == '생활용품' || category == '생활/주방용품' || category == '공구/산업용품' || category == '가구/인테리어'}">
-													<select class="form-control cate" name="cate">
-														<option ${category eq '전체' ? 'selected' : ''}>전체</option>
-														<option ${category eq '생활/주방용품' ? 'selected' : ''}>생활/주방용품</option>
-														<option ${category eq '공구/산업용품' ? 'selected' : ''}>공구/산업용품</option>
-														<option ${category eq '가구/인테리어' ? 'selected' : ''}>가구/인테리어</option>
-													</select>
-												</c:when>
-												<c:when test="${category == '의류' || category == '여성의류' || category == '남성의류' || category == '신발'
-																|| category == '가방/지갑' || category == '패션 액세서리' || category == '쥬얼리' || category == '시계' }">
-													<select class="form-control cate" name="cate">
-														<option ${category eq '전체' ? 'selected' : ''}>전체</option>
-														<option ${category eq '여성의류' ? 'selected' : ''}>여성의류</option>
-														<option ${category eq '남성의류' ? 'selected' : ''}>남성의류</option>
-														<option ${category eq '신발' ? 'selected' : ''}>신발</option>
-														<option ${category eq '가방/지갑' ? 'selected' : ''}>가방/지갑</option>
-														<option ${category eq '패션 액세서리' ? 'selected' : ''}>패션 액세서리</option>
-														<option ${category eq '쥬얼리' ? 'selected' : ''}>쥬얼리</option>
-														<option ${category eq '시계' ? 'selected' : ''}>시계</option>
-													</select>
-												</c:when>
-												<c:when test="${category == '도서' || category == '도서/티켓/문구' || category == '예술/희귀/수집품' || category == '음반/악기' || category == '스타굿즈'}">
-													<select class="form-control cate" name="cate">
-														<option ${category eq '전체' ? 'selected' : ''}>전체</option>
-														<option ${category eq '도서/티켓/문구' ? 'selected' : ''}>도서/티켓/문구</option>
-														<option ${category eq '예술/희귀/수집품' ? 'selected' : ''}>예술/희귀/수집품</option>
-														<option ${category eq '음반/악기' ? 'selected' : ''}>음반/악기</option>
-														<option ${category eq '스타굿즈' ? 'selected' : ''}>스타굿즈</option>
-													</select>
-												</c:when>
-												<c:when test="${category == '기타' || category == '키덜트' || category == '식품' || category == '스포츠/레저' || category == '뷰티/미용'
-																|| category == '유아동/출산' || category == '차량/오토바이' || category == '반려동물용품' || category == '기타'}">
-													<select class="form-control cate" name="cate">
-														<option ${category eq '전체' ? 'selected' : ''}>전체</option>
-														<option ${category eq '키덜트' ? 'selected' : ''}>키덜트</option>
-														<option ${category eq '식품' ? 'selected' : ''}>식품</option>
-														<option ${category eq '스포츠/레저' ? 'selected' : ''}>스포츠/레저</option>
-														<option ${category eq '뷰티/미용' ? 'selected' : ''}>뷰티/미용</option>
-														<option ${category eq '유아동/출산' ? 'selected' : ''}>유아동/출산</option>
-														<option ${category eq '차량/오토바이' ? 'selected' : ''}>차량/오토바이</option>
-														<option ${category eq '반려동물용품' ? 'selected' : ''}>반려동물용품</option>
-														<option ${category eq '기타' ? 'selected' : ''}>기타</option>
-													</select>
-												</c:when>
-												
-											</c:choose>
-										</div>
+									    <div class="row justify-content-end">
+									        <!-- Category Selector -->
+									        <div class="col-md-4 col-lg-2 mb-3">
+									            <c:choose>
+									                <c:when test="${category == '전자제품' || category == '디지털' || category == '가전제품'}">
+									                    <select class="form-control cate" name="cate">
+									                        <option ${category eq '전자제품' ? 'selected' : ''}>전자제품</option>
+									                        <option ${category eq '디지털' ? 'selected' : ''}>디지털</option>
+									                        <option ${category eq '가전제품' ? 'selected' : ''}>가전제품</option>
+									                    </select>
+									                </c:when>
+									                <c:when test="${category == '생활용품' || category == '생활/주방용품' || category == '공구/산업용품' || category == '가구/인테리어'}">
+									                    <select class="form-control cate" name="cate">
+									                        <option ${category eq '생활용품' ? 'selected' : ''}>생활용품</option>
+									                        <option ${category eq '생활/주방용품' ? 'selected' : ''}>생활/주방용품</option>
+									                        <option ${category eq '공구/산업용품' ? 'selected' : ''}>공구/산업용품</option>
+									                        <option ${category eq '가구/인테리어' ? 'selected' : ''}>가구/인테리어</option>
+									                    </select>
+									                </c:when>
+									                <c:when test="${category == '의류' || category == '여성의류' || category == '남성의류' || category == '신발' || category == '가방/지갑' || category == '패션 액세서리' || category == '쥬얼리' || category == '시계'}">
+									                    <select class="form-control cate" name="cate">
+									                        <option ${category eq '의류' ? 'selected' : ''}>의류</option>
+									                        <option ${category eq '여성의류' ? 'selected' : ''}>여성의류</option>
+									                        <option ${category eq '남성의류' ? 'selected' : ''}>남성의류</option>
+									                        <option ${category eq '신발' ? 'selected' : ''}>신발</option>
+									                        <option ${category eq '가방/지갑' ? 'selected' : ''}>가방/지갑</option>
+									                        <option ${category eq '패션 액세서리' ? 'selected' : ''}>패션 액세서리</option>
+									                        <option ${category eq '쥬얼리' ? 'selected' : ''}>쥬얼리</option>
+									                        <option ${category eq '시계' ? 'selected' : ''}>시계</option>
+									                    </select>
+									                </c:when>
+									                <c:when test="${category == '도서' || category == '도서/티켓/문구' || category == '예술/희귀/수집품' || category == '음반/악기' || category == '스타굿즈'}">
+									                    <select class="form-control cate" name="cate">
+									                        <option ${category eq '도서' ? 'selected' : ''}>도서</option>
+									                        <option ${category eq '도서/티켓/문구' ? 'selected' : ''}>도서/티켓/문구</option>
+									                        <option ${category eq '예술/희귀/수집품' ? 'selected' : ''}>예술/희귀/수집품</option>
+									                        <option ${category eq '음반/악기' ? 'selected' : ''}>음반/악기</option>
+									                        <option ${category eq '스타굿즈' ? 'selected' : ''}>스타굿즈</option>
+									                    </select>
+									                </c:when>
+									                <c:when test="${category == '기타' || category == '키덜트' || category == '식품' || category == '스포츠/레저' || category == '뷰티/미용' || category == '유아동/출산' || category == '차량/오토바이' || category == '반려동물용품' || category == '기타'}">
+									                    <select class="form-control cate" name="cate">
+									                        <option ${category eq '전체' ? 'selected' : ''}>전체</option>
+									                        <option ${category eq '키덜트' ? 'selected' : ''}>키덜트</option>
+									                        <option ${category eq '식품' ? 'selected' : ''}>식품</option>
+									                        <option ${category eq '스포츠/레저' ? 'selected' : ''}>스포츠/레저</option>
+									                        <option ${category eq '뷰티/미용' ? 'selected' : ''}>뷰티/미용</option>
+									                        <option ${category eq '유아동/출산' ? 'selected' : ''}>유아동/출산</option>
+									                        <option ${category eq '차량/오토바이' ? 'selected' : ''}>차량/오토바이</option>
+									                        <option ${category eq '반려동물용품' ? 'selected' : ''}>반려동물용품</option>
+									                        <option ${category eq '기타' ? 'selected' : ''}>기타</option>
+									                    </select>
+									                </c:when>
+									            </c:choose>
+									        </div>
 
-										<div class="col-2">
-											<select class="form-control type">
-												<option ${param.type eq '전체' ? 'selected' : ''}>전체</option>
-												<option ${param.type eq '가격낮은순' ? 'selected' : ''}>가격낮은순</option>
-												<option ${param.type eq '가격높은순' ? 'selected' : ''}>가격높은순</option>
-											</select>
-										</div>
+									        <!-- Type Selector -->
+									        <div class="col-md-4 col-lg-2 mb-3">
+									            <select class="form-control type" name="type">
+									                <option ${param.type eq '전체' ? 'selected' : ''}>전체</option>
+									                <option ${param.type eq '가격낮은순' ? 'selected' : ''}>가격낮은순</option>
+									                <option ${param.type eq '가격높은순' ? 'selected' : ''}>가격높은순</option>
+													<option ${param.type eq '최신순' ? 'selected' : ''}>최신순</option>
+												</select>
+									        </div>
+									    </div>
+									
 
-									</div>
 
 									<!--  상품 ( jstl로 들어갈 예정 ) -->
 									<div class="row">
@@ -319,6 +319,11 @@
 					let type = $('.type').val();
 					alert(cate);
 					alert(type);
+					
+					
+					location.href = "categoryOptionSelect?cate=" + cate
+														+ "&type="+type;
+					
 				})
 			</script>
 </body>
