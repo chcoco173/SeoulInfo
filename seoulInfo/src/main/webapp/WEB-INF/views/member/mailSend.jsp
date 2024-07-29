@@ -45,16 +45,9 @@
 			        <input type="text" name="receiver" placeholder="받는 사람 입력"><br>
 			        <input type="text" name="title" placeholder="제목"><br>
 			        <textarea name= "content" cols="10" rows="10"></textarea><br>
-			        <input type="submit" value="전송" class="button-primary-large max-width-full-mobile-portrait w-button">				
-<!-- 				<a href="/member/insertMember" class="button-primary-large max-width-full-mobile-portrait w-button">회원가입</a>
-				<a href="/member/login" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a> -->								
+			        <input type="submit" value="전송" class="button-primary-large max-width-full-mobile-portrait w-button">											
 			</form>
-<!-- 	          <div class="form-success-message w-form-done">
-	            <div class="text-size-regular text-color-white">Thank you! Your submission has been received!</div>
-	          </div>
-	          <div class="form-error-message w-form-fail">
-	            <div class="text-size-regular">Oops! Something went wrong while submitting the form.</div>
-	          </div> -->				
+							
 	        </div>	        
 	      </div>
 	    </div>

@@ -14,8 +14,15 @@ public class MailController {
 
     @GetMapping("/id_search")
     public String MailPage(){
-        return "mailPage";
+//        return "mailPage";
+    	return "id_search";
     }
+    
+    @GetMapping("/pw_search")
+    public String MailPage2(){
+//        return "mailPage2";
+    	return "pw_search";
+    }    
 
 //    @PostMapping("/mail")
 //    public void MailSend(MailVO mailVo){
@@ -32,5 +39,6 @@ public class MailController {
 
        return num;
     }
+        
 
 }
