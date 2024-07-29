@@ -20,8 +20,11 @@ public interface ProductService {
 	// 상품 이미지 등록
 	public void insertProductImage(ProductImageVO pivo);
 
-	// 상품 리스트 출력 (검색 + 카테고리 + main)
+	// 상품 리스트 출력 (검색 + 카테고리)
 	public List<Map<String, Object>> productCateList(HashMap map);
+
+	//productMainList ( ml + main )
+	public List<Map<String, Object>> productMainList(HashMap map);
 
 	// 검색 키워드 insert
 	public void insertProductSearch(ProductSearchVO psvo);
@@ -53,6 +56,9 @@ public interface ProductService {
 
 	// 찜 상품 출력
 	public List<Map<String, Object>> wishList(String member_id);
+
+	// 유사상품 출력
+	public List<Map<String, Object>> similarList(int[] prediction);
 
 
 }

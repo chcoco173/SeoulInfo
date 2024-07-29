@@ -17,8 +17,12 @@ public interface ProductDAO {
 	// 상품등록한 최근 상품pk 값 가져오기d
 	public Integer productNum();
 
-	// 상품 리스트 출력 (검색 + 카테고리 + main)
+	// 상품 리스트 출력 (검색 + 카테고리)
 	public List<Map<String, Object>> productCateList(HashMap map);
+	
+	//productMainList ( ml + main )
+	public List<Map<String, Object>> productMainList(HashMap map);
+	
 
 	// id 값에 해당하는 상품 list
 	public List<Map<String, Object>> myProductList(String member_id);
@@ -34,7 +38,11 @@ public interface ProductDAO {
 
 	// 상품 삭제
 	public Integer deleteProduct(ProductVO pvo);
-	
+
 	// 찜 상품 출력
 	public List<Map<String, Object>> wishList(String member_id);
+
+	// 유사상품 출력
+	public List<Map<String, Object>> similarList(int[] prediction);
+
 }
