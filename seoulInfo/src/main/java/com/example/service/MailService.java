@@ -8,7 +8,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
 import lombok.RequiredArgsConstructor;
-//7/29업데이트
+
 @Service
 @RequiredArgsConstructor
 public class MailService {

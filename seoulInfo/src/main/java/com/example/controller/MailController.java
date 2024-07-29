@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.domain.MailVO;
 import com.example.service.MailService;
 import lombok.RequiredArgsConstructor;
-//7/29업데이트
+
 @Controller
 @RequiredArgsConstructor
 public class MailController {

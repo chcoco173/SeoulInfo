@@ -23,7 +23,7 @@ import com.example.service.MemberService;
 
 import jakarta.servlet.http.HttpSession;
 
-//7/29업데이트
+
 @Controller
 @RequestMapping("/member")
 @SessionAttributes("mem") //Model 객체에 member라고 저장된 객체를 세션에 등록한다.
