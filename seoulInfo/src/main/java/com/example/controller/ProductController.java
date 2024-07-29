@@ -50,6 +50,9 @@ public class ProductController {
 
 	// flask url ( ml )
 	private final String mlServerUrl = "http://localhost:5000/predict";
+	
+	private final String mlServerUrl2 = "http://localhost:5000/productDetail";
+	
 
 	// 빈설정 필수 (AppConfig.java에 설정해둠)
 	@Autowired
@@ -96,16 +99,21 @@ public class ProductController {
 		// 세션값 받아오기
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 
-		// 나중에 세션으로 들어갈 예정
-		psvo.setMember_id(mvo.getMember_id());
+		if(mvo != null) {
+			// 나중에 세션으로 들어갈 예정
+			psvo.setMember_id(mvo.getMember_id());
+			// 검색 keyword insert
+			productService.insertProductSearch(psvo);
+		}
+		
 
 		// 검색결과 리스트 
 		List<Map<String, Object>> productList = productService.productCateList(map);
+		System.out.println(productList);
 
-		// 검색 keyword insert
-		productService.insertProductSearch(psvo);
-
+		
 		model.addAttribute("category", "검색결과");
+		model.addAttribute("keyword", keyword);
 		model.addAttribute("productList",productList);
 
 		return "product/productCategory";
@@ -159,7 +167,7 @@ public class ProductController {
 		}
 
 		// 상품 list
-		List<Map<String, Object>> productList = productService.productCateList(map);
+		List<Map<String, Object>> productList = productService.productMainList(map);
 		System.out.println(productList);
 
 
@@ -440,10 +448,50 @@ public class ProductController {
 			wishCheck = productService.wishCheck(fpvo);
 
 		}
+		
+		// 유사상품 구현 ( ml )
+		Map<String, String>  requestBody = new HashMap<>();
+		requestBody.put("title", product.getSale_name());
+		
+		try {
+			// Flask 서버로 POST 요청 + 응답 받기
+			String result = restTemplate.postForObject(mlServerUrl2, requestBody, String.class); // url, 요청본문, 응답받는타입
+			System.out.println("Prediction result: " + result); // json 형식
+
+			// JSON 응답 파싱
+			ObjectMapper objectMapper = new ObjectMapper(); // json 데이터를 파싱하기위한 객체생성
+			JsonNode jsonNode = objectMapper.readTree(result);	// 문자열 파싱후 json 트리 구조를 반환
+			
+			// JSON 배열 파싱
+			JsonNode predictionNode = jsonNode.get("prediction");
+			int[] prediction;
+			if (predictionNode.isArray()) {
+			    prediction = new int[predictionNode.size()];
+			    for (int i = 0; i < predictionNode.size(); i++) {
+			    	// sale_id는 제외시키기
+			    	if(sale_id != predictionNode.get(i).asInt()) { // asInt -> jsonNode 클래스에서 제공하는 메서드로 json 노드의 값을 전수로 변환하는데 사용
+			    		prediction[i] = predictionNode.get(i).asInt();
+			    	}
+			        
+			    }
+			} else {
+			    // 예외 처리 또는 기본값 설정 (필요에 따라)
+			    prediction = new int[0];
+			}
+			
+			if(prediction != null) {
+				List<Map<String, Object>> similarList = productService.similarList(prediction);
+				System.out.println(similarList);
+				model.addAttribute("similarList", similarList);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
 
 		model.addAttribute("product", product);
 		model.addAttribute("productImgList", productImgList);
 		model.addAttribute("wishCheck", wishCheck);
+		
 
 		return "product/detail_post";
 	}
@@ -544,6 +592,7 @@ public class ProductController {
 	}
 
 
+	// 카테고리 옵션 
 	@RequestMapping("/categoryOptionSelect")
 	public String categoryOptionSelect(String cate, String type, Model model) {
 		
@@ -556,14 +605,30 @@ public class ProductController {
 		List<Map<String, Object>> productList = productService.productCateList(map);
 
 		System.out.println(productList);
-		
-		
-		
+	
 		model.addAttribute("category",cate);
 		model.addAttribute("productList", productList);
 		model.addAttribute("timeDataList", timeConversion(productList));
 		return "product/productCategory";
 	}
+	
+	// 겁색결과 옵션
+	@RequestMapping("searchOptionSelect")
+	public String searchOptionSelect(String keyword, String type, String area, Model model) {
+		HashMap map = new HashMap();
+		map.put("keyword", keyword);
+		map.put("optionType", type);
+		map.put("area", area);
+		
+		
+		List<Map<String, Object>> productList = productService.productCateList(map);
+		model.addAttribute("category","검색결과");
+		model.addAttribute("productList", productList);
+		model.addAttribute("timeDataList", timeConversion(productList));
+		
+		return "product/productCategory"; 
+	}
+	
 
 
 	// 시간 변환 메소드

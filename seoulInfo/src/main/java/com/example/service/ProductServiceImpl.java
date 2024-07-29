@@ -53,6 +53,12 @@ public class ProductServiceImpl implements ProductService{
 		return productDAO.productCateList(map);
 	}
 	
+	@Override
+	public List<Map<String, Object>> productMainList(HashMap map) {
+		// TODO Auto-generated method stub
+		return productDAO.productMainList(map);
+	}
+	
 	// 검색 키워드 insert
 	@Override
 	public void insertProductSearch(ProductSearchVO psvo) {
@@ -116,6 +122,16 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return productDAO.wishList(member_id);
 	}
+
+	@Override
+	public List<Map<String, Object>> similarList(int[] prediction) {
+		// TODO Auto-generated method stub
+		return productDAO.similarList(prediction);
+	}
+
+	
+
+
 	
 	
 	

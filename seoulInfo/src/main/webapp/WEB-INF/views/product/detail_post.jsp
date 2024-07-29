@@ -148,7 +148,6 @@
 	function hideBubble() {
 		document.querySelector('.speech-bubble-right').style.display = 'none';
 	}
-
 </script>
 </head>
 <body>
@@ -279,10 +278,12 @@
 												<c:choose>
 													<c:when
 														test="${product.member_id eq sessionScope.member.member_id}">
-														<button class="button-primary-small w-button chat">내채팅방 가기</button>
+														<button class="button-primary-small w-button chat">내채팅방
+															가기</button>
 													</c:when>
 													<c:otherwise>
-														<button class="button-primary-small w-button chatCreate">판매자와 채팅</button>
+														<button class="button-primary-small w-button chatCreate">판매자와
+															채팅</button>
 													</c:otherwise>
 												</c:choose>
 												<button class="button-primary-small w-button">바로
@@ -312,52 +313,42 @@
 							style="opacity: 0" class="divider-line"></div>
 						<div class="spacer-xlarge"></div>
 						<div class="w-dyn-list">
-							<div role="list" class="_3-column-grid w-dyn-items">
-								<div data-w-id="3685bd48-e5ab-20e0-9347-b40d2d3445f4"
-									style="opacity: 0" role="listitem"
-									class="post-grid-collection-item w-dyn-item">
-									<div class="post-grid-wrapper">
-										<a id="w-node-_4786a47f-17a7-4845-3f57-410c5a533ed6-4f5c4821"
-											href="#"
-											class="cms-grid-image-overflow-container w-inline-block">
-											<div data-w-id="b2556d4a-0911-4df3-0312-5cc129a4b6f5"
-												class="cms-grid-image"></div>
-										</a>
-										<div class="tags-wrappers">
-											<a href="#" class="tag w-inline-block">
-												<div class="text-size-small w-dyn-bind-empty"></div>
-											</a> <a href="#" class="tag w-inline-block">
-												<div class="text-size-small w-dyn-bind-empty"></div>
-											</a>
+							<c:forEach items="${similarList}" var="similarList"
+								varStatus="status">
+
+								<div class="col-md-3 product">
+									<div class="product-card">
+										<c:choose>
+											<c:when test="${not empty similarList.productimg_alias}">
+												<img src="/productImage/${similarList.productimg_alias}"
+													alt="상품 이미지" class="product-image"
+													style="height: 250px; width: 250px;">
+											</c:when>
+											<c:otherwise>
+												<img src="https://via.placeholder.com/200" alt="이미지없음"
+													class="product-image">
+											</c:otherwise>
+										</c:choose>
+
+										<div class="product-info">
+											<input type="hidden" class="sale_id"
+												value="${similarList.sale_id}">
+											<h4>${similarList.sale_name}</h4>
+											<p>${similarList.sale_area}</p>
+											<p>
+												<strong>${similarList.sale_price}</strong>
+											</p>
+											<p>
+												관심 ${similarList.favorite_count}<span
+													style="margin-left: 20px;">상태:
+													${similarList.sale_status}</span>
+											</p>
+											<!-- 날짜 차이 정보 추가 -->
+											<p>${timeDataList[status.index]}</p>
 										</div>
-										<a id="w-node-a84994d4-c317-d35e-36e3-09e254755d94-4f5c4821"
-											href="#" class="w-inline-block">
-											<h3 class="w-dyn-bind-empty"></h3>
-										</a>
-										<div class="small-author-wrapper">
-											<a href="#"
-												class="author-pic-and-name-wrapper w-inline-block">
-												<div class="small-author-thumbnail"></div>
-												<div class="text-size-regular w-dyn-bind-empty"></div>
-											</a>
-											<div class="line-divider"></div>
-											<div
-												class="text-size-regular text-color-dark-gray w-dyn-bind-empty"></div>
-										</div>
-									</div>
-									<div class="grid-post-link-wrapper">
-										<a href="#" class="button-text-only w-button">Read more</a> <a
-											id="w-node-a66acb0f-ee54-d598-d077-87c3081e470b-4f5c4821"
-											href="#"
-											class="button-icon hide-mobile-landscape w-inline-block"><img
-											src="/images/ph_arrow-up-right-light-xxsmall-dark-gray.svg"
-											loading="lazy" alt="" class="icon-1x1-xxsmall"></a>
 									</div>
 								</div>
-							</div>
-							<div class="empty-state w-dyn-empty">
-								<div class="text-size-regular">No items found.</div>
-							</div>
+							</c:forEach>
 						</div>
 					</div>
 				</div>
@@ -447,19 +438,27 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
-		$(".chatCreate").click( function(){
-			var memberId = $(this).closest('.product-description').find('.member_id').val();
-			var saleId = $(this).closest('.product-description').find('.sale_id').val();
-			alert(memberId);
-			alert(saleId);
-			                 
-			console.log(`memberId: ${memberId}, saleId: ${saleId}`); // 디버깅용 로그
-			var url = `chatCreate?member_id=${memberId}&sale_id=${saleId}`;
-			console.log(`URL: ${url}`); // 디버깅용 로그
-			location.href = 'chatCreate?member_id='+memberId+'&sale_id='+saleId;
+		$(".chatCreate")
+				.click(
+						function() {
+							var memberId = $(this).closest(
+									'.product-description').find('.member_id')
+									.val();
+							var saleId = $(this)
+									.closest('.product-description').find(
+											'.sale_id').val();
+							alert(memberId);
+							alert(saleId);
 
-		});
-		
+							console
+									.log(`memberId: ${memberId}, saleId: ${saleId}`); // 디버깅용 로그
+							var url = `chatCreate?member_id=${memberId}&sale_id=${saleId}`;
+							console.log(`URL: ${url}`); // 디버깅용 로그
+							location.href = 'chatCreate?member_id=' + memberId
+									+ '&sale_id=' + saleId;
+
+						});
+
 		$(".chat").click(
 				function() {
 					var memberId = $(this).closest('.product-description')
@@ -472,7 +471,10 @@
 					window.location.href = "chat";
 				});
 
-		$(document).on('click', '.heartOn', function() {
+		$(document).on(
+				'click',
+				'.heartOn',
+				function() {
 					var $this = $(this);
 					var sale_id = $this.closest('.product-description').find(
 							'.sale_id').val();
@@ -500,7 +502,10 @@
 				});
 
 		// heartOff 버튼 클릭 시
-		$(document).on('click', '.heartOff', function() {
+		$(document).on(
+				'click',
+				'.heartOff',
+				function() {
 					var $this = $(this);
 					var sale_id = $this.closest('.product-description').find(
 							'.sale_id').val();
@@ -514,7 +519,10 @@
 						success : function(result) {
 							if (result == '1') {
 								// heartOn로 바꾸기
-								$this.attr('src','/productimages/heart_on.png').removeClass('heartOff').addClass(
+								$this
+										.attr('src',
+												'/productimages/heart_on.png')
+										.removeClass('heartOff').addClass(
 												'heartOn');
 								alert('위시 등록 성공');
 							}
@@ -524,13 +532,13 @@
 						}
 					});
 				});
-				
+
 		//author-name 클릭시
-		
-		$(".author-name").click(function(){
+
+		$(".author-name").click(function() {
 			var memberId = $(this).closest('.author-name').text();
-			
-			location.href = "productMemberPage?member_id="+memberId;
+
+			location.href = "productMemberPage?member_id=" + memberId;
 		})
 	</script>
 </body>
