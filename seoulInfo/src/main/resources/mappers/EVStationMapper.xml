@@ -95,7 +95,12 @@
 	
 	<insert id="insertEVFav" parameterType="map">
 		INSERT INTO evc_fav (evc_id, member_id)	VALUES ( #{evc_id}, #{member_id} )
+		ON DUPLICATE KEY UPDATE evc_id=#{evc_id} and member_id=#{member_id}
 	</insert>
+	
+	<delete id="deleteEVFav" parameterType="map">
+		Delete From evc_fav Where evc_id=#{evc_id} and member_id=#{member_id}
+	</delete>
 	
 	<select id="selectEVFav" parameterType="String" resultType="EVchargerVO">
 		SELECT DISTINCT
@@ -105,9 +110,15 @@
 	        ,e.evc_name 	AS evc_name 
 	        ,e.evc_lat 		AS evc_lat 
 	        ,e.evc_long 	AS evc_long
-	    FROM evc     e
-	    JOIN evc_fav f 
+	    FROM evc_fav f
+	    JOIN evc     e
 	    ON e.evc_id = f.evc_id
+	</select>
+	
+	<select id="getUserLocation" parameterType="String" resultType="MemberVO">
+		SELECT *
+		FROM  member
+		WHERE member_id = #{member_id}
 	</select>
 	
 </mapper>

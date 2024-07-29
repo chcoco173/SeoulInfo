@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.dao.EVStationDAO;
 import com.example.domain.EVStationVO;
 import com.example.domain.EVchargerVO;
+import com.example.domain.MemberVO;
 
 @Service
 public class EVStationServiceImpl implements EVStationService{
@@ -32,7 +33,8 @@ public class EVStationServiceImpl implements EVStationService{
 	}
 
 	@Override
-	public void insertEVFav(String evc_id, String member_id) {
+	public void insertEVFav(HashMap favMap) {
+		evStationDAO.insertEVFav(favMap);
 	}
 
 	@Override
@@ -41,5 +43,14 @@ public class EVStationServiceImpl implements EVStationService{
 		return evStationDAO.selectEVFav(member_id);
 	}
 
+	@Override
+	public void deleteEVFav(HashMap delMap) {
+		evStationDAO.deleteEVFav(delMap);
+	}
+
+	@Override
+	public MemberVO getUserLocation(String member_id) {
+		return evStationDAO.getUserLocation(member_id);
+	}
 
 }

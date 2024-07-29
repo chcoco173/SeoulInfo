@@ -183,6 +183,9 @@
 <!-- kakao map Script-->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=008b79e594d7ab4e1058e1180ccf546c&libraries=clusterer"></script>
     <script>
+		// session 값 받아오기 
+		var sessionResult = '<c:out value="${sessionScope.member != null ? sessionScope.member.member_id : ''}" />';
+		
 		// ## delay 1 - 로딩 바 표시
 		document.getElementById('loading').style.display = 'flex';
 		
@@ -190,10 +193,61 @@
         var mapContainer = document.getElementById('map'); // 지도를 표시할 div 
         var mapOption = {
             center: new kakao.maps.LatLng(37.566826, 126.9786567),
-            level: 8,
+            level: 4,
             maxLevel: 8 // 확대 최대 레벨
         };  
         var map = new kakao.maps.Map(mapContainer, mapOption);
+		
+		// 회원의 경우, 회원정보를 이용해 지도의 중심 좌표 변경
+		if (sessionResult !== '') {
+		    $.ajax({
+		        url: 'getUserLocation', // 실제 사용자 정보 API의 URL로 대체
+		        type: 'GET',
+		        data: { member_id: sessionResult },
+		        success: function(data) {
+		            var userRegion = data.member_area;
+		            var guCenters = {
+		                "종로구": {lat: 37.573050, lng: 126.979189},
+		                "중구": {lat: 37.563797, lng: 126.997314},
+		                "용산구": {lat: 37.531100, lng: 126.981074},
+		                "성동구": {lat: 37.563494, lng: 127.036693},
+		                "광진구": {lat: 37.538577, lng: 127.082551},
+		                "동대문구": {lat: 37.574371, lng: 127.039592},
+		                "중랑구": {lat: 37.606324, lng: 127.092133},
+		                "성북구": {lat: 37.589400, lng: 127.016645},
+		                "강북구": {lat: 37.639751, lng: 127.025589},
+		                "도봉구": {lat: 37.668763, lng: 127.046658},
+		                "노원구": {lat: 37.654205, lng: 127.056792},
+		                "은평구": {lat: 37.602889, lng: 126.929116},
+		                "서대문구": {lat: 37.579308, lng: 126.936829},
+		                "마포구": {lat: 37.566324, lng: 126.901491},
+		                "양천구": {lat: 37.516951, lng: 126.866507},
+		                "강서구": {lat: 37.550926, lng: 126.849750},
+		                "구로구": {lat: 37.495403, lng: 126.887369},
+		                "금천구": {lat: 37.456971, lng: 126.895533},
+		                "영등포구": {lat: 37.526420, lng: 126.896916},
+		                "동작구": {lat: 37.511274, lng: 126.939601},
+		                "관악구": {lat: 37.478492, lng: 126.951291},
+		                "서초구": {lat: 37.483575, lng: 127.032693},
+		                "강남구": {lat: 37.517236, lng: 127.047325},
+		                "송파구": {lat: 37.514575, lng: 127.105381},
+		                "강동구": {lat: 37.530125, lng: 127.123761}
+		            };
+
+		            var centerCoordinates = guCenters[userRegion];
+		            if (centerCoordinates) {
+		                // 지도 중심 좌표 설정
+		                map.setCenter(new kakao.maps.LatLng(centerCoordinates.lat, centerCoordinates.lng));
+		            } else {
+		                alert('해당 구의 좌표 정보를 찾을 수 없습니다.');
+		            }
+		        },
+		        error: function() {
+		            alert('사용자 정보를 가져오는 데 실패했습니다.');
+		        }
+		    });
+		}
+		
 		
 		// ######## 마커/클러스터러 생성 ##############
 		// 각 DB data의 위도,경도를 forEach 문으로 마커정보 담기
@@ -216,84 +270,116 @@
 
         var currentClickedMarker = null;
 
-        for (var i = 0; i < positions.length; i++) {        
-            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-            var marker = new kakao.maps.Marker({
-                position: positions[i].latlng,
-                title: positions[i].title,
-                image: markerImage,
-                isClicked: false,
-            });
-			//마커에 클릭 기능 넣어주기 
-            (function(marker) {
-                kakao.maps.event.addListener(marker, 'click', function() {
-                    if (currentClickedMarker && currentClickedMarker !== marker) {
-                        var originalImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-                        currentClickedMarker.setImage(originalImage);
-                        currentClickedMarker.isClicked = false;
-                    }
+		for (var i = 0; i < positions.length; i++) {        
+		    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+		    var marker = new kakao.maps.Marker({
+		        position: positions[i].latlng,
+		        title: positions[i].title,
+		        image: markerImage,
+		        isClicked: false,
+		    });
+		    
+		    // 마커에 클릭 기능 넣어주기 
+		    (function(marker) {
+		        kakao.maps.event.addListener(marker, 'click', function() {
+		            if (currentClickedMarker && currentClickedMarker !== marker) {
+		                var originalImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+		                currentClickedMarker.setImage(originalImage);
+		                currentClickedMarker.isClicked = false;
+		            }
 
-                    if (marker.isClicked) {
-                        var originalImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-                        marker.setImage(originalImage);
-                        marker.isClicked = false;
-                    } else {
-                        var clickedImage = new kakao.maps.MarkerImage(clickedImageSrc, imageSize);
-                        marker.setImage(clickedImage);
-                        marker.isClicked = true;
-                        currentClickedMarker = marker;
+		            if (marker.isClicked) {
+		                var originalImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+		                marker.setImage(originalImage);
+		                marker.isClicked = false;
+		            } else {
+		                var clickedImage = new kakao.maps.MarkerImage(clickedImageSrc, imageSize);
+		                marker.setImage(clickedImage);
+		                marker.isClicked = true;
+		                currentClickedMarker = marker;
 
-                        $('.overlay').show();
-						$('.overlay').css({'z-index':'1099'});
-                        $('.charger_Information').show();
-						$(".charger_Information").css({"display":"inherit",'z-index':'1100'});
-						
-						// alert(marker.Gb);
-						// AJAX 요청 보내기 - 마커에 해당하는 상세정보 불러오기
-						$.ajax({
-							url: 'ev_info',
-							type: 'GET',
-							data: { evc_id: marker.Gb },
-							success: function(data) {
-								console.log('data: '+data);
-								if (data.length > 0) {
-								            var chargerDetailsBody = $('#chargerDetailsBody');
-											chargerDetailsBody.empty();
-											data.forEach(function(charger) {
-											var row = '<tr>';
-												row += '<td><b id="charger_no" style="font-size:23px;">' + charger.charger_no + '</b></td>';
-												row += '<td id="charger_mechine">' + charger.charger_mechine + '</td>';
-												row += '<td class="charger_type">' + charger.charger_type + '</td>';
-												row += '<td><span style="border:1px solid orange; border-radius:5px; background-color: yellow; padding-left:10px; padding-right:10px; text-align:center"><b id="charger_state">' + charger.charger_state + '</b></span><br><span>{(갱신한 시간)}</span></td>';
-												row += '</tr>';
-												chargerDetailsBody.append(row);
-											});
-											
-											$('#evc_address').text(data[0].evc_address);
-											$('.ev_name').text(data[0].evc_name);
-											$('#charger_facsmall').text(data[0].charger_facsmall);
-											$('#charger_opsmall').text(data[0].charger_opsmall);
-											$('#charger_userlimit').text(data[0].charger_userlimit);
-											$('.charger_Information').show();
-								        } else {
-											var chargerDetailsBody = $('#chargerDetailsBody');
-											chargerDetailsBody.empty();
-											alert('No data found');
-								            console.log('No data found');
-											$('.charger_Information').hide();
-											$('.overlay').hide();
-								        }
-							},
-							error: function(err) {
-							console.error("Error fetching charger info: ", err);
-							}
-						});
-                    }
-                });
-            })(marker);
-            markers.push(marker);
-			console.log(marker);
-        }
+		                $('.overlay').show();
+		                $('.overlay').css({'z-index':'1099'});
+		                $('.charger_Information').show();
+		                $(".charger_Information").css({"display":"inherit",'z-index':'1100'});
+		                
+		                // AJAX 요청 보내기 - 마커에 해당하는 상세정보 불러오기
+		                $.ajax({
+		                    url: 'ev_info',
+		                    type: 'GET',
+		                    data: { evc_id: marker.Gb },
+		                    success: function(data) {
+		                        console.log('data: ' + data);
+		                        if (data.length > 0) {
+		                            var chargerDetailsBody = $('#chargerDetailsBody');
+		                            chargerDetailsBody.empty();
+		                            data.forEach(function(charger) {
+		                                var row = '<tr>';
+		                                row += '<td><b id="charger_no" style="font-size:23px;">' + charger.charger_no + '</b></td>';
+		                                row += '<td id="charger_mechine">' + charger.charger_mechine + '</td>';
+		                                row += '<td class="charger_type">' + charger.charger_type + '</td>';
+		                                row += '<td><span style="border:1px solid orange; border-radius:5px; background-color: yellow; padding-left:10px; padding-right:10px; text-align:center"><b id="charger_state">' + charger.charger_state + '</b></span><br><span>{(갱신한 시간)}</span></td>';
+		                                row += '</tr>';
+		                                chargerDetailsBody.append(row);
+		                            });
+
+		                            $('#evc_address').text(data[0].evc_address);
+		                            $('.ev_name').text(data[0].evc_name);
+		                            $('.evc_id').text(data[0].evc_id);
+		                            $('#charger_facsmall').text(data[0].charger_facsmall);
+		                            $('#charger_opsmall').text(data[0].charger_opsmall);
+		                            $('#charger_userlimit').text(data[0].charger_userlimit);
+									
+									var img = $('#favoriteImage');
+									var newImageUrl = '/images/ev/like_off.png';
+										img.attr('src', newImageUrl);
+		                            // 사용자 즐겨찾기 데이터와 비교하기
+		                            if (sessionResult !== '') {
+		                                var clickedEVID = marker.Gb;
+		                                $.ajax({
+		                                    url: 'ev_Favorite',
+		                                    type: 'GET',
+		                                    data: { member_id: sessionResult },
+		                                    success: function(favoriteData) {
+		                                        // favoriteData가 배열일 경우 처리
+		                                        favoriteData.forEach(function(fav) {
+		                                            if (fav.evc_id === clickedEVID) {
+		                                                var img = $('#favoriteImage');
+		                                                var newImageUrl = '/images/ev/like_on.png';
+		                                                img.attr('src', newImageUrl);
+		                                            }
+		                                        });
+		                                    },
+		                                    error: function(err) {
+		                                        $('#favoriteList').html('');
+		                                        $('#favoriteList').show(); // 결과 영역 표시
+		                                        console.error(err);
+		                                    }
+		                                });
+		                            }
+		                        }else {
+									var chargerDetailsBody = $('#chargerDetailsBody');
+										chargerDetailsBody.empty();
+									alert("no data found");
+									$('.overlay').hide();
+									$('.charger_Information').css({'display':'none','z-index':'-1'});
+									
+									var originalImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+										marker.setImage(originalImage);
+										marker.isClicked = false;
+								}
+		                    },
+		                    error: function(err) {
+		                        console.error("Error fetching charger info: ", err);
+		                    }
+		                }); // end of AJAX
+		            }
+		        });
+		    })(marker);
+		    markers.push(marker);
+		    console.log(marker);
+		}
+
         
         var clusterer = new kakao.maps.MarkerClusterer({
             map: map,
@@ -354,8 +440,7 @@
         }
 		
 		// ##########################  test  ###########################
-		// session 값 받아오기 
-		var sessionResult = '<c:out value="${sessionScope.member != null ? sessionScope.member.member_id : ''}" />';
+		
 </script>
 
 <!-- end of kakao map Script -->
