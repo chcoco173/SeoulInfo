@@ -522,9 +522,7 @@ public class ProductController {
 		return timeDataList;
 	}
 
-<<<<<<< Updated upstream
-	
-=======
+
 	// 채팅에서 상품 정보 가져오기
     @GetMapping("/getProductInfo")
     @ResponseBody
@@ -547,6 +545,5 @@ public class ProductController {
         return productInfo;
     }
 
->>>>>>> Stashed changes
 
 }
