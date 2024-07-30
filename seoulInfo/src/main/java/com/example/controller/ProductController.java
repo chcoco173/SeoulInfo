@@ -522,6 +522,31 @@ public class ProductController {
 		return timeDataList;
 	}
 
+<<<<<<< Updated upstream
 	
+=======
+	// 채팅에서 상품 정보 가져오기
+    @GetMapping("/getProductInfo")
+    @ResponseBody
+    public Map<String, Object> getProductInfo(@RequestParam Integer sale_id) {
+        ProductVO product = productService.myProductSaleId(sale_id);
+        List<ProductImageVO> productImages = productImageService.myProductSaleId(sale_id);
+        
+        System.out.println("Product: " + product);
+        System.out.println("Product Images: " + productImages);
+
+        Map<String, Object> productInfo = new HashMap<>();
+        productInfo.put("product", product);
+        
+        // 첫 번째 이미지만 가져오기
+        if (!productImages.isEmpty()) {
+            productInfo.put("productImage", productImages.get(0));
+        }
+        System.out.println("Product Info: " + productInfo);
+        
+        return productInfo;
+    }
+
+>>>>>>> Stashed changes
 
 }
