@@ -7,7 +7,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Application</title>
-
+	<meta content="" property="og:title">
+	<meta content="" property="twitter:title">
+	<meta content="width=device-width, initial-scale=1" name="viewport">
+	<meta content="Webflow" name="generator">
     <!-- General CSS -->
     <link rel="stylesheet" href="/css/normalize.css" type="text/css">
     <link rel="stylesheet" href="/css/webflow.css" type="text/css">

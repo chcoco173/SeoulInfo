@@ -8,8 +8,6 @@ const chatArea = document.querySelector('#chat-messages');
 const logout = document.querySelector('#logout');
 const fileUploadInput = document.querySelector('#fileUpload');
 const fileUploadButton = document.querySelector('#fileUploadButton');
-const dealDoneButton = document.getElementById('deal-done'); // 거래 완료 버튼 추가
-
 // 날짜 바뀌는 요소 추가
 let lastMessageDate = null;
 
@@ -96,7 +94,7 @@ function appendUserElement(user, otherUsersList) {
 
     // 안 읽은 메세지 존재하는 채팅방 알림
     const receivedMsgs = document.createElement('span');
-    receivedMsgs.textContent = '0';
+    receivedMsgs.textContent = '!';
     receivedMsgs.classList.add('nbr-msg', 'hidden');
 
     const statusSpan = document.createElement('div'); // Use div to automatically move to next line
@@ -359,42 +357,21 @@ fileUploadInput.addEventListener('change', (event) => {
     }
 });
 
-// 거래완료 버튼 클릭
+// r
 document.getElementById('deal-done').addEventListener('click', dealDone);
 
-
-// 거래 상태를 판매완료로 변경 (GET 방식)
 function dealDone() {
-	
-	$.ajax({
-					type:'POST',
-					url : '/product/updateStatus',
-					data :{
-						"sale_status" : "판매완료",
-						"sale_id": sale_id
-					},
-					success : function(result){
-						if(result == '1'){
-							// 선택한 값 상태 변경
-							$(this).closest('.product-card').find('.status').val(status);
-							
-						}
-					},
-					error : function(err){
-						console.log(err);
-					}
-				})
-    /*if (selectedSaleId) {
-        const saleStatus = '판매완료';
-        console.log(`sale_id=${selectedSaleId}, sale_status=${saleStatus}`);
-
-        // GET 방식으로 변경
-        fetch(`/product/updateStatus?sale_id=${selectedSaleId}&sale_status=${saleStatus}`, {
-            method: 'GET',
+    if (selectedSaleId) {
+        fetch('/product/updateStatus', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `sale_id=${selectedSaleId}&sale_status=판매완료`
         })
         .then(response => response.text())
         .then(data => {
-            if (data === '1') { // 서버에서 '1'을 반환하면 성공
+            if (data === 'success') {
                 alert('거래 상태가 판매완료로 변경되었습니다.');
                 document.getElementById('transaction-status').innerText = '거래 상태: 판매완료';
             } else {
@@ -407,9 +384,8 @@ function dealDone() {
         });
     } else {
         alert('선택된 상품이 없습니다.');
-    }*/
+    }
 }
-
 
 function onLogout() {
     stompClient.send("/app/user.disconnectUser",
