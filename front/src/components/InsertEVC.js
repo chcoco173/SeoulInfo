@@ -10,7 +10,7 @@ function InsertEVC() {
   const [chargerUserLimit, setChargerUserLimit] = useState(''); // 이용 가능 여부 상태
   const [chargerFacbig, setChargerFacbig] = useState(''); // 충전기 시설 대분류 상태
   const [chargerFacsmall, setChargerFacsmall] = useState(''); // 충전기 시설 소분류 상태
-  const [chargerMechcine, setChargerMechcine] = useState(''); // 충전기 상태 상태
+  const [chargerMechcine, setChargerMechcine] = useState(''); // 충전기 상태
   const [chargerOpbig, setChargerOpbig] = useState(''); // 기관 대분류 상태
   const [chargerOpsmall, setChargerOpsmall] = useState(''); // 기관 소분류 상태
   const [errors, setErrors] = useState({}); // 유효성 검사 오류 메시지 상태
@@ -51,21 +51,20 @@ function InsertEVC() {
 
     if (!validate()) return; // 유효성 검사 실패 시 제출 중단
 
-    const formData = new FormData();
-    formData.append('evc_id', evcId);
-    formData.append('charger_no', chargerNo);
-    formData.append('charger_type', chargerType.join(' + '));
-    formData.append('charger_userlimit', chargerUserLimit);
-    formData.append('charger_facbig', chargerFacbig);
-    formData.append('charger_facsmall', chargerFacsmall);
-    formData.append('charger_mechcine', chargerMechcine);
-    formData.append('charger_opbig', chargerOpbig);
-    formData.append('charger_opsmall', chargerOpsmall);
-
     try {
-      const response = await instance.post('/data/insert-evc', formData, {
+      const response = await instance.post('/data/insert-evc', {
+        evc_id: evcId,
+        charger_no: chargerNo,
+        charger_type: chargerType.join(' + '),
+        charger_userlimit: chargerUserLimit,
+        charger_facbig: chargerFacbig,
+        charger_facsmall: chargerFacsmall,
+        charger_mechcine: chargerMechcine,
+        charger_opbig: chargerOpbig,
+        charger_opsmall: chargerOpsmall
+      }, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'application/json'
         }
       });
       if (response.status >= 200 && response.status < 300) {
@@ -75,6 +74,8 @@ function InsertEVC() {
         alert('충전기 등록 실패');
       }
     } catch (error) {
+      console.error(error);
+      alert('충전기 등록 중 오류가 발생했습니다.');
     }
   };
 
@@ -158,7 +159,7 @@ function InsertEVC() {
           <option value="근린생활시설">근린생활시설</option>
           <option value="교육문화시설">교육문화시설</option>
           <option value="차량정비시설">차량정비시설</option>
-          <option value="차량정비시설">휴게시설</option>
+          <option value="휴게시설">휴게시설</option>
           <option value="기타">기타</option>
         </select>
         {errors.chargerFacbig && <span className="error">{errors.chargerFacbig}</span>}
@@ -183,7 +184,7 @@ function InsertEVC() {
           <option value="복지관">복지관</option>
           <option value="경찰서">경찰서</option>
           <option value="도서관">도서관</option>
-          <option value="관공서">관광지</option>
+          <option value="관광지">관광지</option>
           <option value="주유소">주유소</option>
           <option value="공중전화부스">공중전화부스</option>
           <option value="고속도로 휴게소">고속도로 휴게소</option>

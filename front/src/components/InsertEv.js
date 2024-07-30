@@ -33,30 +33,28 @@ function InsertEv() {
 
     if (!validate()) return; // 유효성 검사 실패 시 제출 중단
 
-    const formData = new FormData();
-    formData.append('evc_id', evId);
-    formData.append('evc_area', evArea);
-    formData.append('evc_address', evAddress);
-    formData.append('evc_name', evName);
-    formData.append('evc_lat', evLat);
-    formData.append('evc_long', evLong);
-
     try {
-      const response = await instance.post('/data/insert-ev', formData, {
+      const response = await instance.post('/data/insert-ev', {
+        evc_id: evId,
+        evc_area: evArea,
+        evc_address: evAddress,
+        evc_name: evName,
+        evc_lat: evLat,
+        evc_long: evLong
+      }, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'application/json'
         }
       });
       if (response.status >= 200 && response.status < 300) {
-
         alert('충전소 등록 완료');
         navigate('/menubar/ev');
       } else {
-
         alert('충전소 등록 실패');
       }
     } catch (error) {
-
+      console.error(error);
+      alert('충전소 등록 중 오류가 발생했습니다.');
     }
   };
 
@@ -136,7 +134,7 @@ function InsertEv() {
           onChange={(e) => setEvLong(e.target.value)}
         />
         {errors.evLong && <span className="error">{errors.evLong}</span>}
-        <button type="submit">충전소등록</button>
+        <button type="submit">충전소 등록</button>
       </form>
     </div>
   );

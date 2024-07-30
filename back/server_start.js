@@ -740,13 +740,14 @@ app.post('/data/update-ev', checkSession, (req, res) => {
 
 // 전기차 데이터 추가  
 app.post('/data/insert-ev', checkSession, (req, res) => {
+  console.log('Request Body:', req.body); // req.body 출력
   const { evc_id, evc_area, evc_address, evc_name, evc_lat, evc_long } = req.body;
 
   const sql = "INSERT INTO evc (evc_id, evc_area, evc_address, evc_name, evc_lat, evc_long) VALUES (?, ?, ?, ?, ?, ?)";
   const params = [evc_id, evc_area, evc_address, evc_name, evc_lat, evc_long];
 
   conn.query(sql, params, function(err) {
-    if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정
+    if (err) {
       console.error('Error: ', err);
       res.status(500).send('Error');
     } else {
@@ -836,10 +837,10 @@ app.delete('/data/delete-evc/:charger_id', checkSession, (req, res) => {
 
 // 충전기 데이터 추가  
 app.post('/data/insert-evc', checkSession, (req, res) => {
-  const { evc_id, charger_no, charger_type, charger_status, charger_facsmall, charger_userlimit, charger_opbig, charger_opsmall, charger_mechine, charger_facbig } = req.body;
+  const { evc_id, charger_no, charger_type, charger_facsmall, charger_userlimit, charger_opbig, charger_opsmall, charger_mechine, charger_facbig } = req.body;
 
-  const sql = "INSERT INTO evc_cg (evc_id, charger_no, charger_type, charger_status, charger_facsmall, charger_userlimit, charger_opbig, charger_opsmall, charger_mechine, charger_facbig) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-  const params = [evc_id, charger_no, charger_type, charger_status, charger_facsmall, charger_userlimit, charger_opbig, charger_opsmall, charger_mechine, charger_facbig];
+  const sql = "INSERT INTO evc_cg (evc_id, charger_no, charger_type, charger_facbig, charger_facsmall, charger_userlimit, charger_opbig, charger_opsmall, charger_mechine) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  const params = [evc_id, charger_no, charger_type, charger_facbig, charger_facsmall, charger_userlimit, charger_opbig, charger_opsmall, charger_mechine];
 
   conn.query(sql, params, function(err) {
     if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정
