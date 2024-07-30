@@ -39,6 +39,10 @@ public class ChatRoomController {
 		// 새로운 채팅방 ID를 생성하거나 가져옴
 		String chatRoomId = chatRoomService.getChatRoomId(senderId, recipientId, true, sale_id)
 				.orElseThrow(() -> new RuntimeException("채팅방 생성 실패"));
+		
+		model.addAttribute("chatRoomId", chatRoomId);
+		model.addAttribute("senderId", senderId);
+		model.addAttribute("recipientId", recipientId);
 
 		model.addAttribute("chatRoomId", chatRoomId);
 		return "product/chat"; // product/chat.jsp로 이동
@@ -109,4 +113,6 @@ public class ChatRoomController {
                 .map(ChatRoom::getSale_id)
                 .orElse(null);
     }
+    
+    
 }

@@ -15,6 +15,9 @@
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
 
+	<!-- Add jQuery library -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	
     <!-- Chat Specific CSS -->
     <link rel="stylesheet" href="/css/product/chat.css">
 	<style>
@@ -161,8 +164,9 @@
 				        </div>
 				    </div>
 				    <div class="action-buttons">
-				        <button onclick="reportSeller()">판매자 신고</button>
-				        <button onclick="exitChat()">채팅 나가기</button>
+				        <button id="report" hidden>판매자 신고</button>
+				        <button id="chat-done">채팅 나가기</button>
+						<button id="deal-done" hidden>거래 완료</button>
 				    </div>
 				</div>
 

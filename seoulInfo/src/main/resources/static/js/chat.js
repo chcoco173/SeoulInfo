@@ -8,6 +8,8 @@ const chatArea = document.querySelector('#chat-messages');
 const logout = document.querySelector('#logout');
 const fileUploadInput = document.querySelector('#fileUpload');
 const fileUploadButton = document.querySelector('#fileUploadButton');
+const dealDoneButton = document.getElementById('deal-done'); // 거래 완료 버튼 추가
+
 // 날짜 바뀌는 요소 추가
 let lastMessageDate = null;
 
@@ -23,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function connect() {
+	chatPage.classList.remove('hidden');
     const socket = new SockJS('/ws');
     stompClient = Stomp.over(socket);
 
@@ -37,7 +40,7 @@ function onConnected() {
     stompClient.subscribe(`/user/public`, onMessageReceived);
 
     // 사용자를 등록
-    stompClient.send("/app/chat.register", {}, JSON.stringify({member_id: member_id, status: 'ONLINE'}));
+    stompClient.send("/app/user.addUser", {}, JSON.stringify({member_id: member_id, status: 'ONLINE'}));
 
     // 연결된 유저 목록을 가져와 표시
     findAndDisplayotherUsers().then();
@@ -51,8 +54,8 @@ async function findAndDisplayotherUsers() {
         console.log('Fetched connected users:', otherUsers); // 로그 추가
 
         // 현재 사용자(내 이름)를 목록에서 제거
-        otherUsers = otherUsers.filter(user => user.member_id !== member_id);
-        console.log('Filtered connected users:', otherUsers); // 로그 추가
+/*        otherUsers = otherUsers.filter(user => user.member_id !== member_id);
+        console.log('Filtered connected users:', otherUsers); // 로그 추가*/
 
         const otherUsersList = document.getElementById('otherUsers');
         otherUsersList.innerHTML = '';
@@ -93,7 +96,7 @@ function appendUserElement(user, otherUsersList) {
 
     // 안 읽은 메세지 존재하는 채팅방 알림
     const receivedMsgs = document.createElement('span');
-    receivedMsgs.textContent = '!';
+    receivedMsgs.textContent = '0';
     receivedMsgs.classList.add('nbr-msg', 'hidden');
 
     const statusSpan = document.createElement('div'); // Use div to automatically move to next line
@@ -133,12 +136,50 @@ function userItemClick(event) {
     selectedUserId = clickedUser.getAttribute('id');
 	selectedSaleId = clickedUser.querySelector('.sale-id').value; // hidden 요소에서 sale_id 가져오기
 
+	console.log('Selected User ID: ' + selectedUserId);
+	console.log('Selected Sale ID: ' + selectedSaleId);
+	
     fetchAndDisplayUserChat().then();
 
     const nbrMsg = clickedUser.querySelector('.nbr-msg');
     nbrMsg.classList.add('hidden');
     nbrMsg.textContent = '0';
 
+	fetchProductInfo(selectedSaleId);
+
+}
+
+// 상품 상세 정보
+function fetchProductInfo(saleId) {
+    console.log('Fetching product info for sale ID: ' + saleId);
+    fetch(`/product/getProductInfo?sale_id=${saleId}`)
+        .then(response => {
+            console.log('Response received: ', response);
+            return response.json();
+        })
+        .then(data => {
+            console.log('Product info received: ', data);
+            updateChatHeader(data);
+        })
+        .catch(error => {
+            console.error('Error fetching product info:', error);
+        });
+}
+
+function updateChatHeader(data) {
+    const product = data.product;
+    const productImage = data.productImage;
+
+    console.log('Updating chat header with product info: ', product);
+    console.log('Product image info: ', productImage);
+
+    document.getElementById('product-name').innerText = `상품명: ${product.sale_name}`;
+    document.getElementById('transaction-status').innerText = `거래 상태: ${product.sale_status}`;
+    if (productImage) {
+        document.getElementById('product-image').src = `/productImage/${productImage.productimg_alias}`;
+    } else {
+        document.getElementById('product-image').src = '/path/to/default-image.jpg';
+    } 
 }
 
 // 메시지 표시 함수 수정
@@ -317,6 +358,57 @@ fileUploadInput.addEventListener('change', (event) => {
         uploadFile(file);
     }
 });
+
+// 거래완료 버튼 클릭
+document.getElementById('deal-done').addEventListener('click', dealDone);
+
+
+// 거래 상태를 판매완료로 변경 (GET 방식)
+function dealDone() {
+	
+	$.ajax({
+					type:'POST',
+					url : '/product/updateStatus',
+					data :{
+						"sale_status" : "판매완료",
+						"sale_id": sale_id
+					},
+					success : function(result){
+						if(result == '1'){
+							// 선택한 값 상태 변경
+							$(this).closest('.product-card').find('.status').val(status);
+							
+						}
+					},
+					error : function(err){
+						console.log(err);
+					}
+				})
+    /*if (selectedSaleId) {
+        const saleStatus = '판매완료';
+        console.log(`sale_id=${selectedSaleId}, sale_status=${saleStatus}`);
+
+        // GET 방식으로 변경
+        fetch(`/product/updateStatus?sale_id=${selectedSaleId}&sale_status=${saleStatus}`, {
+            method: 'GET',
+        })
+        .then(response => response.text())
+        .then(data => {
+            if (data === '1') { // 서버에서 '1'을 반환하면 성공
+                alert('거래 상태가 판매완료로 변경되었습니다.');
+                document.getElementById('transaction-status').innerText = '거래 상태: 판매완료';
+            } else {
+                alert('거래 상태 변경에 실패했습니다.');
+            }
+        })
+        .catch(error => {
+            console.error('Error updating sale status:', error);
+            alert('거래 상태 변경 중 오류가 발생했습니다.');
+        });
+    } else {
+        alert('선택된 상품이 없습니다.');
+    }*/
+}
 
 
 function onLogout() {
