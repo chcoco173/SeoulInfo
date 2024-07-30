@@ -7,7 +7,7 @@ function NewsManagement() {
   const [newsData, setNewsData] = useState([]); // 뉴스 데이터를 저장할 상태
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 번호를 저장할 상태
   const [totalPages, setTotalPages] = useState(0); // 총 페이지 수를 저장할 상태
-  const [searchCategory, setSearchCategory] = useState('title'); // 검색 카테고리를 저장할 상태
+  const [searchCategory, setSearchCategory] = useState('news_title'); // 검색 카테고리를 저장할 상태
   const [searchKeyword, setSearchKeyword] = useState(''); // 검색 키워드를 저장할 상태
 
   // 컴포넌트 마운트 시 및 currentPage 또는 searchKeyword 변경 시 데이터 로드
@@ -110,8 +110,8 @@ function NewsManagement() {
       <h1>뉴스 관리</h1>
       <div className="search-section">
         <select className="search-select" value={searchCategory} onChange={(e) => setSearchCategory(e.target.value)}>
-          <option value="title">제목</option>
-          <option value="area">지역</option>
+          <option value="news_title">제목</option>
+          <option value="news_area">지역</option>
         </select>
         <input
           type="text"

@@ -21,46 +21,24 @@ function UserInfo() {
   // 현재 페이지에 따라 회원 데이터를 가져오는 함수
   const memberView = async (page) => {
     try {
-      const response = await instance.get('/data/getallmember', {
-        params: { page } // 페이지 번호를 서버에 전달
-      });
+      const params = { page };
+      if (searchKeyword.trim() !== '') {
+        params.category = searchCategory;
+        params.keyword = searchKeyword;
+      }
+
+      const response = await instance.get('/data/getallmember', { params });
       setMemberData(response.data.member); // 서버에서 가져온 회원 데이터를 상태에 저장
       setTotalPages(response.data.totalPages); // 서버에서 가져온 총 페이지 수를 상태에 저장
     } catch (error) {
-    }
-  };
-
-  // 회원 상태를 업데이트하는 함수
-  const updateMemberStatus = async (member_id, newStatus) => {
-    try {
-      await instance.post(`/data/update-member-status/${member_id}`, {
-        status: newStatus // 새로운 회원 상태를 서버에 전달
-      });
-      memberView(currentPage); // 상태 변경 후 회원 데이터를 다시 가져옴
-    } catch (error) {
-    }
-  };
-
-  // 회원 상태 토글을 처리하는 함수
-  const handleMemberStatus = (member_id, currentStatus) => {
-    const newStatus = currentStatus === 'Y' ? 'N' : 'Y'; // 현재 상태에 따라 새로운 상태를 설정
-    if (window.confirm('회원 상태를 변경하시겠습니까?')) {
-      updateMemberStatus(member_id, newStatus);
+      console.error('데이터 불러오기 에러:', error);
     }
   };
 
   // 검색을 처리하는 함수
   const handleSearch = async () => {
-    try {
-      const res = await instance.get('/data/search-member', {
-        params: {
-          category: searchCategory, // 검색 카테고리를 서버에 전달
-          keyword: searchKeyword // 검색 키워드를 서버에 전달
-        }
-      });
-      setMemberData(res.data); // 서버에서 검색된 회원 데이터를 상태에 저장
-    } catch (error) {
-    }
+    setCurrentPage(0); // 검색 시 페이지를 0으로 초기화
+    memberView(0);
   };
 
   // 검색 입력 필드에서 엔터 키를 눌렀을 때 검색을 실행하는 함수
@@ -73,6 +51,26 @@ function UserInfo() {
   // 페이지 변경을 처리하는 함수
   const handlePageChange = (page) => {
     setCurrentPage(page); // 선택한 페이지 번호를 상태에 저장
+  };
+
+  // 회원 상태 토글을 처리하는 함수
+  const handleMemberStatus = (member_id, currentStatus) => {
+    const newStatus = currentStatus === 'Y' ? 'N' : 'Y'; // 현재 상태에 따라 새로운 상태를 설정
+    if (window.confirm('회원 상태를 변경하시겠습니까?')) {
+      updateMemberStatus(member_id, newStatus);
+    }
+  };
+
+  // 회원 상태를 업데이트하는 함수
+  const updateMemberStatus = async (member_id, newStatus) => {
+    try {
+      await instance.post(`/data/update-member-status/${member_id}`, {
+        status: newStatus // 새로운 회원 상태를 서버에 전달
+      });
+      memberView(currentPage); // 상태 변경 후 회원 데이터를 다시 가져옴
+    } catch (error) {
+      console.error('회원 상태 변경 에러:', error);
+    }
   };
 
   // 수정 버튼 클릭 시 처리하는 함수
@@ -128,7 +126,7 @@ function UserInfo() {
   // 수정 제출 시 처리하는 함수
   const handleEditSubmit = async () => {
     let valid = true; // 유효성 검사 초기화
-    for (const [name, value] of Object.entries(editMember)) { //editMember 객체의 모든 키-값 쌍을 배열 형태로 반환
+    for (const [name, value] of Object.entries(editMember)) { // editMember 객체의 모든 키-값 쌍을 배열 형태로 반환
       if (!validateField(name, value)) {
         valid = false;
       }
@@ -148,6 +146,7 @@ function UserInfo() {
           alert('회원 정보 수정 실패');
         }
       } catch (error) {
+        console.error('회원 정보 수정 에러:', error);
       }
     }
   };

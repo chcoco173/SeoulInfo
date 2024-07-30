@@ -160,7 +160,7 @@ app.get('/data/getallfestival', checkSession, (req, res) => {
     res.send(result);
   });
 });
-// 설명: 축제 데이터 불러오기  는 페이징을 적용하여 지정된 페이지의 축제 데이터를 데이터베이스에서 조회하여 반환합니다.
+// 설명: 축제 데이터 불러오기는 페이징을 적용하여 지정된 페이지의 축제 데이터를 데이터베이스에서 조회하여 반환합니다.
 
 // 축제 데이터 입력하기  
 app.post('/data/insert-festival', checkSession, uploadFestival.single('festival_image'), (req, res) => {
@@ -181,7 +181,7 @@ app.post('/data/insert-festival', checkSession, uploadFestival.single('festival_
     }
   });
 });
-// 설명: 축제 데이터 입력하기  는 클라이언트에서 받은 축제 데이터를 데이터베이스에 삽입합니다.
+// 설명: 축제 데이터 입력하기는 클라이언트에서 받은 축제 데이터를 데이터베이스에 삽입합니다.
 
 // 축제 데이터 수정  
 app.post('/data/update-festival', checkSession, uploadFestival.single('festival_image'), (req, res) => {
@@ -210,7 +210,7 @@ app.post('/data/update-festival', checkSession, uploadFestival.single('festival_
     }
   });
 });
-// 설명: 축제 데이터 수정  는 클라이언트에서 받은 축제 데이터를 기반으로 기존 데이터를 수정합니다.
+// 설명: 축제 데이터 수정는 클라이언트에서 받은 축제 데이터를 기반으로 기존 데이터를 수정합니다.
 
 // 축제 데이터 삭제  
 app.delete('/data/delete-festival/:festivalId', checkSession, (req, res) => {
@@ -223,7 +223,7 @@ app.delete('/data/delete-festival/:festivalId', checkSession, (req, res) => {
     }
   });
 });
-// 설명: 축제 데이터 삭제  는 지정된 축제 데이터를 데이터베이스에서 삭제합니다.
+// 설명: 축제 데이터 삭제는 지정된 축제 데이터를 데이터베이스에서 삭제합니다.
 
 // 축제 검색  
 app.get('/data/search-festival', checkSession, (req, res) => {
@@ -245,7 +245,7 @@ app.get('/data/search-festival', checkSession, (req, res) => {
     res.json(results);
   });
 });
-// 설명: 축제 검색  는 지정된 검색 조건에 따라 축제 데이터를 검색하여 반환합니다.
+// 설명: 축제 검색는 지정된 검색 조건에 따라 축제 데이터를 검색하여 반환합니다.
 
 // 축제 게시물 리스트  
 app.get('/data/getallfestivalboard', checkSession, (req, res) => {
@@ -314,7 +314,7 @@ app.get('/data/getallfestivalboard', checkSession, (req, res) => {
     });
   });
 });
-// 설명: 축제 게시물 리스트  는 페이징과 필터링을 적용하여 축제 게시물 데이터를 조회하여 반환합니다.
+// 설명: 축제 게시물 리스트는 페이징과 필터링을 적용하여 축제 게시물 데이터를 조회하여 반환합니다.
 
 // 축제 게시물 검색  
 app.get('/data/search-festivalboard', checkSession, (req, res) => {
@@ -395,7 +395,7 @@ app.get('/data/search-festivalboard', checkSession, (req, res) => {
     });
   });
 });
-// 설명: 축제 게시물 검색  는 지정된 검색 조건에 따라 축제 게시물을 검색하여 반환합니다.
+// 설명: 축제 게시물 검색는 지정된 검색 조건에 따라 축제 게시물을 검색하여 반환합니다.
 
 // 지역 목록 불러오기  
 app.get('/data/get-area-names', checkSession, (req, res) => {
@@ -411,7 +411,7 @@ app.get('/data/get-area-names', checkSession, (req, res) => {
     res.json(results.map(row => row.festival_area));
   });
 });
-// 설명: 지역 목록 불러오기  는 축제 데이터베이스에서 지역 목록을 조회하여 반환합니다.
+// 설명: 지역 목록 불러오기는 축제 데이터베이스에서 지역 목록을 조회하여 반환합니다.
 
 // 타입 목록 불러오기  
 app.get('/data/get-type-names', checkSession, (req, res) => {
@@ -427,7 +427,7 @@ app.get('/data/get-type-names', checkSession, (req, res) => {
     res.json(results.map(row => row.festival_type));
   });
 });
-// 설명: 타입 목록 불러오기  는 축제 데이터베이스에서 타입 목록을 조회하여 반환합니다.
+// 설명: 타입 목록 불러오기는 축제 데이터베이스에서 타입 목록을 조회하여 반환합니다.
 
 // 축제 이름 목록 불러오기  
 app.get('/data/get-festival-names', checkSession, (req, res) => {
@@ -457,7 +457,7 @@ app.get('/data/get-festival-names', checkSession, (req, res) => {
     res.json(results.map(row => row.festival_name));
   });
 });
-// 설명: 축제 이름 목록 불러오기  는 지정된 조건에 따라 축제 이름 목록을 조회하여 반환합니다.
+// 설명: 축제 이름 목록 불러오기는 지정된 조건에 따라 축제 이름 목록을 조회하여 반환합니다.
 
 // 축제 게시글 삭제  
 app.delete('/data/delete-festivalboard/:fr_id', checkSession, (req, res) => {
@@ -471,7 +471,7 @@ app.delete('/data/delete-festivalboard/:fr_id', checkSession, (req, res) => {
     }
   });
 });
-// 설명: 축제 게시글 삭제  는 지정된 축제 게시글을 데이터베이스에서 삭제합니다.
+// 설명: 축제 게시글 삭제는 지정된 축제 게시글을 데이터베이스에서 삭제합니다.
 
 // 관리자 데이터 불러오기  
 app.get('/data/getalladmin', checkSession, (req, res) => {
@@ -483,7 +483,7 @@ app.get('/data/getalladmin', checkSession, (req, res) => {
     res.send(result);
   });
 });
-// 설명: 관리자 데이터 불러오기  는 모든 관리자 데이터를 조회하여 반환합니다.
+// 설명: 관리자 데이터 불러오기는 모든 관리자 데이터를 조회하여 반환합니다.
 
 // 관리자 데이터 입력  
 app.post('/data/insert-admin', checkSession, uploadAdmin.single('admin_image'), async (req, res) => {
@@ -510,7 +510,7 @@ app.post('/data/insert-admin', checkSession, uploadAdmin.single('admin_image'), 
     res.status(500).send('Internal Server Error');
   }
 });
-// 설명: 관리자 데이터 입력  는 클라이언트에서 받은 관리자 데이터를 데이터베이스에 삽입합니다.
+// 설명: 관리자 데이터 입력는 클라이언트에서 받은 관리자 데이터를 데이터베이스에 삽입합니다.
 
 // 관리자 데이터 삭제  
 app.delete('/data/delete-admin/:adminId', checkSession, (req, res) => {
@@ -523,7 +523,7 @@ app.delete('/data/delete-admin/:adminId', checkSession, (req, res) => {
     }
   });
 });
-// 설명: 관리자 데이터 삭제  는 지정된 관리자 데이터를 데이터베이스에서 삭제합니다.
+// 설명: 관리자 데이터 삭제는 지정된 관리자 데이터를 데이터베이스에서 삭제합니다.
 
 // 관리자 데이터 수정  
 app.post('/data/update-admin', checkSession, uploadAdmin.single('admin_image'), (req, res) => {
@@ -550,7 +550,7 @@ app.post('/data/update-admin', checkSession, uploadAdmin.single('admin_image'), 
     }
   });
 });
-// 설명: 관리자 데이터 수정  는 클라이언트에서 받은 관리자 데이터를 기반으로 기존 데이터를 수정합니다.
+// 설명: 관리자 데이터 수정는 클라이언트에서 받은 관리자 데이터를 기반으로 기존 데이터를 수정합니다.
 
 // 관리자 데이터 검색  
 app.get('/data/search-admin', checkSession, (req, res) => {
@@ -572,7 +572,7 @@ app.get('/data/search-admin', checkSession, (req, res) => {
     res.json(results);
   });
 });
-// 설명: 관리자 데이터 검색  는 지정된 검색 조건에 따라 관리자 데이터를 검색하여 반환합니다.
+// 설명: 관리자 데이터 검색는 지정된 검색 조건에 따라 관리자 데이터를 검색하여 반환합니다.
 
 // 뉴스 데이터 불러오기 (페이징 포함)  
 app.get('/data/getallnews', checkSession, (req, res) => {
@@ -610,7 +610,7 @@ app.get('/data/getallnews', checkSession, (req, res) => {
     });
   });
 });
-// 설명: 뉴스 데이터 불러오기  는 페이징을 적용하여 뉴스 데이터를 조회하여 반환합니다.
+// 설명: 뉴스 데이터 불러오기는 페이징을 적용하여 뉴스 데이터를 조회하여 반환합니다.
 
 // 뉴스 데이터 삭제  
 app.delete('/data/delete-news/:newsId', checkSession, (req, res) => {
@@ -623,7 +623,7 @@ app.delete('/data/delete-news/:newsId', checkSession, (req, res) => {
     }
   });
 });
-// 설명: 뉴스 데이터 삭제  는 지정된 뉴스 데이터를 데이터베이스에서 삭제합니다.
+// 설명: 뉴스 데이터 삭제는 지정된 뉴스 데이터를 데이터베이스에서 삭제합니다.
 
 // 뉴스 검색  
 app.get('/data/search-news', checkSession, (req, res) => {
@@ -663,7 +663,7 @@ app.get('/data/search-news', checkSession, (req, res) => {
     });
   });
 });
-// 설명: 뉴스 검색  는 지정된 검색 조건에 따라 뉴스 데이터를 검색하여 반환합니다.
+// 설명: 뉴스 검색는 지정된 검색 조건에 따라 뉴스 데이터를 검색하여 반환합니다.
 
 // 전기차 데이터 불러오기  
 app.get('/data/getallev', checkSession, (req, res) => {
@@ -697,7 +697,7 @@ app.get('/data/getallev', checkSession, (req, res) => {
     });
   });
 });
-// 설명: 전기차 데이터 불러오기  는 페이징을 적용하여 전기차 데이터를 조회하여 반환합니다.
+// 설명: 전기차 데이터 불러오기는 페이징을 적용하여 전기차 데이터를 조회하여 반환합니다.
 
 // 전기차 데이터 삭제  
 app.delete('/data/delete-ev/:evc_id', checkSession, (req, res) => {
@@ -710,7 +710,7 @@ app.delete('/data/delete-ev/:evc_id', checkSession, (req, res) => {
     }
   });
 });
-// 설명: 전기차 데이터 삭제  는 지정된 전기차 데이터를 데이터베이스에서 삭제합니다.
+// 설명: 전기차 데이터 삭제는 지정된 전기차 데이터를 데이터베이스에서 삭제합니다.
 
 // 전기차 데이터 수정  
 app.post('/data/update-ev', checkSession, (req, res) => {
@@ -727,7 +727,7 @@ app.post('/data/update-ev', checkSession, (req, res) => {
     }
   });
 });
-// 설명: 전기차 데이터 수정  는 클라이언트에서 받은 전기차 데이터를 기반으로 기존 데이터를 수정합니다.
+// 설명: 전기차 데이터 수정는 클라이언트에서 받은 전기차 데이터를 기반으로 기존 데이터를 수정합니다.
 
 // 전기차 데이터 추가  
 app.post('/data/insert-ev', checkSession, (req, res) => {
@@ -745,7 +745,7 @@ app.post('/data/insert-ev', checkSession, (req, res) => {
     }
   });
 });
-// 설명: 전기차 데이터 추가  는 클라이언트에서 받은 전기차 데이터를 데이터베이스에 삽입합니다.
+// 설명: 전기차 데이터 추가는 클라이언트에서 받은 전기차 데이터를 데이터베이스에 삽입합니다.
 
 // 전기차 데이터 검색  
 app.get('/data/search-ev', checkSession, (req, res) => {
@@ -781,7 +781,7 @@ app.get('/data/search-ev', checkSession, (req, res) => {
     });
   });
 });
-// 설명: 전기차 데이터 검색  는 지정된 검색 조건에 따라 전기차 데이터를 검색하여 반환합니다.
+// 설명: 전기차 데이터 검색는 지정된 검색 조건에 따라 전기차 데이터를 검색하여 반환합니다.
 
 // 충전기 데이터 불러오기  
 app.get('/data/getallevc', checkSession, (req, res) => {
@@ -827,7 +827,7 @@ app.get('/data/getallevc', checkSession, (req, res) => {
     });
   });
 });
-// 설명: 충전기 데이터 불러오기  는 페이징을 적용하여 충전기 데이터를 조회하여 반환합니다.
+// 설명: 충전기 데이터 불러오기는 페이징을 적용하여 충전기 데이터를 조회하여 반환합니다.
 
 // 충전기 데이터 수정  
 app.post('/data/update-evc', checkSession, (req, res) => {
@@ -844,7 +844,7 @@ app.post('/data/update-evc', checkSession, (req, res) => {
     }
   });
 });
-// 설명: 충전기 데이터 수정  는 클라이언트에서 받은 충전기 데이터를 기반으로 기존 데이터를 수정합니다.
+// 설명: 충전기 데이터 수정는 클라이언트에서 받은 충전기 데이터를 기반으로 기존 데이터를 수정합니다.
 
 // 충전기 데이터 삭제  
 app.delete('/data/delete-evc/:charger_id', checkSession, (req, res) => {
@@ -857,7 +857,7 @@ app.delete('/data/delete-evc/:charger_id', checkSession, (req, res) => {
     }
   });
 });
-// 설명: 충전기 데이터 삭제  는 지정된 충전기 데이터를 데이터베이스에서 삭제합니다.
+// 설명: 충전기 데이터 삭제는 지정된 충전기 데이터를 데이터베이스에서 삭제합니다.
 
 // 충전기 데이터 추가  
 app.post('/data/insert-evc', checkSession, (req, res) => {
@@ -875,32 +875,43 @@ app.post('/data/insert-evc', checkSession, (req, res) => {
     }
   });
 });
-// 설명: 충전기 데이터 추가  는 클라이언트에서 받은 충전기 데이터를 데이터베이스에 삽입합니다.
+// 설명: 충전기 데이터 추가는 클라이언트에서 받은 충전기 데이터를 데이터베이스에 삽입합니다.
 
-// 회원 데이터 불러오기  
+// 회원 데이터 불러오기 및 검색
 app.get('/data/getallmember', checkSession, (req, res) => {
   const pageNumber = parseInt(req.query.page) || 0;
   const pageSize = 10;
   const offset = pageNumber * pageSize;
+  const { category, keyword } = req.query;
 
-  const sqlCount = 'SELECT COUNT(*) AS total FROM member';
-  conn.query(sqlCount, (err, countResult) => {
-    if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정
-      throw err;
+  let sqlCount = 'SELECT COUNT(*) AS total FROM member';
+  let sql = `
+    SELECT member_id, member_area, member_name, member_tel, member_status, member_email
+    FROM member
+  `;
+  const params = [];
+
+  if (category && keyword) {
+    sqlCount += ` WHERE ${category} LIKE ?`;
+    sql += ` WHERE ${category} LIKE ?`;
+    params.push(`%${keyword}%`);
+  }
+
+  sql += ' ORDER BY member_id LIMIT ? OFFSET ?';
+  params.push(pageSize, offset);
+
+  conn.query(sqlCount, params.slice(0, 1), (err, countResult) => {
+    if (err) {
+      console.error('데이터베이스 쿼리 실행 중 에러 발생:', err);
+      return res.status(500).json({ error: '서버 에러' });
     }
     const totalItems = countResult[0].total;
     const totalPages = Math.ceil(totalItems / pageSize);
 
-    const sql = `
-      SELECT member_id, member_area, member_name, member_tel, member_status, member_email
-      FROM member
-      ORDER BY member_id
-      LIMIT ${pageSize} OFFSET ${offset}
-    `;
-
-    conn.query(sql, function(err, result) {
-      if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정
-        throw err;
+    conn.query(sql, params, (err, result) => {
+      if (err) {
+        console.error('데이터베이스 쿼리 실행 중 에러 발생:', err);
+        return res.status(500).json({ error: '서버 에러' });
       }
       res.send({
         member: result,
@@ -909,29 +920,8 @@ app.get('/data/getallmember', checkSession, (req, res) => {
     });
   });
 });
-// 설명: 회원 데이터 불러오기  는 페이징을 적용하여 회원 데이터를 조회하여 반환합니다.
 
-// 회원 데이터 검색  
-app.get('/data/search-member', checkSession, (req, res) => {
-  const { category, keyword } = req.query;
-
-  let query = 'SELECT * FROM member';
-  const params = [];
-
-  if (keyword) {
-    query += ` WHERE ${category} LIKE ?`;
-    params.push(`%${keyword}%`);
-  }
-
-  conn.query(query, params, (err, results) => {
-    if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정
-      console.error('검색 에러:', err);
-      return res.status(500).json({ error: '서버 에러' });
-    }
-    res.json(results);
-  });
-});
-// 설명: 회원 데이터 검색  는 지정된 검색 조건에 따라 회원 데이터를 검색하여 반환합니다.
+// 설명: 회원 데이터 검색은 지정된 검색 조건에 따라 회원 데이터를 검색하여 반환합니다.
 
 app.post('/data/update-member-status/:member_id', checkSession, (req, res) => {
   const { status } = req.body;
@@ -947,7 +937,7 @@ app.post('/data/update-member-status/:member_id', checkSession, (req, res) => {
     }
   });
 });
-// 설명: 회원 상태 업데이트  는 회원의 상태를 업데이트합니다.
+// 설명: 회원 상태 업데이트는 회원의 상태를 업데이트합니다.
 
 // 신고 테이블 리스트  
 app.get('/data/reports', checkSession, (req, res) => {
@@ -1000,7 +990,7 @@ app.get('/data/reports', checkSession, (req, res) => {
     });
   });
 });
-// 설명: 신고 테이블 리스트  는 페이징과 검색 조건을 적용하여 신고 데이터를 조회하여 반환합니다.
+// 설명: 신고 테이블 리스트는 페이징과 검색 조건을 적용하여 신고 데이터를 조회하여 반환합니다.
 
 // 신고 사유 리스트  
 app.get('/data/reports/:member_id', checkSession, (req, res) => {
@@ -1020,7 +1010,7 @@ app.get('/data/reports/:member_id', checkSession, (req, res) => {
     }
   });
 });
-// 설명: 신고 사유 리스트  는 지정된 회원에 대한 신고 사유 데이터를 조회하여 반환합니다.
+// 설명: 신고 사유 리스트는 지정된 회원에 대한 신고 사유 데이터를 조회하여 반환합니다.
 
 // 신고 횟수 증가 및 처리 완료 상태 업데이트  
 app.post('/data/increase-report-count/:memberId', checkSession, (req, res) => {
@@ -1070,7 +1060,7 @@ app.post('/data/increase-report-count/:memberId', checkSession, (req, res) => {
     });
   });
 });
-// 설명: 신고 횟수 증가 및 처리 완료 상태 업데이트  는 지정된 회원의 신고 횟수를 증가시키고, 해당 신고를 처리 완료 상태로 업데이트합니다.
+// 설명: 신고 횟수 증가 및 처리 완료 상태 업데이트는 지정된 회원의 신고 횟수를 증가시키고, 해당 신고를 처리 완료 상태로 업데이트합니다.
 
 // 신고 내용 삭제  
 app.delete('/data/delete-report/:reportId', checkSession, (req, res) => {
@@ -1087,7 +1077,7 @@ app.delete('/data/delete-report/:reportId', checkSession, (req, res) => {
     }
   });
 });
-// 설명: 신고 내용 삭제  는 지정된 신고 내용을 데이터베이스에서 삭제합니다.
+// 설명: 신고 내용 삭제는 지정된 신고 내용을 데이터베이스에서 삭제합니다.
 
 // 회원 삭제  
 app.delete('/data/delete-member/:memberId', checkSession, (req, res) => {
@@ -1103,7 +1093,7 @@ app.delete('/data/delete-member/:memberId', checkSession, (req, res) => {
     }
   });
 });
-// 설명: 회원 삭제  는 지정된 회원 데이터를 데이터베이스에서 삭제합니다.
+// 설명: 회원 삭제는 지정된 회원 데이터를 데이터베이스에서 삭제합니다.
 
 // 회원 수정  
 app.post('/data/update-member', checkSession, (req, res) => {
@@ -1121,7 +1111,7 @@ app.post('/data/update-member', checkSession, (req, res) => {
     }
   });
 });
-// 설명: 회원 수정  는 클라이언트에서 받은 회원 데이터를 기반으로 기존 데이터를 수정합니다.
+// 설명: 회원 수정는 클라이언트에서 받은 회원 데이터를 기반으로 기존 데이터를 수정합니다.
 
 // 문의 테이블 리스트  
 app.get('/data/getallquestion', checkSession, (req, res) => {
@@ -1161,7 +1151,7 @@ app.get('/data/getallquestion', checkSession, (req, res) => {
     });
   });
 });
-// 설명: 문의 테이블 리스트  는 페이징을 적용하여 문의 데이터를 조회하여 반환합니다.
+// 설명: 문의 테이블 리스트는 페이징을 적용하여 문의 데이터를 조회하여 반환합니다.
 
 // 문의 검색  
 app.get('/data/search-question', checkSession, (req, res) => {
@@ -1201,7 +1191,7 @@ app.get('/data/search-question', checkSession, (req, res) => {
     });
   });
 });
-// 설명: 문의 검색  는 지정된 검색 조건에 따라 문의 데이터를 검색하여 반환합니다.
+// 설명: 문의 검색는 지정된 검색 조건에 따라 문의 데이터를 검색하여 반환합니다.
 
 // 질문 내용 답변 페이지에서 띄우기  
 app.get('/data/getquestion/:question_no', checkSession, (req, res) => {
@@ -1219,7 +1209,7 @@ app.get('/data/getquestion/:question_no', checkSession, (req, res) => {
     res.json(results[0]);
   });
 });
-// 설명: 질문 내용 답변 페이지에서 띄우기  는 지정된 질문 번호에 해당하는 질문 데이터를 조회하여 반환합니다.
+// 설명: 질문 내용 답변 페이지에서 띄우기는 지정된 질문 번호에 해당하는 질문 데이터를 조회하여 반환합니다.
 
 // 답변 내용 가져오기  
 app.get('/data/getanswer/:question_no', checkSession, (req, res) => {
@@ -1237,7 +1227,7 @@ app.get('/data/getanswer/:question_no', checkSession, (req, res) => {
     res.json(results[0]);
   });
 });
-// 설명: 답변 내용 가져오기  는 지정된 질문 번호에 해당하는 답변 데이터를 조회하여 반환합니다.
+// 설명: 답변 내용 가져오기는 지정된 질문 번호에 해당하는 답변 데이터를 조회하여 반환합니다.
 
 // 답변 작성  
 app.post('/data/submit-answer', checkSession, (req, res) => {
@@ -1259,7 +1249,7 @@ app.post('/data/submit-answer', checkSession, (req, res) => {
     });
   });
 });
-// 설명: 답변 작성  는 클라이언트에서 받은 답변 내용을 데이터베이스에 삽입하고, 해당 질문의 상태를 '처리완료'로 업데이트합니다.
+// 설명: 답변 작성는 클라이언트에서 받은 답변 내용을 데이터베이스에 삽입하고, 해당 질문의 상태를 '처리완료'로 업데이트합니다.
 
 // 파일 경로 설정
 app.use(express.static('public'));
