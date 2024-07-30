@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ChatUserDTO {
-    private String memberId;
+    private String member_id;
     private Status status;
     private Integer sale_id;
 }
