@@ -40,9 +40,9 @@ public class ChatRoomService {
 
 
     private String createChatId(String senderId, String recipientId, Integer sale_id) {
-    	var chatId = String.format("%s_%s_%d", senderId, recipientId, sale_id);
+        var chatId = String.format("%s_%s_%d", senderId, recipientId, sale_id);
 
-        ChatRoom senderRecipient = ChatRoom
+        ChatRoom chatRoom = ChatRoom
                 .builder()
                 .chatId(chatId)
                 .senderId(senderId)
@@ -50,17 +50,10 @@ public class ChatRoomService {
                 .sale_id(sale_id)
                 .build();
 
-        ChatRoom recipientSender = ChatRoom
-                .builder()
-                .chatId(chatId)
-                .senderId(recipientId)
-                .recipientId(senderId)
-                .sale_id(sale_id)
-                .build();
-
-        chatRoomRepository.save(senderRecipient);
-        chatRoomRepository.save(recipientSender);
+        chatRoomRepository.save(chatRoom);
 
         return chatId;
     }
+    
+    
 }
