@@ -30,14 +30,14 @@ public class EVController {
 	@Autowired
 	private EVStationService evStationService;
 	
-	// 충전소 지도 메인페이지 연결
+	// 충전소 페이지 연결
 	@RequestMapping("/{step}")
 	public String EVMainPage(@PathVariable String step) {
 		System.out.println("연결페이지"+step);
 		return "/ev/"+step;
 	}
 	
-	// 충전소 메인페이지 출력 시, DB에 저장된 정보 지도에 넘겨주기
+	// 충전소 메인페이지 - DB에 저장된 위치정보 지도에 넘겨주기
 	@RequestMapping("/evMain")
     public String getMapData(Model model) {
         List<EVStationVO> evStationList = evStationService.getStation();
@@ -45,27 +45,31 @@ public class EVController {
         return "/ev/evMain";
     }
 	
-	 // 충전소의 충전기 내역 및 상세정보 출력 
-	 @GetMapping("/ev_info")
-	 @ResponseBody
-	 public List<EVchargerVO> getChargerInfo(@RequestParam("evc_id") String evc_id) {
-		 System.out.println("info insert : "+evc_id);
-		 List<EVchargerVO> chargerInfo = evStationService.getStationDataInfo(evc_id);
-		 System.out.println("info send : "+chargerInfo);
-	    return chargerInfo;
-	 }
+	// 회원 위치정보 받아오기 
+	@GetMapping("/getUserLocation")
+	@ResponseBody
+	public MemberVO getUserLocation(String member_id){
+		MemberVO mvo = evStationService.getUserLocation(member_id);
+		return mvo;
+	}
+	
+	// 충전소 - 상세정보 출력 
+	@GetMapping("/ev_info")
+	@ResponseBody
+	public List<EVchargerVO> getChargerInfo(@RequestParam("evc_id") String evc_id) {
+		List<EVchargerVO> chargerInfo = evStationService.getStationDataInfo(evc_id);
+		return chargerInfo;
+	}
 	 
-	// 즐겨찾기 설정 - list 불러오기
+	// 즐겨찾기 - list 불러오기
 	 @GetMapping("/ev_Favorite")
 	 @ResponseBody
 	 public List<EVchargerVO> stroageChargerFav(String member_id ){
-		 System.out.println("insert : "+member_id);
-		 
 		 List<EVchargerVO> chargerlike = evStationService.selectEVFav(member_id);
-		 System.out.println("send : "+ chargerlike);
 		 return chargerlike;
 	 }
 	 
+	 // 즐겨찾기 - 등록
 	 @GetMapping("/ev_FavoriteInsert")
 	 public String FavoriteInsert(String evc_id, String member_id ){
 		 HashMap favMap = new HashMap();
@@ -75,6 +79,7 @@ public class EVController {
 		 return "ev/ev_Favorite";
 	 }
 	 
+	 // 즐겨찾기 - 삭제
 	 @GetMapping("/ev_FavoriteDelete")
 	 public String FavoriteDelete(String evc_id, String member_id ){
 		 HashMap delMap = new HashMap();
@@ -84,7 +89,7 @@ public class EVController {
 		 return "ev/ev_Favorite";
 	 }	 
 	 
-	// 충전소 검색 결과
+	// 충전소 검색 - 결과
 	@PostMapping("/ev_MapFilter")
 	@ResponseBody
 	public List<EVchargerVO> findEVStation(
@@ -103,16 +108,5 @@ public class EVController {
 	    
 	    List<EVchargerVO> evo = evStationService.getFilteredStation(map);
 	    return evo;
-	}
-	
-	@GetMapping("/getUserLocation")
-	@ResponseBody
-	public MemberVO getUserLocation(String member_id, HttpSession session ){
-		MemberVO member = (MemberVO) session.getAttribute("member");
-		System.out.println(member);
-		System.out.println("insert - getUserLocation" + member_id);
-		MemberVO mvo = evStationService.getUserLocation(member_id);
-		System.out.println("send  : "+mvo);
-		return mvo;
-	 }
+	}	
 }
