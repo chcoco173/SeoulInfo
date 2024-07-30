@@ -1,228 +1,243 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-   <!-- 모바일 화면 확대 방지-->
-   <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
-   <title>지도 생성하기</title>
-   
-   <!-- template default setting -->
-   <meta content="Sightseer - Webflow Travel Photography Website Template" name="description">
-   <meta content="width=device-width, initial-scale=1" name="viewport">
-   <meta content="Webflow" name="generator">
-   
-   <link href="/css/normalize.css" rel="stylesheet" type="text/css">
-   <link href="/css/webflow.css" rel="stylesheet" type="text/css">
-   <link href="/css/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet" type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- 모바일 화면 확대 방지-->
+<meta name="viewport"
+	content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+<title>지도 생성하기</title>
 
-   <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
-   <link href="/images/webclip.png" rel="apple-touch-icon">
-   
-   <!-- EV setting -->
-   <link href="/css/ev/evMain.css" rel="stylesheet" type="text/css">
-   
-   <!-- 기존의 CSS 및 JavaScript 파일 포함 -->
-   <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   <script src="/bootstrap/js/bootstrap.min.js"></script>
-   <style>
-           #loading {
-               position: fixed;
-               top: 0;
-               left: 0;
-               width: 100%;
-               height: 100%;
-               background: rgba(255, 255, 255, 0.8);
-               display: flex;
-               justify-content: center;
-               align-items: center;
-               z-index: 9999;
-               flex-direction: column;
-           }
+<!-- template default setting -->
+<meta content="Sightseer - Webflow Travel Photography Website Template"
+	name="description">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<meta content="Webflow" name="generator">
 
-           .spinner-border {
-               width: 3rem;
-               height: 3rem;
-               margin-bottom: 1rem;
-           }
+<link href="/css/normalize.css" rel="stylesheet" type="text/css">
+<link href="/css/webflow.css" rel="stylesheet" type="text/css">
+<link href="/css/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet"
+	type="text/css">
 
-           .loading-text {
-               font-size: 1.5rem;
-               font-weight: bold;
-           }
-		   
-		   /* CSS for dropdown */
-		   .dropdown-menu {
-		       background-color: white;
-		       border: 1px solid rgba(0, 0, 0, 0.15);
-		       border-radius: .25rem;
-		       box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.175);
-		       display: none; /* Hide by default */
-		   }
+<link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
+<link href="/images/webclip.png" rel="apple-touch-icon">
 
-		   .dropdown-menu.show {
-		       display: block;
-		   }
+<!-- EV setting -->
+<link href="/css/ev/evMain.css" rel="stylesheet" type="text/css">
 
-		   /* Additional styles if necessary */
-		   .dropdown-toggle {
-		       border: 1px solid #ccc;
-		       padding: 0.5rem 1rem;
-		       cursor: pointer;
-		   }
+<!-- 기존의 CSS 및 JavaScript 파일 포함 -->
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<style>
+#loading {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(255, 255, 255, 0.8);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 9999;
+	flex-direction: column;
+}
 
-		   .dropdown-item {
-		       padding: 0.5rem 1rem;
-		   }
+.spinner-border {
+	width: 3rem;
+	height: 3rem;
+	margin-bottom: 1rem;
+}
 
-		   
-       </style>
+.loading-text {
+	font-size: 1.5rem;
+	font-weight: bold;
+}
+
+/* CSS for dropdown */
+.dropdown-menu {
+	background-color: white;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	border-radius: .25rem;
+	box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.175);
+	display: none; /* Hide by default */
+}
+
+.dropdown-menu.show {
+	display: block;
+}
+
+/* Additional styles if necessary */
+.dropdown-toggle {
+	border: 1px solid #ccc;
+	padding: 0.5rem 1rem;
+	cursor: pointer;
+}
+
+.dropdown-item {
+	padding: 0.5rem 1rem;
+}
+</style>
 </head>
 <body onload="initMap()">
-<!-- Overlay for black background -->
-    <div class="overlay"></div>
-<!-- Delay for page loading -->
-<div id="loading">
-        <div class="spinner-border text-primary" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-        <div class="loading-text">Loading . . .</div>
-    </div>
-<!-- header navigation -->
+	<!-- Overlay for black background -->
+	<div class="overlay"></div>
+	<!-- Delay for page loading -->
+	<div id="loading">
+		<div class="spinner-border text-primary" role="status">
+			<span class="sr-only">Loading...</span>
+		</div>
+		<div class="loading-text">Loading . . .</div>
+	</div>
+	<!-- header navigation -->
+	<div class="navigation-wrapper">
+		<div data-animation="default" data-collapse="medium"
+			data-duration="400" data-easing="ease" data-easing2="ease"
+			role="banner" class="navbar_m w-nav">
+			<div class="nav-wrapper">
+				<a href="/" aria-current="page" class="brand w-nav-brand w--current">
+					<img src="/images/ph_globe-simple-light-medium.svg" loading="lazy"
+					alt="">
+				</a>
+				<div class="links-and-search-wrapper">
+					<%
+						if (session.getAttribute("member") != null) {
+					%>
+					<nav role="navigation" class="nav-links-wrapper w-nav-menu">
+						<a href="/news/news?area=${sessionScope.member.member_area}"
+							class="nav-link w-nav-link">뉴스</a> <a
+							href="/festival/festival?area=${sessionScope.member.member_area}"
+							class="nav-link w-nav-link">문화행사</a> <a href="/ev/evMain"
+							class="nav-link w-nav-link">전기차</a> <a href="/mypage/profile"
+							class="nav-link w-nav-link">마이페이지</a> <a href="/member/logout"
+							class="nav-link w-nav-link">로그아웃</a>
+					</nav>
+					<%
+						} else {
+					%>
+					<nav role="navigation" class="nav-links-wrapper w-nav-menu">
+						<a href="/gu" class="nav-link w-nav-link">문화행사/뉴스</a> <a
+							href="/ev/evMain" class="nav-link w-nav-link">전기차</a> <a
+							href="/member/login" class="nav-link w-nav-link">로그인</a>
+					</nav>
+					<%
+						}
+					%>
+					<form action="/search"
+						data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5"
+						class="search w-form">
+						<div class="search-div">
+							<img src="/images/ph_magnifying-glass-light-xsmall.svg"
+								loading="lazy" alt="" class="icon-1x1-xsmall">
+						</div>
+						<div class="nav-search-outer-wrapper">
+							<div class="nav-search-internal-wrapper">
+								<input class="form-field w-input" maxlength="256" name="query"
+									placeholder="Search…" type="search" id="search" required="">
+								<div class="search-button-wrapper">
+									<input type="submit" class="button-primary-small w-button"
+										value="Search"> <a
+										data-w-id="a72c4d20-babf-897f-e150-4948b59e5bfb" href="#"
+										class="close-search-link-block w-inline-block"> <img
+										src="/images/ph_x-light-xsmall.svg" loading="lazy" alt=""
+										class="icon-1x1-xsmall">
+									</a>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="menu-button w-nav-button">
+					<img src="/images/ph_list-light-xsmall.svg" loading="lazy" alt=""
+						class="icon-1x1-xsmall">
+				</div>
+			</div>
+		</div>
+	</div>
 
-<div class="navigation-wrapper">
-   <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar_m w-nav">
-      <div class="nav-wrapper">
-         <a href="/" aria-current="page" class="brand w-nav-brand w--current">
-            <img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt="">
-         </a>
-         <div class="links-and-search-wrapper">
-			<%	if(session.getAttribute("member")!=null){ %>
-			<nav role="navigation" class="nav-links-wrapper w-nav-menu">
-			    <div class="login-success-title">${sessionScope.member.member_name}님, 환영합니다.</div>
-			    <a href="/mypage/profile" class="nav-link w-nav-link">마이페이지</a>
-				<a href="/" class="nav-link w-nav-link">로그아웃</a>
-			</nav>
-			<% } else { %>
-				<nav role="navigation" class="nav-links-wrapper w-nav-menu">
-					<a href="/member/login" class="nav-link w-nav-link">로그인</a>
-				</nav>
-			<% } %>
-            <form action="/search" data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5" class="search w-form">
-               <div class="search-div">
-                  <img src="/images/ph_magnifying-glass-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall">
-               </div>
-               <div class="nav-search-outer-wrapper">
-                  <div class="nav-search-internal-wrapper">
-                     <input class="form-field w-input" maxlength="256" name="query" placeholder="Search…" type="search" id="search" required="">
-                     <div class="search-button-wrapper">
-                        <input type="submit" class="button-primary-small w-button" value="Search">
-                        <a data-w-id="a72c4d20-babf-897f-e150-4948b59e5bfb" href="#" class="close-search-link-block w-inline-block">
-                           <img src="/images/ph_x-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall">
-                        </a>
-                     </div>
-                  </div>
-               </div>
-            </form>
-         </div>			
-         <div class="menu-button w-nav-button">
-            <img src="/images/ph_list-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall">
-         </div>
-      </div>
-   </div>
-</div><br/><hr/>
-<!-- end of header navigation -->
+	<br />
+	<hr />
+	<!-- end of header navigation -->
 
-<!-- kakao map API -->
-   <div class="map_wrap after-loading">
-	<div  onload="initMap()">
-       <div id="map"></div>
-	   	<div id="dropdown-container" style="position: absolute; top: 10px; right: 10px; z-index: 1100;">
-		<div class="dropdown">
-	   		<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" aria-expanded="false">
-	   			지도 필터
-	   		</button>
-	   		<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-	   		    <li><a class="dropdown-item" href="#"><button id="fetchDataButton">Fetch Parking Data</button></a></li>
-	   		    <li><a class="dropdown-item" href="#">옵션 2</a></li>
-	   			<li><a class="dropdown-item" href="#">옵션 3</a></li>
-	   		</ul>
-	   	</div>
-	   	</div>
-	   </div>
-	   
-	  <!-- service Buttons -->
-      <table class="serviceCate" style="width: 100%; text-align:center;">
-         <tr>
-			<td style="width:33%">
-				<a href="/ev/ev_Navigation"><button class="filter btn btn-success" id="filterBtn2">길찾기</button></a>
-			</td>
-            <td style="width:33%">
-               <button class="filter btn btn-primary" id="filterBtn1">충전소 검색</button>
-            </td>
-            <td style="width:33%">
-               <button class="filter btn btn-secondary" id="filterBtn3">즐겨찾기</button>
-            </td>
-         </tr>
-      </table>
+	<!-- kakao map API -->
+	<div class="map_wrap after-loading">
+		<div onload="initMap()">
+			<div id="map"></div>
+			<div id="dropdown-container"
+				style="position: absolute; top: 10px; right: 10px; z-index: 1100;">
+				<div class="dropdown">
+					<button class="btn btn-secondary dropdown-toggle" type="button"
+						id="dropdownMenuButton" aria-expanded="false">지도 필터</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<li><a class="dropdown-item" href="#"><button
+									id="fetchDataButton">Fetch Parking Data</button></a></li>
+						<li><a class="dropdown-item" href="#">옵션 2</a></li>
+						<li><a class="dropdown-item" href="#">옵션 3</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<!-- service Buttons -->
+		<table class="serviceCate" style="width: 100%; text-align: center;">
+			<tr>
+				<td style="width: 33%"><a href="/ev/ev_Navigation"><button
+							class="filter btn btn-success" id="filterBtn2">길찾기</button></a></td>
+				<td style="width: 33%">
+					<button class="filter btn btn-primary" id="filterBtn1">충전소
+						검색</button>
+				</td>
+				<td style="width: 33%">
+					<button class="filter btn btn-secondary" id="filterBtn3">즐겨찾기</button>
+				</td>
+			</tr>
+		</table>
 		<!-- convenience category Buttons -->
 		<ul id="category">
-           <li id="BK9" data-order="0"> 
-               <span class="category_bg bank"></span>
-               은행
-           </li>       
-           <li id="MT1" data-order="1"> 
-               <span class="category_bg mart"></span>
-               마트
-           </li>  
-           <li id="PM9" data-order="2"> 
-               <span class="category_bg pharmacy"></span>
-               약국
-           </li>  
-           <li id="OL7" data-order="3"> 
-               <span class="category_bg oil"></span>
-               주유소
-           </li>  
-           <li id="CE7" data-order="4"> 
-               <span class="category_bg cafe"></span>
-               카페
-           </li>  
-           <li id="CS2" data-order="5"> 
-               <span class="category_bg store"></span>
-               편의점
-           </li>
-       </ul>
-	   <!-- show diffrent map type-->
-	   <div id="map_show_type">
-	       <button class="btn btn-info" id="btnTerrain" data-enabled="false" onclick="setOverlayMapTypeId()">
-	           지형도
-	       </button>
-	   </div>
-   </div>
-   <!--페이지 수정-->
-   <div class="service_list">
-      <%@include file="./ev_MapFilter.jsp"%>      
-   </div>
-   <!--
+			<li id="BK9" data-order="0"><span class="category_bg bank"></span>
+				은행</li>
+			<li id="MT1" data-order="1"><span class="category_bg mart"></span>
+				마트</li>
+			<li id="PM9" data-order="2"><span class="category_bg pharmacy"></span>
+				약국</li>
+			<li id="OL7" data-order="3"><span class="category_bg oil"></span>
+				주유소</li>
+			<li id="CE7" data-order="4"><span class="category_bg cafe"></span>
+				카페</li>
+			<li id="CS2" data-order="5"><span class="category_bg store"></span>
+				편의점</li>
+		</ul>
+		<!-- show diffrent map type-->
+		<div id="map_show_type">
+			<button class="btn btn-info" id="btnTerrain" data-enabled="false"
+				onclick="setOverlayMapTypeId()">지형도</button>
+		</div>
+	</div>
+	<!--페이지 수정-->
+	<div class="service_list">
+		<%@include file="./ev_MapFilter.jsp"%>
+	</div>
+	<!--
    <div class="service_list">
 
    </div>
    -->
-   <div class="service_list">
-   		<%@include file="./ev_Favorite.jsp"%>
-   </div>
-   <div class="service_detail">
-   		<%@include file="./ev_Info.jsp"%>
-   <div>
-<!-- end of kakao map API -->
+	<div class="service_list">
+		<%@include file="./ev_Favorite.jsp"%>
+	</div>
+	<div class="service_detail">
+		<%@include file="./ev_Info.jsp"%>
+		<div>
+			<!-- end of kakao map API -->
 
-<!-- kakao map Script-->
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=008b79e594d7ab4e1058e1180ccf546c&libraries=clusterer"></script>
-    <script>
+			<!-- kakao map Script-->
+			<script type="text/javascript"
+				src="//dapi.kakao.com/v2/maps/sdk.js?appkey=008b79e594d7ab4e1058e1180ccf546c&libraries=clusterer"></script>
+			<script>
 		// session 값 받아오기 
 		var sessionResult = '<c:out value="${sessionScope.member != null ? sessionScope.member.member_id : ''}" />';
 		
@@ -496,8 +511,8 @@
 		    });
 		});
 </script>
-<!-- ############################################################ -->
-<script>
+			<!-- ############################################################ -->
+			<script>
         $(document).ready(function() {
             $("#fetchDataButton").click(function() {
                 $.ajax({
@@ -514,9 +529,9 @@
             });
         });
     </script>
-<!-- end of kakao map Script -->
-   <script src="/js/webflow.js" type="text/javascript"></script>
-   <script src="/js/evPage.js" type="text/javascript"></script>
+			<!-- end of kakao map Script -->
+			<script src="/js/webflow.js" type="text/javascript"></script>
+			<script src="/js/evPage.js" type="text/javascript"></script>
 </body>
 </html>
 

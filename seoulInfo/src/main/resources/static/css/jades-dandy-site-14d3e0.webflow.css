@@ -398,14 +398,14 @@ figcaption {
 
 .banner-image {
   border-radius: var(--corner-rounding);
-  background-image: url('../images/web-nastya-dulhiier-3Ze88tZX-p0-unsplash.jpg');
+  background-image: url('../mainPageImage/festival.jpg');
   background-position: 50%;
   background-size: cover;
   height: 100%;
 }
 
 .banner-image._2 {
-  background-image: url('../images/web-la-so-vk4vjTNVrTg-unsplash.jpg');
+  background-image: url('../mainPageImage/ev.jpg');
 }
 
 .banner-image._3 {
