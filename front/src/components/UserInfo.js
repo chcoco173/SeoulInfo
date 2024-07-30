@@ -3,89 +3,97 @@ import '../css/UserInfo.css';
 import { useAuth } from './AuthContext';
 
 function UserInfo() {
-  const { instance } = useAuth();
-  const [memberData, setMemberData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
-  const [searchCategory, setSearchCategory] = useState('member_name');
-  const [searchKeyword, setSearchKeyword] = useState('');
-  const [editIndex, setEditIndex] = useState(-1);
-  const [editMember, setEditMember] = useState({});
-  const [errors, setErrors] = useState({});
+  const { instance } = useAuth(); // 인증 컨텍스트에서 Axios 인스턴스를 가져옴
+  const [memberData, setMemberData] = useState([]); // 회원 데이터를 저장할 상태
+  const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 번호를 저장할 상태
+  const [totalPages, setTotalPages] = useState(0); // 총 페이지 수를 저장할 상태
+  const [searchCategory, setSearchCategory] = useState('member_name'); // 검색 카테고리를 저장할 상태
+  const [searchKeyword, setSearchKeyword] = useState(''); // 검색 키워드를 저장할 상태
+  const [editIndex, setEditIndex] = useState(-1); // 수정 중인 회원의 인덱스를 저장할 상태
+  const [editMember, setEditMember] = useState({}); // 수정 중인 회원 정보를 저장할 상태
+  const [errors, setErrors] = useState({}); // 입력 값 검증 오류 메시지를 저장할 상태
 
+  // 컴포넌트 마운트 시 회원 데이터를 가져옴
   useEffect(() => {
-    fetchMemberData(currentPage);
+    memberView(currentPage);
   }, [currentPage]);
 
-  const fetchMemberData = async (page) => {
+  // 현재 페이지에 따라 회원 데이터를 가져오는 함수
+  const memberView = async (page) => {
     try {
       const response = await instance.get('/data/getallmember', {
-        params: { page }
+        params: { page } // 페이지 번호를 서버에 전달
       });
-      setMemberData(response.data.member);
-      setTotalPages(response.data.totalPages);
+      setMemberData(response.data.member); // 서버에서 가져온 회원 데이터를 상태에 저장
+      setTotalPages(response.data.totalPages); // 서버에서 가져온 총 페이지 수를 상태에 저장
     } catch (error) {
-      console.error('Error fetching member data:', error);
     }
   };
 
+  // 회원 상태를 업데이트하는 함수
   const updateMemberStatus = async (member_id, newStatus) => {
     try {
       await instance.post(`/data/update-member-status/${member_id}`, {
-        status: newStatus
+        status: newStatus // 새로운 회원 상태를 서버에 전달
       });
-      fetchMemberData(currentPage);
+      memberView(currentPage); // 상태 변경 후 회원 데이터를 다시 가져옴
     } catch (error) {
     }
   };
 
-  const handleStatusToggle = (member_id, currentStatus) => {
-    const newStatus = currentStatus === 'Y' ? 'N' : 'Y';
+  // 회원 상태 토글을 처리하는 함수
+  const handleMemberStatus = (member_id, currentStatus) => {
+    const newStatus = currentStatus === 'Y' ? 'N' : 'Y'; // 현재 상태에 따라 새로운 상태를 설정
     if (window.confirm('회원 상태를 변경하시겠습니까?')) {
       updateMemberStatus(member_id, newStatus);
     }
   };
 
+  // 검색을 처리하는 함수
   const handleSearch = async () => {
     try {
       const res = await instance.get('/data/search-member', {
         params: {
-          category: searchCategory,
-          keyword: searchKeyword
+          category: searchCategory, // 검색 카테고리를 서버에 전달
+          keyword: searchKeyword // 검색 키워드를 서버에 전달
         }
       });
-      setMemberData(res.data);
+      setMemberData(res.data); // 서버에서 검색된 회원 데이터를 상태에 저장
     } catch (error) {
-      console.error('검색 실패:', error);
     }
   };
 
+  // 검색 입력 필드에서 엔터 키를 눌렀을 때 검색을 실행하는 함수
   const handleKeyUp = (e) => {
     if (e.key === 'Enter') {
       handleSearch();
     }
   };
 
+  // 페이지 변경을 처리하는 함수
   const handlePageChange = (page) => {
-    setCurrentPage(page);
+    setCurrentPage(page); // 선택한 페이지 번호를 상태에 저장
   };
 
+  // 수정 버튼 클릭 시 처리하는 함수
   const handleEditClick = (index, member) => {
-    setEditIndex(index);
-    setEditMember({ ...member });
-    setErrors({});
+    setEditIndex(index); // 수정 중인 회원의 인덱스를 상태에 저장
+    setEditMember({ ...member }); // 수정 중인 회원 정보를 상태에 저장
+    setErrors({}); // 오류 메시지 초기화
   };
 
+  // 수정 입력 필드 변경 시 처리하는 함수
   const handleEditChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target; // 입력 필드의 이름과 값을 가져옴
     setEditMember((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value // 수정 중인 회원 정보 상태를 업데이트
     }));
   };
 
+  // 필드 값을 검증하는 함수
   const validateField = (name, value) => {
-    let error = '';
+    let error = ''; // 오류 메시지 초기화
     switch (name) {
       case 'member_name':
         if (!/^[가-힣]{2,}$/.test(value)) {
@@ -112,20 +120,21 @@ function UserInfo() {
     }
     setErrors((prevErrors) => ({
       ...prevErrors,
-      [name]: error
+      [name]: error // 오류 메시지 상태를 업데이트
     }));
-    return error === '';
+    return error === ''; // 오류 메시지가 비어 있는지 여부를 반환
   };
 
+  // 수정 제출 시 처리하는 함수
   const handleEditSubmit = async () => {
-    let valid = true;
-    for (const [name, value] of Object.entries(editMember)) {
+    let valid = true; // 유효성 검사 초기화
+    for (const [name, value] of Object.entries(editMember)) { //editMember 객체의 모든 키-값 쌍을 배열 형태로 반환
       if (!validateField(name, value)) {
         valid = false;
       }
     }
     if (!valid) {
-      return;
+      return; // 유효성 검사를 통과하지 못하면 함수 종료
     }
 
     if (window.confirm('수정하시겠습니까?')) {
@@ -133,20 +142,20 @@ function UserInfo() {
         const response = await instance.post('/data/update-member', editMember);
         if (response.status === 200) {
           alert('회원 정보 수정 완료');
-          fetchMemberData(currentPage);
-          setEditIndex(-1);
+          memberView(currentPage); // 수정 완료 후 회원 데이터를 다시 가져옴
+          setEditIndex(-1); // 수정 모드 종료
         } else {
           alert('회원 정보 수정 실패');
         }
       } catch (error) {
-        console.error('회원 정보 수정 실패:', error);
       }
     }
   };
 
+  // 페이지 번호를 렌더링하는 함수
   const renderPageNumbers = () => {
     const pageNumbers = [];
-    const maxPagesToShow = 10;
+    const maxPagesToShow = 10; // 한 번에 보여줄 최대 페이지 수
     const totalPageBlocks = Math.ceil(totalPages / maxPagesToShow);
     const currentBlock = Math.floor(currentPage / maxPagesToShow);
 
@@ -266,7 +275,7 @@ function UserInfo() {
                   <td className='memberstop'>
                     <button
                       className='memberstop-button'
-                      onClick={() => handleStatusToggle(member.member_id, member.member_status)}
+                      onClick={() => handleMemberStatus(member.member_id, member.member_status)}
                     >
                       {member.member_status === 'Y' ? '정지' : '취소'}
                     </button>
@@ -290,7 +299,7 @@ function UserInfo() {
                   <td className='memberstop'>
                     <button
                       className='memberstop-button'
-                      onClick={() => handleStatusToggle(member.member_id, member.member_status)}
+                      onClick={() => handleMemberStatus(member.member_id, member.member_status)}
                     >
                       {member.member_status === 'Y' ? '정지' : '취소'}
                     </button>
@@ -309,3 +318,14 @@ function UserInfo() {
 }
 
 export default UserInfo;
+
+/**
+ * UserInfo 컴포넌트 흐름도
+ *
+ * 1. useEffect를 통해 memberView 함수를 호출하여 현재 페이지의 회원 데이터를 가져옴.
+ * 2. handlePageChange 함수를 통해 currentPage 상태가 변경될 때마다 memberView 호출.
+ * 3. handleMemberStatus 함수에서 회원 상태를 토글하고 updateMemberStatus 함수 호출.
+ * 4. 검색 입력 필드에서 Enter 키를 누르거나 검색 버튼 클릭 시 handleSearch 함수 호출.
+ * 5. 수정 버튼 클릭 시 handleEditClick 함수 호출로 수정 모드로 전환.
+ * 6. 수정 완료 버튼 클릭 시 handleEditSubmit 함수 호출로 회원 정보 업데이트.
+ */

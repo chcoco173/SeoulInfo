@@ -82,7 +82,6 @@ function FestivalBoardManagement() {
         await instance.delete(`/data/delete-festivalboard/${fr_id}`);
         window.location.reload(); // 삭제 후 페이지 새로고침
       } catch (error) {
-        console.error('Error deleting festival board:', error);
       }
     }
   };
@@ -107,7 +106,6 @@ function FestivalBoardManagement() {
       setTotalPages(res.data.totalPages);
       setCurrentPage(page);
     } catch (error) {
-      console.error('검색 실패:', error);
     }
   };
 

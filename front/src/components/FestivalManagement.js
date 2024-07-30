@@ -77,7 +77,6 @@ function Festivalpopup({ festival, onClose }) {
             alert('행사 수정 실패');
           }
         } catch (error) {
-          console.error('에러 발생:', error);
           alert('행사 수정 실패');
         }
       }
@@ -103,9 +102,7 @@ function Festivalpopup({ festival, onClose }) {
             alert('행사정보 삭제 실패');
           }
         })
-        .catch(error => {
-          console.error('에러 발생:', error);
-        });
+        .catch();
     }
   };
 
@@ -301,7 +298,6 @@ function FestivalManagement() {
           setFestivalView(prev => [...prev, ...response.data]);
           setPage(prev => prev + 1);
         } catch (error) {
-          console.error('Error fetching data:', error);
           setHasMore(false); // 에러 발생 시 데이터 로드 중단
         }
         setIsLoading(false);
@@ -345,7 +341,6 @@ function FestivalManagement() {
       });
       setSearchResults(processedResults);
     } catch (error) {
-      console.error('검색 실패:', error);
     }
   };
 

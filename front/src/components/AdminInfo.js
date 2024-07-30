@@ -176,7 +176,6 @@ function AdminInfo() {
       });
       setAdminView(res.data); // 검색 내용에 맞는 데이터들을 adminView에 저장해서 화면에 띄워줌
     } catch (error) {
-      console.error(error);
     }
   };
 
