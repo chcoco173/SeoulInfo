@@ -1,4 +1,5 @@
-<%@page contentType="text/html; charset=UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Wed Jul 03 2024 06:37:30 GMT+0000 (Coordinated Universal Time)  -->
@@ -55,7 +56,7 @@
 	    </div>
 	  </div>
 	</div>
-	<!-- 한) 상단:회원가입/로그인 버튼 end -->	
+	<!-- 한) 상단:회원가입/로그인 버튼 end -->
 	
 	
     <div class="navigation-wrapper">
@@ -84,7 +85,7 @@
     </div>
 	
 	
-	<!--한) 로그인 start-->
+	<!--한) 비밀번호찾기 start-->
     <div class="main-wrapper">
       <div class="section-contact">
         <div class="padding-global">
@@ -92,40 +93,47 @@
             <div class="container-large">
               <div class="_2-column-grid-uneven-right">
                 <div id="w-node-dcacb4c5-0e4e-5bd9-3310-1e984a55f96a-4f5c4825" data-w-id="dcacb4c5-0e4e-5bd9-3310-1e984a55f96a" style="opacity:0">
-                  <div class="accent">다양한 서비스를 제공 받을 수 있습니다.</div>
+                  <div class="accent">가입시 등록하신 정보를 입력해주세요.</div>
                   <div class="spacer-large"></div>
-                  <h1>로그인</h1>
+                  <h1>비밀번호 찾기</h1>
                   <div class="spacer-large"></div>
                   <p></p>
                 </div>
-                <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">				  
-					<form action="loginCheck" method="post" name="wf-form-Contact-Form" id="wf-form-Contact-Form" class="form" 
-						data-wf-page-id="6684f0fb2a5375354f5c4825" data-wf-element-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a65">
-					<div class="form-field-wrapper">						
-						<input class="form-field w-input" maxlength="256" name="member_id" placeholder="아이디" type="text" id="id" pattern="[A-Za-z0-9]{6,}" required>						
-					</div>
-					<div class="form-field-wrapper">						
-						<input class="form-field w-input" maxlength="256" name="member_pw" placeholder="비밀번호" type="password" id="pw" pattern="[A-Za-z0-9]{6,}" required>
-					</div>
-					
-					<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
-						<input type="submit" class="button-primary-large w-button loginBtn" value="로그인">
-					</div>
+			                                
+                <!-- 비밀번호찾기(이메일인증) start-->
+                <!-- <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form"> -->
+                <div id="Style-Guide-Form"  style="opacity:1; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">
+				  <div class="button-primary-large w-button">임시 비밀번호 발급</div>
+				  <div class="spacer-large"></div>				  
+					<form action="${pageContext.request.contextPath}/member/pw_change" method="post" name="wf-form-Contact-Form" id="wf-form-Contact-Form" class="form" >						
+						<!-- 비밀번호 찾기 -->					
+						<div class="form-field-wrapper">						
+							<input class="form-field w-input" maxlength="256" name="member_name" placeholder="이름" type="text" id="name" pattern="[가-힣]{2,}" required>						
+						</div>
+						<div class="form-field-wrapper">						
+							<input class="form-field w-input" maxlength="256" name="member_id" placeholder="아이디" type="text" id="id" pattern="[A-Za-z0-9]{6,}" required>						
+						</div>
+						<div class="form-field-wrapper">						
+							<input class="form-field w-input" maxlength="256" name="member_email" placeholder="이메일" type="email" id="member_email" required>
+						</div>
+						
+						<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
+							<input type="submit" class="button-primary-large w-button" value="비밀번호 변경 요청">
+						</div>										
+					</form>
 					<div class="spacer-large"></div>
-					<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
-						<a href="id_search" class="button-primary-large w-button">아이디 찾기</a>
-						<a href="pw_change" class="button-primary-large w-button">비밀번호 찾기</a>
-					</div>															
-					</form>				  				  				  
+				    <c:if test="${not empty result}">
+				        <p class="button-primary-large-msg-y">${result}</p>
+				    </c:if> 									  				  				  
                 </div>
-                
+                <!-- 비밀번호찾기(이메일인증) end-->
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-	<!--한) 로그인 end-->
+	<!--한) 비밀번호찾기 end-->
 	
 	
     <div class="section-newsletter">
@@ -196,6 +204,37 @@
       </div>
     </div>
   </div>
+  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+<!-- 이메일 인증번호 전송 -->
+    function sendNumber(){
+        $("#mail_number").css("display","block");
+        $.ajax({
+            url:"/mailSend",
+            type:"post",
+            dataType:"json",
+            data:{"mail" : $("#mail").val()},
+            success: function(data){
+                alert("인증번호 발송");
+                $("#Confirm").attr("value",data);
+            }
+        });
+    }
+
+    function confirmNumber(){
+        var number1 = $("#number").val();
+        var number2 = $("#Confirm").val();
+
+        if(number1 == number2){
+            alert("인증되었습니다.");
+        }else{
+            alert("번호가 다릅니다.");
+        }
+    }
+</script>     
   
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="/js/webflow.js" type="text/javascript"></script>

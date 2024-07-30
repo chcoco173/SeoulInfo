@@ -48,6 +48,15 @@
     <select id="findMemberByEmail" parameterType="String" resultType="MemberVO">
         SELECT * FROM member WHERE member_email=#{member_email}
     </select>	
+
+	<!-- 임시비밀번호 변경 -->
+    <select id="checkEmail" resultType="Integer">
+        SELECT COUNT(*) FROM member WHERE member_email = #{member_email}
+    </select>
+
+    <update id="updatePassword">
+        UPDATE member SET member_pw = #{newPassword} WHERE member_email = #{member_email}
+    </update>	
 	
 
 </mapper>

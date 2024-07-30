@@ -153,22 +153,20 @@
         
             <div class="chat-area">
 				<div class="chat-header">
-				    <div class="profile">
-				        <img src="/path/to/seller-profile-image.jpg" alt="Seller Profile Image">
+				    <div class="product-info">
+				        <img id="product-image" src="/productImages/deal_state.png" alt="Product Image" style="width: 50px; height: 50px; margin-right: 10px;">
 				        <div>
-				            <div>판매자 ID: seller_id</div>
-				            <div>상품명: product_name</div>
+				            <div id="product-name">상품명: </div>
+				            <div id="transaction-status">거래 상태: </div>
 				        </div>
 				    </div>
-				    <div>
-				        <img src="/path/to/product-image.jpg" alt="Product Image" style="width: 100px; height: 100px;">
-				        <div>거래 상태: transaction_status</div>
-				    </div>
-				    <div>
+				    <div class="action-buttons">
 				        <button onclick="reportSeller()">판매자 신고</button>
 				        <button onclick="exitChat()">채팅 나가기</button>
 				    </div>
-				</div>				
+				</div>
+
+				
                 <div class="chat-area" id="chat-messages"></div>
                 <form id="messageForm" name="messageForm">
                     <div class="message-input">

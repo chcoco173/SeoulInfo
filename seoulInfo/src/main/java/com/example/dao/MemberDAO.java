@@ -3,6 +3,7 @@ package com.example.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.data.repository.query.Param;
 
 import com.example.domain.MemberVO;
 
@@ -36,5 +37,10 @@ public interface MemberDAO {
 	//이메일인증
 	public MemberVO findByEmail(String member_email);
 	public MemberVO findMemberByEmail(String member_email);
+	
+	
+	//임시비밀번호 전송
+	Integer checkEmail(String member_email);
+    void updatePassword(@Param("member_email") String member_email, @Param("newPassword") String newPassword);	
 	
 }
