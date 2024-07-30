@@ -23,11 +23,12 @@
    <link href="/images/webclip.png" rel="apple-touch-icon">
    
    <!-- EV setting -->
-   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
    <link href="/css/ev/evMain.css" rel="stylesheet" type="text/css">
    
-   <!-- Bootstrap core CSS -->
+   <!-- 기존의 CSS 및 JavaScript 파일 포함 -->
    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <script src="/bootstrap/js/bootstrap.min.js"></script>
    <style>
            #loading {
                position: fixed;
@@ -53,6 +54,32 @@
                font-size: 1.5rem;
                font-weight: bold;
            }
+		   
+		   /* CSS for dropdown */
+		   .dropdown-menu {
+		       background-color: white;
+		       border: 1px solid rgba(0, 0, 0, 0.15);
+		       border-radius: .25rem;
+		       box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.175);
+		       display: none; /* Hide by default */
+		   }
+
+		   .dropdown-menu.show {
+		       display: block;
+		   }
+
+		   /* Additional styles if necessary */
+		   .dropdown-toggle {
+		       border: 1px solid #ccc;
+		       padding: 0.5rem 1rem;
+		       cursor: pointer;
+		   }
+
+		   .dropdown-item {
+		       padding: 0.5rem 1rem;
+		   }
+
+		   
        </style>
 </head>
 <body onload="initMap()">
@@ -114,7 +141,20 @@
    <div class="map_wrap after-loading">
 	<div  onload="initMap()">
        <div id="map"></div>
+	   	<div id="dropdown-container" style="position: absolute; top: 10px; right: 10px; z-index: 1100;">
+		<div class="dropdown">
+	   		<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" aria-expanded="false">
+	   			지도 필터
+	   		</button>
+	   		<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+	   		    <li><a class="dropdown-item" href="#"><button id="fetchDataButton">Fetch Parking Data</button></a></li>
+	   		    <li><a class="dropdown-item" href="#">옵션 2</a></li>
+	   			<li><a class="dropdown-item" href="#">옵션 3</a></li>
+	   		</ul>
+	   	</div>
+	   	</div>
 	   </div>
+	   
 	  <!-- service Buttons -->
       <table class="serviceCate" style="width: 100%; text-align:center;">
          <tr>
@@ -157,10 +197,10 @@
            </li>
        </ul>
 	   <!-- show diffrent map type-->
-	   <div id="map_show_type" >
-		   	<button class="btn btn-info" id="btnTerrain" data-enabled="false" onclick="setOverlayMapTypeId()">
-				지형도
-			</button>
+	   <div id="map_show_type">
+	       <button class="btn btn-info" id="btnTerrain" data-enabled="false" onclick="setOverlayMapTypeId()">
+	           지형도
+	       </button>
 	   </div>
    </div>
    <!--페이지 수정-->
@@ -199,7 +239,7 @@
         var map = new kakao.maps.Map(mapContainer, mapOption);
 		
 		// 회원의 경우, 회원정보를 이용해 지도의 중심 좌표 변경
-		if (sessionResult !== '') {
+		if (sessionResult !=='') {
 		    $.ajax({
 		        url: 'getUserLocation', // 실제 사용자 정보 API의 URL로 대체
 		        type: 'GET',
@@ -392,7 +432,7 @@
 		
 		// ## delay 2 - 지도 로드 완료 이벤트 등록
 		kakao.maps.event.addListener(map, 'tilesloaded', function() {
-		document.getElementById('loading').style.display = 'none';
+			document.getElementById('loading').style.display = 'none';
 		});
 		
 		// ######## 클러스터러 확대 이벤트 ##############
@@ -440,9 +480,40 @@
         }
 		
 		// ##########################  test  ###########################
-		
-</script>
+		document.addEventListener('DOMContentLoaded', function() {
+		    const dropdownButton = document.getElementById('dropdownMenuButton');
+		    const dropdownMenu = document.querySelector('.dropdown-menu');
 
+		    dropdownButton.addEventListener('click', function(event) {
+		        event.stopPropagation(); // Prevent click event from bubbling up
+		        dropdownMenu.classList.toggle('show');
+		    });
+
+		    document.addEventListener('click', function(event) {
+		        if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+		            dropdownMenu.classList.remove('show');
+		        }
+		    });
+		});
+</script>
+<!-- ############################################################ -->
+<script>
+        $(document).ready(function() {
+            $("#fetchDataButton").click(function() {
+                $.ajax({
+                    url: '/api/parking-data',
+                    method: 'GET',
+                    success: function(response) {
+                        alert(JSON.stringify(response)); // 서버로부터 받은 데이터를 alert로 띄웁니다.
+                    },
+                    error: function(err) {
+                        alert("Error fetching data."+err); // 오류 발생 시 alert로 표시합니다.
+						console.log("api error : "+err)
+                    }
+                });
+            });
+        });
+    </script>
 <!-- end of kakao map Script -->
    <script src="/js/webflow.js" type="text/javascript"></script>
    <script src="/js/evPage.js" type="text/javascript"></script>
