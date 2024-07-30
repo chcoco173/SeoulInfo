@@ -5,7 +5,7 @@ import '../css/EVCManagement.css';
 import { useAuth } from './AuthContext';
 
 function EVManagement() {
-  const { instance } = useAuth(); 
+  const { instance } = useAuth();
   const [evData, setEvData] = useState([]); // 전기차 충전소 데이터 저장
   const [evcData, setEvcData] = useState([]); // 전기차 충전기 데이터 저장
   const [currentPage, setCurrentPage] = useState(0); // 전기차 충전소의 현재 페이지 번호 저장
@@ -21,22 +21,23 @@ function EVManagement() {
   const navigate = useNavigate();
 
   useEffect(() => { // 컴포넌트가 마운트될 때 혹은 currentPage 또는 currentPage2가 변경될 때 호출
-    if (searchKeyword) {
-      handleSearch(currentPage);
-    } else {
-      getEVData(currentPage);
-    }
+    getEVData(currentPage);
     getEvcData(currentPage2);
   }, [currentPage, currentPage2]);
 
   const getEVData = async (page) => { // 전기차 충전소 데이터를 가져오는 함수
     try {
-      const response = await instance.get('/data/getallev', {
-        params: { page }
-      });
+      const params = { page };
+      if (searchKeyword.trim() !== '') {
+        params.category = searchCategory;
+        params.keyword = searchKeyword;
+      }
+
+      const response = await instance.get('/data/getallev', { params });
       setEvData(response.data.ev);
       setTotalPages(response.data.totalPages);
     } catch (error) {
+      console.error('데이터 불러오기 에러:', error);
     }
   };
 
@@ -48,6 +49,7 @@ function EVManagement() {
       setEvcData(response.data.evc);
       setTotalPages2(response.data.totalPages2);
     } catch (error) {
+      console.error('데이터 불러오기 에러:', error);
     }
   };
 
@@ -58,6 +60,7 @@ function EVManagement() {
         await instance.delete(`/data/delete-ev/${evc_id}`);
         getEVData(currentPage); // 데이터만 새로고침
       } catch (error) {
+        console.error('데이터 삭제 에러:', error);
       }
     }
   };
@@ -69,6 +72,7 @@ function EVManagement() {
         await instance.delete(`/data/delete-evc/${charger_id}`);
         getEvcData(currentPage2); // 데이터만 새로고침
       } catch (error) {
+        console.error('데이터 삭제 에러:', error);
       }
     }
   };
@@ -91,17 +95,18 @@ function EVManagement() {
 
   const handleSearch = async (page = 0) => { // 검색을 처리하는 함수
     try {
-      const res = await instance.get('/data/search-ev', {
-        params: {
-          category: searchCategory,
-          keyword: searchKeyword,
-          page
-        }
-      });
+      const params = {
+        category: searchCategory,
+        keyword: searchKeyword,
+        page
+      };
+
+      const res = await instance.get('/data/getallev', { params });
       setEvData(res.data.ev);
       setTotalPages(res.data.totalPages);
       setCurrentPage(page); // 검색 후에도 페이지 번호를 유지
     } catch (error) {
+      console.error('검색 에러:', error);
     }
   };
 
@@ -133,6 +138,7 @@ function EVManagement() {
         setEditEvId(null);
         getEVData(currentPage);
       } catch (error) {
+        console.error('데이터 저장 에러:', error);
       }
     }
   };
@@ -145,6 +151,7 @@ function EVManagement() {
         setEditEvcId(null);
         getEvcData(currentPage2);
       } catch (error) {
+        console.error('데이터 저장 에러:', error);
       }
     }
   };

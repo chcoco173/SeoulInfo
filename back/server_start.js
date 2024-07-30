@@ -665,30 +665,40 @@ app.get('/data/search-news', checkSession, (req, res) => {
 });
 // 설명: 뉴스 검색는 지정된 검색 조건에 따라 뉴스 데이터를 검색하여 반환합니다.
 
-// 전기차 데이터 불러오기  
 app.get('/data/getallev', checkSession, (req, res) => {
   const pageNumber = parseInt(req.query.page) || 0;
   const pageSize = 10;
   const offset = pageNumber * pageSize;
+  const { category, keyword } = req.query;
 
-  const sqlCount = 'SELECT COUNT(*) AS total FROM evc';
-  conn.query(sqlCount, (err, countResult) => {
-    if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정
-      throw err;
+  let sqlCount = 'SELECT COUNT(*) AS total FROM evc';
+  let sql = `
+    SELECT evc_id, evc_area, evc_address, evc_name
+    FROM evc
+  `;
+  const params = [];
+
+  if (keyword) {
+    sqlCount += ` WHERE ${category} LIKE ?`;
+    sql += ` WHERE ${category} LIKE ?`;
+    params.push(`%${keyword}%`);
+  }
+
+  sql += ' ORDER BY evc_id LIMIT ? OFFSET ?';
+  params.push(pageSize, offset);
+
+  conn.query(sqlCount, params.slice(0, 1), (err, countResult) => {
+    if (err) {
+      console.error('데이터베이스 쿼리 실행 중 에러 발생:', err);
+      return res.status(500).json({ error: '서버 에러' });
     }
     const totalItems = countResult[0].total;
     const totalPages = Math.ceil(totalItems / pageSize);
 
-    const sql = `
-      SELECT evc_id, evc_area, evc_address, evc_name
-      FROM evc
-      ORDER BY evc_id
-      LIMIT ${pageSize} OFFSET ${offset}
-    `;
-
-    conn.query(sql, function(err, result) {
-      if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정
-        throw err;
+    conn.query(sql, params, (err, result) => {
+      if (err) {
+        console.error('데이터베이스 쿼리 실행 중 에러 발생:', err);
+        return res.status(500).json({ error: '서버 에러' });
       }
       res.send({
         ev: result,
@@ -697,7 +707,6 @@ app.get('/data/getallev', checkSession, (req, res) => {
     });
   });
 });
-// 설명: 전기차 데이터 불러오기는 페이징을 적용하여 전기차 데이터를 조회하여 반환합니다.
 
 // 전기차 데이터 삭제  
 app.delete('/data/delete-ev/:evc_id', checkSession, (req, res) => {
@@ -747,41 +756,7 @@ app.post('/data/insert-ev', checkSession, (req, res) => {
 });
 // 설명: 전기차 데이터 추가는 클라이언트에서 받은 전기차 데이터를 데이터베이스에 삽입합니다.
 
-// 전기차 데이터 검색  
-app.get('/data/search-ev', checkSession, (req, res) => {
-  const { category, keyword, page } = req.query;
-  const pageNumber = parseInt(page) || 0;
-  const pageSize = 10;
-  const offset = pageNumber * pageSize;
 
-  let query = 'SELECT * FROM evc';
-  let countQuery = 'SELECT COUNT(*) AS total FROM evc';
-  const params = [pageSize, offset];
-
-  if (keyword) {
-    query += ` WHERE ${category} LIKE ? LIMIT ? OFFSET ?`;
-    countQuery += ` WHERE ${category} LIKE ?`;
-    params.unshift(`%${keyword}%`);
-  }
-
-  conn.query(countQuery, params.slice(0, -2), (err, countResult) => {
-    if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정
-      console.error('카운트 에러:', err);
-      return res.status(500).json({ error: '서버 에러' });
-    }
-    const totalItems = countResult[0].total;
-    const totalPages = Math.ceil(totalItems / pageSize);
-
-    conn.query(query, params, (err, results) => {
-      if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정
-        console.error('검색 에러:', err);
-        return res.status(500).json({ error: '서버 에러' });
-      }
-      res.json({ ev: results, totalPages });
-    });
-  });
-});
-// 설명: 전기차 데이터 검색는 지정된 검색 조건에 따라 전기차 데이터를 검색하여 반환합니다.
 
 // 충전기 데이터 불러오기  
 app.get('/data/getallevc', checkSession, (req, res) => {
@@ -939,26 +914,22 @@ app.post('/data/update-member-status/:member_id', checkSession, (req, res) => {
 });
 // 설명: 회원 상태 업데이트는 회원의 상태를 업데이트합니다.
 
-// 신고 테이블 리스트  
 app.get('/data/reports', checkSession, (req, res) => {
   const { page = 1, search = '' } = req.query;
   const limit = 10;
   const offset = (page - 1) * limit;
 
-  const searchSql = `
-    SELECT m.member_id, m.member_reportcount, IFNULL(r.report_count, 0) AS report_count
+  let searchSql = `
+    SELECT m.member_id, IFNULL(r.report_count, 0) AS report_count
     FROM member m
     LEFT JOIN (
         SELECT member_id, COUNT(*) AS report_count
         FROM report
         GROUP BY member_id
     ) r ON m.member_id = r.member_id
-    WHERE m.member_id LIKE ? OR m.member_reportcount LIKE ?
-    ORDER BY m.member_reportcount DESC, m.member_id
-    LIMIT ? OFFSET ?;
   `;
-
-  const countSql = `
+  
+  let countSql = `
     SELECT COUNT(*) as total
     FROM member m
     LEFT JOIN (
@@ -966,13 +937,22 @@ app.get('/data/reports', checkSession, (req, res) => {
         FROM report
         GROUP BY member_id
     ) r ON m.member_id = r.member_id
-    WHERE m.member_id LIKE ? OR m.member_reportcount LIKE ?;
   `;
 
   const searchQuery = `%${search}%`;
+  const reportCountSearch = !isNaN(search) ? parseInt(search, 10) : null;
 
-  conn.query(countSql, [searchQuery, searchQuery], (err, countResult) => {
-    if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정
+  if (search) {
+    searchSql += ` WHERE m.member_id LIKE ? OR IFNULL(r.report_count, 0) = ? `;
+    countSql += ` WHERE m.member_id LIKE ? OR IFNULL(r.report_count, 0) = ? `;
+  }
+
+  searchSql += ' ORDER BY report_count DESC, m.member_id LIMIT ? OFFSET ?';
+
+  const params = search ? [searchQuery, reportCountSearch, limit, offset] : [limit, offset];
+
+  conn.query(countSql, search ? [searchQuery, reportCountSearch] : [], (err, countResult) => {
+    if (err) {
       console.error('Error counting reports:', err);
       res.status(500).send('Error');
       return;
@@ -980,8 +960,8 @@ app.get('/data/reports', checkSession, (req, res) => {
 
     const total = countResult[0].total;
 
-    conn.query(searchSql, [searchQuery, searchQuery, limit, offset], (err, results) => {
-      if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정
+    conn.query(searchSql, params, (err, results) => {
+      if (err) {
         console.error('Error fetching reports:', err);
         res.status(500).send('Error');
       } else {
@@ -990,12 +970,11 @@ app.get('/data/reports', checkSession, (req, res) => {
     });
   });
 });
-// 설명: 신고 테이블 리스트는 페이징과 검색 조건을 적용하여 신고 데이터를 조회하여 반환합니다.
 
 // 신고 사유 리스트  
 app.get('/data/reports/:member_id', checkSession, (req, res) => {
   const memberId = req.params.member_id;
-  const sql = 'SELECT report_id, report_reason, member_id, is_processed FROM report WHERE member_id = ?';
+  const sql = 'SELECT report_id, report_cate, report_reason, member_id, is_processed FROM report WHERE member_id = ?';
 
   conn.query(sql, [memberId], (err, results) => {
     if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정

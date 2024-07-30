@@ -14,7 +14,9 @@ function ReportPopup({ isOpen, onClose, reportDetails, handleApprove, handleReje
         <br/>
         {reportDetails.map((detail, index) => (
           <div key={index}>
-            <p>{index + 1}. {detail.report_reason}</p> {/* 신고 사유 표시 */}
+            <h2>{index + 1}.</h2>
+            <h3>신고 카테고리 : {detail.report_cate}</h3>
+            <h3>신고 사유 : {detail.report_reason}</h3> {/* 신고 사유 표시 */}
             {!detail.is_processed ? ( // 신고가 처리되지 않았을 경우
               <>
                 <button
@@ -178,7 +180,7 @@ function ReportManagement() {
       <div className="search-section">
         <select className="search-select">
           <option value="member_id">아이디</option>
-          <option value="member_reportcount">신고횟수</option>
+          <option value="report_count">신고횟수</option>
         </select>
         <input
           type="text"
@@ -213,7 +215,7 @@ function ReportManagement() {
                 <button
                   className="delete-button"
                   onClick={() => handleDelete(member.member_id)}
-                  disabled={member.member_reportcount < 3}
+                  disabled={member.report_count < 3}
                 >
                   정지
                 </button>
