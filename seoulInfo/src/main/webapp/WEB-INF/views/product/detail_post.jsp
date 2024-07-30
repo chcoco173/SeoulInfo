@@ -89,56 +89,8 @@
 <!-- 외부 css -->
 <link href="/css/product/product_detail.css" rel="stylesheet"
 	type="text/css">
-<style>
-.carousel-image-wrapper {
-	background-color: #000000; /* 배경색 설정 */
-	width: 100%;
-	height: 400px;
-	padding-top: 50%; /* 비율 설정, 예: 16:9 비율 */
-	position: relative; /* 자식 요소를 절대 위치로 설정하기 위한 준비 */
-	display: flex; /* 중앙 정렬을 위한 flex 사용 */
-	align-items: center;
-	justify-content: center;
-	overflow: hidden;
-}
 
-.carousel-image-wrapper img {
-	position: absolute; /* 절대 위치로 부모 요소에 맞게 조정 */
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%); /* 중앙 정렬 */
-	width: 100%;
-	height: 80%; /* 비율 유지 */
-	max-width: 100%; /* 이미지가 컨테이너 너비를 넘지 않도록 설정 */
-	max-height: 100%; /* 이미지가 컨테이너 높이를 넘지 않도록 설정 */
-	object-fit: contain; /* 이미지 비율 유지하며 컨테이너에 맞춰 조정 */
-}
 
-/* 미디어 쿼리: 화면 크기에 따라 비율을 조정 */
-@media ( max-width : 1200px) {
-	.carousel-image-wrapper {
-		padding-top: 50%; /* 비율 조정 예: 2:1 비율 */
-	}
-}
-
-@media ( max-width : 992px) {
-	.carousel-image-wrapper {
-		padding-top: 75%; /* 비율 조정 예: 4:3 비율 */
-	}
-}
-
-@media ( max-width : 768px) {
-	.carousel-image-wrapper {
-		padding-top: 100%; /* 비율 조정 예: 1:1 비율 */
-	}
-}
-
-@media ( max-width : 576px) {
-	.carousel-image-wrapper {
-		padding-top: 120%; /* 비율 조정 예: 더 작은 화면에서 비율 조정 */
-	}
-}
-</style>
 
 <script>
 	function showBubble() {
@@ -301,7 +253,7 @@
 				</div>
 			</section>
 		</div>
-
+		<!--	유사상품	-->
 		<div class="section-posts-grid background-light-gray">
 			<div class="padding-global">
 				<div class="padding-section-medium">
@@ -315,8 +267,6 @@
 						<div class="w-dyn-list">
 							<c:forEach items="${similarList}" var="similarList"
 								varStatus="status">
-
-								<div class="col-md-3 product">
 									<div class="product-card">
 										<c:choose>
 											<c:when test="${not empty similarList.productimg_alias}">
@@ -331,7 +281,7 @@
 										</c:choose>
 
 										<div class="product-info">
-											<input type="hidden" class="sale_id"
+											<input type="hidden" class="similar_saleId"
 												value="${similarList.sale_id}">
 											<h4>${similarList.sale_name}</h4>
 											<p>${similarList.sale_area}</p>
@@ -347,13 +297,13 @@
 											<p>${timeDataList[status.index]}</p>
 										</div>
 									</div>
-								</div>
 							</c:forEach>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<!--유사상품 구현 끝-->
 		<div class="spacer-xxlarge"></div>
 	</div>
 
@@ -539,6 +489,15 @@
 			var memberId = $(this).closest('.author-name').text();
 
 			location.href = "productMemberPage?member_id=" + memberId;
+		})
+		
+		$(".product-card").click(function(){
+			var simailar_saleId = $(this).find('.similar_saleId').val();
+			
+			location.href = "/product/detail_post?sale_id="+simailar_saleId;
+			
+			
+			
 		})
 	</script>
 </body>

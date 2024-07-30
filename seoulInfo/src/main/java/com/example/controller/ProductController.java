@@ -51,7 +51,7 @@ public class ProductController {
 	// flask url ( ml )
 	private final String mlServerUrl = "http://localhost:5000/predict";
 	
-	private final String mlServerUrl2 = "http://localhost:5000/productDetail";
+	private final String mlServerUrl2 = "http://localhost:5000/productDetail2";
 	
 
 	// 빈설정 필수 (AppConfig.java에 설정해둠)
@@ -452,6 +452,8 @@ public class ProductController {
 		// 유사상품 구현 ( ml )
 		Map<String, String>  requestBody = new HashMap<>();
 		requestBody.put("title", product.getSale_name());
+		requestBody.put("cate", product.getSale_cate());
+		
 		
 		try {
 			// Flask 서버로 POST 요청 + 응답 받기
@@ -594,11 +596,12 @@ public class ProductController {
 
 	// 카테고리 옵션 
 	@RequestMapping("/categoryOptionSelect")
-	public String categoryOptionSelect(String cate, String type, Model model) {
-		
+	public String categoryOptionSelect(String area, String cate, String type, Model model) {
+		System.out.println(area);
 		HashMap map = new HashMap();
 		map.put("optionCate", cate);
 		map.put("optionType", type);
+		map.put("area", area);
 
 		
 		System.out.println(map.toString());		

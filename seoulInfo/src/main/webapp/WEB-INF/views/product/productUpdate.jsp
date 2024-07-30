@@ -65,7 +65,7 @@
 								<div class="form-group">
 									<label for="productName">상품명</label> <input type="text"
 										class="form-control" id="sale_name" name="sale_name"
-										placeholder="상품명을 입력해주세요" value=${productSaleId.sale_name}>
+										placeholder="상품명을 입력해주세요" value="${productSaleId.sale_name}">
 								</div>
 								<div class="form-group">
 									<label for="productDescription">상품 설명</label>
