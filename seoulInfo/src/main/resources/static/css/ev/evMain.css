@@ -80,26 +80,6 @@
 	width : 100%
 }
 
-.search_map ,.search_favorite{
-	position : fixed;
-	width : 281px;
-	height : 46%;
-	top : 35%;
-	justify-content: center; 
-	border : 2px solid #1E90FF ;
-	background-color : white;
-	z-index: 101;
-	padding-top:10px;
-	padding-right:10px;
-	padding-left:10px;
-	display: none;
-	overflow-y: auto; /* 세로 스크롤바 추가 */
-	border-radius: 5px;
-}
-.search_map form {
-    max-height: 100%; /* 내부 form 요소들이 최대 div 높이를 초과하지 않도록 설정 */
-}
-
 .map-option {
 	position : fixed;
 	width : 281px;
@@ -136,6 +116,38 @@
 	z-index: 2;
 	white-space: nowrap; 	/* 텍스트 줄 바꿈 방지 */
 }
+
+/* 기본 오프캔버스 스타일 */
+.offcanvas-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 250px;
+    height: 100%;
+    background: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    z-index: 1200; /* 지도 위에 위치하도록 높게 설정 */
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+/* 오프캔버스 열기 */
+.offcanvas-menu.show {
+    transform: translateX(0);
+}
+
+/* 오프캔버스 닫기 버튼 스타일 */
+.btn-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+
 
 /* kakao map Css style */
 #map {

@@ -30,50 +30,52 @@ $(function(){
     });
 	
     // 즐겨찾기
-    $('#filterBtn3').click(function () {
+    $('.btnShowFavorite').click(function () {
         $(".search_favorite").css({"display":"inherit",'z-index':'110'});
         $(".search_map").css({"display":"none"});
         $(".search_navigation").css({"display":"none"});
+		alert('favorite');
+		if (sessionResult !== '') {
+		    $.ajax({
+		        url: 'ev_Favorite',
+		        type: 'GET',
+		        data: { member_id: sessionResult },
+		        success: function(data) {
+					alert("success");
+		            $('#userFavoriteList').html(''); // 결과 영역 초기화
+		            if (data && data.length > 0) {
+		                data.forEach(function(item) {
+		                    var resultHTML = '<dd>';
+		                    resultHTML += '<table class="favorite-list result-list result-list-table" data-lat="' + item.evc_lat + '" data-lng="' + item.evc_long + '" data-title="' + item.evc_name + '" data-id="' + item.evc_id + '">';
+		                    resultHTML += '<tr>';
+		                    resultHTML += '<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>';
+		                    resultHTML += '<td colspan="2">' + item.evc_name + '</td>';
+		                    resultHTML += '</tr>';
+		                    resultHTML += '<tr>';
+		                    resultHTML += '<td><span style="font-size: 12px">' + item.evc_address + '</span></td>';
+		                    resultHTML += '</tr>';
+		                    resultHTML += '</table>';
+		                    resultHTML += '<br>';
+		                    resultHTML += '</dd>';
+		                    $('#favoriteList').append(resultHTML);
+		                });
+		                $('#favoriteList').show();
+		            } else {
+		                $('#favoriteList').html('<p>검색 결과가 없습니다.</p>');
+		                $('#favoriteList').show(); 
+		            }
+		        },
+		        error: function(xhr, status, error) {
+		            $('#favoriteList').html('');
+		            $('#favoriteList').show(); // 결과 영역 표시
+		            console.error('AJAX 요청 실패:', status, error);
+		        }
+		    });
+		} else {
+		    alert(" 이 기능은 회원가입 후 가능합니다.");
+		}
 
-        if(sessionResult !== ''){
-			$.ajax({
-            	url: 'ev_Favorite',
-                type: 'GET',
-                data: { member_id : sessionResult },
-                success: function(data) {
-                	$('#favoriteList').html(''); // 결과 영역 초기화
-                    if (data && data.length > 0) {
-                    	data.forEach(function(item) {
-                            	var resultHTML = '<dd>';
-                            	resultHTML += '<table class="favorite-list result-list result-list-table" data-lat="' + item.evc_lat + '" data-lng="' + item.evc_long + '" data-title="' + item.evc_name + '" data-id="' + item.evc_id + '">';
-                                resultHTML += '<tr>';
-                                resultHTML += '<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>';
-                                resultHTML += '<td colspan="2">' + item.evc_name + '</td>';
-                                resultHTML += '</tr>';
-                                resultHTML += '<tr>';
 
-                                resultHTML += '<td><span style="font-size: 12px">' + item.evc_address + '</span></td>';
-                                resultHTML += '</tr>';
-                                resultHTML += '</table>';
-                                resultHTML += '<br>';
-                                resultHTML += '</dd>';
-                                $('#favoriteList').append(resultHTML);
-                   			});
-                        $('#favoriteList').show();
-                    } else {
-                    	$('#favoriteList').html('<p>검색 결과가 없습니다.</p>');
-                        $('#favoriteList').show(); 
-                    }
-				},
-				error: function(err) {
-                	$('#favoriteList').html('');
-                    $('#favoriteList').show(); // 결과 영역 표시
-                    console.error(err);
-                }
-			});
-        } else {
-            alert(" 이 기능은 회원가입 후 가능합니다.");
-        }
     });
 
     // 닫기 버튼
@@ -98,7 +100,7 @@ $(function(){
     });
 
     // 상세정보 - 검색결과
-    $(document).on('click', '.result-list', function() {
+    $(document).on('click', '.result-list-table', function() {
         var lat   = $(this).data('lat');
         var lng   = $(this).data('lng');
         var title = $(this).data('title');
@@ -339,4 +341,18 @@ $(function(){
             title: title
         });
     }
+	
+
+	    function openOffcanvas() {
+	        document.getElementById('offcanvasMenu').classList.add('show');
+	    }
+
+	    function closeOffcanvas() {
+	        document.getElementById('offcanvasMenu').classList.remove('show');
+	    }
+
+	    // Example button click handler to open offcanvas
+	    document.querySelector('.menu-button').addEventListener('click', openOffcanvas);
+
+
 });

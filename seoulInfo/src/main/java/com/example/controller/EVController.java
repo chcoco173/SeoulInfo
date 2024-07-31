@@ -91,7 +91,7 @@ public class EVController {
 		 delMap.put("member_id", member_id);
 		 evStationService.deleteEVFav(delMap);
 		 return "ev/ev_Favorite";
-	 }	 
+	 }
 	 
 	// 충전소 검색 - 결과
 	@PostMapping("/ev_MapFilter")
