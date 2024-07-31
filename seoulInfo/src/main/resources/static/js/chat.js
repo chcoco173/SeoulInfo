@@ -8,13 +8,13 @@ const chatArea = document.querySelector('#chat-messages');
 const logout = document.querySelector('#logout');
 const fileUploadInput = document.querySelector('#fileUpload');
 const fileUploadButton = document.querySelector('#fileUploadButton');
-const logId = document.querySelector('#connected-userId').textContent;
+const userId = document.querySelector('#connected-userId').textContent; // 서버에서 가져온 member_id
 // 날짜 바뀌는 요소 추가
 let lastMessageDate = null;
 
 
 let stompClient = null;
-let member_id = logId; // 서버에서 가져온 member_id
+// let member_id = logId; // 서버에서 가져온 member_id
 let selectedUserId = null;
 let selectedSaleId = null; // 선택된 sale_id 추가
 
@@ -32,65 +32,75 @@ function connect() {
 }
 
 function onConnected() {
-    // 특정 사용자(member_id)에게 전송된 개인 메시지를 수신
-    stompClient.subscribe(`/user/${member_id}/queue/messages`, onMessageReceived);
+    // 특정 사용자(logId)에게 전송된 개인 메시지를 수신
+    stompClient.subscribe(`/user/${userId}/queue/messages`, onMessageReceived);
     
     // 모든 사용자에게 전송된 공용 메시지를 수신
     stompClient.subscribe(`/user/public`, onMessageReceived);
 
     // 사용자를 등록
-    stompClient.send("/app/user.addUser", {}, JSON.stringify({member_id: member_id, status: 'ONLINE'}));
+    stompClient.send("/app/user.addUser", {}, JSON.stringify({userId: userId, status: 'ONLINE'}));
 
     // 연결된 유저 목록을 가져와 표시
-    findAndDisplayotherUsers().then();
+    findAndDisplayChatRooms().then();
 }
 
-async function findAndDisplayotherUsers() {
-    try {
-        const otherUsersResponse = await fetch('/users');
-		console.log("11"+otherUsersResponse);
-        let otherUsers = await otherUsersResponse.json();
-        console.log('Fetched connected users:', otherUsers); // 로그 추가
+async function findAndDisplayChatRooms() {
 
-        // 현재 사용자(내 이름)를 목록에서 제거
-/*        otherUsers = otherUsers.filter(user => user.member_id !== member_id);
-        console.log('Filtered connected users:', otherUsers); // 로그 추가*/
+        const findChatRoomsResponse = await fetch('/findChatRooms');
+		console.log("11",findChatRoomsResponse);
+        let chatRooms = await findChatRoomsResponse.json();
+		console.log("22",chatRooms);
 
-        const otherUsersList = document.getElementById('otherUsers');
-        otherUsersList.innerHTML = '';
+        const chatRoomsList = document.getElementById('chatRooms');
+        chatRoomsList.innerHTML = '';
 
-
-        otherUsers.forEach((user, index) => {
-            appendUserElement(user, otherUsersList);
+        chatRooms.forEach((chatRoom, index) => {
+            appendChatElement(chatRoom, chatRoomsList);
             // 마지막 요소가 아닐 때만 구분선 추가
-            if (index < otherUsers.length - 1) {
+            if (index < chatRooms.length - 1) {
                 const separator = document.createElement('li');
                 separator.classList.add('separator');
-                otherUsersList.appendChild(separator);
+                chatRoomsList.appendChild(separator);
             }
         });
-    } catch (error) {
-        console.error('Error fetching connected users:', error);
-    }
+
 }
 
-function appendUserElement(user, otherUsersList) {
-    console.log('Appending user:', user); // 로그 추가
-    const listItem = document.createElement('li');
-    listItem.classList.add('user-item');
-    listItem.id = user.member_id;
 
-    // 사용자 프로필 사진으로 가져와야 함
+async function appendChatElement(chatRoom, chatRoomsList) {
+    console.log('Appending user:', chatRoom); // 로그 추가
+	
+	const listItem = document.createElement('li');
+	listItem.classList.add('user-item');
+
+	// 상대방의 ID를 설정
+	let otherUserId;
+	if (chatRoom.senderId === userId) {
+	    otherUserId = chatRoom.recipientId;
+	} else {
+	    otherUserId = chatRoom.senderId;
+	}
+	listItem.id = otherUserId;
+	console.log('Appending user:', listItem.id); // 로그 추가
+
+	// 사용자 프로필 사진 대신 상품 이미지로 설정
+	const saleInfo = await fetchSaleInfo(chatRoom.saleId);
     const userImage = document.createElement('img');
-    userImage.src = '/images/chat/user_icon.png';
-    userImage.alt = user.member_id;
+    userImage.src = saleInfo.saleImage;
+    userImage.alt = saleInfo.saleName;
 
     // Container for name and status, allowing layout control
     const userDetails = document.createElement('div');
     userDetails.classList.add('user-details');
 
+    // 상품 이름 요소 추가
+    const saleNameSpan = document.createElement('span');
+    saleNameSpan.textContent = saleInfo.saleName;
+    saleNameSpan.classList.add('sale-name');
+
     const usernameSpan = document.createElement('span');
-    usernameSpan.textContent = user.member_id; // User name only
+    usernameSpan.textContent = otherUserId;
     usernameSpan.classList.add('user-name');
 
     // 안 읽은 메세지 존재하는 채팅방 알림
@@ -98,34 +108,53 @@ function appendUserElement(user, otherUsersList) {
     receivedMsgs.textContent = '0';
     receivedMsgs.classList.add('nbr-msg', 'hidden');
 
-    const statusSpan = document.createElement('div'); // Use div to automatically move to next line
-    statusSpan.textContent = `(${user.status})`;
-    statusSpan.classList.add(user.status.toLowerCase(), 'status'); // Apply status styles here
-
 	// 숨겨진 요소로 sale_id 추가
 	const saleIdHidden = document.createElement('input'); // hidden 요소로 sale_id 추가
 	saleIdHidden.type = 'hidden';
-	saleIdHidden.value = user.sale_id;
+	saleIdHidden.value = chatRoom.saleId;
+	console.log("상품번호:", chatRoom.saleId);
 	saleIdHidden.classList.add('sale-id');
 	
     listItem.appendChild(userImage);
-    // 안읽음 표시
     listItem.appendChild(receivedMsgs);
+    
+    userDetails.appendChild(saleNameSpan); // 상품 이름 추가
+	userDetails.appendChild(document.createElement('br')); // 개행 추가
     userDetails.appendChild(usernameSpan);
-
-    userDetails.appendChild(statusSpan);
 	listItem.appendChild(saleIdHidden); // Append sale_id hidden element
 
     listItem.appendChild(userDetails); // Append the details container to the list item
 
     listItem.addEventListener('click', userItemClick);
 
-    otherUsersList.appendChild(listItem);
+    chatRoomsList.appendChild(listItem);
+
+    // 구분선 추가
+    const separator = document.createElement('li');
+    separator.classList.add('separator');
+    chatRoomsList.appendChild(separator);
+}
+async function fetchSaleInfo(saleId) {
+    try {
+        const response = await fetch(`/product/getProductInfo?sale_id=${saleId}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch sale info');
+        }
+        const data = await response.json();
+        return {
+            saleName: data.product.sale_name,
+            saleImage: data.productImage ? `/productImage/${data.productImage.productimg_alias}` : '/path/to/default-image.jpg'
+        };
+    } catch (error) {
+        console.error('Error fetching sale info:', error);
+        return {
+            saleName: 'Unknown Product',
+            saleImage: '/path/to/default-image.jpg'
+        };
+    }
 }
 
 function userItemClick(event) {
-/*	alert(1);
-	alert(logId);*/
     document.querySelectorAll('.user-item').forEach(item => {
         item.classList.remove('active');
     });
@@ -137,8 +166,8 @@ function userItemClick(event) {
     selectedUserId = clickedUser.getAttribute('id');
 	selectedSaleId = clickedUser.querySelector('.sale-id').value; // hidden 요소에서 sale_id 가져오기
 
-	console.log('Selected User ID: ' + selectedUserId);
-	console.log('Selected Sale ID: ' + selectedSaleId);
+	console.log('채팅방 리스트 클릭시 Selected User ID: ' + selectedUserId);
+	console.log('채팅방 리스트 클릭시 Selected Sale ID: ' + selectedSaleId);
 	
     fetchAndDisplayUserChat().then();
 
@@ -147,7 +176,6 @@ function userItemClick(event) {
     nbrMsg.textContent = '0';
 
 	fetchProductInfo(selectedSaleId);
-	
 }
 
 // 상품 상세 정보
@@ -198,7 +226,7 @@ function displayMessage(senderId, content, timestamp) {
 
     const messageContainer = document.createElement('div');
     messageContainer.classList.add('message');
-    if (senderId === member_id) {
+    if (senderId === userId) {
         messageContainer.classList.add('sender');
     } else {
         messageContainer.classList.add('receiver');
@@ -227,7 +255,7 @@ function displayMessage(senderId, content, timestamp) {
     // Add timestamp below the message container
     const timestampElement = document.createElement('div');
     timestampElement.classList.add('timestamp');
-    if (senderId === member_id) {
+    if (senderId === userId) {
         timestampElement.classList.add('sender-timestamp');
     } else {
         timestampElement.classList.add('receiver-timestamp');
@@ -258,8 +286,9 @@ function formatTimestamp(timestamp) {
 
 // Update fetchAndDisplayUserChat to include timestamp
 async function fetchAndDisplayUserChat() {
-	
-    const userChatResponse = await fetch(`/messages/${member_id}/${selectedUserId}?sale_id=${selectedSaleId}`);
+	console.log('채팅목록 가져오기 Selected User ID: ' + selectedUserId);
+	console.log('채팅목록 가져오기 Selected Sale ID: ' + selectedSaleId);
+    const userChatResponse = await fetch(`/messages/${selectedSaleId}`);
 	console.log("!!!!!!!!!!!!!!!!!!!!!!"+userChatResponse);
     const userChat = await userChatResponse.json();
 	
@@ -287,14 +316,14 @@ function sendMessage(event) {
     const messageContent = messageInput.value.trim();
     if (messageContent && stompClient) {
         const chatMessage = {
-            senderId: member_id,
+            senderId: userId,
             recipientId: selectedUserId,
             content: messageInput.value.trim(),
             timestamp: new Date().toISOString(),
-			sale_id: selectedSaleId // sale_id 추가
+			saleId: selectedSaleId // sale_id 추가
         };
         stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
-        displayMessage(member_id, messageInput.value.trim(), chatMessage.timestamp);
+        displayMessage(userId, messageInput.value.trim(), chatMessage.timestamp);
         messageInput.value = '';
     }
 	setTimeout(scrollToBottom, 60); // 약간의 지연을 추가하여 메시지가 모두 추가된 후 스크롤 설정
@@ -342,14 +371,14 @@ async function uploadFile(file) {
     if (response.ok) {
         const result = await response.json();
         const chatMessage = {
-            senderId: member_id,
+            senderId: userId,
             recipientId: selectedUserId,
             content: result.url,
             timestamp: new Date().toISOString(),
-			sale_id: selectedSaleId // sale_id 추가
+			saleId: selectedSaleId // sale_id 추가
         };
         stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
-        displayMessage(member_id, chatMessage.content, chatMessage.timestamp);
+        displayMessage(userId, chatMessage.content, chatMessage.timestamp);
     } else {
         console.error('File upload failed');
     }
@@ -396,7 +425,7 @@ function dealDone() {
 function onLogout() {
     stompClient.send("/app/user.disconnectUser",
         {},
-        JSON.stringify({member_id: member_id, status: 'OFFLINE'})
+        JSON.stringify({userId: userId, status: 'OFFLINE'})
     );
     window.location.reload();
 }

@@ -34,12 +34,9 @@ public class ChatMessageController {
         );
     }
 
-    @GetMapping("/messages/{senderId}/{recipientId}")
-    public ResponseEntity<List<ChatMessage>> findChatMessages(@PathVariable String senderId,
-                                                              @PathVariable String recipientId,
-                                                              @RequestParam Integer sale_id) {  // sale_id 추가
-    	System.out.println("ㅎㅎㅎㅎㅎ"+senderId+recipientId+sale_id);
-        return ResponseEntity
-                .ok(chatMessageService.findChatMessages(senderId, recipientId, sale_id));  // sale_id 전달
+    @GetMapping("/messages/{saleId}")
+    public ResponseEntity<List<ChatMessage>> findChatMessagesBySaleId(@PathVariable Integer saleId) {
+        System.out.println("ChatMessageController - SaleId: " + saleId);
+        return ResponseEntity.ok(chatMessageService.findChatMessagesBySaleId(saleId));
     }
 }

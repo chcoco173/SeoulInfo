@@ -26,18 +26,21 @@ public class ChatRoomController {
 
 	// member_id 판매자 (recipientId)
 	@GetMapping("/product/chatCreate")
-	public String createChatRoom(@RequestParam("member_id") String member_id, @RequestParam("sale_id") Integer sale_id, Model model) {
+	public String createChatRoom(@RequestParam("member_id") String memberId, @RequestParam("sale_id") Integer saleId, Model model) {
 
 		// Debugging logs
-		System.out.println("member_id: " + member_id);
-		System.out.println("sale_id: " + sale_id);
+		System.out.println("createChatRoom@@@@@@@@member_id: " + memberId);
+		System.out.println("createChatRoom@@@@@@@@sale_id: " + saleId);
 
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 		String senderId = mvo.getMember_id(); // 현재 로그인한 사용자의 ID
-		String recipientId = member_id;
+		String recipientId = memberId;
 
+		System.out.println("createChatRoom@@@@@@@@senderId: " + senderId);
+		System.out.println("createChatRoom@@@@@@@@recipientId: " + recipientId);
+		
 		// 새로운 채팅방 ID를 생성하거나 가져옴
-		String chatRoomId = chatRoomService.getChatRoomId(senderId, recipientId, true, sale_id)
+		String chatRoomId = chatRoomService.getChatRoomId(senderId, recipientId, true, saleId)
 				.orElseThrow(() -> new RuntimeException("채팅방 생성 실패"));
 
 		model.addAttribute("chatRoomId", chatRoomId);
@@ -48,7 +51,7 @@ public class ChatRoomController {
 		 * MemberVO mvo = (MemberVO) session.getAttribute("member"); String senderId =
 		 * mvo.getMember_id();
 		 * 
-		 * String recipientId = member_id;
+		 * String recipientId = member_id;ㅋ
 		 * 
 		 * 
 		 * if (senderId == null) { // 세션에 로그인 정보가 없는 경우 로그인 페이지로 리다이렉트 하거나 에러 처리 return
@@ -87,17 +90,14 @@ public class ChatRoomController {
 //        return ResponseEntity.ok(otherUsers);
 //    }
     
-    @GetMapping("/users")
-    public ResponseEntity<List<ChatUserDTO>> getChatRooms() {
+    @GetMapping("/findChatRooms")
+    public ResponseEntity<List<ChatRoom>> getChatRooms() {
         MemberVO mvo = (MemberVO) session.getAttribute("member");
         String userId = mvo.getMember_id();
-        List<User> otherUsers = userService.findOtherUsers(userId);
-        
-        List<ChatUserDTO> userDTOs = otherUsers.stream()
-                .map(user -> new ChatUserDTO(user.getMember_id(), user.getStatus(), getSaleId(userId, user.getMember_id())))
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(userDTOs);
+        System.out.println("ChatRoomController 1"+userId);
+        List<ChatRoom> chatRooms = chatRoomService.findChatRooms(userId);
+        System.out.println("ChatRoomController 2"+chatRooms);
+        return ResponseEntity.ok(chatRooms);
     }
     
     private Integer getSaleId(String senderId, String recipientId) {
@@ -106,7 +106,7 @@ public class ChatRoomController {
         return chatRooms.stream()
                 .filter(room -> room.getSenderId().equals(recipientId) || room.getRecipientId().equals(recipientId))
                 .findFirst()
-                .map(ChatRoom::getSale_id)
+                .map(ChatRoom::getSaleId)
                 .orElse(null);
     }
 }

@@ -9,6 +9,6 @@ import lombok.Data;
 @Document
 public class User {
     @Id
-    private String member_id;
+    private String userId;
     private Status status;
 }
