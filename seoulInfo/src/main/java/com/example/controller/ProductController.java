@@ -50,9 +50,9 @@ public class ProductController {
 
 	// flask url ( ml )
 	private final String mlServerUrl = "http://localhost:5000/predict";
-	
+
 	private final String mlServerUrl2 = "http://localhost:5000/productDetail2";
-	
+
 
 	// 빈설정 필수 (AppConfig.java에 설정해둠)
 	@Autowired
@@ -105,13 +105,13 @@ public class ProductController {
 			// 검색 keyword insert
 			productService.insertProductSearch(psvo);
 		}
-		
+
 
 		// 검색결과 리스트 
 		List<Map<String, Object>> productList = productService.productCateList(map);
 		System.out.println(productList);
 
-		
+
 		model.addAttribute("category", "검색결과");
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("productList",productList);
@@ -120,16 +120,24 @@ public class ProductController {
 	}
 
 
-	// 상품리스트 출력 + ml 완료 ( select + ml )
+	// 상품리스트 출력 + ml 완료 ( select + ml ) 7/31 페이징 구현
 	@GetMapping("/productMain")
-	public String productArea(@RequestParam(value = "area", required = true) String area, Model model) {
-
+	public String productArea(
+			@RequestParam(value = "area", required = true) String area, Model model,
+			 @RequestParam(defaultValue = "1") int page, 
+		     @RequestParam(defaultValue = "12") int size) {
+		
+		int offset = (page - 1) * size;
+		
 		if(area == null || area.isEmpty()) {
 			area="전체";
 		}
 		HashMap map = new HashMap();
 		map.put("area", area);
-
+		map.put("offset", offset);
+		map.put("limit", size);
+		
+		System.out.println(map.toString());
 		// 세션값 받아오기
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 
@@ -169,13 +177,19 @@ public class ProductController {
 		// 상품 list
 		List<Map<String, Object>> productList = productService.productMainList(map);
 		System.out.println(productList);
-
+		int totalCount = productService.countItems(map);
+        int totalPages = (int) Math.ceil((double) totalCount / size);
+        
 
 		model.addAttribute("productList", productList);
 
 		// 시간 변환 메소드 호출 후 model작업
 		model.addAttribute("timeDataList", timeConversion(productList));
-
+		
+		model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("pageSize", size);
+        System.out.println(totalPages);
 
 		return "product/productMain";
 	}
@@ -448,13 +462,13 @@ public class ProductController {
 			wishCheck = productService.wishCheck(fpvo);
 
 		}
-		
+
 		// 유사상품 구현 ( ml )
 		Map<String, String>  requestBody = new HashMap<>();
 		requestBody.put("title", product.getSale_name());
 		requestBody.put("cate", product.getSale_cate());
-		
-		
+
+
 		try {
 			// Flask 서버로 POST 요청 + 응답 받기
 			String result = restTemplate.postForObject(mlServerUrl2, requestBody, String.class); // url, 요청본문, 응답받는타입
@@ -463,24 +477,24 @@ public class ProductController {
 			// JSON 응답 파싱
 			ObjectMapper objectMapper = new ObjectMapper(); // json 데이터를 파싱하기위한 객체생성
 			JsonNode jsonNode = objectMapper.readTree(result);	// 문자열 파싱후 json 트리 구조를 반환
-			
+
 			// JSON 배열 파싱
 			JsonNode predictionNode = jsonNode.get("prediction");
 			int[] prediction;
 			if (predictionNode.isArray()) {
-			    prediction = new int[predictionNode.size()];
-			    for (int i = 0; i < predictionNode.size(); i++) {
-			    	// sale_id는 제외시키기
-			    	if(sale_id != predictionNode.get(i).asInt()) { // asInt -> jsonNode 클래스에서 제공하는 메서드로 json 노드의 값을 전수로 변환하는데 사용
-			    		prediction[i] = predictionNode.get(i).asInt();
-			    	}
-			        
-			    }
+				prediction = new int[predictionNode.size()];
+				for (int i = 0; i < predictionNode.size(); i++) {
+					// sale_id는 제외시키기
+					if(sale_id != predictionNode.get(i).asInt()) { // asInt -> jsonNode 클래스에서 제공하는 메서드로 json 노드의 값을 전수로 변환하는데 사용
+						prediction[i] = predictionNode.get(i).asInt();
+					}
+
+				}
 			} else {
-			    // 예외 처리 또는 기본값 설정 (필요에 따라)
-			    prediction = new int[0];
+				// 예외 처리 또는 기본값 설정 (필요에 따라)
+				prediction = new int[0];
 			}
-			
+
 			if(prediction != null) {
 				List<Map<String, Object>> similarList = productService.similarList(prediction);
 				System.out.println(similarList);
@@ -493,7 +507,7 @@ public class ProductController {
 		model.addAttribute("product", product);
 		model.addAttribute("productImgList", productImgList);
 		model.addAttribute("wishCheck", wishCheck);
-		
+
 
 		return "product/detail_post";
 	}
@@ -603,18 +617,18 @@ public class ProductController {
 		map.put("optionType", type);
 		map.put("area", area);
 
-		
+
 		System.out.println(map.toString());		
 		List<Map<String, Object>> productList = productService.productCateList(map);
 
 		System.out.println(productList);
-	
+
 		model.addAttribute("category",cate);
 		model.addAttribute("productList", productList);
 		model.addAttribute("timeDataList", timeConversion(productList));
 		return "product/productCategory";
 	}
-	
+
 	// 겁색결과 옵션
 	@RequestMapping("searchOptionSelect")
 	public String searchOptionSelect(String keyword, String type, String area, Model model) {
@@ -622,16 +636,16 @@ public class ProductController {
 		map.put("keyword", keyword);
 		map.put("optionType", type);
 		map.put("area", area);
-		
-		
+
+
 		List<Map<String, Object>> productList = productService.productCateList(map);
 		model.addAttribute("category","검색결과");
 		model.addAttribute("productList", productList);
 		model.addAttribute("timeDataList", timeConversion(productList));
-		
+
 		return "product/productCategory"; 
 	}
-	
+
 
 
 	// 시간 변환 메소드
@@ -692,31 +706,83 @@ public class ProductController {
 	}
 
 	// 채팅에서 상품 정보 가져오기
-    @GetMapping("/getProductInfo")
-    @ResponseBody
-    public Map<String, Object> getProductInfo(@RequestParam Integer sale_id) {
-        System.out.println("Fetching product info for sale_id: " + sale_id);
-        ProductVO product = productService.myProductSaleId(sale_id);
-        List<ProductImageVO> productImages = productImageService.myProductSaleId(sale_id);
+	@GetMapping("/getProductInfo")
+	@ResponseBody
+	public Map<String, Object> getProductInfo(@RequestParam Integer sale_id) {
+		System.out.println("Fetching product info for sale_id: " + sale_id);
+		ProductVO product = productService.myProductSaleId(sale_id);
+		List<ProductImageVO> productImages = productImageService.myProductSaleId(sale_id);
 
-        System.out.println("Product: " + product);
-        System.out.println("Product Images: " + productImages);
+		System.out.println("Product: " + product);
+		System.out.println("Product Images: " + productImages);
 
-        Map<String, Object> productInfo = new HashMap<>();
-        productInfo.put("product", product);
+		Map<String, Object> productInfo = new HashMap<>();
+		productInfo.put("product", product);
 
-        // 첫 번째 이미지만 가져오기
-        if (!productImages.isEmpty()) {
-            productInfo.put("productImage", productImages.get(0));
-        } else {
-            System.out.println("No images found for sale_id: " + sale_id);
-        }
+		// 첫 번째 이미지만 가져오기
+		if (!productImages.isEmpty()) {
+			productInfo.put("productImage", productImages.get(0));
+		} else {
+			System.out.println("No images found for sale_id: " + sale_id);
+		}
 
-        System.out.println("Product Info: " + productInfo);
+		System.out.println("Product Info: " + productInfo);
 
-        return productInfo;
-    }
+		return productInfo;
+	}
+
+	@GetMapping("/loadMoreItems")
+	@ResponseBody
+	public List<Map<String, Object>> loadMoreItems(@RequestParam(value = "area", required = true) String area, @RequestParam int offset, @RequestParam int limit) {  
+		if(area == null || area.isEmpty()) {
+			area="전체";
+		}
+		HashMap map = new HashMap();
+		map.put("area", area);
+		map.put("offset", offset);
+		map.put("limit", limit);
+
+		// 세션값 받아오기
+		MemberVO mvo = (MemberVO) session.getAttribute("member");
+
+		// 세션값이 null이 아니라면
+		if(mvo != null) {
+			// 세션안의 id를 받아오기
+			String memberId = mvo.getMember_id();
+
+			// flask 로 보낼 객체 생성
+			Map<String, String> requestBody = new HashMap<>();
+			requestBody.put("id", memberId); // 나중엔 세션으로 들어갈 예정
 
 
+			try {
+				// Flask 서버로 POST 요청 + 응답 받기
+				String result = restTemplate.postForObject(mlServerUrl, requestBody, String.class); // url, 요청본문, 응답받는타입
+				System.out.println("Prediction result: " + result); // json 형식
 
+				// JSON 응답 파싱
+				ObjectMapper objectMapper = new ObjectMapper(); // json 데이터를 파싱하기위한 객체생성
+				JsonNode jsonNode = objectMapper.readTree(result);	// 문자열 파싱후 json 트리 구조를 반환
+				String prediction = jsonNode.get("prediction").asText(); // asText() jsonNode의 텍스트값 반환
+				System.out.println(prediction);
+
+				map.put("prediction", prediction);
+
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				// 서버가 꺼졋을대 대비
+				map.put("prediction", "null");	
+			}
+		}else {
+			map.put("prediction", "null");	
+		}
+
+		// 상품 list
+		List<Map<String, Object>> productList = productService.productMainList(map);
+		System.out.println("33");
+		return null;
+
+
+	}
 }

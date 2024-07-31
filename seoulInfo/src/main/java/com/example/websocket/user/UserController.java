@@ -35,7 +35,7 @@ public class UserController {
         return user;
     }
 
-//    @GetMapping("/users")
+//    @GetMapping("/getUserInfo")
 //    public ResponseEntity<List<User>> findAllUsers() {
 //        return ResponseEntity.ok(userService.findAllUsers());
 //    }

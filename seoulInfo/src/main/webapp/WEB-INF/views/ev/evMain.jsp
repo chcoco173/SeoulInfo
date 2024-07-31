@@ -118,8 +118,7 @@
 						<a href="/news/news?area=${sessionScope.member.member_area}"
 							class="nav-link w-nav-link">뉴스</a> <a
 							href="/festival/festival?area=${sessionScope.member.member_area}"
-							class="nav-link w-nav-link">문화행사</a> <a href="/ev/evMain"
-							class="nav-link w-nav-link">전기차</a> <a href="/mypage/profile"
+							class="nav-link w-nav-link">문화행사</a> <a href="/mypage/profile"
 							class="nav-link w-nav-link">마이페이지</a> <a href="/member/logout"
 							class="nav-link w-nav-link">로그아웃</a>
 					</nav>
@@ -128,7 +127,6 @@
 					%>
 					<nav role="navigation" class="nav-links-wrapper w-nav-menu">
 						<a href="/gu" class="nav-link w-nav-link">문화행사/뉴스</a> <a
-							href="/ev/evMain" class="nav-link w-nav-link">전기차</a> <a
 							href="/member/login" class="nav-link w-nav-link">로그인</a>
 					</nav>
 					<%

@@ -21,7 +21,7 @@ public class SynchronizationService {
         for (String member_id : member_ids) {
             if (!userRepository.existsById(member_id)) {
                 User user = new User();
-                user.setMember_id(member_id);
+                user.setUserId(member_id);
                 user.setStatus(Status.OFFLINE); // or whatever the initial status should be
                 userRepository.save(user);
             }

@@ -139,6 +139,7 @@
 	border-style: solid;
 	border-color: transparent #333 transparent transparent;
 }
+
 .carousel-image-wrapper {
 	background-color: #000000; /* 배경색 설정 */
 	width: 100%;
@@ -190,50 +191,87 @@
 /* 유사상품 css */
 /* 가로 스크롤바 + 가로로 뜨게 */
 .w-dyn-list {
-    display: flex;
-    flex-wrap: nowrap; /* 카드가 한 줄에 배치되도록 설정 */
-    overflow-x: auto; /* 가로 스크롤바 표시 */
-    padding: 10px 0; /* 상하 여백 추가 */
-    gap: 20px; /* 카드 사이의 간격 설정 */
-    -webkit-overflow-scrolling: touch; /* 모바일에서 부드러운 스크롤 지원 */
+	display: flex;
+	flex-wrap: nowrap; /* 카드가 한 줄에 배치되도록 설정 */
+	overflow-x: auto; /* 가로 스크롤바 표시 */
+	padding: 10px 0; /* 상하 여백 추가 */
+	gap: 20px; /* 카드 사이의 간격 설정 */
+	-webkit-overflow-scrolling: touch; /* 모바일에서 부드러운 스크롤 지원 */
 }
 
 .product-card {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    background-color: #fff;
-    transition: box-shadow 0.3s ease;
-    width: 250px; /* 카드의 고정된 너비 */
-    /* 높이는 자동으로 조정되도록 */
-    flex-shrink: 0; /* 카드가 줄어들지 않도록 설정 */
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	padding: 15px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #fff;
+	transition: box-shadow 0.3s ease;
+	width: 250px; /* 카드의 고정된 너비 */
+	/* 높이는 자동으로 조정되도록 */
+	flex-shrink: 0; /* 카드가 줄어들지 않도록 설정 */
 }
 
 .product-image {
-    width: 100%; /* 카드의 너비에 맞추기 */
-    height: auto; /* 비율 유지하면서 자동으로 높이 조정 */
-    display: block;
-    margin: 0 auto;
-    border: 2px solid #ddd;
-    border-radius: 5px;
+	width: 100%; /* 카드의 너비에 맞추기 */
+	height: auto; /* 비율 유지하면서 자동으로 높이 조정 */
+	display: block;
+	margin: 0 auto;
+	border: 2px solid #ddd;
+	border-radius: 5px;
 }
 
 .product-info {
-    padding-top: 10px; /* 이미지와 정보 사이의 여백 */
-    /* 내용의 가로폭을 카드에 맞추기 */
+	padding-top: 10px; /* 이미지와 정보 사이의 여백 */
+	/* 내용의 가로폭을 카드에 맞추기 */
 }
 
 .product-info h4 {
-    font-size: 1.2rem; /* 적절한 글자 크기 설정 */
-    font-weight: bold;
-    margin: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+	font-size: 1.2rem; /* 적절한 글자 크기 설정 */
+	font-weight: bold;
+	margin: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .product-info p {
-    margin: 5px 0;
+	margin: 5px 0;
 }
 /* 유사상품 css 끝  */
+
+/* 유사상품 css 수정 7/31  */
+.main-wrapper {
+	padding: 20px;
+}
+
+.product-card {
+	background: #fff;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	margin-bottom: 20px;
+	transition: transform 0.2s;
+}
+
+.product-card:hover {
+	transform: translateY(-10px);
+}
+
+.product-image {
+	border-radius: 10px;
+	object-fit: cover;
+}
+
+.product-info h4 {
+	font-weight: 600;
+	/*color: #007bff;*/
+}
+
+.product-info p {
+	margin: 0;
+	color: #555;
+}
+
+.product-info p strong {
+	color: #e74c3c;
+}

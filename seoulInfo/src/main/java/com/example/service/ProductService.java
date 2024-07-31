@@ -59,6 +59,8 @@ public interface ProductService {
 
 	// 유사상품 출력
 	public List<Map<String, Object>> similarList(int[] prediction);
+	
+	public int countItems(HashMap map);
 
 
 }
