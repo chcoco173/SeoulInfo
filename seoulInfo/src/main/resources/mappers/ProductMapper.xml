@@ -74,6 +74,7 @@
 		ps.sale_name,
 		ps.sale_status,
 		ps.sale_price
+		ORDER BY ps.sale_regdate DESC
 	</select>
 
 	<!-- 상품리스트출력 -->
