@@ -38,6 +38,7 @@ public class ChatMessageController {
     public ResponseEntity<List<ChatMessage>> findChatMessages(@PathVariable String senderId,
                                                               @PathVariable String recipientId,
                                                               @RequestParam Integer sale_id) {  // sale_id 추가
+    	System.out.println("ㅎㅎㅎㅎㅎ"+senderId+recipientId+sale_id);
         return ResponseEntity
                 .ok(chatMessageService.findChatMessages(senderId, recipientId, sale_id));  // sale_id 전달
     }
