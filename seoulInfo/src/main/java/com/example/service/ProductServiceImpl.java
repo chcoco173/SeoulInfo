@@ -129,6 +129,12 @@ public class ProductServiceImpl implements ProductService{
 		return productDAO.similarList(prediction);
 	}
 
+	@Override
+	public int countItems(HashMap map) {
+		// TODO Auto-generated method stub
+		return productDAO.countItems(map);
+	}
+
 	
 
 
