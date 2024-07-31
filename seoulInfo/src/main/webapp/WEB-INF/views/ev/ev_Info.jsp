@@ -80,14 +80,67 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script>
-		    $(document).ready(function() {
-            $('.closeInfo').click(function() {
-				$('.overlay').hide();
-				$('.overlay').css({'display':'none','z-index':'-1'});
-				$('.charger_Information').hide();
-				$('.charger_Information').css({'display':'none','z-index':'-1'});
-            });
-        });
+		// 클릭된 마커를 저장하는 변수
+		var currentClickedMarker = null;
+
+		$(document).ready(function() {
+		    // 정보 창 닫기 버튼 클릭 이벤트
+		    $('.closeInfo').click(function() {
+		        closeInfoWindow();
+		    });
+
+		    // 마커 클릭 이벤트 예시 (모든 마커에 대해 적용)
+		    function onMarkerClick(marker) {
+		        return function() {
+		            // 이미 클릭된 마커가 있을 경우
+		            if (currentClickedMarker !== null) {
+		                // 이전에 클릭된 마커를 원래 상태로 되돌림
+		                var normalImageSrc = "/images/ev/ev_normal.png"; 
+		                var normalImageSize = new kakao.maps.Size(30, 30);
+		                var normalImage = new kakao.maps.MarkerImage(normalImageSrc, normalImageSize);
+		                currentClickedMarker.setImage(normalImage);
+		            }
+
+		            // 현재 클릭된 마커를 업데이트
+		            currentClickedMarker = marker;
+
+		            // 클릭된 마커의 이미지 변경
+		            var clickedImageSrc = "/images/ev/ev_click.png"; 
+		            var clickedImageSize = new kakao.maps.Size(30, 30);
+		            var clickedImage = new kakao.maps.MarkerImage(clickedImageSrc, clickedImageSize);
+		            currentClickedMarker.setImage(clickedImage);
+
+		            // 정보 창 등 관련 UI 표시 (필요시 추가)
+		            $('.overlay').show();
+		            $('.charger_Information').show();
+		        };
+		    }
+
+		    // 마커 클릭 이벤트를 추가하는 예시
+		    // markers 배열에 포함된 모든 마커에 클릭 이벤트 리스너 추가
+		    markers.forEach(function(marker) {
+		        kakao.maps.event.addListener(marker, 'click', onMarkerClick(marker));
+		    });
+
+		    // 정보 창을 닫고 상태 초기화 함수
+		    function closeInfoWindow() {
+		        // 오버레이와 충전기 정보 창 숨기기
+		        $('.overlay').hide();
+		        $('.charger_Information').hide();
+
+		        // 클릭된 마커가 있는 경우, 원래 상태로 복원
+		        if (currentClickedMarker !== null) {
+		            var normalImageSrc = "/images/ev/ev_normal.png"; 
+		            var normalImageSize = new kakao.maps.Size(30, 30);
+		            var normalImage = new kakao.maps.MarkerImage(normalImageSrc, normalImageSize);
+		            currentClickedMarker.setImage(normalImage);
+		            currentClickedMarker = null; // 현재 클릭된 마커 초기화
+		        }
+		    }
+		});
+
+
+
     </script>
 </body>
 </html>
