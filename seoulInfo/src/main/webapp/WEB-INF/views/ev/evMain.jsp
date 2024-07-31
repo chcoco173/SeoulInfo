@@ -458,15 +458,15 @@
 
 		// ######## 서울 범위 밖에 이동 시, 중심 지로 이동하는 기능 ####################
         var seoulBounds = new kakao.maps.LatLngBounds(
-            new kakao.maps.LatLng(37.413294, 126.734086),
-            new kakao.maps.LatLng(37.715133, 127.269311)
+            new kakao.maps.LatLng(37.313294, 126.834086),
+            new kakao.maps.LatLng(37.815133, 127.169311)
         );
 
         kakao.maps.event.addListener(map, 'center_changed', function() {
             var center = map.getCenter();
             if (!seoulBounds.contain(center)) {
                 map.setCenter(new kakao.maps.LatLng(37.5665, 126.9780));
-                alert("서울시 정보만 제공됩니다.");
+                //alert("서울시 정보만 제공됩니다.");
             }
         });
 		

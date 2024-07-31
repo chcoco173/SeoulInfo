@@ -57,7 +57,9 @@ public class EVController {
 	@GetMapping("/ev_info")
 	@ResponseBody
 	public List<EVchargerVO> getChargerInfo(@RequestParam("evc_id") String evc_id) {
+		System.out.println("to getChargerInfo : "+evc_id);
 		List<EVchargerVO> chargerInfo = evStationService.getStationDataInfo(evc_id);
+		System.out.println("from getChargerInfo : "+chargerInfo);
 		return chargerInfo;
 	}
 	 
@@ -65,7 +67,9 @@ public class EVController {
 	 @GetMapping("/ev_Favorite")
 	 @ResponseBody
 	 public List<EVchargerVO> stroageChargerFav(String member_id ){
+		 System.out.println("to favorite : "+member_id);
 		 List<EVchargerVO> chargerlike = evStationService.selectEVFav(member_id);
+		 System.out.println("from favorite : "+chargerlike);
 		 return chargerlike;
 	 }
 	 

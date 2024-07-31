@@ -155,11 +155,6 @@
 			 <artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
 		
-		<!-- 07/30 기진 open api 적용 test -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
 	</dependencies>
 
 	<build>
