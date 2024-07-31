@@ -137,6 +137,7 @@
 	    }
 	</style>
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+	
 </head>
 <body>
 <div class="page-wrapper">
@@ -153,7 +154,8 @@
 					</ul>
                 </div>
                 <div>
-                    <p id="connected-user-fullname">${sessionScope.member.member_id} ( ${sessionScope.member.member_name}님 )</p>
+                    <p id="connected-userId">${sessionScope.member.member_id}</p>
+					<p>( ${sessionScope.member.member_name}님 )</p>
                 </div>
             </div>
         
@@ -168,7 +170,7 @@
 				    </div>
 				    <div class="action-buttons">
 				        <button id="report" hidden>판매자 신고</button>
-				        <button id="chat-done">채팅 나가기</button>
+				        <button id="chat-done">채팅 나가기${sessionScope.logid.member_id}</button>
 						<button id="deal-done" hidden>거래 완료</button>
 				    </div>
 				</div>
