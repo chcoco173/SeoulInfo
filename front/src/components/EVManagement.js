@@ -20,9 +20,9 @@ function EVManagement() {
   const [editEvcData, setEditEvcData] = useState({}); // 수정 중인 전기차 충전기 데이터를 저장하는 상태
   const navigate = useNavigate();
 
-  useEffect(() => { // 컴포넌트가 마운트될 때 혹은 currentPage 또는 currentPage2가 변경될 때 호출
+  useEffect(() => {
     getEVData(currentPage);
-    getEvcData(currentPage2);
+    getEvcData(currentPage2); // 전기차 충전기 데이터도 페칭
   }, [currentPage, currentPage2]);
 
   const getEVData = async (page) => { // 전기차 충전소 데이터를 가져오는 함수
@@ -41,13 +41,11 @@ function EVManagement() {
     }
   };
 
-  const getEvcData = async (page) => { // 전기차 충전기 데이터를 가져오는 함수
+  const getEvcData = async (page) => {
     try {
-      const response = await instance.get('/data/getallevc', {
-        params: { page }
-      });
+      const response = await instance.get('/data/getallevc', { params: { page } });
       setEvcData(response.data.evc);
-      setTotalPages2(response.data.totalPages2);
+      setTotalPages2(response.data.totalPages); // totalPages2 설정
     } catch (error) {
       console.error('데이터 불러오기 에러:', error);
     }
@@ -89,7 +87,7 @@ function EVManagement() {
     setCurrentPage(page);
   };
 
-  const handlePageChange2 = (page) => { // 전기차 충전기 페이지 변경을 처리하는 함수
+  const handlePageChange2 = (page) => {
     setCurrentPage2(page);
   };
 
@@ -194,37 +192,37 @@ function EVManagement() {
     return pageNumbers;
   };
 
-  const renderPageNumbers2 = () => { // 전기차 충전기 페이지 번호를 렌더링
-    const pageNumbers2 = [];
-    const maxPage2 = 10;
-    const totalPageBlocks2 = Math.ceil(totalPages2 / maxPage2);
-    const currentBlock2 = Math.floor(currentPage2 / maxPage2);
-    
-    const startPage2 = currentBlock2 * maxPage2;
-    const endPage2 = Math.min(startPage2 + maxPage2, totalPages2);
+  const renderPageNumbers2 = () => {
+  const pageNumbers2 = [];
+  const maxPage2 = 10;
+  const totalPageBlocks2 = Math.ceil(totalPages2 / maxPage2);
+  const currentBlock2 = Math.floor(currentPage2 / maxPage2);
 
-    if (currentBlock2 > 0) {
-      pageNumbers2.push(<button key="prev-block" onClick={() => handlePageChange2(startPage2 - 1)}>&lt;</button>);
-    }
+  const startPage2 = currentBlock2 * maxPage2;
+  const endPage2 = Math.min(startPage2 + maxPage2, totalPages2);
 
-    for (let i = startPage2; i < endPage2; i++) {
-      pageNumbers2.push(
-        <button
-          key={i}
-          onClick={() => handlePageChange2(i)}
-          className={i === currentPage2 ? 'active' : ''}
-        >
-          {i + 1}
-        </button>
-      );
-    }
+  if (currentBlock2 > 0) {
+    pageNumbers2.push(<button key="prev-block" onClick={() => handlePageChange2(startPage2 - 1)}>&lt;</button>);
+  }
 
-    if (currentBlock2 < totalPageBlocks2 - 1) {
-      pageNumbers2.push(<button key="next-block" onClick={() => handlePageChange2(endPage2)}>&gt;</button>);
-    }
+  for (let i = startPage2; i < endPage2; i++) {
+    pageNumbers2.push(
+      <button
+        key={i}
+        onClick={() => handlePageChange2(i)}
+        className={i === currentPage2 ? 'active' : ''}
+      >
+        {i + 1}
+      </button>
+    );
+  }
 
-    return pageNumbers2;
-  };
+  if (currentBlock2 < totalPageBlocks2 - 1) {
+    pageNumbers2.push(<button key="next-block" onClick={() => handlePageChange2(endPage2)}>&gt;</button>);
+  }
+
+  return pageNumbers2;
+};
 
   return (
     <div>
@@ -320,104 +318,104 @@ function EVManagement() {
       <br />
       <br />
       <div className="charger-info">
-        <h1>전기차 충전기 관리</h1>
-        <div className="insert-ev-container" id='insert-ev-container'>
-          <button className="insert-ev" id='insert-ev' onClick={handleInsertEvc}>충전기 등록</button>
-        </div>
-        <table className="charger-table">
-          <thead>
-            <tr>
-              <th className='evc_name'>충전소이름</th>
-              <th className='charger_id'>충전기번호</th>
-              <th className='charger_type'>충전기타입</th>
-              <th className='charger_userlimit'>충전기상태</th>
-              <th className='charger_facsmall'>시설구분</th>
-              <th className='charger-update'>수정</th>
-              <th className='charger-delete'>삭제</th>
-            </tr>
-          </thead>
-          <tbody>
-            {evcData.map(evc => (
-              <tr key={evc.charger_id}>
-                <td className='evc_name'>
-                  {editEvcId === evc.charger_id ? (
-                    <input
-                      type="text"
-                      name="evc_name"
-                      value={editEvcData.evc_name}
-                      onChange={handleChangeEvc}
-                      readOnly
-                    />
-                  ) : (
-                    evc.evc_name
-                  )}
-                </td>
-                <td className='charger_id'>
-                  {editEvcId === evc.charger_id ? (
-                    <input
-                      type="text"
-                      name="charger_id"
-                      value={editEvcData.charger_id}
-                      onChange={handleChangeEvc}
-                    />
-                  ) : (
-                    evc.charger_id
-                  )}
-                </td>
-                <td className='charger_type'>
-                  {editEvcId === evc.charger_id ? (
-                    <input
-                      type="text"
-                      name="charger_type"
-                      value={editEvcData.charger_type}
-                      onChange={handleChangeEvc}
-                    />
-                  ) : (
-                    evc.charger_type
-                  )}
-                </td>
-                <td className='charger_userlimit'>
-                  {editEvcId === evc.charger_id ? (
-                    <input
-                      type="text"
-                      name="charger_userlimit"
-                      value={editEvcData.charger_userlimit}
-                      onChange={handleChangeEvc}
-                    />
-                  ) : (
-                    evc.charger_userlimit
-                  )}
-                </td>
-                <td className='charger_facsmall'>
-                  {editEvcId === evc.charger_id ? (
-                    <input
-                      type="text"
-                      name="charger_facsmall"
-                      value={editEvcData.charger_facsmall}
-                      onChange={handleChangeEvc}
-                    />
-                  ) : (
-                    evc.charger_facsmall
-                  )}
-                </td>
-                <td className='charger-update'>
-                  {editEvcId === evc.charger_id ? (
-                    <button className='charger-update-button' onClick={handleSaveEvc}>확인</button>
-                  ) : (
-                    <button className='charger-update-button' onClick={() => handleEditEvc(evc)}>수정</button>
-                  )}
-                </td>
-                <td className='charger-delete'>
-                  <button className='charger-delete-button' onClick={() => deleteEvc(evc.charger_id)}>삭제</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div className="pagination">
-          {renderPageNumbers2()}
-        </div>
-      </div>
+  <h1>전기차 충전기 관리</h1>
+  <div className="insert-evc-container" id='insert-evc-container'>
+    <button className="insert-ev" id='insert-ev' onClick={handleInsertEvc}>충전기 등록</button>
+  </div>
+  <table className="charger-table">
+    <thead>
+      <tr>
+        <th className='evc_name'>충전소이름</th>
+        <th className='charger_id'>충전기번호</th>
+        <th className='charger_type'>충전기타입</th>
+        <th className='charger_userlimit'>충전기상태</th>
+        <th className='charger_facsmall'>시설구분</th>
+        <th className='charger-update'>수정</th>
+        <th className='charger-delete'>삭제</th>
+      </tr>
+    </thead>
+    <tbody>
+      {evcData.map(evc => (
+        <tr key={evc.charger_id}>
+          <td className='evc_name'>
+            {editEvcId === evc.charger_id ? (
+              <input
+                type="text"
+                name="evc_name"
+                value={editEvcData.evc_name}
+                onChange={handleChangeEvc}
+                readOnly
+              />
+            ) : (
+              evc.evc_name
+            )}
+          </td>
+          <td className='charger_id'>
+            {editEvcId === evc.charger_id ? (
+              <input
+                type="text"
+                name="charger_id"
+                value={editEvcData.charger_id}
+                onChange={handleChangeEvc}
+              />
+            ) : (
+              evc.charger_id
+            )}
+          </td>
+          <td className='charger_type'>
+            {editEvcId === evc.charger_id ? (
+              <input
+                type="text"
+                name="charger_type"
+                value={editEvcData.charger_type}
+                onChange={handleChangeEvc}
+              />
+            ) : (
+              evc.charger_type
+            )}
+          </td>
+          <td className='charger_userlimit'>
+            {editEvcId === evc.charger_id ? (
+              <input
+                type="text"
+                name="charger_userlimit"
+                value={editEvcData.charger_userlimit}
+                onChange={handleChangeEvc}
+              />
+            ) : (
+              evc.charger_userlimit
+            )}
+          </td>
+          <td className='charger_facsmall'>
+            {editEvcId === evc.charger_id ? (
+              <input
+                type="text"
+                name="charger_facsmall"
+                value={editEvcData.charger_facsmall}
+                onChange={handleChangeEvc}
+              />
+            ) : (
+              evc.charger_facsmall
+            )}
+          </td>
+          <td className='charger-update'>
+            {editEvcId === evc.charger_id ? (
+              <button className='charger-update-button' onClick={handleSaveEvc}>확인</button>
+            ) : (
+              <button className='charger-update-button' onClick={() => handleEditEvc(evc)}>수정</button>
+            )}
+          </td>
+          <td className='charger-delete'>
+            <button className='charger-delete-button' onClick={() => deleteEvc(evc.charger_id)}>삭제</button>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  <div className="pagination">
+    {renderPageNumbers2()}
+  </div>
+</div>
     </div>
   );
 }

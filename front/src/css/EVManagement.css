@@ -134,3 +134,24 @@
     font-weight: bold;
     border-color: #333;
   }
+
+  #insert-evc-container {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    height: 4vh;
+  }
+  
+  #insert-evc {
+    padding: 8px 16px;
+    background-color: #5c5c5c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 36px;
+  }
+  
+  #insert-evc:hover {
+    background-color: #2c2c2c;
+  }

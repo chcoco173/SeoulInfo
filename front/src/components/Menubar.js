@@ -21,6 +21,7 @@ import AlreadyAnswer from './AlreadyAnswer';
 
 function Menubar() {
   const [isOpen, setIsOpen] = useState(false); // 메뉴가 열려있는지 상태를 저장
+  const [routeKey, setRouteKey] = useState(0); // 라우트 키 상태 추가
   const { logout } = useAuth(); // AuthContext에서 logout 함수를 가져옴
   const navigate = useNavigate(); // 페이지 이동을 위한 navigate 함수
   const location = useLocation(); // 현재 위치 정보를 가져옴
@@ -36,9 +37,10 @@ function Menubar() {
     navigate('/login'); // 로그인 페이지로 이동
   };
 
-  // location이 변경될 때 메뉴를 닫는 효과를 주는 useEffect
+  // location이 변경될 때 메뉴를 닫고 키를 업데이트하는 useEffect
   useEffect(() => {
     setIsOpen(false);
+    setRouteKey(prevKey => prevKey + 1); // 키 업데이트
   }, [location]);
 
   return (
@@ -61,7 +63,7 @@ function Menubar() {
         </ul>
       </nav>
       <div className="main-content">
-        <Routes>
+        <Routes key={routeKey}> {/* 키 추가 */}
           <Route path="user-info" element={<UserInfo />} />
           <Route path="admin-info" element={<AdminInfo />} />
           <Route path="festival" element={<FestivalManagement />} />

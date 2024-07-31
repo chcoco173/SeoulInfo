@@ -31,6 +31,11 @@ function Answer() {
       return;
     }
 
+    const confirmed = window.confirm('답변을 등록하시겠습니까?');
+    if (!confirmed) {
+      return;
+    }
+
     try {
       await instance.post('/data/submit-answer', {
         question_no,

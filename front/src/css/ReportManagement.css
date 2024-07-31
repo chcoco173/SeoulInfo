@@ -47,6 +47,7 @@
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  table-layout: fixed; /* 열 크기를 고정 */
 }
 
 .report-table th,
@@ -58,6 +59,26 @@
 
 .report-table th {
   background-color: #f4f4f4;
+}
+
+.report-table th:nth-child(1),
+.report-table td:nth-child(1) {
+  width: 10%; /* 첫 번째 열 너비 고정 */
+}
+
+.report-table th:nth-child(2),
+.report-table td:nth-child(2) {
+  width: 30%; /* 두 번째 열 너비 고정 */
+}
+
+.report-table th:nth-child(3),
+.report-table td:nth-child(3) {
+  width: 20%; /* 세 번째 열 너비 고정 */
+}
+
+.report-table th:nth-child(4),
+.report-table td:nth-child(4) {
+  width: 15%; /* 네 번째 열 너비 고정 */
 }
 
 .ball {
@@ -216,12 +237,12 @@
   border: 1px solid #ddd;
   background-color: transparent; 
   cursor: pointer;
-  color : black;
+  color: black;
 }
 
 .pagination button:hover {
   border-color: #999;
-  color : white;
+  color: white;
 }
 
 .pagination button.active {

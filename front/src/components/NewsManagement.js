@@ -135,22 +135,26 @@ function NewsManagement() {
           </tr>
         </thead>
         <tbody>
-          {newsData.map(news => (
-            <tr key={news.news_id}>
-              <td className='newsnum'>{news.news_id}</td>
-              <td className='newsarea'>{news.news_area}</td>
-              <td className='newstitle'>{news.news_title}</td>
-              <td className='newslink'>
-                <a href={news.news_link} target="_blank" rel="noopener noreferrer">
-                  {news.news_link}
-                </a>
-              </td>
-              <td className='newsdate'>{news.news_date}</td>
-              <td className='newsdelete'>
-                <button className='newsdelete-button' onClick={() => deleteNews(news.news_id)}>삭제</button>
-              </td>
-            </tr>
-          ))}
+        {newsData.map(news => (
+  <tr key={news.news_id}>
+    <td className='newsnum'>{news.news_id}</td>
+    <td className='newsarea'>{news.news_area}</td>
+    <td className='newstitle'>
+      <a href={`http://192.168.0.219:8080/news/newsDetail?news_id=${news.news_id}&area=${news.news_area}`}>
+        {news.news_title}
+      </a>
+    </td>
+    <td className='newslink'>
+      <a href={news.news_link} target="_blank" rel="noopener noreferrer">
+        {news.news_link}
+      </a>
+    </td>
+    <td className='newsdate'>{news.news_date}</td>
+    <td className='newsdelete'>
+      <button className='newsdelete-button' onClick={() => deleteNews(news.news_id)}>삭제</button>
+    </td>
+  </tr>
+))}
         </tbody>
       </table>
       <div className="pagination">

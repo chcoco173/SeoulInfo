@@ -8,6 +8,7 @@ const dbconfig = require('./config/database.js');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
 
 const conn = mysql.createConnection(dbconfig);
 const app = express();
@@ -37,6 +38,16 @@ app.use(session({
     maxAge: 1000 * 60 * 30 
   }
 }));
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'lee.yeony.19@gmail.com',
+    pass: 'mjir pdtd feqg nqbk',
+  },
+});
+
+
 
 // 로그인 라우트 설정
 app.post('/login', (req, res) => {
@@ -767,8 +778,10 @@ app.get('/data/getallevc', checkSession, (req, res) => {
 
   const sqlCount = 'SELECT COUNT(*) AS total FROM evc_cg';
   conn.query(sqlCount, (err, countResult) => {
-    if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정
-      throw err;
+    if (err) {
+      console.error('Error fetching total count:', err);
+      res.status(500).send('Error');
+      return;
     }
     const totalItems = countResult[0].total;
     const totalPages = Math.ceil(totalItems / pageSize);
@@ -792,9 +805,11 @@ app.get('/data/getallevc', checkSession, (req, res) => {
         ${pageSize} OFFSET ${offset}
     `;
 
-    conn.query(sql, function(err, result) {
-      if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정
-        throw err;
+    conn.query(sql, (err, result) => {
+      if (err) {
+        console.error('Error fetching data:', err);
+        res.status(500).send('Error');
+        return;
       }
       res.send({
         evc: result,
@@ -916,7 +931,7 @@ app.post('/data/update-member-status/:member_id', checkSession, (req, res) => {
 // 설명: 회원 상태 업데이트는 회원의 상태를 업데이트합니다.
 
 app.get('/data/reports', checkSession, (req, res) => {
-  const { page = 1, search = '' } = req.query;
+  const { page = 1, search = '', filter = 'member_id' } = req.query;
   const limit = 10;
   const offset = (page - 1) * limit;
 
@@ -944,15 +959,20 @@ app.get('/data/reports', checkSession, (req, res) => {
   const reportCountSearch = !isNaN(search) ? parseInt(search, 10) : null;
 
   if (search) {
-    searchSql += ` WHERE m.member_id LIKE ? OR IFNULL(r.report_count, 0) = ? `;
-    countSql += ` WHERE m.member_id LIKE ? OR IFNULL(r.report_count, 0) = ? `;
+    if (filter === 'member_id') {
+      searchSql += ` WHERE m.member_id LIKE ? `;
+      countSql += ` WHERE m.member_id LIKE ? `;
+    } else if (filter === 'report_count' && reportCountSearch !== null) {
+      searchSql += ` WHERE IFNULL(r.report_count, 0) = ? `;
+      countSql += ` WHERE IFNULL(r.report_count, 0) = ? `;
+    }
   }
 
   searchSql += ' ORDER BY report_count DESC, m.member_id LIMIT ? OFFSET ?';
 
-  const params = search ? [searchQuery, reportCountSearch, limit, offset] : [limit, offset];
+  const params = search ? (filter === 'member_id' ? [searchQuery, limit, offset] : [reportCountSearch, limit, offset]) : [limit, offset];
 
-  conn.query(countSql, search ? [searchQuery, reportCountSearch] : [], (err, countResult) => {
+  conn.query(countSql, search ? (filter === 'member_id' ? [searchQuery] : [reportCountSearch]) : [], (err, countResult) => {
     if (err) {
       console.error('Error counting reports:', err);
       res.status(500).send('Error');
@@ -993,9 +1013,9 @@ app.get('/data/reports/:member_id', checkSession, (req, res) => {
 // 설명: 신고 사유 리스트는 지정된 회원에 대한 신고 사유 데이터를 조회하여 반환합니다.
 
 // 신고 횟수 증가 및 처리 완료 상태 업데이트  
-app.post('/data/increase-report-count/:memberId', checkSession, (req, res) => {
+app.post('/data/increase-report-count/:memberId', (req, res) => {
   const { memberId } = req.params;
-  const { reportId } = req.body;
+  const { reportId, reportCate, reportReason } = req.body;
 
   const updateReportCountSql = `
     UPDATE member 
@@ -1009,32 +1029,76 @@ app.post('/data/increase-report-count/:memberId', checkSession, (req, res) => {
     WHERE report_id = ?;
   `;
 
+  const getEmailAndReportCountSql = `
+    SELECT member_email, member_reportcount 
+    FROM member 
+    WHERE member_id = ?;
+  `;
+
   conn.beginTransaction((err) => {
-    if (err) { // 트랜잭션 시작 중 에러 발생 가정
-      throw err;
+    if (err) {
+      return res.status(500).send('Transaction start failed');
     }
 
     conn.query(updateReportCountSql, [memberId], (err) => {
-      if (err) { // 신고 횟수 업데이트 쿼리 실행 중 에러 발생 가정
+      if (err) {
         return conn.rollback(() => {
           res.status(500).send('신고 횟수 업데이트 실패');
         });
       }
 
       conn.query(markReportsProcessedSql, [reportId], (err) => {
-        if (err) { // 신고 처리 완료 상태 업데이트 쿼리 실행 중 에러 발생 가정
+        if (err) {
           return conn.rollback(() => {
             res.status(500).send('신고 처리 완료 상태 업데이트 실패');
           });
         }
 
         conn.commit((err) => {
-          if (err) { // 트랜잭션 커밋 중 에러 발생 가정
+          if (err) {
             return conn.rollback(() => {
               res.status(500).send('Transaction commit failed');
             });
           }
-          res.send({ message: '신고 횟수가 성공적으로 업데이트 되었고, 신고가 처리 완료 상태로 변경되었습니다' });
+
+          // member_email과 member_reportcount 조회
+          conn.query(getEmailAndReportCountSql, [memberId], (err, results) => {
+            if (err) {
+              return res.status(500).send('회원 이메일 및 신고 횟수 조회 실패');
+            }
+
+            const memberEmail = results[0].member_email;
+            const reportCount = results[0].member_reportcount;
+
+            const mailOptions = {
+              from: '"서울 지역 안내 서비스" <your-email@gmail.com>',
+              to: memberEmail,
+              subject: '서울 지역 안내 서비스 신고 승인 알림',
+              html: `
+                <div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px; border-radius: 10px;">
+                  <h2 style="color: #4CAF50; text-align: center;">신고 승인 알림</h2>
+                  <p>안녕하세요, 서울 지역 안내 서비스입니다.</p>
+                  <p>귀하에 대한 신고가 승인되었습니다. 다음은 신고에 대한 상세 내용입니다:</p>
+                  <ul style="background-color: #f9f9f9; padding: 15px; border-radius: 5px;">
+                    <li><strong>신고 카테고리:</strong> ${reportCate}</li>
+                    <li><strong>신고 사유:</strong> ${reportReason}</li>
+                    <li><strong>신고 승인 횟수:</strong> ${reportCount}</li>
+                  </ul>
+                  <p>신고 승인 횟수가 3회가 될 시 사이트 이용이 제한됩니다.</p>
+                  <p>감사합니다.</p>
+                  <br/>
+                  <p style="font-size: 12px; color: #888;">발신 전용 이메일입니다.</p>
+                </div>
+              `,
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+              if (error) {
+                return res.status(500).send('Error sending email');
+              }
+              res.send({ message: '신고 횟수가 성공적으로 업데이트 되었고, 신고가 처리 완료 상태로 변경되었으며, 이메일이 발송되었습니다.' });
+            });
+          });
         });
       });
     });
