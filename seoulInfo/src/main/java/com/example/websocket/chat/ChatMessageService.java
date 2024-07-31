@@ -33,12 +33,12 @@ public class ChatMessageService {
         String chatId = chatMessage.getChatId();
         if (chatId == null || chatId.isEmpty()) {
             chatId = chatRoomService
-                    .getChatRoomId(chatMessage.getSenderId(), chatMessage.getRecipientId(), true, chatMessage.getSale_id())
+                    .getChatRoomId(chatMessage.getSenderId(), chatMessage.getRecipientId(), true, chatMessage.getSaleId())
                     .orElseThrow(); // 예외 처리 필요 시 여기에 추가
             chatMessage.setChatId(chatId);
         } else {
-            Integer sale_id = extractSaleIdFromChatId(chatId);
-            chatMessage.setSale_id(sale_id);
+            Integer saleId = extractSaleIdFromChatId(chatId);
+            chatMessage.setSaleId(saleId);
         }
 
         try {
@@ -52,12 +52,8 @@ public class ChatMessageService {
         }
     }
 
-    public List<ChatMessage> findChatMessages(String senderId, String recipientId, Integer sale_id) {
-        var chatId = chatRoomService.getChatRoomId(senderId, recipientId, false, sale_id);
-        System.out.println("이거거거거ㅓ겅"+chatId);
-        System.out.println(chatId.map(repository::findByChatId).orElse(new ArrayList<>()));
-        return chatId.map(repository::findByChatId).orElse(new ArrayList<>());
-        
+    public List<ChatMessage> findChatMessagesBySaleId(Integer saleId) {
+        return repository.findBySaleId(saleId);
     }
     
     private Integer extractSaleIdFromChatId(String chatId) {

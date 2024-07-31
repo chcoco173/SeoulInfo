@@ -150,7 +150,7 @@
             <div class="users-list">  
                 <div class="users-list-container">
                     <h2>연결된 유저</h2>
-                    <ul id="otherUsers">						
+                    <ul id="chatRooms">						
 					</ul>
                 </div>
                 <div>
