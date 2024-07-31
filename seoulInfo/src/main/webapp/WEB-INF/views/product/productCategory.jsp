@@ -95,6 +95,7 @@
 									<div class="row justify-content-end">
 										<!-- Category Selector -->
 										<div class="col-md-4 col-lg-2 mb-3">
+											<input type=hidden class='area' value="${param.area}">
 											<c:choose>
 												<c:when
 													test="${category == '전자제품' || category == '디지털' || category == '가전제품'}">
@@ -302,6 +303,7 @@
 				src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 			<!-- 제이쿼리 라이브러리 추가 + 상품클릭시 디테일페이지로이동 -->
 			<script type="text/javascript">
+				
 				$(".product").click(function() {
 					var sale_id = $(this).find('.sale_id').val();
 					alert(sale_id);
@@ -315,8 +317,9 @@
 						function() {
 							let cate = $('.cate').val();
 							let type = $('.type').val();
+							let area = $('.col-md-4.col-lg-2.mb-3').find('.area').val();
 
-							location.href = "categoryOptionSelect?cate=" + cate
+							location.href = "categoryOptionSelect?area="+area+"&cate=" + cate
 									+ "&type=" + type;
 
 						})
@@ -325,10 +328,9 @@
 						function() {
 							let cate = $('.cate').val();
 							let type = $('.type').val();
+							let area = $('.col-md-4.col-lg-2.mb-3').find('.area').val();
 
-							location.href = "categoryOptionSelect?cate=" + cate
-									+ "&type=" + type;
-
+							location.href = "categoryOptionSelect?area="+area+"&cate=" + cate + "&type=" + type;
 						})
 						
 					

@@ -1,4 +1,4 @@
-package com.example.controller;
+﻿package com.example.controller;
 
 
 import java.io.File;
@@ -51,7 +51,7 @@ public class ProductController {
 	// flask url ( ml )
 	private final String mlServerUrl = "http://localhost:5000/predict";
 	
-	private final String mlServerUrl2 = "http://localhost:5000/productDetail";
+	private final String mlServerUrl2 = "http://localhost:5000/productDetail2";
 	
 
 	// 빈설정 필수 (AppConfig.java에 설정해둠)
@@ -452,6 +452,8 @@ public class ProductController {
 		// 유사상품 구현 ( ml )
 		Map<String, String>  requestBody = new HashMap<>();
 		requestBody.put("title", product.getSale_name());
+		requestBody.put("cate", product.getSale_cate());
+		
 		
 		try {
 			// Flask 서버로 POST 요청 + 응답 받기
@@ -594,11 +596,12 @@ public class ProductController {
 
 	// 카테고리 옵션 
 	@RequestMapping("/categoryOptionSelect")
-	public String categoryOptionSelect(String cate, String type, Model model) {
-		
+	public String categoryOptionSelect(String area, String cate, String type, Model model) {
+		System.out.println(area);
 		HashMap map = new HashMap();
 		map.put("optionCate", cate);
 		map.put("optionType", type);
+		map.put("area", area);
 
 		
 		System.out.println(map.toString());		
@@ -687,6 +690,32 @@ public class ProductController {
 
 		return timeDataList;
 	}
+
+	// 채팅에서 상품 정보 가져오기
+    @GetMapping("/getProductInfo")
+    @ResponseBody
+    public Map<String, Object> getProductInfo(@RequestParam Integer sale_id) {
+        System.out.println("Fetching product info for sale_id: " + sale_id);
+        ProductVO product = productService.myProductSaleId(sale_id);
+        List<ProductImageVO> productImages = productImageService.myProductSaleId(sale_id);
+
+        System.out.println("Product: " + product);
+        System.out.println("Product Images: " + productImages);
+
+        Map<String, Object> productInfo = new HashMap<>();
+        productInfo.put("product", product);
+
+        // 첫 번째 이미지만 가져오기
+        if (!productImages.isEmpty()) {
+            productInfo.put("productImage", productImages.get(0));
+        } else {
+            System.out.println("No images found for sale_id: " + sale_id);
+        }
+
+        System.out.println("Product Info: " + productInfo);
+
+        return productInfo;
+    }
 
 
 

@@ -7,7 +7,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Application</title>
-
+	<meta content="" property="og:title">
+	<meta content="" property="twitter:title">
+	<meta content="width=device-width, initial-scale=1" name="viewport">
+	<meta content="Webflow" name="generator">
     <!-- General CSS -->
     <link rel="stylesheet" href="/css/normalize.css" type="text/css">
     <link rel="stylesheet" href="/css/webflow.css" type="text/css">
@@ -15,6 +18,9 @@
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
 
+	<!-- Add jQuery library -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	
     <!-- Chat Specific CSS -->
     <link rel="stylesheet" href="/css/product/chat.css">
 	<style>
@@ -161,8 +167,9 @@
 				        </div>
 				    </div>
 				    <div class="action-buttons">
-				        <button onclick="reportSeller()">판매자 신고</button>
-				        <button onclick="exitChat()">채팅 나가기</button>
+				        <button id="report" hidden>판매자 신고</button>
+				        <button id="chat-done">채팅 나가기</button>
+						<button id="deal-done" hidden>거래 완료</button>
 				    </div>
 				</div>
 

@@ -102,8 +102,6 @@
 		<if test="area != '전체' and area != null and area != ''">
         	AND ps.sale_area = #{area}
     	</if>
-		<!-- <if test="prediction != 'null' and category == null and optionCate 
-			== null and keyword == null"> AND ps.sale_cate = #{prediction} </if> -->
 		<if test="category != null">
 			<if test="category == '전자제품'">
 				AND ps.sale_cate in ( '디지털' ,'가전제품' )

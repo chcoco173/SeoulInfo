@@ -20,76 +20,51 @@
     <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
     <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
     <link href="/images/webclip.png" rel="apple-touch-icon">
-	<style>
-		/* 상단 nav 와 .destination-banner 를 떨어뜨려 놓음 */
-		.navbar_m.w-nav {
-		    margin-bottom: 120px; /* 기본 마진 */
-		}
+   <style>
+      /* 상단 nav 와 .destination-banner 를 떨어뜨려 놓음 */
+      .navbar_m.w-nav {
+          margin-bottom: 120px; /* 기본 마진 */
+      }
 
-		@media (max-width: 768px) {
-		    .navbar_m.w-nav {
-		        margin-bottom: 10px; /* 작은 화면에서는 마진을 줄임 */
-		    }
-		}
+      @media (max-width: 768px) {
+          .navbar_m.w-nav {
+              margin-bottom: 10px; /* 작은 화면에서는 마진을 줄임 */
+          }
+      }
 
-		@media (max-width: 480px) {
-		    .navbar_m.w-nav {
-		        margin-bottom: 5px; /* 매우 작은 화면에서는 마진을 더 줄임 */
-		    }
-		}
+      @media (max-width: 480px) {
+          .navbar_m.w-nav {
+              margin-bottom: 5px; /* 매우 작은 화면에서는 마진을 더 줄임 */
+          }
+      }
 
-	</style>
+   </style>
 </head>
 <body>
     <div class="page-wrapper">
-        <div class="navigation-wrapper">
-            <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar_m w-nav">
-                <div class="nav-wrapper">
-                    <a href="/" class="brand w-nav-brand"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
-                    <div class="links-and-search-wrapper">
-                        <nav role="navigation" class="nav-links-wrapper w-nav-menu">
-                            <a href="/festival/festival?area=${param.area}" class="nav-link w-nav-link">축제</a>
-                            <a href="about.html" class="nav-link w-nav-link">About</a>
-                            <a href="/mypage/profile" class="nav-link w-nav-link">마이페이지</a>
-                        </nav>
-                        <form action="/search" data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5" class="search w-form">
-                            <div class="search-div"><img src="/images/ph_magnifying-glass-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
-                            <div class="nav-search-outer-wrapper">
-                                <div class="nav-search-internal-wrapper"><input class="form-field w-input" maxlength="256" name="query" placeholder="Search…" type="search" id="search" required="">
-                                    <div class="search-button-wrapper"><input type="submit" class="button-primary-small w-button" value="Search">
-                                        <a data-w-id="a72c4d20-babf-897f-e150-4948b59e5bfb" href="#" class="close-search-link-block w-inline-block"><img src="/images/ph_x-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="menu-button w-nav-button"><img src="/images/ph_list-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
-                </div>
-            </div>
-        </div>
+		<%@include file="../basicNav.jsp"%>
         
         <div class="main-wrapper">
             <div class="section-destination-banner">
                 <div class="padding-global">
                     <div class="padding-section-medium">
                         <div class="container-full-width">
-<!--                            <div data-w-id="a984475f-e10a-c912-ac29-53a066823d5a" style="opacity:0" class="_3-column-grid">
-                                <div id="w-node-_9eb9e867-d75f-01e1-e35b-5c8e2fc339e3-4f5c4823" data-w-id="9eb9e867-d75f-01e1-e35b-5c8e2fc339e3" style="opacity:0" class="image-overflow-wrapper">
-                                    <div id="w-node-a984475f-e10a-c912-ac29-53a066823d5b-4f5c4823" data-w-id="a984475f-e10a-c912-ac29-53a066823d5b" style="-webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform-style:preserve-3d" class="destination-featured-image"></div>
-                                </div>
-                                <div id="w-node-_79c7b98a-1219-4ca1-4497-3bfe7cec81e9-4f5c4823" data-w-id="79c7b98a-1219-4ca1-4497-3bfe7cec81e9" style="opacity:0" class="image-overflow-wrapper">
-                                    <div id="w-node-a984475f-e10a-c912-ac29-53a066823d5c-4f5c4823" data-w-id="a984475f-e10a-c912-ac29-53a066823d5c" style="-webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform-style:preserve-3d" class="destination-featured-image hide-mobile-landscape"></div>
-                                </div>
-                                <div id="w-node-_1c6c9f9c-e700-79e7-a980-d3dfc5bb86cd-4f5c4823" data-w-id="1c6c9f9c-e700-79e7-a980-d3dfc5bb86cd" style="opacity:0" class="image-overflow-wrapper">
-                                    <div id="w-node-a984475f-e10a-c912-ac29-53a066823d5d-4f5c4823" data-w-id="a984475f-e10a-c912-ac29-53a066823d5d" style="-webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform-style:preserve-3d" class="destination-featured-image hide-mobile-landscape"></div>
-                                </div>
-                            </div>-->
+                            </div>
+                     <!-- 전체 일 때 전체 로 나오게!! -->
                             <div data-w-id="a984475f-e10a-c912-ac29-53a066823d5e" style="opacity:0" class="destination-banner">
-                                <c:forEach items="${newsList}" var="news" varStatus="status">
-                                    <c:if test="${status.first}">
+                        <c:forEach items="${newsList}" var="news" varStatus="status">
+                            <c:if test="${status.first}">
+                                <c:choose>
+                                    <c:when test="${param.area == '전체'}">
+                                        <h1 class="text-color-white w-dyn-bind">전체</h1>
+                                    </c:when>
+                                    <c:otherwise>
                                         <h1 class="text-color-white w-dyn-bind">${news.news_area}</h1>
-                                    </c:if>
-                                </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:if>
+                        </c:forEach>
+
                             </div>
                         </div>
                     </div>
@@ -228,54 +203,52 @@
     
     <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="/js/webflow.js" type="text/javascript"></script>
-    
-    <script>
-	// 페이지 넘기기 + 페이지 넘기면 상단으로 스크롤
-    $(document).ready(function() {
-        var itemsPerPage = 6; // 페이지당 보여줄 항목 수
-        var currentPage = 1; // 현재 페이지
-        var $filteredItems = $('#filteredList dd'); // 필터링된 항목들
-        var totalItems = $filteredItems.length; // 전체 항목 수
-        var totalPages = Math.ceil(totalItems / itemsPerPage); // 전체 페이지 수
+    <!-- 페이지 맨 위로 올라가게 수정 -->
+   <script>
+       $(document).ready(function() {
+           var itemsPerPage = 6; // 페이지당 보여줄 항목 수
+           var currentPage = 1; // 현재 페이지
+           var $filteredItems = $('#filteredList dd'); // 필터링된 항목들
+           var totalItems = $filteredItems.length; // 전체 항목 수
+           var totalPages = Math.ceil(totalItems / itemsPerPage); // 전체 페이지 수
 
-        function showPage(page) {
-            $filteredItems.hide();
-            $filteredItems.slice((page - 1) * itemsPerPage, page * itemsPerPage).show();
-            $('#filtered-pageInfo').text(page + ' / ' + totalPages);
-            $('#filtered-prevPage').prop('disabled', page === 1);
-            $('#filtered-nextPage').prop('disabled', page === totalPages);
-        }
-		
-		function scrollToFirstArticle() {
-		    $('html, body').animate({
-		        scrollTop: $('#filteredList dd:visible:first').offset().top
-		    }, 500);
-		}
+           function showPage(page) {
+               $filteredItems.hide();
+               $filteredItems.slice((page - 1) * itemsPerPage, page * itemsPerPage).show();
+               $('#filtered-pageInfo').text(page + ' / ' + totalPages);
+               $('#filtered-prevPage').prop('disabled', page === 1);
+               $('#filtered-nextPage').prop('disabled', page === totalPages);
+           }
+           
+           function scrollToTop() {
+               $('html, body').animate({
+                   scrollTop: 0
+               }, 500);
+           }
 
-        $('#filtered-prevPage').click(function() {
-            if (currentPage > 1) {
-                currentPage--;
-                showPage(currentPage);
-				scrollToFirstArticle();
-            }
-        });
+           $('#filtered-prevPage').click(function() {
+               if (currentPage > 1) {
+                   currentPage--;
+                   showPage(currentPage);
+                   scrollToTop();
+               }
+           });
 
-        $('#filtered-nextPage').click(function() {
-            if (currentPage < totalPages) {
-                currentPage++;
-                showPage(currentPage);
-				scrollToFirstArticle();
-            }
-        });
-		
-		// 각 기사의 구를 클릭하면 역시 상단으로 스크롤
-		$('.tag.w-inline-block').click(function() {
-		    scrollToFirstArticle();
-		});
+           $('#filtered-nextPage').click(function() {
+               if (currentPage < totalPages) {
+                   currentPage++;
+                   showPage(currentPage);
+                   scrollToTop();
+               }
+           });
 
-        // 초기 페이지 로드
-        showPage(currentPage);
-    });
-    </script>
+           $('.tag.w-inline-block').click(function() {
+               scrollToTop();
+           });
+
+           // 초기 페이지 로드
+           showPage(currentPage);
+       });
+   </script>
 </body>
 </html>
