@@ -119,6 +119,67 @@
 											</div>
 										</c:forEach>									
 									</div>
+									
+									<!-- 페이지 네비게이션 -->
+									<!-- Bootstrap 네비게이션 -->
+									<nav aria-label="Page navigation">
+									    <ul class="pagination justify-content-center">
+									        <c:if test="${currentPage > 1}">
+									            <li class="page-item">
+									                <a class="page-link" href="productMain?area=${param.area}&page=1&size=${pageSize}">First</a>
+									            </li>
+									            <li class="page-item">
+									                <a class="page-link" href="productMain?area=${param.area}&page=${currentPage - 1}&size=${pageSize}" aria-label="Previous">
+									                    <span aria-hidden="true">&laquo; Previous</span>
+									                </a>
+									            </li>
+									        </c:if>
+
+									        <c:set var="startPage" value="${currentPage - 2}" />
+									        <c:set var="endPage" value="${currentPage + 2}" />
+
+									        <c:if test="${startPage < 1}">
+									            <c:set var="startPage" value="1" />
+									            <c:set var="endPage" value="5" />
+									        </c:if>
+
+									        <c:if test="${endPage > totalPages}">
+									            <c:set var="startPage" value="${totalPages - 4}" />
+									            <c:set var="endPage" value="${totalPages}" />
+									        </c:if>
+
+									        <c:if test="${startPage < 1}">
+									            <c:set var="startPage" value="1" />
+									        </c:if>
+
+									        <c:forEach var="i" begin="${startPage}" end="${endPage}">
+									            <c:choose>
+									                <c:when test="${i == currentPage}">
+									                    <li class="page-item active" aria-current="page">
+									                        <span class="page-link">${i} <span class="sr-only">(current)</span></span>
+									                    </li>
+									                </c:when>
+									                <c:otherwise>
+									                    <li class="page-item">
+									                        <a class="page-link" href="productMain?area=${param.area}&page=${i}&size=${pageSize}">${i}</a>
+									                    </li>
+									                </c:otherwise>
+									            </c:choose>
+									        </c:forEach>
+
+									        <c:if test="${currentPage < totalPages}">
+									            <li class="page-item">
+									                <a class="page-link" href="productMain?area=${param.area}&page=${currentPage + 1}&size=${pageSize}" aria-label="Next">
+									                    <span aria-hidden="true">Next &raquo;</span>
+									                </a>
+									            </li>
+									            <li class="page-item">
+									                <a class="page-link" href="productMain?area=${param.area}&page=${totalPages}&size=${pageSize}">Last</a>
+									            </li>
+									        </c:if>
+									    </ul>
+									</nav>
+									
 								</div>
 							</div>
 						</div>
