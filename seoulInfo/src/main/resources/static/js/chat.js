@@ -8,12 +8,13 @@ const chatArea = document.querySelector('#chat-messages');
 const logout = document.querySelector('#logout');
 const fileUploadInput = document.querySelector('#fileUpload');
 const fileUploadButton = document.querySelector('#fileUploadButton');
+const logId = document.querySelector('#connected-userId').textContent;
 // 날짜 바뀌는 요소 추가
 let lastMessageDate = null;
 
 
 let stompClient = null;
-let member_id = '${sessionScope.member.member_id}'; // 서버에서 가져온 member_id
+let member_id = logId; // 서버에서 가져온 member_id
 let selectedUserId = null;
 let selectedSaleId = null; // 선택된 sale_id 추가
 
@@ -94,7 +95,7 @@ function appendUserElement(user, otherUsersList) {
 
     // 안 읽은 메세지 존재하는 채팅방 알림
     const receivedMsgs = document.createElement('span');
-    receivedMsgs.textContent = '!';
+    receivedMsgs.textContent = '0';
     receivedMsgs.classList.add('nbr-msg', 'hidden');
 
     const statusSpan = document.createElement('div'); // Use div to automatically move to next line
@@ -123,6 +124,8 @@ function appendUserElement(user, otherUsersList) {
 }
 
 function userItemClick(event) {
+/*	alert(1);
+	alert(logId);*/
     document.querySelectorAll('.user-item').forEach(item => {
         item.classList.remove('active');
     });
@@ -144,7 +147,7 @@ function userItemClick(event) {
     nbrMsg.textContent = '0';
 
 	fetchProductInfo(selectedSaleId);
-
+	
 }
 
 // 상품 상세 정보
@@ -255,8 +258,11 @@ function formatTimestamp(timestamp) {
 
 // Update fetchAndDisplayUserChat to include timestamp
 async function fetchAndDisplayUserChat() {
+	
     const userChatResponse = await fetch(`/messages/${member_id}/${selectedUserId}?sale_id=${selectedSaleId}`);
+	console.log("!!!!!!!!!!!!!!!!!!!!!!"+userChatResponse);
     const userChat = await userChatResponse.json();
+	
     chatArea.innerHTML = '';
     userChat.forEach(chat => {
         displayMessage(chat.senderId, chat.content, chat.timestamp);
@@ -298,7 +304,7 @@ function sendMessage(event) {
 
 // Update onMessageReceived to include timestamp
 async function onMessageReceived(payload) {
-    await findAndDisplayotherUsers();
+    /*await findAndDisplayotherUsers();*/
 	await fetchAndDisplayUserChat();	// !! 이게 없어서 메세지 real-time 수신 안됐잖아!!
 
     console.log('Message received', payload);
@@ -357,8 +363,8 @@ fileUploadInput.addEventListener('change', (event) => {
     }
 });
 
-// r
-document.getElementById('deal-done').addEventListener('click', dealDone);
+
+/*document.getElementById('deal-done').addEventListener('click', dealDone);
 
 function dealDone() {
     if (selectedSaleId) {
@@ -385,7 +391,7 @@ function dealDone() {
     } else {
         alert('선택된 상품이 없습니다.');
     }
-}
+}*/
 
 function onLogout() {
     stompClient.send("/app/user.disconnectUser",
