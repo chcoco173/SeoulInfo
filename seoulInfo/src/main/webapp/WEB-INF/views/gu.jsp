@@ -69,12 +69,11 @@
 <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
 <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
 <link href="images/webclip.png" rel="apple-touch-icon">
+<!-- 외부 css 연결-->
+<link href="/css/gu/guselect.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div class="page-wrapper">
-
-		<div></div>
-		<!-- 지역ㅈ 짤라내야함 -->
 		<div class="section-destinations background-black">			
 			<%@include file="./guNav.jsp"%>
 			<div class="padding-global">
@@ -89,10 +88,6 @@
 									style="opacity: 0" class="w-dyn-list">
 									<div role="list"
 										class="destination-collection-list w-dyn-items">
-										<div role="listitem" class="w-dyn-item">
-											<a href="/festival/festival?area=전체"
-												class="button-primary-large w-button">전체</a>
-										</div>
 										<div role="listitem" class="w-dyn-item">
 											<a href="/festival/festival?area=강남구"
 												class="button-primary-large w-button">강남구</a>
@@ -189,9 +184,9 @@
 											<a href="/festival/festival?area=중랑구"
 												class="button-primary-large w-button">중랑구</a>
 										</div>
-									</div>
-									<div class="empty-state w-dyn-empty">
-										<div class="text-size-regular">No items found.</div>
+										<div role="listitem" class="w-dyn-item">
+											<a href="/festival/festival?area=전체" class="button-primary-large w-button">전체</a>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -265,7 +260,7 @@
 				<div class="padding-global">
 					<div class="padding-section-medium">
 						<div class="_2-column-grid">
-							<a href="index.html" aria-current="page"
+							<a href="/" aria-current="page"
 								class="w-inline-block w--current"><img
 								src="images/ph_globe-simple-light-medium.svg" loading="lazy"
 								alt=""></a>

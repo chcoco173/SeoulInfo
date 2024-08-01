@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.domain.EVPlacesVO;
 import com.example.domain.EVStationVO;
 import com.example.domain.EVchargerVO;
 import com.example.domain.MemberVO;
@@ -57,7 +58,9 @@ public class EVController {
 	@GetMapping("/ev_info")
 	@ResponseBody
 	public List<EVchargerVO> getChargerInfo(@RequestParam("evc_id") String evc_id) {
+		System.out.println("to getChargerInfo : "+evc_id);
 		List<EVchargerVO> chargerInfo = evStationService.getStationDataInfo(evc_id);
+		System.out.println("from getChargerInfo : "+chargerInfo);
 		return chargerInfo;
 	}
 	 
@@ -65,7 +68,9 @@ public class EVController {
 	 @GetMapping("/ev_Favorite")
 	 @ResponseBody
 	 public List<EVchargerVO> stroageChargerFav(String member_id ){
+		 System.out.println("to favorite : "+member_id);
 		 List<EVchargerVO> chargerlike = evStationService.selectEVFav(member_id);
+		 System.out.println("from favorite : "+chargerlike);
 		 return chargerlike;
 	 }
 	 
@@ -78,7 +83,7 @@ public class EVController {
 		 evStationService.insertEVFav(favMap);
 		 return "ev/ev_Favorite";
 	 }
-	 
+
 	 // 즐겨찾기 - 삭제
 	 @GetMapping("/ev_FavoriteDelete")
 	 public String FavoriteDelete(String evc_id, String member_id ){
@@ -87,8 +92,8 @@ public class EVController {
 		 delMap.put("member_id", member_id);
 		 evStationService.deleteEVFav(delMap);
 		 return "ev/ev_Favorite";
-	 }	 
-	 
+	 }
+
 	// 충전소 검색 - 결과
 	@PostMapping("/ev_MapFilter")
 	@ResponseBody
@@ -109,4 +114,19 @@ public class EVController {
 	    List<EVchargerVO> evo = evStationService.getFilteredStation(map);
 	    return evo;
 	}	
+	
+	//원 반경 안의 편의시설 정보
+	@GetMapping("/getCircleLocation")
+	@ResponseBody
+	public List<EVPlacesVO> getCircleInfo(double centerLat, double centerLng, double radius){
+		System.out.println("insert getCircleInfo : "+centerLat+","+centerLng+","+radius);
+		HashMap<String, Object> cmap = new HashMap<String, Object>();
+		cmap.put("centerLat", centerLat);
+		cmap.put("centerLng", centerLng);
+		cmap.put("radius", radius);
+		List<EVPlacesVO> pvo = evStationService.getCircleInfo(cmap);
+		//System.out.println("sent from getCircleInfo: " + pvo);
+		return pvo;
+	}
+	
 }

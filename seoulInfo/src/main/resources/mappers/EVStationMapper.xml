@@ -17,6 +17,7 @@
 	        ,e.evc_name 			AS evc_name 
 	        ,e.evc_lat 				AS evc_lat 
 	        ,e.evc_long 			AS evc_long
+	        ,c.charger_opsmall		AS charger_opsmall
 	    FROM evc    e
 	    JOIN evc_cg c 
 	    ON e.evc_id = c.evc_id
@@ -113,6 +114,7 @@
 	    FROM evc_fav f
 	    JOIN evc     e
 	    ON e.evc_id = f.evc_id
+	    WHERE f.member_id = #{member_id}
 	</select>
 	
 	<select id="getUserLocation" parameterType="String" resultType="MemberVO">
@@ -121,4 +123,14 @@
 		WHERE member_id = #{member_id}
 	</select>
 	
+	<select id="getCircleInfo" parameterType="hashmap" resultType="EVPlacesVO">
+	    SELECT *
+	    FROM evc_etc
+	    WHERE ( 6371 * 2 * ASIN( SQRT(
+	                POWER(SIN((RADIANS(#{centerLat}) - RADIANS(etc_lat)) / 2), 2) +
+	                COS(RADIANS(#{centerLat})) * COS(RADIANS(etc_lat)) *
+	                POWER(SIN((RADIANS(#{centerLng}) - RADIANS(etc_long)) / 2), 2)
+	          ) ) ) &lt; #{radius}/1000
+	    LIMIT 400
+	</select>
 </mapper>

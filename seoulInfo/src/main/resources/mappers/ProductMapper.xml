@@ -61,7 +61,7 @@
 		product_image pi ON ps.sale_id = pi.sale_id
 		LEFT OUTER JOIN
 		favorite_product fp ON ps.sale_id = fp.sale_id
-		WHERE 1=1 <!-- 기본 조건, 항상 참 -->
+		WHERE ps.sale_status != "판매완료"
 		<if test="area != '전체' and area != null">
 			AND ps.sale_area = #{area}
 		</if>
@@ -74,6 +74,8 @@
 		ps.sale_name,
 		ps.sale_status,
 		ps.sale_price
+		ORDER BY ps.sale_regdate DESC
+		LIMIT #{offset}, #{limit}
 	</select>
 
 	<!-- 상품리스트출력 -->
@@ -315,6 +317,18 @@
 		ps.sale_status,
 		ps.sale_price
 	</select>
+	
+	<select id="countItems" resultType="int">
+        SELECT COUNT(*) 
+    	FROM product_sale  
+    	WHERE sale_status != "판매완료"
+    	<if test="area != null and area != '전체'">
+        	AND sale_area = #{area}
+    	</if>
+    	<if test="prediction != 'null'">
+			AND sale_cate = #{prediction}
+		</if>
+    </select>
 
 
 

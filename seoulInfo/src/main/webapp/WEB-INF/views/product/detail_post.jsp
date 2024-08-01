@@ -101,6 +101,7 @@
 		document.querySelector('.speech-bubble-right').style.display = 'none';
 	}
 </script>
+
 </head>
 <body>
 	<div class="page-wrapper">
@@ -114,7 +115,6 @@
 							<div class="container-full-width">
 								<h1 data-w-id="180b513c-4540-bab3-7036-972b35d8ddc4"
 									style="opacity: 0" class="text-color-white w-dyn-bind-empty"></h1>
-								<div class="spacer-xlarge"></div>
 								<div data-w-id="771e0065-68e3-960e-1e46-624d6820421c"
 									style="opacity: 0" class="post-author-and-tags-wrapper">
 									<a href="#" class="large-author-wrapper w-inline-block"
@@ -238,8 +238,6 @@
 															채팅</button>
 													</c:otherwise>
 												</c:choose>
-												<button class="button-primary-small w-button">바로
-													구입하기</button>
 											</div>
 											<br />
 										</div>

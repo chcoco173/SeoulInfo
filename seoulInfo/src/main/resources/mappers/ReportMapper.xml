@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.dao.ReportDAO">
+
+	<!-- 신고 등록 -->
+    <insert id="insertReport" parameterType="ReportVO">
+        INSERT INTO report (member_id, report_reason, is_processed, report_cate)
+        VALUES (#{member_id}, #{report_reason}, #{is_processed}, #{report_cate})
+    </insert>
+    
+</mapper>
