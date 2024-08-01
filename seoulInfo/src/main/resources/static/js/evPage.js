@@ -45,19 +45,19 @@ $(function(){
 		            $('#userFavoriteList').html(''); // 결과 영역 초기화
 		            if (data && data.length > 0) {
 		                data.forEach(function(item) {
-		                    var resultHTML = '<dd>';
-		                    resultHTML += '<table class="favorite-list result-list result-list-table" data-lat="' + item.evc_lat + '" data-lng="' + item.evc_long + '" data-title="' + item.evc_name + '" data-id="' + item.evc_id + '">';
-		                    resultHTML += '<tr>';
-		                    resultHTML += '<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>';
-		                    resultHTML += '<td colspan="2">' + item.evc_name + '</td>';
-		                    resultHTML += '</tr>';
-		                    resultHTML += '<tr>';
-		                    resultHTML += '<td><span style="font-size: 12px">' + item.evc_address + '</span></td>';
-		                    resultHTML += '</tr>';
-		                    resultHTML += '</table>';
-		                    resultHTML += '<br>';
-		                    resultHTML += '</dd>';
-		                    $('#favoriteList').append(resultHTML);
+		                    var resultHTML  = '<dd>';
+			                    resultHTML += '<table class="favorite-list result-list result-list-table" data-lat="' + item.evc_lat + '" data-lng="' + item.evc_long + '" data-title="' + item.evc_name + '" data-id="' + item.evc_id + '">';
+			                    resultHTML += '<tr>';
+			                    resultHTML += '<td rowspan="2"><img src="/images/ev/goverment-logo.png" /></td>';
+			                    resultHTML += '<td colspan="2">' + item.evc_name + '</td>';
+			                    resultHTML += '</tr>';
+			                    resultHTML += '<tr>';
+			                    resultHTML += '<td><span style="font-size: 12px">' + item.evc_address + '</span></td>';
+			                    resultHTML += '</tr>';
+			                    resultHTML += '</table>';
+			                    resultHTML += '<br>';
+			                    resultHTML += '</dd>';
+			                    $('#favoriteList').append(resultHTML);
 		                });
 		                $('#favoriteList').show();
 		            } else {

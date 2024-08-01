@@ -29,37 +29,6 @@
 	}
 }
 
-@media (max-width: 1000px) {
-	.filter {
-		font-size: 16px;
-		font-weight: bold;
-		height: 50px;
-		width: 100%;
-	}
-	.search_map,
-	.search_favorite {
-		position: fixed;
-		width: 281px;
-		height: 45%;
-		top: 50%; /* 화면 세로 중앙 정렬을 위해 top 값을 50%로 설정 */
-		left: 50%; /* 화면 가로 중앙 정렬을 위해 left 값을 50%로 설정 */
-		transform: translate(-50%, -10%); /* 화면 중앙으로 이동하는 transform 설정 */
-		justify-content: center;
-		border: 2px solid #1E90FF;
-		background-color: white;
-		z-index: 101;
-		padding: 10px;
-	}
-	
-}
-
-@media (max-height: 600px) {
-    .search_map,
-    .search_favorite {
-        z-index:0;
-    }
-}
-
 /* 지도 고정 css */
 #map {
     display: grid;
@@ -89,13 +58,7 @@
 	right : 10px;
 }
 
-.serviceCate {
-    position: absolute; /* 절대 위치로 설정하여 다른 요소들과 겹치지 않도록 함 */
-    z-index: 1000; 		/* Kakao 지도 API의 z-index보다 더 높은 값으로 설정하여 위로 올려줌 */
-}
-
 /* filter */
-
 .result-list-table {
 	border-collapse: separate;
     border-spacing: 0;
@@ -105,7 +68,7 @@
 }
 
 
-/*  */
+/* 지도 이미지 타입 버튼 */
 #map_show_type {
     position: fixed;
     top: 90%;
@@ -147,8 +110,6 @@
     cursor: pointer;
 }
 
-
-
 /* kakao map Css style */
 #map {
 	width:100%;
@@ -183,9 +144,10 @@
 	.map_wrap {position:relative;width:100%;height:100%;}
 	
 	#category li.on {background: #eee;}
+	
 	#category li:hover {background: #ffe6e6;border-left:1px solid #acacac;margin-left: -1px;}
 	#category li:last-child{margin-right:0;border-right:0;}
-	#category li span {display: block;margin:0 auto 3px;width:27px;height: 28px;}
+	 #category li span {display: block;margin:0 auto 3px;width:27px;height: 28px;} */
 	#category li .category_bg {background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png) no-repeat;}
 	#category li .bank {background-position: -10px 0;}
 	#category li .mart {background-position: -10px -36px;}
