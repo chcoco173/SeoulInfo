@@ -1,17 +1,17 @@
 package com.example.websocket.chatroom;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.domain.MemberVO;
-import com.example.websocket.user.User;
-import com.example.websocket.user.UserService;
+//import com.example.websocket.user.User;
+//import com.example.websocket.user.UserService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class ChatRoomController {
 
 	private final ChatRoomService chatRoomService;
-	private final UserService userService;
+//	private final UserService userService;
 	private final HttpSession session;
 
 	// member_id 판매자 (recipientId)
@@ -45,26 +45,6 @@ public class ChatRoomController {
 
 		model.addAttribute("chatRoomId", chatRoomId);
 		return "product/chat"; // product/chat.jsp로 이동
-
-		// session member 값은 VO 에서 리스트로 오기 때문에 id 만 추출해야한다.
-		/*
-		 * MemberVO mvo = (MemberVO) session.getAttribute("member"); String senderId =
-		 * mvo.getMember_id();
-		 * 
-		 * String recipientId = member_id;ㅋ
-		 * 
-		 * 
-		 * if (senderId == null) { // 세션에 로그인 정보가 없는 경우 로그인 페이지로 리다이렉트 하거나 에러 처리 return
-		 * "redirect:/login"; }
-		 * 
-		 * 
-		 * Optional<String> chatRoomId = chatRoomService.getChatRoomId(senderId,
-		 * recipientId, sale_id, true);
-		 * 
-		 * model.addAttribute("chatRoomId", chatRoomId.orElse(""));
-		 * model.addAttribute("senderId", senderId); model.addAttribute("recipientId",
-		 * recipientId); model.addAttribute("sale_id", sale_id);
-		 */
 
 	}
 	
@@ -100,13 +80,26 @@ public class ChatRoomController {
         return ResponseEntity.ok(chatRooms);
     }
     
-    private Integer getSaleId(String senderId, String recipientId) {
-        // 해당 사용자의 채팅방에서 sale_id를 찾아 반환하는 로직을 구현
-        List<ChatRoom> chatRooms = chatRoomService.findAllChatRooms(senderId);
-        return chatRooms.stream()
-                .filter(room -> room.getSenderId().equals(recipientId) || room.getRecipientId().equals(recipientId))
-                .findFirst()
-                .map(ChatRoom::getSaleId)
-                .orElse(null);
+    @PostMapping("/chat/leaveChatRoom")
+    public ResponseEntity<Void> leaveChatRoom(@RequestParam Integer saleId, @RequestParam String userId1, @RequestParam String userId2) {
+        System.out.println("ChatRoomController: 채팅방 삭제 " + saleId + " " + userId1 + " " + userId2);
+
+        try {
+            chatRoomService.deleteChatRoomByDetails(saleId, userId1, userId2);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
     }
+//    private Integer getSaleId(String senderId, String recipientId) {
+//        // 해당 사용자의 채팅방에서 sale_id를 찾아 반환하는 로직을 구현
+//        List<ChatRoom> chatRooms = chatRoomService.findAllChatRooms(senderId);
+//        return chatRooms.stream()
+//                .filter(room -> room.getSenderId().equals(recipientId) || room.getRecipientId().equals(recipientId))
+//                .findFirst()
+//                .map(ChatRoom::getSaleId)
+//                .orElse(null);
+//    }
+    
+
 }

@@ -2,11 +2,8 @@ package com.example.websocket.chatroom;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
-
-import com.example.websocket.user.User;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
+
     
     // 사용자가 있는 채팅방을 다 찾기 (구매자든 판매자든)
     public List<ChatRoom> findAllChatRooms(String userId) {
@@ -93,5 +91,16 @@ public class ChatRoomService {
         List<ChatRoom> chatRooms = chatRoomRepository.findBySenderIdOrRecipientId(userId, userId);
         return chatRooms;
 	}
-
+	
+    public void deleteChatRoomByDetails(Integer saleId, String userId1, String userId2) {
+    	System.out.println("ChatRoom서비스스스스ㅡㅅ: 메시지 삭제 " + saleId + " " + userId1 + " " + userId2);
+        try {
+            chatRoomRepository.deleteBySaleIdAndUserIds(saleId, userId1, userId2);
+            System.out.println("ChatRoomService: 채팅방 삭제 성공");
+        } catch (Exception e) {
+            System.err.println("ChatRoomService: 채팅방 삭제 실패");
+            e.printStackTrace();
+        }
+    }
+    
 }

@@ -1,6 +1,7 @@
 'use strict';
 
 const chatPage = document.querySelector('#chat-page');
+const chatHeader = document.querySelector('#chat-header');
 const messageForm = document.querySelector('#messageForm');
 const messageInput = document.querySelector('#message');
 const connectingElement = document.querySelector('.connecting');
@@ -163,7 +164,8 @@ function userItemClick(event) {
         item.classList.remove('active');
     });
     messageForm.classList.remove('hidden');
-
+	chatHeader.classList.remove('hidden');
+	
     const clickedUser = event.currentTarget;
     clickedUser.classList.add('active');
 
@@ -313,7 +315,7 @@ function formatTimestamp(timestamp) {
 async function fetchAndDisplayUserChat() {
 	console.log('채팅목록 가져오기 Selected User ID: ' + selectedUserId);
 	console.log('채팅목록 가져오기 Selected Sale ID: ' + selectedSaleId);
-    const userChatResponse = await fetch(`/messages/${selectedSaleId}`);
+	const userChatResponse = await fetch(`/messages?saleId=${selectedSaleId}&userId1=${userId}&userId2=${selectedUserId}`);
 	console.log("!!!!!!!!!!!!!!!!!!!!!!"+userChatResponse);
     const userChat = await userChatResponse.json();
 	
@@ -455,27 +457,42 @@ function onLogout() {
     window.location.reload();
 }
 
+// 채팅방 나가기
+document.getElementById('chat-done').addEventListener('click', leaveChatRoom);
+
 async function leaveChatRoom() {
-    if (selectedSaleId) {
+    console.log('채팅방 나가기 버튼 Selected Sale ID: ' + selectedSaleId);
+    if (selectedSaleId && selectedUserId) {
         try {
-            const response = await fetch(`/chat/leaveChatRoom?saleId=${selectedSaleId}`, {
-                method: 'DELETE'
+            const responseRoom = await fetch(`/chat/leaveChatRoom?saleId=${selectedSaleId}&userId1=${userId}&userId2=${selectedUserId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
 
-            if (response.ok) {
-                console.log('Chat room successfully deleted');
+            const responseMessage = await fetch(`/chat/leaveChatMessage?saleId=${selectedSaleId}&userId1=${userId}&userId2=${selectedUserId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (responseRoom.ok && responseMessage.ok) {
+                console.log('Chat room and messages successfully deleted');
                 alert('채팅방이 삭제되었습니다.');
                 // 채팅방 목록을 새로고침
                 findAndDisplayChatRooms();
                 // 채팅 영역과 입력 폼을 숨김
                 messageForm.classList.add('hidden');
                 chatArea.classList.add('hidden');
+
             } else {
                 alert('채팅방 삭제에 실패했습니다.');
-                console.error('Failed to delete chat room');
+                console.error('Failed to delete chat room or messages');
             }
         } catch (error) {
-            console.error('Error deleting chat room:', error);
+            console.error('Error deleting chat room or messages:', error);
             alert('채팅방 삭제 중 오류가 발생했습니다.');
         }
     } else {
@@ -483,9 +500,47 @@ async function leaveChatRoom() {
     }
 }
 
-document.getElementById('chat-done').addEventListener('click', leaveChatRoom);
+document.getElementById('deal-done').addEventListener('click', updateSaleStatus);
 
-/*usernameForm.addEventListener('submit', connect, true); // step 1*/
+async function updateSaleStatus() {
+    if (selectedSaleId) {
+        try {
+            const response = await fetch(`/product/updateStatus?sale_id=${selectedSaleId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `sale_status=판매완료`
+            });
+
+            const result = await response.text();
+
+            if (result === '1') {
+                alert('거래 상태가 판매완료로 변경되었습니다.');
+                document.getElementById('transaction-status').innerText = '거래 상태: 판매완료';
+            } else if (result === 'already_completed') {
+                alert('이미 판매 완료된 상품입니다.');
+            } else {
+                alert('거래 상태 변경에 실패했습니다.');
+            }
+        } catch (error) {
+            console.error('Error updating sale status:', error);
+            alert('거래 상태 변경 중 오류가 발생했습니다.');
+        }
+    } else {
+        alert('선택된 상품이 없습니다.');
+    }
+}
+
+document.getElementById('report').addEventListener('click', () => {
+    openReportPopup(selectedUserId);
+});
+
+function openReportPopup(selectedUserId) {
+    var url = "/product/sale_report?selectedUserId=" + selectedUserId;
+    var options = "width=600,height=400,scrollbars=yes";
+    window.open(url, "ReportPopup", options);
+}
+
 messageForm.addEventListener('submit', sendMessage, true);
-/*logout.addEventListener('click', onLogout, true);*/
 window.onbeforeunload = () => onLogout();
