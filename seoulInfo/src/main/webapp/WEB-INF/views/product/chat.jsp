@@ -161,14 +161,20 @@
 				        </div>
 				    </div>
 				    <div class="action-buttons">
+<<<<<<< Updated upstream
 				        <button onclick="reportSeller()">판매자 신고</button>
 				        <button onclick="exitChat()">채팅 나가기</button>
+=======
+				        <button id="report" class="hidden">판매자 신고</button>
+						<button id="deal-done" class="hidden">거래 완료</button>
+				        <button id="chat-done">채팅 나가기${sessionScope.logid.member_id}</button>						
+>>>>>>> Stashed changes
 				    </div>
 				</div>
 
 				
                 <div class="chat-area" id="chat-messages"></div>
-                <form id="messageForm" name="messageForm">
+                <form id="messageForm" name="messageForm" class="hidden">
                     <div class="message-input">
                         <input autocomplete="off" type="text" id="message" placeholder="메세지 입력">
                         <input type="file" id="fileUpload" class="file-upload" style="display: none;" />

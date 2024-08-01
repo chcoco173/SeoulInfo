@@ -57,6 +57,7 @@ async function findAndDisplayotherUsers() {
         const otherUsersList = document.getElementById('otherUsers');
         otherUsersList.innerHTML = '';
 
+<<<<<<< Updated upstream
 
         otherUsers.forEach((user, index) => {
             appendUserElement(user, otherUsersList);
@@ -66,6 +67,16 @@ async function findAndDisplayotherUsers() {
                 separator.classList.add('separator');
                 otherUsersList.appendChild(separator);
             }
+=======
+        chatRooms.forEach((chatRoom, index) => {
+            appendChatElement(chatRoom, chatRoomsList);
+/*            // 마지막 요소가 아닐 때만 구분선 추가
+            if (index < chatRooms.length - 1) {
+                const separator = document.createElement('li');
+                separator.classList.add('separator');
+                chatRoomsList.appendChild(separator);
+            }*/
+>>>>>>> Stashed changes
         });
     } catch (error) {
         console.error('Error fetching connected users:', error);
@@ -78,7 +89,31 @@ function appendUserElement(user, otherUsersList) {
     listItem.classList.add('user-item');
     listItem.id = user.member_id;
 
+<<<<<<< Updated upstream
     // 사용자 프로필 사진으로 가져와야 함
+=======
+async function appendChatElement(chatRoom, chatRoomsList) {
+    console.log('Appending user:', chatRoom); // 로그 추가
+    
+    const listItem = document.createElement('li');
+    listItem.classList.add('user-item');
+
+    // 상대방의 ID를 설정
+    let otherUserId;
+    let rolePrefix;
+    if (chatRoom.senderId === userId) {
+        otherUserId = chatRoom.recipientId;
+        rolePrefix = "판매자: ";
+    } else {
+        otherUserId = chatRoom.senderId;
+        rolePrefix = "구매자: ";
+    }
+    listItem.id = otherUserId;
+    console.log('Appending user:', listItem.id); // 로그 추가
+
+    // 사용자 프로필 사진 대신 상품 이미지로 설정
+    const saleInfo = await fetchSaleInfo(chatRoom.saleId);
+>>>>>>> Stashed changes
     const userImage = document.createElement('img');
     userImage.src = '/images/chat/user_icon.png';
     userImage.alt = user.member_id;
@@ -88,7 +123,11 @@ function appendUserElement(user, otherUsersList) {
     userDetails.classList.add('user-details');
 
     const usernameSpan = document.createElement('span');
+<<<<<<< Updated upstream
     usernameSpan.textContent = user.member_id; // User name only
+=======
+    usernameSpan.textContent = rolePrefix + otherUserId;
+>>>>>>> Stashed changes
     usernameSpan.classList.add('user-name');
 
     // 안 읽은 메세지 존재하는 채팅방 알림
@@ -96,6 +135,7 @@ function appendUserElement(user, otherUsersList) {
     receivedMsgs.textContent = '!';
     receivedMsgs.classList.add('nbr-msg', 'hidden');
 
+<<<<<<< Updated upstream
     const statusSpan = document.createElement('div'); // Use div to automatically move to next line
     statusSpan.textContent = `(${user.status})`;
     statusSpan.classList.add(user.status.toLowerCase(), 'status'); // Apply status styles here
@@ -106,19 +146,65 @@ function appendUserElement(user, otherUsersList) {
 	saleIdHidden.value = user.sale_id;
 	saleIdHidden.classList.add('sale-id');
 	
+=======
+    // 숨겨진 요소로 sale_id 추가
+    const saleIdHidden = document.createElement('input'); // hidden 요소로 sale_id 추가
+    saleIdHidden.type = 'hidden';
+    saleIdHidden.value = chatRoom.saleId;
+    console.log("상품번호:", chatRoom.saleId);
+    saleIdHidden.classList.add('sale-id');
+    
+>>>>>>> Stashed changes
     listItem.appendChild(userImage);
     // 안읽음 표시
     listItem.appendChild(receivedMsgs);
+<<<<<<< Updated upstream
     userDetails.appendChild(usernameSpan);
 
     userDetails.appendChild(statusSpan);
 	listItem.appendChild(saleIdHidden); // Append sale_id hidden element
+=======
+    
+    userDetails.appendChild(saleNameSpan); // 상품 이름 추가
+    userDetails.appendChild(document.createElement('br')); // 개행 추가
+    userDetails.appendChild(usernameSpan);
+    listItem.appendChild(saleIdHidden); // Append sale_id hidden element
+>>>>>>> Stashed changes
 
     listItem.appendChild(userDetails); // Append the details container to the list item
 
     listItem.addEventListener('click', userItemClick);
 
+<<<<<<< Updated upstream
     otherUsersList.appendChild(listItem);
+=======
+    chatRoomsList.appendChild(listItem);
+
+    // 구분선 추가
+    const separator = document.createElement('li');
+    separator.classList.add('separator');
+    chatRoomsList.appendChild(separator);
+}
+
+async function fetchSaleInfo(saleId) {
+    try {
+        const response = await fetch(`/product/getProductInfo?sale_id=${saleId}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch sale info');
+        }
+        const data = await response.json();
+        return {
+            saleName: data.product.sale_name,
+            saleImage: data.productImage ? `/productImage/${data.productImage.productimg_alias}` : '/path/to/default-image.jpg'
+        };
+    } catch (error) {
+        console.error('Error fetching sale info:', error);
+        return {
+            saleName: 'Unknown Product',
+            saleImage: '/path/to/default-image.jpg'
+        };
+    }
+>>>>>>> Stashed changes
 }
 
 function userItemClick(event) {
@@ -131,14 +217,78 @@ function userItemClick(event) {
     clickedUser.classList.add('active');
 
     selectedUserId = clickedUser.getAttribute('id');
-	selectedSaleId = clickedUser.querySelector('.sale-id').value; // hidden 요소에서 sale_id 가져오기
+    selectedSaleId = clickedUser.querySelector('.sale-id').value;
 
+<<<<<<< Updated upstream
+=======
+    console.log('채팅방 리스트 클릭시 Selected User ID: ' + selectedUserId);
+    console.log('채팅방 리스트 클릭시 Selected Sale ID: ' + selectedSaleId);
+    
+	// lastMessageDate 초기화
+	lastMessageDate = null;
+	
+>>>>>>> Stashed changes
     fetchAndDisplayUserChat().then();
 
     const nbrMsg = clickedUser.querySelector('.nbr-msg');
     nbrMsg.classList.add('hidden');
     nbrMsg.textContent = '0';
 
+<<<<<<< Updated upstream
+=======
+    fetchProductInfo(selectedSaleId);
+
+	// messageForm과 chatArea의 hidden 클래스 제거
+	messageForm.classList.remove('hidden');
+	chatArea.classList.remove('hidden');
+
+	// rolePrefix 값에 따라 버튼의 hidden 클래스 조작
+	const rolePrefix = clickedUser.querySelector('.user-name').textContent.startsWith('판매자:') ? '판매자' : '구매자';
+	const reportButton = document.getElementById('report');
+	const dealDoneButton = document.getElementById('deal-done');
+
+	if (rolePrefix === '판매자') {
+	    reportButton.classList.remove('hidden');
+	    dealDoneButton.classList.add('hidden');
+	} else if (rolePrefix === '구매자') {
+	    reportButton.classList.add('hidden');
+	    dealDoneButton.classList.remove('hidden');
+	}
+}
+
+
+// 상품 상세 정보
+function fetchProductInfo(saleId) {
+    console.log('Fetching product info for sale ID: ' + saleId);
+    fetch(`/product/getProductInfo?sale_id=${saleId}`)
+        .then(response => {
+            console.log('Response received: ', response);
+            return response.json();
+        })
+        .then(data => {
+            console.log('Product info received: ', data);
+            updateChatHeader(data);
+        })
+        .catch(error => {
+            console.error('Error fetching product info:', error);
+        });
+}
+
+function updateChatHeader(data) {
+    const product = data.product;
+    const productImage = data.productImage;
+
+    console.log('Updating chat header with product info: ', product);
+    console.log('Product image info: ', productImage);
+
+    document.getElementById('product-name').innerText = `상품명: ${product.sale_name}`;
+    document.getElementById('transaction-status').innerText = `거래 상태: ${product.sale_status}`;
+    if (productImage) {
+        document.getElementById('product-image').src = `/productImage/${productImage.productimg_alias}`;
+    } else {
+        document.getElementById('product-image').src = '/path/to/default-image.jpg';
+    } 
+>>>>>>> Stashed changes
 }
 
 // 메시지 표시 함수 수정
@@ -327,9 +477,37 @@ function onLogout() {
     window.location.reload();
 }
 
+async function leaveChatRoom() {
+    if (selectedSaleId) {
+        try {
+            const response = await fetch(`/chat/leaveChatRoom?saleId=${selectedSaleId}`, {
+                method: 'DELETE'
+            });
 
+            if (response.ok) {
+                console.log('Chat room successfully deleted');
+                alert('채팅방이 삭제되었습니다.');
+                // 채팅방 목록을 새로고침
+                findAndDisplayChatRooms();
+                // 채팅 영역과 입력 폼을 숨김
+                messageForm.classList.add('hidden');
+                chatArea.classList.add('hidden');
+            } else {
+                alert('채팅방 삭제에 실패했습니다.');
+                console.error('Failed to delete chat room');
+            }
+        } catch (error) {
+            console.error('Error deleting chat room:', error);
+            alert('채팅방 삭제 중 오류가 발생했습니다.');
+        }
+    } else {
+        alert('선택된 채팅방이 없습니다.');
+    }
+}
+
+document.getElementById('chat-done').addEventListener('click', leaveChatRoom);
 
 /*usernameForm.addEventListener('submit', connect, true); // step 1*/
 messageForm.addEventListener('submit', sendMessage, true);
-logout.addEventListener('click', onLogout, true);
+/*logout.addEventListener('click', onLogout, true);*/
 window.onbeforeunload = () => onLogout();
