@@ -1,4 +1,6 @@
-<%@page contentType="text/html; charset=UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="org.springframework.beans.factory.annotation.Value" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 
 <!DOCTYPE html>
 <!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Wed Jul 03 2024 06:37:30 GMT+0000 (Coordinated Universal Time)  -->
@@ -122,7 +124,9 @@
 					</div>
 					
 					<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
-						<input type="submit" class="button-primary-large w-button loginBtn" value="로그인">
+						<input type="submit" class="button-primary-large-b w-button loginBtn" value="로그인">
+						<!-- 네이버로그인 -->
+						<div class="button-primary-large-g w-button">네이버 로그인<%@ include file="./naverlogin.jsp" %></div>						
 					</div>
 					<div class="spacer-large"></div>
 					<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">

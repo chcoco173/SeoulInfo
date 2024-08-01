@@ -120,10 +120,10 @@
                       </a>
                       <div id="w-node-bbff658c-4524-8e8f-d0bf-96425152472b-4f5c4820" class="post-row-wrapper">						
                         <div class="tags-wrappers">
-                          <a href="#나" class="tag-a w-inline-block">회원아이디
+                          <a href="" class="tag-a w-inline-block">회원아이디 : ${sessionScope.member.member_id}
                             <div class="text-size-small w-dyn-bind-empty"></div>
                           </a>
-                          <a href="#다" class="tag-a w-inline-block">회원이메일
+                          <a href="" class="tag-a w-inline-block">회원이메일 : ${sessionScope.member.member_email}
                             <div class="text-size-small w-dyn-bind-empty"></div>
                           </a>
                         </div>												
@@ -178,31 +178,38 @@
 				
 				<!-- 오른쪽 컬럼 -->
                 <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">				  
-                  <form action="insertMember" method="post" name="wf-form-Contact-Form" data-name="Contact Form" method="get" id="wf-form-Contact-Form" 
+                  <form action="updateMember" method="post" name="wf-form-Contact-Form" method="get" id="wf-form-Contact-Form" 
 				  		class="form" data-wf-page-id="6684f0fb2a5375354f5c4825" data-wf-element-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a65">
-                    <div class="form-field-wrapper-copy">						
-						<input class="form-field w-input" maxlength="256" name="mId" data-name="mId" placeholder="아이디" type="text" id="mId" pattern="[A-Za-z0-9]{6,}" required>						
-					</div>
-					<div class="form-field-wrapper-copy">						
-						<input class="form-field w-input" maxlength="256" name="mPw" data-name="mPw" placeholder="비밀번호" type="password" id="mPw" pattern="[A-Za-z0-9]{4,}" required>
+                    <div class="form-field-wrapper">
+                    	<label>아이디</label>						
+						<input class="form-field w-input" maxlength="256" name="member_id" type="text" id="id" value="${sessionScope.member.member_id}" pattern="[A-Za-z0-9]{6,}" required>						
 					</div>
 					<div class="form-field-wrapper">
-						<input class="form-field w-input" maxlength="256" name="mPw" data-name="mPw" placeholder="비밀번호 확인" type="password" id="mPwCheck" pattern="[A-Za-z0-9]{4,}" required>
+						<label>비밀번호</label>						
+						<input class="form-field w-input" maxlength="256" name="member_pw" type="password" id="pw" value="${sessionScope.member.member_pw}" pattern="[A-Za-z0-9]{4,}" required>
 					</div>
 					<div class="form-field-wrapper">
-						<input class="form-field w-input" maxlength="256" name="mName" data-name="mName" placeholder="이름" type="text" id="mName" pattern="[가-힣]{2,}" required>
+						<label>비밀번호 확인</label>
+						<input class="form-field w-input" maxlength="256" type="password" id="pwCheck" pattern="[A-Za-z0-9]{4,}" required>
+					</div>
+					<div class="form-field-wrapper">
+						<label>이름</label>
+						<input class="form-field w-input" maxlength="256" name="member_name" type="text" id="name" value="${sessionScope.member.member_name}" pattern="[가-힣]{2,}" required>
 					</div>
                     <div class="form-field-wrapper">
-						<input class="form-field w-input" maxlength="256" name="mEmail" data-name="mEmail" placeholder="이메일" type="email" id="mEmail" required>
+                    	<label>이메일</label>
+						<input class="form-field w-input" maxlength="256" name="member_email" type="email" id="email" value="${sessionScope.member.member_email}" required>
 					</div>
 					<div class="form-field-wrapper">
-						<input class="form-field w-input" maxlength="256" name="mTel" data-name="mTel" placeholder="전화번호" type="tel" id="mTel" required>
+						<label>전화번호</label>
+						<input class="form-field w-input" maxlength="256" name="member_tel" type="tel" id="tel" value="${sessionScope.member.member_tel}" required>
 					</div>
 					<div class="form-field-wrapper">
-						<input class="form-field w-input" maxlength="256" name="mLocal" data-name="mLocal" placeholder="지역" type="text" id="mLocal" required>
+						<label>지역</label>
+						<input class="form-field w-input" maxlength="256" name="member_area" type="text" id="area" value="${sessionScope.member.member_area}" required>
 					</div>
                     <div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
-						<input type="submit" data-wait="Please wait..." class="button-primary-large w-button" value="수정">
+						<input type="submit" class="button-primary-large w-button" value="수정">
 					</div>
                   </form>				  				  				  
                 </div>

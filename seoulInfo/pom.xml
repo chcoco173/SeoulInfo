@@ -155,11 +155,16 @@
 			 <artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
 		
-		<!-- 07/30 기진 open api 적용 test -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
+		
+		<!-- JSON 파싱 -->
+<!--		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.11.0</version>
+		</dependency>-->
+
+
+
 	</dependencies>
 
 	<build>

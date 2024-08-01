@@ -26,7 +26,8 @@
 	<select id="pwSearch" parameterType="MemberVO">
 		SELECT * FROM member
 		WHERE member_name=#{member_name} AND member_email=#{member_email} AND member_id=#{member_id}				
-	</select>	
+	</select>
+			
 	
 	<!-- 아이디 중복체크 -->
 	<select id="idChk" parameterType="String" resultType="int">
@@ -39,6 +40,7 @@
 		SELECT COUNT(*) FROM member
 		WHERE member_email=#{member_email}
 	</select>
+		
 	
 	<!-- 이메일인증 -->
 	<select id="findByEmail" parameterType="String" resultType="MemberVO">
@@ -57,6 +59,31 @@
     <update id="updatePassword">
         UPDATE member SET member_pw = #{newPassword} WHERE member_email = #{member_email}
     </update>	
+
+
+
+    <!-- 8/1 네이버 로그인 -->
+    <!-- 이메일로 사용자 등록 여부 확인 -->
+    <select id="checkUserByEmail" parameterType="String" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM member
+        WHERE member_email = #{member_email}
+    </select>
+    
+    <!-- 이메일로 사용자 이름 가져오기 -->
+<!--     <select id="getUserNameByEmail" parameterType="String" resultType="String">
+        SELECT member_name
+        FROM member
+        WHERE member_email = #{member_email}
+    </select> -->
+    <!-- 이메일로 전체 사용자 정보 가져오기 -->	
+    <select id="getMemberByEmail" parameterType="String" resultType="MemberVO">
+        SELECT *
+        FROM member
+        WHERE member_email = #{member_email}
+    </select>	
 	
+
+
 
 </mapper>

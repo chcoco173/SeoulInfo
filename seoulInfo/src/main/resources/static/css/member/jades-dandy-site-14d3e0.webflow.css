@@ -11,6 +11,35 @@
   --light-gray: #f6f6f6;
 }
 
+/* 한)네이버로그인 버튼 */
+.button-primary-large-g {
+  border: 1px solid var(--light-gray);
+  background-color: #00ff00;
+  color: var(--white);
+  text-align: center;
+  border-radius: 999px;
+  padding: .625rem 2rem;
+  font-family: Plus Jakarta Sans, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 141%;
+}
+
+/* 한)일반로그인 버튼 */
+.button-primary-large-b {
+  border: 1px solid var(--light-gray);
+  background-color: #007bff;
+  color: var(--white);
+  text-align: center;
+  border-radius: 999px;
+  padding: .625rem 2rem;
+  font-family: Plus Jakarta Sans, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 141%;
+}
+
+
 /* 한)성공 메세지 */
 .button-primary-large-msg-y {
   border: 1px solid var(--light-gray);

@@ -38,8 +38,9 @@ public interface MemberService {
     Integer mailCheck(String member_email);
     void changePass(String member_email, String newPassword);
     
-
-
-
+    //네이버 로그인
+    public boolean isUserRegistered(String member_email);
+    public MemberVO getMemberByEmail(String member_email);
+//    public String getUserName(String member_email);
 
 }

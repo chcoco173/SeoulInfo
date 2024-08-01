@@ -26,6 +26,7 @@ import com.example.domain.MemberVO;
 import com.example.service.MailService;
 import com.example.service.MemberService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
@@ -93,6 +94,7 @@ public class MemberController {
 	public String emailChk(MemberVO vo) {
 		System.out.println("/emailChk ->" + vo.getMember_email());
 		int result = memberService.emailChk(vo);
+						
 		return String.valueOf(result);		
 	}		
 	
@@ -221,7 +223,33 @@ public class MemberController {
         return buffer.toString();
     }	
 	
+ // 8/1(목) -------------------------------------------------------------------------------------------	
 
+ 	// 네이버 로그인
+    @PostMapping("/emailChkNaver")
+    @ResponseBody
+    public String checkUserEmail(@RequestParam("member_email") String member_email, HttpServletRequest request) {
+    	 // 데이터베이스에서 이메일로 사용자 등록 여부 확인
+    	boolean isRegistered = memberService.isUserRegistered(member_email);
+    	
+    	// 사용자가 등록된 경우
+        if (isRegistered) {
+        	// 요청에서 세션을 가져옴
+            HttpSession session = request.getSession();
+            System.out.println(request.getSession());
+            
+            // 사용자 이름을 데이터베이스에서 가져옴
+            MemberVO result = memberService.getMemberByEmail(member_email);
+            System.out.println(result);
+            
+            // 세션에 사용자 정보를 저장
+            session.setAttribute("member", result);
+            //session.setAttribute("email", member_email);
+            System.out.println(session + "세션값");
+        }
+
+        return "{\"isRegistered\":" + isRegistered + "}";
+    }    
 
 	    	   
 	
