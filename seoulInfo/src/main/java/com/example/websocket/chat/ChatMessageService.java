@@ -29,9 +29,14 @@ public class ChatMessageService {
         return repository.save(chatMessage);
     }
 
+<<<<<<< Updated upstream
     public List<ChatMessage> findChatMessages(String senderId, String recipientId, Integer sale_id) {
         var chatId = chatRoomService.getChatRoomId(senderId, recipientId, false, sale_id);
         return chatId.map(repository::findByChatId).orElse(new ArrayList<>());
+=======
+    public List<ChatMessage> findChatMessages(Integer saleId, String userId1, String userId2) {
+        return repository.findBySaleIdAndUserIds(saleId, userId1, userId2);
+>>>>>>> Stashed changes
     }
     
     private Integer extractSaleIdFromChatId(String chatId) {
@@ -47,7 +52,16 @@ public class ChatMessageService {
         }
         throw new IllegalArgumentException("Invalid chatId: " + chatId);
     }
-
+    public void deleteMessagesByDetails(Integer saleId, String userId1, String userId2) {
+    	System.out.println("ChatMessage서비스스스스스ㅡㅅ: 메시지 삭제 " + saleId + " " + userId1 + " " + userId2);
+        try {
+            repository.deleteBySaleIdAndUserIds(saleId, userId1, userId2);
+            System.out.println("ChatMessageService: 메시지 삭제 성공");
+        } catch (Exception e) {
+            System.err.println("ChatMessageService: 메시지 삭제 실패");
+            e.printStackTrace();
+        }
+    }
 	/*
 	 * public ChatMessage save(ChatMessage chatMessage) { Integer sale_id =
 	 * chatMessage.getSale_id(); // saleId 가져오기

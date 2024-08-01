@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
+
     
     // 사용자가 있는 채팅방을 다 찾기 (구매자든 판매자든)
     public List<ChatRoom> findAllChatRooms(String userId) {
@@ -63,4 +64,25 @@ public class ChatRoomService {
 
         return chatId;
     }
+<<<<<<< Updated upstream
+=======
+
+	public List<ChatRoom> findChatRooms(String userId) {
+    	// ChatRoomRepository의 findBySenderIdOrRecipientId 메서드를 사용하여 주어진 userId가 senderId나 recipientId로 있는 모든 채팅방을 가져옵니다.
+        List<ChatRoom> chatRooms = chatRoomRepository.findBySenderIdOrRecipientId(userId, userId);
+        return chatRooms;
+	}
+	
+    public void deleteChatRoomByDetails(Integer saleId, String userId1, String userId2) {
+    	System.out.println("ChatRoom서비스스스스ㅡㅅ: 메시지 삭제 " + saleId + " " + userId1 + " " + userId2);
+        try {
+            chatRoomRepository.deleteBySaleIdAndUserIds(saleId, userId1, userId2);
+            System.out.println("ChatRoomService: 채팅방 삭제 성공");
+        } catch (Exception e) {
+            System.err.println("ChatRoomService: 채팅방 삭제 실패");
+            e.printStackTrace();
+        }
+    }
+    
+>>>>>>> Stashed changes
 }
