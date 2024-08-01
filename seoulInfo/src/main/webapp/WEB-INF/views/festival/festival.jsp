@@ -43,43 +43,50 @@
 <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
 <link href="/images/webclip.png" rel="apple-touch-icon">
 <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.8/index.global.min.css"
+	rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.8/index.global.min.css"
+	rel="stylesheet">
+<link href="/css/festival/festivalPopup.css" rel="stylesheet">
+
 <!-- 07/25 기진 추가 : loading style tag-->
 <style>
-           #loading {
-               position: fixed;
-               top: 0;
-               left: 0;
-               width: 100%;
-               height: 100%;
-               background: rgba(255, 255, 255, 0.8);
-               display: flex;
-               justify-content: center;
-               align-items: center;
-               z-index: 9999;
-               flex-direction: column;
-           }
+#loading {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(255, 255, 255, 0.8);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 9999;
+	flex-direction: column;
+}
 
-           .spinner-border {
-               width: 3rem;
-               height: 3rem;
-               margin-bottom: 1rem;
-           }
+.spinner-border {
+	width: 3rem;
+	height: 3rem;
+	margin-bottom: 1rem;
+}
 
-           .loading-text {
-               font-size: 1.5rem;
-               font-weight: bold;
-           }
-       </style>
-
+.loading-text {
+	font-size: 1.5rem;
+	font-weight: bold;
+}
+</style>
 </head>
 <body>
 	<!-- 07/25  기진 추가 : Delay for page loading -->
 	<div id="loading">
-	        <div class="spinner-border text-primary" role="status">
-	            <span class="sr-only">Loading...</span>
-	        </div>
-	        <div class="loading-text">Loading . . .</div>
-	    </div>
+		<div class="spinner-border text-primary" role="status">
+			<span class="sr-only">Loading...</span>
+		</div>
+		<div class="loading-text">Loading . . .</div>
+	</div>
 	<!-- festival info page-->
 	<div class="page-wrapper">
 		<div class="navigation-wrapper">
@@ -87,8 +94,9 @@
 				data-duration="400" data-easing="ease" data-easing2="ease"
 				role="banner" class="navbar_m w-nav">
 				<div class="nav-wrapper">
-					<a href="/" aria-current="page" class="brand w-nav-brand w--current">
-						<img src="/images/ph_globe-simple-light-medium.svg" loading="lazy"
+					<a href="/" aria-current="page"
+						class="brand w-nav-brand w--current"> <img
+						src="/images/ph_globe-simple-light-medium.svg" loading="lazy"
 						alt="">
 					</a>
 					<div class="links-and-search-wrapper">
@@ -97,8 +105,8 @@
 						%>
 						<nav role="navigation" class="nav-links-wrapper w-nav-menu">
 							<a href="/news/news?area=${param.area}"
-								class="nav-link w-nav-link">뉴스</a>
-								 <a href="/ev/evMain" class="nav-link w-nav-link">전기차</a> <a href="/mypage/profile"
+								class="nav-link w-nav-link">뉴스</a> <a href="/ev/evMain"
+								class="nav-link w-nav-link">전기차</a> <a href="/mypage/profile"
 								class="nav-link w-nav-link">마이페이지</a> <a href="/member/logout"
 								class="nav-link w-nav-link">로그아웃</a>
 						</nav>
@@ -106,9 +114,10 @@
 							} else {
 						%>
 						<nav role="navigation" class="nav-links-wrapper w-nav-menu">
-							<a href="/news/news?area=${param.area}" class="nav-link w-nav-link">뉴스</a>
-							 <a href="/ev/evMain" class="nav-link w-nav-link">전기차</a> 
-							 <a href="/member/login" class="nav-link w-nav-link">로그인</a>
+							<a href="/news/news?area=${param.area}"
+								class="nav-link w-nav-link">뉴스</a> <a href="/ev/evMain"
+								class="nav-link w-nav-link">전기차</a> <a href="/member/login"
+								class="nav-link w-nav-link">로그인</a>
 						</nav>
 						<%
 							}
@@ -151,25 +160,47 @@
 						<div class="row">
 							<div class="col-md-8">
 								<div id="calendar"></div>
+
+								<!-- Popup Modal -->
+								<div id="festivalPopup" class="modal">
+									<div class="modal-content">
+										<span class="close">&times;</span>
+										<h2 id="festivalTitle"></h2>
+										<img id="festivalImage" src="" alt="Festival Image"
+											style="max-width: 65%;">
+										<p id="festivalDetails"></p>
+										<p id="festivalAppdate"></p>
+										<p id="festivalLoc"></p>
+										<p id="festivalFee"></p>
+										<p id="festivalTarget"></p>
+										<p id="festivalHost"></p>
+
+										<!-- 버튼 추가 -->
+										<div class="modal-buttons">
+											<button id="site" class="modal-btn">사이트 바로가기</button>
+											<button id="Detail" class="modal-btn">상세내용 보러가기</button>
+										</div>
+									</div>
+								</div>
 							</div>
 							<div class="col-md-4">
 								<div id="event-list">
-									<h2>Event List</h2>
-									<ul class="list-unstyled bg-ligh">
-									<c:forEach items="${festivalList}" var="festival">
-										<li class="media mb-3">
-											<input type="hidden" id="festival_id" name="festival_id" value="${festival.festival_id }"> 
-											<img class="mr-3" 
-												src="${festival.festival_imageurl}"
-												alt="매물 이미지" style="width: 200px; height: 200px"/>
-											<div class="media-body">
-											<p>${festival.festival_name}</p><br/>
-											<p>${festival.festival_startDate}</p>
-											<p>${festival.festival_endDate}</p><br/>
-											<a href="${festival.festival_siteurl}">사이트 바로가기</a>																	
-											</div>
-										</li>
-									</c:forEach>
+									<input type="hidden" id="area" value="${area}">
+									<h2 id="event-list-title">오늘의 ${area} 문화정보</h2>
+									<ul class="list-unstyled">
+										<c:forEach items="${festivalList}" var="festival">
+											<li class="media mb-3"><input type="hidden"
+												id="festival_id" name="festival_id"
+												value="${festival.festival_id }"> <img class="mr-3"
+												src="${festival.festival_imageurl}" alt="매물 이미지"
+												style="width: 200px; height: 200px" />
+												<div class="media-body">
+													<p>${festival.festival_name}</p>
+													<p>${festival.festival_startDate}~${festival.festival_endDate}</p>
+
+													<a href="${festival.festival_siteurl}">사이트 바로가기</a>
+												</div></li>
+										</c:forEach>
 									</ul>
 								</div>
 							</div>
@@ -179,39 +210,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="section-newsletter">
-			<div class="padding-global">
-				<div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd"
-					class="container-newsletter background-black">
-					<div class="_2-column-grid-uneven-left">
-						<h3 class="newsletter-heading">아마도 뉴스가 들어갈 부분...?</h3>
-						<div id="Style-Guide-Form"
-							class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form">
-							<form name="wf-form-Newsletter-Form" data-name="Newsletter Form"
-								method="get" id="wf-form-Newsletter-Form"
-								class="newsletter-form"
-								data-wf-page-id="6684f0fb2a5375354f5c4825"
-								data-wf-element-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9d2">
-								<input class="form-field newsletter w-input" maxlength="256"
-									name="Email" data-name="Email" placeholder="Your email address"
-									type="email" id="Email" required=""><input
-									type="submit" data-wait="Please wait..."
-									class="button-primary-large max-width-full-mobile-portrait w-button"
-									value="Join">
-							</form>
-							<div class="form-success-message w-form-done">
-								<div class="text-size-regular text-color-white">Thank you!
-									Your submission has been received!</div>
-							</div>
-							<div class="form-error-message w-form-fail">
-								<div class="text-size-regular">Oops! Something went wrong
-									while submitting the form.</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+
 		<div class="section-footer">
 			<div class="padding-global">
 				<div class="spacer-xxlarge"></div>
@@ -289,162 +288,249 @@
 		integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
 		crossorigin="anonymous"></script>
 	<script src="/js/webflow.js" type="text/javascript"></script>
-	
+	<script
+		src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.8/index.global.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.8/index.global.min.js"></script>
+
 	<script
 		src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
 	<script>
-/*
-      document.addEventListener('DOMContentLoaded', function() {
-    	    var calendarEl = document.getElementById('calendar');
-
-    	    var calendar = new FullCalendar.Calendar(calendarEl, {
-    	      headerToolbar: {
-    	    	right: 'today prev,next'
-    	        //center: 'title'
-    	        //right: 'dayGridMonth'
-    	      },
-    	      initialDate: new Date(), // 현재 날짜로 초기화
-    	      navLinks: true, // can click day/week names to navigate views
-    	      selectable: true,
-    	      selectMirror: true,
-    	      select: function(arg) {
-    	        var title = prompt('Event Title:');
-    	        if (title) {
-    	          calendar.addEvent({
-    	            title: title,
-    	            start: arg.start,
-    	            end: arg.end,
-    	            allDay: arg.allDay
-    	          })
-    	        }
-    	        calendar.unselect()
-    	      },
-    	      eventClick: function(arg) {
-    	        if (confirm('Are you sure you want to delete this event?')) {
-    	          arg.event.remove()
-    	        }
-    	      },
-    	      editable: true,
-    	      dayMaxEvents: true, // allow "more" link when too many events
-    	      events: [
-    	        {
-    	          title: 'All Day Event',
-    	          start: '2024-07-08'
-    	        },
-    	        {
-    	          title: 'Long Event',
-    	          start: '2023-01-07',
-    	          end: '2023-01-10'
-    	        },
-    	        {
-    	          groupId: 999,
-    	          title: 'Repeating Event',
-    	          start: '2023-01-09T16:00:00'
-    	        },
-    	        {
-    	          groupId: 999,
-    	          title: 'Repeating Event',
-    	          start: '2023-01-16T16:00:00'
-    	        },
-    	        {
-    	          title: 'Conference',
-    	          start: '2023-01-11',
-    	          end: '2023-01-13'
-    	        },
-    	        {
-    	          title: 'Meeting',
-    	          start: '2023-01-12T10:30:00',
-    	          end: '2023-01-12T12:30:00'
-    	        },
-    	        {
-    	          title: 'Lunch',
-    	          start: '2023-01-12T12:00:00'
-    	        },
-    	        {
-    	          title: 'Meeting',
-    	          start: '2023-01-12T14:30:00'
-    	        },
-    	        {
-    	          title: 'Happy Hour',
-    	          start: '2023-01-12T17:30:00'
-    	        },
-    	        {
-    	          title: 'Dinner',
-    	          start: '2023-01-12T20:00:00'
-    	        },
-    	        {
-    	          title: 'Birthday Party',
-    	          start: '2023-01-13T07:00:00'
-    	        },
-    	        {
-    	          title: 'Click for Google',
-    	          url: 'http://google.com/',
-    	          start: '2023-01-28'
-    	        }
-    	      ]
-    	    });
-
-    	    calendar.render();
-    	  });
-*/
- 
-		// 07/25 기진 추가 : loading delay 1 - 로딩 바 표시
+		//07/25 기진 추가 : loading delay 1 - 로딩 바 표시
 		document.getElementById('loading').style.display = 'flex';
-		
-		// 주석 추가 : -- calender script
+
+		//주석 추가 : -- calender script
 		document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
+			var calendarEl = document.getElementById('calendar');
 
-            // JSP로부터 festivalList 데이터를 JavaScript 배열로 변환
-            var festivals = [
-                <c:forEach items="${festivalList}" var="festival" varStatus="status">
-                    {
-                        //title: "${festival.festival_name}",
-                        //start: "${festival.festival_startDate}",  // 예시: 시작 날짜
-                        //end: "${festival.festival_endDate}"       // 예시: 종료 날짜
-						title: "<c:out value='${festival.festival_name}'/>",
-						start: "<c:out value='${festival.festival_startDate}'/>",
-						end: "<c:out value='${festival.festival_endDate}'/>"
-                    }<c:if test="${!status.last}">,</c:if>
-                </c:forEach>
-            ];
 
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                headerToolbar: {
-                    right: 'today prev,next'
-                },
-                initialDate: new Date(),
-                navLinks: true,
-                selectable: true,
-                selectMirror: true,
-                select: function(arg) {
-                    var title = prompt('Event Title:');
-                    if (title) {
-                        calendar.addEvent({
-                            title: title,
-                            start: arg.start,
-                            end: arg.end,
-                            allDay: arg.allDay
-                        })
-                    }
-                    calendar.unselect()
-                },
-                eventClick: function(arg) {
-                    if (confirm('Are you sure you want to delete this event?')) {
-                        arg.event.remove()
-                    }
-                },
-                editable: true,
-                dayMaxEvents: true,
-                events: festivals // 여기서 festivals 배열을 사용합니다.
-            });
 
-            calendar.render();
-			
-			// 07/25 기진 추가 : loading delay 2 - 로딩 바 숨김
+			// JSP로부터 festivalList 데이터를 JavaScript 배열로 변환
+			var festivals = [
+				<c:forEach items="${calenderList}" var="calenderList" varStatus="status">
+				{
+					title: "<c:out value='${calenderList.festival_name}'/>",
+					start: "<c:out value='${calenderList.festival_startDate}'/>",
+					end: "<c:out value='${calenderList.festival_endDate}'/>",
+					location : "<c:out value='${calenderList.festival_loc}'/>",
+					imgurl : "<c:out value='${calenderList.festival_imageurl}'/>",
+					siteurl : "<c:out value='${calenderList.festival_siteurl}'/>",
+					fee : "<c:out value='${calenderList.festival_fee}'/>",
+					appdate : "<c:out value='${calenderList.festival_appdate}'/>",
+					target : "<c:out value='${calenderList.festival_target}'/>",
+					host : "<c:out value='${calenderList.festival_host}'/>",
+					id : "<c:out value='${calenderList.festival_id}'/>"
+
+
+				}<c:if test="${!status.last}">,</c:if>
+				</c:forEach>
+				];
+			var calendar = new FullCalendar.Calendar(calendarEl, {
+				headerToolbar: {
+					right: 'today prev,next'
+				},
+				locale: 'ko',
+				initialDate: new Date(),
+				navLinks: true,
+				selectable: true,
+				selectMirror: true,
+				navLinkDayClick: function(date) { // 일 클릭시 이벤트
+					// date는 JavaScript Date 객체입니다.
+					var year = date.getFullYear();
+					var month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+					var day = String(date.getDate()).padStart(2, '0');
+
+					// 날짜 문자열 생성
+					var selectedDate = year + '-' + month + '-' + day; // 'YYYY-MM-DD' 형식
+					var area = document.getElementById('area').value; 
+
+					console.log('Clicked date:', selectedDate);
+
+					// 날짜에 해당하는 list 가져오기
+					$.ajax({
+						url: '/festival/selectDateList',
+						type: 'GET',
+						data: {
+							selectDate: selectedDate,
+							area: area // 또는 사용자가 선택한 지역
+						},
+						success: function(response) {
+							// 성공적으로 데이터를 받아온 경우
+							console.log(response)
+
+							// 기존 목록을 클리어
+							var eventList = document.getElementById('event-list').getElementsByTagName('ul')[0];
+							eventList.innerHTML = ''; // Clear the list
+
+							// 받아온 데이터로 목록 업데이트
+							response.selectDateList.forEach(function(festival) {
+								var listItem = document.createElement('li');
+								listItem.className = 'media mb-3';
+								listItem.innerHTML = 
+									'<input type="hidden" id="festival_id" name="festival_id" value="' + festival.festival_id + '">' +
+									'<img class="mr-3" src="' + festival.festival_imageurl + '" alt="매물 이미지" style="width: 200px; height: 200px">' +
+									'<div class="media-body">' +
+									'<p>' + festival.festival_name + '</p>' +
+									'<p>' + festival.festival_startDate + '~' + festival.festival_endDate + '</p>' +
+									'<a href="' + festival.festival_siteurl + '" target="_blank">사이트 바로가기</a>' +
+									'</div>';
+
+								eventList.appendChild(listItem);
+							});
+							// <h2> 태그 내용 업데이트
+								document.getElementById('event-list-title').innerText = month +'월 ' + day + '일 ' + area + ' 문화정보';
+
+
+
+						},
+						error: function(xhr, status, error) {
+							// 오류 발생 시
+							alert('An error occurred while fetching the count.');
+						}
+					});
+
+					// 선택해제
+					calendar.unselect();
+				},
+				/*
+				select: function(arg) {
+					//var title = prompt('Event Title:');
+					// 선택한 날짜
+					//var selectedDate = arg.start.toISOString().split('T')[0]; // YYYY-MM-DD 형식
+
+					var clickedDate = new Date(arg.start);
+					// 날짜를 YYYY-MM-DD 형식으로 변환
+					var day = String(clickedDate.getDate()).padStart(2, '0');
+					var month = String(clickedDate.getMonth() + 1).padStart(2, '0');
+					var year = clickedDate.getFullYear();
+					// 날짜 문자열 생성
+					var selectedDate = year + '-' + month + '-' + day; // 'YYYY-MM-DD' 형식
+
+					var area = document.getElementById('area').value; 
+					alert(area);
+					alert(selectedDate);
+
+					// 날짜에 해당하는 list 가져오기
+					$.ajax({
+						url: '/festival/selectDateList',
+						type: 'GET',
+						data: {
+							selectDate: selectedDate,
+							area: area // 또는 사용자가 선택한 지역
+						},
+						success: function(response) {
+							// 성공적으로 데이터를 받아온 경우
+							console.log(response)
+
+							// 기존 목록을 클리어
+							var eventList = document.getElementById('event-list').getElementsByTagName('ul')[0];
+							eventList.innerHTML = ''; // Clear the list
+
+							// 받아온 데이터로 목록 업데이트
+							response.selectDateList.forEach(function(festival) {
+								var listItem = document.createElement('li');
+								listItem.className = 'media mb-3';
+								listItem.innerHTML = 
+									'<input type="hidden" id="festival_id" name="festival_id" value="' + festival.festival_id + '">' +
+									'<img class="mr-3" src="' + festival.festival_imageurl + '" alt="매물 이미지" style="width: 200px; height: 200px">' +
+									'<div class="media-body">' +
+									'<p>' + festival.festival_name + '</p>' +
+									'<p>' + festival.festival_startDate + '~' + festival.festival_endDate + '</p>' +
+									'<a href="' + festival.festival_siteurl + '" target="_blank">사이트 바로가기</a>' +
+									'</div>';
+
+								eventList.appendChild(listItem);
+							});
+
+
+						},
+						error: function(xhr, status, error) {
+							// 오류 발생 시
+							alert('An error occurred while fetching the count.');
+						}
+					});
+
+					// 선택해제
+					calendar.unselect();
+
+				},*/
+				eventClick: function(arg) {
+					console.log(arg.event);
+					// range 객체에서 start와 end를 추출
+					var startDate = arg.event._instance.range.start;
+					var endDate = arg.event._instance.range.end;
+
+					// 신청일 가져오기
+					var appDate = arg.event.extendedProps.appdate;
+
+					// Date 객체를 로컬 문자열로 포맷
+					var startDateStr = startDate ? new Date(startDate).toLocaleString() : 'No start date';
+					var endDateStr = endDate ? new Date(endDate).toLocaleString() : 'No end date';
+					var appDateStr = appDate ? new Date(appDate).toLocaleString() : 'No end date';
+
+					// 콘솔로 날짜를 출력하여 확인
+
+
+					// 모달에 이벤트 세부정보를 채웁니다
+					document.getElementById('festivalTitle').innerText = arg.event.title;
+					document.getElementById('festivalDetails').innerText = 
+						"시작날짜 :" + startDateStr + "\n 종료날짜 :" + endDateStr;
+					document.getElementById('festivalLoc').innerText = "장소 : " + arg.event.extendedProps.location;
+					document.getElementById('festivalImage').src = arg.event.extendedProps.imgurl;
+					document.getElementById('festivalAppdate').innerText = "신청일 : " + appDateStr;
+					document.getElementById('festivalFee').innerText = "이용요금 : " + arg.event.extendedProps.fee;
+					document.getElementById('festivalTarget').innerText = "이용대상 : " +arg.event.extendedProps.target;
+					document.getElementById('festivalHost').innerText = "주체자 : " + arg.event.extendedProps.host;
+
+					// 모달을 표시합니다
+					var modal = document.getElementById('festivalPopup');
+					modal.style.display = 'block';
+
+					// 사용자 정의 팝업이 열리면 "more" 팝업을 숨김
+					var morePopovers = document.querySelectorAll('.fc-more-popover');
+					morePopovers.forEach(function(popover) {
+						popover.style.display = 'none';
+					});
+					
+					// 닫기 버튼 클릭 시 모달 닫기
+					var span = document.getElementsByClassName('close')[0];
+					span.onclick = function() {
+						modal.style.display = 'none';
+					};
+					
+					
+					// site 버튼 클릭시
+					var site = document.getElementById('site');
+					site.onclick = function() {
+						// URL의 앰퍼샌드를 올바르게 변환
+						var siteUrl = arg.event.extendedProps.siteurl.replace(/&amp;/g, '&');
+
+						window.open(siteUrl, '_blank'); // 새 탭에서 상세 내용 열기
+					};
+					// 문화 상세 페이지로 이동할 예정
+					var Detail = document.getElementById('Detail');
+					Detail.onclick = function() {
+						alert(arg.event.id) ;
+					};
+
+
+					// 모달 외부 클릭 시 모달 닫기
+					window.onclick = function(event) {
+						if (event.target == modal) {
+							modal.style.display = 'none';
+						}
+					};
+				},
+				editable: true,
+				dayMaxEvents: 0,
+				events: festivals // Use the festivals array here
+			});
+
+			calendar.render();
+
+			// Hide loading bar after loading
 			document.getElementById('loading').style.display = 'none';
-        });
-		
+		});
     </script>
 </body>
 </html>

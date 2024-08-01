@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,19 @@ public class FestivalServiceImpl implements FestivalService{
 	@Override
 	public List<FestivalVO> getFestivalList(String area) {
 		
-		return festivalDAO.getFestival(area);
+		return festivalDAO.getFestivalList(area);
+	}
+
+	@Override
+	public List<FestivalVO> getFestivalPaging(HashMap map) {
+		// TODO Auto-generated method stub
+		return festivalDAO.getFestivalPaging(map);
+	}
+
+	@Override
+	public int countItems(HashMap map) {
+		// TODO Auto-generated method stub
+		return festivalDAO.countItems(map);
 	}
 
 }
