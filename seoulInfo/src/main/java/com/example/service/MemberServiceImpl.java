@@ -77,8 +77,20 @@ public class MemberServiceImpl implements MemberService{
     }   
     public void changePass(String member_email, String newPassword) {
         memberDAO.updatePassword(member_email, newPassword);
+    } 
+    
+    
+    //네이버 로그인
+    public boolean isUserRegistered(String member_email) {
+        return memberDAO.checkUserByEmail(member_email);
     }    
-        
+    public MemberVO getMemberByEmail(String member_email) {
+        return memberDAO.getMemberByEmail(member_email);
+    }    
+//    public String getUserName(String member_email) {
+//        return memberDAO.getUserNameByEmail(member_email);
+//    }    
+    
 	
 
 }

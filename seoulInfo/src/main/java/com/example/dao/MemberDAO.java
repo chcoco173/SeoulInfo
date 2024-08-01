@@ -43,4 +43,15 @@ public interface MemberDAO {
 	Integer checkEmail(String member_email);
     void updatePassword(@Param("member_email") String member_email, @Param("newPassword") String newPassword);	
 	
+    
+    //8/1 네이버 로그인
+    // 이메일로 사용자 등록 여부 확인
+    boolean checkUserByEmail(@Param("member_email") String member_email);
+    
+    // 이메일로 사용자 이름 가져오기
+    String getUserNameByEmail(@Param("member_email") String member_email); 
+    
+    // 이메일로 전체 사용자 정보 가져오기
+    public MemberVO getMemberByEmail(@Param("member_email") String member_email);
+    
 }

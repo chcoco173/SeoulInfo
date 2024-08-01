@@ -372,7 +372,7 @@
 	    function checkEmailDuplicate(email) {
 			// AJAX를 이용하여 서버로 아이디 중복 확인 요청을 전송
 	        $.ajax({
-	            url: 'emailChk',  //아이디 중복 확인을 처리하는 서버의 url(Controller의 value="이름")
+	            url: 'emailChk',  //이메일 중복 확인을 처리하는 서버의 url(Controller의 value="이름")
 	            type: 'POST',
 	            data: { member_email: email }, //서버에 전송할 데이터 { DB 이름 : id 이름 }
 	            success: function(data) {
