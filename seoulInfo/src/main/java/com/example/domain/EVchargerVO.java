@@ -18,4 +18,6 @@ public class EVchargerVO {
 	private String  charger_facsmall;	// 충전소 시설구분(소)
 	private String  charger_opbig;		// 충전소 운영기관(대)
 	private String  charger_opsmall;	// 충전소 운영기관(소)
+	
+	// 편의 시설
 }

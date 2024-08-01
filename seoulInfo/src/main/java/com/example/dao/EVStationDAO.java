@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.example.domain.EVPlacesVO;
 import com.example.domain.EVStationVO;
 import com.example.domain.EVchargerVO;
 import com.example.domain.MemberVO;
@@ -26,5 +27,7 @@ public interface EVStationDAO {
 	public void deleteEVFav(HashMap delMap);
 
 	public MemberVO getUserLocation(String member_id);
+
+	public List<EVPlacesVO> getCircleInfo(HashMap<String, Object> cmap);
 
 }

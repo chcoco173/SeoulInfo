@@ -123,4 +123,14 @@
 		WHERE member_id = #{member_id}
 	</select>
 	
+	<select id="getCircleInfo" parameterType="hashmap" resultType="EVPlacesVO">
+	    SELECT *
+	    FROM evc_etc
+	    WHERE ( 6371 * 2 * ASIN( SQRT(
+	                POWER(SIN((RADIANS(#{centerLat}) - RADIANS(etc_lat)) / 2), 2) +
+	                COS(RADIANS(#{centerLat})) * COS(RADIANS(etc_lat)) *
+	                POWER(SIN((RADIANS(#{centerLng}) - RADIANS(etc_long)) / 2), 2)
+	          ) ) ) &lt; #{radius}/1000
+	    LIMIT 400
+	</select>
 </mapper>
