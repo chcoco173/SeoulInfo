@@ -4,12 +4,48 @@
 
 <mapper namespace="com.example.dao.FestivalDAO">
 
-	<select id="getFestival" resultType="FestivalVO"
+	<select id="getFestivalList" resultType="FestivalVO"
 		parameterType="String">
 		SELECT *
 		FROM Festival
 		<if test="area != '전체'">
-		Where festival_area = #{festival_area}
+			Where festival_area = #{area}
+		</if>
+	</select>
+
+	<!-- 기본값 현재 날짜 -->
+	<select id="getFestivalPaging" resultType="FestivalVO"
+		parameterType="hashmap">
+		SELECT *
+		FROM Festival
+		WHERE
+		<choose>
+			<when test="selectDate != null">
+				DATE(festival_startdate) &lt;= #{selectDate} AND DATE(festival_enddate) &gt;= #{selectDate}
+			</when>
+			<otherwise>
+				DATE(festival_startdate) &lt;= NOW() AND DATE(festival_enddate) &gt;= NOW()
+			</otherwise>
+		</choose>
+		<if test="area != '전체'">
+			and festival_area = #{area}
+		</if>
+	</select>
+
+	<select id="countItems" resultType="int" parameterType="hashmap">
+		SELECT COUNT(*)
+		FROM Festival
+		WHERE 
+		<choose>
+			<when test="selectDate != null">
+				DATE(festival_startdate) &lt;= #{selectDate} AND DATE(festival_enddate) &gt;= #{selectDate}
+			</when>
+			<otherwise>
+				DATE(festival_startdate) &lt;= NOW() AND DATE(festival_enddate) &gt;= NOW()
+			</otherwise>
+		</choose>
+		<if test="area != '전체'">
+			AND festival_area = #{area}
 		</if>
 	</select>
 
