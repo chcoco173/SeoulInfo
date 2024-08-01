@@ -155,14 +155,7 @@
 			 <artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
 		
-<<<<<<< HEAD
-=======
 
->>>>>>> branch 'main' of https://github.com/chcoco173/SeoulInfo.git
-		
-<<<<<<< HEAD
-		
-=======
 		<!-- JSON 파싱 -->
 <!--		<dependency>
 		    <groupId>com.google.code.gson</groupId>
@@ -173,7 +166,6 @@
 
 
 
->>>>>>> branch 'main' of https://github.com/chcoco173/SeoulInfo.git
 	</dependencies>
 
 	<build>
