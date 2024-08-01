@@ -155,7 +155,7 @@
 			 <artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
 		
-<<<<<<< HEAD
+
 		
 		<!-- JSON 파싱 -->
 <!--		<dependency>
@@ -166,8 +166,7 @@
 
 
 
-=======
->>>>>>> branch 'main' of https://github.com/chcoco173/SeoulInfo.git
+
 	</dependencies>
 
 	<build>
