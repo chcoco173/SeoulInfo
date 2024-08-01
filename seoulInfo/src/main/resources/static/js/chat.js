@@ -57,12 +57,12 @@ async function findAndDisplayChatRooms() {
 
         chatRooms.forEach((chatRoom, index) => {
             appendChatElement(chatRoom, chatRoomsList);
-            // 마지막 요소가 아닐 때만 구분선 추가
+/*            // 마지막 요소가 아닐 때만 구분선 추가
             if (index < chatRooms.length - 1) {
                 const separator = document.createElement('li');
                 separator.classList.add('separator');
                 chatRoomsList.appendChild(separator);
-            }
+            }*/
         });
 
 }
@@ -70,22 +70,25 @@ async function findAndDisplayChatRooms() {
 
 async function appendChatElement(chatRoom, chatRoomsList) {
     console.log('Appending user:', chatRoom); // 로그 추가
-	
-	const listItem = document.createElement('li');
-	listItem.classList.add('user-item');
+    
+    const listItem = document.createElement('li');
+    listItem.classList.add('user-item');
 
-	// 상대방의 ID를 설정
-	let otherUserId;
-	if (chatRoom.senderId === userId) {
-	    otherUserId = chatRoom.recipientId;
-	} else {
-	    otherUserId = chatRoom.senderId;
-	}
-	listItem.id = otherUserId;
-	console.log('Appending user:', listItem.id); // 로그 추가
+    // 상대방의 ID를 설정
+    let otherUserId;
+    let rolePrefix;
+    if (chatRoom.senderId === userId) {
+        otherUserId = chatRoom.recipientId;
+        rolePrefix = "판매자: ";
+    } else {
+        otherUserId = chatRoom.senderId;
+        rolePrefix = "구매자: ";
+    }
+    listItem.id = otherUserId;
+    console.log('Appending user:', listItem.id); // 로그 추가
 
-	// 사용자 프로필 사진 대신 상품 이미지로 설정
-	const saleInfo = await fetchSaleInfo(chatRoom.saleId);
+    // 사용자 프로필 사진 대신 상품 이미지로 설정
+    const saleInfo = await fetchSaleInfo(chatRoom.saleId);
     const userImage = document.createElement('img');
     userImage.src = saleInfo.saleImage;
     userImage.alt = saleInfo.saleName;
@@ -100,7 +103,7 @@ async function appendChatElement(chatRoom, chatRoomsList) {
     saleNameSpan.classList.add('sale-name');
 
     const usernameSpan = document.createElement('span');
-    usernameSpan.textContent = otherUserId;
+    usernameSpan.textContent = rolePrefix + otherUserId;
     usernameSpan.classList.add('user-name');
 
     // 안 읽은 메세지 존재하는 채팅방 알림
@@ -108,20 +111,20 @@ async function appendChatElement(chatRoom, chatRoomsList) {
     receivedMsgs.textContent = '0';
     receivedMsgs.classList.add('nbr-msg', 'hidden');
 
-	// 숨겨진 요소로 sale_id 추가
-	const saleIdHidden = document.createElement('input'); // hidden 요소로 sale_id 추가
-	saleIdHidden.type = 'hidden';
-	saleIdHidden.value = chatRoom.saleId;
-	console.log("상품번호:", chatRoom.saleId);
-	saleIdHidden.classList.add('sale-id');
-	
+    // 숨겨진 요소로 sale_id 추가
+    const saleIdHidden = document.createElement('input'); // hidden 요소로 sale_id 추가
+    saleIdHidden.type = 'hidden';
+    saleIdHidden.value = chatRoom.saleId;
+    console.log("상품번호:", chatRoom.saleId);
+    saleIdHidden.classList.add('sale-id');
+    
     listItem.appendChild(userImage);
     listItem.appendChild(receivedMsgs);
     
     userDetails.appendChild(saleNameSpan); // 상품 이름 추가
-	userDetails.appendChild(document.createElement('br')); // 개행 추가
+    userDetails.appendChild(document.createElement('br')); // 개행 추가
     userDetails.appendChild(usernameSpan);
-	listItem.appendChild(saleIdHidden); // Append sale_id hidden element
+    listItem.appendChild(saleIdHidden); // Append sale_id hidden element
 
     listItem.appendChild(userDetails); // Append the details container to the list item
 
@@ -134,6 +137,7 @@ async function appendChatElement(chatRoom, chatRoomsList) {
     separator.classList.add('separator');
     chatRoomsList.appendChild(separator);
 }
+
 async function fetchSaleInfo(saleId) {
     try {
         const response = await fetch(`/product/getProductInfo?sale_id=${saleId}`);
@@ -164,10 +168,13 @@ function userItemClick(event) {
     clickedUser.classList.add('active');
 
     selectedUserId = clickedUser.getAttribute('id');
-	selectedSaleId = clickedUser.querySelector('.sale-id').value; // hidden 요소에서 sale_id 가져오기
+    selectedSaleId = clickedUser.querySelector('.sale-id').value;
 
-	console.log('채팅방 리스트 클릭시 Selected User ID: ' + selectedUserId);
-	console.log('채팅방 리스트 클릭시 Selected Sale ID: ' + selectedSaleId);
+    console.log('채팅방 리스트 클릭시 Selected User ID: ' + selectedUserId);
+    console.log('채팅방 리스트 클릭시 Selected Sale ID: ' + selectedSaleId);
+    
+	// lastMessageDate 초기화
+	lastMessageDate = null;
 	
     fetchAndDisplayUserChat().then();
 
@@ -175,8 +182,26 @@ function userItemClick(event) {
     nbrMsg.classList.add('hidden');
     nbrMsg.textContent = '0';
 
-	fetchProductInfo(selectedSaleId);
+    fetchProductInfo(selectedSaleId);
+
+	// messageForm과 chatArea의 hidden 클래스 제거
+	messageForm.classList.remove('hidden');
+	chatArea.classList.remove('hidden');
+
+	// rolePrefix 값에 따라 버튼의 hidden 클래스 조작
+	const rolePrefix = clickedUser.querySelector('.user-name').textContent.startsWith('판매자:') ? '판매자' : '구매자';
+	const reportButton = document.getElementById('report');
+	const dealDoneButton = document.getElementById('deal-done');
+
+	if (rolePrefix === '판매자') {
+	    reportButton.classList.remove('hidden');
+	    dealDoneButton.classList.add('hidden');
+	} else if (rolePrefix === '구매자') {
+	    reportButton.classList.add('hidden');
+	    dealDoneButton.classList.remove('hidden');
+	}
 }
+
 
 // 상품 상세 정보
 function fetchProductInfo(saleId) {
@@ -430,9 +455,37 @@ function onLogout() {
     window.location.reload();
 }
 
+async function leaveChatRoom() {
+    if (selectedSaleId) {
+        try {
+            const response = await fetch(`/chat/leaveChatRoom?saleId=${selectedSaleId}`, {
+                method: 'DELETE'
+            });
 
+            if (response.ok) {
+                console.log('Chat room successfully deleted');
+                alert('채팅방이 삭제되었습니다.');
+                // 채팅방 목록을 새로고침
+                findAndDisplayChatRooms();
+                // 채팅 영역과 입력 폼을 숨김
+                messageForm.classList.add('hidden');
+                chatArea.classList.add('hidden');
+            } else {
+                alert('채팅방 삭제에 실패했습니다.');
+                console.error('Failed to delete chat room');
+            }
+        } catch (error) {
+            console.error('Error deleting chat room:', error);
+            alert('채팅방 삭제 중 오류가 발생했습니다.');
+        }
+    } else {
+        alert('선택된 채팅방이 없습니다.');
+    }
+}
+
+document.getElementById('chat-done').addEventListener('click', leaveChatRoom);
 
 /*usernameForm.addEventListener('submit', connect, true); // step 1*/
 messageForm.addEventListener('submit', sendMessage, true);
-logout.addEventListener('click', onLogout, true);
+/*logout.addEventListener('click', onLogout, true);*/
 window.onbeforeunload = () => onLogout();
