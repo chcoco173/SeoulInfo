@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.example.dao.EVStationDAO;
+import com.example.domain.EVPlacesVO;
 import com.example.domain.EVStationVO;
 import com.example.domain.EVchargerVO;
 import com.example.domain.MemberVO;
@@ -52,6 +53,11 @@ public class EVStationServiceImpl implements EVStationService{
 	@Override
 	public MemberVO getUserLocation(String member_id) {
 		return evStationDAO.getUserLocation(member_id);
+	}
+
+	@Override
+	public List<EVPlacesVO> getCircleInfo(HashMap<String, Object> cmap) {
+		return evStationDAO.getCircleInfo(cmap);
 	}
 
 }

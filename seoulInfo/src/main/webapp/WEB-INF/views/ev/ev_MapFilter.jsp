@@ -112,7 +112,6 @@
 		
 		<!-- 결과가 출력될 div -->
 		<div id="resultContainer" class="result-list" style="display: none;"></div>
-
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -131,7 +130,7 @@
 		                $('#resultContainer').html(''); // 결과 영역 초기화
 		                if (data && data.length > 0) {
 		                    data.forEach(function(item) {
-		                        var resultHTML =  '<dl id="filteredList" class="high-z-index">';
+		                    	var resultHTML =  '<dl id="filteredList" class="high-z-index">';
 		                            resultHTML +=  '<dd>';
 		                            resultHTML +=      '<table class="filtered-list result-list result-list-table" data-lat="' + item.evc_lat + '" data-lng="' + item.evc_long + '" data-title="' + item.evc_name + '" data-id="' + item.evc_id + '">';
 		                            resultHTML +=          '<tr>';
@@ -148,7 +147,7 @@
 		                            resultHTML += '</dl>';
 		                            $('#resultContainer').append(resultHTML);
 		                    });
-		                    
+							
 		                    var paginationHTML = `
 		                        <div class="filtered-list result-list-pagination" style="text-align: center; margin-top: 20px;">
 		                            <button type="button" class="btn btn-secondary" id="filtered-prevPage" disabled>이전</button>

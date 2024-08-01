@@ -3,6 +3,7 @@ package com.example.service;
 import java.util.HashMap;
 import java.util.List;
 
+import com.example.domain.EVPlacesVO;
 import com.example.domain.EVStationVO;
 import com.example.domain.EVchargerVO;
 import com.example.domain.MemberVO;
@@ -28,6 +29,9 @@ public interface EVStationService {
 	
 	// 회원의 위치정보 가져오기
 	public MemberVO getUserLocation(String member_id);
+	
+	// 반경 안의 시설 정보 가져오기
+	public List<EVPlacesVO> getCircleInfo(HashMap<String, Object> cmap);
 
 	
 
