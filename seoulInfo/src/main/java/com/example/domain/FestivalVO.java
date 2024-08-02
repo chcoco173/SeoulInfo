@@ -20,6 +20,7 @@ public class FestivalVO {
 	private String		festival_long;
 	private String		festival_free;
 	private String		festival_host;
+	private Integer		festival_viewcount;		
 	
 	
 }
