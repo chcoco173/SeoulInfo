@@ -8,6 +8,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,8 +36,10 @@ public class UserController {
         return user;
     }
 
-//    @GetMapping("/getUserInfo")
-//    public ResponseEntity<List<User>> findAllUsers() {
-//        return ResponseEntity.ok(userService.findAllUsers());
-//    }
+    @GetMapping("/users")
+    public ResponseEntity<Status> findUserStatus(@RequestParam String userId) {
+        Status status = userService.getStatusByUserId(userId);
+        return ResponseEntity.ok(status);
+    }
+  
 }
