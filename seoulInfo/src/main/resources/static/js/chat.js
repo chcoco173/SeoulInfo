@@ -6,7 +6,7 @@ const messageForm = document.querySelector('#messageForm');
 const messageInput = document.querySelector('#message');
 const connectingElement = document.querySelector('.connecting');
 const chatArea = document.querySelector('#chat-messages');
-const logout = document.querySelector('#logout');
+const chatDone = document.querySelector('#chat-done');
 const fileUploadInput = document.querySelector('#fileUpload');
 const fileUploadButton = document.querySelector('#fileUploadButton');
 const userId = document.querySelector('#connected-userId').textContent; // 서버에서 가져온 member_id
@@ -49,9 +49,7 @@ function onConnected() {
 async function findAndDisplayChatRooms() {
 
         const findChatRoomsResponse = await fetch('/findChatRooms');
-		console.log("11",findChatRoomsResponse);
         let chatRooms = await findChatRoomsResponse.json();
-		console.log("22",chatRooms);
 
         const chatRoomsList = document.getElementById('chatRooms');
         chatRoomsList.innerHTML = '';
@@ -65,12 +63,10 @@ async function findAndDisplayChatRooms() {
                 chatRoomsList.appendChild(separator);
             }*/
         });
-
 }
 
 
 async function appendChatElement(chatRoom, chatRoomsList) {
-    console.log('Appending user:', chatRoom); // 로그 추가
     
     const listItem = document.createElement('li');
     listItem.classList.add('user-item');
@@ -108,9 +104,16 @@ async function appendChatElement(chatRoom, chatRoomsList) {
     usernameSpan.classList.add('user-name');
 
     // 안 읽은 메세지 존재하는 채팅방 알림
+	
     const receivedMsgs = document.createElement('span');
     receivedMsgs.textContent = '0';
     receivedMsgs.classList.add('nbr-msg', 'hidden');
+	
+	// 유저 온라인 오프라인 상태
+/*	const user = await fetch(`/users?userId=${otherUserId}`);
+	const statusSpan = document.createElement('div'); // Use div to automatically move to next line
+	statusSpan.textContent = `(${user.status})`;
+	statusSpan.classList.add(user.status.toLowerCase(), 'status'); // Apply status styles here*/
 
     // 숨겨진 요소로 sale_id 추가
     const saleIdHidden = document.createElement('input'); // hidden 요소로 sale_id 추가
@@ -120,11 +123,13 @@ async function appendChatElement(chatRoom, chatRoomsList) {
     saleIdHidden.classList.add('sale-id');
     
     listItem.appendChild(userImage);
+	// 안읽음 표시
     listItem.appendChild(receivedMsgs);
     
     userDetails.appendChild(saleNameSpan); // 상품 이름 추가
     userDetails.appendChild(document.createElement('br')); // 개행 추가
     userDetails.appendChild(usernameSpan);
+//	userDetails.appendChild(statusSpan); // Append status information
     listItem.appendChild(saleIdHidden); // Append sale_id hidden element
 
     listItem.appendChild(userDetails); // Append the details container to the list item
@@ -160,6 +165,9 @@ async function fetchSaleInfo(saleId) {
 }
 
 function userItemClick(event) {
+	
+	chatDone.classList.remove('hidden');
+	
     document.querySelectorAll('.user-item').forEach(item => {
         item.classList.remove('active');
     });
@@ -420,35 +428,6 @@ fileUploadInput.addEventListener('change', (event) => {
 });
 
 
-/*document.getElementById('deal-done').addEventListener('click', dealDone);
-
-function dealDone() {
-    if (selectedSaleId) {
-        fetch('/product/updateStatus', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: `sale_id=${selectedSaleId}&sale_status=판매완료`
-        })
-        .then(response => response.text())
-        .then(data => {
-            if (data === 'success') {
-                alert('거래 상태가 판매완료로 변경되었습니다.');
-                document.getElementById('transaction-status').innerText = '거래 상태: 판매완료';
-            } else {
-                alert('거래 상태 변경에 실패했습니다.');
-            }
-        })
-        .catch(error => {
-            console.error('Error updating sale status:', error);
-            alert('거래 상태 변경 중 오류가 발생했습니다.');
-        });
-    } else {
-        alert('선택된 상품이 없습니다.');
-    }
-}*/
-
 function onLogout() {
     stompClient.send("/app/user.disconnectUser",
         {},
@@ -483,6 +462,7 @@ async function leaveChatRoom() {
                 alert('채팅방이 삭제되었습니다.');
                 // 채팅방 목록을 새로고침
                 findAndDisplayChatRooms();
+				fetchAndDisplayUserChat();
                 // 채팅 영역과 입력 폼을 숨김
                 messageForm.classList.add('hidden');
                 chatArea.classList.add('hidden');

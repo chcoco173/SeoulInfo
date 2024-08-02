@@ -252,7 +252,6 @@
 								<div class="form-group">
 									<label for="sale_area">거래 주소</label> <select
 										class="form-control" id="sale_area" name="sale_area">
-										<option>전체</option>
 										<option>강남구</option>
 										<option>강동구</option>
 										<option>강서구</option>

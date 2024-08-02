@@ -18,13 +18,13 @@ public class UserService {
     private final UserRepository repository;
 //    private final ChatRoomRepository chatRoomRepository;
 
-	/*
-	 * public List<User> findAllUsers() { return repository.findAll(); }
-	 */
+    public List<User> findAllUsers() {
+        return repository.findAll();
+    }
     
-    public User findByUserId(String userId) {
-        System.out.println("Finding User by ID: " + userId); // 로그 추가
-        return repository.findById(userId).orElse(null);
+    public Status getStatusByUserId(String userId) {
+        System.out.println("유저 상태 가져오기 userservice: " + userId); // 로그 추가
+        return repository.getStatusByUserId(userId);
     }
     
     
@@ -33,7 +33,7 @@ public class UserService {
         repository.save(user);
     }
 
-	/*
+	/* 
 	 * public List<User> findOtherUsers(String userId) { // ChatRoomRepository의
 	 * findBySenderIdOrRecipientId 메서드를 사용하여 주어진 userId가 senderId나 recipientId로 있는
 	 * 모든 채팅방을 가져옵니다. List<ChatRoom> chatRooms =
