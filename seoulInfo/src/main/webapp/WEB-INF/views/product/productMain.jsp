@@ -83,7 +83,16 @@
 							<div class="container my-5">
 								<div class="row">
 									<div class="col-12">
-										<h1 class="text-center">사용자 검색어 기반 추천상품</h1>
+										<h1 class="text-center">
+											<c:choose>
+												<c:when test="${sessionScope.member != null && sessionScope.member.member_name != null}">
+													${sessionScope.member.member_name}님 검색어 추천상품
+												</c:when>
+												<c:otherwise>
+													${param.area} 상품
+												</c:otherwise>
+											</c:choose>	
+										</h1>
 									</div>
 								</div>
 
