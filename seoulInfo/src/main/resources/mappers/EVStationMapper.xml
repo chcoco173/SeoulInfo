@@ -146,6 +146,9 @@
 	                COS(RADIANS(#{centerLat})) * COS(RADIANS(etc_lat)) *
 	                POWER(SIN((RADIANS(#{centerLng}) - RADIANS(etc_long)) / 2), 2)
 	          ) ) ) &lt; #{radius}/1000
+	    <if test="category != null">
+        	AND etc_category = #{category}
+    	</if>
 	    LIMIT 200
 	</select>
 </mapper>
