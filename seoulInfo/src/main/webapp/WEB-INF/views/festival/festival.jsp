@@ -12,7 +12,8 @@
 	name="description">
 <meta content="Sightseer - Webflow Travel Photography Website Template"
 	property="og:title">
-<meta content="Sightseer - Webflow Travel Photography Website Template"
+<meta content="Sightseer - Webflow
+ Travel Photography Website Template"
 	property="og:description">
 <meta
 	content="https://uploads-ssl.webflow.com/628ab2619076f3ee1c941a44/666120e5c3c4e1f8776b48f1_Sightseer---Opengraph.jpg"
@@ -489,6 +490,8 @@
 					var Detail = document.getElementById('Detail');
 					Detail.onclick = function() {
 						alert(arg.event.id) ;
+						var festival_id=arg.event.id;
+						window.location.href="festivalDetail"
 					};
 
 
