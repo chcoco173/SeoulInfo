@@ -115,6 +115,7 @@ public class ProductController {
 		model.addAttribute("category", "검색결과");
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("productList",productList);
+		model.addAttribute("timeDataList",timeConversion(productList));
 
 		return "product/productCategory";
 	}
@@ -449,9 +450,10 @@ public class ProductController {
 		// 세션값
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 		System.out.println(sale_id);
+		// 조회수 증가
+		productService.productViewCountUpdate(sale_id);
 		ProductVO product = productService.myProductSaleId(sale_id);
 		List<ProductImageVO> productImgList = productImageService.myProductSaleId(sale_id);
-
 		Boolean wishCheck = false;
 		// 세션 값이 널이 아닌경우에만 실행
 		if(mvo != null) {
@@ -499,6 +501,7 @@ public class ProductController {
 				List<Map<String, Object>> similarList = productService.similarList(prediction);
 				System.out.println(similarList);
 				model.addAttribute("similarList", similarList);
+				model.addAttribute("timeDataList", timeConversion(similarList));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -731,58 +734,5 @@ public class ProductController {
 		return productInfo;
 	}
 
-	@GetMapping("/loadMoreItems")
-	@ResponseBody
-	public List<Map<String, Object>> loadMoreItems(@RequestParam(value = "area", required = true) String area, @RequestParam int offset, @RequestParam int limit) {  
-		if(area == null || area.isEmpty()) {
-			area="전체";
-		}
-		HashMap map = new HashMap();
-		map.put("area", area);
-		map.put("offset", offset);
-		map.put("limit", limit);
 
-		// 세션값 받아오기
-		MemberVO mvo = (MemberVO) session.getAttribute("member");
-
-		// 세션값이 null이 아니라면
-		if(mvo != null) {
-			// 세션안의 id를 받아오기
-			String memberId = mvo.getMember_id();
-
-			// flask 로 보낼 객체 생성
-			Map<String, String> requestBody = new HashMap<>();
-			requestBody.put("id", memberId); // 나중엔 세션으로 들어갈 예정
-
-
-			try {
-				// Flask 서버로 POST 요청 + 응답 받기
-				String result = restTemplate.postForObject(mlServerUrl, requestBody, String.class); // url, 요청본문, 응답받는타입
-				System.out.println("Prediction result: " + result); // json 형식
-
-				// JSON 응답 파싱
-				ObjectMapper objectMapper = new ObjectMapper(); // json 데이터를 파싱하기위한 객체생성
-				JsonNode jsonNode = objectMapper.readTree(result);	// 문자열 파싱후 json 트리 구조를 반환
-				String prediction = jsonNode.get("prediction").asText(); // asText() jsonNode의 텍스트값 반환
-				System.out.println(prediction);
-
-				map.put("prediction", prediction);
-
-
-			} catch (Exception e) {
-				e.printStackTrace();
-				// 서버가 꺼졋을대 대비
-				map.put("prediction", "null");	
-			}
-		}else {
-			map.put("prediction", "null");	
-		}
-
-		// 상품 list
-		List<Map<String, Object>> productList = productService.productMainList(map);
-		System.out.println("33");
-		return null;
-
-
-	}
 }

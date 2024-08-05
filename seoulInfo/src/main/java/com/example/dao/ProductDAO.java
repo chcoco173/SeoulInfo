@@ -46,5 +46,8 @@ public interface ProductDAO {
 	public List<Map<String, Object>> similarList(int[] prediction);
 	
 	public int countItems(HashMap map);
-
+	
+	// 조회수 증가
+	public Integer productViewCountUpdate(Integer festival_id);
+	
 }

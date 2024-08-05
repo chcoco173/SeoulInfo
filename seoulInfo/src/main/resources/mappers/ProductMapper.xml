@@ -50,6 +50,7 @@
 		ps.sale_price,
 		ps.sale_area,
 		ps.sale_regdate,
+		ps.sale_viewcount,
 		MAX(pi.productimg_url) AS
 		productimg_url,
 		MAX(pi.productimg_alias) AS productimg_alias,
@@ -89,6 +90,7 @@
 		ps.sale_price,
 		ps.sale_area,
 		ps.sale_regdate,
+		ps.sale_viewcount,
 		MAX(pi.productimg_url) AS
 		productimg_url,
 		MAX(pi.productimg_alias) AS productimg_alias,
@@ -189,6 +191,7 @@
 		ps.sale_price,
 		ps.sale_area ,
 		ps.sale_regdate,
+		ps.sale_viewcount,
 		MAX(pi.productimg_url) AS productimg_url,
 		MAX(pi.productimg_alias) AS
 		productimg_alias,
@@ -293,6 +296,7 @@
 		ps.sale_price,
 		ps.sale_area,
 		ps.sale_regdate,
+		ps.sale_viewcount,
 		MAX(pi.productimg_url) AS
 		productimg_url,
 		MAX(pi.productimg_alias) AS productimg_alias,
@@ -329,6 +333,14 @@
 			AND sale_cate = #{prediction}
 		</if>
     </select>
+    
+    <!-- 조회수 productViewCountUpdate  -->
+    <update id="productViewCountUpdate" parameterType="integer">
+		UPDATE product_sale
+		SET sale_viewcount = sale_viewcount + 1
+		WHERE sale_id = #{sale_id};
+	</update>
+    
 
 
 

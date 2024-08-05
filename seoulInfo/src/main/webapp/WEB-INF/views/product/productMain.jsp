@@ -119,10 +119,15 @@
 															<strong>${productList.sale_price}</strong>
 														</p>
 														<p>
-															관심 ${productList.favorite_count}<span style="margin-left: 20px;">상태: ${productList.sale_status}</span>
+															관심 : ${productList.favorite_count}<span style="margin-left: 20px;">상태: ${productList.sale_status}</span>
+														</p>
+														<p>
+															
 														</p>
 														<!-- 날짜 차이 정보 추가 -->
-														<p>${timeDataList[status.index]}</p>
+														<p>
+															${timeDataList[status.index]}<span style="margin-left: 30px;">조회수 : ${productList.sale_viewcount}</span>
+														</p>
 													</div>
 												</div>
 											</div>

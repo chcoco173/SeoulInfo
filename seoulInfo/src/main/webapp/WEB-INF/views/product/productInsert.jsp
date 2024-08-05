@@ -63,12 +63,12 @@
 							<form action="insertProduct" method="post" enctype="multipart/form-data">
 								<div class="form-group">
 									<label for="sale_name">상품명</label> 
-									<input type="text" class="form-control" id="sale_name" name="sale_name" placeholder="상품명을 입력해주세요">
+									<input type="text" class="form-control" id="sale_name" name="sale_name" placeholder="상품명을 입력해주세요" required>
 								</div>
 								<div class="form-group">
 									<label for="sale_descript">상품 설명</label>
 									<textarea class="form-control" id="sale_descript" name="sale_descript" rows="3"
-										placeholder="상품 설명을 입력해주세요"></textarea>
+										placeholder="상품 설명을 입력해주세요" required></textarea>
 								</div>
 								<div class="form-group">
 									<label>카테고리</label>
@@ -76,49 +76,49 @@
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryElectronics1" value="여성의류"> <label
+													id="categoryElectronics1" value="여성의류" required> <label
 													class="form-check-label" for="categoryElectronics1">여성의류</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryElectronics2" value="남성의류"> <label
+													id="categoryElectronics2" value="남성의류" required> <label
 													class="form-check-label" for="categoryElectronics2">남성의류</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryElectronics3" value="신발"> <label
+													id="categoryElectronics3" value="신발" required> <label
 													class="form-check-label" for="categoryElectronics3">신발</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryElectronics4" value="가방/지갑"> <label
+													id="categoryElectronics4" value="가방/지갑" required> <label
 													class="form-check-label" for="categoryElectronics4">가방/지갑</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryElectronics5" value="시계"> <label
+													id="categoryElectronics5" value="시계" required> <label
 													class="form-check-label" for="categoryElectronics5">시계</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryElectronics6" value="쥬얼리"> <label
+													id="categoryElectronics6" value="쥬얼리" required> <label
 													class="form-check-label" for="categoryElectronics6">쥬얼리</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryElectronics7" value="패션 액세서리"> <label
+													id="categoryElectronics7" value="패션 액세서리" required> <label
 													class="form-check-label" for="categoryElectronics7">패션
 													액세서리</label>
 											</div>
@@ -126,119 +126,119 @@
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryElectronics8" value="디지털"> <label
+													id="categoryElectronics8" value="디지털" required> <label
 													class="form-check-label" for="categoryElectronics8">디지털</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryElectronics9" value="가전제품"> <label
+													id="categoryElectronics9" value="가전제품" required> <label
 													class="form-check-label" for="categoryElectronics9">가전제품</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryHousehold" value="스포츠/레저"> <label
+													id="categoryHousehold" value="스포츠/레저" required> <label
 													class="form-check-label" for="categoryHousehold">스포츠/레저</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryBooks" value="차량/오토바이"> <label
+													id="categoryBooks" value="차량/오토바이" required> <label
 													class="form-check-label" for="categoryBooks">차량/오토바이</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryClothing" value="스타굿즈"> <label
+													id="categoryClothing" value="스타굿즈" required> <label
 													class="form-check-label" for="categoryClothing">스타굿즈</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryOthers1" value="키덜트"> <label
+													id="categoryOthers1" value="키덜트" required> <label
 													class="form-check-label" for="categoryOthers1">키덜트</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryOthers2" value="예술/희귀/수집품"> <label
+													id="categoryOthers2" value="예술/희귀/수집품" required> <label
 													class="form-check-label" for="categoryOthers2">예술/희귀/수집품</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryOthers3" value="음반/악기"> <label
+													id="categoryOthers3" value="음반/악기" required> <label
 													class="form-check-label" for="categoryOthers3">음반/악기</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryOthers4" value="도서/티켓/문구"> <label
+													id="categoryOthers4" value="도서/티켓/문구" required> <label
 													class="form-check-label" for="categoryOthers4">도서/티켓/문구</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryOthers5" value="뷰티/미용"> <label
+													id="categoryOthers5" value="뷰티/미용" required> <label
 													class="form-check-label" for="categoryOthers5">뷰티/미용</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryOthers6" value="가구/인테리어"> <label
+													id="categoryOthers6" value="가구/인테리어" required> <label
 													class="form-check-label" for="categoryOthers6">가구/인테리어</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryOthers7" value="생활/주방용품"> <label
+													id="categoryOthers7" value="생활/주방용품" required> <label
 													class="form-check-label" for="categoryOthers7">생활/주방용품</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryOthers8" value="공구/산업용품"> <label
+													id="categoryOthers8" value="공구/산업용품" required> <label
 													class="form-check-label" for="categoryOthers8">공구/산업용품</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryOthers9" value="식품"> <label
+													id="categoryOthers9" value="식품" required> <label
 													class="form-check-label" for="categoryOthers9">식품</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryOthers10" value="유아동/출산"> <label
+													id="categoryOthers10" value="유아동/출산" required> <label
 													class="form-check-label" for="categoryOthers10">유아동/출산</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryOthers11" value="반려동물용품"> <label
+													id="categoryOthers11" value="반려동물용품" required> <label
 													class="form-check-label" for="categoryOthers11">반려동물용품</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="sale_cate"
-													id="categoryOthers12" value="기타"> <label
+													id="categoryOthers12" value="기타" required> <label
 													class="form-check-label" for="categoryOthers12">기타</label>
 											</div>
 										</div>
@@ -247,11 +247,12 @@
 								<div class="form-group">
 									<label for="sale_price">판매가</label> <input type="text"
 										class="form-control" id="sale_price" name="sale_price"
-										placeholder="가격을 입력해주세요">
+										placeholder="가격을 입력해주세요" min="0" step="any" required>
+									<small id="priceError" class="form-text text-danger" style="display: none;">올바른 가격을 입력해주세요.</small>
 								</div>
 								<div class="form-group">
 									<label for="sale_area">거래 주소</label> <select
-										class="form-control" id="sale_area" name="sale_area">
+										class="form-control" id="sale_area" name="sale_area" required>
 										<option>강남구</option>
 										<option>강동구</option>
 										<option>강서구</option>
@@ -296,7 +297,7 @@
 								    </div>
 								</div>
 								<div class="form-group submit-button">
-									<button type="submit" class="btn btn-primary">상품 등록</button>
+									<button type="submit" class="btn btn-primary" id="submitButton" disabled>상품 등록</button>
 								</div>
 							</form>
 						</div>
@@ -388,6 +389,27 @@
 	<script src="/js/webflow.js" type="text/javascript"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
+		// 가격 입력칸 유효성 검사
+		function validatePrice() {
+			var priceInput = $('#sale_price').val();
+			var errorElement = $('#priceError');
+		    var submitButton = $('#submitButton');
+
+			// 입력값이 비어있거나 숫자가 아니거나 음수인 경우
+		    if (priceInput === '' || isNaN(priceInput) || parseFloat(priceInput) < 0) {
+		    	errorElement.show(); // 오류 메시지 표시
+		        submitButton.prop('disabled', true); // 버튼 비활성화
+			} else {
+		    	errorElement.hide(); // 오류 메시지 숨기기
+		        submitButton.prop('disabled', false); // 버튼 활성화
+			}
+		}
+		// 가격 입력 필드의 입력 이벤트에 대한 처리
+		$('#sale_price').on('input', function() {
+			validatePrice();
+		});
+
+		
 	    var fileNames = []; // 파일 이름을 저장할 배열
 	    var fileInputs = []; // 파일 input 요소를 참조할 배열
 
