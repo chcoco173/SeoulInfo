@@ -35,18 +35,12 @@
     grid-template-rows: 1fr auto; /* 하단에 고정할 요소는 auto로 설정 */
     min-height: 100vh; /* 최소 화면 높이 설정 */
     margin: 0;
+    
 }
 
 .map_wrap {
     grid-row: 2; /* 두 번째 행에 배치 */
     background-color: #EEEE; /* 배경색 설정 (필요에 따라) */
-}
-
-.filter {
-	font-size : 16;
-	font-weight : bold;
-	height : 50px;
-	width : 100%
 }
 
 .map-option {
