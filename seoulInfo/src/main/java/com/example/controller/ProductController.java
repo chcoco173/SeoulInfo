@@ -3,18 +3,14 @@
 
 import java.io.File;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.domain.FavoriteProductVO;
 import com.example.domain.MemberVO;
+import com.example.domain.ProductBuyVO;
 import com.example.domain.ProductImageVO;
 import com.example.domain.ProductSearchVO;
 import com.example.domain.ProductVO;
@@ -351,7 +347,10 @@ public class ProductController {
 	// 상품 상태 수정 ajax
 	@PostMapping("updateStatus")
 	@ResponseBody
-	public String updateStatus(@RequestParam String sale_status, @RequestParam Integer sale_id) {
+	@Transactional // transactional method (product, product_buy 테이블 동시 업데이트)
+	public String updateStatus(@RequestParam String sale_status, @RequestParam Integer sale_id, @RequestParam String member_id) {
+		System.out.println("productController updateStatus!!!!!!!!!!!!!"+sale_id+member_id);
+		
 		// 세션값
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 
@@ -361,13 +360,28 @@ public class ProductController {
 		pvo.setSale_status(sale_status);
 
 		Integer result =  productService.updateStatus(pvo);
+		
+	    // If sale status is updated to "판매완료", insert a record in product_buy table
+	    if (result != null && "판매완료".equals(sale_status)) {
+	        ProductBuyVO pbvo = new ProductBuyVO();
+	        pbvo.setBuyDate(new Date()); // Set current date as buyDate
+	        pbvo.setSaleId(sale_id);
+	        pbvo.setMemberId(member_id); // Use the provided member_id
 
-		if ( result != null) {
-			return "1";
-		}
+	        Integer buyResult = productService.insertProductBuy(pbvo);
 
-		return null;
+	        if (buyResult != null) {
+	            return "1";
+	        } else {
+	            return "Error updating product_buy table";
+	        }
+	    }
 
+	    if (result != null) {
+	        return "1";
+	    }
+
+	    return "Error updating product_sale table";
 	}
 
 	// 상품 삭제 ajax

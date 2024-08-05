@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.domain.ProductBuyVO;
 import com.example.domain.ProductVO;
 
 @Mapper
@@ -35,6 +36,9 @@ public interface ProductDAO {
 
 	// 상품 상태 수정
 	public Integer updateStatus(ProductVO pvo);
+	
+	// 구매 상품 등록
+	public Integer insertProductBuy(ProductBuyVO pbvo);
 
 	// 상품 삭제
 	public Integer deleteProduct(ProductVO pvo);

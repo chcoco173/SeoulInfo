@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import com.example.domain.FavoriteProductVO;
+import com.example.domain.ProductBuyVO;
 import com.example.domain.ProductImageVO;
 import com.example.domain.ProductSearchVO;
 import com.example.domain.ProductVO;
@@ -40,6 +40,9 @@ public interface ProductService {
 
 	// 상품 상태 수정
 	public Integer updateStatus(ProductVO pvo);
+	
+	// 구매 상품 등록
+    Integer insertProductBuy(ProductBuyVO pbvo);
 
 	// 상품 삭제
 	public Integer deleteProduct(ProductVO pvo);

@@ -6,13 +6,13 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dao.FavoriteProductDAO;
 import com.example.dao.ProductDAO;
 import com.example.dao.ProductImageDAO;
 import com.example.dao.ProductSearchDAO;
 import com.example.domain.FavoriteProductVO;
+import com.example.domain.ProductBuyVO;
 import com.example.domain.ProductImageVO;
 import com.example.domain.ProductSearchVO;
 import com.example.domain.ProductVO;
@@ -90,6 +90,13 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public Integer updateStatus(ProductVO pvo) {
 		return productDAO.updateStatus(pvo);
+		
+	}
+	
+	// 구매 상품 등록
+	@Override
+	public Integer insertProductBuy(ProductBuyVO pbvo) {
+		return productDAO.insertProductBuy(pbvo);
 		
 	}
 
