@@ -99,8 +99,12 @@ public class FestivalController {
 		
 	}
 	
-	
-	
-	
+	// Get festival details
+	@GetMapping("/festivalDetail")
+	public String getFestivalDetail(@RequestParam("festival_id") Integer festival_id, Model model) {
+	    FestivalVO festival = festivalService.getFestivalById(festival_id);
+	    model.addAttribute("festival", festival);
+	    return "festival/festivalDetail";
+	}
 	
 }
