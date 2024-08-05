@@ -31,9 +31,11 @@ import com.example.domain.ProductBuyVO;
 import com.example.domain.ProductImageVO;
 import com.example.domain.ProductSearchVO;
 import com.example.domain.ProductVO;
+import com.example.service.ProductBuyService;
 import com.example.service.ProductImageService;
 import com.example.service.ProductService;
 import com.example.util.MD5Generator;
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -60,11 +62,15 @@ public class ProductController {
 
 	@Autowired
 	private ProductImageService productImageService;
-
-
+	
 	@Autowired
 	private HttpSession session;
 
+	
+	@Autowired
+	private ProductBuyService productBuyService;
+	
+	
 	@RequestMapping("/")
 	public String mainPage() {
 		return "/index";
@@ -368,7 +374,7 @@ public class ProductController {
 	        pbvo.setSaleId(sale_id);
 	        pbvo.setMemberId(member_id); // Use the provided member_id
 
-	        Integer buyResult = productService.insertProductBuy(pbvo);
+	        Integer buyResult = productBuyService.insertProductBuy(pbvo);
 
 	        if (buyResult != null) {
 	            return "1";
@@ -661,6 +667,40 @@ public class ProductController {
 		model.addAttribute("timeDataList", timeConversion(productList));
 
 		return "product/productCategory"; 
+	}
+	
+	// 후기 화면
+	@RequestMapping("productReview")
+	public String productReview(Model model) {
+		MemberVO mvo = (MemberVO) session.getAttribute("member");
+		ProductBuyVO bvo = new ProductBuyVO();
+		bvo.setMemberId(mvo.getMember_id());
+		
+		List<Map<String, Object>> buyList = productService.productReview(mvo.getMember_id());
+		System.out.println("buylist" + buyList.toString());
+		
+		String[] timeDataList = new String[buyList.size()];
+		for(int i = 0; i < buyList.size(); i++) {
+			Map<String, Object> product = buyList.get(i);
+			Object regdateObject = product.get("sale_regdate");
+			
+			if (regdateObject instanceof LocalDateTime) {
+				LocalDateTime regdateTime = (LocalDateTime) regdateObject;
+				
+				String localDatetime = regdateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+				System.out.println(localDatetime);
+				timeDataList[i] = localDatetime;
+				
+			}
+			
+		}
+		
+		model.addAttribute("buyList",buyList);
+		model.addAttribute("timeDataList",timeDataList);
+
+		
+		
+		return "product/productReview"; 
 	}
 
 

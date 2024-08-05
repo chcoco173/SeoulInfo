@@ -12,7 +12,6 @@ import com.example.dao.ProductDAO;
 import com.example.dao.ProductImageDAO;
 import com.example.dao.ProductSearchDAO;
 import com.example.domain.FavoriteProductVO;
-import com.example.domain.ProductBuyVO;
 import com.example.domain.ProductImageVO;
 import com.example.domain.ProductSearchVO;
 import com.example.domain.ProductVO;
@@ -31,6 +30,7 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Autowired
 	private FavoriteProductDAO favoriteProductDAO;
+	
 
 	// 상품 등록
 	@Override
@@ -92,13 +92,6 @@ public class ProductServiceImpl implements ProductService{
 		return productDAO.updateStatus(pvo);
 		
 	}
-	
-	// 구매 상품 등록
-	@Override
-	public Integer insertProductBuy(ProductBuyVO pbvo) {
-		return productDAO.insertProductBuy(pbvo);
-		
-	}
 
 	@Override
 	public Integer deleteProduct(ProductVO pvo) {
@@ -148,6 +141,13 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return productDAO.productViewCountUpdate(festival_id);
 	}
+
+	@Override
+	public List<Map<String, Object>> productReview(String member_id) {
+		return productDAO.productReview(member_id);
+	}
+	
+	
 
 	
 
