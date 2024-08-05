@@ -190,24 +190,24 @@
 							<li><a class="dropdown-item" href="#" data-bs-toggle="collapse" data-bs-target="#option1Content" aria-expanded="false" aria-controls="option1Content"> 운영기관 </a>
 								<div class="collapse mt-1" id="option1Content">
 									<ul class="list-group">
-										<li class="list-group-item"><div><input type="checkbox" id="opCheckAll" class="opCheckAll"				 >전체</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="opCheck1" 	class="opCheck" checked="checked">환경부</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="opCheck2" 	class="opCheck"					 >한국전력</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="opCheck3" 	class="opCheck"					 >타기관</div></li>
+										<li class="list-group-item"><span id="opCheckAll" class="opCheckAll">전체		</span></li>
+										<li class="list-group-item"><span id="opCheck1"   class="opCheck"	>환경부	</span></li>
+										<li class="list-group-item"><span id="opCheck2"	  class="opCheck"	>한국전력	</span></li>
+										<li class="list-group-item"><span id="opCheck3"	  class="opCheck"	>타기관	</span></li>
 									</ul>
 								</div>
 							</li>
 							<li><br><a class="dropdown-item" href="#" data-bs-toggle="collapse" data-bs-target="#option2Content" aria-expanded="false" aria-controls="option2Content"> 충전기 분류 </a>
 								<div class="collapse mt-2" id="option2Content">
 									<ul class="list-group">
-										<li class="list-group-item"><div><input type="checkbox" id="typeCheckAll" class="typeCheckAll" 	checked="checked">전체					</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="typeCheck1"   class="typeCheck"		checked="checked">AC완속 					</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="typeCheck2"   class="typeCheck" 	checked="checked">AC3상 					</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="typeCheck3"   class="typeCheck" 	checked="checked">DC차데모 				</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="typeCheck4"   class="typeCheck" 	checked="checked">DC콤보 					</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="typeCheck5"   class="typeCheck" 	checked="checked">DC차데모+DC콤보 			</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="typeCheck6"   class="typeCheck" 	checked="checked">DC차데모+AC3상 			</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="typeCheck7"   class="typeCheck" 	checked="checked">DC차데모+AC3상+DC콤보		</div></li>
+										<li class="list-group-item"><span id="typeCheckAll" class="typeCheckAll">전체					</span></li>
+										<li class="list-group-item"><span id="typeCheck1"   class="typeCheck"	>AC완속 				</span></li>
+										<li class="list-group-item"><span id="typeCheck2"   class="typeCheck"	>AC3상 				</span></li>
+										<li class="list-group-item"><span id="typeCheck3"   class="typeCheck"	>DC차데모 			</span></li>
+										<li class="list-group-item"><span id="typeCheck4"   class="typeCheck"	>DC콤보 				</span></li>
+										<li class="list-group-item"><span id="typeCheck5"   class="typeCheck"	>DC차데모+DC콤보 		</span></li>
+										<li class="list-group-item"><span id="typeCheck6"   class="typeCheck"	>DC차데모+AC3상 		</span></li>
+										<li class="list-group-item"><span id="typeCheck7"   class="typeCheck"	>DC차데모+AC3상+DC콤보	</span></li>
 									</ul>
 								</div>
 							</li>
@@ -215,12 +215,12 @@
 								<div class="collapse mt-3" id="option3Content">
 									<!-- convenience category Buttons -->
 									<ul class="list-group">
-										<li class="list-group-item"><div><input type="checkbox" id="etcCheckAll" class="etcCheckAll">전체</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="etcCheck1"   class="etcCheck" value="parking" 	  checked="checked"/>&nbsp;주차장</span></li>
-										<li class="list-group-item"><div><input type="checkbox" id="etcCheck2"   class="etcCheck" value="convenience" checked="checked"/>&nbsp;편의점</span></li>
-										<li class="list-group-item"><div><input type="checkbox" id="etcCheck3"   class="etcCheck" value="cafe"			  				/>&nbsp;카페</span></li>
-										<li class="list-group-item"><div><input type="checkbox" id="etcCheck4"   class="etcCheck" value="market"						/>&nbsp;마트</span></li>
-										<li class="list-group-item"><div><input type="checkbox" id="etcCheck5"   class="etcCheck" value="pharmacy"					  	/>&nbsp;약국</span></li>
+										<li class="list-group-item"><span class="etcCheckAll">전체</span></li>
+										<li class="list-group-item"><span class="etcCheck" id="etcCheck1">주차장	</span></li>
+										<li class="list-group-item"><span class="etcCheck" id="etcCheck2">편의점	</span></li>
+										<li class="list-group-item"><span class="etcCheck" id="etcCheck3">카페	</span></li>
+										<li class="list-group-item"><span class="etcCheck" id="etcCheck4">마트	</span></li>
+										<li class="list-group-item"><span class="etcCheck" id="etcCheck5">약국	</span></li>
 									</ul>
 								</div>
 							</li>
@@ -262,7 +262,7 @@
 						<td>지역구</td>
 						<td>
 							<select id="evc_area" name="evc_area" class="form-select">
-								<option ${coordinate.evc_area eq '전체' ? 'selected' : ''}>전체</option>
+								<option ${coordinate.evc_area eq '전체' 	? 'selected' : ''}>전체</option>
 								<option ${coordinate.evc_area eq '강남구' ? 'selected' : ''}>강남구</option>
 								<option ${coordinate.evc_area eq '강동구' ? 'selected' : ''}>강동구</option>
 								<option ${coordinate.evc_area eq '강서구' ? 'selected' : ''}>강서구</option>
@@ -372,13 +372,14 @@
 		// session 값 받아오기 
 		var sessionResult = '<c:out value="${sessionScope.member != null ? sessionScope.member.member_id : ''}" />';
 		function showLoading() {
-		           document.getElementById('loading').style.display = 'flex';
-		       }
+			document.getElementById('loading').style.display = 'flex';
+		}
 
-		       // 로딩 바 숨기기 함수
-		       function hideLoading() {
-		           document.getElementById('loading').style.display = 'none';
-		       }
+		// 로딩 바 숨기기 함수
+		function hideLoading() {
+			document.getElementById('loading').style.display = 'none';
+		}
+		
 		// ## delay 1 - 로딩 바 표시
 		showLoading();
 		
@@ -482,8 +483,7 @@
 		                marker.setImage(originalImage);
 		                marker.isClicked = false;
 		                if (circle) {
-		                    circle.setMap(null); // 원 삭제
-		                    $('#distanceInfo').hide(); // 거리 정보 숨기기
+		                    circle.setMap(null);
 		                }
 		            } else {
 		                var clickedImage = new kakao.maps.MarkerImage(clickedImageSrc, imageSize);
@@ -551,7 +551,7 @@
 										return '<img src="' + imageUrl + '" alt="' + charger.charger_type + '" class="charger-image"/>';
 										}).join('');
 										row += '<td class="charger_type">' + imagesHtml + '<br>'+ charger.charger_type + '</td>';
-						                row += '<td><span style="border:1px solid orange; border-radius:5px; background-color: yellow; padding-left:10px; padding-right:10px; text-align:center"><b id="charger_state">' + charger.charger_state + '</b></span><br><span>{(갱신한 시간)}</span></td>';
+						                row += '<td><span style="border:1px solid orange; border-radius:5px; background-color: yellow; padding-left:10px; padding-right:10px; text-align:center"><b id="charger_state">' + charger.charger_userlimit + '</b></span><br><span>{(갱신한 시간)}</span></td>';
 						                row += '</tr>';
 						                chargerDetailsBody.append(row);
 						            });
@@ -562,12 +562,11 @@
 						            $('#charger_facsmall').text(data[0].charger_facsmall);
 						            $('#charger_opsmall').text(data[0].charger_opsmall);
 						            $('#charger_userlimit').text(data[0].charger_userlimit);
-						            
 						            var img = $('#favoriteImage');
 						            var newImageUrl = '/images/ev/like_off.png';
 						            img.attr('src', newImageUrl);
 						            
-						            // 사용자 즐겨찾기 데이터와 비교하기
+									// 사용자 즐겨찾기 데이터와 비교하기
 						            if (sessionResult !== '') {
 						                var clickedEVID = marker.Gb;
 						                $.ajax({
@@ -606,7 +605,8 @@
 						        console.error("Error fetching charger info: ", err);
 						    }
 						}); // end of AJAX
-		                // 클릭한 마커를 중심으로 반경 1km 원 그리기
+						
+		// 클릭한 마커를 중심으로 반경 1km 원 그리기 ########################################
 						if (circle) {
 						    circle.setMap(null);
 						}
@@ -622,32 +622,15 @@
 						});
 						circle.setMap(map);
 						
-						var distance = 1;
-						var walkingSpeed = 4;
-						var cyclingSpeed = 15;
-						var walkingTime = (distance / walkingSpeed) * 60;
-						var cyclingTime = (distance / cyclingSpeed) * 60;
-						var distanceInfoHtml = `
-						    <div>
-						        <p><strong>거리:</strong> 1km</p>
-						        <p><strong>도보 시간:</strong> 약 ${walkingTime.toFixed(0)}분</p>
-						        <p><strong>자전거 시간:</strong> 약 ${cyclingTime.toFixed(0)}분</p>
-						    </div>`;
-						$('#distanceInfo').html(distanceInfoHtml);
-						$('#distanceInfo').show();
-						$('#walkingTime').text(`도보: 약 ${walkingTime.toFixed(0)}분`);
-						$('#cyclingTime').text(`자전거: 약 ${cyclingTime.toFixed(0)}분`);
-
 						var circlePositions = [];
-						//var locationMarkers = [];
-						
 						function clearMarkers() {
 						    for (var i = 0; i < locationMarkers.length; i++) {
 						        locationMarkers[i].setMap(null); // 지도에서 제거
 						    }
 						    locationMarkers = []; // 배열 초기화
 						}
-						// AJAX 호출
+						
+						// AJAX 호출로 위치 정보를 가져옵니다
 						$.ajax({
 						    url: 'getCircleLocation',
 						    type: 'GET',
@@ -656,105 +639,122 @@
 						        centerLng: marker.getPosition().getLng(),
 						        radius: 1000
 						    },
-						    success: function(data) {
-						        clearMarkers(); // 마커를 클리어
-						        console.log(data); // 데이터 구조 확인
-						        // 데이터 배열을 순회하면서 circlePositions 배열에 추가
-						        data.forEach(function(item) {
-						            circlePositions.push({
-						                latlng: new kakao.maps.LatLng(item.etc_lat, item.etc_long), // LatLng 객체로 생성
-						                title: item.etc_category
-						            });
-						        });
+							success: function(data) {
+							    clearMarkers();
+							    data.forEach(function(item) {
+							        circlePositions.push({
+							            latlng: new kakao.maps.LatLng(item.etc_lat, item.etc_long),
+							            title: item.etc_category,
+							            name: item.etc_name,      // InfoWindow에 표시할 이름 저장
+							            address: item.etc_address // InfoWindow에 표시할 주소 저장
+							        });
+							    });
+							    var imageSrcs = {
+							        "카페": "/images/ev/etc_cafe.png",
+							        "편의점": "/images/ev/etc_convini.png",
+							        "슈퍼마켓": "/images/ev/etc_market.png",
+							        "약국": "/images/ev/etc_pharmacy.png",
+							        "주차장": "/images/ev/etc_parking.png"
+							    };
+							    var imageSize = new kakao.maps.Size(24, 24); // 이미지 크기 정의
+							    if (circlePositions.length > 0) {
+							        circlePositions.forEach(function(position) {
+							            var imageSrc = imageSrcs[position.title] || "/images/ev/etc_parking.png";
+							            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+							            var locationMarker = new kakao.maps.Marker({
+							                map: map,                              // 마커를 표시할 지도
+							                position: position.latlng,             // 마커를 표시할 위치
+							                title: position.title,                 // 마커의 타이틀
+							                image: markerImage,                    // 마커 이미지
+											name : position.name,
+											address : position.address
+							            });
+									// InfoWindow의 내용과 위치를 정의합니다
+									var iwContent = '';
+										iwContent += '<div style="border-radius:10px; border: 1px solid black; background-color: #fff; box-shadow: 0px 0px 5px rgba(0,0,0,0.2);">';
+										iwContent += '<div style="font-size:14px; border-radius:10px 10px 0px 0px; font-weight:bold; color:#333; background-color:yellowgreen; text-align:center; ">';
+										iwContent += '<a href="https://map.kakao.com/?q=' + (position.address || '') +' '+ (position.name || '') +'" target="blank"><b>'+(position.name || 'Unknown') + '</b></a>';
+										iwContent += '</div>';
+										iwContent += '<hr style="margin:5px 0;">';
+										iwContent += '<div style="font-size:12px; color:#666;"> 분류 : ' + (position.title || 'Unknown') + '</div>';
+										iwContent += '<div style="font-size:12px; color:#666;">' + (position.address || 'Unknown') + '</div>';
+										iwContent += '</div>';
+										
+									var InfoWindowRemovable = true;	
+							        // InfoWindow 인스턴스를 생성합니다
+							        var infoWindow = new kakao.maps.InfoWindow({
+							        	content: iwContent,
+							            removable: InfoWindowRemovable
+							        });
 
-						        var imageSrcs = {
-						            "카페": "/images/ev/etc_cafe.png",
-						            "편의점": "/images/ev/etc_convini.png",
-						            "슈퍼마켓": "/images/ev/etc_market.png",
-						            "약국": "/images/ev/etc_pharmacy.png",
-						            "주차장": "/images/ev/etc_parking.png"
-						        };
-
-						        var imageSize = new kakao.maps.Size(24, 24); // 이미지 크기 정의
-
-						        if (circlePositions.length > 0) {
-						            circlePositions.forEach(function(position) {
-						                var imageSrc = imageSrcs[position.title] || "/images/ev/etc_parking.png";
-						                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-						                var locationMarker = new kakao.maps.Marker({
-						                    map: map,                              // 마커를 표시할 지도
-						                    position: position.latlng,             // 마커를 표시할 위치
-						                    title: position.title,                 // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-						                    image: markerImage                     // 마커 이미지
-						                });
-						                locationMarkers.push(locationMarker);
-						                console.log("Marker added at:", position.latlng.getLat(), position.latlng.getLng());
-						            });
-						        } else {
-						            alert("원 안에 위치 정보가 없습니다.");
-						        }
-						    },
-						    error: function(err) {
-						        console.error("Error fetching locations: ", err);
+							        // 마커 클릭 이벤트 리스너 추가
+							        kakao.maps.event.addListener(locationMarker, 'click', function() {
+										infoWindow.open(map, locationMarker); // 마커 위치에 InfoWindow를 엽니다
+									});
+							            locationMarkers.push(locationMarker); // 마커를 배열에 추가
+							            console.log("마커 추가됨 위치:", position.latlng.getLat(), position.latlng.getLng());
+							        });
+							    } else {
+							        alert("원 안에 위치 정보가 없습니다.");
+							    }
+							},error: function(err) {
+						        console.error("위치 정보 가져오기 오류: ", err);
 						    }
 						});
-						}
-						});
+					}
+				});
+			})(marker);
+		markers.push(marker);
+		console.log(marker);
+		}
+							
+		var clusterer = new kakao.maps.MarkerClusterer({
+			map: map,
+			averageCenter: true,
+			minLevel: 4
+		});
+							
+		clusterer.addMarkers(markers);
+	// ############ 지도 확대/축소 시, 로딩 화면 출력 이벤트 ################
+		kakao.maps.event.addListener(map, 'tilesloaded', function() {
+			hideLoading();
+		});
+	// 지도 확대/축소 시 로딩 바 표시
+		kakao.maps.event.addListener(map, 'zoom_start', function() {
+			showLoading();
+		});
 
-						        })(marker);
-						        markers.push(marker);
-						        console.log(marker);
-						    }
-
-						    var clusterer = new kakao.maps.MarkerClusterer({
-						        map: map,
-						        averageCenter: true,
-						        minLevel: 4,
-						        disableClickZoom: true
-						    });
-
-						    clusterer.addMarkers(markers);
-		// ############ 지도 확대/축소 시, 로딩 화면 출력 이벤트 ################
-						    kakao.maps.event.addListener(map, 'tilesloaded', function() {
-						        hideLoading();
-						    });
-							       // 지도 확대/축소 시 로딩 바 표시
-							       kakao.maps.event.addListener(map, 'zoom_start', function() {
-							           showLoading();
-							       });
-
-							       kakao.maps.event.addListener(map, 'zoom_end', function() {
-							           setTimeout(hideLoading, 500); // 클러스터링이 끝난 후 로딩 바 숨기기
-							       });
-
-							       // 지도 이동 시 로딩 바 표시 (확대/축소 외에도 이동 시 로딩 바를 표시하려면 다음과 같이 추가 가능)
-							       kakao.maps.event.addListener(map, 'idle', function() {
-							           setTimeout(hideLoading, 500); // 이동 후 로딩 바 숨기기
-							       });
+		kakao.maps.event.addListener(map, 'zoom_end', function() {
+			setTimeout(hideLoading, 500); // 클러스터링이 끝난 후 로딩 바 숨기기
+		});
+	// 지도 이동 시 로딩 바 표시 (확대/축소 외에도 이동 시 로딩 바를 표시하려면 다음과 같이 추가 가능)
+		kakao.maps.event.addListener(map, 'idle', function() {
+			setTimeout(hideLoading, 500); // 이동 후 로딩 바 숨기기
+		});
 		
-		// ######## 클러스터러 확대 이벤트 ##############
+	// ######## 클러스터러 확대 이벤트 ##############
         kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
             var level = map.getLevel() - 1;
             map.setLevel(level, { anchor: cluster.getCenter() });			
         });
 
-		// ######## 서울 범위 밖에 이동 시, 중심 지로 이동하는 기능 ####################
+	// ######## 서울 범위 밖에 이동 시, 중심 지로 이동하는 기능 ####################
         var seoulBounds = new kakao.maps.LatLngBounds(
             new kakao.maps.LatLng(37.113294, 126.034086),
             new kakao.maps.LatLng(37.915133, 128.169311)
         );
 
-        kakao.maps.event.addListener(map, 'center_changed', function() {
-            var center = map.getCenter();
-            if (!seoulBounds.contain(center)) {
-                map.setCenter(new kakao.maps.LatLng(37.5665, 126.9780));
-                //alert("서울시 정보만 제공됩니다.");
-            }
-        });
+    kakao.maps.event.addListener(map, 'center_changed', function() {
+    	var center = map.getCenter();
+        if (!seoulBounds.contain(center)) {
+        	map.setCenter(new kakao.maps.LatLng(37.5665, 126.9780));
+            //alert("서울시 정보만 제공됩니다.");
+        }
+	});
 		
-		// ######## 지도 이미지 타입 변경 이벤트 ##############
+	// ######## 지도 이미지 타입 변경 이벤트 ##############
         var mapTypes = {
-            terrain: kakao.maps.MapTypeId.TERRAIN
+    		terrain: kakao.maps.MapTypeId.TERRAIN
         };
 
         function setOverlayMapTypeId() {
@@ -776,40 +776,39 @@
             }
         }
 		
-		// ###################### 충전소 검색 ##########################
-	
-			$('#searchForm').on('submit', function(e) {
-				e.preventDefault();
-				$.ajax({
-					url: 'ev_MapFilter',
-				    type: 'POST',
-				    data: $(this).serialize(),
-				    	success: function(data) {
-				        $('#resultContainer').html(''); // 결과 영역 초기화
-				        if (data && data.length > 0) {
-				        	data.forEach(function(item) {
-				            var resultHTML  =  '<dl id="filteredList" class="high-z-index">';
-				            	resultHTML +=  '<dd>';
-				                resultHTML +=      '<table class="filtered-list result-list result-list-table" data-lat="' + item.evc_lat + '" data-lng="' + item.evc_long + '" data-title="' + item.evc_name + '" data-id="' + item.evc_id + '">';
-				                resultHTML +=          '<tr>';
-				                resultHTML +=              '<td rowspan="2"><img src="'+getImageUrl(item.charger_opsmall)+'" /></td>';
-				                resultHTML +=              '<td colspan="2">' + item.evc_name + '</td>';
-				                resultHTML +=          '</tr>';
-				                resultHTML +=          '<tr>';
-				                resultHTML +=              '<td><span style="font-size: 12px">' + item.charger_opsmall + '</span></td>';
-				                resultHTML +=              '<td><span style="font-size: 12px">' + item.evc_area + '</span></td>';
-				                resultHTML +=          '</tr>';
-				                resultHTML +=      '</table>';
-				                resultHTML +=      '<br>';
-				                resultHTML +=  '</dd>';
-				                resultHTML += '</dl>';
-				        	$('#resultContainer').append(resultHTML);
-							});
+	// ###################### 충전소 검색 ##########################
+		$('#searchForm').on('submit', function(e) {
+			e.preventDefault();
+			$.ajax({
+				url: 'ev_MapFilter',
+				type: 'POST',
+				data: $(this).serialize(),
+				success: function(data) {
+					$('#resultContainer').html(''); // 결과 영역 초기화
+					if (data && data.length > 0) {
+				    	data.forEach(function(item) {
+				        var resultHTML  =  '<dl id="filteredList" class="high-z-index">';
+				        	resultHTML +=  '<dd>';
+				            resultHTML +=      '<table class="filtered-list result-list result-list-table" data-lat="' + item.evc_lat + '" data-lng="' + item.evc_long + '" data-title="' + item.evc_name + '" data-id="' + item.evc_id + '">';
+				            resultHTML +=          '<tr>';
+				            resultHTML +=              '<td rowspan="2"><img src="'+getImageUrl(item.charger_opsmall)+'" /></td>';
+				            resultHTML +=              '<td colspan="2">' + item.evc_name + '</td>';
+				            resultHTML +=          '</tr>';
+				            resultHTML +=          '<tr>';
+				            resultHTML +=              '<td><span style="font-size: 12px">' + item.charger_opsmall + '</span></td>';
+				            resultHTML +=              '<td><span style="font-size: 12px">' + item.evc_area + '</span></td>';
+				            resultHTML +=          '</tr>';
+				            resultHTML +=      '</table>';
+				            resultHTML +=      '<br>';
+				            resultHTML +=  '</dd>';
+				            resultHTML += '</dl>';
+				        $('#resultContainer').append(resultHTML);
+						});
 									
-					        var paginationHTML = `
-					        	<div class="filtered-list result-list-pagination" style="text-align: center; margin-top: 20px;">
-					            <button type="button" class="btn btn-secondary" id="filtered-prevPage" disabled>이전</button>
-					            <span id="filtered-pageInfo">1 / 1</span>
+					    var paginationHTML = `
+					    	<div class="filtered-list result-list-pagination" style="text-align: center; margin-top: 20px;">
+					        <button type="button" class="btn btn-secondary" id="filtered-prevPage" disabled>이전</button>
+					        <span id="filtered-pageInfo">1 / 1</span>
 					            <button type="button" class="btn btn-secondary" id="filtered-nextPage">다음</button><hr>
 					            </div>`;
 					        $('#resultContainer').append(paginationHTML);
@@ -997,22 +996,6 @@
 		        fillOpacity: 0.4
 		    });
 		    circle.setMap(map);
-	
-		    var distance = 1;
-		    var walkingSpeed = 4;
-		    var cyclingSpeed = 15;
-		    var walkingTime = (distance / walkingSpeed) * 60;
-		    var cyclingTime = (distance / cyclingSpeed) * 60;
-		    var distanceInfoHtml = `
-		        <div>
-		            <p><strong>거리:</strong> 1km</p>
-		            <p><strong>도보 시간:</strong> 약 ${walkingTime.toFixed(0)}분</p>
-		            <p><strong>자전거 시간:</strong> 약 ${cyclingTime.toFixed(0)}분</p>
-		        </div>`;
-		    $('#distanceInfo').html(distanceInfoHtml);
-		    $('#distanceInfo').show();
-		    $('#walkingTime').text(`도보: 약 ${walkingTime.toFixed(0)}분`);
-		    $('#cyclingTime').text(`자전거: 약 ${cyclingTime.toFixed(0)}분`);
 	
 		    var circlePositions = [];
 	
@@ -1333,65 +1316,15 @@
 						    return '/images/ev/charging-station.png';
 					}
 				}
-				var opCheckAll = document.getElementById('opCheckAll');
-					var typesubcheck = document.getElementsByClassName('opCheck');
-					 $('#opCheckAll').change(function() {
-				        if (this.checked) {
-				            $('.opCheck').prop('checked', true);
-				        } else {
-				            $('.opCheck').prop('checked', false);
-				        }
-				    });
-				    
-				    $('.opCheck').change(function() {
-				        var opcheckboxes = $('.opCheck:checked');
-				        var opsubcheck = $('.opCheck');
-				        if (opcheckboxes.length !== opsubcheck.length) {
-				            $('#opCheckAll').prop('checked', false);
-				        } else {
-				            $('#opCheckAll').prop('checked', true);
-				        }
-				    });
-					
-					var typeCheckAll = document.getElementById('typeCheckAll');
-						var typesubcheck = document.getElementsByClassName('typeCheck');
-						 $('#typeCheckAll').change(function() {
-					        if (this.checked) {
-					            $('.typeCheck').prop('checked', true);
-					        } else {
-					            $('.typeCheck').prop('checked', false);
-					        }
-					    });
-					    
-					    $('.typeCheck').change(function() {
-					        var typecheckboxes = $('.typeCheck:checked');
-					        var typesubcheck = $('.typeCheck');
-					        if (typecheckboxes.length !== typesubcheck.length) {
-					            $('#typeCheckAll').prop('checked', false);
-					        } else {
-					            $('#typeCheckAll').prop('checked', true);
-					        }
-					    });
-						
-						var etccheckAll = document.getElementById('etcCheckAll');
-							var etcsubcheck = document.getElementsByClassName('etcCheck');
-							 $('#etcCheckAll').change(function() {
-						        if (this.checked) {
-						            $('.etcCheck').prop('checked', true);
-						        } else {
-						            $('.etcCheck').prop('checked', false);
-						        }
-						    });
-						    
-						    $('.etcCheck').change(function() {
-						        var etccheckboxes = $('.etcCheck:checked');
-						        var etcsubcheck = $('.etcCheck');
-						        if (etccheckboxes.length !== etcsubcheck.length) {
-						            $('#etcCheckAll').prop('checked', false);
-						        } else {
-						            $('#etcCheckAll').prop('checked', true);
-						        }
-						    });
+	// ===========================================================
+	kakao.maps.event.addListener(map, 'idle', searchPlaces);
+	
+	// ============================================================
+	addEventHandle(contentNode, 'mousedown', kakao.maps.event.preventMap);
+	addEventHandle(contentNode, 'touchstart', kakao.maps.event.preventMap);
+	
+	placeOverlay.setContent(contentNode);
+		
 	</script>
 	<!-- end of kakao map Script -->
 	<script src="/js/webflow.js" type="text/javascript"></script>
