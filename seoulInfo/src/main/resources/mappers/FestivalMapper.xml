@@ -58,4 +58,7 @@
 		WHERE festival_id = #{festival_id};
 	</select>
 
+    <select id="getFestivalById" parameterType="integer" resultType="FestivalVO">
+        SELECT * FROM Festival WHERE festival_id = #{festival_id}
+    </select>
 </mapper>
