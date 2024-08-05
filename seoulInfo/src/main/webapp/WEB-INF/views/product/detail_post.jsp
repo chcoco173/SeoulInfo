@@ -215,6 +215,10 @@
 												<img id="lociImage" src="/productimages/loci.png"
 													class="loci-image" /> ${product.sale_area}
 											</h6>
+											<h6>
+												조회수  ${product.sale_viewcount}
+											</h6>
+											
 											<div class="form-field-wrapper">
 												<label for="Style-Guide-Form-Message"
 													class="form-field-label">상품 상세</label>
@@ -292,7 +296,9 @@
 													${similarList.sale_status}</span>
 											</p>
 											<!-- 날짜 차이 정보 추가 -->
-											<p>${timeDataList[status.index]}</p>
+											<p>
+												${timeDataList[status.index]}<span style="margin-left: 30px;">조회수 : ${similarList.sale_viewcount}</span>
+											</p>
 										</div>
 									</div>
 							</c:forEach>

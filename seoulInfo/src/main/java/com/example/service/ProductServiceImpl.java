@@ -135,6 +135,13 @@ public class ProductServiceImpl implements ProductService{
 		return productDAO.countItems(map);
 	}
 
+	// 조회수 증가
+	@Override
+	public Integer productViewCountUpdate(Integer festival_id) {
+		// TODO Auto-generated method stub
+		return productDAO.productViewCountUpdate(festival_id);
+	}
+
 	
 
 
