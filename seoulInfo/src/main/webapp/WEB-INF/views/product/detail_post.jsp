@@ -385,18 +385,38 @@
 	<script src="/js/webflow.js" type="text/javascript"></script>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<!-- 로그인 여부 확인을 위한 hidden input -->
+	<c:choose>
+	    <c:when test="${not empty sessionScope.member}">
+	        <input type="hidden" id="loggedInUserId" value="${sessionScope.member.member_id}">
+	    </c:when>
+	    <c:otherwise>
+	        <input type="hidden" id="loggedInUserId" value="">
+	    </c:otherwise>
+	</c:choose>
 	<script>
 		$(".chatCreate")
 				.click(
 						function() {
+							const loggedInUserId = document.getElementById('loggedInUserId').value;
+
+				            if (!loggedInUserId) {
+				                // 로그인 정보가 없을 경우 로그인 페이지로 리디렉션
+				                alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+				                window.location.href = '/member/login';
+				                return;
+				            }
+							// 현재 페이지가 chat.jsp 인지 확인해서 삭제된 채팅방 다시 생성안되게 함
+							if (window.location.pathname.includes('chat.jsp')) {
+							    console.log('현재 채팅 페이지에 있으므로 chatCreate를 호출하지 않습니다.');
+							    return;
+							}
 							var memberId = $(this).closest(
 									'.product-description').find('.member_id')
 									.val();
 							var saleId = $(this)
 									.closest('.product-description').find(
 											'.sale_id').val();
-							alert(memberId);
-							alert(saleId);
 
 							console
 									.log(`memberId: ${memberId}, saleId: ${saleId}`); // 디버깅용 로그

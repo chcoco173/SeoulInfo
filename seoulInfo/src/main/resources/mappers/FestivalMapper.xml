@@ -48,5 +48,14 @@
 			AND festival_area = #{area}
 		</if>
 	</select>
+	<update id="festivalViewCountUpdate" parameterType="integer">
+		UPDATE Festival
+		SET festival_viewcount = festival_viewcount + 1
+		WHERE festival_id = #{festival_id};
+	</update>
+	<select id="viewCountFestivalId" parameterType="integer" resultType="integer">
+		SELECT festival_viewcount FROM festival
+		WHERE festival_id = #{festival_id};
+	</select>
 
 </mapper>

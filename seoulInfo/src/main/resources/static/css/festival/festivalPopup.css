@@ -2,115 +2,116 @@
 
 /* 모달 배경 */
 .modal {
-	display: none;
-	position: fixed;
-	z-index: 1000; /* 모달을 최상위로 */
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.8); /* 진한 배경색 */
-	overflow: hidden;
-	transition: opacity 0.3s ease; /* 부드러운 나타남/사라짐 효과 */
+    display: none;
+    position: fixed;
+    z-index: 1000; /* 모달을 최상위로 */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* 진한 배경색 */
+    overflow: hidden;
+    transition: opacity 0.3s ease; /* 부드러운 나타남/사라짐 효과 */
 }
 
 /* 모달 콘텐츠 */
 .modal-content {
-	background-color: #fff;
-	padding: 20px 40px;
-	border: none;
-	max-width: 90%;
-	max-height: 80%;
-	overflow-y: auto;
-	box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* 깊은 그림자 */
-	border-radius: 15px; /* 둥근 모서리 */
-	position: absolute; /* 변경된 위치 설정 */
-	top: 50%;
-	left: 46%;
-	transform: translate(-50%, -50%); /* 정확히 가운데 정렬 */
-	width: auto;
-	min-width: 320px; /* 최소 너비 */
-	font-family: 'Arial', sans-serif; /* 모던한 폰트 */
-	color: #333; /* 텍스트 색상 */
-	animation: slideIn 0.5s ease; /* 슬라이드 인 애니메이션 */
+    background-color: #fff;
+    padding: 20px 40px;
+    border: none;
+    max-width: 90%;
+    max-height: 80%;
+    overflow-y: auto;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* 깊은 그림자 */
+    border-radius: 15px; /* 둥근 모서리 */
+    position: absolute; /* 변경된 위치 설정 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 정확히 가운데 정렬 */
+    width: auto;
+    min-width: 320px; /* 최소 너비 */
+    font-family: 'Arial', sans-serif; /* 모던한 폰트 */
+    color: #333; /* 텍스트 색상 */
+    animation: slideIn 0.5s ease; /* 슬라이드 인 애니메이션 */
 }
 
 /* 닫기 버튼 */
 .close {
-	color: #555;
-	position: absolute;
-	top: 15px; /* 위치 조정 */
-	right: 15px; /* 위치 조정 */
-	font-size: 32px;
-	font-weight: bold;
-	cursor: pointer;
-	transition: color 0.3s ease, transform 0.3s ease; /* 색상 및 확대 애니메이션 */
+    color: #555;
+    position: absolute;
+    top: 15px; /* 위치 조정 */
+    right: 15px; /* 위치 조정 */
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease; /* 색상 및 확대 애니메이션 */
 }
 
 .close:hover, .close:focus {
-	color: #f00; /* 마우스 오버 시 색상 변경 */
-	transform: scale(1.2); /* 마우스 오버 시 약간 확대 */
+    color: #f00; /* 마우스 오버 시 색상 변경 */
+    transform: scale(1.2); /* 마우스 오버 시 약간 확대 */
 }
 
 /* 제목 스타일 */
 .modal-content h2 {
-	margin-top: 0;
-	margin-bottom: 20px;
-	font-size: 24px;
-	font-weight: 700; /* 두꺼운 폰트 */
-	color: #444; /* 제목 색상 */
-	text-align: center; /* 가운데 정렬 */
-	border-bottom: 2px solid #eee; /* 아래 경계선 추가 */
-	padding-bottom: 10px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 700; /* 두꺼운 폰트 */
+    color: #444; /* 제목 색상 */
+    text-align: center; /* 가운데 정렬 */
+    border-bottom: 2px solid #eee; /* 아래 경계선 추가 */
+    padding-bottom: 10px;
 }
 
 /* 이미지 스타일 */
 .modal-content img {
-	display: block;
-	margin: 20px auto;
-	max-width: 100%;
-	height: auto;
-	border-radius: 10px; /* 이미지 모서리 둥글게 */
-	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* 이미지 그림자 */
-	border: 3px solid #ddd; /* 이미지 테두리 */
+    display: block;
+    margin: 20px auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px; /* 이미지 모서리 둥글게 */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* 이미지 그림자 */
+    border: 3px solid #ddd; /* 이미지 테두리 */
 }
 
 /* 문단 스타일 */
 .modal-content p {
-	line-height: 1.6; /* 줄 간격 조정 */
-	text-align: center; /* 가운데 정렬 */
-	font-size: 16px; /* 폰트 크기 조정 */
-	color: #666; /* 문단 텍스트 색상 */
+    line-height: 1.6; /* 줄 간격 조정 */
+    text-align: center; /* 가운데 정렬 */
+    font-size: 16px; /* 폰트 크기 조정 */
+    color: #666; /* 문단 텍스트 색상 */
+    margin-bottom: 10px;
 }
 
 /* 첫 번째 문단의 여백 조정 */
 .modal-content p:first-of-type {
-	margin-top: 0;
+    margin-top: 0;
 }
 
 /* 마지막 문단의 여백 조정 */
 .modal-content p:last-of-type {
-	margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 /* 버튼 컨테이너 */
 .modal-buttons {
-	display: flex;
-	justify-content: center; /* 버튼들을 가운데 정렬 */
-	gap: 10px; /* 버튼 사이의 간격 */
-	margin-top: 20px;
+    display: flex;
+    justify-content: center; /* 버튼들을 가운데 정렬 */
+    gap: 10px; /* 버튼 사이의 간격 */
+    margin-top: 20px;
 }
 
 /* 버튼 스타일 */
 .modal-btn {
-	background-color: transparent;
-	color: black;
-	border: 2px solid #444;
-	padding: 12px 24px;
-	font-size: 16px;
-	cursor: pointer;
-	border-radius: 5px;
-	transition: background-color 0.3s ease, transform 0.2s ease;
+    background-color: transparent;
+    color: black;
+    border: 2px solid #444;
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .modal-btn:hover {
@@ -120,83 +121,147 @@
 }
 
 .modal-btn:active {
-	background-color: #004080;
+    background-color: #004080;
 }
+
 /* 캘린더 헤더바 */
 .fc-header-toolbar {
-	display: flex;
-	flex-wrap: wrap; /* 버튼이 화면 크기에 따라 줄바꿈되도록 설정 */
-	justify-content: center; /* 중앙 정렬 */
+    display: flex;
+    flex-wrap: wrap; /* 버튼이 화면 크기에 따라 줄바꿈되도록 설정 */
+    justify-content: center; /* 중앙 정렬 */
+}
+.fc .fc-toolbar-title {
+    font-size: 2.75em;
+    margin: 0px;
 }
 
 .fc-button {
-	margin: 0 2px; /* 버튼 간격 조정 */
+    margin: 0 2px; /* 버튼 간격 조정 */
 }
 
 /* 캘린더 */
 /* !important를 사용하여 우선순위를 높임 */
 /* 일요일 날짜 빨간색 */
 .fc-day-sun a {
-	color: red !important;
-	text-decoration: none !important;
+    color: red !important;
+    text-decoration: none !important;
 }
 
 /* 토요일 날짜 파란색 */
 .fc-day-sat a {
-	color: blue !important;
-	text-decoration: none !important;
+    color: blue !important;
+    text-decoration: none !important;
 }
 
 .fc-day a {
-	color: black;
-	text-decoration: none;
+    color: black;
+    text-decoration: none;
 }
 
 /* 문화행사 리스트 */
 #event-list {
-	background-color: #f9f9f9;
-	border: 1px solid #e3e3e3;
-	border-radius: 5px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    max-height: 730px; /* 원하는 높이로 설정 */
+    overflow-y: auto; /* 수직 스크롤 추가 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 가벼운 그림자 효과 */
 }
 
 #event-list h2 {
-	color: #333;
-	font-size: 1.5rem;
-	font-weight: bold;
+    color: #333;
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee; /* 하단 경계선 추가 */
+    padding-bottom: 10px;
 }
 
 #event-list .media {
-	border-bottom: 1px solid #e3e3e3;
-	padding-bottom: 1rem;
+    display: flex;
+    align-items: flex-start;
+    border-bottom: 1px solid #e3e3e3;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
 }
 
 #event-list .media:last-child {
-	border-bottom: none;
+    border-bottom: none;
 }
 
 #event-list .media img {
-	border-radius: 5px;
+    border-radius: 8px;
+    width: 150px; /* 고정된 너비 설정 */
+    height: 150px; /* 고정된 높이 설정 */
+    margin-right: 20px; /* 이미지와 텍스트 사이에 간격 추가 */
+    object-fit: cover; /* 이미지가 고정된 크기에 맞게 조정되도록 */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 가벼운 그림자 효과 */
+    border: 2px solid #ddd; /* 이미지 테두리 */
+}
+
+#event-list .media-body {
+    flex: 1; /* 텍스트 부분이 나머지 공간을 차지하도록 */
 }
 
 #event-list .media-body h5 {
-	font-size: 1.25rem;
-	color: #007bff;
+    font-size: 1.25rem;
+    color: #007bff;
+    margin-bottom: 10px;
+    font-weight: bold; /* 제목을 더 강조 */
 }
 
 #event-list .media-body p {
-	font-size: 0.9rem;
-	color: #555;
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 8px; /* 문단 사이에 간격 추가 */
+    line-height: 1.4; /* 줄 간격을 더 여유롭게 */
+}
+
+#event-list .media-body p span {
+    font-weight: bold;
+    color: #333;
 }
 
 #event-list .media-body .btn {
-	font-size: 0.85rem;
-	padding: 0.3rem 0.75rem;
+    font-size: 0.85rem;
+    padding: 0.4rem 1rem;
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none; /* 링크 밑줄 제거 */
+    color: #007bff; /* 링크 색상 */
+    border: 1px solid #007bff; /* 링크 테두리 */
+    border-radius: 5px; /* 둥근 모서리 */
+    transition: background-color 0.3s, color 0.3s; /* 부드러운 전환 효과 */
 }
 
-/* 스크롤 가능한 영역을 위한 스타일 */
-#event-list {
-	max-height: 730px; /* 원하는 높이로 설정 */
-	overflow-y: auto; /* 수직 스크롤 추가 */
-	border: 1px solid #ddd; /* 선택 사항: 경계선 추가 */
-	padding: 10px; /* 선택 사항: 내부 여백 추가 */
+#event-list .media-body .btn:hover {
+    background-color: #007bff; /* 배경색 변경 */
+    color: #fff; /* 텍스트 색상 변경 */
+}
+
+/* 스크롤바 스타일 */
+#event-list::-webkit-scrollbar {
+    width: 10px;
+}
+
+#event-list::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 5px;
+}
+
+#event-list::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+/* 애니메이션 효과 */
+@keyframes slideIn {
+    from {
+        transform: translate(-50%, -60%);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
 }

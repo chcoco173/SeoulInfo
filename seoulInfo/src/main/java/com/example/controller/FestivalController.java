@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -59,7 +60,7 @@ public class FestivalController {
 		return "festival/festival";
 	}
 	
-	@GetMapping("selectDateList")
+	@GetMapping("/selectDateList")
 	@ResponseBody
 	public Map<String, Object> selectDateList(@RequestParam(name = "selectDate", required = false) String selectDate,
 	        @RequestParam(name = "area", defaultValue = "전체") String area){
@@ -75,6 +76,27 @@ public class FestivalController {
 	    result.put("selectDateList", selectDateList);
 	    
 	    return result;
+	}
+	
+	// 캘린더 일정 조회수 증가
+	@PostMapping("/festivalViewCountUpdate")
+	@ResponseBody
+	public Map<String, Object> festivalViewCountUpdate(@RequestParam(name="festival_id") Integer festival_id) {
+		System.out.println(festival_id);
+		
+		Integer result = festivalService.festivalViewCountUpdate(festival_id);
+		
+		Map<String, Object> response = new HashMap<>();
+        if(result != null) {
+            Integer updatedViewCount = festivalService.viewCountFestivalId(festival_id);
+            response.put("status", "success");
+            response.put("viewcount", updatedViewCount);
+        } else {
+            response.put("status", "error");
+        }
+
+        return response;
+		
 	}
 	
 	
