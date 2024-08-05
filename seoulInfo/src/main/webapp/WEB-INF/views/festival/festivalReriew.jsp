@@ -179,8 +179,8 @@
 		  		<div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd"
 		  			class="container-newsletter background-black">
 		  			<div class="_2-column-grid-uneven-right">
-		  				<h3 class="newsletter-heading">축제 후기</h3>
-<!--		  				<div id="Style-Guide-Form"
+		  				<h3 class="newsletter-heading">댓글</h3>
+		  				<div id="Style-Guide-Form"
 		  					class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form">
 		  					<form name="wf-form-Newsletter-Form" data-name="Newsletter Form"
 		  						method="get" id="wf-form-Newsletter-Form"
@@ -192,7 +192,7 @@
 		  							type="email" id="Email" required="" /> <input type="submit"
 		  							data-wait="Please wait..."
 		  							class="button-primary-large max-width-full-mobile-portrait w-button"
-		  							value="새 후기 작성하기" />
+		  							value="댓글달기" />
 		  					</form>
 		  					<div class="form-success-message w-form-done">
 		  						<div class="text-size-regular text-color-white">Thank you!
@@ -201,98 +201,13 @@
 		  					<div class="form-error-message w-form-fail">
 		  						<div class="text-size-regular">Oops! Something went wrong
 		  							while submitting the form.</div>
-		  					</div>-->
-							<input type="hidden" id="festival_id" name="festival_id" value="${festival.festival_id }">
-							<input type="submit" class="button-primary-large max-width-full-mobile-portrait w-button" value="새 후기 작성하기" id="newReviewBtn">
+		  					</div>
 		  				</div>
 		  			</div>
 		  		</div>
 		  	</div>
 		  </div>
 		  <!-- 댓글 작성하기 end -->
-		  
-		  <!-- 축제리뷰 리스트 -->
-		  <div class="section-posts-row">
-		  	<div class="padding-global">
-		  		<div class="padding-section-medium remove-top-padding">
-		  			<div class="container-full-width">
-<!--		  				<h2 data-w-id="e144bf26-0d49-109b-1b5b-756bc18db81f"
-		  					style="opacity: 0">최신 뉴스</h2>-->
-		  				<div class="spacer-xlarge"></div>
-		  				<div data-w-id="e144bf26-0d49-109b-1b5b-756bc18db822"
-		  					style="opacity: 0" class="divider-line"></div>
-		  				<div class="spacer-xlarge"></div>
-		  				<div class="w-dyn-list">
-		  					<div role="list" class="w-dyn-items" id="filteredList">
-		  						<c:forEach items="${newsList}" var="news">
-		  							<dd data-w-id="e144bf26-0d49-109b-1b5b-756bc18db826"
-		  								style="opacity: 0" role="listitem" class="w-dyn-item">
-		  								<div class="post-row-grid">
-		  									<a id="w-node-e144bf26-0d49-109b-1b5b-756bc18db828-4f5c4823"
-		  										data-w-id="e144bf26-0d49-109b-1b5b-756bc18db828"
-		  										href="/news/newsDetail?news_id=${news.news_id}&area=${news.news_area}"
-		  										class="post-row-image-overflow-container w-inline-block">
-		  										<img
-		  										id="w-node-e144bf26-0d49-109b-1b5b-756bc18db829-4f5c4823"
-		  										data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"
-		  										src="${news.news_imageurl}" alt="뉴스 이미지"
-		  										style="width: 100%; height: auto;" class="post-row-image">
-		  									</a>
-		  									<div id="w-node-e144bf26-0d49-109b-1b5b-756bc18db82a-4f5c4823"
-		  										class="post-row-wrapper">
-		  										<div class="tags-wrappers">
-		  											<a href="#" class="tag w-inline-block">
-		  												<div class="text-size-small w-dyn-bind">${news.news_area}</div>
-		  											</a>
-		  										</div>
-		  										<a id="w-node-e144bf26-0d49-109b-1b5b-756bc18db830-4f5c4823"
-		  											href="/news/newsDetail?news_id=${news.news_id}&area=${news.news_area}"
-		  											class="w-inline-block">
-		  											<h3 class="w-dyn-bind">${news.news_title}</h3>
-		  										</a>
-		  										<div class="small-author-wrapper">
-		  											<div class="line-divider"></div>
-		  											<div
-		  												class="text-size-regular text-color-dark-gray w-dyn-bind">
-		  												<fmt:formatDate value="${news.news_date}"
-		  													pattern="yyyy-MM-dd" />
-		  											</div>
-		  										</div>
-		  										<div class="small-author-wrapper">
-		  											<div class="line-divider"></div>
-		  											<div
-		  												class="text-size-regular text-color-dark-gray w-dyn-bind">
-		  												<a href="${news.news_link}">뉴스 사이트 바로 가기</a>
-		  											</div>
-		  										</div>
-		  									</div>
-		  								</div>
-		  							</dd>
-		  						</c:forEach>
-		  					</div>
-
-		  					<div role="navigation" aria-label="List"
-		  						class="w-pagination-wrapper pagination">
-		  						<button id="filtered-prevPage"
-		  							class="w-pagination-previous previous" disabled>
-		  							<img src="/images/ph_arrow-left-light-xxsmall.svg"
-		  								loading="lazy" alt="" class="icon-1x1-xxsmall">
-		  							<div class="text-size-small w-inline-block">Previous</div>
-		  						</button>
-		  						<div id="filtered-pageInfo" class="page-info">1 / 1</div>
-		  						<button id="filtered-nextPage" class="w-pagination-next next"
-		  							disabled>
-		  							<div class="text-size-small w-inline-block">Next</div>
-		  							<img src="/images/ph_arrow-right-light-xxsmall.svg"
-		  								loading="lazy" alt="" class="icon-1x1-xxsmall">
-		  						</button>
-		  					</div>
-		  				</div>
-		  			</div>
-		  		</div>
-		  	</div>
-		  </div>
-		  </div>
 
 		  <div class="section-footer">
 		  	<div class="padding-global">
@@ -365,16 +280,6 @@
 		  	</div>
 		  </div>
 		  <!-- section-footer end -->
-  <script>
-      document.addEventListener('DOMContentLoaded', function() {
-          var newReviewBtn = document.getElementById('newReviewBtn');
-          newReviewBtn.addEventListener('click', function() {
-              var festivalId = document.getElementById('festival_id').value;
-              window.location.href = "/festival/festivalReview?festival_id=" + festivalId;
-          });
-      });
-  </script>
-	  
   <script
   	src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9"
   	type="text/javascript"

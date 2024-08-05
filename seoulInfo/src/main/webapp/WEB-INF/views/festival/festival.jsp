@@ -485,16 +485,15 @@
 
 						window.open(siteUrl, '_blank'); // 새 탭에서 상세 내용 열기
 					};
-
-					// 문화 상세 페이지로 이동할 예정 (지원)
+					
+					// 문화 상세 페이지로 이동
 					var Detail = document.getElementById('Detail');
 					Detail.onclick = function() {
-						alert(arg.event.id) ;
-						var festival_id=arg.event.id;
-						window.location.href="festivalDetail"
-					};
-
-
+					    alert(arg.event.id);
+					    var festival_id = arg.event.id;
+					    window.location.href = "/festival/festivalDetail?festival_id=" + festival_id;
+					}
+					
 					// 모달 외부 클릭 시 모달 닫기
 					window.onclick = function(event) {
 						if (event.target == modal) {
@@ -503,17 +502,8 @@
 					};
 				},
 				editable: true,
-				dayMaxEvents: true,
-				events: festivals, // Use the festivals array here
-				moreLinkText: '개',
-				datesSet: function() { // '일' 지우기
-					setTimeout(function() {
-						document.querySelectorAll('.fc-daygrid-day-number').forEach(function(dayNumber) {
-							// Remove the text "일" if it exists
-							dayNumber.innerText = dayNumber.innerText.replace(/일/g, '').trim();
-						});
-					}, 0);
-				}	
+				dayMaxEvents: 0,
+				events: festivals // Use the festivals array here
 			});
 
 			calendar.render();
@@ -521,6 +511,7 @@
 			// Hide loading bar after loading
 			document.getElementById('loading').style.display = 'none';
 		});
+
 
 		// list의 li 요소 클릭시
 		var eventItems = document.querySelectorAll('#event-list .event-item');
@@ -530,6 +521,7 @@
 				var festivalId = this.querySelector('#festival_id').value;
 				// festival_id를 alert로 표시
 				alert('Festival ID: ' + festivalId);
+				window.location.href = "/festival/festivalDetail?festival_id=" + festivalId;
 
 				// 클릭시 조회수 증가
 				$.ajax({

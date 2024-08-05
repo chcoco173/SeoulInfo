@@ -46,4 +46,8 @@ public class FestivalServiceImpl implements FestivalService{
 		return festivalDAO.viewCountFestivalId(festival_id);
 	}
 
+    @Override
+    public FestivalVO getFestivalById(Integer festival_id) {
+        return festivalDAO.getFestivalById(festival_id);
+    }
 }
