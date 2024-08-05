@@ -10,6 +10,11 @@ body {
     flex-direction: column;
 }
 
+#deal-done.disabled {
+    background-color: #6f6f6f; /* Dark gray color */
+    cursor: default; /* Default cursor */
+}
+
 #chat-header {
     display: flex;
     justify-content: space-between;

@@ -245,6 +245,12 @@
 		=
 		#{member_id}
 	</update>
+	
+	<!-- 구매 상품 등록 -->
+    <insert id="insertProductBuy" parameterType="ProductBuyVO">
+        INSERT INTO product_buy (buy_date, sale_id, member_id)
+        VALUES (#{buyDate}, #{saleId}, #{memberId})
+    </insert>
 
 	<!-- 상품 삭제 -->
 	<delete id="deleteProduct" parameterType="ProductVO">
