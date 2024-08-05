@@ -228,18 +228,19 @@
 											</div>
 											<br />
 											<div class="container mt-5 text-center">
-												<input type="hidden" class="sale_id"
-													value="${product.sale_id}"> <input type="hidden"
-													class="member_id" value="${product.member_id}">
+												<input type="hidden" class="sale_id" value="${product.sale_id}"> <input type="hidden" class="member_id" value="${product.member_id}">
 												<c:choose>
-													<c:when
-														test="${product.member_id eq sessionScope.member.member_id}">
-														<button class="button-primary-small w-button chat">내채팅방
-															가기</button>
+													<c:when test="${product.sale_status eq '판매완료'}">
+														<!-- 판매 완료된 상품인 경우 -->
+														<button class="button-primary-small w-button chatDisabled" disabled>이미 판매된 상품입니다</button>
+													</c:when>
+													<c:when test="${product.member_id eq sessionScope.member.member_id}">
+														<!-- 현재 세션 사용자가 상품 소유자일 때 -->
+														<button class="button-primary-small w-button chat">내 채팅방 가기</button>
 													</c:when>
 													<c:otherwise>
-														<button class="button-primary-small w-button chatCreate">판매자와
-															채팅</button>
+														<!-- 현재 세션 사용자가 상품 소유자가 아닐 때 -->
+														<button class="button-primary-small w-button chatCreate">판매자와 채팅</button>
 													</c:otherwise>
 												</c:choose>
 											</div>

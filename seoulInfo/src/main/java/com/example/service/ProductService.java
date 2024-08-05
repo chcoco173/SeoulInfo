@@ -40,9 +40,6 @@ public interface ProductService {
 
 	// 상품 상태 수정
 	public Integer updateStatus(ProductVO pvo);
-	
-	// 구매 상품 등록
-    Integer insertProductBuy(ProductBuyVO pbvo);
 
 	// 상품 삭제
 	public Integer deleteProduct(ProductVO pvo);
@@ -66,5 +63,10 @@ public interface ProductService {
 
 	// 조회수 증가
 	public Integer productViewCountUpdate(Integer festival_id);
+	
+	// 구매후기 list 출력
+	public List<Map<String, Object>> productReview(String member_id);
+	
+	
 
 }
