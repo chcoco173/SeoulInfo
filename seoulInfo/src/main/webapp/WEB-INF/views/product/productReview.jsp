@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html data-wf-page="6684f0fb2a5375354f5c4829"
 	data-wf-site="6684f0fb2a5375354f5c47e9">
@@ -37,14 +38,14 @@
 </script>
 <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
 <link href="/images/webclip.png" rel="apple-touch-icon">
-<link href="/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- 별점아이콘 링크 https://sisiblog.tistory.com/355 -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
 <!-- 외부 css -->
-<link href="/css/product/productReview.css" rel="stylesheet" type="text/css">
+<link href="/css/product/productReview.css" rel="stylesheet"
+	type="text/css">
 
 </head>
 <body>
@@ -64,31 +65,34 @@
 						<div class="container-large">
 							<div class="row">
 								<div class="col-md-4">
-									<div class="product-card">
-										<div class="product-details">
-											<img src="https://via.placeholder.com/50" alt="상품 1">
-											<div>
-												<h5>구매 상품 1</h5>
-												<p>
-													구매한 날짜<br>구매 상태 (예약/구매완료)
-												</p>
-											</div>
-										</div>
-										<button class="btn btn-secondary">후기 남기기</button>
-									</div>
-									<div class="product-card">
-										<div class="product-details">
-											<img src="https://via.placeholder.com/50" alt="상품 1">
-											<div>
-												<h5>구매 상품 1</h5>
-												<p>
-													구매한 날짜<br>구매 상태 (예약/구매완료)
-												</p>
-											</div>
-										</div>
-										<button class="btn btn-secondary">후기 남기기</button>
-									</div>
+									<c:forEach items="${buyList}" var="buyList" varStatus="status">
+										<div class="product-card">
+											<c:choose>
+												<c:when test="${not empty buyList.productimg_alias}">
+													<img src="/productImage/${buyList.productimg_alias}"
+														alt="상품 이미지" class="product-image"
+														style="height: 50px; width: 50px;">
+												</c:when>
+												<c:otherwise>
+													<img src="https://via.placeholder.com/이미지없음" alt="이미지없음"
+														class="product-image" style="height: 50px; width: 50px;">
+												</c:otherwise>
+											</c:choose>
+											<div class="product-details">
+												<div>
+													<input type="hidden" class="buy_id"
+														value="${buyList.buy_id}"> <input type="hidden"
+														class="member_id" value="${buyList.member_id}">
 
+													<h5>${buyList.sale_name}</h5>
+													<p>
+														${timeDataList[status.index]}<br>${buyList.sale_status}
+													</p>
+												</div>
+											</div>
+											<button class="btn btn-secondary review">후기 남기기</button>
+										</div>
+									</c:forEach>
 								</div>
 
 								<div class="col-md-8 text-center">
@@ -132,9 +136,11 @@
 												class="rating__star far fa-star"></i> <i
 												class="rating__star far fa-star"></i>
 										</div>
-										
+
 									</div>
 								</div>
+
+
 							</div>
 						</div>
 					</div>
@@ -219,7 +225,11 @@
 		integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
 		crossorigin="anonymous"></script>
 	<script src="/js/webflow.js" type="text/javascript"></script>
+	<!-- 제이쿼리 라이브러리 추가 -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script type="text/javascript">
+		// 별
 	const ratingStars = [...document.getElementsByClassName("rating__star")];
 
 	function executeRating(stars) {
@@ -242,8 +252,15 @@
 	}
 
 	executeRating(ratingStars);
-	
+	</script>
 
+	<script>
+		$(".review").click(function(){
+			var buy_id = $(this).closest('.product-card').find('.buy_id').val();
+			alert(buy_id);
+			$(".review-form").toggle();
+						
+		})
 	</script>
 </body>
 </html>

@@ -12,7 +12,8 @@
 	name="description">
 <meta content="Sightseer - Webflow Travel Photography Website Template"
 	property="og:title">
-<meta content="Sightseer - Webflow Travel Photography Website Template"
+<meta content="Sightseer - Webflow
+ Travel Photography Website Template"
 	property="og:description">
 <meta
 	content="https://uploads-ssl.webflow.com/628ab2619076f3ee1c941a44/666120e5c3c4e1f8776b48f1_Sightseer---Opengraph.jpg"
@@ -484,14 +485,15 @@
 
 						window.open(siteUrl, '_blank'); // 새 탭에서 상세 내용 열기
 					};
-
-					// 문화 상세 페이지로 이동할 예정 (지원)
+					
+					// 문화 상세 페이지로 이동
 					var Detail = document.getElementById('Detail');
 					Detail.onclick = function() {
-						alert(arg.event.id) ;
-					};
-
-
+					    alert(arg.event.id);
+					    var festival_id = arg.event.id;
+					    window.location.href = "/festival/festivalDetail?festival_id=" + festival_id;
+					}
+					
 					// 모달 외부 클릭 시 모달 닫기
 					window.onclick = function(event) {
 						if (event.target == modal) {
@@ -519,6 +521,7 @@
 				var festivalId = this.querySelector('#festival_id').value;
 				// festival_id를 alert로 표시
 				alert('Festival ID: ' + festivalId);
+				window.location.href = "/festival/festivalDetail?festival_id=" + festivalId;
 
 				// 클릭시 조회수 증가
 				$.ajax({

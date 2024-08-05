@@ -18,5 +18,5 @@ public interface FestivalService {
 	
 	public Integer viewCountFestivalId(Integer festival_id);
 	
-
+	public FestivalVO getFestivalById(Integer festival_id);
 }
