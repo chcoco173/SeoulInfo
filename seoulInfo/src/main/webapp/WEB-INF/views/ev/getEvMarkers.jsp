@@ -85,7 +85,7 @@
 		}
 	</style>
 </head>
-<body onload="initMap()">
+<body>
 	<!-- Overlay for black background -->
 	<div class="overlay"></div>
 	<!-- Delay for page loading -->
@@ -190,24 +190,24 @@
 							<li><a class="dropdown-item" href="#" data-bs-toggle="collapse" data-bs-target="#option1Content" aria-expanded="false" aria-controls="option1Content"> 운영기관 </a>
 								<div class="collapse mt-1" id="option1Content">
 									<ul class="list-group">
-										<li class="list-group-item"><div><input type="checkbox" id="opCheckAll" class="opCheckAll"				 >전체</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="opCheck1" 	class="opCheck" checked="checked">환경부</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="opCheck2" 	class="opCheck"					 >한국전력</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="opCheck3" 	class="opCheck"					 >타기관</div></li>
+										<li class="list-group-item"><span id="opCheckAll" class="opCheckAll">전체		</span></li>
+										<li class="list-group-item"><span id="opCheck1"   class="opCheck"	>환경부	</span></li>
+										<li class="list-group-item"><span id="opCheck2"	  class="opCheck"	>한국전력	</span></li>
+										<li class="list-group-item"><span id="opCheck3"	  class="opCheck"	>타기관	</span></li>
 									</ul>
 								</div>
 							</li>
 							<li><br><a class="dropdown-item" href="#" data-bs-toggle="collapse" data-bs-target="#option2Content" aria-expanded="false" aria-controls="option2Content"> 충전기 분류 </a>
 								<div class="collapse mt-2" id="option2Content">
 									<ul class="list-group">
-										<li class="list-group-item"><div><input type="checkbox" id="typeCheckAll" class="typeCheckAll" 	checked="checked">전체					</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="typeCheck1"   class="typeCheck"		checked="checked">AC완속 					</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="typeCheck2"   class="typeCheck" 	checked="checked">AC3상 					</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="typeCheck3"   class="typeCheck" 	checked="checked">DC차데모 				</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="typeCheck4"   class="typeCheck" 	checked="checked">DC콤보 					</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="typeCheck5"   class="typeCheck" 	checked="checked">DC차데모+DC콤보 			</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="typeCheck6"   class="typeCheck" 	checked="checked">DC차데모+AC3상 			</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="typeCheck7"   class="typeCheck" 	checked="checked">DC차데모+AC3상+DC콤보		</div></li>
+										<li class="list-group-item"><span id="typeCheckAll" class="typeCheckAll">전체					</span></li>
+										<li class="list-group-item"><span id="typeCheck1"   class="typeCheck"	>AC완속 				</span></li>
+										<li class="list-group-item"><span id="typeCheck2"   class="typeCheck"	>AC3상 				</span></li>
+										<li class="list-group-item"><span id="typeCheck3"   class="typeCheck"	>DC차데모 			</span></li>
+										<li class="list-group-item"><span id="typeCheck4"   class="typeCheck"	>DC콤보 				</span></li>
+										<li class="list-group-item"><span id="typeCheck5"   class="typeCheck"	>DC차데모+DC콤보 		</span></li>
+										<li class="list-group-item"><span id="typeCheck6"   class="typeCheck"	>DC차데모+AC3상 		</span></li>
+										<li class="list-group-item"><span id="typeCheck7"   class="typeCheck"	>DC차데모+AC3상+DC콤보	</span></li>
 									</ul>
 								</div>
 							</li>
@@ -215,12 +215,12 @@
 								<div class="collapse mt-3" id="option3Content">
 									<!-- convenience category Buttons -->
 									<ul class="list-group">
-										<li class="list-group-item"><div><input type="checkbox" id="etcCheckAll" class="etcCheckAll">전체</div></li>
-										<li class="list-group-item"><div><input type="checkbox" id="etcCheck1"   class="etcCheck" value="parking" 	  checked="checked"/>&nbsp;주차장</span></li>
-										<li class="list-group-item"><div><input type="checkbox" id="etcCheck2"   class="etcCheck" value="convenience" checked="checked"/>&nbsp;편의점</span></li>
-										<li class="list-group-item"><div><input type="checkbox" id="etcCheck3"   class="etcCheck" value="cafe"			  				/>&nbsp;카페</span></li>
-										<li class="list-group-item"><div><input type="checkbox" id="etcCheck4"   class="etcCheck" value="market"						/>&nbsp;마트</span></li>
-										<li class="list-group-item"><div><input type="checkbox" id="etcCheck5"   class="etcCheck" value="pharmacy"					  	/>&nbsp;약국</span></li>
+										<li class="list-group-item"><span id="etcCheckAll"  class="etcCheckAll">전체</span></li>
+										<li class="list-group-item"><span id="etcCheck1" class="etcCheck">주차장	</span></li>
+										<li class="list-group-item"><span id="etcCheck2" class="etcCheck">편의점	</span></li>
+										<li class="list-group-item"><span id="etcCheck3" class="etcCheck">카페	</span></li>
+										<li class="list-group-item"><span id="etcCheck4" class="etcCheck">마트	</span></li>
+										<li class="list-group-item"><span id="etcCheck5" class="etcCheck">약국	</span></li>
 									</ul>
 								</div>
 							</li>
@@ -491,6 +491,8 @@
 		                marker.isClicked = true;
 		                currentClickedMarker = marker;
 
+						lastClickedMarkerPosition = marker.getPosition(); // 필터링을 위한 최근 마커 설정
+						
 		                $('.overlay').show();
 		                $('.overlay').css({'z-index':'1099'});
 		                $('.charger_Information').show();
@@ -855,7 +857,7 @@
 				case '한국전자금융':
 				    return '/images/ev/ev_opImg.png';
 				default:
-				    return '/images/ev/charging-station.png';
+					return '/images/ev/charging-station.png';
 			}
 		}		    
 		
@@ -898,6 +900,8 @@
 		    var title = $(this).data('title');
 		    var evcId = $(this).data('id');
 		    
+			 lastClickedMarkerPosition = new kakao.maps.LatLng(lat, lng);
+			 
 		    $('.charger_Information').css({'display':'inherit', 'z-index':'1100'});
 		    $('.overlay').show();
 		    $('.overlay').css({'display':'inherit', 'z-index':'1090'});
@@ -917,11 +921,11 @@
 		                // 각 충전기 정보를 테이블에 추가
 		                data.forEach(function(charger) {
 		                    var row = '<tr>';
-		                    row += '<td><b id="charger_no" style="font-size:23px;">' + charger.charger_no + '</b></td>';
-		                    row += '<td id="charger_mechine">' + charger.charger_mechine + '</td>';
-		                    row += '<td class="charger_type">' + charger.charger_type + '</td>';
-		                    row += '<td><span style="border:1px solid orange; border-radius:5px; background-color: yellow; padding-left:10px; padding-right:10px; text-align:center"><b id="charger_state">' + charger.charger_state + '</b></span><br><span>{(갱신한 시간)}</span></td>';
-		                    row += '</tr>';
+		                    	row += '<td><b id="charger_no" style="font-size:23px;">' + charger.charger_no + '</b></td>';
+		                    	row += '<td id="charger_mechine">' + charger.charger_mechine + '</td>';
+		                    	row += '<td class="charger_type">' + charger.charger_type + '</td>';
+		                    	row += '<td><span style="border:1px solid orange; border-radius:5px; background-color: yellow; padding-left:10px; padding-right:10px; text-align:center"><b id="charger_state">' + charger.charger_state + '</b></span><br><span>{(갱신한 시간)}</span></td>';
+		                    	row += '</tr>';
 		                    chargerDetailsBody.append(row);
 		                });
 	
@@ -997,22 +1001,6 @@
 		    });
 		    circle.setMap(map);
 	
-		    var distance = 1;
-		    var walkingSpeed = 4;
-		    var cyclingSpeed = 15;
-		    var walkingTime = (distance / walkingSpeed) * 60;
-		    var cyclingTime = (distance / cyclingSpeed) * 60;
-		    var distanceInfoHtml = `
-		        <div>
-		            <p><strong>거리:</strong> 1km</p>
-		            <p><strong>도보 시간:</strong> 약 ${walkingTime.toFixed(0)}분</p>
-		            <p><strong>자전거 시간:</strong> 약 ${cyclingTime.toFixed(0)}분</p>
-		        </div>`;
-		    $('#distanceInfo').html(distanceInfoHtml);
-		    $('#distanceInfo').show();
-		    $('#walkingTime').text(`도보: 약 ${walkingTime.toFixed(0)}분`);
-		    $('#cyclingTime').text(`자전거: 약 ${cyclingTime.toFixed(0)}분`);
-	
 		    var circlePositions = [];
 	
 		    function clearMarkers() {
@@ -1039,7 +1027,9 @@
 		            data.forEach(function(item) {
 		                circlePositions.push({
 		                    latlng: new kakao.maps.LatLng(item.etc_lat, item.etc_long), // LatLng 객체로 생성
-		                    title: item.etc_category
+		                    title: item.etc_category,
+							name : item.etc_name,
+							address : item.etc_address
 		                });
 		            });
 	
@@ -1055,17 +1045,42 @@
 		            var infowindow = new kakao.maps.InfoWindow({zIndex: 1}); // 정보창 초기화
 	
 		            if (circlePositions.length > 0) {
-		                circlePositions.forEach(function(position) {
-		                    var imageSrc = imageSrcs[position.title] || "/images/ev/etc_parking.png";
-		                    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-		                    var locationMarker = new kakao.maps.Marker({
-		                        map: map,                              // 마커를 표시할 지도
-		                        position: position.latlng,             // 마커를 표시할 위치
-		                        title: position.title,                 // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-		                        image: markerImage                     // 마커 이미지
-		                    });
-		                    locationMarkers.push(locationMarker);
-		                });
+						circlePositions.forEach(function(position) {
+																	            var imageSrc = imageSrcs[position.title] || "/images/ev/etc_parking.png";
+																	            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+																	            var locationMarker = new kakao.maps.Marker({
+																	                map: map,                              // 마커를 표시할 지도
+																	                position: position.latlng,             // 마커를 표시할 위치
+																	                title: position.title,                 // 마커의 타이틀
+																	                image: markerImage,                    // 마커 이미지
+																					name : position.name,
+																					address : position.address
+																	            });
+																			// InfoWindow의 내용과 위치를 정의합니다
+																			var iwContent = '';
+																				iwContent += '<div style="border-radius:10px; border: 1px solid black; background-color: #fff; box-shadow: 0px 0px 5px rgba(0,0,0,0.2);">';
+																				iwContent += '<div style="font-size:14px; border-radius:10px 10px 0px 0px; font-weight:bold; color:#333; background-color:yellowgreen; text-align:center; ">';
+																				iwContent += '<a href="https://map.kakao.com/?q=' + (position.address || '') +' '+ (position.name || '') +'" target="blank"><b>'+(position.name || 'Unknown') + '</b></a>';
+																				iwContent += '</div>';
+																				iwContent += '<hr style="margin:5px 0;">';
+																				iwContent += '<div style="font-size:12px; color:#666;"> 분류 : ' + (position.title || 'Unknown') + '</div>';
+																				iwContent += '<div style="font-size:12px; color:#666;">' + (position.address || 'Unknown') + '</div>';
+																				iwContent += '</div>';
+																				
+																			var InfoWindowRemovable = true;	
+																	        // InfoWindow 인스턴스를 생성합니다
+																	        var infoWindow = new kakao.maps.InfoWindow({
+																	        	content: iwContent,
+																	            removable: InfoWindowRemovable
+																	        });
+
+																	        // 마커 클릭 이벤트 리스너 추가
+																	        kakao.maps.event.addListener(locationMarker, 'click', function() {
+																				infoWindow.open(map, locationMarker); // 마커 위치에 InfoWindow를 엽니다
+																			});
+																	            locationMarkers.push(locationMarker); // 마커를 배열에 추가
+																	            console.log("마커 추가됨 위치:", position.latlng.getLat(), position.latlng.getLng());
+																	        });
 		            } else {
 		                alert("원 안에 위치 정보가 없습니다.");
 		            }
@@ -1162,6 +1177,7 @@
 				// 초기 페이지 로드
 				showPage(currentPage);
 			}
+			
 	// ---- 즐겨 찾기 상세정보
 	$(document).on('click', '.favorite-list', function() {
 		var lat   = $(this).data('lat');
@@ -1304,93 +1320,251 @@
 		}
 		
 		// 이미지 URL을 결정하는 함수
-				function getImageUrl(chargerOpsmall) {
-					switch(chargerOpsmall) {
-						case '환경부(협회)':
-							return '/images/ev/goverment-logo.png';
-						case '한국전력':
-							return '/images/ev/ev_opImg_korelec.png';
-						case '한국전자금융':
-						    return '/images/ev/ev_opImg_korelec.png';
-						case '한국홈충전':
-						    return '/images/ev/ev_opImg_korelec.png';
-						case '한화솔루션':
-						    return '/images/ev/hanhwa.png';
-						case '해피차지':
-						    return '/images/ev/ev_opImg.png';
-						case '현대엔지니어링':
-						    return '/images/ev/hyundai.png';
-						case '현대오일뱅크':
-						    return '/images/ev/hyundai.png';
-						case '현대자동차':
-						    return '/images/ev/hyundai.png';
-						case '휴맥스이브이':
-						    return '/images/ev/ev_opImg.png';
-						case '한국전자금융':
-						    return '/images/ev/ev_opImg.png';
-						default:
-						    return '/images/ev/charging-station.png';
-					}
-				}
-				var opCheckAll = document.getElementById('opCheckAll');
-					var typesubcheck = document.getElementsByClassName('opCheck');
-					 $('#opCheckAll').change(function() {
-				        if (this.checked) {
-				            $('.opCheck').prop('checked', true);
-				        } else {
-				            $('.opCheck').prop('checked', false);
-				        }
-				    });
-				    
-				    $('.opCheck').change(function() {
-				        var opcheckboxes = $('.opCheck:checked');
-				        var opsubcheck = $('.opCheck');
-				        if (opcheckboxes.length !== opsubcheck.length) {
-				            $('#opCheckAll').prop('checked', false);
-				        } else {
-				            $('#opCheckAll').prop('checked', true);
-				        }
-				    });
-					
-					var typeCheckAll = document.getElementById('typeCheckAll');
-						var typesubcheck = document.getElementsByClassName('typeCheck');
-						 $('#typeCheckAll').change(function() {
-					        if (this.checked) {
-					            $('.typeCheck').prop('checked', true);
-					        } else {
-					            $('.typeCheck').prop('checked', false);
-					        }
-					    });
-					    
-					    $('.typeCheck').change(function() {
-					        var typecheckboxes = $('.typeCheck:checked');
-					        var typesubcheck = $('.typeCheck');
-					        if (typecheckboxes.length !== typesubcheck.length) {
-					            $('#typeCheckAll').prop('checked', false);
-					        } else {
-					            $('#typeCheckAll').prop('checked', true);
-					        }
-					    });
+		function getImageUrl(chargerOpsmall) {
+			switch(chargerOpsmall) {
+				case '환경부(협회)':
+					return '/images/ev/goverment-logo.png';
+				case '한국전력':
+					return '/images/ev/ev_opImg_korelec.png';
+				case '한국전자금융':
+					return '/images/ev/ev_opImg_korelec.png';
+				case '한국홈충전':
+					return '/images/ev/ev_opImg_korelec.png';
+				case '한화솔루션':
+					return '/images/ev/hanhwa.png';
+				case '해피차지':
+					return '/images/ev/ev_opImg.png';
+				case '현대엔지니어링':
+					return '/images/ev/hyundai.png';
+				case '현대오일뱅크':
+					return '/images/ev/hyundai.png';
+				case '현대자동차':
+					return '/images/ev/hyundai.png';
+				case '휴맥스이브이':
+					return '/images/ev/ev_opImg.png';
+				case '한국전자금융':
+					return '/images/ev/ev_opImg.png';
+				default:
+					return '/images/ev/charging-station.png';
+			}
+		}
+		
+		// =========================================================
+		
+		
+		// 버튼 클릭 이벤트 리스너
+		function onButtonClick(category) {
+		    fetchAndDisplayLocations(category);
+		}
+
+		$('#etcCheckAll').click(function() {
+		    onButtonClick(); // 카테고리 필터 없이 모든 데이터를 요청
+		});
+
+		$('#etcCheck1').click(function() {
+		    onButtonClick('주차장');
+		});
+
+		$('#etcCheck2').click(function() {
+		    onButtonClick('편의점');
+		});
+
+		$('#etcCheck3').click(function() {
+		    onButtonClick('카페');
+		});
+
+		$('#etcCheck4').click(function() {
+		    onButtonClick('슈퍼마켓');
+		});
+
+		$('#etcCheck5').click(function() {
+		    onButtonClick('약국');
+		});
+		
+		function clearMarkers() {
+		    for (var i = 0; i < locationMarkers.length; i++) {
+		        locationMarkers[i].setMap(null); // 지도에서 마커 제거
+		    }
+		    locationMarkers = []; // 배열 초기화
+		}
+
+		var lastClickedMarkerPosition = null;
+		
+		
+		function onButtonClick(category) {
+		    if (!lastClickedMarkerPosition) {
+		        alert("마커를 먼저 클릭해주세요.");
+		        return;
+		    }
+		    fetchAndDisplayLocations(category);
+		}
+		
+		function fetchAndDisplayLocations(category) {
+						if (!lastClickedMarkerPosition) {
+						    console.log("마커를 먼저 클릭해주세요.");
+							return;
+						}
 						
-						var etccheckAll = document.getElementById('etcCheckAll');
-							var etcsubcheck = document.getElementsByClassName('etcCheck');
-							 $('#etcCheckAll').change(function() {
-						        if (this.checked) {
-						            $('.etcCheck').prop('checked', true);
+						$.ajax({
+						    url: 'getCircleLocation',
+						    type: 'GET',
+						    data: {
+						        centerLat: lastClickedMarkerPosition.getLat(),
+						        centerLng: lastClickedMarkerPosition.getLng(),
+						        radius: 1000,
+						        category: category
+						    },
+						    success: function(data) {
+						        console.log("서버 응답 데이터:", data);
+						        clearMarkers();
+						        var circlePositions = [];
+
+						        if (Array.isArray(data)) {
+						            data.forEach(function(item) {
+						                if (item.etc_lat && item.etc_long) {
+						                    circlePositions.push({
+						                        latlng: new kakao.maps.LatLng(parseFloat(item.etc_lat), parseFloat(item.etc_long)),
+						                        title: 	 item.etc_category,
+						                        name: 	 item.etc_name,
+						                        address: item.etc_address
+						                    });
+						                }
+						            });
+
+						            var imageSrcs = {
+						                "카페": "/images/ev/etc_cafe.png",
+						                "편의점": "/images/ev/etc_convini.png",
+						                "슈퍼마켓": "/images/ev/etc_market.png",
+						                "약국": "/images/ev/etc_pharmacy.png",
+						                "주차장": "/images/ev/etc_parking.png"
+						            };
+						            var imageSize = new kakao.maps.Size(24, 24);
+
+						            if (circlePositions.length > 0) {
+						                console.log("마커 생성 시작:", circlePositions.length);
+
+						                circlePositions.forEach(function(position, index) {
+						                    var imageSrc = imageSrcs[position.title] || "/images/ev/etc_parking.png";
+						                    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+						                    var locationMarker = new kakao.maps.Marker({
+						                        map: map,
+						                        position: position.latlng,
+						                        title: 	  position.title ,
+						                        image: 	  markerImage,
+												name: 	  position.name,
+												address:  position.address
+						                    });
+
+						                    console.log(`마커 ${index} 생성:`, position.latlng.toString());
+
+											// InfoWindow의 내용과 위치를 정의합니다
+																				var iwContent = '';
+																					iwContent += '<div style="border-radius:10px; border: 1px solid black; background-color: #fff; box-shadow: 0px 0px 5px rgba(0,0,0,0.2);">';
+																					iwContent += '<div style="font-size:14px; border-radius:10px 10px 0px 0px; font-weight:bold; color:#333; background-color:yellowgreen; text-align:center; ">';
+																					iwContent += '<a href="https://map.kakao.com/?q=' + (position.address || '') +' '+ (position.name || '') +'" target="blank"><b>'+(position.name || 'Unknown') + '</b></a>';
+																					iwContent += '</div>';
+																					iwContent += '<hr style="margin:5px 0;">';
+																					iwContent += '<div style="font-size:12px; color:#666;"> 분류 : ' + (position.title || 'Unknown') + '</div>';
+																					iwContent += '<div style="font-size:12px; color:#666;">' + (position.address || 'Unknown') + '</div>';
+																					iwContent += '</div>';
+																					
+																				var InfoWindowRemovable = true;	
+																		        // InfoWindow 인스턴스를 생성합니다
+																		        var infoWindow = new kakao.maps.InfoWindow({
+																		        	content: iwContent,
+																		            removable: InfoWindowRemovable
+																		        });
+
+						                    kakao.maps.event.addListener(locationMarker, 'click', function() {
+						                        infoWindow.open(map, locationMarker);
+						                    });
+
+						                    locationMarkers.push(locationMarker);
+						                });
+
+						                console.log("마커 생성 완료:", locationMarkers.length);
+						            } else {
+						                console.log("원 안에 위치 정보가 없습니다.");
+						            }
 						        } else {
-						            $('.etcCheck').prop('checked', false);
+						            console.error("서버 응답 데이터가 배열이 아닙니다.");
 						        }
-						    });
-						    
-						    $('.etcCheck').change(function() {
-						        var etccheckboxes = $('.etcCheck:checked');
-						        var etcsubcheck = $('.etcCheck');
-						        if (etccheckboxes.length !== etcsubcheck.length) {
-						            $('#etcCheckAll').prop('checked', false);
-						        } else {
-						            $('#etcCheckAll').prop('checked', true);
-						        }
-						    });
+						    },
+						    error: function(err) {
+						        console.error("위치 정보 가져오기 오류: ", err);
+						    }
+						});
+					}
+// =====================================================
+
+
+    var selectedOperators = [];
+    var selectedTypes = [];
+
+    // 운영기관 선택 이벤트
+    $('.opCheck, .opCheckAll').on('click', function() {
+        var $this = $(this);
+        if ($this.hasClass('opCheckAll')) {
+            selectedOperators = $this.is(':checked') ? ['환경부', '한국전력', '타기관'] : [];
+            $('.opCheck').prop('checked', $this.is(':checked'));
+        } else {
+            var value = $this.text().trim();
+            if ($this.is(':checked')) {
+                selectedOperators.push(value);
+            } else {
+                selectedOperators = selectedOperators.filter(item => item !== value);
+            }
+        }
+        updateMarkers();
+    });
+
+    // 충전기 분류 선택 이벤트
+    $('.typeCheck, .typeCheckAll').on('click', function() {
+        var $this = $(this);
+        if ($this.hasClass('typeCheckAll')) {
+            selectedTypes = $this.is(':checked') ? ['AC완속', 'AC3상', 'DC차데모', 'DC콤보', 'DC차데모+DC콤보', 'DC차데모+AC3상', 'DC차데모+AC3상+DC콤보'] : [];
+            $('.typeCheck').prop('checked', $this.is(':checked'));
+        } else {
+            var value = $this.text().trim();
+            if ($this.is(':checked')) {
+                selectedTypes.push(value);
+            } else {
+                selectedTypes = selectedTypes.filter(item => item !== value);
+            }
+        }
+        updateMarkers();
+    });
+
+    function updateMarkers() {
+        $.ajax({
+            url: '/getEvMarkers', // 서버의 엔드포인트 URL
+            method: 'POST',
+            data: {
+                operators: selectedOperators,
+                types: selectedTypes
+            },
+            success: function(response) {
+                // 기존 마커 및 클러스터 제거
+                markerClusterer.clearMarkers();
+
+                // 새로운 마커 생성 및 추가
+                var newMarkers = response.markers.map(function(markerData) {
+                    return new google.maps.Marker({
+                        position: { lat: markerData.lat, lng: markerData.lng },
+                        map: map,
+                        title: markerData.title
+                    });
+                });
+
+                // 마커 클러스터러에 새 마커 추가
+                markerClusterer.addMarkers(newMarkers);
+            },
+            error: function(xhr, status, error) {
+                console.error("마커 업데이트 중 오류 발생:", error);
+            }
+        });
+    }
+
 	</script>
 	<!-- end of kakao map Script -->
 	<script src="/js/webflow.js" type="text/javascript"></script>

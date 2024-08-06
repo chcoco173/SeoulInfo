@@ -29,5 +29,9 @@ public interface EVStationDAO {
 	public MemberVO getUserLocation(String member_id);
 
 	public List<EVPlacesVO> getCircleInfo(HashMap<String, Object> cmap);
+	
+	public List<EVStationVO> getEvMarkers(HashMap<String, Object> mmap);
+
+	public List<EVStationVO> getNavMarker(HashMap<String, Object> tmap);
 
 }

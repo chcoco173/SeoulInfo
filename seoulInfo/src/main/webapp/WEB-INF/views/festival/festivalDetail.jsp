@@ -179,7 +179,7 @@
 		  		<div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd"
 		  			class="container-newsletter background-black">
 		  			<div class="_2-column-grid-uneven-right">
-		  				<h3 class="newsletter-heading">축제 후기</h3>
+		  				<h3 class="newsletter-heading">사진과 함께 축제 후기를 남겨주세요!</h3>
 <!--		  				<div id="Style-Guide-Form"
 		  					class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form">
 		  					<form name="wf-form-Newsletter-Form" data-name="Newsletter Form"
@@ -365,14 +365,15 @@
 		  	</div>
 		  </div>
 		  <!-- section-footer end -->
-  <script>
-      document.addEventListener('DOMContentLoaded', function() {
-          var newReviewBtn = document.getElementById('newReviewBtn');
-          newReviewBtn.addEventListener('click', function() {
-              var festivalId = document.getElementById('festival_id').value;
-              window.location.href = "/festival/festivalReview?festival_id=" + festivalId;
-          });
-      });
+  <script>	
+	var newReviewBtn = document.getElementById('newReviewBtn');
+	var festivalId = document.getElementById('festival_id').value;
+
+	newReviewBtn.onclick = function() {
+	    alert(festivalId);
+	    window.location.href = "/festival/festivalReview?festival_id=" + festivalId;
+	}
+
   </script>
 	  
   <script

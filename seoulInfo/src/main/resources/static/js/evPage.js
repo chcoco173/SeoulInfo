@@ -1,34 +1,4 @@
 $(function(){
-    // serviceCate 요소의 위치를 Kakao 지도 위에 고정
-    var serviceCateElement = document.querySelector('.serviceCate');
-    var mapElement = document.getElementById('map');
-    var mapParentElement = mapElement.parentElement;
-
-    mapParentElement.style.position = 'relative'; // Kakao 지도를 감싸고 있는 부모 요소의 position을 relative로 설정
-
-    // serviceCate 요소를 mapElement의 자식 요소로 추가
-    mapElement.appendChild(serviceCateElement);
-
-    // 각 버튼 별 아이템 띄우기
-	// 길찾기
-    $('#filterBtn1').click(function () {
-        $(".search_map").css({"display":"inherit",'z-index':'110'});
-        $(".search_favorite").css({"display":"none"});
-        $(".search_navigation").css({"display":"none"});
-    });
-	// 충전소 검색
-    $('#filterBtn2').click(function () {
-        $(".search_navigation").css({"display":"inherit",'z-index':'110'});
-        $(".search_map").css({"display":"none"});
-        $(".search_favorite").css({"display":"none"});
-
-        $('#charger_type').prop('selectedIndex', 0);
-        $('#evc_area').prop('selectedIndex', 0);
-        $('#charger_opbig').prop('selectedIndex', 0);
-        $('#name').prop('selectedIndex', 0);
-        $('#searchText').val('');
-    });
-	
     // 즐겨찾기
     $('.btnShowFavorite').click(function () {
         $(".search_favorite").css({"display":"inherit",'z-index':'110'});
@@ -354,5 +324,47 @@ $(function(){
 	    // Example button click handler to open offcanvas
 	    document.querySelector('.menu-button').addEventListener('click', openOffcanvas);
 
+// -------------------------------------------------------------------------------------
 
+async function getCarDirection() {
+   const REST_API_KEY = 'REST_API_KEY';
+   // 호출방식의 URL을 입력합니다.
+   const url = 'https://apis-navi.kakaomobility.com/v1/directions';
+
+  // 출발지(origin), 목적지(destination)의 좌표를 문자열로 변환합니다.
+   const origin = `${pointObj.startPoint.lng},${pointObj.startPoint.lat}`; 
+   const destination = `${pointObj.endPoint.lng},${pointObj.endPoint.lat}`;
+   
+   // 요청 헤더를 추가합니다.
+   const headers = {
+     Authorization: `KakaoAK ${REST_API_KEY}`,
+     'Content-Type': 'application/json'
+   };
+ 
+   // 표3의 요청 파라미터에 필수값을 적어줍니다.
+   const queryParams = new URLSearchParams({
+     origin: origin,
+     destination: destination
+   });
+   
+   const requestUrl = `${url}?${queryParams}`; // 파라미터까지 포함된 전체 URL
+
+   try {
+     const response = await fetch(requestUrl, {
+       method: 'GET',
+       headers: headers
+     });
+
+     if (!response.ok) {
+       throw new Error(`HTTP error! Status: ${response.status}`);
+     }
+
+     const data = await response.json();
+     
+     console.log(data)
+   } catch (error) {
+     console.error('Error:', error);
+   }
+ }
+		
 });

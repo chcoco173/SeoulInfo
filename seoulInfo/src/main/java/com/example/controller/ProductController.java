@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,9 +33,11 @@ import com.example.domain.ProductBuyVO;
 import com.example.domain.ProductImageVO;
 import com.example.domain.ProductSearchVO;
 import com.example.domain.ProductVO;
+import com.example.domain.ReviewVO;
 import com.example.service.ProductBuyService;
 import com.example.service.ProductImageService;
 import com.example.service.ProductService;
+import com.example.service.ReviewService;
 import com.example.util.MD5Generator;
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -69,6 +73,9 @@ public class ProductController {
 	
 	@Autowired
 	private ProductBuyService productBuyService;
+	
+	@Autowired
+	private ReviewService reviewService;
 	
 	
 	@RequestMapping("/")
@@ -579,9 +586,20 @@ public class ProductController {
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 		List<Map<String, Object>> myProductList = productService.myProductList(mvo.getMember_id());
 
+		// 별점 평균 내기
+		Integer reviewStarAvg= reviewService.reviewStarAvg(mvo.getMember_id());
+		System.out.println(reviewStarAvg);
+		
+		if(reviewStarAvg == null) { // 아직 리뷰가 작성 되지 않아 기본 평균을 5로 줌
+			model.addAttribute("reviewStarAvg", 5);
+		}else {
+			model.addAttribute("reviewStarAvg", reviewStarAvg);
+		}
+		
 		model.addAttribute("myProductList", myProductList);
 		// 시간 변환 메소드 호출 후 model작업
 		model.addAttribute("timeDataList", timeConversion(myProductList));
+		
 
 		return "product/productMypage";
 	}
@@ -676,13 +694,16 @@ public class ProductController {
 		ProductBuyVO bvo = new ProductBuyVO();
 		bvo.setMemberId(mvo.getMember_id());
 		
+		// buy list 들고오기
 		List<Map<String, Object>> buyList = productService.productReview(mvo.getMember_id());
 		System.out.println("buylist" + buyList.toString());
 		
+		// 시간 변환
 		String[] timeDataList = new String[buyList.size()];
 		for(int i = 0; i < buyList.size(); i++) {
 			Map<String, Object> product = buyList.get(i);
-			Object regdateObject = product.get("sale_regdate");
+			// 구매날짜
+			Object regdateObject = product.get("buy_date");
 			
 			if (regdateObject instanceof LocalDateTime) {
 				LocalDateTime regdateTime = (LocalDateTime) regdateObject;
@@ -690,20 +711,67 @@ public class ProductController {
 				String localDatetime = regdateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 				System.out.println(localDatetime);
 				timeDataList[i] = localDatetime;
-				
-			}
-			
+			}		
 		}
 		
 		model.addAttribute("buyList",buyList);
 		model.addAttribute("timeDataList",timeDataList);
-
-		
 		
 		return "product/productReview"; 
 	}
 
 
+	// 리뷰등록 productReviewInsert
+	@PostMapping("productReviewInsert")
+	@ResponseBody
+	public String productReviewInsert(@ModelAttribute ReviewVO rvvo) {
+		System.out.println(rvvo.toString());
+		
+		Integer reviewInsert = reviewService.productReviewInsert(rvvo);
+		
+		if(reviewInsert != null) {
+			
+			return "1";
+		}
+		return null;
+	}
+	
+	// 리뷰 업데이트 productReviewUpdate
+	@PostMapping("productReviewUpdate")
+	@ResponseBody
+	public String productReviewUpdate(@ModelAttribute ReviewVO rvvo) {
+		System.out.println("");
+		System.out.println(rvvo.toString());
+		
+		Integer productReviewUpdate = reviewService.productReviewUpdate(rvvo);
+		
+		if(productReviewUpdate != null) {
+			return "1";
+		}
+		return null;
+	}
+	
+	
+	// 리뷰 확인 productReviewSelect
+	@PostMapping("productReviewIdSelect")
+	@ResponseBody
+	public Map<String, Object> productReviewIdSelect(@RequestParam Integer buy_id) {
+	    System.out.println(buy_id);
+	    
+	    Map<String, Object> response = new HashMap<>();
+	    if (buy_id != null) {
+	        ReviewVO rvvo = reviewService.productReviewIdSelect(buy_id);
+	        System.out.println(rvvo.toString());
+	        response.put("status", "success");
+	        response.put("reviewList", rvvo);
+	    } else {
+	        response.put("status", "error");
+	    }
+	    
+	    return response;
+	}
+	
+	
 
 	// 시간 변환 메소드
 	public String[] timeConversion(List<Map<String, Object>> productList ) {

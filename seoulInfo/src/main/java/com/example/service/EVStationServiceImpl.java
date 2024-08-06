@@ -60,4 +60,14 @@ public class EVStationServiceImpl implements EVStationService{
 		return evStationDAO.getCircleInfo(cmap);
 	}
 
+	@Override
+	public List<EVStationVO> getEvMarkers(HashMap<String, Object> mmap) {
+		return  evStationDAO.getEvMarkers(mmap);
+	}
+
+	@Override
+	public List<EVStationVO> getNavMarker(HashMap<String, Object> tmap) {
+		return evStationDAO.getNavMarker(tmap);
+	}
+
 }

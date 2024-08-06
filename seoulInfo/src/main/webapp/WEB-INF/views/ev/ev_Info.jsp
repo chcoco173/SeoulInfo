@@ -5,7 +5,6 @@
 <head>
     <meta charset="utf-8">
     <title>전기차 - 상세정보</title>
-    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/ev/evInfo.css" rel="stylesheet" type="text/css">
 </head>
 <body>

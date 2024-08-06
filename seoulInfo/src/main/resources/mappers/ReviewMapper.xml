@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.dao.ReviewDAO">
+	<!-- 리뷰 등록 -->
+	<insert id="productReviewInsert" parameterType="ReviewVO">
+		INSERT INTO review
+		(review_star, product_review, chat_review,
+		commitment_review, buy_id,
+		<if test="etc_review != null">
+			etc_review
+		</if>
+		)
+		VALUES
+		(#{review_star},#{product_review},#{chat_review},#{commitment_review},#{buy_id},
+		<if test="etc_review != null">
+			#{etc_review}
+		</if>
+		)
+	</insert>
+	<select id="productReviewIdSelect" parameterType="integer"
+		resultType="ReviewVO">
+		SELECT * FROM review WHERE buy_id = #{buy_id}
+	</select>
+
+	<!--productReviewUpdate -->
+
+	<update id="productReviewUpdate" parameterType="ReviewVO">
+		UPDATE review SET
+		review_star=#{review_star},
+		product_review=#{product_review},
+		chat_review=#{chat_review},
+		commitment_review=#{commitment_review},
+		<if test="etc_review != null">
+			etc_review=#{etc_review}
+		</if>
+		WHERE buy_id=#{buy_id}
+	</update>
+<!-- 별점 평균 계산 -->
+	<select id="reviewStarAvg" parameterType="string"
+		resultType="integer">
+		SELECT ROUND((SUM(review_star) + 5) / (COUNT(review_star) +
+		1)) AS reviewStarAvg
+		FROM review r
+		WHERE r.buy_id IN (
+		SELECT buy_id
+		FROM product_buy pb
+		WHERE pb.sale_id IN (
+		SELECT sale_id
+		FROM product_sale ps
+		WHERE ps.member_id = #{member_id}
+		))
+	</select>
+
+</mapper>
