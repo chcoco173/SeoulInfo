@@ -15,8 +15,12 @@ public interface FestivalDAO {
 	public List<FestivalVO> getFestivalPaging(HashMap map);
 	
 	public int countItems(HashMap map);
-
 	
+	public Integer festivalViewCountUpdate(Integer festival_id);
+	
+	public Integer viewCountFestivalId(Integer festival_id);
+
+	public FestivalVO getFestivalById(Integer festival_id);
 	
 	
 

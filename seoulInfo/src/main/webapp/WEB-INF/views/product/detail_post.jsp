@@ -215,6 +215,10 @@
 												<img id="lociImage" src="/productimages/loci.png"
 													class="loci-image" /> ${product.sale_area}
 											</h6>
+											<h6>
+												조회수  ${product.sale_viewcount}
+											</h6>
+											
 											<div class="form-field-wrapper">
 												<label for="Style-Guide-Form-Message"
 													class="form-field-label">상품 상세</label>
@@ -224,18 +228,19 @@
 											</div>
 											<br />
 											<div class="container mt-5 text-center">
-												<input type="hidden" class="sale_id"
-													value="${product.sale_id}"> <input type="hidden"
-													class="member_id" value="${product.member_id}">
+												<input type="hidden" class="sale_id" value="${product.sale_id}"> <input type="hidden" class="member_id" value="${product.member_id}">
 												<c:choose>
-													<c:when
-														test="${product.member_id eq sessionScope.member.member_id}">
-														<button class="button-primary-small w-button chat">내채팅방
-															가기</button>
+													<c:when test="${product.sale_status eq '판매완료'}">
+														<!-- 판매 완료된 상품인 경우 -->
+														<button class="button-primary-small w-button chatDisabled" disabled>이미 판매된 상품입니다</button>
+													</c:when>
+													<c:when test="${product.member_id eq sessionScope.member.member_id}">
+														<!-- 현재 세션 사용자가 상품 소유자일 때 -->
+														<button class="button-primary-small w-button chat">내 채팅방 가기</button>
 													</c:when>
 													<c:otherwise>
-														<button class="button-primary-small w-button chatCreate">판매자와
-															채팅</button>
+														<!-- 현재 세션 사용자가 상품 소유자가 아닐 때 -->
+														<button class="button-primary-small w-button chatCreate">판매자와 채팅</button>
 													</c:otherwise>
 												</c:choose>
 											</div>
@@ -292,7 +297,9 @@
 													${similarList.sale_status}</span>
 											</p>
 											<!-- 날짜 차이 정보 추가 -->
-											<p>${timeDataList[status.index]}</p>
+											<p>
+												${timeDataList[status.index]}<span style="margin-left: 30px;">조회수 : ${similarList.sale_viewcount}</span>
+											</p>
 										</div>
 									</div>
 							</c:forEach>
@@ -385,18 +392,38 @@
 	<script src="/js/webflow.js" type="text/javascript"></script>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<!-- 로그인 여부 확인을 위한 hidden input -->
+	<c:choose>
+	    <c:when test="${not empty sessionScope.member}">
+	        <input type="hidden" id="loggedInUserId" value="${sessionScope.member.member_id}">
+	    </c:when>
+	    <c:otherwise>
+	        <input type="hidden" id="loggedInUserId" value="">
+	    </c:otherwise>
+	</c:choose>
 	<script>
 		$(".chatCreate")
 				.click(
 						function() {
+							const loggedInUserId = document.getElementById('loggedInUserId').value;
+
+				            if (!loggedInUserId) {
+				                // 로그인 정보가 없을 경우 로그인 페이지로 리디렉션
+				                alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+				                window.location.href = '/member/login';
+				                return;
+				            }
+							// 현재 페이지가 chat.jsp 인지 확인해서 삭제된 채팅방 다시 생성안되게 함
+							if (window.location.pathname.includes('chat.jsp')) {
+							    console.log('현재 채팅 페이지에 있으므로 chatCreate를 호출하지 않습니다.');
+							    return;
+							}
 							var memberId = $(this).closest(
 									'.product-description').find('.member_id')
 									.val();
 							var saleId = $(this)
 									.closest('.product-description').find(
 											'.sale_id').val();
-							alert(memberId);
-							alert(saleId);
 
 							console
 									.log(`memberId: ${memberId}, saleId: ${saleId}`); // 디버깅용 로그

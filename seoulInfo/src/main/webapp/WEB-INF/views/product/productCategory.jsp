@@ -202,7 +202,9 @@
 																${productList.sale_status}</span>
 														</p>
 														<!-- 날짜 차이 정보 추가 -->
-														<p>${timeDataList[status.index]}</p>
+														<p>
+															${timeDataList[status.index]}<span style="margin-left: 30px;">조회수 : ${productList.sale_viewcount}</span>
+														</p>
 													</div>
 												</div>
 											</div>

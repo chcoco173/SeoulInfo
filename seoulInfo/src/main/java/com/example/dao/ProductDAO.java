@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.domain.ProductBuyVO;
 import com.example.domain.ProductVO;
 
 @Mapper
@@ -19,10 +20,10 @@ public interface ProductDAO {
 
 	// 상품 리스트 출력 (검색 + 카테고리)
 	public List<Map<String, Object>> productCateList(HashMap map);
-	
+
 	//productMainList ( ml + main )
 	public List<Map<String, Object>> productMainList(HashMap map);
-	
+
 
 	// id 값에 해당하는 상품 list
 	public List<Map<String, Object>> myProductList(String member_id);
@@ -44,7 +45,13 @@ public interface ProductDAO {
 
 	// 유사상품 출력
 	public List<Map<String, Object>> similarList(int[] prediction);
-	
+
 	public int countItems(HashMap map);
+
+	// 조회수 증가
+	public Integer productViewCountUpdate(Integer festival_id);
+
+	// 구매후기 list 출력
+	public List<Map<String, Object>> productReview(String member_id);
 
 }

@@ -50,17 +50,21 @@
 		ps.sale_price,
 		ps.sale_area,
 		ps.sale_regdate,
+		ps.sale_viewcount,
 		MAX(pi.productimg_url) AS
 		productimg_url,
-		MAX(pi.productimg_alias) AS productimg_alias,
+		MAX(pi.productimg_alias) AS
+		productimg_alias,
 		COUNT(DISTINCT fp.member_id) AS favorite_count
 		FROM
 		product_sale ps
 		LEFT
 		OUTER JOIN
-		product_image pi ON ps.sale_id = pi.sale_id
+		product_image pi ON ps.sale_id =
+		pi.sale_id
 		LEFT OUTER JOIN
-		favorite_product fp ON ps.sale_id = fp.sale_id
+		favorite_product fp ON ps.sale_id =
+		fp.sale_id
 		WHERE ps.sale_status != "판매완료"
 		<if test="area != '전체' and area != null">
 			AND ps.sale_area = #{area}
@@ -89,21 +93,25 @@
 		ps.sale_price,
 		ps.sale_area,
 		ps.sale_regdate,
+		ps.sale_viewcount,
 		MAX(pi.productimg_url) AS
 		productimg_url,
-		MAX(pi.productimg_alias) AS productimg_alias,
+		MAX(pi.productimg_alias) AS
+		productimg_alias,
 		COUNT(DISTINCT fp.member_id) AS favorite_count
 		FROM
 		product_sale ps
 		LEFT
 		OUTER JOIN
-		product_image pi ON ps.sale_id = pi.sale_id
+		product_image pi ON ps.sale_id =
+		pi.sale_id
 		LEFT OUTER JOIN
-		favorite_product fp ON ps.sale_id = fp.sale_id
+		favorite_product fp ON ps.sale_id =
+		fp.sale_id
 		WHERE 1=1 <!-- 기본 조건, 항상 참 -->
 		<if test="area != '전체' and area != null and area != ''">
-        	AND ps.sale_area = #{area}
-    	</if>
+			AND ps.sale_area = #{area}
+		</if>
 		<if test="category != null">
 			<if test="category == '전자제품'">
 				AND ps.sale_cate in ( '디지털' ,'가전제품' )
@@ -127,8 +135,8 @@
 			</if>
 		</if>
 		<if test="keyword != null and keyword != ''">
-        	AND ps.sale_name LIKE CONCAT('%', #{keyword}, '%')
-    	</if>
+			AND ps.sale_name LIKE CONCAT('%', #{keyword}, '%')
+		</if>
 
 		<if test="optionCate != null">
 			<choose>
@@ -189,10 +197,12 @@
 		ps.sale_price,
 		ps.sale_area ,
 		ps.sale_regdate,
+		ps.sale_viewcount,
 		MAX(pi.productimg_url) AS productimg_url,
 		MAX(pi.productimg_alias) AS
 		productimg_alias,
-		COUNT(DISTINCT fp.member_id) AS favorite_count
+		COUNT(DISTINCT
+		fp.member_id) AS favorite_count
 		FROM
 		product_sale ps
 		LEFT OUTER JOIN
@@ -201,7 +211,8 @@
 		LEFT OUTER JOIN
 		favorite_product fp ON ps.sale_id =
 		fp.sale_id
-		where ps.member_id = #{member_id}
+		where ps.member_id =
+		#{member_id}
 		GROUP
 		BY
 		ps.sale_id,
@@ -293,17 +304,21 @@
 		ps.sale_price,
 		ps.sale_area,
 		ps.sale_regdate,
+		ps.sale_viewcount,
 		MAX(pi.productimg_url) AS
 		productimg_url,
-		MAX(pi.productimg_alias) AS productimg_alias,
+		MAX(pi.productimg_alias) AS
+		productimg_alias,
 		COUNT(DISTINCT fp.member_id) AS favorite_count
 		FROM
 		product_sale ps
 		LEFT
 		OUTER JOIN
-		product_image pi ON ps.sale_id = pi.sale_id
+		product_image pi ON ps.sale_id =
+		pi.sale_id
 		LEFT OUTER JOIN
-		favorite_product fp ON ps.sale_id = fp.sale_id
+		favorite_product fp ON ps.sale_id =
+		fp.sale_id
 		WHERE
 		ps.sale_id IN
 		<foreach collection="array" item="id" open="(" separator=","
@@ -317,18 +332,61 @@
 		ps.sale_status,
 		ps.sale_price
 	</select>
-	
+
 	<select id="countItems" resultType="int">
-        SELECT COUNT(*) 
-    	FROM product_sale  
-    	WHERE sale_status != "판매완료"
-    	<if test="area != null and area != '전체'">
-        	AND sale_area = #{area}
-    	</if>
-    	<if test="prediction != 'null'">
+		SELECT COUNT(*)
+		FROM product_sale
+		WHERE sale_status != "판매완료"
+		<if test="area != null and area != '전체'">
+			AND sale_area = #{area}
+		</if>
+		<if test="prediction != 'null'">
 			AND sale_cate = #{prediction}
 		</if>
-    </select>
+	</select>
+
+	<!-- 조회수 productViewCountUpdate -->
+	<update id="productViewCountUpdate" parameterType="integer">
+		UPDATE
+		product_sale
+		SET sale_viewcount = sale_viewcount + 1
+		WHERE sale_id =
+		#{sale_id};
+	</update>
+
+	<!-- buy list -->
+	<select id="productReview" parameterType="string"
+		resultType="java.util.Map">
+		SELECT
+		ps.sale_id,
+		ps.sale_cate,
+		ps.sale_name,
+		ps.sale_status,
+		ps.sale_price,
+		ps.sale_area,
+		ps.member_id,
+		ps.sale_regdate,
+		pi.productimg_url,
+		pi.productimg_alias,
+		pb.buy_id
+		FROM
+		product_sale ps
+		LEFT JOIN
+		product_image pi
+		ON ps.sale_id = pi.sale_id
+		AND pi.productimg_no = (
+		SELECT MAX(pi1.productimg_no)
+		FROM product_image pi1
+		WHERE pi1.sale_id = ps.sale_id
+		)
+		LEFT JOIN
+		product_buy pb
+		ON ps.sale_id = pb.sale_id
+		WHERE
+		pb.member_id = #{member_id}
+
+	</select>
+
 
 
 

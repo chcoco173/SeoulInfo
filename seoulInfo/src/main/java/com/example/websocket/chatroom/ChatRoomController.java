@@ -1,6 +1,7 @@
 package com.example.websocket.chatroom;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -10,8 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.domain.MemberVO;
+import com.example.websocket.user.User;
 //import com.example.websocket.user.User;
 //import com.example.websocket.user.UserService;
+import com.example.websocket.user.UserService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -21,30 +24,23 @@ import lombok.RequiredArgsConstructor;
 public class ChatRoomController {
 
 	private final ChatRoomService chatRoomService;
-//	private final UserService userService;
+	private final UserService userService;
 	private final HttpSession session;
 
 	// member_id 판매자 (recipientId)
 	@GetMapping("/product/chatCreate")
 	public String createChatRoom(@RequestParam("member_id") String memberId, @RequestParam("sale_id") Integer saleId, Model model) {
 
-		// Debugging logs
-		System.out.println("createChatRoom@@@@@@@@member_id: " + memberId);
-		System.out.println("createChatRoom@@@@@@@@sale_id: " + saleId);
-
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 		String senderId = mvo.getMember_id(); // 현재 로그인한 사용자의 ID
 		String recipientId = memberId;
 
-		System.out.println("createChatRoom@@@@@@@@senderId: " + senderId);
-		System.out.println("createChatRoom@@@@@@@@recipientId: " + recipientId);
-		
 		// 새로운 채팅방 ID를 생성하거나 가져옴
 		String chatRoomId = chatRoomService.getChatRoomId(senderId, recipientId, true, saleId)
 				.orElseThrow(() -> new RuntimeException("채팅방 생성 실패"));
 
 		model.addAttribute("chatRoomId", chatRoomId);
-		return "product/chat"; // product/chat.jsp로 이동
+		return "redirect:/product/chat"; // chat.jsp로 리디렉션
 
 	}
 	
@@ -77,6 +73,9 @@ public class ChatRoomController {
         System.out.println("ChatRoomController 1"+userId);
         List<ChatRoom> chatRooms = chatRoomService.findChatRooms(userId);
         System.out.println("ChatRoomController 2"+chatRooms);
+        
+        
+               
         return ResponseEntity.ok(chatRooms);
     }
     

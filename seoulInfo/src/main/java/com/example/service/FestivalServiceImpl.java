@@ -34,4 +34,20 @@ public class FestivalServiceImpl implements FestivalService{
 		return festivalDAO.countItems(map);
 	}
 
+	@Override
+	public Integer festivalViewCountUpdate(Integer festival_id) {
+		// TODO Auto-generated method stub
+		return festivalDAO.festivalViewCountUpdate(festival_id);
+	}
+
+	@Override
+	public Integer viewCountFestivalId(Integer festival_id) {
+		// TODO Auto-generated method stub
+		return festivalDAO.viewCountFestivalId(festival_id);
+	}
+
+    @Override
+    public FestivalVO getFestivalById(Integer festival_id) {
+        return festivalDAO.getFestivalById(festival_id);
+    }
 }

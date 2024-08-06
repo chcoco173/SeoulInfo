@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dao.FavoriteProductDAO;
 import com.example.dao.ProductDAO;
@@ -31,6 +30,7 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Autowired
 	private FavoriteProductDAO favoriteProductDAO;
+	
 
 	// 상품 등록
 	@Override
@@ -134,6 +134,20 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return productDAO.countItems(map);
 	}
+
+	// 조회수 증가
+	@Override
+	public Integer productViewCountUpdate(Integer festival_id) {
+		// TODO Auto-generated method stub
+		return productDAO.productViewCountUpdate(festival_id);
+	}
+
+	@Override
+	public List<Map<String, Object>> productReview(String member_id) {
+		return productDAO.productReview(member_id);
+	}
+	
+	
 
 	
 

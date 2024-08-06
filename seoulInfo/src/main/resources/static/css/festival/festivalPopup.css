@@ -26,7 +26,7 @@
 	border-radius: 15px; /* 둥근 모서리 */
 	position: absolute; /* 변경된 위치 설정 */
 	top: 50%;
-	left: 46%;
+	left: 50%;
 	transform: translate(-50%, -50%); /* 정확히 가운데 정렬 */
 	width: auto;
 	min-width: 320px; /* 최소 너비 */
@@ -81,6 +81,7 @@
 	text-align: center; /* 가운데 정렬 */
 	font-size: 16px; /* 폰트 크기 조정 */
 	color: #666; /* 문단 텍스트 색상 */
+	margin-bottom: 10px;
 }
 
 /* 첫 번째 문단의 여백 조정 */
@@ -122,11 +123,51 @@
 .modal-btn:active {
 	background-color: #004080;
 }
+
 /* 캘린더 헤더바 */
+/* 전체 일정 셀 스타일링 */
+.fc-daygrid-day {
+    position: relative; /* 셀의 위치를 기준으로 설정 */
+    overflow: hidden; /* 셀의 내용을 넘치지 않게 설정 */
+}
+
+/*  +more 가운데 맞춤 */
+.fc-daygrid-day-bottom {
+	display: grid;
+	place-items: center; /* Center both horizontally and vertically */
+	position: relative; /* 상대 위치 지정 */
+	
+	
+}
+/* 기본 more 링크 스타일 */
+.fc-daygrid-more-link {
+    color: #666666 !important; /* 톤 다운된 회색 텍스트 */
+    padding: 4px 8px; /* 패딩 조정 */
+    border-radius: 4px; /* 테두리 반경 조정 */
+    display: inline-block; /* 링크를 인라인 블록으로 설정 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    text-decoration: none; /* 밑줄 제거 */
+    
+}
+/* 일요일 more 링크 스타일 */
+.fc-daygrid-day.fc-day-sun .fc-daygrid-more-link {
+    color: #666666 !important; /* 톤 다운된 회색 텍스트 */
+}
+
+/* 토요일 more 링크 스타일 */
+.fc-daygrid-day.fc-day-sat .fc-daygrid-more-link {
+    color: #666666 !important; /* 톤 다운된 회색 텍스트 */
+}
+
 .fc-header-toolbar {
 	display: flex;
 	flex-wrap: wrap; /* 버튼이 화면 크기에 따라 줄바꿈되도록 설정 */
 	justify-content: center; /* 중앙 정렬 */
+}
+
+.fc .fc-toolbar-title {
+	font-size: 2.75em;
+	margin: 0px;
 }
 
 .fc-button {
@@ -152,22 +193,73 @@
 	text-decoration: none;
 }
 
+.fc .fc-col-header-cell-cushion {
+	display: inline-block;
+	padding: 2px 4px;
+	font-size: 30px;
+}
+
+.fc a[data-navlink] {
+	cursor: pointer;
+	font-size: 30px;
+}
+
+.fc-daygrid-day-number:after {
+	content: ''; /* Remove any additional content */
+}
+/* 날짜 링크의 기본 스타일 */
+.fc .fc-daygrid-day-number {
+	padding: 2px;
+	position: relative;
+	z-index: 4;
+	display: block;
+	text-align: center;
+	width: 100%;
+	height: calc(100% - 20px);
+	margin-top: 20%;
+	box-sizing: border-box;
+	font-weight: bold; /* 글자를 진하게 표시 */
+}
+
+/* 화면이 576px 이하일 때 폰트 크기 조정 */
+@media ( max-width : 576px) {
+	.fc a[data-navlink] {
+		font-size: 15px; /* 더 작은 화면에서 폰트 크기 조정 */
+	}
+	.fc .fc-col-header-cell-cushion {
+		display: inline-block;
+		padding: 2px 4px;
+		font-size: 15px;
+	}
+	
+}
+
 /* 문화행사 리스트 */
 #event-list {
-	background-color: #f9f9f9;
-	border: 1px solid #e3e3e3;
-	border-radius: 5px;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	padding: 20px;
+	max-height: 730px; /* 원하는 높이로 설정 */
+	overflow-y: auto; /* 수직 스크롤 추가 */
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 가벼운 그림자 효과 */
 }
 
 #event-list h2 {
 	color: #333;
-	font-size: 1.5rem;
+	font-size: 1.75rem;
 	font-weight: bold;
+	margin-bottom: 20px;
+	border-bottom: 2px solid #eee; /* 하단 경계선 추가 */
+	padding-bottom: 10px;
 }
 
 #event-list .media {
+	display: flex;
+	align-items: flex-start;
 	border-bottom: 1px solid #e3e3e3;
-	padding-bottom: 1rem;
+	padding-bottom: 15px;
+	margin-bottom: 15px;
 }
 
 #event-list .media:last-child {
@@ -175,28 +267,76 @@
 }
 
 #event-list .media img {
-	border-radius: 5px;
+	border-radius: 8px;
+	width: 150px; /* 고정된 너비 설정 */
+	height: 150px; /* 고정된 높이 설정 */
+	margin-right: 20px; /* 이미지와 텍스트 사이에 간격 추가 */
+	object-fit: cover; /* 이미지가 고정된 크기에 맞게 조정되도록 */
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 가벼운 그림자 효과 */
+	border: 2px solid #ddd; /* 이미지 테두리 */
+}
+
+#event-list .media-body {
+	flex: 1; /* 텍스트 부분이 나머지 공간을 차지하도록 */
 }
 
 #event-list .media-body h5 {
 	font-size: 1.25rem;
 	color: #007bff;
+	margin-bottom: 10px;
+	font-weight: bold; /* 제목을 더 강조 */
 }
 
 #event-list .media-body p {
 	font-size: 0.9rem;
 	color: #555;
+	margin-bottom: 8px; /* 문단 사이에 간격 추가 */
+	line-height: 1.4; /* 줄 간격을 더 여유롭게 */
+}
+
+#event-list .media-body p span {
+	font-weight: bold;
+	color: #333;
 }
 
 #event-list .media-body .btn {
 	font-size: 0.85rem;
-	padding: 0.3rem 0.75rem;
+	padding: 0.4rem 1rem;
+	display: inline-block;
+	margin-top: 10px;
+	text-decoration: none; /* 링크 밑줄 제거 */
+	color: #007bff; /* 링크 색상 */
+	border: 1px solid #007bff; /* 링크 테두리 */
+	border-radius: 5px; /* 둥근 모서리 */
+	transition: background-color 0.3s, color 0.3s; /* 부드러운 전환 효과 */
 }
 
-/* 스크롤 가능한 영역을 위한 스타일 */
-#event-list {
-	max-height: 730px; /* 원하는 높이로 설정 */
-	overflow-y: auto; /* 수직 스크롤 추가 */
-	border: 1px solid #ddd; /* 선택 사항: 경계선 추가 */
-	padding: 10px; /* 선택 사항: 내부 여백 추가 */
+#event-list .media-body .btn:hover {
+	background-color: #007bff; /* 배경색 변경 */
+	color: #fff; /* 텍스트 색상 변경 */
+}
+
+/* 스크롤바 스타일 */
+#event-list::-webkit-scrollbar {
+	width: 10px;
+}
+
+#event-list::-webkit-scrollbar-thumb {
+	background: #ccc;
+	border-radius: 5px;
+}
+
+#event-list::-webkit-scrollbar-thumb:hover {
+	background: #999;
+}
+
+/* 애니메이션 효과 */
+@keyframes slideIn {from { transform:translate(-50%, -60%);
+	opacity: 0;
+}
+
+to {
+	transform: translate(-50%, -50%);
+	opacity: 1;
+}
 }

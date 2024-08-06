@@ -3,18 +3,14 @@
 
 import java.io.File;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,12 +27,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.domain.FavoriteProductVO;
 import com.example.domain.MemberVO;
+import com.example.domain.ProductBuyVO;
 import com.example.domain.ProductImageVO;
 import com.example.domain.ProductSearchVO;
 import com.example.domain.ProductVO;
+import com.example.service.ProductBuyService;
 import com.example.service.ProductImageService;
 import com.example.service.ProductService;
 import com.example.util.MD5Generator;
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -64,11 +62,15 @@ public class ProductController {
 
 	@Autowired
 	private ProductImageService productImageService;
-
-
+	
 	@Autowired
 	private HttpSession session;
 
+	
+	@Autowired
+	private ProductBuyService productBuyService;
+	
+	
 	@RequestMapping("/")
 	public String mainPage() {
 		return "/index";
@@ -115,6 +117,7 @@ public class ProductController {
 		model.addAttribute("category", "검색결과");
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("productList",productList);
+		model.addAttribute("timeDataList",timeConversion(productList));
 
 		return "product/productCategory";
 	}
@@ -350,7 +353,10 @@ public class ProductController {
 	// 상품 상태 수정 ajax
 	@PostMapping("updateStatus")
 	@ResponseBody
-	public String updateStatus(@RequestParam String sale_status, @RequestParam Integer sale_id) {
+	@Transactional // transactional method (product, product_buy 테이블 동시 업데이트)
+	public String updateStatus(@RequestParam String sale_status, @RequestParam Integer sale_id, @RequestParam String member_id) {
+		System.out.println("productController updateStatus!!!!!!!!!!!!!"+sale_id+member_id);
+		
 		// 세션값
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 
@@ -360,13 +366,28 @@ public class ProductController {
 		pvo.setSale_status(sale_status);
 
 		Integer result =  productService.updateStatus(pvo);
+		
+	    // If sale status is updated to "판매완료", insert a record in product_buy table
+	    if (result != null && "판매완료".equals(sale_status)) {
+	        ProductBuyVO pbvo = new ProductBuyVO();
+	        pbvo.setBuyDate(new Date()); // Set current date as buyDate
+	        pbvo.setSaleId(sale_id);
+	        pbvo.setMemberId(member_id); // Use the provided member_id
 
-		if ( result != null) {
-			return "1";
-		}
+	        Integer buyResult = productBuyService.insertProductBuy(pbvo);
 
-		return null;
+	        if (buyResult != null) {
+	            return "1";
+	        } else {
+	            return "Error updating product_buy table";
+	        }
+	    }
 
+	    if (result != null) {
+	        return "1";
+	    }
+
+	    return "Error updating product_sale table";
 	}
 
 	// 상품 삭제 ajax
@@ -449,9 +470,10 @@ public class ProductController {
 		// 세션값
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 		System.out.println(sale_id);
+		// 조회수 증가
+		productService.productViewCountUpdate(sale_id);
 		ProductVO product = productService.myProductSaleId(sale_id);
 		List<ProductImageVO> productImgList = productImageService.myProductSaleId(sale_id);
-
 		Boolean wishCheck = false;
 		// 세션 값이 널이 아닌경우에만 실행
 		if(mvo != null) {
@@ -499,6 +521,7 @@ public class ProductController {
 				List<Map<String, Object>> similarList = productService.similarList(prediction);
 				System.out.println(similarList);
 				model.addAttribute("similarList", similarList);
+				model.addAttribute("timeDataList", timeConversion(similarList));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -645,6 +668,40 @@ public class ProductController {
 
 		return "product/productCategory"; 
 	}
+	
+	// 후기 화면
+	@RequestMapping("productReview")
+	public String productReview(Model model) {
+		MemberVO mvo = (MemberVO) session.getAttribute("member");
+		ProductBuyVO bvo = new ProductBuyVO();
+		bvo.setMemberId(mvo.getMember_id());
+		
+		List<Map<String, Object>> buyList = productService.productReview(mvo.getMember_id());
+		System.out.println("buylist" + buyList.toString());
+		
+		String[] timeDataList = new String[buyList.size()];
+		for(int i = 0; i < buyList.size(); i++) {
+			Map<String, Object> product = buyList.get(i);
+			Object regdateObject = product.get("sale_regdate");
+			
+			if (regdateObject instanceof LocalDateTime) {
+				LocalDateTime regdateTime = (LocalDateTime) regdateObject;
+				
+				String localDatetime = regdateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+				System.out.println(localDatetime);
+				timeDataList[i] = localDatetime;
+				
+			}
+			
+		}
+		
+		model.addAttribute("buyList",buyList);
+		model.addAttribute("timeDataList",timeDataList);
+
+		
+		
+		return "product/productReview"; 
+	}
 
 
 
@@ -731,58 +788,5 @@ public class ProductController {
 		return productInfo;
 	}
 
-	@GetMapping("/loadMoreItems")
-	@ResponseBody
-	public List<Map<String, Object>> loadMoreItems(@RequestParam(value = "area", required = true) String area, @RequestParam int offset, @RequestParam int limit) {  
-		if(area == null || area.isEmpty()) {
-			area="전체";
-		}
-		HashMap map = new HashMap();
-		map.put("area", area);
-		map.put("offset", offset);
-		map.put("limit", limit);
 
-		// 세션값 받아오기
-		MemberVO mvo = (MemberVO) session.getAttribute("member");
-
-		// 세션값이 null이 아니라면
-		if(mvo != null) {
-			// 세션안의 id를 받아오기
-			String memberId = mvo.getMember_id();
-
-			// flask 로 보낼 객체 생성
-			Map<String, String> requestBody = new HashMap<>();
-			requestBody.put("id", memberId); // 나중엔 세션으로 들어갈 예정
-
-
-			try {
-				// Flask 서버로 POST 요청 + 응답 받기
-				String result = restTemplate.postForObject(mlServerUrl, requestBody, String.class); // url, 요청본문, 응답받는타입
-				System.out.println("Prediction result: " + result); // json 형식
-
-				// JSON 응답 파싱
-				ObjectMapper objectMapper = new ObjectMapper(); // json 데이터를 파싱하기위한 객체생성
-				JsonNode jsonNode = objectMapper.readTree(result);	// 문자열 파싱후 json 트리 구조를 반환
-				String prediction = jsonNode.get("prediction").asText(); // asText() jsonNode의 텍스트값 반환
-				System.out.println(prediction);
-
-				map.put("prediction", prediction);
-
-
-			} catch (Exception e) {
-				e.printStackTrace();
-				// 서버가 꺼졋을대 대비
-				map.put("prediction", "null");	
-			}
-		}else {
-			map.put("prediction", "null");	
-		}
-
-		// 상품 list
-		List<Map<String, Object>> productList = productService.productMainList(map);
-		System.out.println("33");
-		return null;
-
-
-	}
 }

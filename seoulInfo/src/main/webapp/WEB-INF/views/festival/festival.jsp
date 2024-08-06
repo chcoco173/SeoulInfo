@@ -12,7 +12,8 @@
 	name="description">
 <meta content="Sightseer - Webflow Travel Photography Website Template"
 	property="og:title">
-<meta content="Sightseer - Webflow Travel Photography Website Template"
+<meta content="Sightseer - Webflow
+ Travel Photography Website Template"
 	property="og:description">
 <meta
 	content="https://uploads-ssl.webflow.com/628ab2619076f3ee1c941a44/666120e5c3c4e1f8776b48f1_Sightseer---Opengraph.jpg"
@@ -174,6 +175,7 @@
 										<p id="festivalFee"></p>
 										<p id="festivalTarget"></p>
 										<p id="festivalHost"></p>
+										<p id="festival_viewcount"></p>
 
 										<!-- 버튼 추가 -->
 										<div class="modal-buttons">
@@ -189,7 +191,7 @@
 									<h2 id="event-list-title">오늘의 ${area} 문화정보</h2>
 									<ul class="list-unstyled">
 										<c:forEach items="${festivalList}" var="festival">
-											<li class="media mb-3"><input type="hidden"
+											<li class="media mb-3 event-item"><input type="hidden"
 												id="festival_id" name="festival_id"
 												value="${festival.festival_id }"> <img class="mr-3"
 												src="${festival.festival_imageurl}" alt="매물 이미지"
@@ -197,7 +199,7 @@
 												<div class="media-body">
 													<p>${festival.festival_name}</p>
 													<p>${festival.festival_startDate}~${festival.festival_endDate}</p>
-
+													<p class="viewcount">${festival.festival_viewcount}</p>
 													<a href="${festival.festival_siteurl}">사이트 바로가기</a>
 												</div></li>
 										</c:forEach>
@@ -302,9 +304,6 @@
 		//주석 추가 : -- calender script
 		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');
-
-
-
 			// JSP로부터 festivalList 데이터를 JavaScript 배열로 변환
 			var festivals = [
 				<c:forEach items="${calenderList}" var="calenderList" varStatus="status">
@@ -319,7 +318,9 @@
 					appdate : "<c:out value='${calenderList.festival_appdate}'/>",
 					target : "<c:out value='${calenderList.festival_target}'/>",
 					host : "<c:out value='${calenderList.festival_host}'/>",
-					id : "<c:out value='${calenderList.festival_id}'/>"
+					id : "<c:out value='${calenderList.festival_id}'/>",
+					viewcount : "<c:out value='${calenderList.festival_viewcount}'/>"
+
 
 
 				}<c:if test="${!status.last}">,</c:if>
@@ -365,20 +366,21 @@
 							// 받아온 데이터로 목록 업데이트
 							response.selectDateList.forEach(function(festival) {
 								var listItem = document.createElement('li');
-								listItem.className = 'media mb-3';
+								listItem.className = 'media mb-3 event-item';
 								listItem.innerHTML = 
 									'<input type="hidden" id="festival_id" name="festival_id" value="' + festival.festival_id + '">' +
 									'<img class="mr-3" src="' + festival.festival_imageurl + '" alt="매물 이미지" style="width: 200px; height: 200px">' +
 									'<div class="media-body">' +
 									'<p>' + festival.festival_name + '</p>' +
 									'<p>' + festival.festival_startDate + '~' + festival.festival_endDate + '</p>' +
+									'<p class="viewcount">' + festival.festival_viewcount + '</p>' +
 									'<a href="' + festival.festival_siteurl + '" target="_blank">사이트 바로가기</a>' +
 									'</div>';
 
 								eventList.appendChild(listItem);
 							});
 							// <h2> 태그 내용 업데이트
-								document.getElementById('event-list-title').innerText = month +'월 ' + day + '일 ' + area + ' 문화정보';
+							document.getElementById('event-list-title').innerText = month +'월 ' + day + '일 ' + area + ' 문화정보';
 
 
 
@@ -392,70 +394,43 @@
 					// 선택해제
 					calendar.unselect();
 				},
-				/*
-				select: function(arg) {
-					//var title = prompt('Event Title:');
-					// 선택한 날짜
-					//var selectedDate = arg.start.toISOString().split('T')[0]; // YYYY-MM-DD 형식
-
-					var clickedDate = new Date(arg.start);
-					// 날짜를 YYYY-MM-DD 형식으로 변환
-					var day = String(clickedDate.getDate()).padStart(2, '0');
-					var month = String(clickedDate.getMonth() + 1).padStart(2, '0');
-					var year = clickedDate.getFullYear();
-					// 날짜 문자열 생성
-					var selectedDate = year + '-' + month + '-' + day; // 'YYYY-MM-DD' 형식
-
-					var area = document.getElementById('area').value; 
-					alert(area);
-					alert(selectedDate);
-
-					// 날짜에 해당하는 list 가져오기
-					$.ajax({
-						url: '/festival/selectDateList',
-						type: 'GET',
-						data: {
-							selectDate: selectedDate,
-							area: area // 또는 사용자가 선택한 지역
-						},
-						success: function(response) {
-							// 성공적으로 데이터를 받아온 경우
-							console.log(response)
-
-							// 기존 목록을 클리어
-							var eventList = document.getElementById('event-list').getElementsByTagName('ul')[0];
-							eventList.innerHTML = ''; // Clear the list
-
-							// 받아온 데이터로 목록 업데이트
-							response.selectDateList.forEach(function(festival) {
-								var listItem = document.createElement('li');
-								listItem.className = 'media mb-3';
-								listItem.innerHTML = 
-									'<input type="hidden" id="festival_id" name="festival_id" value="' + festival.festival_id + '">' +
-									'<img class="mr-3" src="' + festival.festival_imageurl + '" alt="매물 이미지" style="width: 200px; height: 200px">' +
-									'<div class="media-body">' +
-									'<p>' + festival.festival_name + '</p>' +
-									'<p>' + festival.festival_startDate + '~' + festival.festival_endDate + '</p>' +
-									'<a href="' + festival.festival_siteurl + '" target="_blank">사이트 바로가기</a>' +
-									'</div>';
-
-								eventList.appendChild(listItem);
-							});
-
-
-						},
-						error: function(xhr, status, error) {
-							// 오류 발생 시
-							alert('An error occurred while fetching the count.');
-						}
-					});
-
-					// 선택해제
-					calendar.unselect();
-
-				},*/
 				eventClick: function(arg) {
 					console.log(arg.event);
+
+					// 클릭시 조회수 증가
+					$.ajax({
+						url: '/festival/festivalViewCountUpdate',
+						type: 'POST',
+						data: {
+							festival_id: arg.event.id
+						},success: function(response) {
+							if(response.status === 'success'){
+								console.log("조회수 업데이트 성공");
+								document.getElementById('festival_viewcount').innerText = "조회수 : " + response.viewcount;
+
+								// 리스트의 조회수 업데이트
+								var listItems = document.querySelectorAll('#event-list .media');
+								listItems.forEach(function(item) {
+									var festivalIdInput = item.querySelector('input[name="festival_id"]');
+									if (festivalIdInput && festivalIdInput.value == arg.event.id) {
+										var viewCountElement = item.querySelector('.viewcount');
+										if (viewCountElement) {
+											viewCountElement.innerText = response.viewcount;
+										}
+									}
+								});							
+
+							} else {
+								alert("조회수 업데이트 실패");
+							}
+
+						},error: function(error) {
+							console.log("viewcount update error");
+						}
+
+					});
+
+
 					// range 객체에서 start와 end를 추출
 					var startDate = arg.event._instance.range.start;
 					var endDate = arg.event._instance.range.end;
@@ -481,6 +456,8 @@
 					document.getElementById('festivalFee').innerText = "이용요금 : " + arg.event.extendedProps.fee;
 					document.getElementById('festivalTarget').innerText = "이용대상 : " +arg.event.extendedProps.target;
 					document.getElementById('festivalHost').innerText = "주체자 : " + arg.event.extendedProps.host;
+					document.getElementById('festival_viewcount').innerText = "조회수 : " + arg.event.extendedProps.viewcount;
+
 
 					// 모달을 표시합니다
 					var modal = document.getElementById('festivalPopup');
@@ -491,14 +468,15 @@
 					morePopovers.forEach(function(popover) {
 						popover.style.display = 'none';
 					});
-					
+
 					// 닫기 버튼 클릭 시 모달 닫기
 					var span = document.getElementsByClassName('close')[0];
 					span.onclick = function() {
 						modal.style.display = 'none';
+
 					};
-					
-					
+
+
 					// site 버튼 클릭시
 					var site = document.getElementById('site');
 					site.onclick = function() {
@@ -507,13 +485,15 @@
 
 						window.open(siteUrl, '_blank'); // 새 탭에서 상세 내용 열기
 					};
-					// 문화 상세 페이지로 이동할 예정
+					
+					// 문화 상세 페이지로 이동
 					var Detail = document.getElementById('Detail');
 					Detail.onclick = function() {
-						alert(arg.event.id) ;
-					};
-
-
+					    alert(arg.event.id);
+					    var festival_id = arg.event.id;
+					    window.location.href = "/festival/festivalDetail?festival_id=" + festival_id;
+					}
+					
 					// 모달 외부 클릭 시 모달 닫기
 					window.onclick = function(event) {
 						if (event.target == modal) {
@@ -530,6 +510,51 @@
 
 			// Hide loading bar after loading
 			document.getElementById('loading').style.display = 'none';
+		});
+
+
+		// list의 li 요소 클릭시
+		var eventItems = document.querySelectorAll('#event-list .event-item');
+		eventItems.forEach(function(item) {
+			item.addEventListener('click', function() {
+				// 클릭된 item 내부의 .festival_id input 요소를 선택
+				var festivalId = this.querySelector('#festival_id').value;
+				// festival_id를 alert로 표시
+				alert('Festival ID: ' + festivalId);
+				window.location.href = "/festival/festivalDetail?festival_id=" + festivalId;
+
+				// 클릭시 조회수 증가
+				$.ajax({
+					url: '/festival/festivalViewCountUpdate',
+					type: 'POST',
+					data: {
+						festival_id: festivalId
+					},success: function(response) {
+						if(response.status === 'success'){
+							console.log("조회수 업데이트 성공");
+
+							document.getElementById('festival_viewcount').innerText = "조회수 : " + response.viewcount;
+
+							// 리스트의 조회수 업데이트
+							var listItems = document.querySelectorAll('#event-list .media');
+							listItems.forEach(function(item) {
+								var festivalIdInput = item.querySelector('input[name="festival_id"]');
+								if (festivalIdInput && festivalIdInput.value == festivalId) {
+									var viewCountElement = item.querySelector('.viewcount');
+									if (viewCountElement) {
+										viewCountElement.innerText = response.viewcount;
+									}
+								}
+							});
+						} else {
+							alert("조회수 업데이트 실패");
+						}
+					},error: function(error) {
+						console.log("viewcount update error");
+					}
+				});
+
+			});
 		});
     </script>
 </body>

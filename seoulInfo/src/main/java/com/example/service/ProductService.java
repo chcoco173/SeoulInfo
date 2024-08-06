@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import com.example.domain.FavoriteProductVO;
+import com.example.domain.ProductBuyVO;
 import com.example.domain.ProductImageVO;
 import com.example.domain.ProductSearchVO;
 import com.example.domain.ProductVO;
@@ -44,7 +44,6 @@ public interface ProductService {
 	// 상품 삭제
 	public Integer deleteProduct(ProductVO pvo);
 
-
 	// 관심상품 등록
 	public Integer insertFavProduct(FavoriteProductVO fpvo);
 
@@ -59,8 +58,15 @@ public interface ProductService {
 
 	// 유사상품 출력
 	public List<Map<String, Object>> similarList(int[] prediction);
-	
+
 	public int countItems(HashMap map);
 
+	// 조회수 증가
+	public Integer productViewCountUpdate(Integer festival_id);
+	
+	// 구매후기 list 출력
+	public List<Map<String, Object>> productReview(String member_id);
+	
+	
 
 }

@@ -6,7 +6,7 @@ const messageForm = document.querySelector('#messageForm');
 const messageInput = document.querySelector('#message');
 const connectingElement = document.querySelector('.connecting');
 const chatArea = document.querySelector('#chat-messages');
-const logout = document.querySelector('#logout');
+const chatDone = document.querySelector('#chat-done');
 const fileUploadInput = document.querySelector('#fileUpload');
 const fileUploadButton = document.querySelector('#fileUploadButton');
 const userId = document.querySelector('#connected-userId').textContent; // 서버에서 가져온 member_id
@@ -49,9 +49,7 @@ function onConnected() {
 async function findAndDisplayChatRooms() {
 
         const findChatRoomsResponse = await fetch('/findChatRooms');
-		console.log("11",findChatRoomsResponse);
         let chatRooms = await findChatRoomsResponse.json();
-		console.log("22",chatRooms);
 
         const chatRoomsList = document.getElementById('chatRooms');
         chatRoomsList.innerHTML = '';
@@ -65,12 +63,10 @@ async function findAndDisplayChatRooms() {
                 chatRoomsList.appendChild(separator);
             }*/
         });
-
 }
 
 
 async function appendChatElement(chatRoom, chatRoomsList) {
-    console.log('Appending user:', chatRoom); // 로그 추가
     
     const listItem = document.createElement('li');
     listItem.classList.add('user-item');
@@ -86,7 +82,6 @@ async function appendChatElement(chatRoom, chatRoomsList) {
         rolePrefix = "구매자: ";
     }
     listItem.id = otherUserId;
-    console.log('Appending user:', listItem.id); // 로그 추가
 
     // 사용자 프로필 사진 대신 상품 이미지로 설정
     const saleInfo = await fetchSaleInfo(chatRoom.saleId);
@@ -108,23 +103,31 @@ async function appendChatElement(chatRoom, chatRoomsList) {
     usernameSpan.classList.add('user-name');
 
     // 안 읽은 메세지 존재하는 채팅방 알림
+	
     const receivedMsgs = document.createElement('span');
     receivedMsgs.textContent = '0';
     receivedMsgs.classList.add('nbr-msg', 'hidden');
+	
+	// 유저 온라인 오프라인 상태
+/*	const user = await fetch(`/users?userId=${otherUserId}`);
+	const statusSpan = document.createElement('div'); // Use div to automatically move to next line
+	statusSpan.textContent = `(${user.status})`;
+	statusSpan.classList.add(user.status.toLowerCase(), 'status'); // Apply status styles here*/
 
     // 숨겨진 요소로 sale_id 추가
     const saleIdHidden = document.createElement('input'); // hidden 요소로 sale_id 추가
     saleIdHidden.type = 'hidden';
     saleIdHidden.value = chatRoom.saleId;
-    console.log("상품번호:", chatRoom.saleId);
     saleIdHidden.classList.add('sale-id');
     
     listItem.appendChild(userImage);
+	// 안읽음 표시
     listItem.appendChild(receivedMsgs);
     
     userDetails.appendChild(saleNameSpan); // 상품 이름 추가
     userDetails.appendChild(document.createElement('br')); // 개행 추가
     userDetails.appendChild(usernameSpan);
+//	userDetails.appendChild(statusSpan); // Append status information
     listItem.appendChild(saleIdHidden); // Append sale_id hidden element
 
     listItem.appendChild(userDetails); // Append the details container to the list item
@@ -160,6 +163,9 @@ async function fetchSaleInfo(saleId) {
 }
 
 function userItemClick(event) {
+	
+	chatDone.classList.remove('hidden');
+	
     document.querySelectorAll('.user-item').forEach(item => {
         item.classList.remove('active');
     });
@@ -171,9 +177,6 @@ function userItemClick(event) {
 
     selectedUserId = clickedUser.getAttribute('id');
     selectedSaleId = clickedUser.querySelector('.sale-id').value;
-
-    console.log('채팅방 리스트 클릭시 Selected User ID: ' + selectedUserId);
-    console.log('채팅방 리스트 클릭시 Selected Sale ID: ' + selectedSaleId);
     
 	// lastMessageDate 초기화
 	lastMessageDate = null;
@@ -207,15 +210,17 @@ function userItemClick(event) {
 
 // 상품 상세 정보
 function fetchProductInfo(saleId) {
-    console.log('Fetching product info for sale ID: ' + saleId);
     fetch(`/product/getProductInfo?sale_id=${saleId}`)
         .then(response => {
-            console.log('Response received: ', response);
             return response.json();
         })
         .then(data => {
-            console.log('Product info received: ', data);
             updateChatHeader(data);
+			if (data.product.sale_status === '판매완료') {
+			    document.getElementById('deal-done').classList.add('disabled');
+			} else {
+			    document.getElementById('deal-done').classList.remove('disabled');
+			}
         })
         .catch(error => {
             console.error('Error fetching product info:', error);
@@ -226,10 +231,7 @@ function updateChatHeader(data) {
     const product = data.product;
     const productImage = data.productImage;
 
-    console.log('Updating chat header with product info: ', product);
-    console.log('Product image info: ', productImage);
-
-    document.getElementById('product-name').innerText = `상품명: ${product.sale_name}`;
+    document.getElementById('product-name').innerText = `${product.sale_name}`;
     document.getElementById('transaction-status').innerText = `거래 상태: ${product.sale_status}`;
     if (productImage) {
         document.getElementById('product-image').src = `/productImage/${productImage.productimg_alias}`;
@@ -297,7 +299,6 @@ function displayMessage(senderId, content, timestamp) {
 
 
 function formatTimestamp(timestamp) {
-	console.log("2>" + timestamp);
 	
     const date = new Date(timestamp);
     const hours = date.getHours();
@@ -306,17 +307,13 @@ function formatTimestamp(timestamp) {
     const formattedHours = hours % 12 || 12;
     const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
 	
-	console.log("3>" +timestamp);
-	
     return `${ampm} ${formattedHours}:${formattedMinutes}`;
 }
 
 // Update fetchAndDisplayUserChat to include timestamp
 async function fetchAndDisplayUserChat() {
-	console.log('채팅목록 가져오기 Selected User ID: ' + selectedUserId);
-	console.log('채팅목록 가져오기 Selected Sale ID: ' + selectedSaleId);
 	const userChatResponse = await fetch(`/messages?saleId=${selectedSaleId}&userId1=${userId}&userId2=${selectedUserId}`);
-	console.log("!!!!!!!!!!!!!!!!!!!!!!"+userChatResponse);
+
     const userChat = await userChatResponse.json();
 	
     chatArea.innerHTML = '';
@@ -363,7 +360,6 @@ async function onMessageReceived(payload) {
     /*await findAndDisplayotherUsers();*/
 	await fetchAndDisplayUserChat();	// !! 이게 없어서 메세지 real-time 수신 안됐잖아!!
 
-    console.log('Message received', payload);
     const message = JSON.parse(payload.body);
     if (selectedUserId && selectedUserId === message.senderId) {
         displayMessage(message.senderId, message.content, message.timestamp);
@@ -420,35 +416,6 @@ fileUploadInput.addEventListener('change', (event) => {
 });
 
 
-/*document.getElementById('deal-done').addEventListener('click', dealDone);
-
-function dealDone() {
-    if (selectedSaleId) {
-        fetch('/product/updateStatus', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: `sale_id=${selectedSaleId}&sale_status=판매완료`
-        })
-        .then(response => response.text())
-        .then(data => {
-            if (data === 'success') {
-                alert('거래 상태가 판매완료로 변경되었습니다.');
-                document.getElementById('transaction-status').innerText = '거래 상태: 판매완료';
-            } else {
-                alert('거래 상태 변경에 실패했습니다.');
-            }
-        })
-        .catch(error => {
-            console.error('Error updating sale status:', error);
-            alert('거래 상태 변경 중 오류가 발생했습니다.');
-        });
-    } else {
-        alert('선택된 상품이 없습니다.');
-    }
-}*/
-
 function onLogout() {
     stompClient.send("/app/user.disconnectUser",
         {},
@@ -461,7 +428,6 @@ function onLogout() {
 document.getElementById('chat-done').addEventListener('click', leaveChatRoom);
 
 async function leaveChatRoom() {
-    console.log('채팅방 나가기 버튼 Selected Sale ID: ' + selectedSaleId);
     if (selectedSaleId && selectedUserId) {
         try {
             const responseRoom = await fetch(`/chat/leaveChatRoom?saleId=${selectedSaleId}&userId1=${userId}&userId2=${selectedUserId}`, {
@@ -479,10 +445,10 @@ async function leaveChatRoom() {
             });
 
             if (responseRoom.ok && responseMessage.ok) {
-                console.log('Chat room and messages successfully deleted');
                 alert('채팅방이 삭제되었습니다.');
                 // 채팅방 목록을 새로고침
                 findAndDisplayChatRooms();
+				fetchAndDisplayUserChat();
                 // 채팅 영역과 입력 폼을 숨김
                 messageForm.classList.add('hidden');
                 chatArea.classList.add('hidden');
@@ -504,20 +470,25 @@ document.getElementById('deal-done').addEventListener('click', updateSaleStatus)
 
 async function updateSaleStatus() {
     if (selectedSaleId) {
-        try {
-            const response = await fetch(`/product/updateStatus?sale_id=${selectedSaleId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: `sale_status=판매완료`
-            });
+		const buyerId = selectedUserId;
+		
+		console.log("updateSaleStatus!!!!!!!!!"+buyerId);
+		
+		try {
+		    const response = await fetch(`/product/updateStatus`, {
+		        method: 'POST',
+		        headers: {
+		            'Content-Type': 'application/x-www-form-urlencoded'
+		        },
+		        body: `sale_id=${selectedSaleId}&sale_status=판매완료&member_id=${buyerId}`
+		    });
 
             const result = await response.text();
 
             if (result === '1') {
-                alert('거래 상태가 판매완료로 변경되었습니다.');
+                alert('판매완료됨.');
                 document.getElementById('transaction-status').innerText = '거래 상태: 판매완료';
+				document.getElementById('deal-done').classList.add('disabled');
             } else if (result === 'already_completed') {
                 alert('이미 판매 완료된 상품입니다.');
             } else {

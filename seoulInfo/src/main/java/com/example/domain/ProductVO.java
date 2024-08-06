@@ -15,6 +15,7 @@ public class ProductVO {
 	private		String		sale_status;		// 거래상태
 	private 	String		member_id;			// 판매자 id
 	private		String 		sale_area;			// 지역
+	private		Integer		sale_viewcount;		// 조회수
 
 	
 

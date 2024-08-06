@@ -171,9 +171,10 @@
 				    <div class="action-buttons">
 				        <button id="report" class="hidden">판매자 신고</button>
 						<button id="deal-done" class="hidden">거래 완료</button>
-				        <button id="chat-done">채팅 나가기</button>						
+				        <button id="chat-done" class="hidden">채팅 나가기</button>						
 				    </div>
-				</div>				
+				</div>		
+	
                 <div class="chat-area" id="chat-messages"></div>
                 <form id="messageForm" name="messageForm" class="hidden">
                     <div class="message-input">
