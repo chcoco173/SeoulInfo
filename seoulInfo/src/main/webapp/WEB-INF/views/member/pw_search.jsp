@@ -102,7 +102,7 @@
                 </div>
                 <!-- 비밀번호찾기(이메일인증) -->
                 <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">
-				  <div class="button-primary-large w-button">이메일 인증</div>
+				  <div class="button-primary-large-black w-button">이메일 인증</div>
 				  
 					<form action="pw_search" method="post" name="wf-form-Contact-Form" id="wf-form-Contact-Form" class="form" data-wf-page-id="6684f0fb2a5375354f5c4825" data-wf-element-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a65">
 					  <%-- <%@ include file="../member/mailPage.jsp" %> --%>

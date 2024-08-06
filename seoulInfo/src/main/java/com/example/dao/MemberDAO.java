@@ -18,6 +18,11 @@ public interface MemberDAO {
 	public void insertMember(MemberVO vo);	
 	//회원정보 수정
 	public void updateMember(MemberVO vo);
+    // 회원 정보 조회
+    public MemberVO getMemberById(String member_id);
+    
+//	public MemberVO findByMemberId(String member_id);
+	
 	//회원탈퇴
 	public void deleteMember(MemberVO vo);
 	
@@ -44,7 +49,7 @@ public interface MemberDAO {
     void updatePassword(@Param("member_email") String member_email, @Param("newPassword") String newPassword);	
 	
     
-    //8/1 네이버 로그인
+    //8/1(목) 네이버 로그인
     // 이메일로 사용자 등록 여부 확인
     boolean checkUserByEmail(@Param("member_email") String member_email);
     

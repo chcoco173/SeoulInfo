@@ -1,4 +1,4 @@
-<%@page contentType="text/html; charset=UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
@@ -123,10 +123,10 @@
                       </a>
                       <div id="w-node-bbff658c-4524-8e8f-d0bf-96425152472b-4f5c4820" class="post-row-wrapper">						
                         <div class="tags-wrappers">
-                          <a href="#나" class="tag-a w-inline-block">회원아이디
+                          <a href="" class="tag-a w-inline-block">회원아이디 : ${sessionScope.member.member_id}
                             <div class="text-size-small w-dyn-bind-empty"></div>
                           </a>
-                          <a href="#다" class="tag-a w-inline-block">회원이메일
+                          <a href="" class="tag-a w-inline-block">회원이메일 : ${sessionScope.member.member_email}
                             <div class="text-size-small w-dyn-bind-empty"></div>
                           </a>
                         </div>												
