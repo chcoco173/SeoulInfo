@@ -4,15 +4,14 @@
 
 <mapper namespace="com.example.dao.EVStationDAO">
 	<select id="getStation"  resultType="EVStationVO">
-	SELECT  *
-	FROM evc
-	
-	limit 7000
+		SELECT *
+		FROM evc
+		limit 7000
 	</select>
 	
 <select id="getFilteredStation" parameterType="hashmap" resultType="EVchargerVO">
     SELECT DISTINCT
-        e.evc_id              AS evc_id
+        e.evc_id             AS evc_id
         ,e.evc_area          AS evc_area
         ,e.evc_address       AS evc_address
         ,e.evc_name          AS evc_name 
@@ -141,14 +140,58 @@
 	<select id="getCircleInfo" parameterType="hashmap" resultType="EVPlacesVO">
 	    SELECT *
 	    FROM evc_etc
-	    WHERE ( 6371 * 2 * ASIN( SQRT(
+	    WHERE (( 6371 * 2 * ASIN( SQRT(
 	                POWER(SIN((RADIANS(#{centerLat}) - RADIANS(etc_lat)) / 2), 2) +
 	                COS(RADIANS(#{centerLat})) * COS(RADIANS(etc_lat)) *
 	                POWER(SIN((RADIANS(#{centerLng}) - RADIANS(etc_long)) / 2), 2)
-	          ) ) ) &lt; #{radius}/1000
+	          ) ) ) &lt; #{radius}/1000)
 	    <if test="category != null">
         	AND etc_category = #{category}
     	</if>
 	    LIMIT 200
 	</select>
+	
+	<select id="getEvMarkers" parameterType="hashmap" resultType="EVStationVO">
+		SELECT DISTINCT
+			  e.evc_id             AS evc_id
+	          ,e.evc_area          	AS evc_area
+	          ,e.evc_address       	AS evc_address
+	          ,e.evc_name          	AS evc_name 
+	          ,e.evc_lat           	AS evc_lat 
+	          ,e.evc_long          	AS evc_long
+	          <if test="operators != null">
+	          ,c.charger_opsmall   	AS charger_opsmall
+	          </if>
+    		  <if test="types != null">
+	          ,c.charger_type		AS charger_type
+	          </if>
+		FROM evc	e
+		JOIN evc_cg	c
+		ON e.evc_id = c.evc_id
+		limit 7000
+		<if test="operators != null">
+        	WHERE charger_opsmall = #{operators}
+    	</if>
+    	<if test="types != null">
+        	WHERE charger_type = #{types}
+    	</if>
+	</select>
+	
+	<select id="getNavMarker" parameterType="hashmap" resultType="EVStationVO">
+		SELECT DISTINCT
+			  e.evc_id             AS evc_id
+	          ,e.evc_area          	AS evc_area
+	          ,e.evc_address       	AS evc_address
+	          ,e.evc_name          	AS evc_name 
+	          ,e.evc_lat           	AS evc_lat 
+	          ,e.evc_long          	AS evc_long
+		FROM evc	e
+		JOIN evc_cg	c
+		ON e.evc_id = c.evc_id
+		WHERE
+            e.evc_lat BETWEEN #{minLat} AND #{maxLat}
+        AND e.evc_long BETWEEN #{minLon} AND #{maxLon}
+        limit 7000
+	</select>
+	
 </mapper>

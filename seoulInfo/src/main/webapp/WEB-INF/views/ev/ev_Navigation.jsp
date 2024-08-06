@@ -118,95 +118,198 @@
         </div>
         <div id="result"></div>
     </div>
-	
-    <script>	
-        var map = new Tmapv2.Map("map_div", {
-            center: new Tmapv2.LatLng(37.54723135585498, 126.99680328369186),
-            zoom: 14,
-            httpsMode: true
-        });
+	<script>
+	var map = new Tmapv2.Map("map_div", {
+	    center: new Tmapv2.LatLng(37.54723135585498, 126.99680328369186),
+	    zoom: 14,
+	    httpsMode: true
+	});
 
-        function onKeyupSearchPoi(input) {
-            if (event.keyCode === 13) {
-                if (input.id === "searchStartAddress") {
-                    clickSearchPois('start');
-                } else if (input.id === "searchEndAddress") {
-                    clickSearchPois('end');
-                }
-            }
-        }
+	// 전역 변수로 폴리라인 배열 및 마커 변수들을 정의
+	var routePolylines = [];
+	var startMarker = null;
+	var endMarker = null;
+	var chargingStationMarkers = [];
+	var infoWindow = null; // 인포윈도우 전역 변수
 
-        function clickSearchPois(type) {
-            var searchKeyword = type === 'start' ? $("#searchStartAddress").val() : $("#searchEndAddress").val();
-            var optionObj = {
-                resCoordType: "WGS84GEO",
-                reqCoordType: "WGS84GEO",
-                count: 10
-            };
-            var params = {
-                onComplete: function(result) {
-                    var pois = result._responseData.searchPoiInfo.pois.poi;
-                    if (pois.length > 0) {
-                        var firstPoi = pois[0];
-                        if (type === 'start') {
-                            $("#startx").val(firstPoi.frontLon);
-                            $("#starty").val(firstPoi.frontLat);
-                        } else if (type === 'end') {
-                            $("#endx").val(firstPoi.frontLon);
-                            $("#endy").val(firstPoi.frontLat);
-                        }
-                    }
-                },
-                onProgress: function() {},
-                onError: function() {}
-            };
-            new Tmapv2.extension.TData().getPOIDataFromSearchJson(searchKeyword, optionObj, params);
-        }
+	function onKeyupSearchPoi(input) {
+	    if (event.keyCode === 13) {
+	        if (input.id === "searchStartAddress") {
+	            clickSearchPois('start');
+	        } else if (input.id === "searchEndAddress") {
+	            clickSearchPois('end');
+	        }
+	    }
+	}
 
-        function searchRoute() {
-            var startx = $("#startx").val();
-            var starty = $("#starty").val();
-            var endx = $("#endx").val();
-            var endy = $("#endy").val();
-            var startLatLng = new Tmapv2.LatLng(starty, startx);
-            var endLatLng = new Tmapv2.LatLng(endy, endx);
-            var optionObj = {
-                reqCoordType: "WGS84GEO",
-                resCoordType: "WGS84GEO",
-                trafficInfo: "Y"
-            };
-            var params = {
-                onComplete: function(result) {
-                    var resultData = result._responseData.features;
-                    var totalTime = (resultData[0].properties.totalTime / 60).toFixed(0) + "분";
-                    var totalDistance = (resultData[0].properties.totalDistance / 1000).toFixed(1) + "km";
-                    $("#result").html("총 거리: " + totalDistance + ", 총 시간: " + totalTime);
+	function clickSearchPois(type) {
+	    var searchKeyword = type === 'start' ? $("#searchStartAddress").val() : $("#searchEndAddress").val();
+	    var optionObj = {
+	        resCoordType: "WGS84GEO",
+	        reqCoordType: "WGS84GEO",
+	        count: 10
+	    };
+	    var params = {
+	        onComplete: function(result) {
+	            var pois = result._responseData.searchPoiInfo.pois.poi;
+	            if (pois.length > 0) {
+	                var firstPoi = pois[0];
+	                if (type === 'start') {
+	                    $("#startx").val(firstPoi.frontLon);
+	                    $("#starty").val(firstPoi.frontLat);
+	                } else if (type === 'end') {
+	                    $("#endx").val(firstPoi.frontLon);
+	                    $("#endy").val(firstPoi.frontLat);
+	                }
+	            }
+	        },
+	        onProgress: function() {},
+	        onError: function() {}
+	    };
+	    new Tmapv2.extension.TData().getPOIDataFromSearchJson(searchKeyword, optionObj, params);
+	}
 
-                    var positionBounds = new Tmapv2.LatLngBounds();
-                    for (var i in resultData) {
-                        var geometry = resultData[i].geometry;
-                        if (geometry.type === "LineString") {
-                            var linePoints = [];
-                            for (var j in geometry.coordinates) {
-                                var latlng = new Tmapv2.LatLng(geometry.coordinates[j][1], geometry.coordinates[j][0]);
-                                linePoints.push(latlng);
-                                positionBounds.extend(latlng);
-                            }
-                            var polyline = new Tmapv2.Polyline({
-                                path: linePoints,
-                                strokeColor: "#FF0000",
-                                strokeWeight: 6,
-                                map: map
-                            });
-                        }
-                    }
-                    map.panToBounds(positionBounds);
-                },
-                onProgress: function() {},
-                onError: function() {}
-            };
-            new Tmapv2.extension.TData().getRoutePlanJson(startLatLng, endLatLng, optionObj, params);
-        }
-    </script>
+	function searchRoute() {
+	    var startx = $("#startx").val();
+	    var starty = $("#starty").val();
+	    var endx = $("#endx").val();
+	    var endy = $("#endy").val();
+	    var startLatLng = new Tmapv2.LatLng(starty, startx);
+	    var endLatLng = new Tmapv2.LatLng(endy, endx);
+	    var optionObj = {
+	        reqCoordType: "WGS84GEO",
+	        resCoordType: "WGS84GEO",
+	        trafficInfo: "Y"
+	    };
+	    var params = {
+	        onComplete: function(result) {
+	            var resultData = result._responseData.features;
+	            var totalTime = (resultData[0].properties.totalTime / 60).toFixed(0) + "분";
+	            var totalDistance = (resultData[0].properties.totalDistance / 1000).toFixed(1) + "km";
+	            $("#result").html("총 거리: " + totalDistance + ", 총 시간: " + totalTime);
+
+	            // 기존 폴리라인 및 마커 제거
+	            for (var i = 0; i < routePolylines.length; i++) {
+	                routePolylines[i].setMap(null);
+	            }
+	            routePolylines = [];
+
+	            if (startMarker) {
+	                startMarker.setMap(null);
+	            }
+	            if (endMarker) {
+	                endMarker.setMap(null);
+	            }
+
+	            for (var i = 0; i < chargingStationMarkers.length; i++) {
+	                chargingStationMarkers[i].setMap(null);
+	            }
+	            chargingStationMarkers = [];
+
+	            // 시작점 마커 추가
+	            startMarker = new Tmapv2.Marker({
+	                position: startLatLng,
+	                map: map,
+	                title: "Start Point",
+	                icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_s.png" // 시작점 마커 아이콘 URL
+	            });
+
+	            // 도착점 마커 추가
+	            endMarker = new Tmapv2.Marker({
+	                position: endLatLng,
+	                map: map,
+	                title: "End Point",
+	                icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_e.png" // 도착점 마커 아이콘 URL
+	            });
+
+	            var positionBounds = new Tmapv2.LatLngBounds();
+	            var linePoints = [];
+	            for (var i in resultData) {
+	                var geometry = resultData[i].geometry;
+	                if (geometry.type === "LineString") {
+	                    for (var j in geometry.coordinates) {
+	                        var latlng = new Tmapv2.LatLng(geometry.coordinates[j][1], geometry.coordinates[j][0]);
+	                        linePoints.push(latlng);
+	                        positionBounds.extend(latlng);
+	                    }
+	                    var polyline = new Tmapv2.Polyline({
+	                        path: linePoints,
+	                        strokeColor: "#FF0000",
+	                        strokeWeight: 6,
+	                        map: map
+	                    });
+	                    routePolylines.push(polyline);
+	                }
+	            }
+	            map.panToBounds(positionBounds);
+
+	            // 충전소 데이터 가져오기
+	            getChargingStations(positionBounds);
+	        },
+	        onProgress: function() {},
+	        onError: function() {}
+	    };
+	    new Tmapv2.extension.TData().getRoutePlanJson(startLatLng, endLatLng, optionObj, params);
+	}
+
+	function getChargingStations(bounds) {
+	    var apiUrl = 'getNavMarker'; // 충전소 데이터를 가져오는 API URL
+	    var data = {
+	        minLat: bounds.getSouthWest().lat(),
+	        maxLat: bounds.getNorthEast().lat(),
+	        minLon: bounds.getSouthWest().lng(),
+	        maxLon: bounds.getNorthEast().lng()
+	    };
+
+	    $.ajax({
+	        url: apiUrl,
+	        type: 'POST',
+	        data: data,
+	        success: function(response) {
+	            console.log("충전소 데이터 응답:", response); // 응답 데이터 확인
+	            for (var i in response) {
+	                var station = response[i];
+	                var markerPosition = new Tmapv2.LatLng(station.evc_lat, station.evc_long);
+	                var marker = new Tmapv2.Marker({
+	                    position: markerPosition,
+	                    map: map,
+	                    title: station.evc_name
+	                });
+
+	                // 마커 hover 이벤트 추가
+	                (function(marker, station) {
+	                    marker.addListener("mouseover", function() {
+	                        var content = '<div><strong>' + station.evc_name + '</strong><br>' +
+	                                      'Address: ' + station.evc_address + '</div>';
+	                        if (infoWindow) {
+	                            infoWindow.setMap(null);
+	                        }
+	                        infoWindow = new Tmapv2.InfoWindow({
+	                            position: marker.getPosition(),
+	                            content: content,
+	                            type: 2, // 2 - HTML content
+	                            map: map
+	                        });
+	                    });
+	                    marker.addListener("mouseout", function() {
+	                        if (infoWindow) {
+	                            infoWindow.setMap(null);
+	                        }
+	                    });
+	                })(marker, station);
+
+	                chargingStationMarkers.push(marker);
+	                console.log("충전소 마커 추가:", markerPosition); // 마커 추가 확인
+	            }
+	        },
+	        error: function() {
+	            console.error("충전소 데이터를 가져오는 데 실패했습니다.");
+	        }
+	    });
+	}
+	</script>
+
+
 </body>
 </html>
+

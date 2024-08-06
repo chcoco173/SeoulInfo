@@ -32,6 +32,12 @@ public interface EVStationService {
 	
 	// 반경 안의 시설 정보 가져오기
 	public List<EVPlacesVO> getCircleInfo(HashMap<String, Object> cmap);
+	
+	// 필터링 - 지도 클러스터러
+	public List<EVStationVO> getEvMarkers(HashMap<String, Object> mmap);
+
+	// 길찾기 주변 마커 띄우기
+	public List<EVStationVO> getNavMarker(HashMap<String, Object> tmap);
 
 	
 
