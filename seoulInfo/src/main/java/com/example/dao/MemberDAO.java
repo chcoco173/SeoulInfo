@@ -59,4 +59,12 @@ public interface MemberDAO {
     // 이메일로 전체 사용자 정보 가져오기
     public MemberVO getMemberByEmail(@Param("member_email") String member_email);
     
+    
+    //8/6 프로필 사진 등록
+    public void updateProfile(MemberVO vo);
+    public void deleteProfile(MemberVO vo);
+    
+    
+    
+    
 }

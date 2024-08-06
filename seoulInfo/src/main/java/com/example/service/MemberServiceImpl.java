@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dao.MemberDAO;
 import com.example.domain.MailVO;
@@ -106,7 +107,26 @@ public class MemberServiceImpl implements MemberService{
     }    
 //    public String getUserName(String member_email) {
 //        return memberDAO.getUserNameByEmail(member_email);
-//    }    
+//    }
+    
+    //8/6 프로필 사진 등록
+	@Transactional	
+	public void updateProfile(MemberVO vo) {
+		System.out.println("저장할 데이터: " + vo);
+		
+		// 데이터베이스에 멤버 정보 저장
+        if (vo.getMember_imagePath() != null) {
+            // 파일 첨부가 있는 경우
+            memberDAO.updateProfile(vo);
+        } else {
+            // 파일 첨부가 없는 경우에도 기본 정보 업데이트
+            memberDAO.updateProfile(vo);
+        }
+	}	
+	
+	public void deleteProfile(MemberVO vo) {
+		memberDAO.deleteProfile(vo);
+	}    
     
 	
 

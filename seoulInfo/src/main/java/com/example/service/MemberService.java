@@ -44,5 +44,10 @@ public interface MemberService {
     public boolean isUserRegistered(String member_email);
     public MemberVO getMemberByEmail(String member_email);
 //    public String getUserName(String member_email);
+    
+    
+    //8/6 프로필 사진 등록
+    public void updateProfile(MemberVO vo);
+    public void deleteProfile(MemberVO vo);
 
 }
