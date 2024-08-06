@@ -67,6 +67,8 @@
 	</script>
 	<link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
 	<link href="/images/webclip.png" rel="apple-touch-icon">
+	<!-- product 외부 css -->
+<!--	<link href="/css/product/productCU.css" rel="stylesheet" type="text/css">-->
 	</head>
 <body>
 	<div class="page-wrapper">
@@ -138,77 +140,50 @@
 			</div>
 		<!-- 검색창 end -->
 		
-		<!-- 축제(제목,이미지) start -->
-		<div class="main-wrapper">
-		    <div class="section-post-banner background-black">
-		        <div class="padding-global">
-		            <div class="padding-section-medium">
-		                <div class="container-full-width">
-		                    <h1 class="text-color-white">${festival.festival_name}</h1>
-		                    <div class="spacer-xlarge"></div>
-		                    <div class="image-overflow-wrapper">
-		                        <img src="${festival.festival_imageurl}" alt="${festival.festival_name}" style="max-width:100%;">
-		                    </div>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
-		    <div class="section-post-text">
-		        <div class="padding-global">
-		            <div class="padding-section-medium remove-bottom-padding">
-		                <div class="container-small">
-		                    <div class="rich-text w-richtext">
-		                        <p>시작 날짜: ${festival.festival_startDate}</p>
-		                        <p>종료 날짜: ${festival.festival_endDate}</p>
-		                        <p>장소: ${festival.festival_loc}</p>
-		                        <p>이용 요금: ${festival.festival_fee}</p>
-		                        <p>이용 대상: ${festival.festival_target}</p>
-		                        <p>주체자: ${festival.festival_host}</p>
-		                        <p>조회수: ${festival.festival_viewcount}</p>
-		                        <a href="${festival.festival_siteurl}" target="_blank">사이트 바로가기</a>
-		                    </div>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
-		</div>
-		<!-- 축제(제목,이미지) end -->
-		  <!-- 댓글 작성하기 start -->
-		  <div class="section-newsletter">
-		  	<div class="padding-global">
-		  		<div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd"
-		  			class="container-newsletter background-black">
-		  			<div class="_2-column-grid-uneven-right">
-		  				<h3 class="newsletter-heading">댓글</h3>
-		  				<div id="Style-Guide-Form"
-		  					class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form">
-		  					<form name="wf-form-Newsletter-Form" data-name="Newsletter Form"
-		  						method="get" id="wf-form-Newsletter-Form"
-		  						class="newsletter-form"
-		  						data-wf-page-id="628ab4b45549af6399a230d3"
-		  						data-wf-element-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9d2">
-		  						<input class="form-field newsletter w-input" maxlength="256"
-		  							name="Email" data-name="Email" placeholder="댓글을 작성해주세요."
-		  							type="email" id="Email" required="" /> <input type="submit"
-		  							data-wait="Please wait..."
-		  							class="button-primary-large max-width-full-mobile-portrait w-button"
-		  							value="댓글달기" />
-		  					</form>
-		  					<div class="form-success-message w-form-done">
-		  						<div class="text-size-regular text-color-white">Thank you!
-		  							Your submission has been received!</div>
-		  					</div>
-		  					<div class="form-error-message w-form-fail">
-		  						<div class="text-size-regular">Oops! Something went wrong
-		  							while submitting the form.</div>
-		  					</div>
-		  				</div>
-		  			</div>
-		  		</div>
-		  	</div>
-		  </div>
-		  <!-- 댓글 작성하기 end -->
-
+		<!-- 축제 후기 입력 form -->
+		<main class="main-wrapper">
+			<section class="section-style-guide-header">
+				<div class="padding-section-medium remove-bottom-padding">
+					<div class="padding-global">
+						<div class="container-large">
+							<h1>${festival.festival_name}<p>Festival ID: ${festival_id}</p></hr> 축제 후기 등록</h1>
+						</div>
+					</div>
+				</div>
+				<div class="container">
+					<div class="row">
+						<div class="col-md-2"></div>
+						<div class="col-md-8">
+							<form action="insertReview" method="post" enctype="multipart/form-data">
+							    <input type="hidden" name="festival_id" value="${festival_id}">
+							    <input type="hidden" name="member_id" value="${sessionScope.member.member_id}">
+							    <div class="form-group">
+							        <label for="fr_title">제목</label>
+							        <input type="text" class="form-control" id="fr_title" name="fr_title" placeholder="후기 제목을 입력해주세요." required>
+							    </div>
+							    <div class="form-group">
+							        <label for="fr_content">내용</label>
+							        <textarea class="form-control" id="fr_content" name="fr_content" rows="6" placeholder="후기 내용을 입력해주세요." required></textarea>
+							    </div>
+							    <div class="form-group">
+							        <label for="productImage">해당 축제에서 찍은 사진들을 올려주세요.</label>
+							        <div id="fileInputs">
+							            <input type="file" class="form-control-file mt-2 file-input" name="file">
+							            <input type="file" class="form-control-file mt-2 file-input" name="file">
+							            <input type="file" class="form-control-file mt-2 file-input" name="file">
+							        </div>
+							    </div>
+							    <div class="form-group submit-button">
+									<input type="hidden" id="festival_id" name="festival_id" value="${festival_id}">
+							        <button type="submit" class="btn btn-primary">후기 등록</button>
+							    </div>
+							</form>
+						</div>
+						<div class="col-md-2"></div>
+					</div>
+				</div>
+			</section>
+		</main>
 		  <div class="section-footer">
 		  	<div class="padding-global">
 		  		<div class="spacer-xxlarge"></div>
@@ -286,6 +261,8 @@
   	integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
   	crossorigin="anonymous"></script>
   <script src="/js/webflow.js" type="text/javascript"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 </body>
 
 </html>
