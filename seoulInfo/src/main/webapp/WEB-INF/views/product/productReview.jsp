@@ -46,12 +46,15 @@
 <!-- 외부 css -->
 <link href="/css/product/productReview.css" rel="stylesheet"
 	type="text/css">
-
+<style>
+	.hidden {
+	    display: none;
+	}
+</style>
 </head>
 <body>
 	<div class="page-wrapper">
 		<%@include file="../productNav/productNav.jsp"%>
-
 		<%@include file="../productNav/productMyPageNav.jsp"%>
 
 		<main class="main-wrapper">
@@ -64,9 +67,9 @@
 
 						<div class="container-large">
 							<div class="row">
-								<div class="col-md-4">
+								<div class="col-md-4 scrollable-list">
 									<c:forEach items="${buyList}" var="buyList" varStatus="status">
-										<div class="product-card">
+										<div class="product-card item">
 											<c:choose>
 												<c:when test="${not empty buyList.productimg_alias}">
 													<img src="/productImage/${buyList.productimg_alias}"
@@ -84,41 +87,49 @@
 														value="${buyList.buy_id}"> <input type="hidden"
 														class="member_id" value="${buyList.member_id}">
 
-													<h5>${buyList.sale_name}</h5>
+													<h5 class="sale_name">${buyList.sale_name}</h5>
 													<p>
 														${timeDataList[status.index]}<br>${buyList.sale_status}
 													</p>
 												</div>
 											</div>
-											<button class="btn btn-secondary review">후기 남기기</button>
+											<c:choose>
+											    <c:when test="${buyList.has_review == 0}">
+											        <button class="btn btn-secondary review">후기 남기기</button>
+											    </c:when>
+											    <c:otherwise>
+											        <button class="btn btn-secondary reviewShow">후기 보기</button>
+											    </c:otherwise>
+											</c:choose>
 										</div>
 									</c:forEach>
 								</div>
 
 								<div class="col-md-8 text-center">
-									<div class="product-card">
+									 <div id="reviewForm" class="product-card hidden">
 										<h2>판매자 거래 후기 남기기</h2>
+										<input type="hidden" id="reviewBuyId">
 										<p>받은 상품은 만족하나요?</p>
 										<div class="review-buttons btn-group">
 											<input type="radio" id="satisfied" name="satisfaction"
-												value="satisfied"> <label for="satisfied">만족해요!</label>
+												value="만족해요!"> <label for="satisfied">만족해요!</label>
 											<input type="radio" id="unsatisfied" name="satisfaction"
-												value="unsatisfied"> <label for="unsatisfied">아쉬워요..</label>
+												value="아쉬워요.."> <label for="unsatisfied">아쉬워요..</label>
 										</div>
 
 										<p>대화 매너는 어땠나요?</p>
 										<div class="review-buttons btn-group">
-											<input type="radio" id="polite" name="manner" value="polite">
+											<input type="radio" id="polite" name="manner" value="친절해요!">
 											<label for="polite">친절해요!</label> <input type="radio"
-												id="impolite" name="manner" value="impolite"> <label
+												id="impolite" name="manner" value="별로에요.."> <label
 												for="impolite">별로에요..</label>
 										</div>
 
 										<p>약속은 잘 지켜졌나요?</p>
 										<div class="review-buttons btn-group">
-											<input type="radio" id="kept" name="commitment" value="kept">
+											<input type="radio" id="kept" name="commitment" value="잘 지켰어요!">
 											<label for="kept">잘 지켰어요!</label> <input type="radio"
-												id="notkept" name="commitment" value="notkept"> <label
+												id="notkept" name="commitment" value="아니요.."> <label
 												for="notkept">아니요..</label>
 										</div>
 										<p>기타</p>
@@ -129,18 +140,19 @@
 
 										<p>별점 평가</p>
 										<div class="rating center">
-											<span class="rating__result"></span> <i
-												class="rating__star far fa-star"></i> <i
-												class="rating__star far fa-star"></i> <i
-												class="rating__star far fa-star"></i> <i
-												class="rating__star far fa-star"></i> <i
-												class="rating__star far fa-star"></i>
+											<span class="rating__result" ></span> <i
+												class="rating__star far fa-star" data-value="1"></i> <i
+												class="rating__star far fa-star" data-value="2"></i> <i
+												class="rating__star far fa-star" data-value="3"></i> <i
+												class="rating__star far fa-star" data-value="4"></i> <i
+												class="rating__star far fa-star" data-value="5"></i>
 										</div>
-
+										<br/>
+										<div class="review-buttons btn-group">
+											<button class="btn btn-secondary reviewReg" disabled>입력</button>
+										</div>
 									</div>
 								</div>
-
-
 							</div>
 						</div>
 					</div>
@@ -226,41 +238,13 @@
 		crossorigin="anonymous"></script>
 	<script src="/js/webflow.js" type="text/javascript"></script>
 	<!-- 제이쿼리 라이브러리 추가 -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-	<script type="text/javascript">
-		// 별
-	const ratingStars = [...document.getElementsByClassName("rating__star")];
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-	function executeRating(stars) {
-	  const starClassActive = "rating__star fas fa-star";
-	  const starClassInactive = "rating__star far fa-star";
-	  const starsLength = stars.length;
-	  let i;
+	<!-- 별 -->
+	<script src="/js/productReviewStar.js" type="text/javascript"></script>
+	<!-- ajax 를 사용해 리뷰 insert, update -->
+	<script src="/js/productReviewAjax.js" type="text/javascript"></script>
+	
 
-	  stars.map((star) => {
-	    star.onclick = () => {
-	      i = stars.indexOf(star);
-
-	      if (star.className===starClassInactive) {
-	        for (i; i >= 0; --i) stars[i].className = starClassActive;
-	      } else {
-	        for (i; i < starsLength; ++i) stars[i].className = starClassInactive;
-	      }
-	    };
-	  });
-	}
-
-	executeRating(ratingStars);
-	</script>
-
-	<script>
-		$(".review").click(function(){
-			var buy_id = $(this).closest('.product-card').find('.buy_id').val();
-			alert(buy_id);
-			$(".review-form").toggle();
-						
-		})
-	</script>
 </body>
 </html>
