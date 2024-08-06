@@ -14,11 +14,11 @@ function Charts() {
       'http://localhost:5601/app/dashboards#/view/other-dashboard-url-1'
     ],
     축제: [
-      'http://localhost:5601/app/dashboards#/view/festival-dashboard-url',
+      'http://localhost:5601/app/dashboards#/view/c289ca40-53b9-11ef-b8bc-6959833928be',
       'http://localhost:5601/app/dashboards#/view/other-dashboard-url-2'
     ],
     전기차: [
-      'http://localhost:5601/app/dashboards#/view/electric-car-dashboard-url',
+      'http://localhost:5601/app/dashboards#/view/a7b42a00-53d0-11ef-b8bc-6959833928be',
       'http://localhost:5601/app/dashboards#/view/other-dashboard-url-3'
     ]
   };
@@ -28,8 +28,12 @@ function Charts() {
   };
 
   const getSearchUrl = (tab, page, searchQuery) => {
-    if (searchQuery.trim()) {
-      return `${kibanaUrls[tab][page]}?_g=(filters:!(),refreshInterval:(pause:!f,value:10000),time:(from:now-10y,to:now))&_a=(description:'',filters:!(),fullScreenMode:!t,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:'${searchQuery}'),timeRestore:!f,title:'${tab} 차트',viewMode:!f)&embed=true`;
+    if (tab === '축제' && searchQuery.trim()) {
+      return `${kibanaUrls[tab][page]}?_g=(filters:!(),refreshInterval:(pause:!f,value:10000),time:(from:now-10y,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:'festival_area:"${searchQuery}"'),timeRestore:!f,title:'${tab} 차트',viewMode:!f)&embed=true`;
+    } else if (tab === '전기차' && searchQuery.trim()) {
+      return `${kibanaUrls[tab][page]}?_g=(filters:!(),refreshInterval:(pause:!f,value:10000),time:(from:now-10y,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:'evc_area:"${searchQuery}" OR DISTRICT.keyword:"${searchQuery}"'),timeRestore:!f,title:'${tab} 차트',viewMode:!f)&embed=true`;
+    } else if (searchQuery.trim()) {
+      return `${kibanaUrls[tab][page]}?_g=(filters:!(),refreshInterval:(pause:!f,value:10000),time:(from:now-10y,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:'${searchQuery}'),timeRestore:!f,title:'${tab} 차트',viewMode:!f)&embed=true`;
     } else {
       return getBaseUrl(tab, page);
     }
@@ -37,7 +41,6 @@ function Charts() {
 
   useEffect(() => {
     setSearchUrl(getBaseUrl(activeTab, currentPage));
-    // Tab 또는 페이지 변경 시에도 renderKey 업데이트
   }, [activeTab, currentPage]);
 
   const handleSearch = (event) => {
