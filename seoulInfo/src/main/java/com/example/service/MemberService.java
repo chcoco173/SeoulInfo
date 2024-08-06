@@ -14,7 +14,9 @@ public interface MemberService {
 	//회원가입 : DB입력
 	public void insertMember(MemberVO vo);	
 	//회원정보 수정
-	public void updateMember(MemberVO vo);
+	public MemberVO updateMember(MemberVO vo);
+	public MemberVO getMemberById(String member_id);
+	
 	//회원탈퇴
 	public void deleteMember(MemberVO vo);
 	

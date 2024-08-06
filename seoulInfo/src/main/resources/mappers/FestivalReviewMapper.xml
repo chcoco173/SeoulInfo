@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.dao.FestivalReviewDAO">
+    <!-- 축제 리뷰 삽입 -->
+    <insert id="insertReview" parameterType="FestivalReviewVO">
+        INSERT INTO festival_review (fr_content, fr_regdate, festival_id, member_id, fr_title)
+        VALUES (#{fr_content}, NOW(), #{festival_id}, #{member_id}, #{fr_title})
+    </insert>
+
+	<!-- 가장 최근 등록한 축제 리뷰 fr_id 값 가져오기 -->
+	<select id="ReviewNum" resultType='integer'>
+		SELECT fr_id
+		FROM
+		festival_review
+		ORDER BY fr_id DESC
+		limit 1
+	</select>
+	
+	<!-- 축제리뷰 id에 해당하는 리뷰 상세 -->
+	<select id="getReview" resultType="FestivalReviewVO"
+		parameterType="integer">
+		SELECT * FROM festival_review WHERE fr_id = #{fr_id}
+	</select>
+	
+	<!-- 축제 리뷰 수정 -->
+	<update id="updateReview" parameterType="FestivalReviewVO">
+		UPDATE festival_review
+		set
+		fr_content = #{fr_content},
+		fr_title = #{fr_title}
+		WHERE fr_id = #{fr_id} AND member_id = #{member_id}
+	</update>
+	
+	<!-- 리뷰 삭제 -->
+	<delete id="deleteReview" parameterType="FestivalReviewVO">
+		DELETE FROM
+		festival_review
+		WHERE fr_id = #{fr_id} AND member_id = #{member_id}
+	</delete>
+
+	<!-- 내 리뷰 리스트 -->
+	<select id="myReviewList" resultType="java.util.Map"
+		parameterType="string">
+		SELECT * FROM festival_review WHERE member_id = #{member_id}
+	</select>
+	
+	<!-- 해당 축제 리뷰 리스트 -->
+	<select id="getReviewList" resultType="java.util.Map"
+		parameterType="integer">
+		SELECT * FROM festival_review WHERE festival_id = #{festival_id}
+	</select>
+</mapper>

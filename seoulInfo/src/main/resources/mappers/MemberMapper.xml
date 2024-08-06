@@ -9,6 +9,18 @@
 		INSERT INTO member ( member_id, member_pw, member_name, member_tel, member_email, member_area )
 		VALUES ( #{member_id}, #{member_pw}, #{member_name}, #{member_tel}, #{member_email}, #{member_area} )	
 	</insert>
+
+	<!-- 8/2 회원수정 : DB입력 -->	
+    <select id="updateMember" parameterType="MemberVO" resultType="MemberVO">
+        UPDATE member 
+        SET member_id=#{member_id}, member_pw=#{member_pw}, member_name=#{member_name}, member_tel=#{member_tel}, member_email=#{member_email}, member_area=#{member_area} 
+        WHERE member_id=#{member_id}
+    </select>
+	<select id="getMemberById" parameterType="MemberVO">
+		SELECT * FROM member
+		WHERE member_id=#{member_id}
+	</select>    
+    	
 	
 	<!-- 로그인 : DB확인 -->
 	<select id="loginCheck" parameterType="MemberVO">

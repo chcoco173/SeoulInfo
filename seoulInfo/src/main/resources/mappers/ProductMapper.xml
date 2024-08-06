@@ -354,7 +354,7 @@
 		#{sale_id};
 	</update>
 
-	<!-- buy list -->
+	<!-- buy list (후기 유무 확인) -->
 	<select id="productReview" parameterType="string"
 		resultType="java.util.Map">
 		SELECT
@@ -366,9 +366,11 @@
 		ps.sale_area,
 		ps.member_id,
 		ps.sale_regdate,
+		pb.buy_date ,
 		pi.productimg_url,
 		pi.productimg_alias,
-		pb.buy_id
+		pb.buy_id,
+		CASE WHEN r.review_id IS NOT NULL THEN 1 ELSE 0 END AS has_review
 		FROM
 		product_sale ps
 		LEFT JOIN
@@ -382,9 +384,12 @@
 		LEFT JOIN
 		product_buy pb
 		ON ps.sale_id = pb.sale_id
+		LEFT JOIN
+		review r
+		ON pb.buy_id = r.buy_id
 		WHERE
 		pb.member_id = #{member_id}
-
+		order by pb.buy_date desc;
 	</select>
 
 

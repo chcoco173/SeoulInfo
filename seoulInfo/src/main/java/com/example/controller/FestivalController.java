@@ -107,4 +107,11 @@ public class FestivalController {
 	    return "festival/festivalDetail";
 	}
 	
+	// Festival Review page
+	@GetMapping("/festivalReview")
+	public String festivalReview(@RequestParam("festival_id") Integer festival_id, Model model) {
+		model.addAttribute("festival_id", festival_id);
+	    return "festival/festivalReview";
+	}
+	
 }

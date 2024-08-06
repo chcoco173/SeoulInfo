@@ -30,9 +30,26 @@ public class MemberServiceImpl implements MemberService{
 		memberDAO.insertMember(vo);
 	}
 	//회원정보 수정
-	public void updateMember(MemberVO vo) {
-		memberDAO.updateMember(vo);
+	public MemberVO updateMember(MemberVO vo) {
+		
+	    // 회원 정보 업데이트
+	    memberDAO.updateMember(vo);
+
+	    // 업데이트된 회원 정보 반환 (업데이트 후 조회)
+	    return memberDAO.getMemberById(vo.getMember_id());		
+		
 	}
+    // 회원 정보 조회
+    public MemberVO getMemberById(String member_id) {
+        // SQL 조회 쿼리 실행
+        return memberDAO.getMemberById(member_id); // 조회된 MemberVO 객체 반환
+    }	
+		
+//	public MemberVO getMemberById(String member_id) {
+//		return memberDAO.findByMemberId(member_id);
+//	}
+	
+	
 	//회원탈퇴
 	public void deleteMember(MemberVO vo) {
 		memberDAO.deleteMember(vo);
