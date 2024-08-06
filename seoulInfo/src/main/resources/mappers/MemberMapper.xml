@@ -96,6 +96,61 @@
     </select>	
 	
 
+	<!-- 8/6 프로필 사진 등록 -->
+	<update id="updateProfile" parameterType="MemberVO">
+		UPDATE member 
+		SET member_imageOrigin=#{member_imageOrigin}, member_imageName=#{member_imageName}, member_imagePath=#{member_imagePath}
+		WHERE member_id=#{member_id}		
+	</update>
+<!-- 	<insert id="insertProfile" parameterType="MemberVO">
+		INSERT INTO member ( member_id, member_imageOrigin, member_imageName, member_imagePath )
+		VALUES ( #{member_id}, #{member_imageOrigin}, #{member_imageName}, #{member_imagePath} )		
+	</insert> -->	
+	
+<!-- 	<update id="updateProfile" parameterType="MemberVO">		
+		UPDATE member
+		set title = #{title},
+			content = #{content}
+		WHERE seq = #{seq}		
+	</update>
+	
+	<delete id="deleteProfile" parameterType="MemberVO">	
+		DELETE FROM member
+		WHERE seq = #{seq}		
+	</delete>
+	
+		<select id="getProfileList" resultType="MemberVO">	
+		SELECT *
+		FROM member
+		ORDER BY SEQ DESC
+	</select> -->
 
+<!-- 	
+	<select id="getBoard" parameterType="MemberVO" resultType="MemberVO">	
+		SELECT *
+		FROM member
+		WHERE SEQ = #{seq}		
+	</select>
+ -->
+ 
+ 	<!-- 조인이 포함되어 있으면 resultType="hashmap" 필수로 변경 -->
+<!-- 	<select id="getBoard" parameterType="MemberVO" resultType="hashmap">	
+		SELECT 
+			b.seq		seq
+			,b.title	title
+			,b.writer	writer
+			,b.content  content
+			,b.regdate  regdate 
+			,b.cnt		cnt 
+			,bf.originFilename originFilename
+			,bf.filename	filename
+		FROM  board2 b INNER JOIN board_file bf 
+		ON 	  b.fileid = bf.fileid 
+		WHERE b.seq=#{seq}	
+	</select> -->
+	
+	
+	
+	
 
 </mapper>

@@ -1252,7 +1252,8 @@ figcaption {
 
 .post-row-image {
   border-radius: var(--corner-rounding);
-  background-image: url('https://d3e54v103j8qbb.cloudfront.net/img/background-image.svg');
+  /* background-image: url('https://d3e54v103j8qbb.cloudfront.net/img/background-image.svg'); */
+  background-image: url(/images/mypage/adefault_profile.jpg);
   background-position: 50%;
   background-size: cover;
   width: 100%;

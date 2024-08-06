@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Wed Jul 03 2024 06:37:30 GMT+0000 (Coordinated Universal Time)  -->
@@ -41,31 +43,7 @@
 <body>
   <div class="page-wrapper">
 	
-	<!-- 한) 상단:회원가입/로그인 버튼 start -->
-<!-- 	<div class="section-newsletter">
-	  <div class="padding-global">
-	    <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-black">
-	      <div class="_2-column-grid-uneven-left">
-	        <h3 class="newsletter-heading">서울 지역 안내 서비스</h3>
-	        <div id="Style-Guide-Form" class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form">
-	          <form name="wf-form-Newsletter-Form" data-name="Newsletter Form" method="get" id="wf-form-Newsletter-Form" class="newsletter-form" data-wf-page-id="6684f0fb2a5375354f5c4820" data-wf-element-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9d2">
-				
-				<a href="/member/insertMember" class="button-primary-large max-width-full-mobile-portrait w-button">회원가입</a>
-				<a href="/member/login" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a>
-				
-			  </form>
-	          <div class="form-success-message w-form-done">
-	            <div class="text-size-regular text-color-white">Thank you! Your submission has been received!</div>
-	          </div>
-	          <div class="form-error-message w-form-fail">
-	            <div class="text-size-regular">Oops! Something went wrong while submitting the form.</div>
-	          </div>
-	        </div>
-	      </div>
-	    </div>
-	  </div>
-	</div> -->
-	<!-- 한) 상단:회원가입/로그인 버튼 end -->	
+
 	
 	<!-- 검색 start -->
     <div class="navigation-wrapper">
@@ -112,13 +90,56 @@
               <div class="w-dyn-list">
                 <div role="list" class="w-dyn-items">
                 
+<%--                   <div data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f385" style="opacity:1" role="listitem" class="w-dyn-item">
+                    <div class="post-row-grid">
+		           <!-- 프로필 사진 -->
+		           <c:choose>
+		          	 	<c:when test="${sessionScope.member.member_imageName == null}">		         
+		                      <a id="w-node-dbd1f4aa-0c13-168c-7fc5-367d8d676b4b-4f5c4820" data-w-id="dbd1f4aa-0c13-168c-7fc5-367d8d676b4b" href="" 
+							  		class="post-row-image-overflow-container w-inline-block">
+		                    	<div id="w-node-_1d188613-99eb-7eb0-d878-0bf26f04f386-4f5c4820" data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f386" 
+									style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" 
+									class="post-row-image">
+								<img src="/images/mypage/default_profile.jpg" >
+								</div>
+		                      </a>
+		                  </c:when>
+		                 <c:otherwise>
+		                      <a id="w-node-dbd1f4aa-0c13-168c-7fc5-367d8d676b4b-4f5c4820" data-w-id="dbd1f4aa-0c13-168c-7fc5-367d8d676b4b" href="" 
+							  		class="post-row-image-overflow-container w-inline-block">
+		                    	<div id="w-node-_1d188613-99eb-7eb0-d878-0bf26f04f386-4f5c4820" data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f386" 
+									style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" 
+									class="post-row-image">
+								<img src="/files/${sessionScope.member.member_imageName}">
+								</div>
+		                      </a>                 
+		                 </c:otherwise>     
+		           </c:choose>          					
+                	<!-- 회원정보 -->	
+                      <div id="w-node-bbff658c-4524-8e8f-d0bf-96425152472b-4f5c4820" class="post-row-wrapper">						
+                        <div class="tags-wrappers">
+                          <a href="" class="tag-a w-inline-block">회원아이디 : ${sessionScope.member.member_id}
+                            <div class="text-size-small w-dyn-bind-empty"></div>
+                          </a>
+                          <a href="" class="tag-a w-inline-block">회원이메일 : ${sessionScope.member.member_email}
+                            <div class="text-size-small w-dyn-bind-empty"></div>
+                          </a>
+                        </div>												
+                      </div>				
+                    </div>
+                  </div> --%>
+                  
+          <c:choose>
+		    <c:when test="${sessionScope.member.member_imageName == null}">                
                   <div data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f385" style="opacity:1" role="listitem" class="w-dyn-item">
                     <div class="post-row-grid">
                       <a id="w-node-dbd1f4aa-0c13-168c-7fc5-367d8d676b4b-4f5c4820" data-w-id="dbd1f4aa-0c13-168c-7fc5-367d8d676b4b" href="#가" 
 					  		class="post-row-image-overflow-container w-inline-block">
                     	<div id="w-node-_1d188613-99eb-7eb0-d878-0bf26f04f386-4f5c4820" data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f386" 
 							style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" 
-							class="post-row-image"></div>
+							class="post-row-image">
+						<img src="/images/mypage/default_profile.jpg" >	
+						</div>
                       </a>
                       <div id="w-node-bbff658c-4524-8e8f-d0bf-96425152472b-4f5c4820" class="post-row-wrapper">						
                         <div class="tags-wrappers">
@@ -132,6 +153,32 @@
                       </div>				
                     </div>
                   </div>
+              </c:when>
+		      <c:otherwise>
+		      	  <div data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f385" style="opacity:1" role="listitem" class="w-dyn-item">
+                    <div class="post-row-grid">
+                      <a id="w-node-dbd1f4aa-0c13-168c-7fc5-367d8d676b4b-4f5c4820" data-w-id="dbd1f4aa-0c13-168c-7fc5-367d8d676b4b" href="#가" 
+					  		class="post-row-image-overflow-container w-inline-block">
+                    	<div id="w-node-_1d188613-99eb-7eb0-d878-0bf26f04f386-4f5c4820" data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f386" 
+							style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" 
+							class="post-row-image">
+						<img src="/files/${sessionScope.member.member_imageName}">
+						</div>
+                      </a>
+                      <div id="w-node-bbff658c-4524-8e8f-d0bf-96425152472b-4f5c4820" class="post-row-wrapper">						
+                        <div class="tags-wrappers">
+                          <a href="" class="tag-a w-inline-block">회원아이디 : ${sessionScope.member.member_id}
+                            <div class="text-size-small w-dyn-bind-empty"></div>
+                          </a>
+                          <a href="" class="tag-a w-inline-block">회원이메일 : ${sessionScope.member.member_email}
+                            <div class="text-size-small w-dyn-bind-empty"></div>
+                          </a>
+                        </div>												
+                      </div>				
+                    </div>
+                  </div>
+		      </c:otherwise>     
+		   </c:choose>
                 
 				<!-- 한)마이페이지 탭 start-->
 				 <div>
@@ -179,7 +226,7 @@
                 </div>
 				
 				<!-- 오른쪽 컬럼 -->
-                <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">                
+                <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0"  class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">                
 				    <table class="ev-table">
 				        <thead>
 				            <tr>

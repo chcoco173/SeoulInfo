@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 
@@ -36,36 +38,26 @@
       color: #007bff;
       font-weight: bold;
     }
-  </style>   
+    
+	.profile {
+            display: flex;
+            align-items: center;
+        }
+        .profile img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .profile-info {
+            margin-left: 20px;
+        }
+  </style>    
 </head>
 <body>
   <div class="page-wrapper">
 	
-	<!-- 한) 상단:회원가입/로그인 버튼 start -->
-<!-- 	<div class="section-newsletter">
-	  <div class="padding-global">
-	    <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-black">
-	      <div class="_2-column-grid-uneven-left">
-	        <h3 class="newsletter-heading">서울 지역 안내 서비스</h3>
-	        <div id="Style-Guide-Form" class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form">
-	          <form name="wf-form-Newsletter-Form" data-name="Newsletter Form" method="get" id="wf-form-Newsletter-Form" class="newsletter-form" data-wf-page-id="6684f0fb2a5375354f5c4820" data-wf-element-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9d2">
-				
-				<a href="/member/insertMember" class="button-primary-large max-width-full-mobile-portrait w-button">회원가입</a>
-				<a href="/member/login" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a>
-				
-			  </form>
-	          <div class="form-success-message w-form-done">
-	            <div class="text-size-regular text-color-white">Thank you! Your submission has been received!</div>
-	          </div>
-	          <div class="form-error-message w-form-fail">
-	            <div class="text-size-regular">Oops! Something went wrong while submitting the form.</div>
-	          </div>
-	        </div>
-	      </div>
-	    </div>
-	  </div>
-	</div> -->
-	<!-- 한) 상단:회원가입/로그인 버튼 end -->	
+	
 	
 	
 	<!-- 검색 start -->
@@ -99,40 +91,10 @@
     <!-- 검색 end -->
 	
 	
-	
     <div class="main-wrapper">
+	       
 	  
-<!-- 	  <div class="section-destinations background-black">
-        <div class="padding-global">
-          <div class="padding-section-medium">
-            <div class="container-full-width">
-              <div class="_2-column-grid">
-                <div>
-                  <h2 data-w-id="565aa445-29c4-7b45-3465-52bdccf2a34e" style="opacity:0" class="text-color-white">Where to next?</h2>
-                  <div class="spacer-xlarge"></div>
-                  <div data-w-id="565aa445-29c4-7b45-3465-52bdccf2a351" style="opacity:0" class="w-dyn-list">
-                    <div role="list" class="destination-collection-list w-dyn-items">
-                      <div role="listitem" class="w-dyn-item">
-                        <a href="#" class="button-primary-large w-button">###</a>
-                      </div>
-                    </div>
-                    <div class="empty-state w-dyn-empty">
-                      <div class="text-size-regular">No items found.</div>
-                    </div>
-                  </div>
-                </div>
-                <div id="w-node-_0465e4b1-8a6e-e86c-7c18-af5ff998b4e7-4f5c4820" data-w-id="0465e4b1-8a6e-e86c-7c18-af5ff998b4e7" style="opacity:0" class="image-overflow-wrapper">
-                  <div data-w-id="565aa445-29c4-7b45-3465-52bdccf2a358" style="-webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform-style:preserve-3d" 
-				  		class="destination-section-image"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
-      
-	  
-	<!--한) 마이페이지 start-->
+	<!--한) 마이페이지 상단 start-->
       <div class="section-posts-row">
         <div class="padding-global">
           <div class="padding-section-medium">
@@ -145,15 +107,33 @@
 			  
               <div class="w-dyn-list">
                 <div role="list" class="w-dyn-items">
-                
+               
                   <div data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f385" style="opacity:0" role="listitem" class="w-dyn-item">
                     <div class="post-row-grid">
-                      <a id="w-node-dbd1f4aa-0c13-168c-7fc5-367d8d676b4b-4f5c4820" data-w-id="dbd1f4aa-0c13-168c-7fc5-367d8d676b4b" href="#가" 
-					  		class="post-row-image-overflow-container w-inline-block">
-                    	<div id="w-node-_1d188613-99eb-7eb0-d878-0bf26f04f386-4f5c4820" data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f386" 
-							style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" 
-							class="post-row-image"></div>
-                      </a>
+		           <!-- 프로필 사진 -->
+		           <c:choose>
+		          	 	<c:when test="${sessionScope.member.member_imageName == null}">		         
+		                      <a id="w-node-dbd1f4aa-0c13-168c-7fc5-367d8d676b4b-4f5c4820" data-w-id="dbd1f4aa-0c13-168c-7fc5-367d8d676b4b" href="" 
+							  		class="post-row-image-overflow-container w-inline-block">
+		                    	<div id="w-node-_1d188613-99eb-7eb0-d878-0bf26f04f386-4f5c4820" data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f386" 
+									style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" 
+									class="post-row-image">
+								<img src="/images/mypage/default_profile.jpg" >
+								</div>
+		                      </a>
+		                  </c:when>
+		                 <c:otherwise>
+		                      <a id="w-node-dbd1f4aa-0c13-168c-7fc5-367d8d676b4b-4f5c4820" data-w-id="dbd1f4aa-0c13-168c-7fc5-367d8d676b4b" href="" 
+							  		class="post-row-image-overflow-container w-inline-block">
+		                    	<div id="w-node-_1d188613-99eb-7eb0-d878-0bf26f04f386-4f5c4820" data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f386" 
+									style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" 
+									class="post-row-image">
+								<img src="/files/${sessionScope.member.member_imageName}">
+								</div>
+		                      </a>                 
+		                 </c:otherwise>     
+		           </c:choose>          					
+                	<!-- 회원정보 -->	
                       <div id="w-node-bbff658c-4524-8e8f-d0bf-96425152472b-4f5c4820" class="post-row-wrapper">						
                         <div class="tags-wrappers">
                           <a href="" class="tag-a w-inline-block">회원아이디 : ${sessionScope.member.member_id}
@@ -166,6 +146,8 @@
                       </div>				
                     </div>
                   </div>
+                                 
+                 
                 
 				<!-- 한)마이페이지 탭 start-->
 				 <div>
@@ -196,24 +178,54 @@
 					    <div role="list" class="w-dyn-items">
 					      <div data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f385" style="opacity:0" role="listitem" class="w-dyn-item">
 					        <div class="post-row-grid">
-					          <a id="w-node-dbd1f4aa-0c13-168c-7fc5-367d8d676b4b-4f5c4820-p" data-w-id="dbd1f4aa-0c13-168c-7fc5-367d8d676b4b" href="#가" 
-							  		class="post-row-image-overflow-container w-inline-block">
-					            <div id="w-node-_1d188613-99eb-7eb0-d878-0bf26f04f386-4f5c4820-p" data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f386" 
-									style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" 
-									class="post-row-image"></div>
-					          </a>			
+		           			  <!-- 프로필 사진 -->       
+				          <c:choose>
+				          	 	<c:when test="${sessionScope.member.member_imageName == null}">		         
+				                      <a id="w-node-dbd1f4aa-0c13-168c-7fc5-367d8d676b4b-4f5c4820" data-w-id="dbd1f4aa-0c13-168c-7fc5-367d8d676b4b" href="" 
+									  		class="post-row-image-overflow-container w-inline-block">
+				                    	<div id="w-node-_1d188613-99eb-7eb0-d878-0bf26f04f386-4f5c4820" data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f386" 
+											style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" 
+											class="post-row-image">
+										<img src="/images/mypage/default_profile.jpg" >										
+										</div>										
+				                      </a>
+				                 </c:when>
+				                 <c:otherwise>
+				                      <a id="w-node-dbd1f4aa-0c13-168c-7fc5-367d8d676b4b-4f5c4820" data-w-id="dbd1f4aa-0c13-168c-7fc5-367d8d676b4b" href="" 
+									  		class="post-row-image-overflow-container w-inline-block">
+				                    	<div id="w-node-_1d188613-99eb-7eb0-d878-0bf26f04f386-4f5c4820" data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f386" 
+											style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" 
+											class="post-row-image">
+										<img src="/files/${sessionScope.member.member_imageName}">
+										</div>
+				                      </a>                 
+				                 </c:otherwise>     
+				           </c:choose>					          			
 					        </div>
-					      </div>
+					      </div>					      					      					     				      
 						 </div>
 						</div> 						
 						  <div class="spacer-large"></div>
-						  <a href="#등록" class="tag-b w-inline-block">등록</a>
-						  <a href="#삭제" class="tag-b w-inline-block">삭제</a>				  				  
+
+						<!-- 등록(수정) 버튼 -->
+					    <form action="updateProfile" method="post" enctype="multipart/form-data" class="tag-b w-inline-block">					    	
+					    	<input type="hidden" name="member_id" id="id" value="${sessionScope.member.member_id}">
+					        <input type="file" name="file" id="file" class="tag-b w-inline-block">
+					        <input type="submit" value="등록" class="tag-a w-inline-block">					        
+					    </form>
+					
+					    <!-- 삭제 버튼 -->
+					    <form action="deleteProfile" method="post" class="tag-b w-inline-block">
+					     	<input type="hidden" name="member_id" id="id" value="${sessionScope.member.member_id}">
+					        <input type="submit" value="삭제" class="tag-a w-inline-block">
+					    </form>				  				  
 					</div>
 					<!-- 한)마이페이지 상세 end-->														
+
+
 					
 				</div>					
-              </div>
+              </div>              
             </div>
           </div>
         </div>
