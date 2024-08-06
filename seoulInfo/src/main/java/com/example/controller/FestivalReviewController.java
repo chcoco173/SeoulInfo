@@ -1,4 +1,4 @@
-package com.example.controller;
+﻿package com.example.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +30,7 @@ import com.example.util.MD5Generator;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/festival")
+@RequestMapping("/festivalDetail")
 public class FestivalReviewController {
 	
 //	  `fr_imgId` int NOT NULL AUTO_INCREMENT,
