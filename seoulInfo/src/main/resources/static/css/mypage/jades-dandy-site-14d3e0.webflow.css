@@ -1294,12 +1294,12 @@ figcaption {
 .tag-t {
   border: 1px solid var(--medium-gray);
   color: var(--white);
-  background-color: var(--dark-green);
+  background-color: var(--black);
   border-radius: 999px;
   padding: .5rem 1rem;
 }
 .tag-t:hover {
-  background-color: var(--dark-red);
+  background-color: var(--dark-green);
   /* background-color: #004080; */  
   text-decoration: none;
   color: var(--white);

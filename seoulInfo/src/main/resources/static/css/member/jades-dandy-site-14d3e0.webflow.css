@@ -11,6 +11,21 @@
   --light-gray: #f6f6f6;
 }
 
+
+/* 한)블랙 버튼 */
+.button-primary-large-black {
+  border: 1px solid var(--light-gray);
+  background-color: black;
+  color: var(--white);
+  text-align: center;
+  border-radius: 999px;
+  padding: .625rem 2rem;
+  font-family: Plus Jakarta Sans, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 141%;
+}
+
 /* 한)네이버로그인 버튼 */
 .button-primary-large-g {
   border: 1px solid var(--light-gray);

@@ -103,7 +103,7 @@
                 <!-- 비밀번호찾기(이메일인증) start-->
                 <!-- <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form"> -->
                 <div id="Style-Guide-Form"  style="opacity:1; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">
-				  <div class="button-primary-large w-button">임시 비밀번호 발급</div>
+				  <div class="button-primary-large-black w-button">임시 비밀번호 발급</div>
 				  <div class="spacer-large"></div>				  
 					<form action="${pageContext.request.contextPath}/member/pw_change" method="post" name="wf-form-Contact-Form" id="wf-form-Contact-Form" class="form" >						
 						<!-- 비밀번호 찾기 -->					

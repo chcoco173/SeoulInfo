@@ -251,7 +251,36 @@ public class MemberController {
         return "{\"isRegistered\":" + isRegistered + "}";
     }    
 
-	    	   
+    // 8/2(금) -------------------------------------------------------------------------------------------      
+   	
+    // 회원정보 수정 : DB입력
+    @RequestMapping("/updateMember")
+    public String updateMember(MemberVO vo, HttpSession session, Model model) {
+    	System.out.println("updateMember페이지");
+    	System.out.println("회원정보수정/화면에서 넘어온 값: "+ vo);
+
+	    // 비밀번호 암호화
+	    String encodedPass = passwordEncoder.encode(vo.getMember_pw());
+	    vo.setMember_pw(encodedPass);
+	    
+	    // 회원정보 수정 처리
+	    memberService.updateMember(vo);	    
+    	
+	    // 수정된 회원 정보를 데이터베이스에서 다시 조회
+	    MemberVO updatedMember = memberService.getMemberById(vo.getMember_id());
+	    System.out.println("회원정보수정/DB결과값: " + updatedMember);
+
+	    // 세션에서 회원 정보를 업데이트
+	    session.setAttribute("member", updatedMember);
+	    model.addAttribute("message", "회원정보가 수정되었습니다.");
+
+	    // 회원정보 페이지로 리다이렉트
+	    return "mypage/memberInfo";
+    }
+
+    
+    
+    
 	
 	
 }
