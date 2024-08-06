@@ -118,15 +118,42 @@ public class EVController {
 	//원 반경 안의 편의시설 정보
 	@GetMapping("/getCircleLocation")
 	@ResponseBody
-	public List<EVPlacesVO> getCircleInfo(double centerLat, double centerLng, double radius){
-		System.out.println("insert getCircleInfo : "+centerLat+","+centerLng+","+radius);
+	public List<EVPlacesVO> getCircleInfo(double centerLat, double centerLng, double radius, String category){
+		System.out.println("insert getCircleInfo : "+centerLat+","+centerLng+","+radius+category);
 		HashMap<String, Object> cmap = new HashMap<String, Object>();
 		cmap.put("centerLat", centerLat);
 		cmap.put("centerLng", centerLng);
 		cmap.put("radius", radius);
+		cmap.put("category", category);
 		List<EVPlacesVO> pvo = evStationService.getCircleInfo(cmap);
-		//System.out.println("sent from getCircleInfo: " + pvo);
+		System.out.println("sent from getCircleInfo: " + pvo);
 		return pvo;
 	}
 	
+	//원 반경 안의 편의시설 정보
+	@PostMapping("/getEvMarkers")
+	@ResponseBody
+	public List<EVStationVO> getEvMarkers(String operators, String types){
+		System.out.println("insert getEvMarkers : "+operators+", "+types);
+		HashMap<String, Object> mmap = new HashMap<String, Object>();
+		mmap.put("operators", operators);
+		mmap.put("types", types);
+		List<EVStationVO> svo = evStationService.getEvMarkers(mmap);
+		//System.out.println("sent from getEvMarkers: " + svo);
+		return svo;
+	}
+	
+	@PostMapping("/getNavMarker")
+	@ResponseBody
+	public List<EVStationVO> getNavMarker(double minLat, double maxLat, double minLon, double maxLon){
+		System.out.println("insert getNavMarker : "+minLat+", "+maxLat+", "+minLon+", "+maxLon);
+		HashMap<String, Object> tmap = new HashMap<String, Object>();
+		tmap.put("minLat", minLat);
+		tmap.put("maxLat", maxLat);
+		tmap.put("minLon", minLon);
+		tmap.put("maxLon", maxLon);
+		List<EVStationVO> svo = evStationService.getNavMarker(tmap);
+		System.out.println("sent from getNavMarker: " + svo);
+		return svo;
+	}
 }
