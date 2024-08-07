@@ -230,7 +230,6 @@
 			지형도</button>
 		</div>
 	</div>
-
 	<!-- Offcanvas : 충전소 검색 -->
 	<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasSearch" aria-labelledby="offcanvasSearchLabel">
 		<div class="offcanvas-header">
@@ -539,14 +538,14 @@
 										var machineImagesHtml =machineImagesList.map(function(imageUrl) {
 										return '<img src="' + imageUrl + '" alt="' + charger.charger_mechine + '" class="charger-image"/>';
 										}).join('');
-										row += '<td id="charger_mechine">' + machineImagesHtml + '<br>' + charger.charger_mechine + '</td>';
+										row += '<td id="charger_mechine" style="font-size:10px;">' + machineImagesHtml + '<br>' + charger.charger_mechine + '</td>';
 										
 										// charger_type에 따른 이미지 추가
 										var chargerTypeImagesList = chargerTypeImages[charger.charger_type] || [];
 										var imagesHtml = chargerTypeImagesList.map(function(imageUrl) {
 										return '<img src="' + imageUrl + '" alt="' + charger.charger_type + '" class="charger-image"/>';
 										}).join('');
-										row += '<td class="charger_type">' + imagesHtml + '<br>'+ charger.charger_type + '</td>';
+										row += '<td class="charger_type" style="font-size:10px;">' + imagesHtml + '<br>'+ charger.charger_type + '</td>';
 						                row += '<td><span style="border:1px solid orange; border-radius:5px; background-color: yellow; padding-left:10px; padding-right:10px; text-align:center"><b id="charger_state">' + charger.charger_userlimit + '</b></span><br><span>{(갱신한 시간)}</span></td>';
 						                row += '</tr>';
 						                chargerDetailsBody.append(row);
@@ -668,7 +667,6 @@
 						                    name: position.name,
 						                    address: position.address
 						                });
-
 						                // InfoWindow의 내용과 위치를 정의합니다
 						                var distance = getDistanceFromLatLonInMeters(marker.getPosition().getLat(), marker.getPosition().getLng(), position.latlng.getLat(), position.latlng.getLng());
 						                var iwContent = '';
