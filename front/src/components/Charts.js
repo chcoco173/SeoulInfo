@@ -1,11 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../css/Charts.css';
 
 function Charts() {
-  const [query, setQuery] = useState('');
   const [activeTab, setActiveTab] = useState('중고거래');
+  const [selectedArea, setSelectedArea] = useState('전체');
   const [searchUrl, setSearchUrl] = useState('');
-  const [renderKey, setRenderKey] = useState(0);
+  const [renderKey, setRenderKey] = useState(0); // iframe을 새로 렌더링할 때 사용할 키
+  const iframeRef = useRef(null);
+
+  const areas = [
+    '전체', '강남구', '강동구', '강북구', '강서구', '관악구', '광진구', '구로구', '금천구', '노원구', 
+    '도봉구', '동대문구', '동작구', '마포구', '서대문구', '서초구', '성동구', '성북구', '송파구', 
+    '양천구', '영등포구', '용산구', '은평구', '종로구', '중구', '중랑구'
+  ];
 
   const kibanaUrls = {
     중고거래: 'http://localhost:5601/app/dashboards#/view/3b7511b0-5092-11ef-8a59-db9d40d0c37d',
@@ -17,42 +24,44 @@ function Charts() {
     return `${kibanaUrls[tab]}?_g=(filters:!(),refreshInterval:(pause:!f,value:10000),time:(from:now-10y,to:now))&embed=true`;
   };
 
-  const getSearchUrl = (tab, searchQuery) => {
-    if (tab === '축제' && searchQuery.trim()) {
-      return `${kibanaUrls[tab]}?_g=(filters:!(),refreshInterval:(pause:!f,value:10000),time:(from:now-10y,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:'festival_area:"${searchQuery}"'),timeRestore:!f,title:'${tab} 차트',viewMode:!f)&embed=true`;
-    } else if (tab === '전기차' && searchQuery.trim()) {
-      return `${kibanaUrls[tab]}?_g=(filters:!(),refreshInterval:(pause:!f,value:10000),time:(from:now-10y,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:'evc_area:"${searchQuery}" OR DISTRICT.keyword:"${searchQuery}" OR etc_area.keyword:"${searchQuery}"'),timeRestore:!f,title:'${tab} 차트',viewMode:!f)&embed=true`;
-    } else if (searchQuery.trim()) {
-      return `${kibanaUrls[tab]}?_g=(filters:!(),refreshInterval:(pause:!f,value:10000),time:(from:now-10y,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:'${searchQuery}'),timeRestore:!f,title:'${tab} 차트',viewMode:!f)&embed=true`;
-    } else {
+  const getSearchUrl = (tab, area) => {
+    if (area === '전체') {
       return getBaseUrl(tab);
     }
+
+    let query = '';
+    if (tab === '축제') {
+      query = `festival_area:"${area}"`;
+    } else if (tab === '전기차') {
+      query = `evc_area:"${area}" OR DISTRICT.keyword:"${area}" OR etc_area.keyword:"${area}"`;
+    } else {
+      query = `${area}`;
+    }
+
+    return `${kibanaUrls[tab]}?_g=(filters:!(),refreshInterval:(pause:!f,value:10000),time:(from:now-10y,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:'${query}'),timeRestore:!f,title:'${tab} 차트',viewMode:!f)&embed=true`;
   };
 
   useEffect(() => {
     setSearchUrl(getBaseUrl(activeTab));
+    setRenderKey(prevKey => prevKey + 1); // 탭을 변경할 때 iframe을 새로 렌더링
   }, [activeTab]);
 
-  const handleSearch = (event) => {
-    event.preventDefault();
-    if (query.trim()) {
-      setSearchUrl(getSearchUrl(activeTab, query));
+  const handleSearch = () => {
+    const newUrl = getSearchUrl(activeTab, selectedArea);
+    if (selectedArea === '전체') {
+      setSearchUrl(newUrl);
+      setRenderKey(prevKey => prevKey + 1); // "전체" 선택 시 key 값을 변경하여 iframe을 새로 렌더링
     } else {
-      setSearchUrl(getBaseUrl(activeTab));
-      setRenderKey(prevKey => prevKey + 1);
-    }
-  };
-
-  const handleKeyUp = (event) => {
-    if (event.key === 'Enter') {
-      handleSearch(event);
+      setSearchUrl(newUrl);
+      if (iframeRef.current) {
+        iframeRef.current.src = newUrl; // 구 선택 시 src 속성만 업데이트
+      }
     }
   };
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
-    setQuery('');
-    setSearchUrl(getBaseUrl(tab));
+    setSelectedArea('전체');
   };
 
   return (
@@ -71,22 +80,24 @@ function Charts() {
           </button>
         ))}
       </div>
-      <div className="search-bar">
-        <form onSubmit={handleSearch}>
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyUp={handleKeyUp}
-            placeholder="검색어를 입력하세요"
-          />
-          <button type="submit">검색</button>
-        </form>
+      <div className="search-bar" id="search-bar">
+        <select
+          value={selectedArea}
+          onChange={(e) => setSelectedArea(e.target.value)}
+        >
+          {areas.map((area) => (
+            <option key={area} value={area}>
+              {area}
+            </option>
+          ))}
+        </select>
+        <button onClick={handleSearch}>검색</button>
       </div>
       <div className="iframe-container">
         {searchUrl && (
           <iframe
-            key={renderKey}
+            key={renderKey} // renderKey 값을 사용하여 iframe을 새로 렌더링
+            ref={iframeRef}
             title="Kibana Dashboard"
             src={searchUrl}
           ></iframe>
