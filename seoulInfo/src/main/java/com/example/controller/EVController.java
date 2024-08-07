@@ -145,13 +145,12 @@ public class EVController {
 	
 	@PostMapping("/getNavMarker")
 	@ResponseBody
-	public List<EVStationVO> getNavMarker(double minLat, double maxLat, double minLon, double maxLon){
-		System.out.println("insert getNavMarker : "+minLat+", "+maxLat+", "+minLon+", "+maxLon);
+	public List<EVStationVO> getNavMarker(double lat, double lon, double radius){
+		System.out.println("insert getNavMarker : "+lat+", "+lon+", "+radius);
 		HashMap<String, Object> tmap = new HashMap<String, Object>();
-		tmap.put("minLat", minLat);
-		tmap.put("maxLat", maxLat);
-		tmap.put("minLon", minLon);
-		tmap.put("maxLon", maxLon);
+		tmap.put("lat", lat);
+		tmap.put("lon", lon);
+		tmap.put("radius", radius);
 		List<EVStationVO> svo = evStationService.getNavMarker(tmap);
 		System.out.println("sent from getNavMarker: " + svo);
 		return svo;
