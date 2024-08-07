@@ -87,7 +87,7 @@
   }
   
   .question .question-table th {
-    background-color: #f4f4f4;
+    background-color: #e2e2e2;
     position: sticky;
     top: 0;
     z-index: 1;
@@ -128,8 +128,6 @@
   
   .question .pagination button:hover {
     border-color: #999;
-    background-color: black;
-    color : white;
   }
   
   .question .pagination button.active {
@@ -147,11 +145,11 @@
     }
   }
 
-  .question tbody td {
-    background-color: white;
+  #question tbody td {
     font-weight: normal;
     border-right : none;
     border-left : none;
+    background-color: #f4f4f4;
   }
 
   .answer-button:disabled {

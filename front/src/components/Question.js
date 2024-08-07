@@ -105,7 +105,7 @@ function Question() {
   };
 
   return (
-    <div className="question">
+    <div className="question" id='question'>
       <h1>문의 관리</h1>
 
       <div className="search-section">

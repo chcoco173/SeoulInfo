@@ -59,7 +59,7 @@
 }
 
 .news-table th {
-  background-color: #f4f4f4;
+  background-color: #e2e2e2;
   position: sticky;
   top: 0;
   z-index: 1;
@@ -94,9 +94,7 @@
   width: 3%; 
 }
 
-.news-table td {
-  background-color: white; 
-}
+
 
 .newsdelete-button {
   width: 100%; /* 버튼이 셀의 전체 너비를 차지하도록 함 */

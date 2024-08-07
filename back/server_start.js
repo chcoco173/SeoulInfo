@@ -1094,9 +1094,9 @@ app.post('/data/increase-report-count/:memberId', (req, res) => {
 
             transporter.sendMail(mailOptions, (error, info) => {
               if (error) {
-                return res.status(500).send('Error sending email');
+                return res.status(500).send('메일 전송 오류');
               }
-              res.send({ message: '신고 횟수가 성공적으로 업데이트 되었고, 신고가 처리 완료 상태로 변경되었으며, 이메일이 발송되었습니다.' });
+              res.send({ message: '신고 승인 처리 완료' });
             });
           });
         });
