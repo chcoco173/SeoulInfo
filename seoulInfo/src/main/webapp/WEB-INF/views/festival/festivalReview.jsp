@@ -154,7 +154,7 @@
 					<div class="row">
 						<div class="col-md-2"></div>
 						<div class="col-md-8">
-							<form action="insertReview" method="post" enctype="multipart/form-data">
+							<form action="/festivalReview/insertReview" method="post" enctype="multipart/form-data">
 							    <input type="hidden" name="festival_id" value="${festival_id}">
 							    <input type="hidden" name="member_id" value="${sessionScope.member.member_id}">
 							    <div class="form-group">

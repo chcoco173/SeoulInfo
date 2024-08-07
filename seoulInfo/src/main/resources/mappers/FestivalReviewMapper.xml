@@ -50,5 +50,6 @@
 	<select id="getReviewList" resultType="java.util.Map"
 		parameterType="integer">
 		SELECT * FROM festival_review WHERE festival_id = #{festival_id}
+		ORDER BY fr_regdate DESC
 	</select>
 </mapper>

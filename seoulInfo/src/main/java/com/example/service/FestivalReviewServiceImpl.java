@@ -35,7 +35,7 @@ public class FestivalReviewServiceImpl implements FestivalReviewService {
     
 	// festival_id 에 해당하는 리뷰 리스트
 	@Override
-	public List<Map<Integer, Object>> getReviewList(Integer festival_id) {
+	public List<Map<Object, Object>> getReviewList(Integer festival_id) {
 		return festivalReviewDAO.getReviewList(festival_id);
 	}
 	
@@ -59,7 +59,13 @@ public class FestivalReviewServiceImpl implements FestivalReviewService {
 
 	// 내 리뷰 목록 가져오기
 	@Override
-	public List<Map<String, Object>> myReviewList(String member_id) {
+	public List<Map<Object, Object>> myReviewList(String member_id) {
 		return festivalReviewDAO.myReviewList(member_id);
 	}
+	
+	// fetch images for a review
+    @Override
+    public List<FestRevImageVO> getReviewImage(Integer fr_id) {
+        return festRevImageDAO.getReviewImage(fr_id);
+    }
 }

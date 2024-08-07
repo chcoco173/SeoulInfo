@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.domain.FestRevImageVO;
 import com.example.domain.FestivalVO;
+import com.example.service.FestivalReviewService;
 import com.example.service.FestivalService;
 
 @Controller
@@ -23,6 +25,9 @@ public class FestivalController {
 	
 	@Autowired
 	private FestivalService festivalService;
+	
+    @Autowired
+    private FestivalReviewService festivalReviewService;
 	
 	@RequestMapping("/")
 	public String mainPage() {
@@ -103,7 +108,28 @@ public class FestivalController {
 	@GetMapping("/festivalDetail")
 	public String getFestivalDetail(@RequestParam("festival_id") Integer festival_id, Model model) {
 	    FestivalVO festival = festivalService.getFestivalById(festival_id);
+
+        List<Map<Object, Object>> reviewList = festivalReviewService.getReviewList(festival_id);
+
+        // Fetch the first image for each review
+        for (Map<Object, Object> review : reviewList) {
+            Integer fr_id = (Integer) review.get("fr_id");
+            List<FestRevImageVO> images = festivalReviewService.getReviewImage(fr_id);
+            
+            if (!images.isEmpty()) {
+                // Get the first image
+                FestRevImageVO image = images.get(0);
+                String imageUrl = "/festRevImage/" + image.getFr_imgAlias();
+
+                review.put("image", imageUrl);
+            } else {
+                review.put("image", null);
+            }
+        }
+        
 	    model.addAttribute("festival", festival);
+	    model.addAttribute("reviewList", reviewList);
+	    
 	    return "festival/festivalDetail";
 	}
 	
@@ -113,5 +139,14 @@ public class FestivalController {
 		model.addAttribute("festival_id", festival_id);
 	    return "festival/festivalReview";
 	}
+	
+	// 해당 축제 리뷰의 fr_id 값 가지고 리뷰 상세보기 페이지로 이동
+	@GetMapping("/festivalReviewDetail")
+	public String festivalReviewDetail(@RequestParam("fr_id") Integer fr_id, Model model) {
+		System.out.println("festivalReviewDetail fr_id!!!!!!!!"+fr_id);
+	    model.addAttribute("fr_id", fr_id);
+	    return "festival/festivalReviewDetail";
+	}
+
 	
 }

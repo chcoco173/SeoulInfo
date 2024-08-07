@@ -15,7 +15,7 @@ public interface FestivalReviewDAO {
 	// 가장 최근 축제리뷰 fr_id 값 가져오기
 	public Integer ReviewNum();
 	// 해당 축제 리뷰 리스트 가져오기
-	public List<Map<Integer, Object>> getReviewList(Integer festival_id);
+	public List<Map<Object, Object>> getReviewList(Integer festival_id);
 	// 해당 리뷰 가져오기
 	public FestivalReviewVO getReview(Integer fr_id);
 	// 리뷰 수정
@@ -23,6 +23,6 @@ public interface FestivalReviewDAO {
 	// 리뷰 삭제
 	public Integer deleteReview(FestivalReviewVO frVO);
 	// 내 리뷰 리스트 가져오기
-	public List<Map<String, Object>> myReviewList(String member_id);
+	public List<Map<Object, Object>> myReviewList(String member_id);
 
 }

@@ -6,7 +6,7 @@ import com.example.domain.FestRevImageVO;
 
 public interface FestRevImageService {
 	// fr_id에 해당하는 image들 들고오기
-	public List<FestRevImageVO> getReviewImages(Integer fr_id);
+	public List<FestRevImageVO> getReviewImage(Integer fr_id);
 
 	// fr_imgId에 해당하는 이미지 지우기
 	public Integer deleteImage(Integer fr_imgId);

@@ -20,6 +20,7 @@ public class ChatMessageController {
     private final SimpMessagingTemplate messagingTemplate;
     private final ChatMessageService chatMessageService;
 
+    // 메세지 저장하기
     @MessageMapping("/chat")
     public void processMessage(@Payload ChatMessage chatMessage) {
         ChatMessage savedMsg = chatMessageService.save(chatMessage);
@@ -34,19 +35,18 @@ public class ChatMessageController {
         );
     }
     
+    // 채팅방에 들어갔을 때 해당 상품번호, 전송자, 수신자 id 로 메세지 찾아오기
     @GetMapping("/messages")
     public ResponseEntity<List<ChatMessage>> findChatMessages(
             @RequestParam Integer saleId, 
             @RequestParam String userId1, 
             @RequestParam String userId2) {
-        System.out.println("ChatMessageController - SaleId: " + saleId + " UserId1: " + userId1 + " UserId2: " + userId2);
         return ResponseEntity.ok(chatMessageService.findChatMessages(saleId, userId1, userId2));
     }
     
+    // 채팅방이 삭제 될 때 그 채팅방의 모든 메세지들을 삭제
     @PostMapping("/chat/leaveChatMessage")
     public ResponseEntity<Void> leaveChatMessage(@RequestParam Integer saleId, @RequestParam String userId1, @RequestParam String userId2) {
-        System.out.println("ChatMessageController: 메시지 삭제 " + saleId + " " + userId1 + " " + userId2);
-
         try {
             chatMessageService.deleteMessagesByDetails(saleId, userId1, userId2);
             return ResponseEntity.ok().build();
