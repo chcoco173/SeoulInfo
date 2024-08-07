@@ -6,13 +6,13 @@
 
     <!-- 리뷰 이미지 삽입 -->
     <insert id="insertImage" parameterType="FestRevImageVO">
-        INSERT INTO fest_rev_image (fr_imgName, fr_imgAlias, fr_imgUrl, fr_Id)
-        VALUES (#{fr_imgName}, #{fr_imgAlias}, #{fr_imgUrl}, #{fr_Id})
+        INSERT INTO fest_rev_image (fr_imgName, fr_imgAlias, fr_imgUrl, fr_id)
+        VALUES (#{fr_imgName}, #{fr_imgAlias}, #{fr_imgUrl}, #{fr_id})
     </insert>
 
 	<!-- 축제리뷰 id에 해당하는 이미지들 -->
-	<select id="getImage" resultType="FestRevImageVO" parameterType="integer">
-		SELECT * FROM fest_rev_image WHERE fr_Id = #{fr_Id}
+	<select id="getReviewImage" resultType="FestRevImageVO" parameterType="integer">
+		SELECT * FROM fest_rev_image WHERE fr_id = #{fr_id}
 	</select>
 	
 	<!-- 해당 fr_imageNo에 해당하는 이미지 지우기  -->
@@ -23,6 +23,6 @@
 	
 	<!-- 해당 축제 리뷰에 해당하는 모든 이미지 지우기 -->
 	<delete id="deleteReviewImages" parameterType="integer">
-		DELETE FROM fest_rev_image WHERE fr_Id = #{fr_Id}
+		DELETE FROM fest_rev_image WHERE fr_id = #{fr_id}
 	</delete>
 </mapper>

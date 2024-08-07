@@ -12,11 +12,11 @@ public interface FestRevImageDAO {
 	public void insertImage(FestRevImageVO friVO);
 	
 	// 해당 리뷰의 이미지들 가져오기
-	public List<FestRevImageVO> getReviewImages(Integer fr_id);
+	public List<FestRevImageVO> getReviewImage(Integer fr_id);
 	
 	// fr_imgNo에 해당하는 이미지 삭제
 	public Integer deleteImage(Integer fr_imgNo);
 	
 	// 해당 fr_id 를 가지고 있는 모든 축제 리뷰 이미지 삭제
-	public Integer deleteReviewImages(Integer fr_id);
+	public Integer deleteReviewImage(Integer fr_id);
 }
