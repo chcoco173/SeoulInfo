@@ -340,7 +340,7 @@
 										</c:choose>
 									</div>
 									<div class="form-group submit-button">
-										<button type="submit" class="btn btn-primary"  id="submitButton" disabled>상품 수정</button>
+										<button type="submit" class="btn btn-primary"  id="submitButton">상품 수정</button>
 									</div>
 							</form>
 						</div>
@@ -436,24 +436,27 @@
 	<script>
 		
 		// 가격 입력칸 유효성 검사
-				function validatePrice() {
-					var priceInput = $('#sale_price').val();
-					var errorElement = $('#priceError');
-				    var submitButton = $('#submitButton');
-
-					// 입력값이 비어있거나 숫자가 아니거나 음수인 경우
-				    if (priceInput === '' || isNaN(priceInput) || parseFloat(priceInput) < 0) {
-				    	errorElement.show(); // 오류 메시지 표시
-				        submitButton.prop('disabled', true); // 버튼 비활성화
-					} else {
-				    	errorElement.hide(); // 오류 메시지 숨기기
-				        submitButton.prop('disabled', false); // 버튼 활성화
-					}
-				}
-				// 가격 입력 필드의 입력 이벤트에 대한 처리
-				$('#sale_price').on('input', function() {
-					validatePrice();
-				});
+		function validatePrice() {
+			var priceInput = $('#sale_price').val();
+			var errorElement = $('#priceError');
+			var submitButton = $('#submitButton');
+			
+			// 입력값이 비어있거나 숫자가 아니거나 음수인 경우
+			if (priceInput === '' || isNaN(priceInput) || parseFloat(priceInput) < 0) {
+				errorElement.show(); // 오류 메시지 표시
+				submitButton.prop('disabled', true); // 버튼 비활성화
+			} else {
+				errorElement.hide(); // 오류 메시지 숨기기
+				submitButton.prop('disabled', false); // 버튼 활성화
+			}
+		}
+		// 페이지 로드 시 초기 유효성 검사 수행
+		validatePrice();
+		
+		// 가격 입력 필드의 입력 이벤트에 대한 처리
+		$('#sale_price').on('input', function() {
+			validatePrice();
+		});
 		
 		
 		$('.deletebtn').on('click', function(evt) {

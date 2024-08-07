@@ -79,7 +79,7 @@
 		ps.sale_status,
 		ps.sale_price
 		ORDER BY ps.sale_regdate DESC
-		LIMIT #{offset}, #{limit}
+		LIMIT 12
 	</select>
 
 	<!-- 상품리스트출력 -->
@@ -184,6 +184,7 @@
 			</if>
 
 		</if>
+		LIMIT #{offset}, #{limit}
 	</select>
 
 	<!-- id 값에 해당하는 상품 list -->
@@ -340,8 +341,36 @@
 		<if test="area != null and area != '전체'">
 			AND sale_area = #{area}
 		</if>
-		<if test="prediction != 'null'">
+		<if test="prediction != 'null' and category == null">
 			AND sale_cate = #{prediction}
+		</if>
+		<if test="category != null">
+			<choose>
+				<when test="category == '전자제품'">
+					AND sale_cate in ( '디지털' ,'가전제품' )
+				</when>
+				<when test="category == '생활용품'">
+					AND sale_cate in ( '생활/주방용품', '공구/산업용품' ,
+					'가구/인테리어' )
+				</when>
+				<when test="category == '도서'">
+					AND sale_cate in ( '도서/티켓/문구', '예술/희귀/수집품' ,
+					'음반/악기' , '스타굿즈' )
+				</when>
+				<when test="category == '의류'">
+					AND sale_cate in ( '여성의류', '남성의류' , '신발' ,
+					'가방/지갑' , '패션 액세서리' ,
+					'쥬얼리' , '시계')
+				</when>
+				<when test="category == '기타'">
+					AND sale_cate in ( '키덜트', '뷰티/미용' , '식품',
+					'스포츠/레저' , '유아동/출산' ,
+					'차량/오토바이' , '반려동물용품' , '기타')
+				</when>
+				<otherwise>
+					AND sale_cate = #{category}
+				</otherwise>
+			</choose>
 		</if>
 	</select>
 
