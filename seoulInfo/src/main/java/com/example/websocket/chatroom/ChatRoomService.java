@@ -13,20 +13,13 @@ public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
 
-    
-    // 사용자가 있는 채팅방을 다 찾기 (구매자든 판매자든)
-    public List<ChatRoom> findAllChatRooms(String userId) {
-        return chatRoomRepository.findBySenderIdOrRecipientId(userId, userId);
-    }
-
-    // 채팅방 id 가져오기
+    // 채팅방 id 가져오기. 없으면 새로운 chatId 생성하기
     public Optional<String> getChatRoomId(
             String senderId,
             String recipientId,
             boolean createNewRoomIfNotExists,
             Integer saleId
     ) {
-    	System.out.println("chatroomservice%%%%%%%%%member_id: " + senderId+createNewRoomIfNotExists+recipientId+saleId);
         return chatRoomRepository
                 .findBySenderIdAndRecipientIdAndSaleId(senderId, recipientId, saleId)
                 .map(ChatRoom::getChatId)
@@ -40,31 +33,7 @@ public class ChatRoomService {
                 });
     }
 
-
-//    private String createChatId(String senderId, String recipientId, Integer saleId) {
-//    	var chatId = String.format("%s_%s_%d", senderId, recipientId, saleId);
-//
-//        ChatRoom senderRecipient = ChatRoom
-//                .builder()
-//                .chatId(chatId)
-//                .senderId(senderId)
-//                .recipientId(recipientId)
-//                .saleId(saleId)
-//                .build();
-//
-//        ChatRoom recipientSender = ChatRoom
-//                .builder()
-//                .chatId(chatId)
-//                .senderId(recipientId)
-//                .recipientId(senderId)
-//                .saleId(saleId)
-//                .build();
-//
-//        chatRoomRepository.save(senderRecipient);
-//        chatRoomRepository.save(recipientSender);
-//
-//        return chatId;
-//    }
+    // chatId 생성 (채팅방 생성)
     private String createChatId(String senderId, String recipientId, Integer saleId) {
         var chatId = String.format("%s_%s_%d", senderId, recipientId, saleId);
 
@@ -86,14 +55,15 @@ public class ChatRoomService {
         return chatId;
     }
 
+    // 
 	public List<ChatRoom> findChatRooms(String userId) {
     	// ChatRoomRepository의 findBySenderIdOrRecipientId 메서드를 사용하여 주어진 userId가 senderId나 recipientId로 있는 모든 채팅방을 가져옵니다.
         List<ChatRoom> chatRooms = chatRoomRepository.findBySenderIdOrRecipientId(userId, userId);
         return chatRooms;
 	}
 	
+	// 채팅방 삭제
     public void deleteChatRoomByDetails(Integer saleId, String userId1, String userId2) {
-    	System.out.println("ChatRoom서비스스스스ㅡㅅ: 메시지 삭제 " + saleId + " " + userId1 + " " + userId2);
         try {
             chatRoomRepository.deleteBySaleIdAndUserIds(saleId, userId1, userId2);
             System.out.println("ChatRoomService: 채팅방 삭제 성공");

@@ -4,15 +4,14 @@ $(function(){
         $(".search_favorite").css({"display":"inherit",'z-index':'110'});
         $(".search_map").css({"display":"none"});
         $(".search_navigation").css({"display":"none"});
-		alert('favorite');
 		if (sessionResult !== '') {
 		    $.ajax({
 		        url: 'ev_Favorite',
 		        type: 'GET',
 		        data: { member_id: sessionResult },
 		        success: function(data) {
-					alert("success");
-		            $('#userFavoriteList').html(''); // 결과 영역 초기화
+					//alert("success");
+		            //$('#userFavoriteList').html(''); // 결과 영역 초기화
 		            if (data && data.length > 0) {
 		                data.forEach(function(item) {
 		                    var resultHTML  = '<dd>';

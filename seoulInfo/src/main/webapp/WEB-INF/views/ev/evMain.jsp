@@ -103,13 +103,10 @@
 			role="banner" class="navbar_m w-nav">
 			<div class="nav-wrapper">
 				<a href="/" aria-current="page" class="brand w-nav-brand w--current">
-					<img src="/images/ph_globe-simple-light-medium.svg" loading="lazy"
-					alt="">
+					<img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt="">
 				</a>
 				<div class="links-and-search-wrapper">
-					<%
-						if (session.getAttribute("member") != null) {
-					%>
+					<% if (session.getAttribute("member") != null) { %>
 					<nav role="navigation" class="nav-links-wrapper w-nav-menu">
 						<a href="/news/news?area=${sessionScope.member.member_area}"
 							class="nav-link w-nav-link">뉴스</a> <a
@@ -166,9 +163,7 @@
 
 		<!-- Service Buttons -->
 		<div class="d-flex justify-content-center mt-4">
-			<button class="btn btn-success mx-2" type="button"
-				data-bs-toggle="offcanvas" data-bs-target="#offcanvasDirections"
-				aria-controls="offcanvasDirections"	style="width: 33%; height: 40px;"><a href="/ev/ev_Navigation">길찾기</a></button>
+			<button class="btn btn-success mx-2" type="button" style="width: 33%; height: 40px;" onclick="window.location.href='/ev/ev_Navigation'">길찾기</button>
 			<button class="btn btn-primary mx-2" type="button"
 				data-bs-toggle="offcanvas" data-bs-target="#offcanvasSearch"
 				aria-controls="offcanvasSearch" style="width: 33%; height: 40px;">충전소 검색</button>
@@ -180,7 +175,7 @@
 		<!-- kakao map -->
 		<div>
 			<div id="map"></div>
-			<div id="dropdown-container" style="position: absolute; top: 10px; right: 10px; z-index: 100;">
+			<div id="dropdown-container" style="position: absolute; top:55px; right: 10px; z-index: 100;">
 				<div class="btn-group">
 					<button class="btn btn-secondary" type="button"	data-bs-toggle="collapse" data-bs-target="#collapseMenu" aria-expanded="false" aria-controls="collapseMenu">지도 필터</button>
 				</div>
@@ -455,11 +450,11 @@
         var imageSrc = "/images/ev/ev_normal.png"; 
         var clickedImageSrc = "/images/ev/ev_click.png"; 
 
-		var markers = [];// 충전소 마커를 담을 리스트
+		var markers = [];							 // 충전소 마커를 담을 리스트
 		var imageSize = new kakao.maps.Size(30, 30); // 충전소 마커 사이즈 
-		var currentClickedMarker = null;
-		var circle = null;
-		var locationMarkers = [];// 편의시설 마커를 담을 리스트
+		var currentClickedMarker = null;			 // 마커클릭 확인 정보
+		var circle = null;							 // 마커 반경 1km 확인 정보
+		var locationMarkers = [];					 // 편의시설 마커를 담을 리스트
 
 		for (var i = 0; i < positions.length; i++) {        
 		    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
@@ -474,17 +469,16 @@
 		    (function(marker) {
 		        kakao.maps.event.addListener(marker, 'click', function() {
 		            if (currentClickedMarker && currentClickedMarker !== marker) {
+						// 마커 클릭 후, 다른 마커 클릭 시
 		                var originalImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 		                currentClickedMarker.setImage(originalImage);
 		                currentClickedMarker.isClicked = false;
 		            }
 		            if (marker.isClicked) {
+						// 동일 마커 클릭 시
 		                var originalImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 		                marker.setImage(originalImage);
-		                marker.isClicked = false;
-		                if (circle) {
-		                    circle.setMap(null);
-		                }
+		                marker.isClicked = false;		                
 		            } else {
 		                var clickedImage = new kakao.maps.MarkerImage(clickedImageSrc, imageSize);
 		                marker.setImage(clickedImage);
@@ -494,9 +488,9 @@
 						lastClickedMarkerPosition = marker.getPosition(); // 필터링을 위한 최근 마커 설정
 						
 		                $('.overlay').show();
-		                $('.overlay').css({'z-index':'1099'});
+		                $('.overlay').css({'z-index':'1110'});
 		                $('.charger_Information').show();
-		                $(".charger_Information").css({"display":"inherit",'z-index':'1100'});
+		                $(".charger_Information").css({"display":"inherit",'z-index':'1111'});
 						
 						// AJAX 요청 보내기 - 마커에 해당하는 상세정보 불러오기
 						$.ajax({
@@ -593,11 +587,14 @@
 						                });
 						            }
 						        } else {
+									// 충전기 data가 없음.
+									$('.overlay').hide();
+									$('.charger_Information').css({'display':'none','z-index':'-1'});
+									alert("no data found");
+									
 						            var chargerDetailsBody = $('#chargerDetailsBody');
 						            chargerDetailsBody.empty();
-						            alert("no data found");
-						            $('.overlay').hide();
-						            $('.charger_Information').css({'display':'none','z-index':'-1'});
+						            
 						            var originalImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 						            marker.setImage(originalImage);
 						            marker.isClicked = false;
@@ -608,22 +605,22 @@
 						    }
 						}); // end of AJAX
 						
-		// 클릭한 마커를 중심으로 반경 1km 원 그리기 ########################################
+						// 클릭한 마커를 중심으로 반경 1km 원 그리기
 						if (circle) {
 						    circle.setMap(null);
 						}
 						circle = new kakao.maps.Circle({
 						    center: marker.getPosition(),
 						    radius: 1000,
-						    strokeWeight: 2,
-						    strokeColor: '#75B8FA',
-						    strokeOpacity: 0.4,
+						    strokeWeight: 1,
+						    strokeColor: '#000000',
+						    strokeOpacity: 0.1,
 						    strokeStyle: 'solid',
-						    fillColor: '#CFE7FF',
-						    fillOpacity: 0.4
+						    fillColor: '#FF7F00',
+						    fillOpacity: 0.1
 						});
 						circle.setMap(map);
-						
+
 						var circlePositions = [];
 						function clearMarkers() {
 						    for (var i = 0; i < locationMarkers.length; i++) {
@@ -631,7 +628,7 @@
 						    }
 						    locationMarkers = []; // 배열 초기화
 						}
-						
+
 						// AJAX 호출로 위치 정보를 가져옵니다
 						$.ajax({
 						    url: 'getCircleLocation',
@@ -641,74 +638,144 @@
 						        centerLng: marker.getPosition().getLng(),
 						        radius: 1000
 						    },
-							success: function(data) {
-							    clearMarkers();
-							    data.forEach(function(item) {
-							        circlePositions.push({
-							            latlng: new kakao.maps.LatLng(item.etc_lat, item.etc_long),
-							            title: item.etc_category,
-							            name: item.etc_name,      // InfoWindow에 표시할 이름 저장
-							            address: item.etc_address // InfoWindow에 표시할 주소 저장
-							        });
-							    });
-							    var imageSrcs = {
-							        "카페": "/images/ev/etc_cafe.png",
-							        "편의점": "/images/ev/etc_convini.png",
-							        "슈퍼마켓": "/images/ev/etc_market.png",
-							        "약국": "/images/ev/etc_pharmacy.png",
-							        "주차장": "/images/ev/etc_parking.png"
-							    };
-							    var imageSize = new kakao.maps.Size(24, 24); // 이미지 크기 정의
-							    if (circlePositions.length > 0) {
-							        circlePositions.forEach(function(position) {
-							            var imageSrc = imageSrcs[position.title] || "/images/ev/etc_parking.png";
-							            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-							            var locationMarker = new kakao.maps.Marker({
-							                map: map,                              // 마커를 표시할 지도
-							                position: position.latlng,             // 마커를 표시할 위치
-							                title: position.title,                 // 마커의 타이틀
-							                image: markerImage,                    // 마커 이미지
-											name : position.name,
-											address : position.address
-							            });
-									// InfoWindow의 내용과 위치를 정의합니다
-									var iwContent = '';
-										iwContent += '<div style="border-radius:10px; border: 1px solid black; background-color: #fff; box-shadow: 0px 0px 5px rgba(0,0,0,0.2);">';
-										iwContent += '<div style="font-size:14px; border-radius:10px 10px 0px 0px; font-weight:bold; color:#333; background-color:yellowgreen; text-align:center; ">';
-										iwContent += '<a href="https://map.kakao.com/?q=' + (position.address || '') +' '+ (position.name || '') +'" target="blank"><b>'+(position.name || 'Unknown') + '</b></a>';
-										iwContent += '</div>';
-										iwContent += '<hr style="margin:5px 0;">';
-										iwContent += '<div style="font-size:12px; color:#666;"> 분류 : ' + (position.title || 'Unknown') + '</div>';
-										iwContent += '<div style="font-size:12px; color:#666;">' + (position.address || 'Unknown') + '</div>';
-										iwContent += '</div>';
-										
-									var InfoWindowRemovable = true;	
-							        // InfoWindow 인스턴스를 생성합니다
-							        var infoWindow = new kakao.maps.InfoWindow({
-							        	content: iwContent,
-							            removable: InfoWindowRemovable
-							        });
+						    success: function(data) {
+						        clearMarkers();
+						        data.forEach(function(item) {
+						            circlePositions.push({
+						                latlng: new kakao.maps.LatLng(item.etc_lat, item.etc_long),
+						                title: item.etc_category,
+						                name: item.etc_name, // InfoWindow에 표시할 이름 저장
+						                address: item.etc_address // InfoWindow에 표시할 주소 저장
+						            });
+						        });
+						        var imageSrcs = {
+						            "카페": "/images/ev/etc_cafe.png",
+						            "편의점": "/images/ev/etc_convini.png",
+						            "슈퍼마켓": "/images/ev/etc_market.png",
+						            "약국": "/images/ev/etc_pharmacy.png",
+						            "주차장": "/images/ev/etc_parking.png"
+						        };
+						        var imageSize = new kakao.maps.Size(24, 24); // 이미지 크기 정의
+						        if (circlePositions.length > 0) {
+						            circlePositions.forEach(function(position) {
+						                var imageSrc = imageSrcs[position.title] || "/images/ev/etc_parking.png";
+						                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+						                var locationMarker = new kakao.maps.Marker({
+						                    map: map, // 마커를 표시할 지도
+						                    position: position.latlng, // 마커를 표시할 위치
+						                    title: position.title, // 마커의 타이틀
+						                    image: markerImage, // 마커 이미지
+						                    name: position.name,
+						                    address: position.address
+						                });
 
-							        // 마커 클릭 이벤트 리스너 추가
-							        kakao.maps.event.addListener(locationMarker, 'click', function() {
-										infoWindow.open(map, locationMarker); // 마커 위치에 InfoWindow를 엽니다
-									});
-							            locationMarkers.push(locationMarker); // 마커를 배열에 추가
-							            console.log("마커 추가됨 위치:", position.latlng.getLat(), position.latlng.getLng());
-							        });
-							    } else {
-							        alert("원 안에 위치 정보가 없습니다.");
-							    }
-							},error: function(err) {
+						                // InfoWindow의 내용과 위치를 정의합니다
+						                var distance = getDistanceFromLatLonInMeters(marker.getPosition().getLat(), marker.getPosition().getLng(), position.latlng.getLat(), position.latlng.getLng());
+						                var iwContent = '';
+						                iwContent += '<div style="border-radius:10px; border: 1px solid black; background-color: #fff; box-shadow: 0px 0px 5px rgba(0,0,0,0.2); width: 200px; height: 150px;">';
+						                iwContent += '<div style="font-size:14px; border-radius:10px 10px 0px 0px; border-bottom: 1px solid black; font-weight:bold; background-color:yellowgreen; text-align:center;">';
+						                iwContent += '<b>' + (position.name || 'Unknown') + '</b></div>';
+						                iwContent += '<div style="margin:5px;">';
+						                iwContent += '<div style="font-size:12px;">' + formatAddress(position.address) + '</div><hr>';
+						                iwContent += '<div><span class="number" style="font-size:12px;">' + (position.title || 'Unknown') + '까지 직선거리 : ';
+						                iwContent += getTimeHTML(distance);
+						                iwContent += '</div>';
+						                iwContent += '</div>';
+
+						                var InfoWindowRemovable = false;
+						                // InfoWindow 인스턴스를 생성합니다
+						                var infoWindow = new kakao.maps.InfoWindow({
+						                    content: iwContent,
+						                    removable: InfoWindowRemovable
+						                });
+
+						                // 마커 hover 이벤트 리스너 추가
+						                var closeTimeout;
+						                kakao.maps.event.addListener(locationMarker, 'mouseover', function() {
+						                    clearTimeout(closeTimeout); // 기존의 타이머가 있다면 제거합니다
+						                    infoWindow.open(map, locationMarker); // 마커 위치에 InfoWindow를 엽니다
+						                });
+
+						                kakao.maps.event.addListener(locationMarker, 'mouseout', function() {
+						                    closeTimeout = setTimeout(function() {
+						                        infoWindow.close(); // InfoWindow를 닫습니다
+						                    }, 500); // 0.5초 후에 창을 닫습니다
+						                });
+
+						                kakao.maps.event.addListener(locationMarker, 'click', function() {
+						                    window.open('https://map.kakao.com/?q=' + (position.address || '') + ' ' + (position.name || ''), '_blank');
+						                });
+
+						                locationMarkers.push(locationMarker); // 마커를 배열에 추가
+						            });
+						        } else {
+						            alert("원 안에 편의시설 정보가 없습니다.");
+						        }
+						    },
+						    error: function(err) {
 						        console.error("위치 정보 가져오기 오류: ", err);
 						    }
 						});
-					}
-				});
-			})(marker);
-		markers.push(marker);
-		console.log(marker);
-		}
+
+						// 거리 계산 함수 (Haversine Formula)
+						function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
+						    var R = 6371e3; // 지구 반지름 (미터 단위)
+						    var dLat = toRad(lat2 - lat1);
+						    var dLon = toRad(lon2 - lon1);
+						    var a =
+						        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+						        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+						        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+						    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+						    var distance = R * c;
+						    return distance;
+						}
+
+						function toRad(Value) {
+						    return Value * Math.PI / 180;
+						}
+
+						function getTimeHTML(distance) {
+						    // 도보의 시속은 평균 4km/h 이고 도보의 분속은 67m/min입니다
+						    var walkkTime = distance / 67 | 0;
+						    var walkHour = '', walkMin = '';
+
+						    // 계산한 도보 시간이 60분 보다 크면 시간으로 표시합니다
+						    if (walkkTime > 60) {
+						        walkHour = '<span class="number">' + Math.floor(walkkTime / 60) + '</span>시간 ';
+						    }
+						    walkMin = '<span class="number">' + walkkTime % 60 + '</span>분';
+
+						    // 자전거의 평균 시속은 16km/h 이고 이것을 기준으로 자전거의 분속은 267m/min입니다
+						    var bycicleTime = distance / 267 | 0;
+						    var bycicleHour = '', bycicleMin = '';
+
+						    // 계산한 자전거 시간이 60분 보다 크면 시간으로 표출합니다
+						    if (bycicleTime > 60) {
+						        bycicleHour = '<span class="number">' + Math.floor(bycicleTime / 60) + '</span>시간 ';
+						    }
+						    bycicleMin = '<span class="number">' + bycicleTime % 60 + '</span>분';
+
+						    // 거리와 도보 시간, 자전거 시간을 가지고 HTML Content를 만들어 리턴합니다
+						    var content = '';
+						    content += distance.toFixed(0) + '</span>m</div><table>';
+						    content += '    <tr><td >';
+						    content += '        <span class="label" >도보 : &nbsp;</span></td><td>' + walkHour + walkMin;
+						    content += '    </td></tr>';
+						    content += '    <tr><td >';
+						    content += '        <span class="label">자전거 : &nbsp;</span></td><td>' + bycicleHour + bycicleMin;
+						    content += '    </td></tr>';
+						    content += '</table>';
+
+						    return content;
+						}
+
+				}
+			});
+		})(marker);
+	markers.push(marker);
+	console.log(marker);
+	}
 							
 		var clusterer = new kakao.maps.MarkerClusterer({
 			map: map,
@@ -1090,7 +1157,8 @@
 		        }
 		    });
 		});
-	
+		
+		
 		// 즐겨찾기 - 버튼 클릭 이벤트
 		$('.btnShowFavorite').click(function(event) {
 			if (sessionResult !== '') {
@@ -1495,6 +1563,24 @@
 						    }
 						});
 					}
+					function formatAddress(address) {
+					    if (!address) {
+					        return 'Unknown';
+					    }
+
+					    var words = address.split(' ');
+					    for (var i = 0; i < words.length; i++) {
+					        if (words[i].endsWith('구')) {
+					            // '구'로 끝나는 단어를 찾았을 때
+					            var part1 = words.slice(0, i + 1).join(' ');
+					            var part2 = words.slice(i + 1).join(' ');
+					            return part1 + '<br>' + part2;
+					        }
+					    }
+
+					    // '구'로 끝나는 단어가 없으면 원래 주소 반환
+					    return address;
+					}
 // =====================================================
 /*
 var selectedOperators = [];
@@ -1560,6 +1646,6 @@ var selectedOperators = [];
 	</script>
 	<!-- end of kakao map Script -->
 	<script src="/js/webflow.js" type="text/javascript"></script>
-	<script src="/js/evPage.js" type="text/javascript"></script>
+	<!-- <script src="/js/evPage.js" type="text/javascript"></script> -->
 </body>
 </html>

@@ -22,6 +22,14 @@ let selectedSaleId = null; // 선택된 sale_id 추가
 // 페이지 로드 시 WebSocket 연결 설정
 document.addEventListener('DOMContentLoaded', () => {
     connect();
+	
+	document.getElementById('chat-done').addEventListener('click', leaveChatRoom);
+	document.getElementById('deal-done').addEventListener('click', updateSaleStatus);
+	document.getElementById('report').addEventListener('click', () => {
+	    openReportPopup(selectedUserId);
+	});
+	messageForm.addEventListener('submit', sendMessage, true);
+	window.onbeforeunload = () => onLogout();
 });
 
 function connect() {
@@ -425,7 +433,7 @@ function onLogout() {
 }
 
 // 채팅방 나가기
-document.getElementById('chat-done').addEventListener('click', leaveChatRoom);
+// document.getElementById('chat-done').addEventListener('click', leaveChatRoom);
 
 async function leaveChatRoom() {
     if (selectedSaleId && selectedUserId) {
@@ -447,11 +455,15 @@ async function leaveChatRoom() {
             if (responseRoom.ok && responseMessage.ok) {
                 alert('채팅방이 삭제되었습니다.');
                 // 채팅방 목록을 새로고침
-                findAndDisplayChatRooms();
+                await findAndDisplayChatRooms();
 				fetchAndDisplayUserChat();
                 // 채팅 영역과 입력 폼을 숨김
                 messageForm.classList.add('hidden');
                 chatArea.classList.add('hidden');
+				console.log(chatHeader);
+				chatHeader.classList.add('hidden'); // chatHeader 숨김 추가
+				console.log('Added hidden class to chatHeader:', chatHeader.classList);
+
 
             } else {
                 alert('채팅방 삭제에 실패했습니다.');
@@ -466,13 +478,11 @@ async function leaveChatRoom() {
     }
 }
 
-document.getElementById('deal-done').addEventListener('click', updateSaleStatus);
+// document.getElementById('deal-done').addEventListener('click', updateSaleStatus);
 
 async function updateSaleStatus() {
     if (selectedSaleId) {
 		const buyerId = selectedUserId;
-		
-		console.log("updateSaleStatus!!!!!!!!!"+buyerId);
 		
 		try {
 		    const response = await fetch(`/product/updateStatus`, {
@@ -486,7 +496,7 @@ async function updateSaleStatus() {
             const result = await response.text();
 
             if (result === '1') {
-                alert('판매완료됨.');
+                alert('판매완료');
                 document.getElementById('transaction-status').innerText = '거래 상태: 판매완료';
 				document.getElementById('deal-done').classList.add('disabled');
             } else if (result === 'already_completed') {
@@ -503,9 +513,9 @@ async function updateSaleStatus() {
     }
 }
 
-document.getElementById('report').addEventListener('click', () => {
+/*document.getElementById('report').addEventListener('click', () => {
     openReportPopup(selectedUserId);
-});
+});*/
 
 function openReportPopup(selectedUserId) {
     var url = "/product/sale_report?selectedUserId=" + selectedUserId;
@@ -513,5 +523,5 @@ function openReportPopup(selectedUserId) {
     window.open(url, "ReportPopup", options);
 }
 
-messageForm.addEventListener('submit', sendMessage, true);
+// messageForm.addEventListener('submit', sendMessage, true);
 window.onbeforeunload = () => onLogout();

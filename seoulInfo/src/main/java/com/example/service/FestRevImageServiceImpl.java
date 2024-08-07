@@ -15,8 +15,8 @@ public class FestRevImageServiceImpl implements FestRevImageService {
 
     // fr_id 에 해당하는 images 가져오기
     @Override
-    public List<FestRevImageVO> getReviewImages(Integer fr_id) {
-    	return festRevImageDAO.getReviewImages(fr_id);
+    public List<FestRevImageVO> getReviewImage(Integer fr_id) {
+    	return festRevImageDAO.getReviewImage(fr_id);
     }
 
     // fr_imgId 에 해당하는 이미지 지우기
@@ -27,7 +27,7 @@ public class FestRevImageServiceImpl implements FestRevImageService {
     
     // 해당 fr_id 에 해당하는 모든 이미지 지우기
     public Integer deleteReviewImages(Integer fr_id) {
-    	return festRevImageDAO.deleteReviewImages(fr_id);
+    	return festRevImageDAO.deleteReviewImage(fr_id);
     }
 
 }
