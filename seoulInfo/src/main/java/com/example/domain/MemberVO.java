@@ -16,8 +16,13 @@ public class MemberVO {
 	private String 		member_imagePath;	// 회원이미지(경로)
 	private String 		member_status;		// 회원상태
 	private int 		member_reportcount;	// 회원신고회수
+	
+	
+
 
 }
+
+	
 
 /*
 	DB 내용

@@ -1,11 +1,15 @@
 package com.example.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.repository.query.Param;
 
+
+import com.example.domain.EVStationVO;
 import com.example.domain.MemberVO;
+import com.example.domain.MypageProductVO;
 
 @Mapper
 public interface MemberDAO {
@@ -63,6 +67,17 @@ public interface MemberDAO {
     //8/6 프로필 사진 등록
     public void updateProfile(MemberVO vo);
     public void deleteProfile(MemberVO vo);
+    
+    
+    // 8/7 마이페이지/전기차 즐겨찾기
+    public List<EVStationVO> getEvList(String member_id);
+    int deleteEv(@Param("evc_id") String evc_id, @Param("member_id") String member_id);
+    
+    
+    // 8/7 마이페이지/관심상품
+    public List<MypageProductVO> getProductList(String member_id);
+    int deleteProduct(@Param("sale_id") String sale_id, @Param("member_id") String member_id);
+    
     
     
     

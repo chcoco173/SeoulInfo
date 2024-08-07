@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
@@ -174,9 +174,45 @@
                 </div>
 				
 				<!-- 오른쪽 컬럼 -->
-                <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">                
-                            <table class="product-table">
-<%--                                 <thead>
+                <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">
+                
+					<table class="product-table">
+					    <thead>
+					        <tr>
+					        	<th>상품 이미지</th>
+					            <th>상품 카테고리</th>
+					            <th>상품 이름</th>
+					            <th>상품 가격</th>
+					            <th>삭제</th>
+					            
+					        </tr>
+					    </thead>
+					    <tbody>
+					        <c:forEach items="${productList}" var="product">
+					            <tr>
+					            	<input name="member_id" type="hidden" value="${sessionScope.member.member_id}" />
+				                	<input name="sale_id" type="hidden" value="${product.sale_id}"/>
+					                <td>
+					                    <img src="/productImage/${product.productimg_alias}" alt="${product.sale_name}" width="100"/>
+					                </td>
+					                <td>${product.sale_cate}</td>
+					                <td>${product.sale_name}</td>
+					                <td>${product.sale_price}</td>
+					                <td>
+					                	<form action="deleteProduct" method="post" style="display:inline;">
+					                        <input type="hidden" name="member_id" value="${sessionScope.member.member_id}" />
+					                        <input type="hidden" name="sale_id" value="${product.sale_id}" />
+					                        <input type="submit" value="x" class="delete-button" />
+					                    </form>
+					                </td>
+
+					            </tr>
+					        </c:forEach>
+					    </tbody>
+					</table>                	
+                                
+<%--                             <table class="product-table">
+                                <thead>
                                     <tr>
                                         <th>관심상품 이미지</th>
                                         <th>상품명</th>
@@ -201,8 +237,9 @@
                                         <td colspan="${5 - (productList.size() % 5)}"></td>
                                         </tr>
                                     </c:if>
-                                </tbody> --%>
-                                <tbody>
+                                </tbody>
+                              </table> --%>
+<!--                                 <tbody>
                                     <tr>
                                         <td><a href="product/1"><img src="/images/mypage/a.jpg" alt="Product 1"/></a><button class="delete-button">X</button></td>
                                         <td><a href="product/2"><img src="/images/mypage/a.jpg" alt="Product 2"/></a><button class="delete-button">X</button></td>
@@ -228,8 +265,8 @@
                                         <td><a href="product/14"><img src="/images/mypage/a.jpg" alt="Product 14"/></a><button class="delete-button">X</button></td>
                                         <td><a href="product/15"><img src="/images/mypage/a.jpg" alt="Product 15"/></a><button class="delete-button">X</button></td>
                                     </tr>
-                                </tbody>
-                            </table>			  			  				  				  
+                                </tbody> -->
+                            			  			  				  				  
                 </div>				
               </div>
             </div>

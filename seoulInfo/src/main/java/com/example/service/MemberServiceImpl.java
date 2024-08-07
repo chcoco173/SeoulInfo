@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dao.MemberDAO;
+import com.example.domain.EVStationVO;
 import com.example.domain.MailVO;
 import com.example.domain.MemberVO;
+import com.example.domain.MypageProductVO;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -126,8 +129,27 @@ public class MemberServiceImpl implements MemberService{
 	
 	public void deleteProfile(MemberVO vo) {
 		memberDAO.deleteProfile(vo);
-	}    
-    
+	} 
 	
+	
+    // 8/7 마이페이지/전기차 즐겨찾기
+    public List<EVStationVO> getEvList(String member_id){
+    	return memberDAO.getEvList(member_id);
+    }	
+    public boolean deleteEv(String evc_id, String member_id) {
+        int rowsAffected = memberDAO.deleteEv(evc_id, member_id);
+        return rowsAffected > 0; // 삭제 성공 여부 반환
+    }
+    
+    // 8/7 마이페이지/관심상품
+    public List<MypageProductVO> getProductList(String member_id) {
+        return memberDAO.getProductList(member_id);
+    }
+    public boolean deleteProduct(String sale_id, String member_id) {
+        int rowsAffected = memberDAO.deleteProduct(sale_id, member_id);
+        return rowsAffected > 0; // 삭제 성공 여부 반환
+    }
+    
+    
 
 }

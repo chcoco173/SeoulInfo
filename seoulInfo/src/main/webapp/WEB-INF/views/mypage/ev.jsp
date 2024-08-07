@@ -230,25 +230,33 @@
 				    <table class="ev-table">
 				        <thead>
 				            <tr>
-				                <th class="narrow-col">지역</th>
-				                <th class="middle-col">충전소 이름</th>
-				                <th class="wide-col">충전소 주소</th>				                
-				                <th class="narrow-col">삭제</th>
+				                <th>지역</th>
+				                <th>충전소 이름</th>
+				                <th>충전소 주소</th>				                
+				                <th>삭제</th>
 				            </tr>
 				        </thead>
 				        <tbody>
-				            <c:forEach items="${evList}" var="nc">
+				            <c:forEach items="${evList}" var="ev">
 				                <tr>
-				                    <td>${evc.evc_area}</td>
-				                    <td align="left"><a href="getBoard?seq=${evc_fav.evc_id}">${evc.evc_name}</a></td>
-				                    <td align="left"><a href="getBoard?seq=${evc_fav.evc_id}">${evc.evc_address}</a></td>
-				                    <td class="center-align"><button class="delete-button">x</button></td>
+				                	<input name="member_id" type="hidden" value="${sessionScope.member.member_id}" />
+				                	<input name="evc_id" type="hidden" value="${ev.evc_id}"/>
+				                    <td>${ev.evc_area}</td>
+				                    <td>${ev.evc_name}</td>
+				                    <td>${ev.evc_address}</td>
+				                    <td>
+				                    	<form action="deleteEv" method="post" style="display:inline;">
+					                        <input type="hidden" name="member_id" value="${sessionScope.member.member_id}" />
+					                        <input type="hidden" name="evc_id" value="${ev.evc_id}" />
+					                        <input type="submit" value="x" class="delete-button" />
+					                    </form>
+				                    </td>
 				                </tr>
 				            </c:forEach>
 				        </tbody>
 				    </table>			  			  				  				  
                 </div>
-				
+
               </div>
             </div>
           </div>
@@ -256,8 +264,10 @@
       </div>
       <!--한) 충전소 즐겨찾기 목록 end-->
       
+      
     </div>
     <!-- main-wrapper end -->
+	
 	
 	
 	
@@ -334,9 +344,13 @@
     
   </div>
   <!-- page-wrapper end -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  
+<script>
+
+</script>  
   
-  
-  
+
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="/js/webflow.js" type="text/javascript"></script>
 </body>
