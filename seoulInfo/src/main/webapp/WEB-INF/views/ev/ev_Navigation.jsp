@@ -88,8 +88,8 @@
 
 <table class="backToMain" style="width: 100%; text-align:center;">
     <tr>
-        <td style="width:100%">
-            <a href="/ev/evMain"><button class="filter btn btn-success" id="btnBackToMain">돌아가기</button></a>
+        <td>
+            <a href="/ev/evMain"><button class="filter btn btn-success" id="btnBackToMain" style="width:100%">돌아가기</button></a>
         </td>
     </tr>
 </table>
@@ -109,20 +109,29 @@
         <input type="hidden" id="starty" />
         <input type="hidden" id="endx" />
         <input type="hidden" id="endy" />
-        <div style="position:fixed; left:10px; top:50%; border: 2px solid blue; border-radius : 10px;">
-            <input type="text" id="searchStartAddress" placeholder="출발지를 입력하세요" onkeyup="onKeyupSearchPoi(this);" style="padding-top:1%; padding-bottom:3%;">
-            <button class="btn btn-primary" onclick="clickSearchPois('start');">검색</button><br><br>
-            <input type="text" id="searchEndAddress" placeholder="목적지를 입력하세요" onkeyup="onKeyupSearchPoi(this);" style="padding-top:1%; padding-bottom:3%;">
-            <button class="btn btn-primary" onclick="clickSearchPois('end');">검색</button><hr>
-            <button class="btn btn-warning" style="width:100%; border-radius:10px;" onclick="searchRoute();">경로 검색</button>
-        </div>
-        <div id="result"></div>
+		<div style="position:fixed; left:10px; top:50%; border: 1px solid black; border-radius : 10px; background-color:white;">
+			<table style="margin:5px;">
+				<tr>
+					<td rowspan="2"><img src="/images/ev/nav_route.png" alt="경로 이미지" style="width:55px; height:auto; border-radius:0px; margin:5px;"></td>
+		    		<td><input type="text" id="searchStartAddress" placeholder="출발지를 입력하세요." onchange="clickSearchPois('start');" style="padding-top:1%; padding-bottom:3%; margin-top:5px "></td>
+		    	</tr>
+				<tr>
+		    		<td style="padding-top:5px;"><input type="text" id="searchEndAddress" placeholder="목적지를 입력하세요." onchange="clickSearchPois('end');" style="padding-top:1%; padding-bottom:3%;"></td>
+				</tr>
+				<tr>
+					<td colspan="2" style="padding-top:5px;"><p style="font-size : 12px; text-align:center;"> ※ 충전소는 서울시 내의 정보만 표시됩니다.</p></td>
+				</tr>	
+			</table>
+			<div id="result" style="margin-left:10px"></div>
+			<button class="btn btn-primary" style="width:100%; border-radius: 0px 0px 10px 10px; border-top: 1px double black;" onclick="searchRoute();">경로 검색 </button>
+		</div>
     </div>
 	<script>
 	var map = new Tmapv2.Map("map_div", {
 	    center: new Tmapv2.LatLng(37.54723135585498, 126.99680328369186),
 	    zoom: 14,
-	    httpsMode: true
+	    httpsMode: true,
+		maxZoom: 18 // 최대 줌 레벨
 	});
 
 	// 전역 변수로 폴리라인 배열 및 마커 변수들을 정의
@@ -211,7 +220,7 @@
 	                position: startLatLng,
 	                map: map,
 	                title: "Start Point",
-	                icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_s.png" // 시작점 마커 아이콘 URL
+	                icon: "/images/ev/nav_start.png" // 시작점 마커 아이콘 URL
 	            });
 
 	            // 도착점 마커 추가
@@ -219,7 +228,7 @@
 	                position: endLatLng,
 	                map: map,
 	                title: "End Point",
-	                icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_e.png" // 도착점 마커 아이콘 URL
+	                icon: "/images/ev/nav_end.png" // 도착점 마커 아이콘 URL
 	            });
 
 	            var positionBounds = new Tmapv2.LatLngBounds();
@@ -244,7 +253,7 @@
 	            map.panToBounds(positionBounds);
 
 	            // 충전소 데이터 가져오기
-	            getChargingStations(positionBounds);
+	            getChargingStations(linePoints);
 	        },
 	        onProgress: function() {},
 	        onError: function() {}
@@ -252,63 +261,66 @@
 	    new Tmapv2.extension.TData().getRoutePlanJson(startLatLng, endLatLng, optionObj, params);
 	}
 
-	function getChargingStations(bounds) {
+	function getChargingStations(linePoints) {
 	    var apiUrl = 'getNavMarker'; // 충전소 데이터를 가져오는 API URL
-	    var data = {
-	        minLat: bounds.getSouthWest().lat(),
-	        maxLat: bounds.getNorthEast().lat(),
-	        minLon: bounds.getSouthWest().lng(),
-	        maxLon: bounds.getNorthEast().lng()
-	    };
 
-	    $.ajax({
-	        url: apiUrl,
-	        type: 'POST',
-	        data: data,
-	        success: function(response) {
-	            console.log("충전소 데이터 응답:", response); // 응답 데이터 확인
-	            for (var i in response) {
-	                var station = response[i];
-	                var markerPosition = new Tmapv2.LatLng(station.evc_lat, station.evc_long);
-	                var marker = new Tmapv2.Marker({
-	                    position: markerPosition,
-	                    map: map,
-	                    title: station.evc_name
-	                });
+	    for (var i = 0; i < linePoints.length; i++) {
+	        var point = linePoints[i];
+	        var data = {
+	            lat: point.lat(),
+	            lon: point.lng(),
+	            radius: 100 // 100m 반경
+	        };
 
-	                // 마커 hover 이벤트 추가
-	                (function(marker, station) {
-	                    marker.addListener("mouseover", function() {
-	                        var content = '<div><strong>' + station.evc_name + '</strong><br>' +
-	                                      'Address: ' + station.evc_address + '</div>';
-	                        if (infoWindow) {
-	                            infoWindow.setMap(null);
-	                        }
-	                        infoWindow = new Tmapv2.InfoWindow({
-	                            position: marker.getPosition(),
-	                            content: content,
-	                            type: 2, // 2 - HTML content
-	                            map: map
+	        $.ajax({
+	            url: apiUrl,
+	            type: 'POST',
+	            data: data,
+	            success: function(response) {
+	                console.log("충전소 데이터 응답:", response); // 응답 데이터 확인
+	                for (var j in response) {
+	                    var station = response[j];
+	                    var markerPosition = new Tmapv2.LatLng(station.evc_lat, station.evc_long);
+	                    var marker = new Tmapv2.Marker({
+	                        position: markerPosition,
+	                        map: map,
+	                        title: station.evc_name,
+							icon: "/images/ev/nav_ev.png"
+	                    });
+
+	                    // 마커 hover 이벤트 추가
+	                    (function(marker, station) {
+	                        marker.addListener("mouseover", function() {
+	                            var content = '<div><strong>' + station.evc_name + '</strong><br>' +
+	                                          'Address: ' + station.evc_address + '</div>';
+	                            if (infoWindow) {
+	                                infoWindow.setMap(null);
+	                            }
+	                            infoWindow = new Tmapv2.InfoWindow({
+	                                position: marker.getPosition(),
+	                                content: content,
+	                                type: 2, // 2 - HTML content
+	                                map: map
+	                            });
 	                        });
-	                    });
-	                    marker.addListener("mouseout", function() {
-	                        if (infoWindow) {
-	                            infoWindow.setMap(null);
-	                        }
-	                    });
-	                })(marker, station);
+	                        marker.addListener("mouseout", function() {
+	                            if (infoWindow) {
+	                                infoWindow.setMap(null);
+	                            }
+	                        });
+	                    })(marker, station);
 
-	                chargingStationMarkers.push(marker);
-	                console.log("충전소 마커 추가:", markerPosition); // 마커 추가 확인
+	                    chargingStationMarkers.push(marker);
+	                    console.log("충전소 마커 추가:", markerPosition); // 마커 추가 확인
+	                }
+	            },
+	            error: function() {
+	                console.error("충전소 데이터를 가져오는 데 실패했습니다.");
 	            }
-	        },
-	        error: function() {
-	            console.error("충전소 데이터를 가져오는 데 실패했습니다.");
-	        }
-	    });
+	        });
+	    }
 	}
 	</script>
-
 
 </body>
 </html>

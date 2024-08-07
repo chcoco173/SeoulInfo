@@ -8,13 +8,15 @@
 		(
 			productsearch_keyword,
 			productsearch_date,
-			member_id
+			member_id,
+			productsearch_area
 		)
 		VALUES
 		(
 			#{productsearch_keyword},
 			now(),
-			#{member_id}
+			#{member_id},
+			#{productsearch_area}
 		)
 	</insert>
 	

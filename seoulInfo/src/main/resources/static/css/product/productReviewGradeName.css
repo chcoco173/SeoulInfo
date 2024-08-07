@@ -1,0 +1,27 @@
+.rating {
+	display: flex;
+	align-items: center;
+	font-size: 1.8rem;
+	color: #ffc107; /* Star color */
+}
+
+.rating span {
+	font-size: 1rem;
+	color: #333; /* Text color */
+	margin-right: 0.5rem;
+}
+
+.btn-chat {
+	background-color: grey;
+	border-color: grey;
+}
+
+.btn-buy {
+	background-color: black;
+	border-color: black;
+}
+
+.author-name {
+	color: black; /* Make the text color white */
+	text-decoration: none; /* Remove underline */
+}

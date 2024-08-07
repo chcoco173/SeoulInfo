@@ -200,22 +200,26 @@
 			var button = $(this); // 원래의 this 값을 변수에 저장
 			// 클릭된 버튼의 상위 product-card 요소에서 sale_id 값을 가져옴
 			var sale_id = $(this).closest('.product-card').find('.sale_id').val();
-			alert("해당 상품을 삭제 하시겠습니까?");
-			
-			$.ajax({
-				type : 'POST',
-				url : '/product/deleteProduct',
-				data : {
-					"sale_id" : sale_id
-				},
-				success : function(result){
-					if(result === '1'){
-						button.closest('.product-card').remove();
+			if (confirm("해당 상품을 삭제 하시겠습니까?")) {
+				$.ajax({
+					type : 'POST',
+					url : '/product/deleteProduct',
+					data : {
+						"sale_id" : sale_id
+					},
+					success : function(result){
+						if(result === '1'){
+							button.closest('.product-card').remove();
+						}
+					},
+					error : function(err){
+						console.log(err);
 					}
-				},error : function(err){
-					console.log(err);
-				}
-			})			            
+				});
+			} else {
+				// 사용자가 취소를 눌렀을 때 실행될 코드 (아무 작업도 하지 않음)
+				console.log("상품 삭제가 취소되었습니다.");
+			}			            
 					
 		});
 		

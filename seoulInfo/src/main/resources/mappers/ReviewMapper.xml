@@ -40,7 +40,7 @@
 <!-- 별점 평균 계산 -->
 	<select id="reviewStarAvg" parameterType="string"
 		resultType="integer">
-		SELECT ROUND((SUM(review_star) + 5) / (COUNT(review_star) +
+		SELECT ROUND((SUM(review_star) + 3) / (COUNT(review_star) +
 		1)) AS reviewStarAvg
 		FROM review r
 		WHERE r.buy_id IN (

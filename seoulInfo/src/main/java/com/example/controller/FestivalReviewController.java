@@ -1,64 +1,36 @@
 ﻿package com.example.controller;
 
 import java.io.File;
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
+
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.domain.FestRevImageVO;
 import com.example.domain.FestivalReviewVO;
 import com.example.domain.MemberVO;
-import com.example.domain.ProductImageVO;
-import com.example.service.FestRevImageService;
 import com.example.service.FestivalReviewService;
 import com.example.util.MD5Generator;
 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/festivalDetail")
+@RequestMapping("/festivalReview")
 public class FestivalReviewController {
-	
-//	  `fr_imgId` int NOT NULL AUTO_INCREMENT,
-//	  `fr_imgName` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-//	  `fr_imgAlias` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-//	  `fr_imgUrl` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-//	  `fr_Id
 	
     @Autowired
     private FestivalReviewService festivalReviewService;
-    
-	@Autowired
-	private FestRevImageService festRevImageService;
-    
+
 	@Autowired
 	private HttpSession session;
-	
-	@RequestMapping("/")
-	public String mainPage() {
-		return "/index";
-	}
 
-
-	@RequestMapping("/{step}")
-	public String festivalViewPage(@PathVariable String step) {
-		System.out.println(step);
-		return "product/"+step;
-	}
 
 	// 축제리뷰 등록
     @PostMapping("/insertReview")
@@ -76,6 +48,9 @@ public class FestivalReviewController {
         
 		// 현재 로그인한 회원 세션 받아오기
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
+        if (mvo == null) {
+            return "redirect:/member/login"; // Redirect to login if member is not found in session
+        }
 		frvo.setMember_id(mvo.getMember_id());
 
         try {
@@ -117,7 +92,7 @@ public class FestivalReviewController {
 			e.printStackTrace();
 		}
 
-		return "redirect:/festival/festivalDetail";
+		return "redirect:/festival/festivalDetail?festival_id="+ festival_id;
     }
     
 	// 해당 회원이 올린 축제 리뷰 조회

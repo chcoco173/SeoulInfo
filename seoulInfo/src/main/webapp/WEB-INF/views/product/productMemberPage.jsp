@@ -87,7 +87,7 @@
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<link href="/css/product/product_detail.css" rel="stylesheet" type="text/css">
+<link href="/css/product/productReviewGradeName.css" rel="stylesheet" type="text/css">
 <link href="/css/product/productMain.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -102,7 +102,6 @@
 						<div class="container-full-width">
 							<h1 data-w-id="180b513c-4540-bab3-7036-972b35d8ddc4"
 								style="opacity: 0" class="text-color-white w-dyn-bind-empty"></h1>
-							<div class="spacer-xlarge"></div>
 							<div data-w-id="771e0065-68e3-960e-1e46-624d6820421c"
 								style="opacity: 0" class="post-author-and-tags-wrapper">
 								<a href="#" class="large-author-wrapper w-inline-block"
@@ -257,6 +256,25 @@
 			location.href = "detail_post?sale_id="+sale_id;
 
 		});
+		var reviewStarAvg = ${reviewStarAvg}; // JSP에서 값을 전달받도록 설정
+		
+		// 별을 표시할 문자열 생성
+		var filledStar = '&#9733;'; // 채워진 별
+		var emptyStar = '&#9734;';  // 빈 별
+		var totalStars = 5;         // 총 별 개수
+		var starsHtml = '';
+
+		// 별 문자열 생성
+		for (var i = 0; i < totalStars; i++) {
+			if (i < reviewStarAvg) {
+				starsHtml += filledStar; // 채워진 별 추가
+			} else {
+				starsHtml += emptyStar; // 빈 별 추가
+			}
+		}
+		// 별을 표시할 요소에 HTML 문자열 설정
+		$('.stars').html(starsHtml);
+		
 	</script>
 </body>
 </html>

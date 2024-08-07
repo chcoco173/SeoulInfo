@@ -1,7 +1,5 @@
 package com.example.websocket.user;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -18,6 +16,7 @@ public class UserController {
 
     private final UserService userService;
     
+    // 유저가 채팅 페이지에 들어오면 온라인 상태로 추가
     @MessageMapping("/user.addUser")
     @SendTo("/user/public")
     public User addUser(
@@ -27,6 +26,7 @@ public class UserController {
         return user;
     }
 
+    // 유저가 채팅 페이지 나가면 오프라인 상태로 변경
     @MessageMapping("/user.disconnectUser")
     @SendTo("/user/public")
     public User disconnectUser(
@@ -36,6 +36,7 @@ public class UserController {
         return user;
     }
 
+    // 유저 온라인 상태 가져오기
     @GetMapping("/users")
     public ResponseEntity<Status> findUserStatus(@RequestParam String userId) {
         Status status = userService.getStatusByUserId(userId);

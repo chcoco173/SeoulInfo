@@ -15,35 +15,26 @@
 	<link href="/css/webflow.css" rel="stylesheet" type="text/css">
 	<link href="/css/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet"
 		type="text/css">
-<!--	<style>
-	@media ( min-width :992px) {
-		html.w-mod-js:not(.w-mod-ix) [data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"]
-			{
-			-webkit-transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0)
-				rotateY(0) rotateZ(0) skew(0, 0);
-			-moz-transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0)
-				rotateY(0) rotateZ(0) skew(0, 0);
-			-ms-transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0)
-				rotateY(0) rotateZ(0) skew(0, 0);
-			transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0)
-				rotateZ(0) skew(0, 0);
+	<style>
+		/* Flexbox 컨테이너 스타일 추가 */
+		.flex-container {
+		    display: flex;
+		    flex-wrap: wrap;
+		    gap: 20px;
 		}
-	}
 
-	@media ( max-width :991px) and (min-width:768px) {
-		html.w-mod-js:not(.w-mod-ix) [data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"]
-			{
-			-webkit-transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0)
-				rotateY(0) rotateZ(0) skew(0, 0);
-			-moz-transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0)
-				rotateY(0) rotateZ(0) skew(0, 0);
-			-ms-transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0)
-				rotateY(0) rotateZ(0) skew(0, 0);
-			transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0)
-				rotateZ(0) skew(0, 0);
+		.flex-item {
+		    flex: 1;
+		    min-width: 300px; /* 최소 너비 설정 */
 		}
-	}
-	</style>-->
+
+		/* 이미지 크기 조정 */
+		.image-overflow-wrapper img {
+		    width: 40%; /* 가로 크기를 4분의 1로 줄이기 */
+		    height: auto; /* 비율을 유지하며 크기 조정 */
+			align: center;
+		}
+		@media (min-width:992px) {html.w-mod-js:not(.w-mod-ix) [data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"] {-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);}}@media (max-width:991px) and (min-width:768px) {html.w-mod-js:not(.w-mod-ix) [data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"] {-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);}}</style>
 	<link href="https://fonts.googleapis.com" rel="preconnect">
 	<link href="https://fonts.gstatic.com" rel="preconnect"
 		crossorigin="anonymous">
@@ -138,162 +129,114 @@
 			</div>
 		<!-- 검색창 end -->
 		
-		<!-- 축제(제목,이미지) start -->
+		<!-- 축제 상세 정보 start -->
 		<div class="main-wrapper">
 		    <div class="section-post-banner background-black">
 		        <div class="padding-global">
 		            <div class="padding-section-medium">
 		                <div class="container-full-width">
-		                    <h1 class="text-color-white">${festival.festival_name}</h1>
+		                    <h3 class="text-color-white">${festival.festival_name}</h3>
 		                    <div class="spacer-xlarge"></div>
-		                    <div class="image-overflow-wrapper">
-		                        <img src="${festival.festival_imageurl}" alt="${festival.festival_name}" style="max-width:100%;">
-		                    </div>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
-		    <div class="section-post-text">
-		        <div class="padding-global">
-		            <div class="padding-section-medium remove-bottom-padding">
-		                <div class="container-small">
-		                    <div class="rich-text w-richtext">
-		                        <p>시작 날짜: ${festival.festival_startDate}</p>
-		                        <p>종료 날짜: ${festival.festival_endDate}</p>
-		                        <p>장소: ${festival.festival_loc}</p>
-		                        <p>이용 요금: ${festival.festival_fee}</p>
-		                        <p>이용 대상: ${festival.festival_target}</p>
-		                        <p>주체자: ${festival.festival_host}</p>
-		                        <p>조회수: ${festival.festival_viewcount}</p>
-		                        <a href="${festival.festival_siteurl}" target="_blank">사이트 바로가기</a>
+		                    <div class="flex-container">
+		                        <div class="flex-item image-overflow-wrapper">
+		                            <img src="${festival.festival_imageurl}" alt="${festival.festival_name}">
+		                        </div>
+		                        <div class="flex-item text-color-white festival-details">
+		                            <p>시작 날짜: ${festival.festival_startDate}</p>
+		                            <p>종료 날짜: ${festival.festival_endDate}</p>
+		                            <p>장소: ${festival.festival_loc}</p>
+		                            <p>이용 요금: ${festival.festival_fee}</p>
+		                            <p>이용 대상: ${festival.festival_target}</p>
+		                            <p>주체자: ${festival.festival_host}</p>
+		                            <p>조회수: ${festival.festival_viewcount}</p>
+		                            <a href="${festival.festival_siteurl}" target="_blank" class="text-color-white">사이트 바로가기</a>
+		                        </div>
 		                    </div>
 		                </div>
 		            </div>
 		        </div>
 		    </div>
 		</div>
-		<!-- 축제(제목,이미지) end -->
-		  <!-- 댓글 작성하기 start -->
+		<!-- 축제 상세정보 end --> 
+		</br></br>
+		  <!-- 축제 후기 등록하기 start -->
 		  <div class="section-newsletter">
 		  	<div class="padding-global">
 		  		<div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd"
 		  			class="container-newsletter background-black">
 		  			<div class="_2-column-grid-uneven-right">
-		  				<h3 class="newsletter-heading">사진과 함께 축제 후기를 남겨주세요!</h3>
-<!--		  				<div id="Style-Guide-Form"
-		  					class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form">
-		  					<form name="wf-form-Newsletter-Form" data-name="Newsletter Form"
-		  						method="get" id="wf-form-Newsletter-Form"
-		  						class="newsletter-form"
-		  						data-wf-page-id="628ab4b45549af6399a230d3"
-		  						data-wf-element-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9d2">
-		  						<input class="form-field newsletter w-input" maxlength="256"
-		  							name="Email" data-name="Email" placeholder="댓글을 작성해주세요."
-		  							type="email" id="Email" required="" /> <input type="submit"
-		  							data-wait="Please wait..."
-		  							class="button-primary-large max-width-full-mobile-portrait w-button"
-		  							value="새 후기 작성하기" />
-		  					</form>
-		  					<div class="form-success-message w-form-done">
-		  						<div class="text-size-regular text-color-white">Thank you!
-		  							Your submission has been received!</div>
-		  					</div>
-		  					<div class="form-error-message w-form-fail">
-		  						<div class="text-size-regular">Oops! Something went wrong
-		  							while submitting the form.</div>
-		  					</div>-->
+		  				<h4 class="newsletter-heading">사진과 함께 축제 후기를 남겨주세요!</h4>
 							<input type="hidden" id="festival_id" name="festival_id" value="${festival.festival_id }">
-							<input type="submit" class="button-primary-large max-width-full-mobile-portrait w-button" value="새 후기 작성하기" id="newReviewBtn">
+							<input type="submit" class="button-primary-large max-width-full-mobile-portrait w-button" value="새 후기 작성하러 가기" id="newReviewBtn">
 		  				</div>
 		  			</div>
 		  		</div>
 		  	</div>
 		  </div>
-		  <!-- 댓글 작성하기 end -->
-		  
-		  <!-- 축제리뷰 리스트 -->
+		  <!-- 축제 후기 등록하기 end -->
+		  </br></br>
+		  <!-- 축제리뷰 리스트 start -->
 		  <div class="section-posts-row">
-		  	<div class="padding-global">
-		  		<div class="padding-section-medium remove-top-padding">
-		  			<div class="container-full-width">
-<!--		  				<h2 data-w-id="e144bf26-0d49-109b-1b5b-756bc18db81f"
-		  					style="opacity: 0">최신 뉴스</h2>-->
-		  				<div class="spacer-xlarge"></div>
-		  				<div data-w-id="e144bf26-0d49-109b-1b5b-756bc18db822"
-		  					style="opacity: 0" class="divider-line"></div>
-		  				<div class="spacer-xlarge"></div>
-		  				<div class="w-dyn-list">
-		  					<div role="list" class="w-dyn-items" id="filteredList">
-		  						<c:forEach items="${newsList}" var="news">
-		  							<dd data-w-id="e144bf26-0d49-109b-1b5b-756bc18db826"
-		  								style="opacity: 0" role="listitem" class="w-dyn-item">
-		  								<div class="post-row-grid">
-		  									<a id="w-node-e144bf26-0d49-109b-1b5b-756bc18db828-4f5c4823"
-		  										data-w-id="e144bf26-0d49-109b-1b5b-756bc18db828"
-		  										href="/news/newsDetail?news_id=${news.news_id}&area=${news.news_area}"
-		  										class="post-row-image-overflow-container w-inline-block">
-		  										<img
-		  										id="w-node-e144bf26-0d49-109b-1b5b-756bc18db829-4f5c4823"
-		  										data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"
-		  										src="${news.news_imageurl}" alt="뉴스 이미지"
-		  										style="width: 100%; height: auto;" class="post-row-image">
-		  									</a>
-		  									<div id="w-node-e144bf26-0d49-109b-1b5b-756bc18db82a-4f5c4823"
-		  										class="post-row-wrapper">
-		  										<div class="tags-wrappers">
-		  											<a href="#" class="tag w-inline-block">
-		  												<div class="text-size-small w-dyn-bind">${news.news_area}</div>
-		  											</a>
-		  										</div>
-		  										<a id="w-node-e144bf26-0d49-109b-1b5b-756bc18db830-4f5c4823"
-		  											href="/news/newsDetail?news_id=${news.news_id}&area=${news.news_area}"
-		  											class="w-inline-block">
-		  											<h3 class="w-dyn-bind">${news.news_title}</h3>
-		  										</a>
-		  										<div class="small-author-wrapper">
-		  											<div class="line-divider"></div>
-		  											<div
-		  												class="text-size-regular text-color-dark-gray w-dyn-bind">
-		  												<fmt:formatDate value="${news.news_date}"
-		  													pattern="yyyy-MM-dd" />
-		  											</div>
-		  										</div>
-		  										<div class="small-author-wrapper">
-		  											<div class="line-divider"></div>
-		  											<div
-		  												class="text-size-regular text-color-dark-gray w-dyn-bind">
-		  												<a href="${news.news_link}">뉴스 사이트 바로 가기</a>
-		  											</div>
-		  										</div>
-		  									</div>
-		  								</div>
-		  							</dd>
-		  						</c:forEach>
-		  					</div>
-
-		  					<div role="navigation" aria-label="List"
-		  						class="w-pagination-wrapper pagination">
-		  						<button id="filtered-prevPage"
-		  							class="w-pagination-previous previous" disabled>
-		  							<img src="/images/ph_arrow-left-light-xxsmall.svg"
-		  								loading="lazy" alt="" class="icon-1x1-xxsmall">
-		  							<div class="text-size-small w-inline-block">Previous</div>
-		  						</button>
-		  						<div id="filtered-pageInfo" class="page-info">1 / 1</div>
-		  						<button id="filtered-nextPage" class="w-pagination-next next"
-		  							disabled>
-		  							<div class="text-size-small w-inline-block">Next</div>
-		  							<img src="/images/ph_arrow-right-light-xxsmall.svg"
-		  								loading="lazy" alt="" class="icon-1x1-xxsmall">
-		  						</button>
-		  					</div>
-		  				</div>
-		  			</div>
-		  		</div>
-		  	</div>
+		    <div class="padding-global">
+		      <div class="padding-section-medium remove-top-padding">
+		        <div class="container-full-width">
+		          <h4 data-w-id="e144bf26-0d49-109b-1b5b-756bc18db81f" style="opacity:0">최근 축제 리뷰</h4>
+		          <div class="spacer-xlarge"></div>
+		          <div data-w-id="e144bf26-0d49-109b-1b5b-756bc18db822" style="opacity:0" class="divider-line"></div>
+		          <div class="spacer-xlarge"></div>
+		          <div class="w-dyn-list">
+		            <div role="list" class="w-dyn-items">
+						<c:forEach items="${reviewList}" var="review">
+			              <div data-w-id="e144bf26-0d49-109b-1b5b-756bc18db826" style="opacity:0" role="listitem" class="w-dyn-item">
+			                <div class="post-row-grid">
+			                  <a id="w-node-e144bf26-0d49-109b-1b5b-756bc18db828-4f5c4823" data-w-id="e144bf26-0d49-109b-1b5b-756bc18db828" href="#" class="post-row-image-overflow-container w-inline-block">
+								<c:choose>
+								    <c:when test="${not empty review.image}">
+										<div id="w-node-e144bf26-0d49-109b-1b5b-756bc18db829-4f5c4823" 
+										     data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829" 
+										     style="background-image: url('${review.image}'); 
+										            -webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); 
+										            -moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); 
+										            -ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); 
+										            transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);" 
+										     class="post-row-image">
+										</div>
+								    </c:when>
+								    <c:otherwise>
+								        <div id="w-node-e144bf26-0d49-109b-1b5b-756bc18db829-4f5c4823" data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829" style="background-color: #ccc; transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" class="post-row-image"></div>
+								    </c:otherwise>
+								</c:choose>
+			                  </a>
+			                  <div id="w-node-e144bf26-0d49-109b-1b5b-756bc18db82a-4f5c4823" class="post-row-wrapper">
+			                    <div class="tags-wrappers">
+			                      <a href="#" class="tag w-inline-block">
+			                        <div class="text-size-small">${review.festival_id}</div>
+			                      </a>
+			                    </div>
+			                    <a id="w-node-e144bf26-0d49-109b-1b5b-756bc18db830-4f5c4823" href="#" class="w-inline-block">
+								  <input type="hidden" id="fr_id" name="fr_id" value="${review.fr_id }">
+			                      <h3>${review.fr_title}</h3>
+			                    </a>
+			                    <div class="small-author-wrapper">
+			                      <a href="#" class="author-pic-and-name-wrapper w-inline-block">
+			                        <div class="small-author-thumbnail"></div>
+			                        <div class="text-size-regular">${review.member_id}</div>
+			                      </a>
+			                      <div class="line-divider"></div>
+			                      <div class="text-size-regular text-color-dark-gray"><fmt:formatDate value="${review.fr_regdate}" pattern="yyyy-MM-dd" /></div>
+			                    </div>
+			                  </div>
+			                </div>
+			              </div>
+						</c:forEach>	  
+		            </div>
+		          </div>
+		        </div>
+		      </div>
+		    </div>
 		  </div>
-		  </div>
-
+		  <!-- 축제리뷰 리스트 end -->
+		  
 		  <div class="section-footer">
 		  	<div class="padding-global">
 		  		<div class="spacer-xxlarge"></div>
@@ -366,13 +309,35 @@
 		  </div>
 		  <!-- section-footer end -->
   <script>	
-	var newReviewBtn = document.getElementById('newReviewBtn');
-	var festivalId = document.getElementById('festival_id').value;
+	document.addEventListener('DOMContentLoaded', function() {
+		// 후기 남기기
+		var newReviewBtn = document.getElementById('newReviewBtn');
+		var festivalId = document.getElementById('festival_id').value;
 
-	newReviewBtn.onclick = function() {
-	    alert(festivalId);
-	    window.location.href = "/festival/festivalReview?festival_id=" + festivalId;
-	}
+		newReviewBtn.onclick = function() {
+		    alert(festivalId);
+		    window.location.href = "/festival/festivalReview?festival_id=" + festivalId;
+		}
+		
+	    // 후기의 이미지와 제목 요소들을 가져옵니다.
+	    const reviewElements = document.querySelectorAll('.post-row-image-overflow-container, .post-row-wrapper a');
+
+	    reviewElements.forEach(function(element) {
+	        element.addEventListener('click', function(event) {
+	            event.preventDefault(); // 기본 동작을 막습니다.
+
+	            // 클릭한 요소의 부모 요소에서 hidden input 요소를 찾습니다.
+	            const frIdInput = element.closest('.post-row-grid').querySelector('input[name="fr_id"]');
+	            const frId = frIdInput.value;
+				
+				alert("리뷰 번호: "+frId);
+
+	            // festivalReviewDetail 페이지로 이동합니다.
+	            window.location.href = `/festival/festivalReviewDetail?fr_id=${frId}`;
+	        });
+	    });
+	});
+
 
   </script>
 	  
