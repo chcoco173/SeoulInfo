@@ -1,9 +1,12 @@
 package com.example.service;
 
+import java.util.HashMap;
 import java.util.List;
 
+import com.example.domain.EVStationVO;
 import com.example.domain.MailVO;
 import com.example.domain.MemberVO;
+import com.example.domain.MypageProductVO;
 
 public interface MemberService {
 	
@@ -49,5 +52,17 @@ public interface MemberService {
     //8/6 프로필 사진 등록
     public void updateProfile(MemberVO vo);
     public void deleteProfile(MemberVO vo);
-
+    
+    
+    // 8/7 마이페이지/전기차 즐겨찾기
+    public List<EVStationVO> getEvList(String member_id);
+    boolean deleteEv(String evc_id, String member_id);
+    
+    
+    // 8/7 마이페이지/관심상품
+    public List<MypageProductVO> getProductList(String member_id);
+    boolean deleteProduct(String sale_id, String member_id);
+    
+    
+    
 }

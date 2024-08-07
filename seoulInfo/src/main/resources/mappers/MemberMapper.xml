@@ -93,15 +93,55 @@
         SELECT *
         FROM member
         WHERE member_email = #{member_email}
-    </select>	
-	
+    </select>
+    		            	
 
-	<!-- 8/6 프로필 사진 등록 -->
+	<!-- 8/6 마이페이지/프로필 사진 등록 -->
 	<update id="updateProfile" parameterType="MemberVO">
 		UPDATE member 
 		SET member_imageOrigin=#{member_imageOrigin}, member_imageName=#{member_imageName}, member_imagePath=#{member_imagePath}
 		WHERE member_id=#{member_id}		
 	</update>
+	
+    <!-- 8/7 마이페이지/충전기 즐겨찾기 -->
+	<select id="getEvList" parameterType="String" resultType="EVStationVO">	
+		SELECT
+			 ef.member_id   AS member_id 
+			,ef.evc_id		AS evc_id
+			,e.evc_area	    AS evc_area
+			,e.evc_name	    AS evc_name
+			,e.evc_address  AS evc_address
+		FROM  evc_fav ef JOIN evc e
+		ON 	  ef.evc_id = e.evc_id 
+		WHERE ef.member_id=#{member_id}
+	</select>
+	<delete id="deleteEv" parameterType="MemberVO">
+	    DELETE FROM evc_fav
+	    WHERE member_id = #{member_id} AND evc_id = #{evc_id}
+	</delete>
+	
+	<!-- 8/7 마이페이지/관심상품 -->
+	<select id="getProductList" parameterType="String" resultType="MypageProductVO">	
+		SELECT
+			 pf.member_id  		  AS  member_id 
+			,pf.sale_id			  AS  sale_id
+			,ps.sale_cate 		  AS  sale_cate
+			,ps.sale_name  		  AS  sale_name
+			,ps.sale_price 		  AS  sale_price
+			,pi.productimg_alias  AS  productimg_alias
+		FROM  favorite_product pf
+		JOIN  product_sale     ps 	  ON  pf.sale_id = ps.sale_id
+		JOIN  product_image    pi 	  ON  pf.sale_id = pi.sale_id 
+		WHERE pf.member_id=#{member_id}
+	</select>
+	<delete id="deleteProduct" parameterType="MemberVO">
+	    DELETE FROM favorite_product
+	    WHERE member_id = #{member_id} AND sale_id = #{sale_id}
+	</delete>	
+	
+		
+	
+
 <!-- 	<insert id="insertProfile" parameterType="MemberVO">
 		INSERT INTO member ( member_id, member_imageOrigin, member_imageName, member_imagePath )
 		VALUES ( #{member_id}, #{member_imageOrigin}, #{member_imageName}, #{member_imagePath} )		
@@ -133,22 +173,8 @@
 	</select>
  -->
  
- 	<!-- 조인이 포함되어 있으면 resultType="hashmap" 필수로 변경 -->
-<!-- 	<select id="getBoard" parameterType="MemberVO" resultType="hashmap">	
-		SELECT 
-			b.seq		seq
-			,b.title	title
-			,b.writer	writer
-			,b.content  content
-			,b.regdate  regdate 
-			,b.cnt		cnt 
-			,bf.originFilename originFilename
-			,bf.filename	filename
-		FROM  board2 b INNER JOIN board_file bf 
-		ON 	  b.fileid = bf.fileid 
-		WHERE b.seq=#{seq}	
-	</select> -->
-	
+
+		
 	
 	
 	

@@ -1,0 +1,134 @@
+:root {
+  --black: black;
+  --corner-rounding: 1.5rem;
+  --medium-gray: #e5e5e5;
+  --page-padding-desktop: 2.5rem;
+  --page-padding-tablet: 2.5rem;
+  --page-padding-mobile: 1.5rem;
+  --gutters: 2rem;
+  --white: white;
+  --dark-gray: #aaa;
+  --light-gray: #f6f6f6;
+  
+  --light-blue: #D4F4FA;
+  --medium-blue: #5CD1E5;
+  --light-yellow: #FAF4C0;
+  --medium-yellow: #F7EA6E;
+  --light-violet: #E8D9FF;
+  --medium-violet: #BFA0ED;
+  --light-pink: #FFF0F5;
+  --dark-green: #2F4F4F;
+  --dim-gray: #696969;
+  --dark-red: #800000;
+  
+}
+
+
+/* 기본 스타일 설정 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* 컨테이너 설정 */
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* 제목 스타일 */
+h1 {
+    text-align: center;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+/* 폼 스타일 설정 */
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-field-wrapper {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* .form-field {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.form-field:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+} */
+
+/* 입력 필드 기본 스타일 */
+.form-field {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background-color: #f9f9f9; /* 배경색을 여기에 설정합니다 */
+    color: #333;
+}
+
+/* 입력 필드 포커스 상태 스타일 */
+.form-field:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    background-color: #fff; /* 포커스 시 배경색을 변경하려면 이 부분을 설정합니다 */
+}
+
+
+/* 오류 및 성공 메시지 스타일 */
+.error-message, .success-message {
+    font-size: 14px;
+    color: #e74c3c;
+    margin-top: 5px;
+}
+
+.success-message {
+    color: #2ecc71;
+}
+
+/* 버튼 스타일 */
+.button-primary-large {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.button-primary-large:hover {
+    background-color: #0056b3;
+}
+
+
+
+

@@ -22,6 +22,7 @@
   <link href="/css/mypage/normalize.css" rel="stylesheet" type="text/css">
   <link href="/css/mypage/webflow.css" rel="stylesheet" type="text/css">
   <link href="/css/mypage/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet" type="text/css">
+  <link href="/css/mypage/memberInfo.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
@@ -279,8 +280,7 @@
 				<!-- 오른쪽 컬럼 -->
 
                 <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">				  
-
-                  <form action="${pageContext.request.contextPath}/member/updateMember" method="POST" name="wf-form-Contact-Form" id="wf-form-Contact-Form" 
+<%--                   <form action="${pageContext.request.contextPath}/member/updateMember" method="POST" name="wf-form-Contact-Form" id="wf-form-Contact-Form" 
 				  		class="form member-info-form" data-wf-page-id="6684f0fb2a5375354f5c4825" data-wf-element-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a65">	
 					<input class="form-field w-input" type="hidden" name="member_id" id="id" value="${sessionScope.member.member_id}">
 
@@ -345,12 +345,80 @@
                     <div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
 						<input type="submit" class="button-primary-large w-button" value="회원정보 수정">
 					</div>
-                  </form>
-                  <div class="spacer-large"></div>
-<%-- 					<c:if test="${not empty message}">
-				        <div class="alert alert-success">${message}</div>
-				    </c:if> --%>
-                 				  				  				  
+                  </form> --%>
+                  <form action="${pageContext.request.contextPath}/member/updateMember" method="POST" name="wf-form-Contact-Form" id="wf-form-Contact-Form" 
+		              class="form member-info-form">
+		            <input type="hidden" name="member_id" id="id" value="${sessionScope.member.member_id}">
+		
+		            <div class="form-field-wrapper">
+		                <label for="pw">비밀번호</label>
+		                <input class="form-field" maxlength="256" name="member_pw" type="password" id="pw" value="" pattern="[A-Za-z0-9]{6,}" placeholder="회원정보를 수정하실려면 비밀번호를 입력해주세요.">
+		                <div class="error-message" id="pw-error">비밀번호는 영문자와 숫자로 이루어진 6자 이상이어야 합니다.</div>
+		            </div>
+		
+		            <div class="form-field-wrapper">
+		                <label for="pwCheck">비밀번호 확인</label>
+		                <input class="form-field" maxlength="256" type="password" id="pwCheck" pattern="[A-Za-z0-9]{6,}">
+		                <div class="error-message" id="pwCheck-error">비밀번호가 일치하지 않습니다. 다시 입력해주세요.</div>
+		            </div>
+		
+		            <div class="form-field-wrapper">
+		                <label for="name">이름</label>
+		                <input class="form-field" maxlength="256" name="member_name" type="text" id="name" value="${sessionScope.member.member_name}" pattern="[가-힣]{2,}">
+		                <div class="error-message" id="name-error">이름은 한글 2자 이상이어야 합니다.</div>
+		            </div>
+		
+		            <div class="form-field-wrapper">
+		                <label for="email">이메일</label>
+		                <input class="form-field" maxlength="256" name="member_email" type="email" id="email" value="${sessionScope.member.member_email}">
+		                <div class="error-message" id="email-error">유효한 이메일 주소를 입력하세요.</div>
+		                <div class="error-message" id="email-duplicate-error">이미 사용 중인 이메일입니다.</div>
+		                <div class="success-message" id="email-available-message">사용 가능한 이메일입니다.</div>
+		            </div>
+		
+		            <div class="form-field-wrapper">
+		                <label for="tel">전화번호</label>
+		                <input class="form-field" maxlength="256" name="member_tel" type="tel" id="tel" value="${sessionScope.member.member_tel}">
+		                <div class="error-message" id="tel-error">전화번호는 숫자로 이루어진 10자 이상이어야 합니다.</div>
+		            </div>
+		
+		            <div class="form-field-wrapper">
+		                <label for="area">지역</label>
+		                <select class="form-field" name="member_area" id="area">
+		                    <option value="강남구" ${sessionScope.member.member_area eq '강남구' ? 'selected' : ''}>강남구</option>
+		                    <option value="강동구" ${sessionScope.member.member_area eq '강동구' ? 'selected' : ''}>강동구</option>
+		                    <option value="강서구" ${sessionScope.member.member_area eq '강서구' ? 'selected' : ''}>강서구</option>
+		                    <option value="강북구" ${sessionScope.member.member_area eq '강북구' ? 'selected' : ''}>강북구</option>
+		                    <option value="관악구" ${sessionScope.member.member_area eq '관악구' ? 'selected' : ''}>관악구</option>
+		                    <option value="광진구" ${sessionScope.member.member_area eq '광진구' ? 'selected' : ''}>광진구</option>
+		                    <option value="구로구" ${sessionScope.member.member_area eq '구로구' ? 'selected' : ''}>구로구</option>
+		                    <option value="금천구" ${sessionScope.member.member_area eq '금천구' ? 'selected' : ''}>금천구</option>
+		                    <option value="노원구" ${sessionScope.member.member_area eq '노원구' ? 'selected' : ''}>노원구</option>
+		                    <option value="도봉구" ${sessionScope.member.member_area eq '도봉구' ? 'selected' : ''}>도봉구</option>
+		                    <option value="동대문구" ${sessionScope.member.member_area eq '동대문구' ? 'selected' : ''}>동대문구</option>
+		                    <option value="동작구" ${sessionScope.member.member_area eq '동작구' ? 'selected' : ''}>동작구</option>
+		                    <option value="마포구" ${sessionScope.member.member_area eq '마포구' ? 'selected' : ''}>마포구</option>
+		                    <option value="서대문구" ${sessionScope.member.member_area eq '서대문구' ? 'selected' : ''}>서대문구</option>
+		                    <option value="서초구" ${sessionScope.member.member_area eq '서초구' ? 'selected' : ''}>서초구</option>
+		                    <option value="성동구" ${sessionScope.member.member_area eq '성동구' ? 'selected' : ''}>성동구</option>
+		                    <option value="성북구" ${sessionScope.member.member_area eq '성북구' ? 'selected' : ''}>성북구</option>
+		                    <option value="송파구" ${sessionScope.member.member_area eq '송파구' ? 'selected' : ''}>송파구</option>
+		                    <option value="양천구" ${sessionScope.member.member_area eq '양천구' ? 'selected' : ''}>양천구</option>
+		                    <option value="영등포구" ${sessionScope.member.member_area eq '영등포구' ? 'selected' : ''}>영등포구</option>
+		                    <option value="용산구" ${sessionScope.member.member_area eq '용산구' ? 'selected' : ''}>용산구</option>
+		                    <option value="은평구" ${sessionScope.member.member_area eq '은평구' ? 'selected' : ''}>은평구</option>
+		                    <option value="종로구" ${sessionScope.member.member_area eq '종로구' ? 'selected' : ''}>종로구</option>
+		                    <option value="중구" ${sessionScope.member.member_area eq '중구' ? 'selected' : ''}>중구</option>
+		                    <option value="중랑구" ${sessionScope.member.member_area eq '중랑구' ? 'selected' : ''}>중랑구</option>
+		                </select>
+		                <div class="error-message" id="area-error">지역을 선택하세요.</div>
+		            </div>
+		
+		            <div class="contact-form-button-wrapper">
+		                <input type="submit" class="button-primary-large" value="회원정보 수정">
+		            </div>
+		        </form>
+		                         				  				  				  
                 </div>
 				
               </div>
