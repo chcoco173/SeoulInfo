@@ -10,5 +10,6 @@ public class ProductSearchVO {
 	private String	productsearch_keyword;
 	private Date	productsearch_date;
 	private	String	member_id;
+	private String	productsearch_area;
 
 }

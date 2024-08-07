@@ -87,7 +87,7 @@
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<link href="/css/product/product_detail.css" rel="stylesheet" type="text/css">
+<link href="/css/product/productReviewGradeName.css" rel="stylesheet" type="text/css">
 <link href="/css/product/productMain.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -103,7 +103,6 @@
 						<div class="container-full-width">
 							<h1 data-w-id="180b513c-4540-bab3-7036-972b35d8ddc4"
 								style="opacity: 0" class="text-color-white w-dyn-bind-empty"></h1>
-							<div class="spacer-xlarge"></div>
 							<div data-w-id="771e0065-68e3-960e-1e46-624d6820421c"
 								style="opacity: 0" class="post-author-and-tags-wrapper">
 								<a href="#" class="large-author-wrapper w-inline-block"
