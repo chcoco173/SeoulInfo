@@ -333,7 +333,7 @@
 				alert("리뷰 번호: "+frId);
 
 	            // festivalReviewDetail 페이지로 이동합니다.
-	            window.location.href = `/festival/festivalReviewDetail?fr_id=${frId}`;
+	            window.location.href = "/festival/festivalReviewDetail?fr_id=" + frId;
 	        });
 	    });
 	});

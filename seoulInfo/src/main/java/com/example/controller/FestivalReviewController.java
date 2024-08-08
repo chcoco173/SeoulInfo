@@ -1,13 +1,12 @@
 ﻿package com.example.controller;
 
 import java.io.File;
-
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,10 +62,8 @@ public class FestivalReviewController {
 
 				if( fr_imgName != null && !fr_imgName.equals("")) {
 					String fr_imgAlias = new MD5Generator(fr_imgName).toString();
-					System.out.println("변경된 파일명"+fr_imgAlias);
 
 					String savepath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\festRevImage";
-					System.out.println("저장경로 : " + savepath);
 
 					if (! new File(savepath).exists()) {
 						new File(savepath).mkdir();
@@ -87,7 +84,6 @@ public class FestivalReviewController {
 				}
 			}
 
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -95,7 +91,18 @@ public class FestivalReviewController {
 		return "redirect:/festival/festivalDetail?festival_id="+ festival_id;
     }
     
-	// 해당 회원이 올린 축제 리뷰 조회
+	// 리뷰 상세 페이지
+//    @PostMapping("/festivalReviewDetail")
+//    public String getReviewDetail(@RequestParam("frId") Integer fr_id, Model model) {
+//    	System.out.println(fr_id);
+//        FestivalReviewVO review = festivalReviewService.getReview(fr_id);
+//        if (review != null) {
+//            List<FestRevImageVO> images = festivalReviewService.getReviewImage(fr_id);
+//            model.addAttribute("review", review);
+//            model.addAttribute("images", images);
+//        }
+//        return "festival/festivalReviewDetail";
+//    }
 
 
 }

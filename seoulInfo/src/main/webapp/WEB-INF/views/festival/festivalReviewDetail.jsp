@@ -128,91 +128,84 @@
 				</div>
 			</div>
 		<!-- 검색창 end -->
-		
+		<img src="../static/festRevImage/4cd4db1bf98e01c9c5c0fae27728fa7a">
 		<!-- 리뷰 사진 start -->
 		<div class="main-wrapper">
-		  <div class="section-destination-banner">
-		    <div class="padding-global">
-		      <div class="padding-section-medium">
-		        <div class="container-full-width">
-		          <div data-w-id="a984475f-e10a-c912-ac29-53a066823d5a" style="opacity:0" class="_3-column-grid">
-		            <div id="w-node-_9eb9e867-d75f-01e1-e35b-5c8e2fc339e3-4f5c4823" data-w-id="9eb9e867-d75f-01e1-e35b-5c8e2fc339e3" style="opacity:0" class="image-overflow-wrapper">
-		              <div id="w-node-a984475f-e10a-c912-ac29-53a066823d5b-4f5c4823" data-w-id="a984475f-e10a-c912-ac29-53a066823d5b" style="-webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform-style:preserve-3d" class="destination-featured-image"></div>
+		    <div class="section-destination-banner">
+		        <div class="padding-global">
+		            <div class="padding-section-medium">
+		                <div class="container-full-width">
+		                    <div data-w-id="a984475f-e10a-c912-ac29-53a066823d5a" style="opacity:0" class="_3-column-grid">
+		                        <c:forEach items="${images}" var="image">
+		                            <div id="w-node-_9eb9e867-d75f-01e1-e35b-5c8e2fc339e3-4f5c4823" data-w-id="9eb9e867-d75f-01e1-e35b-5c8e2fc339e3" style="opacity:0" class="image-overflow-wrapper">
+		                                <div id="w-node-a984475f-e10a-c912-ac29-53a066823d5b-4f5c4823" data-w-id="a984475f-e10a-c912-ac29-53a066823d5b" style="background-image: url('${image.fr_imgUrl}'); -webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); -moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); -ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); transform-style:preserve-3d" class="destination-featured-image">
+											<img src="${image.fr_imgUrl}">
+										</div>
+		                            </div>
+		                        </c:forEach>
+		                    </div>
+		                    <div data-w-id="a984475f-e10a-c912-ac29-53a066823d5e" style="opacity:0" class="destination-banner">
+		                        <div class="accent text-color-white">후기 제목</div>
+		                        <h1 class="text-color-white">${review.fr_title}</h1>
+		                    </div>
+		                </div>
 		            </div>
-		            <div id="w-node-_79c7b98a-1219-4ca1-4497-3bfe7cec81e9-4f5c4823" data-w-id="79c7b98a-1219-4ca1-4497-3bfe7cec81e9" style="opacity:0" class="image-overflow-wrapper">
-		              <div id="w-node-a984475f-e10a-c912-ac29-53a066823d5c-4f5c4823" data-w-id="a984475f-e10a-c912-ac29-53a066823d5c" style="-webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform-style:preserve-3d" class="destination-featured-image hide-mobile-landscape"></div>
-		            </div>
-		            <div id="w-node-_1c6c9f9c-e700-79e7-a980-d3dfc5bb86cd-4f5c4823" data-w-id="1c6c9f9c-e700-79e7-a980-d3dfc5bb86cd" style="opacity:0" class="image-overflow-wrapper">
-		              <div id="w-node-a984475f-e10a-c912-ac29-53a066823d5d-4f5c4823" data-w-id="a984475f-e10a-c912-ac29-53a066823d5d" style="-webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform-style:preserve-3d" class="destination-featured-image hide-mobile-landscape"></div>
-		            </div>
-		          </div>
-		          <div data-w-id="a984475f-e10a-c912-ac29-53a066823d5e" style="opacity:0" class="destination-banner">
-		            <div class="accent text-color-white">후기 제목</div>
-		            <h1 class="text-color-white w-dyn-bind-empty"></h1>
-		          </div>
 		        </div>
-		      </div>
 		    </div>
-		  </div>
 		<!-- 리뷰 사진 end --> 
-	<!-- 축제리뷰 리스트 start -->
+		<!-- 리뷰 내용 start -->
+		<div class="main-wrapper">
+		    <div class="padding-global">
+		        <div class="padding-section-medium">
+		            <div class="container-full-width">
+		                <div class="flex-container">
+		                    <div class="flex-item text-color-black review-content">
+		                        <p>${review.fr_content}</p>
+		                        <p>작성자: ${review.member_id}</p>
+		                        <p>작성일: <fmt:formatDate value="${review.fr_regdate}" pattern="yyyy-MM-dd" /></p>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<!-- 리뷰 내용 end -->
+	<!-- 추가해야할 댓글 리스트 start -->
 	<div class="section-posts-row">
-	  <div class="padding-global">
-	    <div class="padding-section-medium remove-top-padding">
-	      <div class="container-full-width">
-	        <h4 data-w-id="e144bf26-0d49-109b-1b5b-756bc18db81f" style="opacity:0">댓글 목록</h4>
-	        <div class="spacer-xlarge"></div>
-	        <div data-w-id="e144bf26-0d49-109b-1b5b-756bc18db822" style="opacity:0" class="divider-line"></div>
-	        <div class="spacer-xlarge"></div>
-	        <div class="w-dyn-list">
-	          <div role="list" class="w-dyn-items">
-				<c:forEach items="${reviewList}" var="review">
-	              <div data-w-id="e144bf26-0d49-109b-1b5b-756bc18db826" style="opacity:0" role="listitem" class="w-dyn-item">
-	                <div class="post-row-grid">
-	                  <a id="w-node-e144bf26-0d49-109b-1b5b-756bc18db828-4f5c4823" data-w-id="e144bf26-0d49-109b-1b5b-756bc18db828" href="#" class="post-row-image-overflow-container w-inline-block">
-						<c:choose>
-						    <c:when test="${not empty review.image}">
-								<div id="w-node-e144bf26-0d49-109b-1b5b-756bc18db829-4f5c4823" 
-								     data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829" 
-								     style="background-image: url('${review.image}'); 
-								            -webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); 
-								            -moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); 
-								            -ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); 
-								            transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);" 
-								     class="post-row-image">
-								</div>
-						    </c:when>
-						    <c:otherwise>
-						        <div id="w-node-e144bf26-0d49-109b-1b5b-756bc18db829-4f5c4823" data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829" style="background-color: #ccc; transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" class="post-row-image"></div>
-						    </c:otherwise>
-						</c:choose>
-	                  </a>
-	                  <div id="w-node-e144bf26-0d49-109b-1b5b-756bc18db82a-4f5c4823" class="post-row-wrapper">
-	                    <div class="tags-wrappers">
-	                      <a href="#" class="tag w-inline-block">
-	                        <div class="text-size-small">${review.festival_id}</div>
-	                      </a>
+	    <div class="padding-global">
+	        <div class="padding-section-medium remove-top-padding">
+	            <div class="container-full-width">
+	                <h4 data-w-id="e144bf26-0d49-109b-1b5b-756bc18db81f" style="opacity:0">댓글 목록</h4>
+	                <div class="spacer-xlarge"></div>
+	                <div data-w-id="e144bf26-0d49-109b-1b5b-756bc18db822" style="opacity:0" class="divider-line"></div>
+	                <div class="spacer-xlarge"></div>
+	                <div class="w-dyn-list">
+	                    <div role="list" class="w-dyn-items">
+	                        <c:forEach items="${commentList}" var="comment">
+	                            <div data-w-id="e144bf26-0d49-109b-1b5b-756bc18db826" style="opacity:0" role="listitem" class="w-dyn-item">
+	                                <div class="post-row-grid">
+	                                    <div id="w-node-e144bf26-0d49-109b-1b5b-756bc18db82a-4f5c4823" class="post-row-wrapper">
+	                                        <div class="tags-wrappers">
+	                                            <a href="#" class="tag w-inline-block">
+	                                                <div class="text-size-small">${comment.member_id}</div>
+	                                            </a>
+	                                        </div>
+	                                        <div class="comment-content">
+	                                            <p>${comment.comment_content}</p>
+	                                            <div class="small-author-wrapper">
+	                                                <div class="line-divider"></div>
+	                                                <div class="text-size-regular text-color-dark-gray"><fmt:formatDate value="${comment.comment_regdate}" pattern="yyyy-MM-dd" /></div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </c:forEach>  
 	                    </div>
-	                    <a id="w-node-e144bf26-0d49-109b-1b5b-756bc18db830-4f5c4823" href="#" class="w-inline-block">
-	                      <h3>${review.fr_title}${review.imageUrl}</h3>
-	                    </a>
-	                    <div class="small-author-wrapper">
-	                      <a href="#" class="author-pic-and-name-wrapper w-inline-block">
-	                        <div class="small-author-thumbnail"></div>
-	                        <div class="text-size-regular">${review.member_id}</div>
-	                      </a>
-	                      <div class="line-divider"></div>
-	                      <div class="text-size-regular text-color-dark-gray"><fmt:formatDate value="${review.fr_regdate}" pattern="yyyy-MM-dd" /></div>
-	                    </div>
-	                  </div>
 	                </div>
-	              </div>
-				</c:forEach>	  
-	          </div>
+	            </div>
 	        </div>
-	      </div>
 	    </div>
-	  </div>
 	</div>
 	<!-- 축제리뷰 리스트 end -->
 		<!-- 댓글 작성하기 start -->
@@ -340,53 +333,6 @@
   	integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
   	crossorigin="anonymous"></script>
   <script src="/js/webflow.js" type="text/javascript"></script>
-  <!-- 페이지 맨 위로 올라가게 수정 -->
-<!--  <script>
-      $(document).ready(function() {
-          var itemsPerPage = 6; // 페이지당 보여줄 항목 수
-          var currentPage = 1; // 현재 페이지
-          var $filteredItems = $('#filteredList dd'); // 필터링된 항목들
-          var totalItems = $filteredItems.length; // 전체 항목 수
-          var totalPages = Math.ceil(totalItems / itemsPerPage); // 전체 페이지 수
-
-          function showPage(page) {
-              $filteredItems.hide();
-              $filteredItems.slice((page - 1) * itemsPerPage, page * itemsPerPage).show();
-              $('#filtered-pageInfo').text(page + ' / ' + totalPages);
-              $('#filtered-prevPage').prop('disabled', page === 1);
-              $('#filtered-nextPage').prop('disabled', page === totalPages);
-          }
-          
-          function scrollToTop() {
-              $('html, body').animate({
-                  scrollTop: 0
-              }, 500);
-          }
-
-          $('#filtered-prevPage').click(function() {
-              if (currentPage > 1) {
-                  currentPage--;
-                  showPage(currentPage);
-                  scrollToTop();
-              }
-          });
-
-          $('#filtered-nextPage').click(function() {
-              if (currentPage < totalPages) {
-                  currentPage++;
-                  showPage(currentPage);
-                  scrollToTop();
-              }
-          });
-
-          $('.tag.w-inline-block').click(function() {
-              scrollToTop();
-          });
-
-          // 초기 페이지 로드
-          showPage(currentPage);
-      });
-  </script>-->
 </body>
 
 </html>
