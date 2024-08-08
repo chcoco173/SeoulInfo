@@ -89,19 +89,6 @@
 <!-- 외부 css -->
 <link href="/css/product/product_detail.css" rel="stylesheet"
 	type="text/css">
-
-
-
-<script>
-	function showBubble() {
-		document.querySelector('.speech-bubble-right').style.display = 'inline-block';
-	}
-
-	function hideBubble() {
-		document.querySelector('.speech-bubble-right').style.display = 'none';
-	}
-</script>
-
 </head>
 <body>
 	<div class="page-wrapper">
@@ -117,17 +104,17 @@
 									style="opacity: 0" class="text-color-white w-dyn-bind-empty"></h1>
 								<div data-w-id="771e0065-68e3-960e-1e46-624d6820421c"
 									style="opacity: 0" class="post-author-and-tags-wrapper">
-									<a href="#" class="large-author-wrapper w-inline-block"
-										onmouseover="showBubble()" onmouseout="hideBubble()">
+									<a href="#" class="large-author-wrapper w-inline-block">
 										<div class="large-author-thumbnail"></div>
 										<h5 class="author-name">${product.member_id}</h5>
-										<div class="speech-bubble-right">대화 매너가 좋아요!</div>
-										<div>
-											<div
-												class="text-size-regular text-color-white w-dyn-bind-empty"></div>
-											<div
-												class="text-size-regular text-color-dark-gray w-dyn-bind-empty"></div>
-										</div>
+										<c:choose>
+											<c:when test="${mostProduct_review != null}">
+												<div class="speech-bubble-right">상품 상태 ${mostProduct_review}<br/> 대화 매너가 ${mostChat_review} <br/> 약속을 ${mostCommitment_review}</div>
+											</c:when>
+											<c:otherwise>
+												<div class="speech-bubble-right">아직 리뷰가 없어요...</div>
+											</c:otherwise>
+										</c:choose>
 									</a>
 								</div>
 								<div class="rating">

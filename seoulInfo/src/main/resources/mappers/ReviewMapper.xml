@@ -37,7 +37,7 @@
 		</if>
 		WHERE buy_id=#{buy_id}
 	</update>
-<!-- 별점 평균 계산 -->
+	<!-- 별점 평균 계산 -->
 	<select id="reviewStarAvg" parameterType="string"
 		resultType="integer">
 		SELECT ROUND((SUM(review_star) + 3) / (COUNT(review_star) +
@@ -45,12 +45,67 @@
 		FROM review r
 		WHERE r.buy_id IN (
 		SELECT buy_id
-		FROM product_buy pb
+		FROM
+		product_buy pb
 		WHERE pb.sale_id IN (
 		SELECT sale_id
 		FROM product_sale ps
 		WHERE ps.member_id = #{member_id}
 		))
 	</select>
+	<select id='mostProduct_review' parameterType='string'
+		resultType='hashmap'>
+		SELECT product_review, COUNT(*) AS count
+		FROM review
+		WHERE buy_id IN (
+		SELECT buy_id
+		FROM product_buy pb
+		WHERE pb.sale_id IN (
+		SELECT sale_id
+		FROM product_sale ps
+		WHERE ps.member_id = #{member_id}
+		)
+		)
+		GROUP BY product_review
+		ORDER BY count DESC
+		LIMIT 1
+	</select>
+	<select id='mostChat_review' parameterType='string'
+		resultType='hashmap'>
+		SELECT chat_review, COUNT(*) AS count
+		FROM review
+		WHERE buy_id IN (
+		SELECT buy_id
+		FROM product_buy pb
+		WHERE pb.sale_id IN (
+		SELECT sale_id
+		FROM product_sale ps
+		WHERE ps.member_id = #{member_id}
+		)
+		)
+		GROUP BY chat_review
+		ORDER BY count DESC
+		LIMIT 1
+	</select>
+	<select id='mostCommitment_review' parameterType='string'
+		resultType='hashmap'>
+		SELECT commitment_review, COUNT(*) AS count
+		FROM review
+		WHERE buy_id IN (
+		SELECT buy_id
+		FROM product_buy pb
+		WHERE pb.sale_id IN (
+		SELECT sale_id
+		FROM product_sale ps
+		WHERE ps.member_id = #{member_id}
+		)
+		)
+		GROUP BY commitment_review
+		ORDER BY count DESC
+		LIMIT 1
+	</select>
+
+
+
 
 </mapper>

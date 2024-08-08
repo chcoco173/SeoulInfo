@@ -36,7 +36,6 @@
 }
 
 .speech-bubble-right {
-	display: none; /* Hidden by default */
 	background-color: #333;
 	color: #fff;
 	text-align: center;
@@ -47,7 +46,7 @@
 	margin-left: 10px; /* Adjust as needed to position correctly */
 	white-space: nowrap;
 	font-size: 12px; /* Adjust font size as needed */
-	top: 0; /* Adjust vertical positioning as needed */
+	top: 7px; /* Adjust vertical positioning as needed */
 	left: 105%; /* Position it to the right of the parent */
 	cursor: default; /* Prevent cursor change to hand */
 }
@@ -56,16 +55,13 @@
 	content: '';
 	position: absolute;
 	top: 50%;
-	left: -10px; /* Adjust as needed to position the triangle */
+	left: -9px; /* Adjust as needed to position the triangle */
 	transform: translateY(-50%);
 	border-width: 5px;
 	border-style: solid;
 	border-color: transparent #333 transparent transparent;
 }
 
-.large-author-wrapper:hover .speech-bubble-right {
-	display: inline-block; /* Show on hover */
-}
 
 .product_detail {
 	width: 100%; /* Adjust width as needed */
@@ -113,32 +109,7 @@
 	cursor: pointer;
 }
 
-.speech-bubble {
-	display: none;
-	background-color: #333;
-	color: #fff;
-	text-align: center;
-	border-radius: 5px;
-	padding: 5px;
-	position: absolute;
-	z-index: 1;
-	top: 50%;
-	left: 105%;
-	transform: translateY(-50%);
-	white-space: nowrap;
-	font-size: 50%; /* Adjust this value to set the text size to half */
-}
 
-.speech-bubble::after {
-	content: '';
-	position: absolute;
-	top: 50%;
-	left: -10px;
-	transform: translateY(-50%);
-	border-width: 5px;
-	border-style: solid;
-	border-color: transparent #333 transparent transparent;
-}
 
 .carousel-image-wrapper {
 	background-color: #000000; /* 배경색 설정 */

@@ -38,11 +38,14 @@ import com.example.service.ProductBuyService;
 import com.example.service.ProductImageService;
 import com.example.service.ProductService;
 import com.example.service.ReviewService;
+import com.example.util.CookieUtils;
 import com.example.util.MD5Generator;
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 
@@ -57,8 +60,6 @@ public class ProductController {
 
 	// areaSearchPredict
 	private final String areaSearchMl = "http://192.168.0.219:5000/areaSearchPredict";
-
-
 
 	// 빈설정 필수 (AppConfig.java에 설정해둠)
 	@Autowired
@@ -80,6 +81,14 @@ public class ProductController {
 
 	@Autowired
 	private ReviewService reviewService;
+
+
+	@Autowired
+	private HttpServletRequest request;
+
+	@Autowired
+	private HttpServletResponse response;
+
 
 
 	@RequestMapping("/")
@@ -112,12 +121,28 @@ public class ProductController {
 		}
 	}
 
+	// 쿠키 받기
+	public String checkCookie() {
+		// 쿠키 읽기
+		String cookieName = "guSelect"; // 읽고자 하는 쿠키의 이름
+		String cookieValue = CookieUtils.getCookieValue(request, cookieName);
+
+		if (cookieValue != null) {
+			// 쿠키 값이 있을 때의 처리
+			return cookieValue;
+		} else {
+			// 쿠키가 없을 때의 처리
+			return "쿠키가 없습니다.";
+		}
+	}
 
 	// 상품 검색 기능 (select + insert)
 	@GetMapping("/productSearch")
-	public String productSearch(@RequestParam(value="productsearch_keyword", required = false) String productsearch_keyword, String area,  Model model,
+	public String productSearch(@RequestParam(value="productsearch_keyword", required = false) String productsearch_keyword,  Model model,
 			@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "12") int size) {
-		System.out.println(area);
+		// 쿠키값
+		String area = checkCookie();
+		System.out.println("쿠키의 area 값 "+ area);
 		System.out.println(productsearch_keyword);
 
 		int offset = (page - 1) * size;
@@ -142,7 +167,6 @@ public class ProductController {
 			productService.insertProductSearch(psvo);
 		}
 
-
 		// 검색결과 리스트 
 		List<Map<String, Object>> productList = productService.productCateList(map);
 		System.out.println(productList);
@@ -152,12 +176,11 @@ public class ProductController {
 
 		// 페이징을 위한 url
 		model.addAttribute("path", "productSearch");
+		// title
 		model.addAttribute("category","'"+productsearch_keyword+"' (으)로 검색한 결과");
 		model.addAttribute("keyword", productsearch_keyword);
 		model.addAttribute("productList",productList);
-
 		model.addAttribute("timeDataList",timeConversion(productList));
-
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("pageSize", size);
@@ -169,12 +192,12 @@ public class ProductController {
 
 	// main + ml
 	@GetMapping("/productMain")
-	public String productArea(
-			@RequestParam(value = "area", required = true) String area, Model model) {
+	public String productArea(Model model) {
 
-		if (area == null || area.isEmpty()) {
-			area = "전체";
-		}
+		// 쿠키값
+		String area = checkCookie();
+		System.out.println("쿠키의 area 값 "+ area);
+
 
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("area", area);
@@ -202,18 +225,18 @@ public class ProductController {
 		}
 
 		// 예측값이 null이거나 "null" 문자열인 경우 대체 ML 모델 호출
-	    System.out.println("예측값 (null 체크 전): " + prediction);
-	    if (prediction == null || "null".equals(prediction)) {
-	        System.out.println("예측값이 null입니다. 대체 ML 모델 호출 시작.");
-	        prediction = callMlServer(areaSearchMl, "area", area);
-	        System.out.println("대체 예측값 (예측값 null): " + prediction);
+		System.out.println("예측값 (null 체크 전): " + prediction);
+		if (prediction == null || "null".equals(prediction)) {
+			System.out.println("예측값이 null입니다. 대체 ML 모델 호출 시작.");
+			prediction = callMlServer(areaSearchMl, "area", area);
+			System.out.println("대체 예측값 (예측값 null): " + prediction);
 
-	        title = area + " 지역의 검색어 맞춤 추천 상품 (대체)";
-	    } else {
-	        System.out.println("예측값이 null이 아닙니다. if문 실행되지 않음.");
-	    }
+			title = area + " 지역의 검색어 맞춤 추천 상품 (대체)";
+		} else {
+			System.out.println("예측값이 null이 아닙니다. if문 실행되지 않음.");
+		}
 
-	    map.put("prediction", prediction);
+		map.put("prediction", prediction);
 
 		// 상품 리스트 조회 및 모델에 추가
 		List<Map<String, Object>> productList = productService.productMainList(map);
@@ -228,103 +251,17 @@ public class ProductController {
 	}
 
 
-	//	// 상품리스트 출력 + ml 완료 ( select + ml )  ml 함수로 만들기 전 코드
-	//	@GetMapping("/productMain")
-	//	public String productArea(
-	//			@RequestParam(value = "area", required = true) String area, Model model) {
-	//
-	//		if(area == null || area.isEmpty()) {
-	//			area="전체";
-	//		}
-	//		HashMap map = new HashMap();
-	//		map.put("area", area);
-	//
-	//		System.out.println(map.toString());
-	//		// 세션값 받아오기
-	//		MemberVO mvo = (MemberVO) session.getAttribute("member");
-	//
-	//		String title = "";
-	//
-	//		// 세션값이 null이 아니라면
-	//		if(mvo != null) {
-	//			// 세션안의 id를 받아오기
-	//			String memberId = mvo.getMember_id();
-	//
-	//			// flask 로 보낼 객체 생성
-	//			Map<String, String> requestBody = new HashMap<>();
-	//			requestBody.put("id", memberId); 
-	//
-	//
-	//			try {
-	//				// Flask 서버로 POST 요청 + 응답 받기
-	//				String result = restTemplate.postForObject(mlServerUrl, requestBody, String.class); // url, 요청본문, 응답받는타입
-	//				System.out.println("Prediction result: " + result); // json 형식
-	//
-	//				// JSON 응답 파싱
-	//				ObjectMapper objectMapper = new ObjectMapper(); // json 데이터를 파싱하기위한 객체생성
-	//				JsonNode jsonNode = objectMapper.readTree(result);	// 문자열 파싱후 json 트리 구조를 반환
-	//				String prediction = jsonNode.get("prediction").asText(); // asText() jsonNode의 텍스트값 반환
-	//				System.out.println("예측값 null 이냐?"+prediction);
-	//
-	//				map.put("prediction", prediction);
-	//				title += ( mvo.getMember_name() + "님의 검색어 맞춤 추천상품");
-	//
-	//
-	//
-	//			} catch (Exception e) {
-	//				e.printStackTrace();
-	//				// 서버가 꺼졋을대 대비
-	//				map.put("prediction", "null");	
-	//			}
-	//		}else { 
-	//			// 세션 값이 없을 경우 구별 검색어 기반 ml 돌리기
-	//			Map<String, String> requestBody = new HashMap<>();
-	//			requestBody.put("area", area); // areaSearchMl
-	//
-	//			try {
-	//				// Flask 서버로 POST 요청 + 응답 받기
-	//				String result = restTemplate.postForObject(areaSearchMl, requestBody, String.class); // url, 요청본문, 응답받는타입
-	//				System.out.println("Prediction result: " + result); // json 형식
-	//
-	//				// JSON 응답 파싱
-	//				ObjectMapper objectMapper = new ObjectMapper(); // json 데이터를 파싱하기위한 객체생성
-	//				JsonNode jsonNode = objectMapper.readTree(result);	// 문자열 파싱후 json 트리 구조를 반환
-	//				String prediction = jsonNode.get("prediction").asText(); // asText() jsonNode의 텍스트값 반환
-	//				System.out.println(prediction);
-	//
-	//				map.put("prediction", prediction);
-	//				title += ( area + " 지역의 검색어 맞춤 추천 상품");
-	//
-	//
-	//			} catch (Exception e) {
-	//				e.printStackTrace();
-	//				map.put("prediction", "null");	
-	//			}	
-	//		}
-	//
-	//		// 상품 list
-	//		List<Map<String, Object>> productList = productService.productMainList(map);
-	//		System.out.println(productList);
-	//		model.addAttribute("productList", productList);
-	//		// 시간 변환 메소드 호출 후 model작업
-	//		model.addAttribute("timeDataList", timeConversion(productList));
-	//		model.addAttribute("title", title);
-	//
-	//		return "product/productMain";
-	//	}
-
 
 	// 7/12 오전 추가 ( 각 카테고리 상픔 list 출력 ) (select) + 페이징 구현
 	@GetMapping("/productCategory")
-	public String productCategory(@RequestParam(value = "category", required = false) String category,
-			@RequestParam(value = "area", required = false) String area, Model model,
+	public String productCategory(@RequestParam(value = "cate", required = false) String category,
+			Model model,
 			@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "12") int size) {
-		// 카테고리가 null이거나 빈 문자열이면 기본값 설정
+		// 쿠키값
+		String area = checkCookie();
+		System.out.println("쿠키의 area 값 "+ area);// 카테고리가 null이거나 빈 문자열이면 기본값 설정
 		if (category == null || category.isEmpty()) {
 			category = "기타";
-		}
-		if(area == null || area.isEmpty()) {
-			area="전체";
 		}
 
 		int offset = (page - 1) * size;
@@ -344,7 +281,7 @@ public class ProductController {
 
 		// 페이징을 위한 url productCategory
 		model.addAttribute("path", "productCategory");
-		
+
 		// 모델에 카테고리 속성 추가
 		model.addAttribute("category", category);
 		model.addAttribute("productList", productList);
@@ -600,10 +537,13 @@ public class ProductController {
 
 	// 상품 id에 대한 내용
 	@GetMapping("/detail_post")
-	public String detailProduct(@RequestParam Integer sale_id, Model model) {
+	public String detailProduct(@RequestParam Integer sale_id, Model model ) {
 		// 세션값
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 		System.out.println(sale_id);
+		// 쿠키값
+		String area = checkCookie();
+
 		// 조회수 증가
 		productService.productViewCountUpdate(sale_id);
 		// 상품 상세
@@ -626,6 +566,8 @@ public class ProductController {
 		Map<String, String>  requestBody = new HashMap<>();
 		requestBody.put("title", product.getSale_name());
 		requestBody.put("cate", product.getSale_cate());
+		requestBody.put("area", area);
+
 
 		try {
 			// Flask 서버로 POST 요청 + 응답 받기
@@ -653,7 +595,9 @@ public class ProductController {
 			}
 
 			if(prediction != null) {
+
 				List<Map<String, Object>> similarList = productService.similarList(prediction);
+
 				System.out.println(similarList);
 				model.addAttribute("similarList", similarList);
 				model.addAttribute("timeDataList", timeConversion(similarList));
@@ -672,6 +616,17 @@ public class ProductController {
 			model.addAttribute("reviewStarAvg", reviewStarAvg);
 		}
 
+		// mostProduct_review, mostChat_review, mostCommitment_review
+		HashMap mostProduct_review = reviewService.mostProduct_review(product.getMember_id());
+		HashMap mostChat_review = reviewService.mostChat_review(product.getMember_id());
+		HashMap mostCommitment_review = reviewService.mostCommitment_review(product.getMember_id());
+
+
+		if( mostProduct_review != null || mostChat_review != null || mostCommitment_review != null) {
+			model.addAttribute("mostProduct_review", mostProduct_review.get("product_review"));
+			model.addAttribute("mostChat_review", mostChat_review.get("chat_review"));
+			model.addAttribute("mostCommitment_review", mostCommitment_review.get("commitment_review"));
+		}
 
 		model.addAttribute("product", product);
 		model.addAttribute("productImgList", productImgList);
@@ -734,6 +689,17 @@ public class ProductController {
 		}else {
 			model.addAttribute("reviewStarAvg", reviewStarAvg);
 		}
+		// mostProduct_review, mostChat_review, mostCommitment_review
+		HashMap mostProduct_review = reviewService.mostProduct_review(mvo.getMember_id());
+		HashMap mostChat_review = reviewService.mostChat_review(mvo.getMember_id());
+		HashMap mostCommitment_review = reviewService.mostCommitment_review(mvo.getMember_id());
+
+
+		if( mostProduct_review != null || mostChat_review != null || mostCommitment_review != null) {
+			model.addAttribute("mostProduct_review", mostProduct_review.get("product_review"));
+			model.addAttribute("mostChat_review", mostChat_review.get("chat_review"));
+			model.addAttribute("mostCommitment_review", mostCommitment_review.get("commitment_review"));
+		}
 
 		model.addAttribute("myProductList", myProductList);
 		// 시간 변환 메소드 호출 후 model작업
@@ -780,6 +746,20 @@ public class ProductController {
 		System.out.println(member_id);
 		List<Map<String, Object>> myProductList = productService.myProductList(member_id);
 
+		// mostProduct_review, mostChat_review, mostCommitment_review
+		HashMap mostProduct_review = reviewService.mostProduct_review(member_id);
+		HashMap mostChat_review = reviewService.mostChat_review(member_id);
+		HashMap mostCommitment_review = reviewService.mostCommitment_review(member_id);
+
+
+		if( mostProduct_review != null || mostChat_review != null || mostCommitment_review != null) {
+			model.addAttribute("mostProduct_review", mostProduct_review.get("product_review"));
+			model.addAttribute("mostChat_review", mostChat_review.get("chat_review"));
+			model.addAttribute("mostCommitment_review", mostCommitment_review.get("commitment_review"));
+		}
+
+
+
 		// 별점 평균 내기 
 		Integer reviewStarAvg= reviewService.reviewStarAvg(member_id);
 		System.out.println(reviewStarAvg);
@@ -794,18 +774,22 @@ public class ProductController {
 		// 시간 변환 메소드 호출 후 model작업
 		model.addAttribute("timeDataList", timeConversion(myProductList));
 
+
+
 		return "product/productMemberPage";
 	}
 
 
 	// 카테고리 옵션 + 페이징 구현
 	@RequestMapping("/categoryOptionSelect") 
-	public String categoryOptionSelect(String area, String cate, String type,String productsearch_keyword, Model model, 
+	public String categoryOptionSelect(String cate, String type,String productsearch_keyword, Model model, 
 			@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "12") int size) {
+		// 쿠키값
+		String area = checkCookie();
+		System.out.println("쿠키의 area 값 "+ area);
+
 		System.out.println(area);
-		if(area == null || area.isEmpty()) {
-			area="전체";
-		}
+
 		System.out.println(productsearch_keyword);
 		int offset = (page - 1) * size;
 
@@ -818,7 +802,7 @@ public class ProductController {
 		map.put("limit", size);
 		map.put("keyword", productsearch_keyword); 
 
- 
+
 
 		System.out.println(map.toString());		
 		List<Map<String, Object>> productList = productService.productCateList(map);
