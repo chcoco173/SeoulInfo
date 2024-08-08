@@ -84,10 +84,10 @@ public class ProductController {
 
 
 	@Autowired
-	private HttpServletRequest request;
+	private HttpServletRequest request; // 쿠키에서 사용
 
-	@Autowired
-	private HttpServletResponse response;
+//	@Autowired
+//	private HttpServletResponse response;
 
 
 
