@@ -174,8 +174,7 @@
                 </div>
 				
 				<!-- 오른쪽 컬럼 -->
-                <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">
-                
+                <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">               
 					<table class="product-table">
 					    <thead>
 					        <tr>
@@ -183,8 +182,7 @@
 					            <th>상품 카테고리</th>
 					            <th>상품 이름</th>
 					            <th>상품 가격</th>
-					            <th>삭제</th>
-					            
+					            <th>삭제</th>					            
 					        </tr>
 					    </thead>
 					    <tbody>
@@ -205,69 +203,12 @@
 					                        <input type="submit" value="x" class="delete-button" />
 					                    </form>
 					                </td>
-
 					            </tr>
 					        </c:forEach>
 					    </tbody>
-					</table>                	
-                                
-<%--                             <table class="product-table">
-                                <thead>
-                                    <tr>
-                                        <th>관심상품 이미지</th>
-                                        <th>상품명</th>
-                                        <th>삭제</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:forEach var="product" items="${productList}" varStatus="status">
-                                        <c:if test="${status.index % 5 == 0}">
-                                            <tr>
-                                        </c:if>
-                                        <td>
-                                            <img src="${product.imageUrl}" alt="${product.name}"/>
-                                            <p>${product.name}</p>
-                                            <button class="delete-button">삭제</button>
-                                        </td>
-                                        <c:if test="${status.index % 5 == 4}">
-                                            </tr>
-                                        </c:if>
-                                    </c:forEach>
-                                    <c:if test="${productList.size() % 5 != 0}">
-                                        <td colspan="${5 - (productList.size() % 5)}"></td>
-                                        </tr>
-                                    </c:if>
-                                </tbody>
-                              </table> --%>
-<!--                                 <tbody>
-                                    <tr>
-                                        <td><a href="product/1"><img src="/images/mypage/a.jpg" alt="Product 1"/></a><button class="delete-button">X</button></td>
-                                        <td><a href="product/2"><img src="/images/mypage/a.jpg" alt="Product 2"/></a><button class="delete-button">X</button></td>
-                                        <td><a href="product/3"><img src="/images/mypage/a.jpg" alt="Product 3"/></a><button class="delete-button">X</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="product/4"><img src="/images/mypage/a.jpg" alt="Product 4"/></a><button class="delete-button">X</button></td>
-                                        <td><a href="product/5"><img src="/images/mypage/a.jpg" alt="Product 5"/></a><button class="delete-button">X</button></td>
-                                        <td><a href="product/6"><img src="/images/mypage/a.jpg" alt="Product 6"/></a><button class="delete-button">X</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="product/7"><img src="/images/mypage/a.jpg" alt="Product 7"/></a><button class="delete-button">X</button></td>
-                                        <td><a href="product/8"><img src="/images/mypage/a.jpg" alt="Product 8"/></a><button class="delete-button">X</button></td>
-                                        <td><a href="product/9"><img src="/images/mypage/a.jpg" alt="Product 9"/></a><button class="delete-button">X</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="product/10"><img src="/images/mypage/a.jpg" alt="Product 10"/></a><button class="delete-button">X</button></td>
-                                        <td><a href="product/11"><img src="/images/mypage/a.jpg" alt="Product 11"/></a><button class="delete-button">X</button></td>
-                                        <td><a href="product/12"><img src="/images/mypage/a.jpg" alt="Product 12"/></a><button class="delete-button">X</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="product/13"><img src="/images/mypage/a.jpg" alt="Product 13"/></a><button class="delete-button">X</button></td>
-                                        <td><a href="product/14"><img src="/images/mypage/a.jpg" alt="Product 14"/></a><button class="delete-button">X</button></td>
-                                        <td><a href="product/15"><img src="/images/mypage/a.jpg" alt="Product 15"/></a><button class="delete-button">X</button></td>
-                                    </tr>
-                                </tbody> -->
-                            			  			  				  				  
-                </div>				
+					</table>                	                                                            			  			  				  				  
+                </div>
+                				
               </div>
             </div>
           </div>

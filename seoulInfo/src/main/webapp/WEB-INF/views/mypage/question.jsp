@@ -191,37 +191,46 @@
 	            <div class="category-inquiry-container">
 	              <div class="category-container">
 	                <label for="category-select">카테고리</label>
-	                <select id="category-select" name="category">
-	                  <option value="category1">전체</option>
-	                  <option value="category2">지역정보</option>
-	                  <option value="category3">중고거래</option>
-	                  <option value="category4">전기차</option>
+	                <select id="category-select" name="question_cate">
+				        <option value="전체" disabled selected>전체</option>
+				        <option value="뉴스">뉴스</option>
+						<option value="축제">축제</option>	        
+				        <option value="중고거래">중고거래</option>
+				        <option value="전기차">전기차</option>
 	                </select>
 	              </div>
 	              <button class="inquiry-button" onclick="openPopup()">문의하기</button>
 	            </div>            
 	            
-	            <!-- 1:1문의 목록 -->
+	            <!-- 1:1문의 목록 조회-->
 	            <table class="question-table">
 	              <thead>
 	                <tr>
-	                  <th class="narrow-col">카테고리</th>
-	                  <th class="middle-col">제목</th>
-	                  <th class="wide-col">문의내용</th>
-	                  <th class="narrow-col">작성일</th>
-	                  <th class="narrow-col">답변여부</th>
-	                  <th class="narrow-col">삭제</th>
+	                  <th>카테고리</th>
+	                  <th>제목</th>
+	                  <th>문의내용</th>
+	                  <th>작성일</th>
+	                  <th>답변여부</th>
+	                  <th>삭제</th>
 	                </tr>
 	              </thead>
 	              <tbody>
 	                <c:forEach items="${questionList}" var="ql">
 	                  <tr>
+	                  	<input name="member_id" type="hidden" value="${sessionScope.member.member_id}" />
 	                    <td>${ql.question_cate}</td>
-	                    <td align="left"><a href="getBoard?seq=${member.member_id}">${ql.question_title}</a></td>
-	                    <td align="left"><a href="getBoard?seq=${member.member_id}">${ql.question_content}</a></td>
-	                    <td align="left"><a href="getBoard?seq=${member.member_id}">${ql.question_date}</a></td>
-	                    <td align="left"><a href="getBoard?seq=${member.member_id}">${ql.question_status}</a></td>
-	                    <td class="center-align"><button class="delete-button">x</button></td>
+	                    <td>${ql.question_title}</td>
+	                    <td>${ql.question_content}</td>
+	                    <td>
+						    <fmt:formatDate value="${ql.question_date}" pattern="yy.MM.dd" />
+						</td>
+	                    <td>${ql.question_status}</td>
+					    <td>
+					       <form action="deleteQuestion" method="post" style="display:inline;">
+					           <input type="hidden" name="member_id" value="${sessionScope.member.member_id}" />
+					           <input type="submit" value="x" class="delete-button" />
+					       </form>
+					    </td>	                    
 	                  </tr>
 	                </c:forEach>
 	              </tbody>
@@ -242,31 +251,32 @@
 	    <div class="spacer-large"></div>
 	    <h3>1 : 1 문의</h3>
 	    <div class="spacer-large"></div>
-	    <form class="inquiry-form">
-	      <!-- 폼 필드 추가 -->
+	    <form action="saveQuestion" method="post" class="inquiry-form">
 	      <div class="form-row">
 	      <label for="category">카테고리</label>
-	      <select id="category" name="category">
-	        <option value="category1">전체</option>
-	        <option value="category2">지역정보</option>
-	        <option value="category3">중고거래</option>
-	        <option value="category4">전기차</option>
+	      <select id="category" name="question_cate" required>
+	        <option value="" disabled selected>카테고리를 선택하세요</option>
+	        <option value="뉴스">뉴스</option>
+			<option value="축제">축제</option>	        
+	        <option value="중고거래">중고거래</option>
+	        <option value="전기차">전기차</option>
 	      </select>
 	      </div>
 	      <div class="form-row">
 	        <label for="title">제목</label>
-	        <input type="text" id="title" name="title" required>
+	        <input type="text" id="title" name="question_title" required>
 	      </div>
 	      <div class="form-row">
 	        <label for="content">문의내용</label>
-	        <textarea id="content" name="content" required></textarea>
+	        <textarea id="content" name="question_content" required></textarea>
 	      </div>
 	      <div class="form-row reply">
 	        <label for="reply">답변내용</label>
-	        <textarea id="reply" name="reply" required></textarea>
+	        <textarea type="hidden" id="reply" name="reply"></textarea>
 	      </div>
 	      <div class="spacer-large"></div>
 	      <div class="form-submit-row">
+	      	<input name="member_id" type="hidden" value="${sessionScope.member.member_id}" />
 	        <button class="inquiry-button" type="submit">제출</button>
 	      </div>
 	    </form>

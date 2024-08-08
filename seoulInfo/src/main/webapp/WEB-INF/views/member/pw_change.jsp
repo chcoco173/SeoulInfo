@@ -209,7 +209,7 @@
 <script type="text/javascript">
 
 
-<!-- 이메일 인증번호 전송 -->
+<!-- 이메일 임시비밀번호 전송 -->
     function sendNumber(){
         $("#mail_number").css("display","block");
         $.ajax({
@@ -218,7 +218,7 @@
             dataType:"json",
             data:{"mail" : $("#mail").val()},
             success: function(data){
-                alert("인증번호 발송");
+                alert("임시비밀번호 발송");
                 $("#Confirm").attr("value",data);
             }
         });

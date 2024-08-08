@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import com.example.domain.EVStationVO;
 import com.example.domain.MemberVO;
 import com.example.domain.MypageProductVO;
+import com.example.domain.QuestionVO;
 
 @Mapper
 public interface MemberDAO {
@@ -77,6 +78,12 @@ public interface MemberDAO {
     // 8/7 마이페이지/관심상품
     public List<MypageProductVO> getProductList(String member_id);
     int deleteProduct(@Param("sale_id") String sale_id, @Param("member_id") String member_id);
+    
+    
+    // 8/8 마이페이지/1:1문의 등록
+	public void insertQuestion(QuestionVO vo);
+	public List<QuestionVO> getQuestionList(String member_id);
+	
     
     
     

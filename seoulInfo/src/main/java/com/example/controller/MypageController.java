@@ -27,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.domain.EVStationVO;
 import com.example.domain.MemberVO;
 import com.example.domain.MypageProductVO;
+import com.example.domain.QuestionVO;
 import com.example.service.MemberService;
 import com.example.util.MD5Generator;
 
@@ -173,7 +174,7 @@ public class MypageController {
         if (member != null && member.getMember_id() != null) {
             String memberId = member.getMember_id();
             List<EVStationVO> evList = memberService.getEvList(memberId);
-            System.out.println("전기차 즐겨찾기: " + evList);
+            System.out.println("전기차 즐겨찾기 리스트: " + evList);
 
             model.addAttribute("evList", evList); // 모델에 추가
             return "mypage/ev"; // 뷰 이름 반환
@@ -232,41 +233,60 @@ public class MypageController {
         return "redirect:/mypage/product"; // 리다이렉트 경로
     }
     
+    // 8/8 마이페이지/1:1문의 등록    
+    @RequestMapping("/saveQuestion")
+    public String insertQuestion(QuestionVO vo, HttpSession session, Model model) {
+        System.out.println("saveQuestion");
+        
+        // 세션에서 member 객체 가져오기
+        MemberVO member = (MemberVO) session.getAttribute("member");
+        if (member != null) {
+            vo.setMember_id(member.getMember_id());
+        } else {
+            // 예외 처리: 회원 정보가 없는 경우
+            model.addAttribute("errorMessage", "로그인이 필요합니다.");
+            return "redirect:/login"; // 로그인 페이지로 리다이렉트
+        }
+
+        // QuestionVO 객체에 값이 제대로 설정되었는지 로그로 확인
+        System.out.println("Question Category: " + vo.getQuestion_cate());
+        System.out.println("Question Title: " + vo.getQuestion_title());
+        System.out.println("Member ID: " + vo.getMember_id());
+
+        memberService.insertQuestion(vo);               
+        
+        return "redirect:/mypage/question"; // 질문 목록 페이지로 리다이렉트
+    }    
+    
+    // 8/8 마이페이지/1:1문의 조회
+    @GetMapping("/question")
+    public String getQuestionList(HttpSession session, Model model) {
+        // 세션에서 member 객체 가져오기
+        MemberVO member = (MemberVO) session.getAttribute("member");
+        
+        if (member != null && member.getMember_id() != null) {
+            String memberId = member.getMember_id();
+            // 관심 상품 리스트 가져오기
+            List<QuestionVO> questionList = memberService.getQuestionList(memberId);
+            System.out.println("1:1문의리스트 조회 : + questionList" );
+
+            model.addAttribute("questionList", questionList); // 모델에 추가
+            return "mypage/question"; // 뷰 이름 반환
+        } else {
+            // 로그인 페이지 또는 오류 페이지로 리다이렉션
+            return "redirect:/login";
+        }                       
+    }    
     
     
     
-//    @GetMapping("/product")
-//    public String viewFavoriteProducts(HttpSession session, Model model) {
-//        // 세션에서 member_id 가져오기
-//        MemberVO memberId = (MemberVO) session.getAttribute("member_id");
-//        
-//        // 관심 상품 리스트 가져오기
-//        List<MypageProductVO> favoriteProducts = memberService.getFavoriteProducts(memberId);
-//        
-//        // 모델에 추가하여 JSP에 전달
-//        model.addAttribute("favoriteProducts", favoriteProducts);
-//        
-//        return "mypage/product"; // JSP 파일 경로
-//    }    
     
     
     
     
     
     
-    
-    
-	// 관심상품 목록 출력
-//  @GetMapping("/products")
-//  public String getProductList() {
-//      return "productList";
-//  }
-//
-//  @GetMapping("/product/{id}")
-//  public String getProductDetail(@PathVariable Long id, Model model) {
-//      model.addAttribute("productId", id);
-//      return "productDetail";
-//  }   
+ 
 	
 
 }
