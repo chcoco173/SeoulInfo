@@ -224,10 +224,10 @@
 										<ul class="pagination justify-content-center">
 											<c:if test="${currentPage > 1}">
 												<li class="page-item"><a class="page-link"
-													href="productCategory?area=${param.area}&category=${category}&page=1&size=${pageSize}">First</a>
+													href="${path}?area=${param.area}&cate=${category}&page=1&size=${pageSize}">First</a>
 												</li>
 												<li class="page-item"><a class="page-link"
-													href="productCategory?area=${param.area}&category=${category}&page=${currentPage - 1}&size=${pageSize}"
+													href="${path}?area=${param.area}&cate=${category}&page=${currentPage - 1}&size=${pageSize}"
 													aria-label="Previous"> <span aria-hidden="true">&laquo;
 															Previous</span>
 												</a></li>
@@ -259,7 +259,7 @@
 													</c:when>
 													<c:otherwise>
 														<li class="page-item"><a class="page-link"
-															href="productCategory?area=${param.area}&category=${category}&page=${i}&size=${pageSize}">${i}</a>
+															href="${path}?area=${param.area}&cate=${category}&page=${i}&size=${pageSize}">${i}</a>
 														</li>
 													</c:otherwise>
 												</c:choose>
@@ -267,12 +267,12 @@
 
 											<c:if test="${currentPage < totalPages}">
 												<li class="page-item"><a class="page-link"
-													href="productCategory?area=${param.area}&category=${category}&page=${currentPage + 1}&size=${pageSize}"
+													href="${path}?area=${param.area}&cate=${category}&page=${currentPage + 1}&size=${pageSize}"
 													aria-label="Next"> <span aria-hidden="true">Next
 															&raquo;</span>
 												</a></li>
 												<li class="page-item"><a class="page-link"
-													href="productCategory?area=${param.area}&category=${category}&page=${totalPages}&size=${pageSize}">Last</a>
+													href="${path}?area=${param.area}&cate=${category}&page=${totalPages}&size=${pageSize}">Last</a>
 												</li>
 											</c:if>
 										</ul>

@@ -150,6 +150,8 @@ public class ProductController {
 		int totalCount = productService.countItems(map);
 		int totalPages = (int) Math.ceil((double) totalCount / size);
 
+		// 페이징을 위한 url
+		model.addAttribute("path", "productSearch");
 		model.addAttribute("category","'"+productsearch_keyword+"' (으)로 검색한 결과");
 		model.addAttribute("keyword", productsearch_keyword);
 		model.addAttribute("productList",productList);
@@ -340,6 +342,9 @@ public class ProductController {
 		int totalCount = productService.countItems(map);
 		int totalPages = (int) Math.ceil((double) totalCount / size);
 
+		// 페이징을 위한 url productCategory
+		model.addAttribute("path", "productCategory");
+		
 		// 모델에 카테고리 속성 추가
 		model.addAttribute("category", category);
 		model.addAttribute("productList", productList);
@@ -813,7 +818,7 @@ public class ProductController {
 		map.put("limit", size);
 		map.put("keyword", productsearch_keyword); 
 
-
+ 
 
 		System.out.println(map.toString());		
 		List<Map<String, Object>> productList = productService.productCateList(map);
@@ -830,8 +835,8 @@ public class ProductController {
 		model.addAttribute("productList", productList);
 		model.addAttribute("timeDataList", timeConversion(productList));
 
-
-
+		// 페이징을 위한 url
+		model.addAttribute("path", "categoryOptionSelect");
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("pageSize", size);
