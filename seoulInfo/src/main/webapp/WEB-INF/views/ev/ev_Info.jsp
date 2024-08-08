@@ -44,7 +44,7 @@
                         <td id="charger_mechine"></td>
 						<td class="charger_type"></td>
                         <td ><span style="border:1px solid orange; border-radius:5px; background-color: yellow; padding-left:10px; padding-right:10px; text-align:center"><b id="charger_state" >점검중</b></span>
-							 <br><span>{(갱신한 시간)}</span>
+							 <br><span>(갱신한 시간)</span>
 						</td>
                     </tr>
                 </tbody>
