@@ -515,15 +515,33 @@
 
 			location.href = "productMemberPage?member_id=" + memberId;
 		})
-		
+		//유사상품 상품 상세 페이지로 이동
 		$(".product-card").click(function(){
 			var simailar_saleId = $(this).find('.similar_saleId').val();
 			
-			location.href = "/product/detail_post?sale_id="+simailar_saleId;
-			
-			
-			
+			location.href = "/product/detail_post?sale_id="+simailar_saleId;	
 		})
+		var reviewStarAvg = ${reviewStarAvg}; // JSP에서 값을 전달받도록 설정
+		
+		// 별을 표시할 문자열 생성
+		var filledStar = '&#9733;'; // 채워진 별
+		var emptyStar = '&#9734;';  // 빈 별
+		var totalStars = 5;         // 총 별 개수
+		var starsHtml = '';
+
+		// 별 문자열 생성
+		for (var i = 0; i < totalStars; i++) {
+			if (i < reviewStarAvg) {
+				starsHtml += filledStar; // 채워진 별 추가
+			} else {
+				starsHtml += emptyStar; // 빈 별 추가
+			}
+		}
+		// 별을 표시할 요소에 HTML 문자열 설정
+		$('.stars').html(starsHtml);
+		
+		
+		
 	</script>
 </body>
 </html>

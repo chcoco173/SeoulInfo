@@ -2,19 +2,31 @@ package com.example.controller;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
+import com.example.domain.EVStationVO;
 import com.example.domain.MemberVO;
+import com.example.domain.MypageProductVO;
 import com.example.service.MemberService;
 import com.example.util.MD5Generator;
 
@@ -43,18 +55,6 @@ public class MypageController {
 		return "mypage/"+step;
 	}
 	
-	// 관심상품 목록 출력
-//    @GetMapping("/products")
-//    public String getProductList() {
-//        return "productList";
-//    }
-//
-//    @GetMapping("/product/{id}")
-//    public String getProductDetail(@PathVariable Long id, Model model) {
-//        model.addAttribute("productId", id);
-//        return "productDetail";
-//    }
-
 
 	//8/6(화) 프로필 사진 등록
 	@RequestMapping("/updateProfile")
@@ -162,6 +162,111 @@ public class MypageController {
 	    
 	    return "redirect:/mypage/profile";
 	}
+	
+	
+	// 8/7 마이페이지/전기차 즐겨찾기 리스트 조회
+    @GetMapping("/ev")
+    public String getEvList(HttpSession session, Model model) {
+        // 세션에서 member 객체 가져오기
+        MemberVO member = (MemberVO) session.getAttribute("member");
+
+        if (member != null && member.getMember_id() != null) {
+            String memberId = member.getMember_id();
+            List<EVStationVO> evList = memberService.getEvList(memberId);
+            System.out.println("전기차 즐겨찾기: " + evList);
+
+            model.addAttribute("evList", evList); // 모델에 추가
+            return "mypage/ev"; // 뷰 이름 반환
+        } else {
+            // 로그인 페이지 또는 오류 페이지로 리다이렉션
+            return "redirect:/login";
+        }
+    }	
+	
+    // 8/7 마이페이지/전기차 즐겨찾기 리스트 삭제
+    @RequestMapping("/deleteEv")
+    public String deleteEv(@RequestParam("evc_id") String evc_id, 
+                           @RequestParam("member_id") String member_id, 
+                           RedirectAttributes redirectAttributes) {
+        boolean deleted = memberService.deleteEv(evc_id, member_id);
+        if (deleted) {
+            redirectAttributes.addFlashAttribute("message", "즐겨찾기가 삭제되었습니다.");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "즐겨찾기를 삭제할 수 없습니다.");
+        }
+        return "redirect:/mypage/ev"; // 리다이렉트 경로
+    }
+    
+    
+    // 8/7 마이페이지/관심상품 조회
+    @GetMapping("/product")
+    public String getProductList(HttpSession session, Model model) {
+        // 세션에서 member 객체 가져오기
+        MemberVO member = (MemberVO) session.getAttribute("member");
+        
+        if (member != null && member.getMember_id() != null) {
+            String memberId = member.getMember_id();
+            // 관심 상품 리스트 가져오기
+            List<MypageProductVO> productList = memberService.getProductList(memberId);
+            System.out.println("관심상품 조회 : " + productList);
+
+            model.addAttribute("productList", productList); // 모델에 추가
+            return "mypage/product"; // 뷰 이름 반환
+        } else {
+            // 로그인 페이지 또는 오류 페이지로 리다이렉션
+            return "redirect:/login";
+        }                       
+    }
+    
+    // 8/7 마이페이지/관심상품 삭제
+    @RequestMapping("/deleteProduct")
+    public String deleteProduct(@RequestParam("sale_id") String sale_id, 
+                           @RequestParam("member_id") String member_id, 
+                           RedirectAttributes redirectAttributes) {
+        boolean deleted = memberService.deleteProduct(sale_id, member_id);
+        if (deleted) {
+            redirectAttributes.addFlashAttribute("message", "관심상품이 삭제되었습니다.");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "관심상품을 삭제할 수 없습니다.");
+        }
+        return "redirect:/mypage/product"; // 리다이렉트 경로
+    }
+    
+    
+    
+    
+//    @GetMapping("/product")
+//    public String viewFavoriteProducts(HttpSession session, Model model) {
+//        // 세션에서 member_id 가져오기
+//        MemberVO memberId = (MemberVO) session.getAttribute("member_id");
+//        
+//        // 관심 상품 리스트 가져오기
+//        List<MypageProductVO> favoriteProducts = memberService.getFavoriteProducts(memberId);
+//        
+//        // 모델에 추가하여 JSP에 전달
+//        model.addAttribute("favoriteProducts", favoriteProducts);
+//        
+//        return "mypage/product"; // JSP 파일 경로
+//    }    
+    
+    
+    
+    
+    
+    
+    
+    
+	// 관심상품 목록 출력
+//  @GetMapping("/products")
+//  public String getProductList() {
+//      return "productList";
+//  }
+//
+//  @GetMapping("/product/{id}")
+//  public String getProductDetail(@PathVariable Long id, Model model) {
+//      model.addAttribute("productId", id);
+//      return "productDetail";
+//  }   
 	
 
 }

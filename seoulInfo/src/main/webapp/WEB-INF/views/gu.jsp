@@ -83,7 +83,6 @@
 							<div>
 								<h2 data-w-id="565aa445-29c4-7b45-3465-52bdccf2a34e"
 									style="opacity: 0" class="text-color-white">어디 지역으로 가시겠어요?</h2>
-								<div class="spacer-xlarge"></div>
 								<div data-w-id="565aa445-29c4-7b45-3465-52bdccf2a351"
 									style="opacity: 0" class="w-dyn-list">
 									<div role="list"
@@ -95,6 +94,10 @@
 										<div role="listitem" class="w-dyn-item">
 											<a href="/festival/festival?area=강동구"
 												class="button-primary-large w-button">강동구</a>
+										</div>
+										<div role="listitem" class="w-dyn-item">
+											<a href="/festival/festival?area=강북구"
+											class="button-primary-large w-button">강북구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
 											<a href="/festival/festival?area=강서구"
@@ -190,7 +193,7 @@
 									</div>
 								</div>
 							</div>
-
+							<div class="seoulImg">
 							<!-- 구 이미지 선택시 페이지 이동 -->
 							<img src="/guimages/seoul4.png" usemap="#image-map">
 							<map name="image-map">
@@ -245,6 +248,7 @@
 								<area target="_self" alt="강동구" title="강동구" href="/festival/festival?area=강동구"
 									coords="3295,1789,3497,1927" shape="rect">
 							</map>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -319,7 +323,6 @@
 					</div>
 				</div>
 			</div>
-			<div class="spacer-xxlarge"></div>
 		</div>
 	</div>
 	</div>

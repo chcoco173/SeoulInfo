@@ -84,14 +84,15 @@
 								<div class="row">
 									<div class="col-12">
 										<h1 class="text-center">
-											<c:choose>
+											${title}
+											<!--<c:choose>
 												<c:when test="${sessionScope.member != null && sessionScope.member.member_name != null}">
 													${sessionScope.member.member_name}님 검색어 추천상품
 												</c:when>
 												<c:otherwise>
 													${param.area} 상품
 												</c:otherwise>
-											</c:choose>	
+											</c:choose>	-->
 										</h1>
 									</div>
 								</div>
@@ -136,7 +137,7 @@
 									
 									<!-- 페이지 네비게이션 -->
 									<!-- Bootstrap 네비게이션 -->
-									<nav aria-label="Page navigation">
+									<!--<nav aria-label="Page navigation">
 									    <ul class="pagination justify-content-center">
 									        <c:if test="${currentPage > 1}">
 									            <li class="page-item">
@@ -192,7 +193,7 @@
 									            </li>
 									        </c:if>
 									    </ul>
-									</nav>
+									</nav>-->
 									
 								</div>
 							</div>

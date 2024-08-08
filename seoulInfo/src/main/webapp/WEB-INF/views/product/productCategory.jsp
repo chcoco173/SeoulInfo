@@ -97,6 +97,11 @@
 										<div class="col-md-4 col-lg-2 mb-3">
 											<input type=hidden class='area' value="${param.area}">
 											<c:choose>
+												<c:when test="${not empty param.productsearch_keyword}">
+													<input type="hidden" class="productsearch_keyword" value="${param.productsearch_keyword}">
+												</c:when>
+											</c:choose>											
+											<c:choose>
 												<c:when
 													test="${category == '전자제품' || category == '디지털' || category == '가전제품'}">
 													<select class="form-control cate" name="cate">
@@ -141,7 +146,7 @@
 												<c:when
 													test="${category == '기타' || category == '키덜트' || category == '식품' || category == '스포츠/레저' || category == '뷰티/미용' || category == '유아동/출산' || category == '차량/오토바이' || category == '반려동물용품' || category == '기타'}">
 													<select class="form-control cate" name="cate">
-														<option ${category eq '전체' ? 'selected' : ''}>전체</option>
+														<option ${category eq '기타' ? 'selected' : ''}>기타</option>
 														<option ${category eq '키덜트' ? 'selected' : ''}>키덜트</option>
 														<option ${category eq '식품' ? 'selected' : ''}>식품</option>
 														<option ${category eq '스포츠/레저' ? 'selected' : ''}>스포츠/레저</option>
@@ -149,23 +154,23 @@
 														<option ${category eq '유아동/출산' ? 'selected' : ''}>유아동/출산</option>
 														<option ${category eq '차량/오토바이' ? 'selected' : ''}>차량/오토바이</option>
 														<option ${category eq '반려동물용품' ? 'selected' : ''}>반려동물용품</option>
-														<option ${category eq '기타' ? 'selected' : ''}>기타</option>
+														
 													</select>
 												</c:when>
 											</c:choose>
 										</div>
 
 										<!-- Type Selector -->
-										
-											<div class="col-md-4 col-lg-2 mb-3">
-												<select class="form-control type" name="type">
-													<option ${param.type eq '전체' ? 'selected' : ''}>전체</option>
-													<option ${param.type eq '가격낮은순' ? 'selected' : ''}>가격낮은순</option>
-													<option ${param.type eq '가격높은순' ? 'selected' : ''}>가격높은순</option>
-													<option ${param.type eq '최신순' ? 'selected' : ''}>최신순</option>
-												</select>
-											</div>
-										
+
+										<div class="col-md-4 col-lg-2 mb-3">
+											<select class="form-control type" name="type">
+												<option ${param.type eq '전체' ? 'selected' : ''}>전체</option>
+												<option ${param.type eq '가격낮은순' ? 'selected' : ''}>가격낮은순</option>
+												<option ${param.type eq '가격높은순' ? 'selected' : ''}>가격높은순</option>
+												<option ${param.type eq '최신순' ? 'selected' : ''}>최신순</option>
+											</select>
+										</div>
+
 									</div>
 
 
@@ -203,13 +208,75 @@
 														</p>
 														<!-- 날짜 차이 정보 추가 -->
 														<p>
-															${timeDataList[status.index]}<span style="margin-left: 30px;">조회수 : ${productList.sale_viewcount}</span>
+															${timeDataList[status.index]}<span
+																style="margin-left: 30px;">조회수 :
+																${productList.sale_viewcount}</span>
 														</p>
 													</div>
 												</div>
 											</div>
 										</c:forEach>
 									</div>
+
+									<!-- 페이지 네비게이션 -->
+									<!-- Bootstrap 네비게이션 -->
+									<nav aria-label="Page navigation">
+										<ul class="pagination justify-content-center">
+											<c:if test="${currentPage > 1}">
+												<li class="page-item"><a class="page-link"
+													href="${path}?area=${param.area}&cate=${category}&page=1&size=${pageSize}">First</a>
+												</li>
+												<li class="page-item"><a class="page-link"
+													href="${path}?area=${param.area}&cate=${category}&page=${currentPage - 1}&size=${pageSize}"
+													aria-label="Previous"> <span aria-hidden="true">&laquo;
+															Previous</span>
+												</a></li>
+											</c:if>
+
+											<c:set var="startPage" value="${currentPage - 2}" />
+											<c:set var="endPage" value="${currentPage + 2}" />
+
+											<c:if test="${startPage < 1}">
+												<c:set var="startPage" value="1" />
+												<c:set var="endPage" value="5" />
+											</c:if>
+
+											<c:if test="${endPage > totalPages}">
+												<c:set var="startPage" value="${totalPages - 4}" />
+												<c:set var="endPage" value="${totalPages}" />
+											</c:if>
+
+											<c:if test="${startPage < 1}">
+												<c:set var="startPage" value="1" />
+											</c:if>
+
+											<c:forEach var="i" begin="${startPage}" end="${endPage}">
+												<c:choose>
+													<c:when test="${i == currentPage}">
+														<li class="page-item active" aria-current="page"><span
+															class="page-link">${i} <span class="sr-only">(current)</span></span>
+														</li>
+													</c:when>
+													<c:otherwise>
+														<li class="page-item"><a class="page-link"
+															href="${path}?area=${param.area}&cate=${category}&page=${i}&size=${pageSize}">${i}</a>
+														</li>
+													</c:otherwise>
+												</c:choose>
+											</c:forEach>
+
+											<c:if test="${currentPage < totalPages}">
+												<li class="page-item"><a class="page-link"
+													href="${path}?area=${param.area}&cate=${category}&page=${currentPage + 1}&size=${pageSize}"
+													aria-label="Next"> <span aria-hidden="true">Next
+															&raquo;</span>
+												</a></li>
+												<li class="page-item"><a class="page-link"
+													href="${path}?area=${param.area}&cate=${category}&page=${totalPages}&size=${pageSize}">Last</a>
+												</li>
+											</c:if>
+										</ul>
+									</nav>
 
 								</div>
 							</div>
@@ -331,8 +398,16 @@
 							let cate = $('.cate').val();
 							let type = $('.type').val();
 							let area = $('.col-md-4.col-lg-2.mb-3').find('.area').val();
-
-							location.href = "categoryOptionSelect?area="+area+"&cate=" + cate + "&type=" + type;
+							let productsearch_keyword = $('.col-md-4.col-lg-2.mb-3').find('.productsearch_keyword').val();
+														
+							
+							if ( productsearch_keyword != null){
+								location.href = "categoryOptionSelect?area="+area+"&productsearch_keyword=" + productsearch_keyword + "&type=" + type;
+							}else{
+								location.href = "categoryOptionSelect?area="+area+"&cate=" + cate + "&type=" + type;
+							}
+							
+							
 						})
 						
 					
