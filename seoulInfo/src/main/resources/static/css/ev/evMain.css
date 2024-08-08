@@ -78,7 +78,7 @@
 #map_show_type {
     position: fixed;
     top: 90%;
-    left: 10px;
+    right: 10px;
     width: 74px;
     border-radius: 5px;
     overflow: hidden;

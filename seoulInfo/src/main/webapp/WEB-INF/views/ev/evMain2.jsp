@@ -972,6 +972,7 @@
 		    });
 		});
 		
+		
 		// 즐겨찾기 - 버튼 클릭 이벤트
 		$('.btnShowFavorite').click(function(event) {
 			if (sessionResult !== '') {
