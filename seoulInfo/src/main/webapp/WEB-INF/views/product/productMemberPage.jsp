@@ -101,21 +101,27 @@
 					<div class="padding-section-medium">
 						<div class="container-full-width">
 							<h1 data-w-id="180b513c-4540-bab3-7036-972b35d8ddc4"
-								style="opacity: 0" class="text-color-white w-dyn-bind-empty"></h1>
-							<div data-w-id="771e0065-68e3-960e-1e46-624d6820421c"
-								style="opacity: 0" class="post-author-and-tags-wrapper">
-								<a href="#" class="large-author-wrapper w-inline-block"
-									onmouseover="showBubble()" onmouseout="hideBubble()">
-									<div class="large-author-thumbnail"></div>
-									<h5 class="author-name">${param.member_id}</h5>
-									<!-- Added class 'author-name' -->
-
-								</a>
-							</div>
-							<div class="rating">
-								<div class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;
-								</div>
-							</div>
+							       style="opacity: 0" class="text-color-white w-dyn-bind-empty"></h1>
+							   <div data-w-id="771e0065-68e3-960e-1e46-624d6820421c"
+							       style="opacity: 0" class="post-author-and-tags-wrapper">
+							       <a href="#" class="large-author-wrapper w-inline-block">
+							           <div class="large-author-thumbnail"></div>
+							           <h5 class="author-name">${param.member_id}</h5>
+									   <c:choose>
+											<c:when test="${mostProduct_review != null}">
+												<div class="speech-bubble-right">상품 상태 ${mostProduct_review}<br/> 대화 매너가 ${mostChat_review} <br/> 약속을 ${mostCommitment_review}</div>
+											</c:when>
+											<c:otherwise>
+												<div class="speech-bubble-right">아직 리뷰가 없어요...</div>
+											</c:otherwise>
+										</c:choose>   
+							       </a>
+							       
+							   </div>
+							   <!-- 기존의 rating 섹션 -->
+							   <div class="rating">
+							       <div class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;</div>
+							   </div>
 							
 							<div class="container my-5">
 								<!--  상품 ( jstl로 들어갈 예정 ) -->
@@ -163,7 +169,6 @@
 					</div>
 				</div>
 			</div>
-			<div class="spacer-xxlarge"></div>
 		</div>
 
 		<div class="section-footer">
