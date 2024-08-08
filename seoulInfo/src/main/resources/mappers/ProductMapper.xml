@@ -120,13 +120,10 @@
 				AND ps.sale_cate in ( '생활/주방용품', '공구/산업용품' , '가구/인테리어' )
 			</if>
 			<if test="category == '도서'">
-				AND ps.sale_cate in ( '도서/티켓/문구', '예술/희귀/수집품' , '음반/악기' ,
-				'스타굿즈' )
+				AND ps.sale_cate in ( '도서/티켓/문구')
 			</if>
 			<if test="category == '의류'">
-				AND ps.sale_cate in ( '여성의류', '남성의류' , '신발' , '가방/지갑' ,
-				'패션 액세서리' ,
-				'쥬얼리' , '시계')
+				AND ps.sale_cate in ( '여성의류', '남성의류')
 			</if>
 			<if test="category == '기타'">
 				AND ps.sale_cate in ( '키덜트', '뷰티/미용' , '식품', '스포츠/레저' ,
@@ -148,13 +145,10 @@
 					'가구/인테리어' )
 				</when>
 				<when test="optionCate == '도서'">
-					AND ps.sale_cate in ( '도서/티켓/문구', '예술/희귀/수집품' ,
-					'음반/악기' , '스타굿즈' )
+					AND ps.sale_cate in ( '도서/티켓/문구' )
 				</when>
 				<when test="optionCate == '의류'">
-					AND ps.sale_cate in ( '여성의류', '남성의류' , '신발' ,
-					'가방/지갑' , '패션 액세서리' ,
-					'쥬얼리' , '시계')
+					AND ps.sale_cate in ( '여성의류', '남성의류')
 				</when>
 				<when test="optionCate == '기타'">
 					AND ps.sale_cate in ( '키덜트', '뷰티/미용' , '식품',
@@ -354,13 +348,10 @@
 					'가구/인테리어' )
 				</when>
 				<when test="category == '도서'">
-					AND sale_cate in ( '도서/티켓/문구', '예술/희귀/수집품' ,
-					'음반/악기' , '스타굿즈' )
+					AND sale_cate in ( '도서/티켓/문구')
 				</when>
 				<when test="category == '의류'">
-					AND sale_cate in ( '여성의류', '남성의류' , '신발' ,
-					'가방/지갑' , '패션 액세서리' ,
-					'쥬얼리' , '시계')
+					AND sale_cate in ( '여성의류', '남성의류')
 				</when>
 				<when test="category == '기타'">
 					AND sale_cate in ( '키덜트', '뷰티/미용' , '식품',
