@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+<<<<<<< Updated upstream
+=======
+import com.example.domain.FestRevImageVO;
+import com.example.domain.FestivalReviewVO;
+>>>>>>> Stashed changes
 import com.example.domain.FestivalVO;
 import com.example.service.FestivalService;
 
@@ -114,4 +120,25 @@ public class FestivalController {
 	    return "festival/festivalReview";
 	}
 	
+<<<<<<< Updated upstream
+=======
+	// 해당 축제 리뷰의 fr_id 값 가지고 리뷰 상세보기 페이지로 이동
+	@GetMapping("/festivalReviewDetail")
+	public String festivalReviewDetail(@RequestParam("fr_id") Integer fr_id, Model model) {
+	    System.out.println("천지원"+fr_id);
+        FestivalReviewVO review = festivalReviewService.getReview(fr_id);
+        System.out.println("reive확인"+review);
+        if (review != null) {
+        	
+            List<FestRevImageVO> images = festivalReviewService.getReviewImage(fr_id);
+            System.out.println("1"+images);
+            model.addAttribute("review", review);
+            model.addAttribute("images", images);
+        }
+	    
+	    return "festival/festivalReviewDetail";
+	}
+
+	
+>>>>>>> Stashed changes
 }

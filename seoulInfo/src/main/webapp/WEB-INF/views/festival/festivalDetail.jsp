@@ -366,8 +366,39 @@
 		  </div>
 		  <!-- section-footer end -->
   <script>	
+<<<<<<< Updated upstream
 	var newReviewBtn = document.getElementById('newReviewBtn');
 	var festivalId = document.getElementById('festival_id').value;
+=======
+	document.addEventListener('DOMContentLoaded', function() {
+		// 후기 남기기
+		var newReviewBtn = document.getElementById('newReviewBtn');
+		var festivalId = document.getElementById('festival_id').value;
+
+		newReviewBtn.onclick = function() {
+		    alert(festivalId);
+		    window.location.href = "/festival/festivalReview?festival_id=" + festivalId;
+		}
+		
+	    // 후기의 이미지와 제목 요소들을 가져옵니다.
+	    const reviewElements = document.querySelectorAll('.post-row-image-overflow-container, .post-row-wrapper a');
+
+	    reviewElements.forEach(function(element) {
+	        element.addEventListener('click', function(event) {
+	            event.preventDefault(); // 기본 동작을 막습니다.
+
+	            // 클릭한 요소의 부모 요소에서 hidden input 요소를 찾습니다.
+	            const frIdInput = element.closest('.post-row-grid').querySelector('input[name="fr_id"]');
+	            const frId = frIdInput.value;
+				
+				alert("리뷰 번호: "+frId);
+
+	            // festivalReviewDetail 페이지로 이동합니다.
+	            window.location.href = "/festival/festivalReviewDetail?fr_id=" + frId;
+	        });
+	    });
+	});
+>>>>>>> Stashed changes
 
 	newReviewBtn.onclick = function() {
 	    alert(festivalId);
