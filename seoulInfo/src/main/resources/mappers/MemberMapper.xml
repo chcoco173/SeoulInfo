@@ -139,7 +139,18 @@
 	    WHERE member_id = #{member_id} AND sale_id = #{sale_id}
 	</delete>	
 	
-		
+	<!-- 8/8 마이페이지/1:1문의 등록-->
+	<insert id="insertQuestion" parameterType="QuestionVO">
+		INSERT INTO question ( question_cate, question_title, question_content, question_date, member_id )
+		VALUES ( #{question_cate}, #{question_title}, #{question_content}, now(), #{member_id} )	
+	</insert>	
+	<select id="getQuestionList" parameterType="String" resultType="QuestionVO">
+		SELECT * FROM question
+		WHERE member_id=#{member_id}
+	</select>		
+
+
+
 	
 
 <!-- 	<insert id="insertProfile" parameterType="MemberVO">

@@ -13,6 +13,7 @@ import com.example.domain.EVStationVO;
 import com.example.domain.MailVO;
 import com.example.domain.MemberVO;
 import com.example.domain.MypageProductVO;
+import com.example.domain.QuestionVO;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -150,6 +151,14 @@ public class MemberServiceImpl implements MemberService{
         return rowsAffected > 0; // 삭제 성공 여부 반환
     }
     
-    
+
+    // 8/8 마이페이지/1:1문의
+	public void insertQuestion(QuestionVO vo) {
+		memberDAO.insertQuestion(vo);
+	}
+	public List<QuestionVO> getQuestionList(String member_id){
+		return memberDAO.getQuestionList(member_id);
+	}
+	
 
 }
