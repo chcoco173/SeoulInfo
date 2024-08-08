@@ -1,5 +1,7 @@
 package com.example.service;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,24 @@ public class ReviewServiceImpl implements ReviewService{
 	public Integer reviewStarAvg(String member_id) {
 		// TODO Auto-generated method stub
 		return reviewDAO.reviewStarAvg(member_id);
+	}
+
+	@Override
+	public HashMap mostProduct_review(String member_id) {
+		// TODO Auto-generated method stub
+		return reviewDAO.mostProduct_review(member_id);
+	}
+
+	@Override
+	public HashMap mostChat_review(String member_id) {
+		// TODO Auto-generated method stub
+		return reviewDAO.mostChat_review(member_id);
+	}
+
+	@Override
+	public HashMap mostCommitment_review(String member_id) {
+		// TODO Auto-generated method stub
+		return reviewDAO.mostCommitment_review(member_id);
 	}
 	
 	

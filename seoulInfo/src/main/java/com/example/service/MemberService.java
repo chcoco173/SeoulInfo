@@ -7,6 +7,7 @@ import com.example.domain.EVStationVO;
 import com.example.domain.MailVO;
 import com.example.domain.MemberVO;
 import com.example.domain.MypageProductVO;
+import com.example.domain.QuestionVO;
 
 public interface MemberService {
 	
@@ -62,6 +63,11 @@ public interface MemberService {
     // 8/7 마이페이지/관심상품
     public List<MypageProductVO> getProductList(String member_id);
     boolean deleteProduct(String sale_id, String member_id);
+
+    
+    // 8/8 마이페이지/1:1문의
+	public void insertQuestion(QuestionVO vo);
+	public List<QuestionVO> getQuestionList(String member_id);
     
     
     

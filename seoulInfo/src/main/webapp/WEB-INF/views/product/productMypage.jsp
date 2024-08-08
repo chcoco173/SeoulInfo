@@ -110,7 +110,14 @@
 									<div class="large-author-thumbnail"></div>
 									<h5 class="author-name">${sessionScope.member.member_id}</h5>
 									<!-- Added class 'author-name' -->
-
+									<c:choose>
+										<c:when test="${mostProduct_review != null}">
+											<div class="speech-bubble-right">상품 상태 ${mostProduct_review}<br/> 대화 매너가 ${mostChat_review} <br/> 약속을 ${mostCommitment_review}</div>
+										</c:when>
+										<c:otherwise>
+											<div class="speech-bubble-right">아직 리뷰가 없어요...</div>
+										</c:otherwise>
+									</c:choose>  
 								</a>
 							</div>
 							<div class="rating">

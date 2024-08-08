@@ -25,3 +25,58 @@
 	color: black; /* Make the text color white */
 	text-decoration: none; /* Remove underline */
 }
+.speech-bubble-right {
+	background-color: #333;
+	color: #fff;
+	text-align: center;
+	border-radius: 5px;
+	padding: 5px;
+	position: relative; /* Absolute positioning relative to the parent */
+	z-index: 1;
+	margin-left: 10px; /* Adjust as needed to position correctly */
+	white-space: nowrap;
+	font-size: 12px; /* Adjust font size as needed */
+	top: -3px; /* Adjust vertical positioning as needed */
+	left: 1%; /* Position it to the right of the parent */
+	cursor: default; /* Prevent cursor change to hand */
+}
+
+.speech-bubble-right::after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: -9px; /* Adjust as needed to position the triangle */
+	transform: translateY(-50%);
+	border-width: 5px;
+	border-style: solid;
+	border-color: transparent #333 transparent transparent;
+}
+
+
+
+
+
+/* 미디어 쿼리: 화면 크기에 따라 비율을 조정 */
+@media ( max-width : 1200px) {
+	.carousel-image-wrapper {
+		padding-top: 50%; /* 비율 조정 예: 2:1 비율 */
+	}
+}
+
+@media ( max-width : 992px) {
+	.carousel-image-wrapper {
+		padding-top: 75%; /* 비율 조정 예: 4:3 비율 */
+	}
+}
+
+@media ( max-width : 768px) {
+	.carousel-image-wrapper {
+		padding-top: 100%; /* 비율 조정 예: 1:1 비율 */
+	}
+}
+
+@media ( max-width : 576px) {
+	.carousel-image-wrapper {
+		padding-top: 120%; /* 비율 조정 예: 더 작은 화면에서 비율 조정 */
+	}
+}

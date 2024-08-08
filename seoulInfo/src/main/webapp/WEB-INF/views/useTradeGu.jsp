@@ -71,6 +71,13 @@
 <link href="images/webclip.png" rel="apple-touch-icon">
 <!-- 외부 css 연결-->
 <link href="/css/gu/guselect.css" rel="stylesheet" type="text/css">
+<script>
+	function setRegionCookie(region) {
+		document.cookie = "guSelect=" + region + ";path=/";
+		window.location.href = "/product/productMain";
+	}
+</script>
+
 </head>
 <body>
 	<div class="page-wrapper">
@@ -88,107 +95,107 @@
 									<div role="list"
 										class="destination-collection-list w-dyn-items">
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=강남구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('강남구')"
 												class="button-primary-large w-button">강남구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=강동구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('강동구')"
 												class="button-primary-large w-button">강동구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=강북구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('강북구')"
 											class="button-primary-large w-button">강북구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=강서구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('강서구')"
 												class="button-primary-large w-button">강서구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=관악구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('관악구')"
 												class="button-primary-large w-button">관악구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=광진구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('광진구')"
 												class="button-primary-large w-button">광진구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=구로구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('구로구')"
 												class="button-primary-large w-button">구로구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=금천구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('금천구')"
 												class="button-primary-large w-button">금천구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=노원구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('노원구')"
 												class="button-primary-large w-button">노원구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=도봉구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('도봉구')"
 												class="button-primary-large w-button">도봉구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=동대문구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('동대문구')"
 												class="button-primary-large w-button">동대문구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=동작구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('동작구')"
 												class="button-primary-large w-button">동작구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=마포구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('마포구')"
 												class="button-primary-large w-button">마포구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=서대문구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('서대문구')"
 												class="button-primary-large w-button">서대문구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=서초구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('서초구')"
 												class="button-primary-large w-button">서초구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=성동구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('성동구')"
 												class="button-primary-large w-button">성동구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=성북구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('성북구')"
 												class="button-primary-large w-button">성북구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=송파구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('송파구')"
 												class="button-primary-large w-button">송파구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=양천구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('양천구')"
 												class="button-primary-large w-button">양천구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=영등포구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('영등포구')"
 												class="button-primary-large w-button">영등포구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=용산구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('용산구')"
 												class="button-primary-large w-button">용산구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=은평구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('은평구')"
 												class="button-primary-large w-button">은평구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=종로구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('종로구')"
 												class="button-primary-large w-button">종로구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=중구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('중구')"
 												class="button-primary-large w-button">중구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=중랑구"
+											<a href="javascript:void(0);" onclick="setRegionCookie('중랑구')"
 												class="button-primary-large w-button">중랑구</a>
 										</div>
 										<div role="listitem" class="w-dyn-item">
-											<a href="/product/productMain?area=전체"
+											<a href="javascript:void(0);" onclick="setRegionCookie('전체')"
 												class="button-primary-large w-button">전체</a>
 										</div>
 									</div>
@@ -198,55 +205,55 @@
 							<!-- 구 이미지 선택시 페이지 이동 -->
 							<img src="/guimages/seoul4.png" usemap="#image-map">
 							<map name="image-map">
-								<area target="_self" alt="은평구" title="은평구" href="/product/productMain?area=은평구	"
+								<area target="_self" alt="은평구" title="은평구" href="javascript:void(0);" onclick="setRegionCookie('은평구')"
 									coords="1368,959,1648,1203" shape="rect">
-								<area target="_self" alt="서대문구" title="서대문구" href="/product/productMain?area=서대문구"
+								<area target="_self" alt="서대문구" title="서대문구" href="javascript:void(0);" onclick="setRegionCookie('서대문구')"
 									coords="1443,1483,1719,1648" shape="rect">
-								<area target="_self" alt="마포구" title="마포구" href="/product/productMain?area=마포구"
+								<area target="_self" alt="마포구" title="마포구" href="javascript:void(0);" onclick="setRegionCookie('마포구')"
 									coords="1219,1679,1458,1836" shape="rect">
-								<area target="_self" alt="종로구" title="종로구" href="/product/productMain?area=종로구"
+								<area target="_self" alt="종로구" title="종로구" href="javascript:void(0);" onclick="setRegionCookie('종로구')"
 									coords="1794,1349,1962,1487" shape="rect">
-								<area target="_self" alt="성북구" title="성북구" href="/product/productMain?area=성북구"
+								<area target="_self" alt="성북구" title="성북구" href="javascript:void(0);" onclick="setRegionCookie('성북구')"
 									coords="2156,1240,2406,1374" shape="rect">
-								<area target="_self" alt="강북구" title="강북구" href="/product/productMain?area=강북구"
+								<area target="_self" alt="강북구" title="강북구" href="javascript:void(0);" onclick="setRegionCookie('강북구')"
 									coords="2078,796,2309,927" shape="rect">
-								<area target="_self" alt="도봉구" title="도봉구" href="/product/productMain?area=도봉구"
+								<area target="_self" alt="도봉구" title="도봉구" href="javascript:void(0);" onclick="setRegionCookie('도봉구')"
 									coords="2313,448,2503,683" shape="rect">
-								<area target="_self" alt="노원구" title="노원구" href="/product/productMain?area=노원구"
+								<area target="_self" alt="노원구" title="노원구" href="javascript:void(0);" onclick="setRegionCookie('노원구')"
 									coords="2664,683,2888,843" shape="rect">
-								<area target="_self" alt="중량구" title="중량구" href="/product/productMain?area=중량구"
+								<area target="_self" alt="중량구" title="중량구" href="javascript:void(0);" onclick="setRegionCookie('중량구')"
 									coords="2802,1278,3044,1442" shape="rect">
-								<area target="_self" alt="동대문구" title="동대문구" href="/product/productMain?area=동대문구"
+								<area target="_self" alt="동대문구" title="동대문구" href="javascript:void(0);" onclick="setRegionCookie('동대문구')"
 									coords="2462,1435,2705,1543" shape="rect">
-								<area target="_self" alt="광진구" title="광진구" href="/product/productMain?area=광진구"
+								<area target="_self" alt="광진구" title="광진구" href="javascript:void(0);" onclick="setRegionCookie('광진구')"
 									coords="2798,1827,2996,1935" shape="rect">
-								<area target="_self" alt="성동구" title="성동구" href="/product/productMain?area=성동구"
+								<area target="_self" alt="성동구" title="성동구" href="javascript:void(0);" onclick="setRegionCookie('성동구')"
 									coords="2384,1767,2615,1890" shape="rect">
-								<area target="_self" alt="중구" title="중구" href="/product/productMain?area=중구"
+								<area target="_self" alt="중구" title="중구" href="javascript:void(0);" onclick="setRegionCookie('중구')"
 									coords="1988,1689,2204,1789" shape="rect">
-								<area target="_self" alt="용산구" title="용산구" href="/product/productMain?area=용산구"
+								<area target="_self" alt="용산구" title="용산구" href="javascript:void(0);" onclick="setRegionCookie('용산구')"
 									coords="1831,1987,2066,2095" shape="rect">
-								<area target="_self" alt="강서구" title="강서구" href="/product/productMain?area=강서구"
+								<area target="_self" alt="강서구" title="강서구" href="javascript:void(0);" onclick="setRegionCookie('강서구')"
 									coords="480,1670,756,1789" shape="rect">
-								<area target="_self" alt="양천구" title="양천구" href="/product/productMain?area=양천구"
+								<area target="_self" alt="양천구" title="양천구" href="javascript:void(0);" onclick="setRegionCookie('양천구')"
 									coords="719,2133,943,2241" shape="rect">
-								<area target="_self" alt="구로구" title="구로구" href="/product/productMain?area=구로구"
+								<area target="_self" alt="구로구" title="구로구" href="javascript:void(0);" onclick="setRegionCookie('구로구')"
 									coords="753,2362,962,2486" shape="rect">
-								<area target="_self" alt="영등포구" title="영등포구" href="/product/productMain?area=영등포구"
+								<area target="_self" alt="영등포구" title="영등포구" href="javascript:void(0);" onclick="setRegionCookie('영등포구')"
 									coords="1178,2127,1465,2246" shape="rect">
-								<area target="_self" alt="동작구" title="동작구" href="/product/productMain?area=동작구"
+								<area target="_self" alt="동작구" title="동작구" href="javascript:void(0);" onclick="setRegionCookie('동작구')"
 									coords="1574,2295,1824,2395" shape="rect">
-								<area target="_self" alt="금천구" title="금천구" href="/product/productMain?area=금천구"
+								<area target="_self" alt="금천구" title="금천구" href="javascript:void(0);" onclick="setRegionCookie('금천구')"
 									coords="1182,2766,1383,2901" shape="rect">
-								<area target="_self" alt="관약구" title="관약구" href="/product/productMain?area=관약구"
+								<area target="_self" alt="관약구" title="관약구" href="javascript:void(0);" onclick="setRegionCookie('관약구')"
 									coords="1518,2642,1805,2843" shape="rect">
-								<area target="_self" alt="서초구" title="서초구" href="/product/productMain?area=서초구"
+								<area target="_self" alt="서초구" title="서초구" href="javascript:void(0);" onclick="setRegionCookie('서초구')"
 									coords="2130,2528,2395,2707" shape="rect">
-								<area target="_self" alt="강남구" title="강남구" href="/product/productMain?area=강남구"
+								<area target="_self" alt="강남구" title="강남구" href="javascript:void(0);" onclick="setRegionCookie('강남구')"
 									coords="2518,2411,2839,2582" shape="rect">
-								<area target="_self" alt="송파구" title="송파구" href="/product/productMain?area=송파구"
+								<area target="_self" alt="송파구" title="송파구" href="javascript:void(0);" onclick="setRegionCookie('송파구')"
 									coords="2981,2254,3265,2396" shape="rect">
-								<area target="_self" alt="강동구" title="강동구" href="/product/productMain?area=강동구"
+								<area target="_self" alt="강동구" title="강동구" href="javascript:void(0);" onclick="setRegionCookie('강동구')"
 									coords="3295,1789,3497,1927" shape="rect">
 							</map>
 						</div>

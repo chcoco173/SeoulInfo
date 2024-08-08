@@ -95,7 +95,6 @@
 									<div class="row justify-content-end">
 										<!-- Category Selector -->
 										<div class="col-md-4 col-lg-2 mb-3">
-											<input type=hidden class='area' value="${param.area}">
 											<c:choose>
 												<c:when test="${not empty param.productsearch_keyword}">
 													<input type="hidden" class="productsearch_keyword" value="${param.productsearch_keyword}">
@@ -194,8 +193,8 @@
 													</c:choose>
 
 													<div class="product-info">
-														<input type="hidden" class="sale_id"
-															value="${productList.sale_id}">
+														<input type="hidden" class="sale_id" value="${productList.sale_id}">
+																												
 														<h4>${productList.sale_name}</h4>
 														<p>${productList.sale_area}</p>
 														<p>
@@ -224,10 +223,10 @@
 										<ul class="pagination justify-content-center">
 											<c:if test="${currentPage > 1}">
 												<li class="page-item"><a class="page-link"
-													href="${path}?area=${param.area}&cate=${category}&page=1&size=${pageSize}">First</a>
+													href="${path}?cate=${category}&page=1&size=${pageSize}">First</a>
 												</li>
 												<li class="page-item"><a class="page-link"
-													href="${path}?area=${param.area}&cate=${category}&page=${currentPage - 1}&size=${pageSize}"
+													href="${path}?cate=${category}&page=${currentPage - 1}&size=${pageSize}"
 													aria-label="Previous"> <span aria-hidden="true">&laquo;
 															Previous</span>
 												</a></li>
@@ -259,7 +258,7 @@
 													</c:when>
 													<c:otherwise>
 														<li class="page-item"><a class="page-link"
-															href="${path}?area=${param.area}&cate=${category}&page=${i}&size=${pageSize}">${i}</a>
+															href="${path}?cate=${category}&page=${i}&size=${pageSize}">${i}</a>
 														</li>
 													</c:otherwise>
 												</c:choose>
@@ -267,12 +266,12 @@
 
 											<c:if test="${currentPage < totalPages}">
 												<li class="page-item"><a class="page-link"
-													href="${path}?area=${param.area}&cate=${category}&page=${currentPage + 1}&size=${pageSize}"
+													href="${path}?cate=${category}&page=${currentPage + 1}&size=${pageSize}"
 													aria-label="Next"> <span aria-hidden="true">Next
 															&raquo;</span>
 												</a></li>
 												<li class="page-item"><a class="page-link"
-													href="${path}?area=${param.area}&cate=${category}&page=${totalPages}&size=${pageSize}">Last</a>
+													href="${path}?cate=${category}&page=${totalPages}&size=${pageSize}">Last</a>
 												</li>
 											</c:if>
 										</ul>
@@ -378,7 +377,7 @@
 					alert(sale_id);
 
 					// 나중에 상품번호들고가서 수정예정
-					location.href = "detail_post?sale_id=" + sale_id;
+					location.href = "detail_post?sale_id="+sale_id;
 
 				});
 
@@ -386,9 +385,8 @@
 						function() {
 							let cate = $('.cate').val();
 							let type = $('.type').val();
-							let area = $('.col-md-4.col-lg-2.mb-3').find('.area').val();
-
-							location.href = "categoryOptionSelect?area="+area+"&cate=" + cate
+							
+							location.href = "categoryOptionSelect?cate=" + cate
 									+ "&type=" + type;
 
 						})
@@ -397,14 +395,13 @@
 						function() {
 							let cate = $('.cate').val();
 							let type = $('.type').val();
-							let area = $('.col-md-4.col-lg-2.mb-3').find('.area').val();
 							let productsearch_keyword = $('.col-md-4.col-lg-2.mb-3').find('.productsearch_keyword').val();
 														
 							
 							if ( productsearch_keyword != null){
-								location.href = "categoryOptionSelect?area="+area+"&productsearch_keyword=" + productsearch_keyword + "&type=" + type;
+								location.href = "categoryOptionSelect?productsearch_keyword=" + productsearch_keyword + "&type=" + type;
 							}else{
-								location.href = "categoryOptionSelect?area="+area+"&cate=" + cate + "&type=" + type;
+								location.href = "categoryOptionSelect?" + cate + "&type=" + type;
 							}
 							
 							
