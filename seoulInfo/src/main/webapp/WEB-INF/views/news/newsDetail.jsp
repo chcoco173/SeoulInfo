@@ -167,11 +167,13 @@
 					<div class="padding-section-medium remove-bottom-padding">
 						<div class="container-small">
 							<div class="rich-text w-richtext">
-								<fmt:formatDate value="${news.news_date}" pattern="yyyy-MM-dd" />
-								<div class="text-size-regular text-color-dark-gray w-dyn-bind">
-									<a href="${news.news_link}">뉴스 사이트 바로 가기</a>
+								<p id="news-content">${news.news_content}</p>
+								
+								<div class="text-size-regular text-color-dark-gray w-dyn-bind" >
+									<span>작성일자 : </span>
+									<fmt:formatDate value="${news.news_date}" pattern="yyyy-MM-dd"/>
 								</div>
-								<p>${news.news_content}</p>
+								<a href="${news.news_link}">뉴스 사이트 바로 가기</a>
 							</div>
 						</div>
 					</div>
@@ -182,43 +184,7 @@
 
 		</div>
 		<!-- main-wrapper end -->
-
-		<!-- 댓글 작성하기 start -->
-		<div class="section-newsletter">
-			<div class="padding-global">
-				<div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd"
-					class="container-newsletter background-black">
-					<div class="_2-column-grid-uneven-right">
-						<h3 class="newsletter-heading">댓글</h3>
-						<div id="Style-Guide-Form"
-							class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form">
-							<form name="wf-form-Newsletter-Form" data-name="Newsletter Form"
-								method="get" id="wf-form-Newsletter-Form"
-								class="newsletter-form"
-								data-wf-page-id="628ab4b45549af6399a230d3"
-								data-wf-element-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9d2">
-								<input class="form-field newsletter w-input" maxlength="256"
-									name="Email" data-name="Email" placeholder="댓글을 작성해주세요."
-									type="email" id="Email" required="" /> <input type="submit"
-									data-wait="Please wait..."
-									class="button-primary-large max-width-full-mobile-portrait w-button"
-									value="제출" />
-							</form>
-							<div class="form-success-message w-form-done">
-								<div class="text-size-regular text-color-white">Thank you!
-									Your submission has been received!</div>
-							</div>
-							<div class="form-error-message w-form-fail">
-								<div class="text-size-regular">Oops! Something went wrong
-									while submitting the form.</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- 댓글 작성하기 end -->
-
+		
 		<div class="section-footer">
 			<div class="padding-global">
 				<div class="spacer-xxlarge"></div>
@@ -300,5 +266,54 @@
 		integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
 		crossorigin="anonymous"></script>
 	<script src="/js/webflow.js" type="text/javascript"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+		    var contentElement = document.getElementById('news-content');
+		    var content = contentElement.innerHTML;
+
+		    // "☞ [관련 기사]" 문구를 제거
+		    content = content.replace(/☞ \[관련 기사\]/g, '');
+			content = content.replace(/☞ \상세내용 바로가기/g, '');
+
+		    // "ⓒ" 문자와 그 뒤의 세 글자를 제거
+		    content = content.replace(/ⓒ.{3}/g, '');
+		    content = content.replace(/Ⓒ.{3}/g, '');
+		    content = content.replace(/©.{3}/g, '');
+
+		    // 시작과 끝에 <p> 태그 추가
+		    content = '<p>' + content + '</p>';
+
+		    // "다."로 끝나는 부분마다 줄바꿈을 추가
+		    content = content.replace(/다\./g, '다.</p><p>');
+		    content = content.replace(/\?/g, '?<br>');
+
+		    // "▴" 앞에 <br> 태그 추가
+		    content = content.replace(/▴/g, '<br>▴');
+
+		    // "○" 모양이 있는 부분을 <dl><dd>로 묶음
+		    content = content.replace(/(○.*?)(?=(○|$))/gs, '<dl><dd>$1</dd></dl>');
+
+		    // 첫 번째 <dl> 태그 앞에 <hr> 추가
+		    content = content.replace('<dl>', '<hr><dl>');
+			// "-" 앞에 공백이 있는 경우 <br> 태그 추가
+			 content = content.replace(/　- /g, '<br> &nbsp; - ');
+			 content = content.replace(/⁲-/g, '<br> &nbsp; ⁲- ');
+
+		    // "?" 문자 뒤에 <br> 태그 추가
+		    content = content.replace(/\?/g, '?<br>');
+
+		    // 시작과 끝에 <p> 태그 추가 (이전에 추가된 <p> 태그와 중첩되지 않도록 수정)
+		    content = content.replace(/<p><\/p>/g, ''); // 빈 <p> 태그 제거
+		    content = content.replace(/<\/dd><dd>/g, '</dd><dd>'); // 중첩된 <dd> 태그 제거
+
+		    // 여러 개의 <p></p> 사이에 불필요한 공백 제거
+		    content = content.replace(/<\/p>\s*<p>/g, '</p><p>');
+
+		    contentElement.innerHTML = content;
+		});
+
+	</script>
+
+
 </body>
 </html>

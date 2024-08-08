@@ -176,7 +176,7 @@
 			<div id="map"></div>
 			<div id="dropdown-container" style="position: absolute; top:55px; right: 10px; z-index: 100;">
 				<div class="btn-group">
-					<button class="btn btn-secondary" type="button"	data-bs-toggle="collapse" data-bs-target="#collapseMenu" aria-expanded="false" aria-controls="collapseMenu">지도 필터</button>
+					<button class="btn btn-warning btn-mapFilter" type="button"	data-bs-toggle="collapse" data-bs-target="#collapseMenu" aria-expanded="false" aria-controls="collapseMenu">지도 필터</button>
 				</div>
 				<div class="collapse" id="collapseMenu">
 					<div class="card card-body">
@@ -225,8 +225,7 @@
 		</div>
 		<!-- show diffrent map type-->
 		<div id="map_show_type">
-			<button class="btn btn-info" id="btnTerrain" data-enabled="false" onclick="setOverlayMapTypeId()">
-			지형도</button>
+			<button class="btn btn-warning" id="btnTerrain" data-enabled="false" onclick="setOverlayMapTypeId()">지형도</button>
 		</div>
 	</div>
 
@@ -538,7 +537,7 @@
 										return '<img src="' + imageUrl + '" alt="' + charger.charger_type + '" class="charger-image"/>';
 										}).join('');
 										row += '<td class="charger_type">' + imagesHtml + '<br><span style="font-size:12px;">'+ charger.charger_type + '</span></td>';
-						                row += '<td><span style="border:1px solid orange; border-radius:5px; background-color: yellow; padding-left:10px; padding-right:10px; text-align:center"><b id="charger_state">' + charger.charger_userlimit + '</b></span><br><span>(갱신한 시간)</span></td>';
+						                row += '<td><span style="border:1px solid orange; border-radius:5px; background-color: yellow; padding-left:10px; padding-right:10px; text-align:center"><b id="charger_state">' + charger.charger_userlimit + '</b></span><br><span></span></td>';
 						                row += '</tr>';
 						                chargerDetailsBody.append(row);
 						            });
@@ -591,11 +590,11 @@
 						circle = new kakao.maps.Circle({
 						    center: marker.getPosition(),
 						    radius: 1000,
-						    strokeWeight: 1,
+						    strokeWeight: 0.5,
 						    strokeColor: '#000000',
-						    strokeOpacity: 0.1,
+						    strokeOpacity: 0.7,
 						    strokeStyle: 'solid',
-						    fillColor: '#FF7F00',
+						    fillColor: '#41A317',
 						    fillOpacity: 0.1
 						});
 						circle.setMap(map);
@@ -674,7 +673,7 @@
 						                        infoWindow.close(); // InfoWindow를 닫습니다
 						                    }, 500); // 0.5초 후에 창을 닫습니다
 						                });
-
+										// 마커 클릭 시, 정보 화면이동
 						                kakao.maps.event.addListener(locationMarker, 'click', function() {
 						                    window.open('https://map.kakao.com/?q=' + (position.address || '') + ' ' + (position.name || ''), '_blank');
 						                });
@@ -750,14 +749,14 @@
                 map.removeOverlayMapTypeId(mapTypes.terrain);
                 btnTerrain.setAttribute('data-enabled', 'false');
                 btnTerrain.innerText = "지형도";
-                btnTerrain.classList.remove('btn-warning');
-                btnTerrain.classList.add('btn-info');
+                btnTerrain.classList.remove('btn-info');
+                btnTerrain.classList.add('btn-warning');
             } else {
                 map.addOverlayMapTypeId(mapTypes.terrain);
                 btnTerrain.setAttribute('data-enabled', 'true');
                 btnTerrain.innerText = "이미지";
-                btnTerrain.classList.remove('btn-info');
-                btnTerrain.classList.add('btn-warning');
+                btnTerrain.classList.remove('btn-warning');
+                btnTerrain.classList.add('btn-info');
             }
         }
 		
@@ -834,18 +833,17 @@
 		        data: { evc_id: evcId },
 		        success: function(data) {
 		            console.log('data: ', data);
-	
 		            if (data.length > 0) {
 		                var chargerDetailsBody = $('#chargerDetailsBody');
 		                chargerDetailsBody.empty(); // 기존 내용을 지움
-	
+						
 		                // 각 충전기 정보를 테이블에 추가
 		                data.forEach(function(charger) {
 		                    var row = '<tr>';
 		                    	row += '<td><b id="charger_no" style="font-size:23px;">' + charger.charger_no + '</b></td>';
 		                    	row += '<td id="charger_mechine">' + charger.charger_mechine + '</td>';
 		                    	row += '<td class="charger_type">' + charger.charger_type + '</td>';
-		                    	row += '<td><span style="border:1px solid orange; border-radius:5px; background-color: yellow; padding-left:10px; padding-right:10px; text-align:center"><b id="charger_state">' + charger.charger_state + '</b></span><br><span>{(갱신한 시간)}</span></td>';
+		                    	row += '<td><span style="border:1px solid orange; border-radius:5px; background-color: yellow; padding-left:10px; padding-right:10px; text-align:center"><b id="charger_state">' + charger.charger_state + '</b></span><br><span></span></td>';
 		                    	row += '</tr>';
 		                    chargerDetailsBody.append(row);
 		                });
@@ -878,7 +876,7 @@
 		        strokeColor: '#75B8FA',
 		        strokeOpacity: 0.4,
 		        strokeStyle: 'solid',
-		        fillColor: '#CFE7FF',
+		        fillColor: '#41A317',
 		        fillOpacity: 0.4
 		    });
 		    circle.setMap(map);
@@ -974,7 +972,6 @@
 		    });
 		});
 		
-		
 		// 즐겨찾기 - 버튼 클릭 이벤트
 		$('.btnShowFavorite').click(function(event) {
 			if (sessionResult !== '') {
@@ -1050,7 +1047,7 @@
 							row += '<td><b id="charger_no" style="font-size:23px;">' + charger.charger_no + '</b></td>';
 							row += '<td id="charger_mechine">' + charger.charger_mechine + '</td>';
 							row += '<td class="charger_type">' + charger.charger_type + '</td>';
-							row += '<td><span style="border:1px solid orange; border-radius:5px; background-color: yellow; padding-left:10px; padding-right:10px; text-align:center"><b id="charger_state">' + charger.charger_state + '</b></span><br><span>{(갱신한 시간)}</span></td>';
+							row += '<td><span style="border:1px solid orange; border-radius:5px; background-color: yellow; padding-left:10px; padding-right:10px; text-align:center"><b id="charger_state">' + charger.charger_state + '</b></span><br><span></span></td>';
 							row += '</tr>';
 						chargerDetailsBody.append(row);
 					});
@@ -1127,6 +1124,16 @@
 			}
 		});
 		
+		// 필터 collapse 열어두기----------------
+		document.addEventListener("DOMContentLoaded", function() {
+		    var filterButton = document.querySelector('.btn-mapFilter');
+		    var collapseMenu = document.getElementById('collapseMenu');
+
+		    // collapseMenu를 보여줍니다
+		    collapseMenu.classList.add('show');
+			filterButton.setAttribute('aria-expanded', 'true');
+		});
+		
 		// 메인 페이지 함수 =========================================
 		// 로딩바 보이기 함수		
 		function showLoading() {
@@ -1176,7 +1183,7 @@
 		
 		// 페이지네이션 초기화 및 처리 함수
 		function initializeFavoritePagination() {
-			var itemsPerPage = 5; 									// 페이지당 보여줄 항목 수
+			var itemsPerPage = 7; 									// 페이지당 보여줄 항목 수
 			var currentPage = 1; 									// 현재 페이지
 			var $favoriteItems = $('#userFavoriteList dd'); 		// 즐겨찾기 항목들
 			var totalItems = $favoriteItems.length; 				// 전체 항목 수
@@ -1535,6 +1542,21 @@ var selectedOperators = [];
         });
     }
 */
+
+	var xhr = new XMLHttpRequest();
+	var url = 'http://openapi.kepco.co.kr/service/EvInfoServiceV2/getEvSearchList'; /*URL*/
+	var queryParams = '?' + encodeURIComponent('serviceKey') + '='+'kAJ2C7P882QkBX3GKJDyW7LWEZ5jSgryOknlWTsdqByd3Y0ol4UExSd1GTmrIeGpq2PYdyDaouJ/Xqj+aXJ00Q=='; /*Service Key*/
+	queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /**/
+	queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /**/
+	queryParams += '&' + encodeURIComponent('addr') + '=' + encodeURIComponent('전라남도 나주시 빛가람동 120'); /**/
+	xhr.open('GET', url + queryParams);
+	xhr.onreadystatechange = function () {
+	    if (this.readyState == 4) {
+	        alert('Status: '+this.status+'nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+'nBody: '+this.responseText);
+	    }
+	};
+	xhr.send('');
+
 	</script>
 	<!-- end of kakao map Script -->
 	<script src="/js/webflow.js" type="text/javascript"></script>

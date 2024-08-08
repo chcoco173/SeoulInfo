@@ -263,7 +263,6 @@
 
 	function getChargingStations(linePoints) {
 	    var apiUrl = 'getNavMarker'; // 충전소 데이터를 가져오는 API URL
-
 	    for (var i = 0; i < linePoints.length; i++) {
 	        var point = linePoints[i];
 	        var data = {
