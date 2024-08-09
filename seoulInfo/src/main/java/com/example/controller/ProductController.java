@@ -117,7 +117,7 @@ public class ProductController {
 			return jsonNode.get("prediction").asText();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null; // 예외 발생 시 null 반환
+			return "server down"; // 서버 꺼졌을때 대비 
 		}
 	}
 
@@ -132,7 +132,7 @@ public class ProductController {
 			return cookieValue;
 		} else {
 			// 쿠키가 없을 때의 처리
-			return "쿠키가 없습니다.";
+			return "전체";
 		}
 	}
 
