@@ -43,9 +43,7 @@ public class NewsController {
 	// Model model 변수 이름 고정하기!
 	@GetMapping("/news")
 	public String newsArea(@RequestParam(value = "area", required = false) String area, Model model) {
-		System.out.println(area);
 		List<NewsVO> newsList = newsService.getNewsList(area);
-		System.out.println(newsList);
 		
 		model.addAttribute("newsList", newsList);
 		return "news/news";

@@ -130,7 +130,7 @@ public class EVController {
 		return pvo;
 	}
 	
-	//원 반경 안의 편의시설 정보
+	//충전소 필터 정보
 	@PostMapping("/getEvMarkers")
 	@ResponseBody
 	public List<EVStationVO> getEvMarkers(String operators, String types){

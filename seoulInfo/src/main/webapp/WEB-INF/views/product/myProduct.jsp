@@ -69,6 +69,7 @@
 											class="product-image">
 									</c:otherwise>
 								</c:choose>
+								
 								<div class="product-details">
 									<h5>${myProductList.sale_name}</h5>
 									<p>
@@ -86,14 +87,23 @@
 									<button class="btn btn-secondary delete">삭제</button>
 								</div>
 								<div class="select-wrapper">
-									<select class="form-control status" name="status">
-										<option value="판매중"
-											${myProductList.sale_status eq '판매중' ? 'selected' : ''}>판매중</option>
-										<option value="거래중"
-											${myProductList.sale_status eq '거래중' ? 'selected' : ''}>거래중</option>
-										<option value="판매완료"
-											${myProductList.sale_status eq '판매완료' ? 'selected' : ''}>판매완료</option>
-									</select>
+									<c:choose>
+										<c:when test="${myProductList.sale_status eq '판매완료'}">
+											<!-- 판매완료 상태인 경우 선택 상태를 보여주고 select 태그를 비활성화 -->
+											<select class="form-control status" name="status" disabled>
+												<option value="판매중">판매중</option>
+												<option value="거래중">거래중</option>
+												<option value="판매완료" selected>판매완료</option>
+											</select>
+										</c:when>
+										<c:otherwise>
+											<!-- 판매완료가 아닌 경우 select 태그를 활성화 -->
+											<select class="form-control status" name="status">
+												<option value="판매중" ${myProductList.sale_status eq '판매중' ? 'selected' : ''}>판매중</option>
+												<option value="거래중" ${myProductList.sale_status eq '거래중' ? 'selected' : ''}>거래중</option>
+											</select>
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</div>
 						</c:forEach>
@@ -232,7 +242,7 @@
 			
 			$.ajax({
 				type:'POST',
-				url : '/product/updateStatus',
+				url : '/product/productUpdateStatus',
 				data :{
 					"sale_status" : status,
 					"sale_id": sale_id

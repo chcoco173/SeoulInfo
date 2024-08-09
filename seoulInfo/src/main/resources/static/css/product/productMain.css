@@ -37,7 +37,7 @@
 .product-info h4 {
 	font-size: 1.4rem; /* 글자 크기 조정 */
 	font-weight: bold; /* 글자 굵기 조정 */
-	margin: 0 0 10px 0; /* 아래 여백 추가 */
+	margin: 10px 0 10px 0; /* 아래 여백 추가 */
 	overflow: hidden; /* 넘치는 내용 숨기기 */
 	text-overflow: ellipsis; /* 잘리는 텍스트에 말줄임표 추가 */
 	white-space: nowrap; /* 줄 바꿈 없이 한 줄로 표시 */

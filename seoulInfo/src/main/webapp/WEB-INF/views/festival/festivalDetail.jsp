@@ -16,6 +16,7 @@
 	<link href="/css/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet"
 		type="text/css">
 	<style>
+		
 		/* Flexbox 컨테이너 스타일 추가 */
 		.flex-container {
 		    display: flex;
@@ -28,12 +29,36 @@
 		    min-width: 300px; /* 최소 너비 설정 */
 		}
 
+		.flex-item.image-overflow-wrapper {
+		    flex: 0 0 25%; /* 가로 길이를 설정 */
+		}
+		
 		/* 이미지 크기 조정 */
 		.image-overflow-wrapper img {
-		    width: 40%; /* 가로 크기를 4분의 1로 줄이기 */
+		    width: 70%; /* 가로 크기를 4분의 1로 줄이기 */
 		    height: auto; /* 비율을 유지하며 크기 조정 */
 			align: center;
+			margin: 0 auto; /* 가운데 정렬 */
+
 		}
+		._2-column-grid-uneven-right {
+		    display: flex;
+		    justify-content: space-between; /* 요소들을 양 끝으로 배치 */
+		    align-items: center;
+		}
+	
+
+		.button-wrapper {
+		    margin-left: auto; /* 버튼을 오른쪽으로 정렬 */
+		}
+		.padding-section-medium {
+		    max-width: 95%; /* 최대 너비를 80%로 설정 */
+		    margin: 0 auto; /* 가운데 정렬 */
+		    padding: 20px; /* 내부 여백 추가 */
+		    padding-left: 30px; /* 왼쪽 여백 추가 */
+		    padding-right: 30px; /* 오른쪽 여백 추가 */
+		}
+		
 		@media (min-width:992px) {html.w-mod-js:not(.w-mod-ix) [data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"] {-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);}}@media (max-width:991px) and (min-width:768px) {html.w-mod-js:not(.w-mod-ix) [data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"] {-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);}}</style>
 	<link href="https://fonts.googleapis.com" rel="preconnect">
 	<link href="https://fonts.gstatic.com" rel="preconnect"
@@ -142,13 +167,13 @@
 		                            <img src="${festival.festival_imageurl}" alt="${festival.festival_name}">
 		                        </div>
 		                        <div class="flex-item text-color-white festival-details">
-		                            <p>시작 날짜: ${festival.festival_startDate}</p>
-		                            <p>종료 날짜: ${festival.festival_endDate}</p>
-		                            <p>장소: ${festival.festival_loc}</p>
-		                            <p>이용 요금: ${festival.festival_fee}</p>
-		                            <p>이용 대상: ${festival.festival_target}</p>
-		                            <p>주체자: ${festival.festival_host}</p>
-		                            <p>조회수: ${festival.festival_viewcount}</p>
+		                            <p>시작 날짜:  ${festival.festival_startDate}</p>
+		                            <p>종료 날짜:   ${festival.festival_endDate}</p>
+		                            <p>장소:   ${festival.festival_loc}</p>
+		                            <p>이용 요금:   ${festival.festival_fee}</p>
+		                            <p>이용 대상:   ${festival.festival_target}</p>
+		                            <p>주체자:   ${festival.festival_host}</p>
+		                            <p>조회수:   ${festival.festival_viewcount}</p>
 		                            <a href="${festival.festival_siteurl}" target="_blank" class="text-color-white">사이트 바로가기</a>
 		                        </div>
 		                    </div>
@@ -219,7 +244,9 @@
 			                    </a>
 			                    <div class="small-author-wrapper">
 			                      <a href="#" class="author-pic-and-name-wrapper w-inline-block">
-			                        <div class="small-author-thumbnail"></div>
+			                        <div class="small-author-thumbnail">									
+										<img src="${review.memberImageUrl}" alt="${review.member_id}" class="author-thumbnail-image">
+									</div>
 			                        <div class="text-size-regular">${review.member_id}</div>
 			                      </a>
 			                      <div class="line-divider"></div>
@@ -314,9 +341,19 @@
 		var newReviewBtn = document.getElementById('newReviewBtn');
 		var festivalId = document.getElementById('festival_id').value;
 
+		var sessionResult = '<c:out value="${sessionScope.member != null ? sessionScope.member.member_id : ''}" />';
+
 		newReviewBtn.onclick = function() {
-		    alert(festivalId);
-		    window.location.href = "/festival/festivalReview?festival_id=" + festivalId;
+			// 로그인 안되있을 때
+			if(sessionResult === ''){
+				 var userConfirmed = confirm("후기를 작성하려면 로그인이 필요합니다.");
+				 if (userConfirmed) {
+				    // 로그인 페이지로 리다이렉트
+				 	window.location.href = '/member/login';
+				 }
+			}else{
+				window.location.href = "/festival/festivalReview?festival_id=" + festivalId;
+				}
 		}
 		
 	    // 후기의 이미지와 제목 요소들을 가져옵니다.
@@ -329,8 +366,6 @@
 	            // 클릭한 요소의 부모 요소에서 hidden input 요소를 찾습니다.
 	            const frIdInput = element.closest('.post-row-grid').querySelector('input[name="fr_id"]');
 	            const frId = frIdInput.value;
-				
-				alert("리뷰 번호: "+frId);
 
 	            // festivalReviewDetail 페이지로 이동합니다.
 	            window.location.href = "/festival/festivalReviewDetail?fr_id=" + frId;

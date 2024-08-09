@@ -198,7 +198,7 @@
 														<h4>${productList.sale_name}</h4>
 														<p>${productList.sale_area}</p>
 														<p>
-															<strong>${productList.sale_price}</strong>
+															<strong class='price'data-price="${productList.sale_price}"></strong>
 														</p>
 														<p>
 															관심 ${productList.favorite_count}<span
@@ -389,7 +389,7 @@
 							location.href = "categoryOptionSelect?cate=" + cate
 									+ "&type=" + type;
 
-						})
+				})
 
 				$(".type").change(
 						function() {
@@ -405,7 +405,16 @@
 							}
 							
 							
-						})
+				})
+				// 가격 포맷 함수
+				function formatPrice(price) {
+					return Number(price).toLocaleString('ko-KR') + '원';
+				}
+				// 모든 가격 요소에 대해 포맷팅을 적용합니다.
+				$('.price').each(function() {
+					var rawPrice = $(this).data('price');
+					$(this).text(formatPrice(rawPrice));
+				});
 						
 					
 			</script>
