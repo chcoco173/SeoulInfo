@@ -90,44 +90,7 @@
               <div class="w-dyn-list">
                 <div role="list" class="w-dyn-items">
                 
-<%--                   <div data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f385" style="opacity:1" role="listitem" class="w-dyn-item">
-                    <div class="post-row-grid">
-		           <!-- 프로필 사진 -->
-		           <c:choose>
-		          	 	<c:when test="${sessionScope.member.member_imageName == null}">		         
-		                      <a id="w-node-dbd1f4aa-0c13-168c-7fc5-367d8d676b4b-4f5c4820" data-w-id="dbd1f4aa-0c13-168c-7fc5-367d8d676b4b" href="" 
-							  		class="post-row-image-overflow-container w-inline-block">
-		                    	<div id="w-node-_1d188613-99eb-7eb0-d878-0bf26f04f386-4f5c4820" data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f386" 
-									style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" 
-									class="post-row-image">
-								<img src="/images/mypage/default_profile.jpg" >
-								</div>
-		                      </a>
-		                  </c:when>
-		                 <c:otherwise>
-		                      <a id="w-node-dbd1f4aa-0c13-168c-7fc5-367d8d676b4b-4f5c4820" data-w-id="dbd1f4aa-0c13-168c-7fc5-367d8d676b4b" href="" 
-							  		class="post-row-image-overflow-container w-inline-block">
-		                    	<div id="w-node-_1d188613-99eb-7eb0-d878-0bf26f04f386-4f5c4820" data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f386" 
-									style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" 
-									class="post-row-image">
-								<img src="/files/${sessionScope.member.member_imageName}">
-								</div>
-		                      </a>                 
-		                 </c:otherwise>     
-		           </c:choose>          					
-                	<!-- 회원정보 -->	
-                      <div id="w-node-bbff658c-4524-8e8f-d0bf-96425152472b-4f5c4820" class="post-row-wrapper">						
-                        <div class="tags-wrappers">
-                          <a href="" class="tag-a w-inline-block">회원아이디 : ${sessionScope.member.member_id}
-                            <div class="text-size-small w-dyn-bind-empty"></div>
-                          </a>
-                          <a href="" class="tag-a w-inline-block">회원이메일 : ${sessionScope.member.member_email}
-                            <div class="text-size-small w-dyn-bind-empty"></div>
-                          </a>
-                        </div>												
-                      </div>				
-                    </div>
-                  </div> --%>
+
                   
           <c:choose>
 		    <c:when test="${sessionScope.member.member_imageName == null}">                
@@ -189,7 +152,7 @@
 
 					  <a href="/mypage/memberInfo" class="tag-t w-inline-block">개인정보 관리</a>
 					  
-					  <a href="/mypage/newsComment" class="tag-t w-inline-block">내가 작성한 댓글</a>
+					  <!-- <a href="/mypage/newsComment" class="tag-t w-inline-block">내가 작성한 댓글</a> -->
 					  
 					  <a href="/mypage/product" class="tag-t w-inline-block">관심상품 목록</a>
 					  
@@ -261,94 +224,16 @@
             </div>
           </div>
         </div>
-      </div>
-      <!--한) 충전소 즐겨찾기 목록 end-->
+      </div><!--한) 충전소 즐겨찾기 목록 end-->
       
       
-    </div>
-    <!-- main-wrapper end -->
+    </div><!-- main-wrapper end -->
 	
-	
-	
-	
-    <div class="section-newsletter">
-      <div class="padding-global">
-        <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-black">
-          <div class="_2-column-grid-uneven-left">
-            <h3 class="newsletter-heading">Love what you see? Sign up for my newsletter and stay in touch.</h3>
-            <div id="Style-Guide-Form" class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form">
-              <form name="wf-form-Newsletter-Form" data-name="Newsletter Form" method="get" id="wf-form-Newsletter-Form" class="newsletter-form" data-wf-page-id="6684f0fb2a5375354f5c4825" data-wf-element-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9d2"><input class="form-field newsletter w-input" maxlength="256" name="Email" data-name="Email" placeholder="Your email address" type="email" id="Email" required=""><input type="submit" data-wait="Please wait..." class="button-primary-large max-width-full-mobile-portrait w-button" value="Join"></form>
-              <div class="form-success-message w-form-done">
-                <div class="text-size-regular text-color-white">Thank you! Your submission has been received!</div>
-              </div>
-              <div class="form-error-message w-form-fail">
-                <div class="text-size-regular">Oops! Something went wrong while submitting the form.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- section-newsletter end -->
+		
+           
     
-    <div class="section-footer">
-      <div class="padding-global">
-        <div class="spacer-xxlarge"></div>
-        <div data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe" class="container-footer">
-          <div class="padding-global">
-            <div class="padding-section-medium">
-              <div class="_2-column-grid">
-                <a href="/member/loginSuccess" class="w-inline-block"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
-                <div>
-                  <h3>The stories of a travel photographer and blogger exploring the world .</h3>
-                  <div id="w-node-e1165d61-2cbb-cc22-6e05-5b6165b83107-65b830fb" class="spacer-xxlarge"></div>
-                </div>
-              </div>
-              <div class="_2-column-grid footer">
-                <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b846f-65b830fb" class="footer-micro-links-wrapper">
-                  <p class="text-size-small">Website template by <a href="https://www.callistodigitalstudio.com/" target="_blank" class="text-size-small">Callisto Digital Studio</a>.</p>
-                  <p class="text-size-small">Powered by <a href="https://webflow.com/templates/html/sightseer-travel-website-template" target="_blank" class="text-size-small">Webflow</a>.</p>
-                </div>
-                <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8474-65b830fb" class="_3-column-grid footer-links">
-                  <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8475-65b830fb">
-                    <h4>About</h4>
-                    <div class="spacer-large"></div>
-                    <a href="about.html" class="footer-link">About</a>
-                    <a href="contact.html" aria-current="page" class="footer-link w--current">Contact</a>
-                  </div>
-                  <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8481-65b830fb">
-                    <h4>Social</h4>
-                    <div class="spacer-large"></div>
-                    <a href="http://tiktok.com" target="_blank" class="footer-link">TikTok</a>
-                    <a href="http://Instagram.com" target="_blank" class="footer-link">Instagram</a>
-                    <a href="http://Facebook.com" target="_blank" class="footer-link">Facebook</a>
-                    <a href="http://Youtube.com" target="_blank" class="footer-link">Youtube</a>
-                  </div>
-                  <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b848d-65b830fb">
-                    <h4>Theme</h4>
-                    <div class="spacer-large"></div>
-                    <a href="template/template-style-guide.html" class="footer-link">Style Guide</a>
-                    <a href="template/changelog.html" class="footer-link">Changelog</a>
-                    <a href="template/licenses.html" class="footer-link">Licenses</a>
-                    <a href="https://webflow.com/templates/designers/callisto-digital-studio" target="_blank" class="footer-link">All Templates</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="spacer-xxlarge"></div>
-      </div>
-    </div>
-    <!-- section-footer end -->           
+  </div><!-- page-wrapper end -->
     
-  </div>
-  <!-- page-wrapper end -->
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  
-<script>
-
-</script>  
   
 
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>

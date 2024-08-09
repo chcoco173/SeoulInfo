@@ -196,7 +196,7 @@ select {
 
 /* 테이블 스타일 설정 */
 .question-table {
-    width: 100%; /* 테이블의 전체 가로 폭을 100%로 설정 */
+    width: 105%; /* 테이블의 전체 가로 폭을 100%로 설정 */
     max-width: 1500px; /* 최대 너비 설정 (필요에 따라 조정) */
     border-collapse: collapse;
     margin-top: 20px;
@@ -239,16 +239,16 @@ select {
 
 
 /* 카테고리 열 가로 크기 조정 */
-/* .question-table th:nth-child(1), 카테고리 열
+.question-table th:nth-child(1), /* 카테고리 열 */
 .question-table td:nth-child(1) {
-    width: 150px; 카테고리 열의 너비
+    width: 100px; /* 카테고리 열의 너비 */
 }
 
-답변 여부 열 가로 크기 조정
-.question-table th:nth-child(5), 답변여부 열
+/* 답변 여부 열 가로 크기 조정 */
+.question-table th:nth-child(5), /* 답변여부 열 */
 .question-table td:nth-child(5) {
-    width: 120px; 답변여부 열의 너비
-} */
+    width: 90px; /* 답변여부 열의 너비 */
+} 
 
 
 

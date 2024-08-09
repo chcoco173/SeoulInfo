@@ -82,12 +82,7 @@
         WHERE member_email = #{member_email}
     </select>
     
-    <!-- 이메일로 사용자 이름 가져오기 -->
-<!--     <select id="getUserNameByEmail" parameterType="String" resultType="String">
-        SELECT member_name
-        FROM member
-        WHERE member_email = #{member_email}
-    </select> -->
+
     <!-- 이메일로 전체 사용자 정보 가져오기 -->	
     <select id="getMemberByEmail" parameterType="String" resultType="MemberVO">
         SELECT *
@@ -147,43 +142,28 @@
 	<select id="getQuestionList" parameterType="String" resultType="QuestionVO">
 		SELECT * FROM question
 		WHERE member_id=#{member_id}
-	</select>		
-
-
-
-	
-
-<!-- 	<insert id="insertProfile" parameterType="MemberVO">
-		INSERT INTO member ( member_id, member_imageOrigin, member_imageName, member_imagePath )
-		VALUES ( #{member_id}, #{member_imageOrigin}, #{member_imageName}, #{member_imagePath} )		
-	</insert> -->	
-	
-<!-- 	<update id="updateProfile" parameterType="MemberVO">		
-		UPDATE member
-		set title = #{title},
-			content = #{content}
-		WHERE seq = #{seq}		
-	</update>
-	
-	<delete id="deleteProfile" parameterType="MemberVO">	
-		DELETE FROM member
-		WHERE seq = #{seq}		
-	</delete>
-	
-		<select id="getProfileList" resultType="MemberVO">	
-		SELECT *
-		FROM member
-		ORDER BY SEQ DESC
-	</select> -->
-
-<!-- 	
-	<select id="getBoard" parameterType="MemberVO" resultType="MemberVO">	
-		SELECT *
-		FROM member
-		WHERE SEQ = #{seq}		
 	</select>
- -->
- 
+	
+	<delete id="deleteQuestion" parameterType="MemberVO">
+	    DELETE FROM question
+	    WHERE member_id = #{member_id} AND question_no = #{question_no}
+	</delete>
+			
+	<select id="selectQuestion" parameterType="QuestionVO" resultType="QuestionVO">
+	    SELECT 
+	        q.question_no      AS question_no,
+	        q.question_cate    AS question_cate,
+	        q.question_title   AS question_title,
+	        q.question_content AS question_content,
+	        q.question_status  AS question_status,
+	        q.question_date    AS question_date,
+	        q.member_id        AS member_id,
+	        COALESCE(a.answer_content, '처리중입니다.') AS answer_content
+	    FROM question q
+	    LEFT JOIN answer a ON q.question_no = a.question_no
+	    WHERE q.member_id = #{member_id} AND q.question_no = #{question_no}
+	</select>
+
 
 		
 	
