@@ -169,11 +169,6 @@
         	<artifactId>spring-boot-starter-json</artifactId>
     	</dependency>
 
-		<dependency>
-			<groupId>com.example</groupId>
-			<artifactId>aBasic</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 
 	<build>
