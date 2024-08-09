@@ -34,6 +34,8 @@ public class FileService {
         return gridFsTemplate.findOne(new Query(Criteria.where("_id").is(id)));
     }
 
+    // 파일 ID를 받아 fileService.downloadFile을 통해 파일을 찾습니다.
+    // 파일이 존재하면 파일을 ResponseEntity에 담아 반환합니다.
     public GridFsResource downloadFile(String id) {
         GridFSFile gridFSFile = findFileById(id);
         if (gridFSFile != null) {

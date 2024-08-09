@@ -1,7 +1,6 @@
 package com.example.controller;
 
 import java.util.HashMap;
-
 import java.util.List;
 import java.util.Map;
 
@@ -15,11 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.domain.FestRevCommentVO;
 import com.example.domain.FestRevImageVO;
 import com.example.domain.FestivalReviewVO;
 import com.example.domain.FestivalVO;
+import com.example.domain.MemberVO;
+import com.example.service.FestRevCommentService;
 import com.example.service.FestivalReviewService;
 import com.example.service.FestivalService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/festival")
@@ -30,6 +34,12 @@ public class FestivalController {
 	
     @Autowired
     private FestivalReviewService festivalReviewService;
+    
+    @Autowired
+    private FestRevCommentService festRevCommentService;
+    
+	@Autowired
+	private HttpSession session;
 	
 	@RequestMapping("/")
 	public String mainPage() {
@@ -142,22 +152,39 @@ public class FestivalController {
 	    return "festival/festivalReview";
 	}
 	
-	// 해당 축제 리뷰의 fr_id 값 가지고 리뷰 상세보기 페이지로 이동
+	// 해당 축제 리뷰의 fr_id 값 가지고 리뷰 상세보기 페이지로 이동하고 댓글 리스트를 가져오기
 	@GetMapping("/festivalReviewDetail")
 	public String festivalReviewDetail(@RequestParam("fr_id") Integer fr_id, Model model) {
-	    System.out.println("천지원"+fr_id);
         FestivalReviewVO review = festivalReviewService.getReview(fr_id);
-        System.out.println("reive확인"+review);
         if (review != null) {
         	
             List<FestRevImageVO> images = festivalReviewService.getReviewImage(fr_id);
-            System.out.println("1"+images);
+            List<FestRevCommentVO> comments = festRevCommentService.getComments(fr_id); // 댓글 리스트 가져오기
+
+            System.out.println("festivalReviewDetail 에서 가져오는 이미지!!"+images);
             model.addAttribute("review", review);
             model.addAttribute("images", images);
+            model.addAttribute("comments", comments); // 댓글 리스트 모델에 추가
+
         }
 	    
 	    return "festival/festivalReviewDetail";
 	}
 
-	
+	// 축제리뷰 등록
+    @GetMapping("/insertComment")
+    @ResponseBody
+    public String insertComment( @RequestParam("fr_id") Integer frId, @RequestParam("comment") String commentContent) {
+        MemberVO mvo = (MemberVO) session.getAttribute("member");
+
+        FestRevCommentVO frcvo = new FestRevCommentVO();
+        frcvo.setFr_id(frId);
+        frcvo.setFrc_content(commentContent);
+        frcvo.setMember_id(mvo.getMember_id());
+
+        festRevCommentService.insertComment(frcvo);
+        return "success";
+    }
+    
+
 }
