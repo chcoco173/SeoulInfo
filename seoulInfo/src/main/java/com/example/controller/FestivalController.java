@@ -1,11 +1,13 @@
 package com.example.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.domain.FestRevCommentVO;
 import com.example.domain.FestRevImageVO;
@@ -22,6 +25,8 @@ import com.example.domain.MemberVO;
 import com.example.service.FestRevCommentService;
 import com.example.service.FestivalReviewService;
 import com.example.service.FestivalService;
+import com.example.service.MemberService;
+import com.example.util.MD5Generator;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -37,6 +42,9 @@ public class FestivalController {
     
     @Autowired
     private FestRevCommentService festRevCommentService;
+    
+    @Autowired
+    private MemberService memberService;
     
 	@Autowired
 	private HttpSession session;
@@ -137,6 +145,15 @@ public class FestivalController {
             } else {
                 review.put("image", null);
             }
+            // Fetch the member's profile image
+            String memberId = (String) review.get("member_id");
+            MemberVO member = memberService.getMemberById(memberId);
+            if (member != null) {
+                String memberImageUrl = "/files/" + member.getMember_imageName();
+                review.put("memberImageUrl", memberImageUrl);
+            } else {
+                review.put("memberImageUrl", "/images/mypage/default_profile.jpg"); // 기본 이미지 경로 설정
+            }
         }
         
 	    model.addAttribute("festival", festival);
@@ -161,6 +178,12 @@ public class FestivalController {
             List<FestRevImageVO> images = festivalReviewService.getReviewImage(fr_id);
             List<FestRevCommentVO> comments = festRevCommentService.getComments(fr_id); // 댓글 리스트 가져오기
 
+            // 이미지 경로 설정
+            for (FestRevImageVO image : images) {
+                String imageUrl = "/festRevImage/" + image.getFr_imgAlias();
+                image.setFr_imgUrl(imageUrl);  // 이미지 객체에 경로 설정
+            }
+            
             System.out.println("festivalReviewDetail 에서 가져오는 이미지!!"+images);
             model.addAttribute("review", review);
             model.addAttribute("images", images);
@@ -170,6 +193,7 @@ public class FestivalController {
 	    
 	    return "festival/festivalReviewDetail";
 	}
+
 
 	// 축제리뷰 등록
     @GetMapping("/insertComment")
@@ -186,5 +210,64 @@ public class FestivalController {
         return "success";
     }
     
+	// 축제리뷰 등록
+    @PostMapping("/insertReview")
+    @Transactional
+    public String insertReview(FestivalReviewVO frvo,
+                               @RequestParam("festival_id") Integer festival_id,
+                               @RequestParam("fr_title") String fr_title,
+                               @RequestParam("fr_content") String fr_content,
+                               @RequestParam("file") List<MultipartFile> files
+                               ) {
+        // 해당 축제 id 설정
+        frvo.setFestival_id(festival_id);
+        frvo.setFr_title(fr_title);
+        frvo.setFr_content(fr_content);
+        
+		// 현재 로그인한 회원 세션 받아오기
+		MemberVO mvo = (MemberVO) session.getAttribute("member");
+
+		frvo.setMember_id(mvo.getMember_id());
+
+        try {
+			// 후기 등록 후 pk 값 가져오기
+			Integer fr_id = festivalReviewService.insertReview(frvo);
+        	
+			for (MultipartFile file : files) {
+				String fr_imgName = file.getOriginalFilename();
+				System.out.println(fr_imgName + "파일원래이름");
+
+				if( fr_imgName != null && !fr_imgName.equals("")) {
+					String fr_imgAlias = new MD5Generator(fr_imgName).toString();
+
+					String savepath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\festRevImage";
+
+					if (! new File(savepath).exists()) {
+						new File(savepath).mkdir();
+					}
+
+					String fr_imgUrl = savepath + "\\" + fr_imgAlias;
+					file.transferTo(new File(fr_imgUrl));
+					System.out.println("저장완료");
+
+					FestRevImageVO frivo = new FestRevImageVO();
+					frivo.setFr_id(fr_id);
+					frivo.setFr_imgName(fr_imgName);
+					frivo.setFr_imgAlias(fr_imgAlias);
+					frivo.setFr_imgUrl(fr_imgUrl);
+
+					festivalReviewService.insertImage(frivo);
+
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/festival/festivalDetail?festival_id="+ festival_id;
+    }
+    
+
 
 }
