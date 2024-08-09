@@ -120,7 +120,10 @@ public class FestivalReviewController {
 		return "redirect:/festival/festivalDetail";
     }
     
+<<<<<<< Updated upstream
 	// 해당 회원이 올린 축제 리뷰 조회
+=======
+>>>>>>> Stashed changes
 
 
 }

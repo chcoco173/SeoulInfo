@@ -12,6 +12,7 @@
 		<if test="area != '전체'">
 		WHERE news_area = #{news_area}
 		</if>
+		ORDER BY news_date DESC
 	</select>
 	
 	<!-- 해당 뉴스 상세 조회 -->

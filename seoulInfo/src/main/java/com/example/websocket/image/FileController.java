@@ -24,7 +24,9 @@ public class FileController {
 
     @Autowired
     private FileService fileService;
-
+    
+    // 파일을 MultipartFile로 받아서 fileService.uploadFile을 통해 저장합니다.
+    // 저장된 파일의 ID로 파일 URL을 생성하여 클라이언트에 반환합니다.
     @PostMapping("/upload")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
@@ -36,6 +38,8 @@ public class FileController {
         }
     }
 
+    // 파일 ID를 받아 fileService.downloadFile을 통해 파일을 찾습니다.
+    // 파일이 존재하면 파일을 ResponseEntity에 담아 반환합니다.
     @GetMapping("/download/{id}")
     public ResponseEntity<?> downloadFile(@PathVariable String id) {
         try {
