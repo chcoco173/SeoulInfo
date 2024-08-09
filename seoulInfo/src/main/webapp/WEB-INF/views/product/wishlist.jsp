@@ -43,7 +43,39 @@
 
 <!-- 외부 css -->
 <link href="/css/product/myProduct.css" rel="stylesheet" type="text/css">
+<style>
+	.product-card {
+		        position: relative;
+		        overflow: hidden;
+		    }
 
+		    .product-image {
+		        width: 100%;
+		        height: auto;
+		        transition: filter 0.3s ease;
+		    }
+
+		    .product-card.sold-out .product-image {
+		        filter: grayscale(100%);
+		    }
+
+		    .overlay {
+		        position: absolute;
+		        top: 25%;
+		        left: 50%;
+		        transform: translate(-50%, -50%);
+		        color: white;
+		        
+		        background-color: rgba(0, 0, 0, 0.5);
+		        padding: 10px;
+		        border-radius: 5px;
+		        text-align: center;
+		    }
+
+		    .product-card.sold-out .overlay {
+		        display: block;
+		    }
+</style>
 </head>
 <body>
 	<div class="page-wrapper">
@@ -68,10 +100,14 @@
 									<img src="https://via.placeholder.com/100" alt="이미지없음"class="product-image">
 								</c:otherwise>
 							</c:choose>
+							<!-- 거래중 상태일 때만 오버레이 추가 -->
+							<c:if test="${wishList.sale_status eq '거래중' || wishList.sale_status eq '판매완료'}">
+								<div class="overlay">${wishList.sale_status}</div>
+							</c:if>
 							<div class="product-details">
 								<h5>${wishList.sale_name}</h5>
 								<p>${wishList.sale_status}</p>
-								<p>${wishList.sale_price}</p>
+								<p class='price'data-price="${wishList.sale_price}"></p>
 																
 							</div>
 							<div class="button-group">
@@ -197,6 +233,17 @@
 			
 			// 나중에 상품번호들고가서 수정예정
 			location.href = "detail_post?sale_id=" + sale_id;
+		});
+		
+		// 가격 포맷 함수
+		function formatPrice(price) {
+			return Number(price).toLocaleString('ko-KR') + '원';
+		}
+		
+		// 모든 가격 요소에 대해 포맷팅을 적용합니다.
+		$('.price').each(function() {
+			var rawPrice = $(this).data('price');
+			$(this).text(formatPrice(rawPrice));
 		});
 	
 	</script>

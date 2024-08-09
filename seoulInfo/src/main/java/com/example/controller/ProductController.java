@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -40,12 +39,10 @@ import com.example.service.ProductService;
 import com.example.service.ReviewService;
 import com.example.util.CookieUtils;
 import com.example.util.MD5Generator;
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 
@@ -86,8 +83,8 @@ public class ProductController {
 	@Autowired
 	private HttpServletRequest request; // 쿠키에서 사용
 
-//	@Autowired
-//	private HttpServletResponse response;
+	//	@Autowired
+	//	private HttpServletResponse response;
 
 
 
@@ -420,6 +417,28 @@ public class ProductController {
 
 		return null;
 	}
+
+	// 상품 상태 수정
+	@PostMapping("productUpdateStatus")
+	@ResponseBody
+	public String productUpdateStatus(@RequestParam String sale_status, @RequestParam Integer sale_id) {
+		MemberVO mvo = (MemberVO) session.getAttribute("member");
+		
+		ProductVO pvo = new ProductVO();
+		pvo.setMember_id(mvo.getMember_id());
+		pvo.setSale_id(sale_id);
+		pvo.setSale_status(sale_status);
+
+		Integer result =  productService.updateStatus(pvo);
+
+		if ( result != null) {
+			return "1";
+		}
+
+		return null;
+
+	}
+
 
 	// 상품 상태 수정 ajax
 	@PostMapping("updateStatus")
@@ -912,8 +931,6 @@ public class ProductController {
 
 		return response;
 	}
-
-
 
 	// 시간 변환 메소드
 	public String[] timeConversion(List<Map<String, Object>> productList ) {
