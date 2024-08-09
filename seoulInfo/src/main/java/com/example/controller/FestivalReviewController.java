@@ -91,18 +91,6 @@ public class FestivalReviewController {
 		return "redirect:/festival/festivalDetail?festival_id="+ festival_id;
     }
     
-	// 리뷰 상세 페이지
-//    @PostMapping("/festivalReviewDetail")
-//    public String getReviewDetail(@RequestParam("frId") Integer fr_id, Model model) {
-//    	System.out.println(fr_id);
-//        FestivalReviewVO review = festivalReviewService.getReview(fr_id);
-//        if (review != null) {
-//            List<FestRevImageVO> images = festivalReviewService.getReviewImage(fr_id);
-//            model.addAttribute("review", review);
-//            model.addAttribute("images", images);
-//        }
-//        return "festival/festivalReviewDetail";
-//    }
 
 
 }

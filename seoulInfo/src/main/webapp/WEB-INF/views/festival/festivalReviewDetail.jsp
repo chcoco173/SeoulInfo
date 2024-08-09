@@ -16,23 +16,19 @@
 	<link href="/css/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet"
 		type="text/css">
 	<style>
-		/* Flexbox 컨테이너 스타일 추가 */
-		.flex-container {
+		.comment-content {
+		    width: 100%; /* 댓글 내용 가로로 길게 설정 */
+		    word-wrap: break-word; /* 긴 단어 줄바꿈 */
+		}
+		.text-size-regular {
+		    width: 100%; /* 텍스트 가로로 길게 설정 */
+		}
+		.post-row-wrapper {
 		    display: flex;
-		    flex-wrap: wrap;
-		    gap: 20px;
-		}
-
-		.flex-item {
-		    flex: 1;
-		    min-width: 300px; /* 최소 너비 설정 */
-		}
-
-		/* 이미지 크기 조정 */
-		.image-overflow-wrapper img {
-		    width: 40%; /* 가로 크기를 4분의 1로 줄이기 */
-		    height: auto; /* 비율을 유지하며 크기 조정 */
-			align: center;
+		    flex-direction: column;
+		    width: 100%; /* post-row-wrapper 가로로 길게 설정 */
+		    max-width: 1000px; /* 최대 너비 설정 */
+		    margin: 0 auto; /* 가운데 정렬 */
 		}
 		@media (min-width:992px) {html.w-mod-js:not(.w-mod-ix) [data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"] {-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);}}@media (max-width:991px) and (min-width:768px) {html.w-mod-js:not(.w-mod-ix) [data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"] {-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);}}</style>
 	<link href="https://fonts.googleapis.com" rel="preconnect">
@@ -128,7 +124,6 @@
 				</div>
 			</div>
 		<!-- 검색창 end -->
-		<img src="../static/festRevImage/4cd4db1bf98e01c9c5c0fae27728fa7a">
 		<!-- 리뷰 사진 start -->
 		<div class="main-wrapper">
 		    <div class="section-destination-banner">
@@ -152,7 +147,7 @@
 		            </div>
 		        </div>
 		    </div>
-		<!-- 리뷰 사진 end --> 
+		<!-- 리뷰 사진 end -->
 		<!-- 리뷰 내용 start -->
 		<div class="main-wrapper">
 		    <div class="padding-global">
@@ -160,6 +155,7 @@
 		            <div class="container-full-width">
 		                <div class="flex-container">
 		                    <div class="flex-item text-color-black review-content">
+								<p>${review.fr_id}</p>
 		                        <p>${review.fr_content}</p>
 		                        <p>작성자: ${review.member_id}</p>
 		                        <p>작성일: <fmt:formatDate value="${review.fr_regdate}" pattern="yyyy-MM-dd" /></p>
@@ -170,44 +166,46 @@
 		    </div>
 		</div>
 		<!-- 리뷰 내용 end -->
-	<!-- 추가해야할 댓글 리스트 start -->
-	<div class="section-posts-row">
-	    <div class="padding-global">
-	        <div class="padding-section-medium remove-top-padding">
-	            <div class="container-full-width">
-	                <h4 data-w-id="e144bf26-0d49-109b-1b5b-756bc18db81f" style="opacity:0">댓글 목록</h4>
-	                <div class="spacer-xlarge"></div>
-	                <div data-w-id="e144bf26-0d49-109b-1b5b-756bc18db822" style="opacity:0" class="divider-line"></div>
-	                <div class="spacer-xlarge"></div>
-	                <div class="w-dyn-list">
-	                    <div role="list" class="w-dyn-items">
-	                        <c:forEach items="${commentList}" var="comment">
-	                            <div data-w-id="e144bf26-0d49-109b-1b5b-756bc18db826" style="opacity:0" role="listitem" class="w-dyn-item">
-	                                <div class="post-row-grid">
-	                                    <div id="w-node-e144bf26-0d49-109b-1b5b-756bc18db82a-4f5c4823" class="post-row-wrapper">
-	                                        <div class="tags-wrappers">
-	                                            <a href="#" class="tag w-inline-block">
-	                                                <div class="text-size-small">${comment.member_id}</div>
-	                                            </a>
-	                                        </div>
-	                                        <div class="comment-content">
-	                                            <p>${comment.comment_content}</p>
-	                                            <div class="small-author-wrapper">
-	                                                <div class="line-divider"></div>
-	                                                <div class="text-size-regular text-color-dark-gray"><fmt:formatDate value="${comment.comment_regdate}" pattern="yyyy-MM-dd" /></div>
-	                                            </div>
-	                                        </div>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                        </c:forEach>  
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
-	</div>
-	<!-- 축제리뷰 리스트 end -->
+		<!-- 댓글 리스트 출력 부분 -->
+		<div class="section-posts-row">
+		    <div class="padding-global">
+		        <div class="padding-section-medium remove-top-padding">
+		            <div class="container-full-width">
+		                <h3>댓글 목록</h3>
+		                <div class="spacer-xlarge"></div>
+		                <div class="divider-line"></div>
+		                <div class="spacer-xlarge"></div>
+		                <div class="w-dyn-list">
+		                    <div role="list" class="w-dyn-items">
+		                        <c:forEach items="${comments}" var="comment">
+		                            <div role="listitem" class="w-dyn-item">
+		                                <div class="post-row-grid">
+		                                    <div class="post-row-wrapper">
+		                                        <div class="tags-wrappers">
+		                                            <a href="#" class="tag w-inline-block">
+		                                                <div class="text-size-small">${comment.member_id}</div>
+		                                            </a>
+		                                        </div>
+		                                        <div class="comment-content">
+		                                            <p>${comment.frc_content}</p>
+		                                            <div class="small-author-wrapper">
+		                                                <div class="line-divider"></div>
+		                                                <div class="text-size-regular text-color-dark-gray">
+		                                                    <fmt:formatDate value="${comment.frc_regdate}" pattern="yyyy-MM-dd" />
+		                                                </div>
+		                                            </div>
+		                                        </div>
+		                                    </div>
+		                                </div>
+		                            </div>
+		                        </c:forEach>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<!-- 댓글 리스트 end -->
 		<!-- 댓글 작성하기 start -->
 		<div class="section-newsletter">
 			<div class="padding-global">
@@ -223,20 +221,14 @@
 								data-wf-page-id="628ab4b45549af6399a230d3"
 								data-wf-element-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9d2">
 								<input class="form-field newsletter w-input" maxlength="256"
-									name="Email" data-name="Email" placeholder="내용을 입력하세요"
-									type="email" id="Email" required="" /> <input type="submit"
+									name="comment" data-name="comment" placeholder="내용을 입력하세요"
+									type="text" id="comment" required="" /> 
+									<input type="hidden" id="fr_id" name="fr_id" value="${review.fr_id }">
+									<input type="submit"
 									data-wait="Please wait..."
 									class="button-primary-large max-width-full-mobile-portrait w-button"
 									value="댓글달기" />
 							</form>
-							<div class="form-success-message w-form-done">
-								<div class="text-size-regular text-color-white">Thank you!
-									Your submission has been received!</div>
-							</div>
-							<div class="form-error-message w-form-fail">
-								<div class="text-size-regular">Oops! Something went wrong
-									while submitting the form.</div>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -315,24 +307,59 @@
 		  		<div class="spacer-xxlarge"></div>
 		  	</div>
 		  </div>
-		  <!-- section-footer end -->
-  <script>	
-	var newReviewBtn = document.getElementById('newReviewBtn');
-	var festivalId = document.getElementById('festival_id').value;
+		  
 
-	newReviewBtn.onclick = function() {
-	    alert(festivalId);
-	    window.location.href = "/festival/festivalReview?festival_id=" + festivalId;
-	}
-
-  </script>
-	  
   <script
   	src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9"
   	type="text/javascript"
   	integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
   	crossorigin="anonymous"></script>
   <script src="/js/webflow.js" type="text/javascript"></script>
+  <!-- 댓글 등록 -->
+  <script>
+	$(document).ready(function () {
+	    $('#wf-form-Newsletter-Form').submit(function (event) {
+		
+	        event.preventDefault(); // 기본 폼 제출 이벤트 방지
+
+			var sessionResult = '<c:out value="${sessionScope.member != null ? sessionScope.member.member_id : ''}" />';
+
+	        var frId = $('#fr_id').val(); // 숨겨진 fr_id 요소의 값을 가져옴
+	        var commentContent = $('#comment').val(); // 댓글 내용을 가져옴
+			// 로그인 안되있을 때
+			if(sessionResult === ''){
+				 var userConfirmed = confirm("이 기능은 로그인 후 가능합니다. \n 로그인 페이지로 이동하시겠습니까?");
+				 if (userConfirmed) {
+				    // 로그인 페이지로 리다이렉트
+				 	window.location.href = '/member/login';
+				 }
+			}else{
+	        // AJAX 요청 수행
+	        $.ajax({
+	            type: 'GET',
+	            url: 'insertComment', // 댓글 제출을 위한 URL
+	            data: {
+	                fr_id: frId,
+	                comment: commentContent
+	            },
+	            success: function (response) {
+	                if (response === 'success') {
+	                    alert('댓글이 등록되었습니다.');
+	                    location.reload(); // 댓글 목록을 새로고침하기 위해 페이지 리로드
+	                } else {
+	                    alert(response); // 오류 메시지 표시
+	                }
+	            },
+	            error: function () {
+	                alert('댓글 등록에 실패했습니다.');
+	            }
+	        });
+			}
+	    });
+	});
+
+
+  </script>	  
 </body>
 
 </html>

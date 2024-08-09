@@ -31,6 +31,7 @@
 	margin-bottom: 120px; /* 기본 마진 */
 }
 
+
 @media ( max-width : 768px) {
 	.navbar_m.w-nav {
 		margin-bottom: 10px; /* 작은 화면에서는 마진을 줄임 */
@@ -116,8 +117,7 @@
 		<div class="section-destination-banner">
 			<div class="padding-global">
 				<div class="padding-section-medium">
-					<div class="container-full-width"></div>
-					<!-- 전체 일 때 전체 로 나오게!! -->
+					<div class="container-full-width"></div>				
 					<div data-w-id="a984475f-e10a-c912-ac29-53a066823d5e"
 						style="opacity: 0" class="destination-banner">
 						<c:forEach items="${newsList}" var="news" varStatus="status">
@@ -132,7 +132,6 @@
 								</c:choose>
 							</c:if>
 						</c:forEach>
-
 					</div>
 				</div>
 			</div>
@@ -220,41 +219,6 @@
 		</div>
 	</div>
 	</div>
-
-	<div class="section-newsletter">
-		<div class="padding-global">
-			<div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd"
-				class="container-newsletter background-black">
-				<div class="_2-column-grid-uneven-left">
-					<h3 class="newsletter-heading">Love what you see? Sign up for
-						my newsletter and stay in touch.</h3>
-					<div id="Style-Guide-Form"
-						class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form">
-						<form name="wf-form-Newsletter-Form" data-name="Newsletter Form"
-							method="get" id="wf-form-Newsletter-Form" class="newsletter-form"
-							data-wf-page-id="6684f0fb2a5375354f5c4823"
-							data-wf-element-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9d2">
-							<input class="form-field newsletter w-input" maxlength="256"
-								name="Email" data-name="Email" placeholder="Your email address"
-								type="email" id="Email" required=""><input type="submit"
-								data-wait="Please wait..."
-								class="button-primary-large max-width-full-mobile-portrait w-button"
-								value="Join">
-						</form>
-						<div class="form-success-message w-form-done">
-							<div class="text-size-regular text-color-white">Thank you!
-								Your submission has been received!</div>
-						</div>
-						<div class="form-error-message w-form-fail">
-							<div class="text-size-regular">Oops! Something went wrong
-								while submitting the form.</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
 	<div class="section-footer">
 		<div class="padding-global">
 			<div class="spacer-xxlarge"></div>
