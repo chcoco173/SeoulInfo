@@ -276,7 +276,7 @@
 											<h4>${similarList.sale_name}</h4>
 											<p>${similarList.sale_area}</p>
 											<p>
-												<strong>${similarList.sale_price}</strong>
+												<strong class='price'data-price="${similarList.sale_price}"></strong>
 											</p>
 											<p>
 												관심 ${similarList.favorite_count}<span
@@ -496,7 +496,6 @@
 				});
 
 		//author-name 클릭시
-
 		$(".author-name").click(function() {
 			var memberId = $(this).closest('.author-name').text();
 
@@ -527,6 +526,16 @@
 		// 별을 표시할 요소에 HTML 문자열 설정
 		$('.stars').html(starsHtml);
 		
+		
+		// 가격 포맷 함수
+		function formatPrice(price) {
+			return Number(price).toLocaleString('ko-KR') + '원';
+		}
+		// 모든 가격 요소에 대해 포맷팅을 적용합니다.
+		$('.price').each(function() {
+			var rawPrice = $(this).data('price');
+			$(this).text(formatPrice(rawPrice));
+		});
 		
 		
 	</script>

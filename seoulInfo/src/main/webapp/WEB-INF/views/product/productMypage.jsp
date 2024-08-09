@@ -89,6 +89,44 @@
 
 <link href="/css/product/productReviewGradeName.css" rel="stylesheet" type="text/css">
 <link href="/css/product/productMain.css" rel="stylesheet" type="text/css">
+
+<style>
+	.mt-5, .my-5 {
+		    margin-top: 0 !important;
+		}
+	.product-card {
+		        position: relative;
+		        overflow: hidden;
+		    }
+
+		    .product-image {
+		        width: 100%;
+		        height: auto;
+		        transition: filter 0.3s ease;
+		    }
+
+		    .product-card.sold-out .product-image {
+		        filter: grayscale(100%);
+		    }
+
+		    .overlay {
+		        position: absolute;
+		        top: 50%;
+		        left: 50%;
+		        transform: translate(-50%, -50%);
+		        color: white;
+		        font-size: 1.5rem;
+		        background-color: rgba(0, 0, 0, 0.5);
+		        padding: 10px;
+		        border-radius: 5px;
+		        text-align: center;
+		    }
+
+		    .product-card.sold-out .overlay {
+		        display: block;
+		    }
+</style>
+
 </head>
 <body>
 	<div class="page-wrapper">
@@ -143,14 +181,18 @@
 															style="height: 250px; width: 250px;">
 													</c:otherwise>
 												</c:choose>
-
+												<!-- 거래중 상태일 때만 오버레이 추가 -->
+												<c:if test="${productList.sale_status eq '거래중' || productList.sale_status eq '판매완료'}">
+													<div class="overlay">${productList.sale_status}</div>
+												</c:if>
+												
 												<div class="product-info">
 													<input type="hidden" class="sale_id"
 														value="${productList.sale_id}">
 													<h4>${productList.sale_name}</h4>
 													<p>${productList.sale_area}</p>
 													<p>
-														<strong>${productList.sale_price}</strong>
+														<strong class='price'data-price="${productList.sale_price}"></strong>
 													</p>
 													<p>
 														관심 ${productList.favorite_count}<span
@@ -281,9 +323,20 @@
 		        } else {
 		            starsHtml += emptyStar; // 빈 별 추가
 		        }
-		    }
-			// 별을 표시할 요소에 HTML 문자열 설정
-			$('.stars').html(starsHtml);
+		}
+		// 별을 표시할 요소에 HTML 문자열 설정
+		$('.stars').html(starsHtml);
+			
+			
+		// 가격 포맷 함수
+		function formatPrice(price) {
+			return Number(price).toLocaleString('ko-KR') + '원';
+		}
+		// 모든 가격 요소에 대해 포맷팅을 적용합니다.
+		$('.price').each(function() {
+			var rawPrice = $(this).data('price');
+			$(this).text(formatPrice(rawPrice));
+		});
 	</script>
 </body>
 </html>
