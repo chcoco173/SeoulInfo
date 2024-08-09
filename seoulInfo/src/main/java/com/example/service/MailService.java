@@ -21,21 +21,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MailService {
 	
-//    private final JavaMailSender javaMailSender;
-//
-//    private static final String senderEmail= "juliahan0722@gmail.com";
-//
-//    public void CreateMail(MailVO mailVo){
-//
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setTo(mailVo.getReceiver());
-//        message.setFrom(senderEmail);
-//        message.setSubject(mailVo.getTitle());
-//        message.setText(mailVo.getContent());
-//
-//        javaMailSender.send(message);
-//    }
-	
     private final JavaMailSender javaMailSender;
     private static final String senderEmail= "juliahan0722@gmail.com";
     private static int number;

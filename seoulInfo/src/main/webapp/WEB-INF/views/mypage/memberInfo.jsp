@@ -227,7 +227,7 @@
 
 					  <a href="/mypage/memberInfo" class="tag-t w-inline-block">개인정보 관리</a>
 					  
-					  <a href="/mypage/newsComment" class="tag-t w-inline-block">내가 작성한 댓글</a>
+					  <!-- <a href="/mypage/newsComment" class="tag-t w-inline-block">내가 작성한 댓글</a> -->
 					  
 					  <a href="/mypage/product" class="tag-t w-inline-block">관심상품 목록</a>
 					  
@@ -280,72 +280,7 @@
 				<!-- 오른쪽 컬럼 -->
 
                 <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">				  
-<%--                   <form action="${pageContext.request.contextPath}/member/updateMember" method="POST" name="wf-form-Contact-Form" id="wf-form-Contact-Form" 
-				  		class="form member-info-form" data-wf-page-id="6684f0fb2a5375354f5c4825" data-wf-element-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a65">	
-					<input class="form-field w-input" type="hidden" name="member_id" id="id" value="${sessionScope.member.member_id}">
 
-					<div class="form-field-wrapper">
-						<label>비밀번호</label>						
-						<input class="form-field w-input" maxlength="256" name="member_pw" type="password" id="pw" value="" pattern="[A-Za-z0-9]{6,}" placeholder="회원정보를 수정하실려면 비밀번호를 입력해주세요.">
-						<div class="error-message" id="pw-error">비밀번호는 영문자와 숫자로 이루어진 6자 이상이어야 합니다.</div>
-					</div>
-					<div class="form-field-wrapper">
-						<label>비밀번호 확인</label>
-						<input class="form-field w-input" maxlength="256" type="password" id="pwCheck" pattern="[A-Za-z0-9]{6,}" >
-						<div class="error-message" id="pwCheck-error">비밀번호가 일치하지 않습니다. 다시 입력해주세요.</div>
-					</div>
-					<div class="form-field-wrapper">
-						<label>이름</label>
-						<input class="form-field w-input" maxlength="256" name="member_name" type="text" id="name" value="${sessionScope.member.member_name}" pattern="[가-힣]{2,}" >
-						<div class="error-message" id="name-error">이름은 한글 2자 이상이어야 합니다.</div>
-					</div>
-                    <div class="form-field-wrapper">
-                    	<label>이메일</label>
-						<input class="form-field w-input" maxlength="256" name="member_email" type="email" id="email" value="${sessionScope.member.member_email}" >
-						<div class="error-message" id="email-error">유효한 이메일 주소를 입력하세요.</div>
-						<div class="error-message" id="email-duplicate-error">이미 사용 중인 이메일입니다.</div>
-		                <div class="success-message" id="email-available-message">사용 가능한 이메일입니다.</div>
-					</div>
-					<div class="form-field-wrapper">
-						<label>전화번호</label>
-						<input class="form-field w-input" maxlength="256" name="member_tel" type="tel" id="tel" value="${sessionScope.member.member_tel}">
-						<div class="error-message" id="tel-error">전화번호는 숫자로 이루어진 10자 이상이어야 합니다.</div>
-					</div>
-					<div class="form-field-wrapper">
-						<label for="area">지역</label>
-					    <select class="form-field w-input" name="member_area" id="area">
-										<option ${sessionScope.member.member_area eq '강남구' ? 'selected' : ''}>강남구</option>
-										<option ${sessionScope.member.member_area eq '강동구' ? 'selected' : ''}>강동구</option>
-										<option ${sessionScope.member.member_area eq '강서구' ? 'selected' : ''}>강서구</option>
-										<option ${sessionScope.member.member_area eq '강북구' ? 'selected' : ''}>강북구</option>
-										<option ${sessionScope.member.member_area eq '관악구' ? 'selected' : ''}>관악구</option>
-										<option ${sessionScope.member.member_area eq '광진구' ? 'selected' : ''}>광진구</option>
-										<option ${sessionScope.member.member_area eq '구로구' ? 'selected' : ''}>구로구</option>
-										<option ${sessionScope.member.member_area eq '금천구' ? 'selected' : ''}>금천구</option>
-										<option ${sessionScope.member.member_area eq '노원구' ? 'selected' : ''}>노원구</option>
-										<option ${sessionScope.member.member_area eq '도봉구' ? 'selected' : ''}>도봉구</option>
-										<option ${sessionScope.member.member_area eq '동대문구' ? 'selected' : ''}>동대문구</option>
-										<option ${sessionScope.member.member_area eq '동작구' ? 'selected' : ''}>동작구</option>
-										<option ${sessionScope.member.member_area eq '마포구' ? 'selected' : ''}>마포구</option>
-										<option ${sessionScope.member.member_area eq '서대문구' ? 'selected' : ''}>서대문구</option>
-										<option ${sessionScope.member.member_area eq '서초구' ? 'selected' : ''}>서초구</option>
-										<option ${sessionScope.member.member_area eq '성동구' ? 'selected' : ''}>성동구</option>
-										<option ${sessionScope.member.member_area eq '성북구' ? 'selected' : ''}>성북구</option>
-										<option ${sessionScope.member.member_area eq '송파구' ? 'selected' : ''}>송파구</option>
-										<option ${sessionScope.member.member_area eq '양천구' ? 'selected' : ''}>양천구</option>
-										<option ${sessionScope.member.member_area eq '영등포구' ? 'selected' : ''}>영등포구</option>
-										<option ${sessionScope.member.member_area eq '용산구' ? 'selected' : ''}>용산구</option>
-										<option ${sessionScope.member.member_area eq '은평구' ? 'selected' : ''}>은평구</option>
-										<option ${sessionScope.member.member_area eq '종로구' ? 'selected' : ''}>종로구</option>
-										<option ${sessionScope.member.member_area eq '중구' ? 'selected' : ''}>중구</option>
-										<option ${sessionScope.member.member_area eq '중랑구' ? 'selected' : ''}>중랑구</option>
-					    </select>
-					    <div class="error-message" id="area-error">지역을 선택하세요.</div>	
-					</div>					
-                    <div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
-						<input type="submit" class="button-primary-large w-button" value="회원정보 수정">
-					</div>
-                  </form> --%>
                   <form action="${pageContext.request.contextPath}/member/updateMember" method="POST" name="wf-form-Contact-Form" id="wf-form-Contact-Form" 
 		              class="form member-info-form">
 		            <input type="hidden" name="member_id" id="id" value="${sessionScope.member.member_id}">
@@ -436,79 +371,11 @@
 	
 	
 	
-    <div class="section-newsletter">
-      <div class="padding-global">
-        <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-black">
-          <div class="_2-column-grid-uneven-left">
-            <h3 class="newsletter-heading">Love what you see? Sign up for my newsletter and stay in touch.</h3>
-            <div id="Style-Guide-Form" class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form">
-              <form name="wf-form-Newsletter-Form" data-name="Newsletter Form" method="get" id="wf-form-Newsletter-Form" class="newsletter-form" data-wf-page-id="6684f0fb2a5375354f5c4825" data-wf-element-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9d2"><input class="form-field newsletter w-input" maxlength="256" name="Email" data-name="Email" placeholder="Your email address" type="email" id="Email" required=""><input type="submit" data-wait="Please wait..." class="button-primary-large max-width-full-mobile-portrait w-button" value="Join"></form>
-              <div class="form-success-message w-form-done">
-                <div class="text-size-regular text-color-white">Thank you! Your submission has been received!</div>
-              </div>
-              <div class="form-error-message w-form-fail">
-                <div class="text-size-regular">Oops! Something went wrong while submitting the form.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- section-newsletter end -->
+          
+ 
     
-    <div class="section-footer">
-      <div class="padding-global">
-        <div class="spacer-xxlarge"></div>
-        <div data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe" class="container-footer">
-          <div class="padding-global">
-            <div class="padding-section-medium">
-              <div class="_2-column-grid">
-                <a href="/member/loginSuccess" class="w-inline-block"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
-                <div>
-                  <h3>The stories of a travel photographer and blogger exploring the world .</h3>
-                  <div id="w-node-e1165d61-2cbb-cc22-6e05-5b6165b83107-65b830fb" class="spacer-xxlarge"></div>
-                </div>
-              </div>
-              <div class="_2-column-grid footer">
-                <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b846f-65b830fb" class="footer-micro-links-wrapper">
-                  <p class="text-size-small">Website template by <a href="https://www.callistodigitalstudio.com/" target="_blank" class="text-size-small">Callisto Digital Studio</a>.</p>
-                  <p class="text-size-small">Powered by <a href="https://webflow.com/templates/html/sightseer-travel-website-template" target="_blank" class="text-size-small">Webflow</a>.</p>
-                </div>
-                <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8474-65b830fb" class="_3-column-grid footer-links">
-                  <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8475-65b830fb">
-                    <h4>About</h4>
-                    <div class="spacer-large"></div>
-                    <a href="about.html" class="footer-link">About</a>
-                    <a href="contact.html" aria-current="page" class="footer-link w--current">Contact</a>
-                  </div>
-                  <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8481-65b830fb">
-                    <h4>Social</h4>
-                    <div class="spacer-large"></div>
-                    <a href="http://tiktok.com" target="_blank" class="footer-link">TikTok</a>
-                    <a href="http://Instagram.com" target="_blank" class="footer-link">Instagram</a>
-                    <a href="http://Facebook.com" target="_blank" class="footer-link">Facebook</a>
-                    <a href="http://Youtube.com" target="_blank" class="footer-link">Youtube</a>
-                  </div>
-                  <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b848d-65b830fb">
-                    <h4>Theme</h4>
-                    <div class="spacer-large"></div>
-                    <a href="template/template-style-guide.html" class="footer-link">Style Guide</a>
-                    <a href="template/changelog.html" class="footer-link">Changelog</a>
-                    <a href="template/licenses.html" class="footer-link">Licenses</a>
-                    <a href="https://webflow.com/templates/designers/callisto-digital-studio" target="_blank" class="footer-link">All Templates</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="spacer-xxlarge"></div>
-      </div>
-    </div>
-    <!-- section-footer end -->           
-    
-  </div>
-  <!-- page-wrapper end -->
+  </div><!-- page-wrapper end -->
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">

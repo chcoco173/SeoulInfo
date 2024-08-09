@@ -68,6 +68,8 @@ public interface MemberService {
     // 8/8 마이페이지/1:1문의
 	public void insertQuestion(QuestionVO vo);
 	public List<QuestionVO> getQuestionList(String member_id);
+	boolean deleteQuestion(String question_no, String member_id);
+	public QuestionVO selectQuestion(QuestionVO qvo);
     
     
     

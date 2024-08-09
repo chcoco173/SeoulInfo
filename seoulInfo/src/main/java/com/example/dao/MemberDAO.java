@@ -26,7 +26,6 @@ public interface MemberDAO {
     // 회원 정보 조회
     public MemberVO getMemberById(String member_id);
     
-//	public MemberVO findByMemberId(String member_id);
 	
 	//회원탈퇴
 	public void deleteMember(MemberVO vo);
@@ -83,7 +82,8 @@ public interface MemberDAO {
     // 8/8 마이페이지/1:1문의 등록
 	public void insertQuestion(QuestionVO vo);
 	public List<QuestionVO> getQuestionList(String member_id);
-	
+	int deleteQuestion(@Param("question_no") String question_no, @Param("member_id") String member_id);
+	public QuestionVO selectQuestion(QuestionVO qvo);
     
     
     

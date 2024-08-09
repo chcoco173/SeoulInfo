@@ -50,9 +50,6 @@ public class MemberServiceImpl implements MemberService{
         return memberDAO.getMemberById(member_id); // 조회된 MemberVO 객체 반환
     }	
 		
-//	public MemberVO getMemberById(String member_id) {
-//		return memberDAO.findByMemberId(member_id);
-//	}
 	
 	
 	//회원탈퇴
@@ -109,9 +106,7 @@ public class MemberServiceImpl implements MemberService{
     public MemberVO getMemberByEmail(String member_email) {
         return memberDAO.getMemberByEmail(member_email);
     }    
-//    public String getUserName(String member_email) {
-//        return memberDAO.getUserNameByEmail(member_email);
-//    }
+
     
     //8/6 프로필 사진 등록
 	@Transactional	
@@ -158,6 +153,13 @@ public class MemberServiceImpl implements MemberService{
 	}
 	public List<QuestionVO> getQuestionList(String member_id){
 		return memberDAO.getQuestionList(member_id);
+	}
+	public boolean deleteQuestion(String question_no, String member_id){
+		int rowsAffected = memberDAO.deleteQuestion(question_no, member_id);
+        return rowsAffected > 0; // 삭제 성공 여부 반환
+	}
+	public QuestionVO selectQuestion(QuestionVO qvo) {
+		return memberDAO.selectQuestion(qvo);
 	}
 	
 

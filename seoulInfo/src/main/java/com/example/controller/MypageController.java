@@ -258,7 +258,7 @@ public class MypageController {
         return "redirect:/mypage/question"; // 질문 목록 페이지로 리다이렉트
     }    
     
-    // 8/8 마이페이지/1:1문의 조회
+    // 8/8 마이페이지/1:1문의 리스트 조회(전체)
     @GetMapping("/question")
     public String getQuestionList(HttpSession session, Model model) {
         // 세션에서 member 객체 가져오기
@@ -271,14 +271,53 @@ public class MypageController {
             System.out.println("1:1문의리스트 조회 : + questionList" );
 
             model.addAttribute("questionList", questionList); // 모델에 추가
+            session.setAttribute("questionList", questionList);
+            
             return "mypage/question"; // 뷰 이름 반환
         } else {
             // 로그인 페이지 또는 오류 페이지로 리다이렉션
             return "redirect:/login";
         }                       
-    }    
+    } 
     
+    // 8/9 마이페이지/1:1문의 삭제
+    @RequestMapping("/deleteQuestion")
+    public String deleteQuestion(@RequestParam("question_no") String question_no, 
+                           @RequestParam("member_id") String member_id, 
+                           RedirectAttributes redirectAttributes) {
+        boolean deleted = memberService.deleteQuestion(question_no, member_id);
+        if (deleted) {
+            redirectAttributes.addFlashAttribute("message", "1:1문의글이 삭제되었습니다.");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "1:1문의글을 삭제할 수 없습니다.");
+        }
+        return "redirect:/mypage/question"; // 리다이렉트 경로
+    }
     
+    // 8/9 마이페이지/1:1문의 세부내용조회      
+    @GetMapping("/selectQuestion2")
+    @ResponseBody
+    public Map<String, Object> selectQuestion2(@RequestParam("question_no") Integer question_no, HttpSession session) {
+    	
+    	MemberVO member = (MemberVO) session.getAttribute("member");
+    	
+    	String member_id =  member.getMember_id(); 
+    	
+    	System.out.println(question_no + "/" + member_id);
+    	
+    	QuestionVO qvo = new QuestionVO();
+    	qvo.setMember_id(member_id);
+    	qvo.setQuestion_no(question_no);
+    	
+    	
+    	QuestionVO question = memberService.selectQuestion(qvo);
+    	System.out.println(question.toString());
+    	Map<String, Object> response = new HashMap<>();
+    	response.put("status", "success");
+        response.put("question", question);
+    	
+    	return response;
+    }  
     
     
     
