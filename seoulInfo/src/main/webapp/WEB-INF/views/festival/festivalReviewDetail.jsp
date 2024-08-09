@@ -16,9 +16,14 @@
 	<link href="/css/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet"
 		type="text/css">
 	<style>
+		
+		.destination-banner {
+		    margin-top: -20px; /* 위에 섹션과 겹치지 않도록 여백 추가 */
+		}
 		.comment-content {
 		    width: 100%; /* 댓글 내용 가로로 길게 설정 */
 		    word-wrap: break-word; /* 긴 단어 줄바꿈 */
+			margin-left:1%;
 		}
 		.text-size-regular {
 		    width: 100%; /* 텍스트 가로로 길게 설정 */
@@ -30,6 +35,33 @@
 		    max-width: 1000px; /* 최대 너비 설정 */
 		    margin: 0 auto; /* 가운데 정렬 */
 		}
+		.post-row-grid, .spacer-xlarge {
+		    display: flex;
+		    flex-wrap: wrap;
+		    width: 100%; /* post-row-grid 가로로 길게 설정 */		   		   
+		}
+		.post-row-wrapper {
+		    display: flex;
+		    flex-direction: column;
+		    width: 100%; /* post-row-wrapper 가로로 길게 설정 */
+		    max-width: 1000px; /* 최대 너비 설정 */
+		    margin: 0; /* 가운데 정렬 제거 */
+		    padding-left: 15px; /* 왼쪽 여백 추가 */
+		}
+
+
+		.flex-item.text-color-black.review-content {
+		    max-width: 75%; /* 최대 너비를 800px로 설정 */
+		    margin: 0 auto; /* 가운데 정렬 */
+		    padding: 20px; /* 내부 여백 추가 */
+		}
+		.padding-section-medium.remove-top-padding {
+		    max-width: 80%; /* 최대 너비를 1200px로 설정 */
+		    margin: 0 auto; /* 가운데 정렬 */
+		    padding: 20px; /* 내부 여백 추가 */
+		}
+
+		
 		@media (min-width:992px) {html.w-mod-js:not(.w-mod-ix) [data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"] {-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);}}@media (max-width:991px) and (min-width:768px) {html.w-mod-js:not(.w-mod-ix) [data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"] {-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);}}</style>
 	<link href="https://fonts.googleapis.com" rel="preconnect">
 	<link href="https://fonts.gstatic.com" rel="preconnect"
@@ -133,14 +165,20 @@
 		                    <div data-w-id="a984475f-e10a-c912-ac29-53a066823d5a" style="opacity:0" class="_3-column-grid">
 		                        <c:forEach items="${images}" var="image">
 		                            <div id="w-node-_9eb9e867-d75f-01e1-e35b-5c8e2fc339e3-4f5c4823" data-w-id="9eb9e867-d75f-01e1-e35b-5c8e2fc339e3" style="opacity:0" class="image-overflow-wrapper">
-		                                <div id="w-node-a984475f-e10a-c912-ac29-53a066823d5b-4f5c4823" data-w-id="a984475f-e10a-c912-ac29-53a066823d5b" style="background-image: url('${image.fr_imgUrl}'); -webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); -moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); -ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); transform-style:preserve-3d" class="destination-featured-image">
-											<img src="${image.fr_imgUrl}">
+		                                <div id="w-node-a984475f-e10a-c912-ac29-53a066823d5b-4f5c4823" data-w-id="a984475f-e10a-c912-ac29-53a066823d5b" style="background-image: url('${image.fr_imgUrl}'); -webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); -moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); -ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); transform-style:preserve-3d" class="destination-featured-image">											
 										</div>
 		                            </div>
 		                        </c:forEach>
 		                    </div>
 		                    <div data-w-id="a984475f-e10a-c912-ac29-53a066823d5e" style="opacity:0" class="destination-banner">
-		                        <div class="accent text-color-white">후기 제목</div>
+								<a href="/author/jacob-m" class="large-author-wrapper w-inline-block">
+									<div style="background-image:url(&quot;https://cdn.prod.website-files.com/628ab4b42cc6d53cbb36640b/628ab95a58ffb782e23c1d24_web-mike-baker-3Y366aqddJ0-unsplash.jpg&quot;)" class="large-author-thumbnail"></div>
+									<div>
+										<div class="text-size-regular text-color-white">Jacob M</div>
+										<div class="text-size-regular text-color-dark-gray"><fmt:formatDate value="${review.fr_regdate}" pattern="yyyy-MM-dd" /></div>
+									</div>
+								</a>
+								<br/>
 		                        <h1 class="text-color-white">${review.fr_title}</h1>
 		                    </div>
 		                </div>
@@ -155,10 +193,9 @@
 		            <div class="container-full-width">
 		                <div class="flex-container">
 		                    <div class="flex-item text-color-black review-content">
-								<p>${review.fr_id}</p>
 		                        <p>${review.fr_content}</p>
-		                        <p>작성자: ${review.member_id}</p>
-		                        <p>작성일: <fmt:formatDate value="${review.fr_regdate}" pattern="yyyy-MM-dd" /></p>
+		                        <!--<p>작성자: ${review.member_id}</p>-->
+
 		                    </div>
 		                </div>
 		            </div>
@@ -328,7 +365,7 @@
 	        var commentContent = $('#comment').val(); // 댓글 내용을 가져옴
 			// 로그인 안되있을 때
 			if(sessionResult === ''){
-				 var userConfirmed = confirm("이 기능은 로그인 후 가능합니다. \n 로그인 페이지로 이동하시겠습니까?");
+				 var userConfirmed = confirm("댓글을 달려면 로그인이 필요합니다.");
 				 if (userConfirmed) {
 				    // 로그인 페이지로 리다이렉트
 				 	window.location.href = '/member/login';
@@ -344,7 +381,6 @@
 	            },
 	            success: function (response) {
 	                if (response === 'success') {
-	                    alert('댓글이 등록되었습니다.');
 	                    location.reload(); // 댓글 목록을 새로고침하기 위해 페이지 리로드
 	                } else {
 	                    alert(response); // 오류 메시지 표시
