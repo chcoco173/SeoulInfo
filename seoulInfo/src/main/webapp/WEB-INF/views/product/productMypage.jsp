@@ -105,8 +105,7 @@
 								style="opacity: 0" class="text-color-white w-dyn-bind-empty"></h1>
 							<div data-w-id="771e0065-68e3-960e-1e46-624d6820421c"
 								style="opacity: 0" class="post-author-and-tags-wrapper">
-								<a href="#" class="large-author-wrapper w-inline-block"
-									onmouseover="showBubble()" onmouseout="hideBubble()">
+								<a href="#" class="large-author-wrapper w-inline-block">
 									<div class="large-author-thumbnail"></div>
 									<h5 class="author-name">${sessionScope.member.member_id}</h5>
 									<!-- Added class 'author-name' -->
