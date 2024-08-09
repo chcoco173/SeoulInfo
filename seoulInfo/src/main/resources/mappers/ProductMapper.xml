@@ -69,7 +69,7 @@
 		<if test="area != '전체' and area != null">
 			AND ps.sale_area = #{area}
 		</if>
-		<if test="prediction != 'null'">
+		<if test="prediction != 'server down'">
 			AND ps.sale_cate = #{prediction}
 		</if>
 		GROUP BY
@@ -335,7 +335,7 @@
 		<if test="area != null and area != '전체'">
 			AND sale_area = #{area}
 		</if>
-		<if test="prediction != 'null' and category == null">
+		<if test="prediction != 'server down' and category == null">
 			AND sale_cate = #{prediction}
 		</if>
 		<if test="category != null">
