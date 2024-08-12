@@ -21,7 +21,7 @@ public interface FestivalReviewDAO {
 	// 리뷰 수정
 	public void updateReview(FestivalReviewVO frVO);
 	// 리뷰 삭제
-	public Integer deleteReview(FestivalReviewVO frVO);
+	public void deleteReview(Integer fr_id);
 	// 내 리뷰 리스트 가져오기
 	public List<Map<Object, Object>> myReviewList(String member_id);
 

@@ -320,17 +320,31 @@ function formatTimestamp(timestamp) {
 
 // Update fetchAndDisplayUserChat to include timestamp
 async function fetchAndDisplayUserChat() {
-	const userChatResponse = await fetch(`/messages?saleId=${selectedSaleId}&userId1=${userId}&userId2=${selectedUserId}`);
+	console.log(selectedSaleId, userId, selectedUserId);
+	if (!selectedSaleId || !userId || !selectedUserId) {
+	    return;
+	}
 
-    const userChat = await userChatResponse.json();
-	
-    chatArea.innerHTML = '';
-    userChat.forEach(chat => {
-        displayMessage(chat.senderId, chat.content, chat.timestamp);
-    });
-	setTimeout(scrollToBottom, 60); // 약간의 지연을 추가하여 메시지가 모두 추가된 후 스크롤 설정
-    scrollToBottom();
-	chatArea.scrollTop = chatArea.scrollHeight;
+	try {
+	    const userChatResponse = await fetch(`/messages?saleId=${selectedSaleId}&userId1=${userId}&userId2=${selectedUserId}`);
+	    const userChat = await userChatResponse.json();
+
+	    if (!Array.isArray(userChat)) {
+	        console.error('Unexpected response format:', userChat);
+	        return;
+	    }
+
+	    chatArea.innerHTML = '';
+	    userChat.forEach(chat => {
+	        displayMessage(chat.senderId, chat.content, chat.timestamp);
+	    });
+	    setTimeout(scrollToBottom, 60); // 약간의 지연을 추가하여 메시지가 모두 추가된 후 스크롤 설정
+	    scrollToBottom();
+	    chatArea.scrollTop = chatArea.scrollHeight;
+	} catch (error) {
+	    console.error('Failed to fetch and display user chat:', error);
+	    chatArea.innerHTML = 'Failed to load messages.';
+	}
 }
 
 function scrollToBottom() {

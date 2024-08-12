@@ -202,7 +202,15 @@
 				<div class="padding-section-medium remove-bottom-padding">
 					<div class="padding-global">
 						<div class="container-large">
-							<h1>${festival.festival_name} 축제 후기 등록</h1>
+							<c:choose>
+							    <c:when test="${not empty review}">
+							        <h1>${festival.festival_name} </br> 축제 후기 수정</h1>
+							    </c:when>
+							    <c:otherwise>
+							        <h1>${festival.festival_name} </br> 축제 후기 등록</h1>
+							    </c:otherwise>
+							</c:choose>
+
 						</div>
 					</div>
 				</div>
@@ -210,39 +218,69 @@
 					<div class="row">
 						<div class="col-md-2"></div>
 						<div class="col-md-8">
-							<form action="insertReview" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+							<!-- 기존의 form 태그를 수정하여 업데이트와 삽입을 조건부로 처리합니다. -->
+							<c:choose>
+							    <c:when test="${not empty review}">
+							        <form action="updateReview" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+							    </c:when>
+							    <c:otherwise>
+							        <form action="insertReview" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+							    </c:otherwise>
+							</c:choose>
 							    <input type="hidden" name="festival_id" value="${festival_id}">
 							    <input type="hidden" name="member_id" value="${sessionScope.member.member_id}">
 							    <div class="form-group">
 							        <label for="fr_title">축제 후기 제목</label>
-							        <input type="text" class="form-control" id="fr_title" name="fr_title" placeholder="제목을 입력해주세요." required>
+									<input type="text" class="form-control" id="fr_title" name="fr_title" placeholder="제목을 입력해주세요." value="${review.fr_title}" required>
 							    </div>
 							    <div class="form-group">
 							        <label for="fr_content">해당 축제에 후기를 남겨주세요.</label>
-							        <textarea class="form-control" id="fr_content" name="fr_content" rows="6" placeholder="내용을 입력해주세요." required></textarea>
+									<textarea class="form-control" id="fr_content" name="fr_content" rows="6" placeholder="내용을 입력해주세요." required>${review.fr_content}</textarea>
 							    </div>
 							    <div class="form-group">
-							        <label for="productImage">해당 축제에서 찍은 사진들을 올려주세요.</label>
-							        <div id="fileInputs">
-							            <div class="scroll-item">
-							                <input type="file" class="form-control-file mt-2 file-input" name="file" accept="image/*" onchange="previewFile(event, 0)">
-							                <img src="" alt="리뷰 이미지" class="review-image" style="display:none;">
-							                <button type="button" class="delete-btn delete" style="display:none;" onclick="removeImage(0)">&#10005;</button>
-							            </div>
-							            <div class="scroll-item">
-							                <input type="file" class="form-control-file mt-2 file-input" name="file" accept="image/*" onchange="previewFile(event, 1)">
-							                <img src="" alt="리뷰 이미지" class="review-image" style="display:none;">
-							                <button type="button" class="delete-btn delete" style="display:none;" onclick="removeImage(1)">&#10005;</button>
-							            </div>
-							            <div class="scroll-item">
-							                <input type="file" class="form-control-file mt-2 file-input" name="file" accept="image/*" onchange="previewFile(event, 2)">
-							                <img src="" alt="리뷰 이미지" class="review-image" style="display:none;">
-							                <button type="button" class="delete-btn delete" style="display:none;" onclick="removeImage(2)">&#10005;</button>
-							            </div>
-							        </div>
-							    </div>
+									    <label for="productImage">해당 축제에서 찍은 사진들을 올려주세요.</label>
+									    <div id="fileInputs">
+									        <c:choose>
+									            <c:when test="${not empty images}">
+									                <c:forEach var="image" items="${images}" varStatus="status">
+									                    <div class="scroll-item">
+									                        <input type="file" class="form-control-file mt-2 file-input" name="file" accept="image/*" onchange="previewFile(event, ${status.index})">
+									                        <img src="${image.fr_imgUrl}" alt="리뷰 이미지" class="review-image" style="display:block;">
+									                        <button type="button" class="delete-btn delete" style="display:block;" onclick="removeImage(${status.index})">&#10005;</button>
+									                    </div>
+									                </c:forEach>
+									                <c:forEach begin="${images.size()}" end="2" varStatus="status">
+									                    <div class="scroll-item">
+									                        <input type="file" class="form-control-file mt-2 file-input" name="file" accept="image/*" onchange="previewFile(event, ${status.index + images.size()})">
+									                        <img src="" alt="리뷰 이미지" class="review-image" style="display:none;">
+									                        <button type="button" class="delete-btn delete" style="display:none;" onclick="removeImage(${status.index + images.size()})">&#10005;</button>
+									                    </div>
+									                </c:forEach>
+									            </c:when>
+									            <c:otherwise>
+									                <c:forEach begin="0" end="2" varStatus="status">
+									                    <div class="scroll-item">
+									                        <input type="file" class="form-control-file mt-2 file-input" name="file" accept="image/*" onchange="previewFile(event, ${status.index})">
+									                        <img src="" alt="리뷰 이미지" class="review-image" style="display:none;">
+									                        <button type="button" class="delete-btn delete" style="display:none;" onclick="removeImage(${status.index})">&#10005;</button>
+									                    </div>
+									                </c:forEach>
+									            </c:otherwise>
+									        </c:choose>
+									    </div>
+									</div>
 								<div class="form-group submit-button">
-								    <button type="submit" class="btn button-primary-large max-width-full-mobile-portrait w-button">후기 등록</button>
+									<c:choose>
+									    <c:when test="${not empty review}">
+											<input type="hidden" name="festival_id" value="${festival.festival_id}">
+											<input type="hidden" name="fr_id" value="${review.fr_id}">
+											<input type="hidden" name="member_id" value="${sessionScope.member.member_id}">
+											<button type="submit" class="btn button-primary-large max-width-full-mobile-portrait w-button">후기 수정하기</button>
+									    </c:when>
+									    <c:otherwise>
+											<button type="submit" class="btn button-primary-large max-width-full-mobile-portrait w-button">후기 등록하기</button>
+									    </c:otherwise>
+									</c:choose>
 								</div>
 							</form>
 						</div>
@@ -309,52 +347,51 @@
   <script src="/js/webflow.js" type="text/javascript"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script type="text/javascript">
-	function validateForm() {
-	    let fileInputs = document.querySelectorAll('.file-input');
-	    let hasFile = false;
+  function validateForm() {
+      let fileInputs = document.querySelectorAll('.file-input');
+      let hasFile = false;
 
-	    fileInputs.forEach(input => {
-	        if (input.files.length > 0) {
-	            hasFile = true;
-	        }
-	    });
+      fileInputs.forEach(input => {
+          if (input.files.length > 0 || input.nextElementSibling.style.display === 'block') {
+              hasFile = true;
+          }
+      });
 
-	    if (!hasFile) {
-	        alert('최소 1개의 축제 이미지를 업로드해야 합니다.');
-	        return false;
-	    }
+      if (!hasFile) {
+          alert('최소 1개의 축제 이미지를 업로드해야 합니다.');
+          return false;
+      }
 
-	    return true;
-	}
+      return true;
+  }
 
-	function previewFile(event, index) {
-	    var input = event.target;
-	    var file = input.files[0];
-	    var reader = new FileReader();
+  function previewFile(event, index) {
+      var input = event.target;
+      var file = input.files[0];
+      var reader = new FileReader();
 
-	    reader.onload = function(e) {
-	        var imgSrc = e.target.result;
-	        var img = input.nextElementSibling;
-	        var deleteBtn = img.nextElementSibling;
+      reader.onload = function(e) {
+          var imgSrc = e.target.result;
+          var img = input.nextElementSibling;
+          var deleteBtn = img.nextElementSibling;
 
-	        img.src = imgSrc;
-	        img.style.display = 'block';
-	        deleteBtn.style.display = 'block';
-	    }
+          img.src = imgSrc;
+          img.style.display = 'block';
+          deleteBtn.style.display = 'block';
+      }
 
-	    reader.readAsDataURL(file);
-	}
+      reader.readAsDataURL(file);
+  }
 
-	function removeImage(index) {
-	    var fileInput = document.querySelectorAll('.file-input')[index];
-	    var img = fileInput.nextElementSibling;
-	    var deleteBtn = img.nextElementSibling;
+  function removeImage(index) {
+      var fileInput = document.querySelectorAll('.file-input')[index];
+      var img = fileInput.nextElementSibling;
+      var deleteBtn = img.nextElementSibling;
 
-	    fileInput.value = '';
-	    img.style.display = 'none';
-	    deleteBtn.style.display = 'none';
-	}
+      fileInput.value = '';
+      img.style.display = 'none';
+      deleteBtn.style.display = 'none';
+  }
   </script>
-
 </body>
 </html>
