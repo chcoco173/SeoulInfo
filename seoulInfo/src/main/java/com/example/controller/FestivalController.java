@@ -22,7 +22,10 @@ import com.example.domain.FestRevImageVO;
 import com.example.domain.FestivalReviewVO;
 import com.example.domain.FestivalVO;
 import com.example.domain.MemberVO;
+import com.example.domain.ProductImageVO;
+import com.example.domain.ProductVO;
 import com.example.service.FestRevCommentService;
+import com.example.service.FestRevImageService;
 import com.example.service.FestivalReviewService;
 import com.example.service.FestivalService;
 import com.example.service.MemberService;
@@ -39,6 +42,9 @@ public class FestivalController {
 	
     @Autowired
     private FestivalReviewService festivalReviewService;
+    
+    @Autowired
+    private FestRevImageService festRevImageService;
     
     @Autowired
     private FestRevCommentService festRevCommentService;
@@ -162,13 +168,34 @@ public class FestivalController {
 	    return "festival/festivalDetail";
 	}
 	
-	// Festival Review page
+	// Festival Review page(리뷰등록) 로 이동할 때 수정할 리뷰 정보도 가져오는 부분 추가
 	@GetMapping("/festivalReview")
-	public String festivalReview(@RequestParam("festival_id") Integer festival_id, Model model) {
-		model.addAttribute("festival_id", festival_id);
+	public String festivalReview(@RequestParam(value = "festival_id", required = false) Integer festival_id, 
+	                             @RequestParam(value = "fr_id", required = false) Integer fr_id, Model model) {
+	    if (fr_id != null) {
+	        FestivalReviewVO review = festivalReviewService.getReview(fr_id);
+	        List<FestRevImageVO> images = festRevImageService.getReviewImage(fr_id);
+	        FestivalVO festival = festivalService.getFestivalById(review.getFestival_id());
+
+	        // 이미지 경로 설정
+	        for (FestRevImageVO image : images) {
+	            String imageUrl = "/festRevImage/" + image.getFr_imgAlias();  // URL 경로로 설정
+	            image.setFr_imgUrl(imageUrl);  // 이미지 객체에 경로 설정
+	            
+	            String fr_imgName=image.getFr_imgName();
+	            image.setFr_imgName(fr_imgName);	           
+	        }
+	        model.addAttribute("review", review);
+	        model.addAttribute("images", images);
+	        model.addAttribute("festival", festival);
+
+	    }
+	    model.addAttribute("festival_id", festival_id);
 	    return "festival/festivalReview";
 	}
 	
+
+
 	// 해당 축제 리뷰의 fr_id 값 가지고 리뷰 상세보기 페이지로 이동하고 댓글 리스트를 가져오기
 	@GetMapping("/festivalReviewDetail")
 	public String festivalReviewDetail(@RequestParam("fr_id") Integer fr_id, Model model) {
@@ -184,10 +211,16 @@ public class FestivalController {
                 image.setFr_imgUrl(imageUrl);  // 이미지 객체에 경로 설정
             }
             
-            System.out.println("festivalReviewDetail 에서 가져오는 이미지!!"+images);
+            // 리뷰 작성자의 프로필 이미지 경로 설정
+            MemberVO member = memberService.getMemberById(review.getMember_id());
+            String memberImageUrl = (member != null && member.getMember_imageName() != null) ? 
+                                     "/files/" + member.getMember_imageName() : "/images/mypage/default_profile.jpg";
+            
             model.addAttribute("review", review);
             model.addAttribute("images", images);
             model.addAttribute("comments", comments); // 댓글 리스트 모델에 추가
+            model.addAttribute("memberImageUrl", memberImageUrl); // 프로필 이미지 추가
+
 
         }
 	    
@@ -268,6 +301,132 @@ public class FestivalController {
 		return "redirect:/festival/festivalDetail?festival_id="+ festival_id;
     }
     
+    
+    // 리뷰 삭제
+    @PostMapping("/deleteReview")
+    @Transactional
+    @ResponseBody
+    public String deleteReview(@RequestParam("fr_id") Integer fr_id) {
+        try {
+            FestivalReviewVO review = festivalReviewService.getReview(fr_id);
+            if (review != null) {
+                festivalReviewService.deleteReview(fr_id);
+                return "success";
+            } else {
+                return "review_not_found";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+    
+ // 리뷰 수정 요청을 처리하는 매핑
+    @PostMapping("/updateReview")
+    @Transactional
+    public String updateReview(FestivalReviewVO frvo,
+                               @RequestParam("festival_id") Integer festival_id,
+                               @RequestParam("fr_id") Integer fr_id,
+                               @RequestParam("fr_title") String fr_title,
+                               @RequestParam("fr_content") String fr_content,
+                               @RequestParam("file") List<MultipartFile> files) {
+        // 리뷰 정보 업데이트
+        frvo.setFestival_id(festival_id);
+        frvo.setFr_id(fr_id);
+        frvo.setFr_title(fr_title);
+        frvo.setFr_content(fr_content);
 
+        // 현재 로그인한 회원 세션 받아오기
+        MemberVO mvo = (MemberVO) session.getAttribute("member");
+        frvo.setMember_id(mvo.getMember_id());
+
+        try {
+            // 리뷰 업데이트
+            festivalReviewService.updateReview(frvo);
+
+            // 기존 이미지 삭제
+            festRevImageService.deleteReviewImages(frvo.getFr_id());
+
+            // 새로운 이미지 추가
+            for (MultipartFile file : files) {
+                String fr_imgName = file.getOriginalFilename();
+                if (fr_imgName != null && !fr_imgName.equals("")) {
+                    String fr_imgAlias = new MD5Generator(fr_imgName).toString();
+
+                    String savepath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\festRevImage";
+
+                    if (!new File(savepath).exists()) {
+                        new File(savepath).mkdir();
+                    }
+
+                    String fr_imgUrl = savepath + "\\" + fr_imgAlias;
+                    file.transferTo(new File(fr_imgUrl));
+
+                    FestRevImageVO frivo = new FestRevImageVO();
+                    frivo.setFr_id(frvo.getFr_id());
+                    frivo.setFr_imgName(fr_imgName);
+                    frivo.setFr_imgAlias(fr_imgAlias);
+                    frivo.setFr_imgUrl(fr_imgUrl);
+
+                    festivalReviewService.insertImage(frivo);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/festival/festivalDetail?festival_id=" + festival_id;
+    }
+	// 상품 수정
+//	@RequestMapping("/productUpdate")
+//	@Transactional
+//	public String updateProduct( @RequestParam("file") List<MultipartFile> files, ProductVO pvo ) {
+//		// 세션값
+//		MemberVO mvo = (MemberVO) session.getAttribute("member");
+//
+//		// 임의로 지정
+//		pvo.setMember_id(mvo.getMember_id());
+//		// 상품수정
+//		productService.updateProduct(pvo);
+//
+//		try {
+//			for (MultipartFile file : files) {
+//				String productimg_name = file.getOriginalFilename();
+//				System.out.println(productimg_name + "파일원래이름");
+//
+//				if( productimg_name != null && !productimg_name.equals("")) {
+//					String productimg_alias = new MD5Generator(productimg_name).toString();
+//					System.out.println("변경된 파일명"+productimg_alias);
+//
+//					String savepath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\productImage";
+//					System.out.println("저장경로 : " + savepath);
+//
+//					if (! new File(savepath).exists()) {
+//						new File(savepath).mkdir();
+//					}
+//
+//					String productimg_url = savepath + "\\" + productimg_alias;
+//					file.transferTo(new File(productimg_url));
+//					System.out.println("저장완료");
+//
+//					ProductImageVO pivo = new ProductImageVO();
+//					pivo.setSale_id(pvo.getSale_id());
+//					pivo.setProductimg_name(productimg_name);
+//					pivo.setProductimg_alias(productimg_alias);
+//					pivo.setProductimg_url(productimg_url);
+//
+//					productService.insertProductImage(pivo);
+//
+//				}
+//			}
+//
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//
+//		return "redirect:/product/myProduct";
+//	}
 
 }

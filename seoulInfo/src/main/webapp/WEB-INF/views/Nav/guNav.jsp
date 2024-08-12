@@ -1,11 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page language="java"%>
-<%
-	String area = request.getParameter("area");
-System.out.println(area);
-%>
+<!-- gu, useTradeGu에서 사용-->
 
 <!DOCTYPE html>
 <html>
@@ -36,6 +32,7 @@ System.out.println(area);
 					%>
 					<nav role="navigation" class="nav-links-wrapper w-nav-menu">
 						<a href="/member/login" class="nav-link w-nav-link">로그인</a>
+						<a href="/member/insertMember" class="nav-link w-nav-link">회원가입</a>
 					</nav>
 					<%
 						}

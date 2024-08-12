@@ -170,17 +170,20 @@
 		                            </div>
 		                        </c:forEach>
 		                    </div>
-		                    <div data-w-id="a984475f-e10a-c912-ac29-53a066823d5e" style="opacity:0" class="destination-banner">
-								<a href="/author/jacob-m" class="large-author-wrapper w-inline-block">
-									<div style="background-image:url(&quot;https://cdn.prod.website-files.com/628ab4b42cc6d53cbb36640b/628ab95a58ffb782e23c1d24_web-mike-baker-3Y366aqddJ0-unsplash.jpg&quot;)" class="large-author-thumbnail"></div>
-									<div>
-										<div class="text-size-regular text-color-white">Jacob M</div>
-										<div class="text-size-regular text-color-dark-gray"><fmt:formatDate value="${review.fr_regdate}" pattern="yyyy-MM-dd" /></div>
-									</div>
-								</a>
-								<br/>
-		                        <h1 class="text-color-white">${review.fr_title}</h1>
-		                    </div>
+							<div data-w-id="a984475f-e10a-c912-ac29-53a066823d5e" style="opacity:0" class="destination-banner">
+							    <a href="/author/${review.member_id}" class="large-author-wrapper w-inline-block">
+							        <div style="background-image:url('${memberImageUrl}')" class="large-author-thumbnail"></div>
+							        <div>
+							            <div class="text-size-regular text-color-white">${review.member_id}</div>
+							            <div class="text-size-regular text-color-dark-gray">
+							                <fmt:formatDate value="${review.fr_regdate}" pattern="yyyy-MM-dd" />
+							            </div>
+							        </div>
+							    </a>
+							    <br/>
+							    <h1 class="text-color-white">${review.fr_title}</h1>
+							</div>
+
 		                </div>
 		            </div>
 		        </div>
@@ -194,8 +197,6 @@
 		                <div class="flex-container">
 		                    <div class="flex-item text-color-black review-content">
 		                        <p>${review.fr_content}</p>
-		                        <!--<p>작성자: ${review.member_id}</p>-->
-
 		                    </div>
 		                </div>
 		            </div>

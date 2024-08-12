@@ -154,10 +154,7 @@
 								<dd data-w-id="e144bf26-0d49-109b-1b5b-756bc18db826"
 									style="opacity: 0" role="listitem" class="w-dyn-item">
 									<div class="post-row-grid">
-										<a id="w-node-e144bf26-0d49-109b-1b5b-756bc18db828-4f5c4823"
-											data-w-id="e144bf26-0d49-109b-1b5b-756bc18db828"
-											href="/news/newsDetail?news_id=${news.news_id}&area=${news.news_area}"
-											class="post-row-image-overflow-container w-inline-block">
+										
 											<img
 											id="w-node-e144bf26-0d49-109b-1b5b-756bc18db829-4f5c4823"
 											data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"
@@ -171,9 +168,7 @@
 													<div class="text-size-small w-dyn-bind">${news.news_area}</div>
 												</a>
 											</div>
-											<a id="w-node-e144bf26-0d49-109b-1b5b-756bc18db830-4f5c4823"
-												href="/news/newsDetail?news_id=${news.news_id}&area=${news.news_area}"
-												class="w-inline-block">
+											
 												<h3 class="w-dyn-bind">${news.news_title}</h3>
 											</a>
 											<div class="small-author-wrapper">

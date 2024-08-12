@@ -46,59 +46,8 @@
 </head>
 <body>
   <div class="page-wrapper">
-	
-	<!-- 한) 상단:회원가입/로그인 버튼 start -->
-	<div class="section-newsletter">
-	  <div class="padding-global">
-	    <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-black">
-	      <div class="_2-column-grid-uneven-left">
-	        <h3 class="newsletter-heading">서울 지역 안내 서비스</h3>
-	        <div id="Style-Guide-Form" class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form">
-	          <form name="wf-form-Newsletter-Form" data-name="Newsletter Form" method="get" id="wf-form-Newsletter-Form" class="newsletter-form" data-wf-page-id="6684f0fb2a5375354f5c4820" data-wf-element-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9d2">
-				
-				<a href="/member/insertMember" class="button-primary-large max-width-full-mobile-portrait w-button">회원가입</a>
-				<a href="/member/login" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a>
-				
-			  </form>
-	          <div class="form-success-message w-form-done">
-	            <div class="text-size-regular text-color-white">Thank you! Your submission has been received!</div>
-	          </div>
-	          <div class="form-error-message w-form-fail">
-	            <div class="text-size-regular">Oops! Something went wrong while submitting the form.</div>
-	          </div>
-	        </div>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	<!-- 한) 상단:회원가입/로그인 버튼 end -->	
-	
 	<!-- 검색 start -->
-    <div class="navigation-wrapper">
-      <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar_m w-nav">
-        <div class="nav-wrapper">
-          <a href="/" class="brand w-nav-brand"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
-          <div class="links-and-search-wrapper">
-            <nav role="navigation" class="nav-links-wrapper w-nav-menu">
-              <a href="about" class="nav-link w-nav-link"></a>
-              <a href="contact" aria-current="page" class="nav-link w-nav-link w--current"></a>
-            </nav>
-            <form action="/search" data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5" class="search w-form">
-              <div class="search-div"><img src="/images/ph_magnifying-glass-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
-              <div class="nav-search-outer-wrapper">
-                <div class="nav-search-internal-wrapper"><input class="form-field w-input" maxlength="256" name="query" placeholder="Search…" type="search" id="search" required="">
-                  <div class="search-button-wrapper"><input type="submit" class="button-primary-small w-button" value="Search">
-                    <a data-w-id="a72c4d20-babf-897f-e150-4948b59e5bfb" href="#" class="close-search-link-block w-inline-block"><img src="/images/ph_x-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></a>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="menu-button w-nav-button"><img src="/images/ph_list-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
-        </div>
-      </div>
-    </div>
-	<!-- 검색 end -->	
+	<%@ include file="../Nav/guNav.jsp" %>
 	
 	<!--한) 회원가입 start-->
     <div class="main-wrapper">
@@ -189,16 +138,6 @@
 					</div>
                   </form>				  				  				  
                 </div>
-                
-                <!-- 모달 -->
-<!-- 				<div id="successModal" class="modal">
-				    <div class="modal-content">
-				        <span class="close">&times;</span>
-				        <p>회원가입을 축하합니다. 로그인을 진행해주세요!!</p>
-				    </div>
-				</div>  --> 
-                                             
-				
               </div>
             </div>
           </div>
@@ -206,11 +145,7 @@
       </div>
     </div>
 	<!--한) 회원가입 end-->
-	
-	
-
-               
-    
+	<%@ include file="../footer.jsp" %>  
   </div><!-- page-wrapper end -->
   
 

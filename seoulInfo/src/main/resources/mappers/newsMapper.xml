@@ -15,9 +15,5 @@
 		ORDER BY news_date DESC
 	</select>
 	
-	<!-- 해당 뉴스 상세 조회 -->
-	<select id="getNewsById" resultType="NewsVO" parameterType="Integer">
-        SELECT * FROM news WHERE news_id = #{news_id}
-    </select>
 
 </mapper>

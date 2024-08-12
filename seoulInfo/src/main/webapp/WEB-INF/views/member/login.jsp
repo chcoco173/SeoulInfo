@@ -29,63 +29,24 @@
   <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
   <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
   <link href="/images/webclip.png" rel="apple-touch-icon">
+
+  <style>
+  	/* 회원가입 성공 메세지 */
+    .login-title {
+        color: green;
+        margin-top: 5px;
+        font-weight: bold;
+    }
+
+  </style>
 </head>
+
+
 <body>
   <div class="page-wrapper">
 	
 	<!-- 한) 상단:회원가입/로그인 버튼 start -->
-	<div class="section-newsletter">
-	  <div class="padding-global">
-	    <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-black">
-	      <div class="_2-column-grid-uneven-left">
-	        <h3 class="newsletter-heading">서울 지역 안내 서비스</h3>
-	        <div id="Style-Guide-Form" class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form">
-	          <form name="wf-form-Newsletter-Form" data-name="Newsletter Form" method="get" id="wf-form-Newsletter-Form" class="newsletter-form" data-wf-page-id="6684f0fb2a5375354f5c4820" data-wf-element-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9d2">
-				
-				<a href="/member/insertMember" class="button-primary-large max-width-full-mobile-portrait w-button">회원가입</a>
-				<a href="/member/login" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a>
-				
-			  </form>
-	          <div class="form-success-message w-form-done">
-	            <div class="text-size-regular text-color-white">Thank you! Your submission has been received!</div>
-	          </div>
-	          <div class="form-error-message w-form-fail">
-	            <div class="text-size-regular">Oops! Something went wrong while submitting the form.</div>
-	          </div>
-	        </div>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	<!-- 한) 상단:회원가입/로그인 버튼 end -->	
-	
-	
-    <div class="navigation-wrapper">
-      <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar_m w-nav">
-        <div class="nav-wrapper">
-          <a href="/" class="brand w-nav-brand"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
-          <div class="links-and-search-wrapper">
-            <nav role="navigation" class="nav-links-wrapper w-nav-menu">
-              <a href="about" class="nav-link w-nav-link"></a>
-              <a href="contact" aria-current="page" class="nav-link w-nav-link w--current"></a>
-            </nav>
-            <form action="/search" data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5" class="search w-form">
-              <div class="search-div"><img src="/images/ph_magnifying-glass-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
-              <div class="nav-search-outer-wrapper">
-                <div class="nav-search-internal-wrapper"><input class="form-field w-input" maxlength="256" name="query" placeholder="Search…" type="search" id="search" required="">
-                  <div class="search-button-wrapper"><input type="submit" class="button-primary-small w-button" value="Search">
-                    <a data-w-id="a72c4d20-babf-897f-e150-4948b59e5bfb" href="#" class="close-search-link-block w-inline-block"><img src="/images/ph_x-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></a>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="menu-button w-nav-button"><img src="/images/ph_list-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
-        </div>
-      </div>
-    </div>
-	
-	
+	<%@ include file="../Nav/guNav.jsp" %>	
 	<!--한) 로그인 start-->
     <div class="main-wrapper">
       <div class="section-contact">
@@ -94,7 +55,12 @@
             <div class="container-large">
               <div class="_2-column-grid-uneven-right">
                 <div id="w-node-dcacb4c5-0e4e-5bd9-3310-1e984a55f96a-4f5c4825" data-w-id="dcacb4c5-0e4e-5bd9-3310-1e984a55f96a" style="opacity:0">
-                  <div class="accent">다양한 서비스를 제공 받을 수 있습니다.</div>
+					<c:if test="${not empty insertMember}">
+						<h5 class="login-title">회원가입을 축하드립니다.</h5>
+					</c:if>
+					
+					<div class="accent">다양한 서비스를 제공 받을 수 있습니다.</div>
+					
                   <div class="spacer-large"></div>
                   <h1>로그인</h1>
                   <div class="spacer-large"></div>
@@ -103,24 +69,40 @@
                 <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:1; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">				  
 					<form action="loginCheck" method="post" name="wf-form-Contact-Form" id="wf-form-Contact-Form" class="form" 
 						data-wf-page-id="6684f0fb2a5375354f5c4825" data-wf-element-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a65">
+					<c:if test="${not empty result}">
+						<input type="hidden" name="pwchangecheck" value="${result}">
+					</c:if>
 					<div class="form-field-wrapper">						
 						<input class="form-field w-input" maxlength="256" name="member_id" placeholder="아이디" type="text" id="id" pattern="[A-Za-z0-9]{6,}" required>						
 					</div>
 					<div class="form-field-wrapper">						
 						<input class="form-field w-input" maxlength="256" name="member_pw" placeholder="비밀번호" type="password" id="pw" pattern="[A-Za-z0-9]{6,}" required>
 					</div>
+					<c:if test="${not empty result}">
+						<p class="button-primary-large-msg-y">${result}</p>
+					</c:if>
+					<c:if test="${not empty memberID}">
+						<div class="button-primary-large-msg-y">당신의 아이디는 ${memberID} 입니다.</div>
+					</c:if>
+					<c:if test="${not empty no_ID}">
+						<div class="button-primary-large-msg-n">이름과 이메일이 일치하는 아이디가 없습니다. 회원가입하시거나 다시 입력해주세요.</div>		
+					</c:if>
+					<c:if test="${not empty loginCheck}">
+						<p class="button-primary-large-msg-y">${loginCheck}</p>
+					</c:if> 
 					<div class="spacer-large"></div>
 					<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">					
-						<input type="submit" class="button-primary-large-b w-button loginBtn" value="로그인">
+						<input type="submit" class="button-primary-large-b w-button_login loginBtn" value="로그인">
 						<!-- 네이버로그인 -->
-						<div class="button-primary-large-g w-button">네이버 로그인<%@ include file="./naverlogin.jsp" %></div>
+						<div class="button-primary-large-g w-button_naver">네이버 로그인<%@ include file="./naverlogin.jsp" %></div>
 					</div>
 				
 					<div class="spacer-large"></div>
 					<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
 						<a href="id_search" class="button-primary-large w-button">아이디 찾기</a>
 						<a href="pw_change" class="button-primary-large w-button">비밀번호 찾기</a>
-					</div>				
+					</div>		
+							
 																				
 					</form>				  				  				  
                 </div>
@@ -135,7 +117,7 @@
 	<!--한) 로그인 end-->
 	
 	
-
+	<%@ include file="../footer.jsp" %>
 
     
     
