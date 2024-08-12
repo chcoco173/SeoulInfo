@@ -25,7 +25,8 @@ public class APIController {
     public ResponseEntity<String> getTest(){
     	System.out.println("insert getTest - Public API data ");
     	 StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552584/EvCharger/getChargerStatus"); /*URL*/
-    	 
+    	 StringBuilder sb = new StringBuilder();
+    	 String responseData = sb.toString();
     	 try {
 	         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=kAJ2C7P882QkBX3GKJDyW7LWEZ5jSgryOknlWTsdqByd3Y0ol4UExSd1GTmrIeGpq2PYdyDaouJ%2FXqj%2BaXJ00Q%3D%3D"); /*Service Key*/
 	         urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지 번호*/
@@ -33,6 +34,7 @@ public class APIController {
 	         urlBuilder.append("&" + URLEncoder.encode("period","UTF-8") + "=" + URLEncoder.encode("5", "UTF-8")); /*상태갱신 조회 범위(분) (기본값 5, 최소 1, 최대 10)*/
 	         urlBuilder.append("&" + URLEncoder.encode("zcode","UTF-8") + "=" + URLEncoder.encode("11", "UTF-8")); /*시도 코드 (행정구역코드 앞 2자리)*/
 	         URL url = new URL(urlBuilder.toString());
+	         
 	         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	         conn.setRequestMethod("GET");
 	         conn.setRequestProperty("Content-type", "application/json");
@@ -45,12 +47,11 @@ public class APIController {
 	             rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
 	         }
 	         
-	         StringBuilder sb = new StringBuilder();
 	         String line;
 	         while ((line = rd.readLine()) != null) {
 	             sb.append(line);
 	             System.out.println("not null : "+sb.toString());
-	             String responseData = sb.toString();
+	             responseData = sb.toString();
 	             rd.close();
 	             conn.disconnect();
 	             return ResponseEntity.ok().body(responseData);
@@ -62,6 +63,10 @@ public class APIController {
     	 }catch(Exception e) {
     		 e.getMessage();
     	 }
-    	 return null;
+    	 finally {
+    		 System.out.println("finally api send");
+    		 responseData = sb.toString();
+    	 return ResponseEntity.ok().body(responseData);
+    	 }
     }
 }

@@ -5,7 +5,7 @@
    <parent>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-parent</artifactId>
-      <version>3.3.1</version>
+      <version>3.3.2</version>
       <relativePath/> <!-- lookup parent from repository -->
    </parent>
    <groupId>com.example</groupId>
@@ -83,17 +83,14 @@
       <dependency>
          <groupId>jakarta.servlet.jsp.jstl</groupId>
          <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-         <version>3.0.0</version>
       </dependency>
       <dependency>
          <groupId>jakarta.servlet</groupId>
          <artifactId>jakarta.servlet-api</artifactId>
-         <version>6.0.0</version>
       </dependency>
       <dependency>
          <groupId>org.glassfish.web</groupId>
          <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-         <version>3.0.1</version>
       </dependency>
       
       <!-- websocket -->
@@ -113,7 +110,6 @@
       <dependency>
           <groupId>org.springframework.security</groupId>
           <artifactId>spring-security-core</artifactId>
-          <version>5.1.2.RELEASE</version>
       </dependency>
       
        <!-- Spring Security -->
