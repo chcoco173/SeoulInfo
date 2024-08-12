@@ -57,9 +57,13 @@ public class EVController {
 	// 충전소 - 상세정보 출력 
 	@GetMapping("/ev_info")
 	@ResponseBody
-	public List<EVchargerVO> getChargerInfo(@RequestParam("evc_id") String evc_id) {
-		System.out.println("to getChargerInfo : "+evc_id);
-		List<EVchargerVO> chargerInfo = evStationService.getStationDataInfo(evc_id);
+	public List<EVchargerVO> getChargerInfo(double lat, double lng) {
+		HashMap<String, Object> infomap = new HashMap<String, Object>();
+		infomap.put("lat", lat);
+		infomap.put("lng", lng);
+		
+		System.out.println("to getChargerInfo : "+infomap);
+		List<EVchargerVO> chargerInfo = evStationService.getStationDataInfo(infomap);
 		System.out.println("from getChargerInfo : "+chargerInfo);
 		return chargerInfo;
 	}
@@ -119,7 +123,7 @@ public class EVController {
 	@GetMapping("/getCircleLocation")
 	@ResponseBody
 	public List<EVPlacesVO> getCircleInfo(double centerLat, double centerLng, double radius, String category){
-		System.out.println("insert getCircleInfo : "+centerLat+","+centerLng+","+radius+category);
+		System.out.println("insert getCircleInfo : "+centerLat+","+centerLng+","+radius+",category : "+category);
 		HashMap<String, Object> cmap = new HashMap<String, Object>();
 		cmap.put("centerLat", centerLat);
 		cmap.put("centerLng", centerLng);

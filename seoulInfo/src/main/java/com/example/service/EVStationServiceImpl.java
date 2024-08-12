@@ -30,8 +30,8 @@ public class EVStationServiceImpl implements EVStationService{
 	}
 
 	@Override
-	public List<EVchargerVO> getStationDataInfo(String evc_id) {
-		return evStationDAO.getStationDataInfo(evc_id);
+	public List<EVchargerVO> getStationDataInfo(HashMap infomap) {
+		return evStationDAO.getStationDataInfo(infomap);
 	}
 
 	@Override

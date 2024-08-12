@@ -18,7 +18,7 @@ public interface EVStationDAO {
 
 	public List<EVchargerVO> getFilteredStation(HashMap map);
 	
-	public List<EVchargerVO> getStationDataInfo(String evc_id);
+	public List<EVchargerVO> getStationDataInfo(HashMap infomap);
 
 	public List<EVchargerVO> selectEVFav(String member_id);
 

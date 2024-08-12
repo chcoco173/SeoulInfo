@@ -1156,30 +1156,29 @@
 		// 즐겨찾기 ==============================================
 		// 사용자 즐겨찾기 데이터와 비교하기
 		function compareFavImg(){
-				
 			if (sessionResult !== '') {
 				var clickedEVID = evcId;
-					$.ajax({
-						url: 'ev_Favorite',
-						type: 'GET',
-						data: { member_id: sessionResult },
-						success: function(favoriteData) {
-							// favoriteData가 배열일 경우 처리
-							favoriteData.forEach(function(fav) {
-								if (fav.evc_id === clickedEVID) {
-									var img = $('#favoriteImage');
-									var newImageUrl = '/images/ev/like_on.png';
-									img.attr('src', newImageUrl);
-								}
-							});
-											                                    },
-						error: function(err) {
-							$('#favoriteList').html('');
-							$('#favoriteList').show(); // 결과 영역 표시
-							console.error(err);
-						}
-					});
-				}
+				$.ajax({
+					url: 'ev_Favorite',
+					type: 'GET',
+					data: { member_id: sessionResult },
+					success: function(favoriteData) {
+						// favoriteData가 배열일 경우 처리
+						favoriteData.forEach(function(fav) {
+							if (fav.evc_id === clickedEVID) {
+								var img = $('#favoriteImage');
+								var newImageUrl = '/images/ev/like_on.png';
+								img.attr('src', newImageUrl);
+							}
+						});
+										                                    },
+					error: function(err) {
+						$('#favoriteList').html('');
+						$('#favoriteList').show(); // 결과 영역 표시
+						console.error(err);
+					}
+				});
+			}
 		}
 		
 		// 페이지네이션 초기화 및 처리 함수

@@ -36,13 +36,13 @@
   
   <div id="naver_id_login">네이버 로그인</div>  
   <script type="text/javascript">
-  	var naver_id_login = new naver_id_login("HA94y0JpXRf7aYIext_2", "http://localhost:8080/member/callback");
-  	var state = naver_id_login.getUniqState();
-  	naver_id_login.setButton("white", 2,40);
-  	naver_id_login.setDomain("http://localhost:8080");
-  	naver_id_login.setState(state);
-  	naver_id_login.setPopup();
-  	naver_id_login.init_naver_id_login();
+     var naver_id_login = new naver_id_login("HA94y0JpXRf7aYIext_2", "http://localhost:8080/member/callback");
+     var state = naver_id_login.getUniqState();
+     naver_id_login.setButton("white", 2,40);
+     naver_id_login.setDomain("http://localhost:8080");
+     naver_id_login.setState(state);
+     naver_id_login.setPopup();
+     naver_id_login.init_naver_id_login();
   </script>
 </html>
 

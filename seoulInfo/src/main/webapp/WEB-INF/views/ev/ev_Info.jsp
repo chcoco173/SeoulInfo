@@ -8,7 +8,7 @@
     <link href="/css/ev/evInfo.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<div id="loadingBar" class="progress" style="height: 20px; display:none;">
+	<div id="loadingBar" class="progress" style="height: 20px; display:none;z-index:1112;">
 	    <div id="loadingBarProgress" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
 	</div>
     <div class="charger_Information" style="display: none;">
@@ -37,8 +37,6 @@
 			<span><h5><b>주소</b></h5></span>
 			<div>
 				<div>도로명 : <span id="evc_address"></span></div>
-				
-				
 			</div>
 			<hr>
             <table class="chargers" style="border: 2px solid green; border-radius:5px; text-align:center; ">
@@ -60,6 +58,7 @@
                     </tr>
                 </tbody>
             </table>
+			<span>*현장 정보의 차이로 인해 제공된 정보가 다를 수 있습니다. <span>
         </div>
     </div>
 
