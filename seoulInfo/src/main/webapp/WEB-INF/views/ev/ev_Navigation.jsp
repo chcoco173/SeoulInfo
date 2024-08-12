@@ -48,8 +48,8 @@
 						} else {
 					%>
 					<nav role="navigation" class="nav-links-wrapper w-nav-menu">
-						<a href="/gu" class="nav-link w-nav-link">문화행사/뉴스</a> <a
-							href="/member/login" class="nav-link w-nav-link">로그인</a>
+						<a href="/gu" class="nav-link w-nav-link">문화행사/뉴스</a>
+						<a href="/member/login" class="nav-link w-nav-link">로그인/회원가입</a>
 					</nav>
 					<%
 						}

@@ -16,7 +16,7 @@ public interface EVStationService {
 	public List<EVchargerVO> getFilteredStation(HashMap map);
 
 	// 충전소의 충전기 상세정보를 가져오기 위한 evc_id
-	public List<EVchargerVO> getStationDataInfo(String evc_id);
+	public List<EVchargerVO> getStationDataInfo(HashMap infomap);
 	
 	// 즐겨찾기 list up을 위한 hashmap
 	public List<EVchargerVO> selectEVFav(String member_id);

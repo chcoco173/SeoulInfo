@@ -83,7 +83,7 @@
 	    LIMIT 300
 	</select>
 
-	<select id="getStationDataInfo" parameterType="String" resultType="EVchargerVO">
+	<select id="getStationDataInfo" parameterType="hashmap" resultType="EVchargerVO">
  		SELECT
 	        e.evc_id 				AS evc_id
 	        ,e.evc_area 			AS evc_area
@@ -101,7 +101,7 @@
 	    FROM evc    e
 	    JOIN evc_cg c 
 	    ON e.evc_id = c.evc_id
-	    WHERE e.evc_id = #{evc_id}
+	    WHERE e.evc_lat = #{lat} and e.evc_long = #{lng}
 	</select>
 	
 	

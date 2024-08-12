@@ -120,7 +120,7 @@
 					%>
 					<nav role="navigation" class="nav-links-wrapper w-nav-menu">
 						<a href="/gu" class="nav-link w-nav-link">문화행사/뉴스</a> <a
-							href="/member/login" class="nav-link w-nav-link">로그인/회원가입</a>
+							href="/member/login" class="nav-link w-nav-link">로그인</a>
 					</nav>
 					<%
 						}
@@ -508,7 +508,6 @@
 		                $('.overlay').css({'z-index':'1110'});
 		                $('.charger_Information').show();
 		                $(".charger_Information").css({"display":"inherit",'z-index':'1111'});
-						
 						// 마커의 위치에서 위도와 경도 가져오기 및 반올림 처리
 				        var lat = marker.getPosition().getLat();
 				        var lng = marker.getPosition().getLng();
@@ -522,6 +521,7 @@
 						    url: 'ev_info',
 						    type: 'GET',
 							data: {
+								evc_id: marker.Gb,
 				                lat: lat,  // 위도
 				                lng: lng  // 경도
 				            },
@@ -546,8 +546,8 @@
 										var roadviewClient = new kakao.maps.RoadviewClient(); 		 //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
 										var position = new kakao.maps.LatLng(latitude, longitude);
 										
-										roadviewClient.getNearestPanoId(position, 100, function(panoId) {
-										roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
+										roadviewClient.getNearestPanoId(position, 150, function(panoId) {
+										    roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
 										});
 										
 										// ------------ 충전기들 정보 띄우기 --------------
@@ -583,81 +583,80 @@
 										        var items = xmlDoc.getElementsByTagName("item");
 
 										        var found = false;
-
+												
 										        for (var i = 0; i < items.length; i++) {
 										            var chgerId = items[i].getElementsByTagName("chgerId")[0]?.textContent;
-										            var stat = items[i].getElementsByTagName("stat")[0]?.textContent;
-										            var statUpdDt = items[i].getElementsByTagName("statUpdDt")[0]?.textContent;
-
-										            if (chgerId === charger.charger_no) { // chgerId가 charger_no와 일치하는지 확인
-										                found = true;
-
-										                // statUpdDt의 날짜 및 시간 포맷팅
-										                var year = statUpdDt.substring(0, 4);
-										                var month = statUpdDt.substring(4, 6);
-										                var day = statUpdDt.substring(6, 8);
-										                var hour = statUpdDt.substring(8, 10);
-										                var minute = statUpdDt.substring(10, 12);
-										                var period = '오전';
-										                var hourInt = parseInt(hour, 10);
-										                if (hourInt >= 12) {
-										                    period = '오후';
-										                    if (hourInt > 12) {
-										                        hourInt -= 12;
-										                    }
-										                } else if (hourInt === 0) {
-										                    hourInt = 12;
-										                }
-
-										                var formattedDate = `${month}. ${day}. ${period} ${hourInt}:${minute}`;
-
-										                // stat 값에 따른 row 추가
-										                switch (stat) {
-										                    case "1":
-										                        row += '<td><span><b id="charger_state">통신이상</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
-										                        break;
-										                    case "2":
-										                        row += '<td><span><b id="charger_state">사용가능</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
-										                        break;
-										                    case "3":
-										                        row += '<td><span><b id="charger_state">충전중</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
-										                        break;
-										                    case "4":
-										                        row += '<td><span><b id="charger_state">고장</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
-										                        break;
-										                    case "5":
-										                        row += '<td><span><b id="charger_state">점검중</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
-										                        break;
-										                    case "9":
-										                        row += '<td><span><b id="charger_state">상태미확인</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
-										                        break;
-										                    default:
-										                        row += '<td><span><b id="charger_state">통신오류</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
-										                        break;
-										                }
-
-										                break; // 일치하는 데이터를 찾으면 루프 종료
-										            }
-										        }
-
+									                found = true;
+									                // 필요한 태그 정보 추출
+									                var stat = items[i].getElementsByTagName("stat")[0]?.textContent;
+									                var statUpdDt = items[i].getElementsByTagName("statUpdDt")[0]?.textContent;
+													
+													// statUpdDt의 수동적 날짜 구분 및 객체로 변환
+													var year = statUpdDt.substring(0, 4);
+													var month = statUpdDt.substring(4, 6);
+													var day = statUpdDt.substring(6, 8);
+													var hour = statUpdDt.substring(8, 10);
+													var minute = statUpdDt.substring(10, 12);
+														
+													var period = '오전';
+													var hourInt = parseInt(hour, 10); // 문자열을 정수로 변환
+														if (hourInt >= 12) {
+															period = '오후';
+														    if (hourInt > 12) {
+														    	hourInt -= 12; // 12시간 형식으로 변환
+														    }
+														} else if (hourInt === 0) {
+															hourInt = 12; // 자정 (00:00)을 12:00 AM으로 표시
+														}
+													var formattedDate = month + '. ' + day + '. ' + period + ' ' + hourInt + ':' + minute;
+													
+									                // stat 값에 따른 row 추가
+									                switch (stat) {
+														case "1":
+															row += '<td><span><b id="charger_state">통신이상</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
+															break;
+														case "2":
+															row += '<td><span><b id="charger_state">사용가능</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
+															break;
+									                    case "3":
+									                        row += '<td><span><b id="charger_state">충전중</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
+									                        break;
+									                    case "4":
+									                        row += '<td><span><b id="charger_state">고장</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
+									                        break;
+									                    case "5":
+									                        row += '<td><span><b id="charger_state">점검중</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
+									                        break;
+														case "9":
+									                        row += '<td><span><b id="charger_state">상태미확인</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
+									                        break;
+									                    default:
+									                        row += '<td><span><b id="charger_state">통신오류</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
+									                        break;
+									                }
+									               break; // 일치하는 데이터를 찾으면 루프 종료
+									        	}
 										        if (!found) {
-										            // 일치하는 데이터를 찾지 못한 경우
+										            // 찾지 못한 오류 발생 시,
 										            var currentTime = new Date().toLocaleString('ko-KR', {
 										                month: '2-digit',
 										                day: '2-digit',
 										                hour: '2-digit',
 										                minute: '2-digit'
 										            });
-										            row += '<td><span><b id="charger_state">통신상태불량</b></span><br><span style="font-size:12px;">' + currentTime + '</span></td>';
+										            row += '<td><span><b id="charger_state">통신상태 : 불량</b></span><br><span style="font-size:12px;">' + currentTime + '</span></td>';
 										        }
+
 										        row += '<td class="charger_userlimit">' + charger.charger_userlimit + '</td>';
 										        row += '</tr>';
 										        chargerDetailsBody.append(row);
+												$('#loadingBar').hide();
 										    },
 										    error: function(err) {
 										        console.error("Error fetching real-time data: ", err);
+												$('#loadingBar').hide();
 										    }
-										});
+										});// end of API-ajax
 
 						            });
 
@@ -686,14 +685,15 @@
 						                        $('#favoriteList').show(); // 결과 영역 표시
 						                        console.error(err);
 						                    }
-						                });// end of userFav-Ajax
-						            }// end of compare userFav
+						                });
+						            }
 						        } // end of if- data exist
 						    },
 						    error: function(err) {
 						        console.error("Error fetching charger info: ", err);
 						    }
 						}); // end of AJAX
+
 						
 						// 클릭한 마커를 중심으로 반경 1km 원 그리기
 						if (circle) {
@@ -803,8 +803,8 @@
 					}
 				});
 			})(marker);
-			markers.push(marker);
-			console.log(marker);
+		markers.push(marker);
+		console.log(marker);
 		}
 							
 		var clusterer = new kakao.maps.MarkerClusterer({
@@ -822,7 +822,7 @@
 		kakao.maps.event.addListener(map, 'zoom_start', function() {
 			showLoading();
 		});
-		
+
 		kakao.maps.event.addListener(map, 'zoom_end', function() {
 			setTimeout(hideLoading, 1000);
 		});
@@ -830,6 +830,7 @@
 		kakao.maps.event.addListener(map, 'idle', function() {
 			setTimeout(hideLoading, 1000); 
 		});
+		
 	// ######## 클러스터러 확대 이벤트 ##############
         kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
             var level = map.getLevel() - 1;
@@ -841,7 +842,7 @@
             new kakao.maps.LatLng(37.113294, 126.034086),
             new kakao.maps.LatLng(37.915133, 128.169311)
         );
-		
+
 	    kakao.maps.event.addListener(map, 'center_changed', function() {
 	    	var center = map.getCenter();
 	        if (!seoulBounds.contain(center)) {
@@ -882,20 +883,20 @@
 					$('#resultContainer').html(''); // 결과 영역 초기화
 					if (data && data.length > 0) {
 				    	data.forEach(function(item) {
-				        var resultHTML  = '<dl id="filteredList" class="high-z-index">';
-				        	resultHTML += '<dd>';
-				            resultHTML +=     '<table class="filtered-list result-list result-list-table" data-lat="' + item.evc_lat + '" data-lng="' + item.evc_long + '" data-title="' + item.evc_name + '" data-id="' + item.evc_id + '">';
-				            resultHTML +=         '<tr>';
-				            resultHTML +=             '<td rowspan="2"><img src="'+getImageUrl(item.charger_opsmall)+'" /></td>';
-				            resultHTML +=             '<td colspan="2">' + item.evc_name + '</td>';
-				            resultHTML +=         '</tr>';
-				            resultHTML +=         '<tr>';
-				            resultHTML +=             '<td><span style="font-size: 12px">' + item.charger_opsmall + '</span></td>';
-				            resultHTML +=             '<td><span style="font-size: 12px">' + item.evc_area + '</span></td>';
-				            resultHTML +=         '</tr>';
-				            resultHTML +=     '</table>';
-				            resultHTML +=     '<br>';
-				            resultHTML += '</dd>';
+				        var resultHTML  =  '<dl id="filteredList" class="high-z-index">';
+				        	resultHTML +=  '<dd>';
+				            resultHTML +=      '<table class="filtered-list result-list result-list-table" data-lat="' + item.evc_lat + '" data-lng="' + item.evc_long + '" data-title="' + item.evc_name + '" data-id="' + item.evc_id + '">';
+				            resultHTML +=          '<tr>';
+				            resultHTML +=              '<td rowspan="2"><img src="'+getImageUrl(item.charger_opsmall)+'" /></td>';
+				            resultHTML +=              '<td colspan="2">' + item.evc_name + '</td>';
+				            resultHTML +=          '</tr>';
+				            resultHTML +=          '<tr>';
+				            resultHTML +=              '<td><span style="font-size: 12px">' + item.charger_opsmall + '</span></td>';
+				            resultHTML +=              '<td><span style="font-size: 12px">' + item.evc_area + '</span></td>';
+				            resultHTML +=          '</tr>';
+				            resultHTML +=      '</table>';
+				            resultHTML +=      '<br>';
+				            resultHTML +=  '</dd>';
 				            resultHTML += '</dl>';
 				        $('#resultContainer').append(resultHTML);
 						});
@@ -930,159 +931,43 @@
 		    var lng   = $(this).data('lng');
 		    var title = $(this).data('title');
 		    var evcId = $(this).data('id');
-		    
+		    alert(evcId);
 			lastClickedMarkerPosition = new kakao.maps.LatLng(lat, lng);
 			 
 		    $('.charger_Information').css({'display':'inherit', 'z-index':'1100'});
 		    $('.overlay').show();
 		    $('.overlay').css({'display':'inherit', 'z-index':'1090'});
-				
+	
 		    // AJAX 요청 보내기
 		    $.ajax({
 		        url: 'ev_info',
 		        type: 'GET',
-		        data: { evc_id: evcId,
-						lat : lat,
-						lng : lng
-				},
+		        data: { evc_id: evcId },
 		        success: function(data) {
 		            console.log('data: ', data);
-					if (data.length > 0) {
-						$('.ev_name').text(data[0].evc_name);
-						$('.evc_id').text(data[0].evc_id);
-						$('#evc_address').text(data[0].evc_address);
-			            $('#charger_facsmall').text(data[0].charger_facsmall);
-			            $('#charger_opsmall').text(data[0].charger_opsmall);
+		            if (data.length > 0) {
+		                var chargerDetailsBody = $('#chargerDetailsBody');
+		                chargerDetailsBody.empty(); // 기존 내용을 지움
 						
-						var chargerDetailsBody = $('#chargerDetailsBody');
-							chargerDetailsBody.empty();
-						
-			            data.forEach(function(charger) {
-								
-							// ----------- 로드뷰 띄우기 --------------------
-							var roadviewContainer = document.getElementById('roadview'); //로드뷰를 표시할 div
-							var roadview = new kakao.maps.Roadview(roadviewContainer);	 //로드뷰 객체
-							var roadviewClient = new kakao.maps.RoadviewClient(); 		 //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
-							var position = new kakao.maps.LatLng(lat, lng);
-							
-							roadviewClient.getNearestPanoId(position, 150, function(panoId) {
-							    roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
-							});
-							
-							// ------------ 충전기들 정보 띄우기 --------------
-			                var row = '<tr>';
-			                row += '<td><b id="charger_no" style="font-size:23px;">' + charger.charger_no + '</b></td>';
-			                
-			                // charger_mechine에 따른 이미지 추가
-			                var machineImagesList = machineImages[charger.charger_mechine] || [];
-			                var machineImagesHtml = machineImagesList.map(function(imageUrl) {
-			                    return '<img src="' + imageUrl + '" alt="' + charger.charger_mechine + '" class="charger-image" style="border-radius:0px; margin-top:4px;"/>';
-			                }).join('');
-			                row += '<td id="charger_mechine">' + machineImagesHtml + '<br><span style="font-size:12px;">' + charger.charger_mechine + '</span></td>';
-			                
-			                // charger_type에 따른 이미지 추가
-			                var chargerTypeImagesList = chargerTypeImages[charger.charger_type] || [];
-			                var imagesHtml = chargerTypeImagesList.map(function(imageUrl) {
-			                    return '<img src="' + imageUrl + '" alt="' + charger.charger_type + '" class="charger-image" style="border-radius:0px; margin-top:4px; margin-right:5px;margin-left:5px;"/>';
-			                }).join('');
-			                row += '<td class="charger_type">' + imagesHtml + '<br><span style="font-size:12px;">' + charger.charger_type + '</span></td>';
-							
-							$.ajax({
-							    url: "getTest",
-							    type: "GET",
-							    data: { evc_id: charger.charger_no },
-							    success: function(realTimeData) {
-							        console.log('data: ', realTimeData);
-							        // XML 파싱
-							        var parser = new DOMParser();
-							        var xmlDoc = parser.parseFromString(realTimeData, "text/xml");
+		                // 각 충전기 정보를 테이블에 추가
+		                data.forEach(function(charger) {
+		                    var row = '<tr>';
+		                    	row += '<td><b id="charger_no" style="font-size:23px;">' + charger.charger_no + '</b></td>';
+		                    	row += '<td id="charger_mechine">' + charger.charger_mechine + '</td>';
+		                    	row += '<td class="charger_type">' + charger.charger_type + '</td>';
+		                    	row += '<td><span style="border:1px solid orange; border-radius:5px; background-color: yellow; padding-left:10px; padding-right:10px; text-align:center"><b id="charger_state">' + charger.charger_state + '</b></span><br><span></span></td>';
+		                    	row += '</tr>';
+		                    chargerDetailsBody.append(row);
+		                });
 
-							        // 모든 item 요소 가져오기
-							        var items = xmlDoc.getElementsByTagName("item");
-							        var found = false;
-									
-							        for (var i = 0; i < items.length; i++) {
-							            var chgerId = items[i].getElementsByTagName("chgerId")[0]?.textContent;
-						                found = true;
-						                // 필요한 태그 정보 추출
-						                var stat = items[i].getElementsByTagName("stat")[0]?.textContent;
-						                var statUpdDt = items[i].getElementsByTagName("statUpdDt")[0]?.textContent;
-										
-										// statUpdDt의 수동적 날짜 구분 및 객체로 변환
-										var year = statUpdDt.substring(0, 4);
-										var month = statUpdDt.substring(4, 6);
-										var day = statUpdDt.substring(6, 8);
-										var hour = statUpdDt.substring(8, 10);
-										var minute = statUpdDt.substring(10, 12);
-											
-										var period = '오전';
-										var hourInt = parseInt(hour, 10); // 문자열을 정수로 변환
-											if (hourInt >= 12) {
-												period = '오후';
-											    if (hourInt > 12) {
-											    	hourInt -= 12; // 12시간 형식으로 변환
-											    }
-											} else if (hourInt === 0) {
-												hourInt = 12; // 자정 (00:00)을 12:00 AM으로 표시
-											}
-										var formattedDate = month + '. ' + day + '. ' + period + ' ' + hourInt + ':' + minute;
-										
-						                // stat 값에 따른 row 추가
-						                switch (stat) {
-											case "1":
-												row += '<td><span><b id="charger_state">통신이상</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
-												break;
-											case "2":
-												row += '<td><span><b id="charger_state">사용가능</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
-												break;
-						                    case "3":
-						                        row += '<td><span><b id="charger_state">충전중</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
-						                        break;
-						                    case "4":
-						                        row += '<td><span><b id="charger_state">고장</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
-						                        break;
-						                    case "5":
-						                        row += '<td><span><b id="charger_state">점검중</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
-						                        break;
-											case "9":
-						                        row += '<td><span><b id="charger_state">상태미확인</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
-						                        break;
-						                    default:
-						                        row += '<td><span><b id="charger_state">통신오류</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
-						                        break;
-						                }
-						               break; // 일치하는 데이터를 찾으면 루프 종료
-						        	}
-							        if (!found) {
-							            // 찾지 못한 오류 발생 시,
-							            var currentTime = new Date().toLocaleString('ko-KR', {
-							                month: '2-digit',
-							                day: '2-digit',
-							                hour: '2-digit',
-							                minute: '2-digit'
-							            });
-							            row += '<td><span><b id="charger_state">통신상태불량</b></span><br><span style="font-size:12px;">' + currentTime + '</span></td>';
-							        }
-
-							        row += '<td class="charger_userlimit">' + charger.charger_userlimit + '</td>';
-							        row += '</tr>';
-							        chargerDetailsBody.append(row);
-									$('#loadingBar').hide();
-							    },
-							    error: function(err) {
-							        console.error("Error fetching real-time data: ", err);
-									$('#loadingBar').hide();
-							    }
-							});// end of API-ajax
-
-							// 사용자 즐겨찾기 데이터와 비교 ======================
-														                   var img = $('#favoriteImage');
-														                   var newImageUrl = '/images/ev/like_off.png';
-														                   img.attr('src', newImageUrl);
-
-														                   // AJAX 호출 이후 로드뷰 및 다른 데이터를 로드한 뒤 호출
-														                   compareFavImg(evcId); // 여기서 호출
-			            });	                
+		                // 기타 정보 업데이트
+		                $('#evc_address').text(data[0].evc_address);
+		                $('.ev_name').text(data[0].evc_name);
+		                $('.evc_id').text(data[0].evc_id);
+		                $('#charger_facsmall').text(data[0].charger_facsmall);
+		                $('#charger_opsmall').text(data[0].charger_opsmall);
+		                $('#charger_userlimit').text(data[0].charger_userlimit);
+		                
 		            }
 		        },
 		        error: function(err) {
@@ -1199,8 +1084,6 @@
 		    });
 		});
 		
-		
-		
 		// 즐겨찾기
 		$('.btnShowFavorite').click(function(event) {
 			if (sessionResult !== '') {
@@ -1263,275 +1146,48 @@
 		$('.overlay').css({'display':'inherit', 'z-index':'1090'});
 
 		// AJAX 요청 보내기
-			    $.ajax({
-			        url: 'ev_info',
-			        type: 'GET',
-			        data: { evc_id: evcId,
-							lat : lat,
-							lng : lng
-					},
-			        success: function(data) {
-			            console.log('data: ', data);
-						if (data.length > 0) {
-							$('.ev_name').text(data[0].evc_name);
-							$('.evc_id').text(data[0].evc_id);
-							$('#evc_address').text(data[0].evc_address);
-				            $('#charger_facsmall').text(data[0].charger_facsmall);
-				            $('#charger_opsmall').text(data[0].charger_opsmall);
-							// 사용자 즐겨찾기 
-							var img = $('#favoriteImage');
-								var newImageUrl = '/images/ev/like_on.png';
-								img.attr('src', newImageUrl);
-								
-							var chargerDetailsBody = $('#chargerDetailsBody');
-								chargerDetailsBody.empty();
-							
-				            data.forEach(function(charger) {
-								// ----------- 로드뷰 띄우기 --------------------
-								var latitude = charger.evc_lat;
-								var longitude = charger.evc_long;
-								var roadviewContainer = document.getElementById('roadview'); //로드뷰를 표시할 div
-								var roadview = new kakao.maps.Roadview(roadviewContainer);	 //로드뷰 객체
-								var roadviewClient = new kakao.maps.RoadviewClient(); 		 //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
-								var position = new kakao.maps.LatLng(latitude, longitude);
-								
-								roadviewClient.getNearestPanoId(position, 150, function(panoId) {
-								    roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
-								});
-								
-								// ------------ 충전기들 정보 띄우기 --------------
-				                var row = '<tr>';
-				                row += '<td><b id="charger_no" style="font-size:23px;">' + charger.charger_no + '</b></td>';
-				                
-				                // charger_mechine에 따른 이미지 추가
-				                var machineImagesList = machineImages[charger.charger_mechine] || [];
-				                var machineImagesHtml = machineImagesList.map(function(imageUrl) {
-				                    return '<img src="' + imageUrl + '" alt="' + charger.charger_mechine + '" class="charger-image" style="border-radius:0px; margin-top:4px;"/>';
-				                }).join('');
-				                row += '<td id="charger_mechine">' + machineImagesHtml + '<br><span style="font-size:12px;">' + charger.charger_mechine + '</span></td>';
-				                
-				                // charger_type에 따른 이미지 추가
-				                var chargerTypeImagesList = chargerTypeImages[charger.charger_type] || [];
-				                var imagesHtml = chargerTypeImagesList.map(function(imageUrl) {
-				                    return '<img src="' + imageUrl + '" alt="' + charger.charger_type + '" class="charger-image" style="border-radius:0px; margin-top:4px; margin-right:5px;margin-left:5px;"/>';
-				                }).join('');
-				                row += '<td class="charger_type">' + imagesHtml + '<br><span style="font-size:12px;">' + charger.charger_type + '</span></td>';
-								
-								$.ajax({
-								    url: "getTest",
-								    type: "GET",
-								    data: { evc_id: charger.charger_no },
-								    success: function(realTimeData) {
-								        console.log('data: ', realTimeData);
-
-								        // XML 파싱
-								        var parser = new DOMParser();
-								        var xmlDoc = parser.parseFromString(realTimeData, "text/xml");
-
-								        // 모든 item 요소 가져오기
-								        var items = xmlDoc.getElementsByTagName("item");
-
-								        var found = false;
-										
-								        for (var i = 0; i < items.length; i++) {
-								            var chgerId = items[i].getElementsByTagName("chgerId")[0]?.textContent;
-							                found = true;
-							                // 필요한 태그 정보 추출
-							                var stat = items[i].getElementsByTagName("stat")[0]?.textContent;
-							                var statUpdDt = items[i].getElementsByTagName("statUpdDt")[0]?.textContent;
-											
-											// statUpdDt의 수동적 날짜 구분 및 객체로 변환
-											var year = statUpdDt.substring(0, 4);
-											var month = statUpdDt.substring(4, 6);
-											var day = statUpdDt.substring(6, 8);
-											var hour = statUpdDt.substring(8, 10);
-											var minute = statUpdDt.substring(10, 12);
-												
-											var period = '오전';
-											var hourInt = parseInt(hour, 10); // 문자열을 정수로 변환
-												if (hourInt >= 12) {
-													period = '오후';
-												    if (hourInt > 12) {
-												    	hourInt -= 12; // 12시간 형식으로 변환
-												    }
-												} else if (hourInt === 0) {
-													hourInt = 12; // 자정 (00:00)을 12:00 AM으로 표시
-												}
-											var formattedDate = month + '. ' + day + '. ' + period + ' ' + hourInt + ':' + minute;
-											
-							                // stat 값에 따른 row 추가
-							                switch (stat) {
-												case "1":
-													row += '<td><span><b id="charger_state">통신이상</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
-													break;
-												case "2":
-													row += '<td><span><b id="charger_state">사용가능</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
-													break;
-							                    case "3":
-							                        row += '<td><span><b id="charger_state">충전중</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
-							                        break;
-							                    case "4":
-							                        row += '<td><span><b id="charger_state">고장</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
-							                        break;
-							                    case "5":
-							                        row += '<td><span><b id="charger_state">점검중</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
-							                        break;
-												case "9":
-							                        row += '<td><span><b id="charger_state">상태미확인</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
-							                        break;
-							                    default:
-							                        row += '<td><span><b id="charger_state">통신오류</b></span><br><span style="font-size:12px;">' + formattedDate + '</span></td>';
-							                        break;
-							                }
-							               break; // 일치하는 데이터를 찾으면 루프 종료
-							        	}
-								        if (!found) {
-								            // 찾지 못한 오류 발생 시,
-								            var currentTime = new Date().toLocaleString('ko-KR', {
-								                month: '2-digit',
-								                day: '2-digit',
-								                hour: '2-digit',
-								                minute: '2-digit'
-								            });
-								            row += '<td><span><b id="charger_state">통신상태 : 불량</b></span><br><span style="font-size:12px;">' + currentTime + '</span></td>';
-								        }
-
-								        row += '<td class="charger_userlimit">' + charger.charger_userlimit + '</td>';
-								        row += '</tr>';
-								        chargerDetailsBody.append(row);
-										$('#loadingBar').hide();
-								    },
-								    error: function(err) {
-								        console.error("Error fetching real-time data: ", err);
-										$('#loadingBar').hide();
-								    }
-								});// end of API-ajax
-								
-								// 사용자 즐겨찾기 데이터와 비교 ======================
-								var img = $('#favoriteImage');
-								var newImageUrl = '/images/ev/like_on.png';
-									img.attr('src', newImageUrl);
-									compareFavImg(evcId)
-				            });	                
-			            }
-			        },
-			        error: function(err) {
-			            console.error("Error fetching charger info: ", err);
-			        }
-			    }); // end of AJAX
-
-			    panTo(lat, lng, 3, title);
-
-			    // 클릭한 마커를 중심으로 반경 1km 원 그리기
-			    if (circle) {
-			        circle.setMap(null);
-			    }
-			    circle = new kakao.maps.Circle({
-			        center: new kakao.maps.LatLng(lat, lng),
-			        radius: 1000,
-			        strokeWeight: 2,
-			        strokeColor: '#75B8FA',
-			        strokeOpacity: 0.4,
-			        strokeStyle: 'solid',
-			        fillColor: '#41A317',
-			        fillOpacity: 0.4
-			    });
-			    circle.setMap(map);
-
-			    var circlePositions = [];
-
-			    function clearMarkers() {
-			        for (var i = 0; i < locationMarkers.length; i++) {
-			            locationMarkers[i].setMap(null); // 지도에서 제거
-			        }
-			        locationMarkers = []; // 배열 초기화
-			    }
-
-			    // AJAX 호출
-			    $.ajax({
-			        url: 'getCircleLocation',
-			        type: 'GET',
-			        data: {
-			            centerLat: lat,
-			            centerLng: lng,
-			            radius: 1000
-			        },
-			        success: function(data) {
-			            clearMarkers(); // 마커를 클리어
-			            console.log(data); // 데이터 구조 확인
-
-			            // 데이터 배열을 순회하면서 circlePositions 배열에 추가
-			            data.forEach(function(item) {
-			                circlePositions.push({
-			                    latlng: new kakao.maps.LatLng(item.etc_lat, item.etc_long), // LatLng 객체로 생성
-			                    title: item.etc_category,
-								name : item.etc_name,
-								address : item.etc_address
-			                });
-			            });
-
-			            var imageSrcs = {
-			                "카페": "/images/ev/etc_cafe.png",
-			                "편의점": "/images/ev/etc_convini.png",
-			                "슈퍼마켓": "/images/ev/etc_market.png",
-			                "약국": "/images/ev/etc_pharmacy.png",
-			                "주차장": "/images/ev/etc_parking.png"
-			            };
-
-			            var imageSize = new kakao.maps.Size(24, 24); // 이미지 크기 정의
-			            var infowindow = new kakao.maps.InfoWindow({zIndex: 1}); // 정보창 초기화
-
-			            if (circlePositions.length > 0) {
-							circlePositions.forEach(function(position) {
-								var imageSrc = imageSrcs[position.title] || "/images/ev/etc_parking.png";
-								var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-								var locationMarker = new kakao.maps.Marker({
-									map: map,                              // 마커를 표시할 지도
-									position: position.latlng,             // 마커를 표시할 위치
-									title: position.title,                 // 마커의 타이틀
-									image: markerImage,                    // 마커 이미지
-									name : position.name,
-									address : position.address
-								});
-								// InfoWindow의 내용과 위치를 정의합니다
-								var iwContent = '';
-									iwContent += '<div style="border-radius:10px; border: 1px solid black; background-color: #fff; box-shadow: 0px 0px 5px rgba(0,0,0,0.2);">';
-									iwContent += '<div style="font-size:14px; border-radius:10px 10px 0px 0px; font-weight:bold; color:#333; background-color:yellowgreen; text-align:center; ">';
-									iwContent += '<a href="https://map.kakao.com/?q=' + (position.address || '') +' '+ (position.name || '') +'" target="blank"><b>'+(position.name || 'Unknown') + '</b></a>';
-									iwContent += '</div>';
-									iwContent += '<hr style="margin:5px 0;">';
-									iwContent += '<div style="font-size:12px; color:#666;"> 분류 : ' + (position.title || 'Unknown') + '</div>';
-									iwContent += '<div style="font-size:12px; color:#666;">' + (position.address || 'Unknown') + '</div>';
-									iwContent += '</div>';
-									
-									var InfoWindowRemovable = true;	
-									// InfoWindow 인스턴스를 생성합니다
-									var infoWindow = new kakao.maps.InfoWindow({
-										content: iwContent,
-										removable: InfoWindowRemovable
-									});
-
-								// 마커 클릭 이벤트 리스너 추가
-								kakao.maps.event.addListener(locationMarker, 'click', function() {
-									infoWindow.open(map, locationMarker); // 마커 위치에 InfoWindow를 엽니다
-								});
-								
-								locationMarkers.push(locationMarker); // 마커를 배열에 추가
-								console.log("마커 추가됨 위치:", position.latlng.getLat(), position.latlng.getLng());
-							});
-			            } else {
-			                alert("원 안에 위치 정보가 없습니다.");
-			            }
-			        },
-			        error: function(err) {
-			            console.error("Error fetching locations: ", err);
-			        }
-			    });
+		$.ajax({
+			url: 'ev_info',
+			type: 'GET',
+			data: { evc_id: evcId },
+			success: function(data) {
+				if (data.length > 0) {
+					var chargerDetailsBody = $('#chargerDetailsBody');
+					chargerDetailsBody.empty();
+					data.forEach(function(charger) {
+						var row = '<tr>';
+							row += '<td><b id="charger_no" style="font-size:23px;">' + charger.charger_no + '</b></td>';
+							row += '<td id="charger_mechine">' + charger.charger_mechine + '</td>';
+							row += '<td class="charger_type">' + charger.charger_type + '</td>';
+							row += '<td><span style="border:1px solid orange; border-radius:5px; background-color: yellow; padding-left:10px; padding-right:10px; text-align:center"><b id="charger_state">' + charger.charger_state + '</b></span><br><span></span></td>';
+							row += '</tr>';
+						chargerDetailsBody.append(row);
+					});
+				$('#evc_address').text(data[0].evc_address);
+				$('.ev_name').text(data[0].evc_name);
+				$('.evc_id').text(data[0].evc_id);
+				$('#charger_facsmall').text(data[0].charger_facsmall);
+				$('#charger_opsmall').text(data[0].charger_opsmall);
+				$('#charger_userlimit').text(data[0].charger_userlimit);
+				
+				var img = $('#favoriteImage');
+				var newImageUrl = '/images/ev/like_on.png';
+				img.attr('src', newImageUrl);
+				
+				compareFavImg();
+				}
+			},
+			error: function(err) {
+				console.error("Error fetching charger info: ", err);
+			}
+		}); // end of AJAX
+		panTo(lat, lng, 3, title);
 	});
 									
 		// 즐겨찾기 버튼 클릭
 		$('.setFavorite').click(function(event) {
 			var evcId = $('.evc_id').text();
+			alert(evcId);
 			if(sessionResult === ''){
 				 var userConfirmed = confirm("이 기능은 로그인 후 가능합니다. \n로그인 페이지로 이동하시겠습니까?");
 				 if (userConfirmed) {
@@ -1611,7 +1267,7 @@
 		
 		// 즐겨찾기 ==============================================
 		// 사용자 즐겨찾기 데이터와 비교하기
-		function compareFavImg(evcId){
+		function compareFavImg(){
 				
 			if (sessionResult !== '') {
 				var clickedEVID = evcId;
