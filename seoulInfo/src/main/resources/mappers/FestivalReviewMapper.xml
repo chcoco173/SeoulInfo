@@ -25,19 +25,19 @@
 	</select>
 	
 	<!-- 축제 리뷰 수정 -->
-	<update id="updateReview" parameterType="FestivalReviewVO">
+	<update id="updateReview" parameterType="integer">
 		UPDATE festival_review
 		set
 		fr_content = #{fr_content},
 		fr_title = #{fr_title}
-		WHERE fr_id = #{fr_id} AND member_id = #{member_id}
+		WHERE fr_id = #{fr_id}
 	</update>
 	
 	<!-- 리뷰 삭제 -->
-	<delete id="deleteReview" parameterType="FestivalReviewVO">
+	<delete id="deleteReview" parameterType="integer">
 		DELETE FROM
 		festival_review
-		WHERE fr_id = #{fr_id} AND member_id = #{member_id}
+		WHERE fr_id = #{fr_id}
 	</delete>
 
 	<!-- 내 리뷰 리스트 -->

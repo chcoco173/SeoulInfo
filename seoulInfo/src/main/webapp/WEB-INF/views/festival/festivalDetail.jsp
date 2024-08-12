@@ -59,6 +59,7 @@
 		    padding-right: 30px; /* 오른쪽 여백 추가 */
 		}
 		
+
 		@media (min-width:992px) {html.w-mod-js:not(.w-mod-ix) [data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"] {-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);}}@media (max-width:991px) and (min-width:768px) {html.w-mod-js:not(.w-mod-ix) [data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"] {-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);}}</style>
 	<link href="https://fonts.googleapis.com" rel="preconnect">
 	<link href="https://fonts.gstatic.com" rel="preconnect"
@@ -212,50 +213,53 @@
 		          <div class="w-dyn-list">
 		            <div role="list" class="w-dyn-items">
 						<c:forEach items="${reviewList}" var="review">
-			              <div data-w-id="e144bf26-0d49-109b-1b5b-756bc18db826" style="opacity:0" role="listitem" class="w-dyn-item">
-			                <div class="post-row-grid">
-			                  <a id="w-node-e144bf26-0d49-109b-1b5b-756bc18db828-4f5c4823" data-w-id="e144bf26-0d49-109b-1b5b-756bc18db828" href="#" class="post-row-image-overflow-container w-inline-block">
-								<c:choose>
-								    <c:when test="${not empty review.image}">
-										<div id="w-node-e144bf26-0d49-109b-1b5b-756bc18db829-4f5c4823" 
-										     data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829" 
-										     style="background-image: url('${review.image}'); 
-										            -webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); 
-										            -moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); 
-										            -ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); 
-										            transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);" 
-										     class="post-row-image">
-										</div>
-								    </c:when>
-								    <c:otherwise>
-								        <div id="w-node-e144bf26-0d49-109b-1b5b-756bc18db829-4f5c4823" data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829" style="background-color: #ccc; transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" class="post-row-image"></div>
-								    </c:otherwise>
-								</c:choose>
-			                  </a>
-			                  <div id="w-node-e144bf26-0d49-109b-1b5b-756bc18db82a-4f5c4823" class="post-row-wrapper">
-			                    <div class="tags-wrappers">
-			                      <a href="#" class="tag w-inline-block">
-			                        <div class="text-size-small">${review.festival_id}</div>
-			                      </a>
-			                    </div>
-			                    <a id="w-node-e144bf26-0d49-109b-1b5b-756bc18db830-4f5c4823" href="#" class="w-inline-block">
-								  <input type="hidden" id="fr_id" name="fr_id" value="${review.fr_id }">
-			                      <h3>${review.fr_title}</h3>
-			                    </a>
-			                    <div class="small-author-wrapper">
-			                      <a href="#" class="author-pic-and-name-wrapper w-inline-block">
-			                        <div class="small-author-thumbnail">									
-										<img src="${review.memberImageUrl}" alt="${review.member_id}" class="author-thumbnail-image">
-									</div>
-			                        <div class="text-size-regular">${review.member_id}</div>
-			                      </a>
-			                      <div class="line-divider"></div>
-			                      <div class="text-size-regular text-color-dark-gray"><fmt:formatDate value="${review.fr_regdate}" pattern="yyyy-MM-dd" /></div>
-			                    </div>
-			                  </div>
-			                </div>
-			              </div>
-						</c:forEach>	  
+						    <div data-w-id="e144bf26-0d49-109b-1b5b-756bc18db826" style="opacity:0" role="listitem" class="w-dyn-item">
+						        <div class="post-row-grid">
+						            <a id="w-node-e144bf26-0d49-109b-1b5b-756bc18db828-4f5c4823" data-w-id="e144bf26-0d49-109b-1b5b-756bc18db828" href="#" class="post-row-image-overflow-container w-inline-block">
+						                <c:choose>
+						                    <c:when test="${not empty review.image}">
+						                        <div id="w-node-e144bf26-0d49-109b-1b5b-756bc18db829-4f5c4823"
+						                             data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"
+						                             style="background-image: url('${review.image}');
+						                                    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);"
+						                             class="post-row-image">
+						                        </div>
+						                    </c:when>
+						                    <c:otherwise>
+						                        <div id="w-node-e144bf26-0d49-109b-1b5b-756bc18db829-4f5c4823"
+						                             data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"
+						                             style="background-color: #ccc; transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);"
+						                             class="post-row-image">
+						                        </div>
+						                    </c:otherwise>
+						                </c:choose>
+						            </a>
+						            <div id="w-node-e144bf26-0d49-109b-1b5b-756bc18db82a-4f5c4823" class="post-row-wrapper">
+						                <a id="w-node-e144bf26-0d49-109b-1b5b-756bc18db830-4f5c4823" href="#" class="w-inline-block">
+						                    <input type="hidden" id="fr_id" name="fr_id" value="${review.fr_id}">
+						                    <h3>${review.fr_title}</h3>
+						                </a>
+						                <div class="small-author-wrapper">
+						                    <a href="#" class="author-pic-and-name-wrapper w-inline-block">
+						                        <div class="small-author-thumbnail">
+						                            <img src="${review.memberImageUrl}" alt="${review.member_id}" class="author-thumbnail-image">
+						                        </div>
+						                        <div class="text-size-regular">${review.member_id}</div>
+						                    </a>
+						                    <div class="line-divider"></div>
+						                    <div class="text-size-regular text-color-dark-gray"><fmt:formatDate value="${review.fr_regdate}" pattern="yyyy-MM-dd" /></div>
+						                </div>
+						                <div class="review-buttons">
+											<input type="hidden" id="fr_id" name="fr_id" value="${review.fr_id}">
+											<input type="hidden" id="member_id" name="member_id" value="${review.member_id}">
+											<button class="button-primary-large max-width-full-mobile-portrait w-button edit" style="display: none;">작성한 후기 수정</button>
+											<button class="button-primary-large max-width-full-mobile-portrait w-button delete" style="display: none;">작성한 후기 삭제</button>
+						                </div>
+						            </div>
+						        </div>
+						    </div>
+						</c:forEach>
+	  
 		            </div>
 		          </div>
 		        </div>
@@ -342,7 +346,6 @@
 		var festivalId = document.getElementById('festival_id').value;
 
 		var sessionResult = '<c:out value="${sessionScope.member != null ? sessionScope.member.member_id : ''}" />';
-
 		newReviewBtn.onclick = function() {
 			// 로그인 안되있을 때
 			if(sessionResult === ''){
@@ -371,6 +374,55 @@
 	            window.location.href = "/festival/festivalReviewDetail?fr_id=" + frId;
 	        });
 	    });
+		
+		// 수정 및 삭제 버튼 기능 추가
+		document.querySelectorAll('.review-buttons').forEach(function(buttonContainer) {
+		    const reviewId = buttonContainer.querySelector('input[name="fr_id"]').value;
+		    console.log("수정 삭제 reviewId " + reviewId);
+		    const reviewMemberId = buttonContainer.querySelector('input[name="member_id"]').value;
+		    console.log("수정 삭제 reviewMemberId " + reviewMemberId);
+
+		    if (sessionResult === reviewMemberId) {
+		        const editButton = buttonContainer.querySelector('.edit');
+		        const deleteButton = buttonContainer.querySelector('.delete');
+
+		        editButton.style.display = 'inline-block';
+		        deleteButton.style.display = 'inline-block';
+
+		        editButton.addEventListener('click', function() {
+		            window.location.href = "/festival/festivalReview?fr_id=" + reviewId;
+		        });
+
+		        deleteButton.addEventListener('click', function() {
+		            var userConfirmed = confirm("삭제하시겠습니까?");
+		            if (userConfirmed) {
+		                // AJAX 요청을 통해 삭제 요청을 서버로 보냅니다.
+		                fetch('/festival/deleteReview', {
+		                    method: 'POST',
+		                    headers: {
+		                        'Content-Type': 'application/x-www-form-urlencoded'
+		                    },
+		                    body: new URLSearchParams({
+		                        'fr_id': reviewId
+		                    })
+		                })
+		                .then(response => response.text())
+		                .then(result => {
+		                    if (result === "success") {
+		                        alert("후기가 삭제되었습니다.");
+		                        window.location.reload();
+		                    } else {
+		                        alert("후기 삭제에 실패했습니다.");
+		                    }
+		                })
+		                .catch(error => {
+		                    console.error('Error:', error);
+		                    alert("후기 삭제 중 오류가 발생했습니다.");
+		                });
+		            }
+		        });
+		    }
+		});
 	});
 
 
@@ -382,6 +434,7 @@
   	integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
   	crossorigin="anonymous"></script>
   <script src="/js/webflow.js" type="text/javascript"></script>
+  
 </body>
 
 </html>

@@ -33,6 +33,7 @@ import com.example.domain.ProductImageVO;
 import com.example.domain.ProductSearchVO;
 import com.example.domain.ProductVO;
 import com.example.domain.ReviewVO;
+import com.example.service.MemberService;
 import com.example.service.ProductBuyService;
 import com.example.service.ProductImageService;
 import com.example.service.ProductService;
@@ -65,6 +66,9 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
+
+	@Autowired
+	private MemberService memberService;
 
 	@Autowired
 	private ProductImageService productImageService;
@@ -218,7 +222,7 @@ public class ProductController {
 			prediction = callMlServer(areaSearchMl, "area", area);
 			System.out.println("대체 예측값: " + prediction);
 
-			title = area + " 지역의 검색어 맞춤 추천 상품";
+			title =  area + "베스트 카테고리 상품 추천";
 		}
 
 		// 예측값이 null이거나 "null" 문자열인 경우 대체 ML 모델 호출
@@ -228,7 +232,7 @@ public class ProductController {
 			prediction = callMlServer(areaSearchMl, "area", area);
 			System.out.println("대체 예측값 (예측값 null): " + prediction);
 
-			title = area + " 지역의 검색어 맞춤 추천 상품 (대체)";
+			title = area + "베스트 카테고리 상품 추천";
 		} else {
 			System.out.println("예측값이 null이 아닙니다. if문 실행되지 않음.");
 		}
@@ -423,7 +427,7 @@ public class ProductController {
 	@ResponseBody
 	public String productUpdateStatus(@RequestParam String sale_status, @RequestParam Integer sale_id) {
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
-		
+
 		ProductVO pvo = new ProductVO();
 		pvo.setMember_id(mvo.getMember_id());
 		pvo.setSale_id(sale_id);
@@ -614,7 +618,7 @@ public class ProductController {
 				prediction = new int[0];
 			}
 
-			if(prediction != null) {
+			if(prediction.length != 0) {
 
 				List<Map<String, Object>> similarList = productService.similarList(prediction);
 
@@ -647,7 +651,10 @@ public class ProductController {
 			model.addAttribute("mostChat_review", mostChat_review.get("chat_review"));
 			model.addAttribute("mostCommitment_review", mostCommitment_review.get("commitment_review"));
 		}
-
+		// 판매자 사진
+		MemberVO member = memberService.getMemberById(product.getMember_id());
+		System.out.println(member.getMember_imageName());
+		model.addAttribute("member",member);
 		model.addAttribute("product", product);
 		model.addAttribute("productImgList", productImgList);
 		model.addAttribute("wishCheck", wishCheck);
@@ -789,7 +796,11 @@ public class ProductController {
 		}else {
 			model.addAttribute("reviewStarAvg", reviewStarAvg);
 		}
-
+		// 판매자 사진
+		MemberVO member = memberService.getMemberById(member_id);
+		System.out.println(member.getMember_imageName());
+		model.addAttribute("member",member);
+		
 		model.addAttribute("myProductList", myProductList);
 		// 시간 변환 메소드 호출 후 model작업
 		model.addAttribute("timeDataList", timeConversion(myProductList));

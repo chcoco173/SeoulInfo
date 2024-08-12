@@ -1,11 +1,11 @@
 package com.example.service;
 
 import java.util.List;
-
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dao.FestRevImageDAO;
 import com.example.dao.FestivalReviewDAO;
@@ -53,8 +53,8 @@ public class FestivalReviewServiceImpl implements FestivalReviewService {
 	
 	// 리뷰 삭제
 	@Override
-	public Integer deleteReview(FestivalReviewVO frVO) {
-		return festivalReviewDAO.deleteReview(frVO);
+	public void deleteReview(Integer fr_id) {
+		festivalReviewDAO.deleteReview(fr_id);
 	}
 
 	// 내 리뷰 목록 가져오기
@@ -68,4 +68,5 @@ public class FestivalReviewServiceImpl implements FestivalReviewService {
     public List<FestRevImageVO> getReviewImage(Integer fr_id) {
         return festRevImageDAO.getReviewImage(fr_id);
     }
+
 }

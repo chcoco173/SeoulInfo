@@ -25,11 +25,17 @@
 						<a href="productCategory?cate=도서" class="style-guide-nav-link w-nav-link">도서</a>
 						<a href="productCategory?cate=의류" class="style-guide-nav-link w-nav-link">의류</a>
 						<a href="productCategory?cate=기타" class="style-guide-nav-link w-nav-link">기타</a>
- 
-						<c:if test="${sessionScope.member != null}">
-							<a href="productMypage" class="style-guide-nav-link w-nav-link">마이페이지</a>
-							<a href="chat" class="style-guide-nav-link w-nav-link">채팅</a>
-						</c:if>
+ 						<c:choose>
+							<c:when test="${sessionScope.member != null}">
+								<a href="productMypage" class="style-guide-nav-link w-nav-link">마이페이지</a>
+								<a href="chat" class="style-guide-nav-link w-nav-link">채팅</a>
+								<a href="/member/logout" class="style-guide-nav-link w-nav-link">로그아웃</a>
+							</c:when>
+							<c:otherwise>
+								<a href="/member/login" class="style-guide-nav-link w-nav-link">로그인/회원가입</a>
+							</c:otherwise>
+						</c:choose>
+						
 					</nav>
 					<form action="productSearch"
 						data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5"
