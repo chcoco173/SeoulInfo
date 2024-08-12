@@ -585,6 +585,7 @@ public class ProductController {
 		Map<String, String>  requestBody = new HashMap<>();
 		requestBody.put("title", product.getSale_name());
 		requestBody.put("cate", product.getSale_cate());
+		System.out.println(product.getSale_cate());
 		requestBody.put("area", area);
 
 
