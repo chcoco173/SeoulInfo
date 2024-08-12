@@ -48,7 +48,7 @@
   <div class="page-wrapper">
 	
 	<!-- 한) 상단:회원가입/로그인 버튼 start -->
-	<div class="section-newsletter">
+<!--	<div class="section-newsletter">
 	  <div class="padding-global">
 	    <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-black">
 	      <div class="_2-column-grid-uneven-left">
@@ -70,11 +70,12 @@
 	      </div>
 	    </div>
 	  </div>
-	</div>
+	</div>-->
 	<!-- 한) 상단:회원가입/로그인 버튼 end -->	
 	
 	<!-- 검색 start -->
-    <div class="navigation-wrapper">
+	<%@ include file="../guNav.jsp" %>
+    <!--<div class="navigation-wrapper">
       <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar_m w-nav">
         <div class="nav-wrapper">
           <a href="/" class="brand w-nav-brand"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
@@ -97,7 +98,7 @@
           <div class="menu-button w-nav-button"><img src="/images/ph_list-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
         </div>
       </div>
-    </div>
+    </div>-->
 	<!-- 검색 end -->	
 	
 	<!--한) 회원가입 start-->
@@ -189,16 +190,6 @@
 					</div>
                   </form>				  				  				  
                 </div>
-                
-                <!-- 모달 -->
-<!-- 				<div id="successModal" class="modal">
-				    <div class="modal-content">
-				        <span class="close">&times;</span>
-				        <p>회원가입을 축하합니다. 로그인을 진행해주세요!!</p>
-				    </div>
-				</div>  --> 
-                                             
-				
               </div>
             </div>
           </div>
@@ -206,7 +197,7 @@
       </div>
     </div>
 	<!--한) 회원가입 end-->
-	
+	<%@ include file="../footer.jsp" %>
 	
 
                

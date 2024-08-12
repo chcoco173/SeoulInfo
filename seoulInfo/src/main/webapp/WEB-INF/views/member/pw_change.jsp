@@ -33,29 +33,7 @@
   <div class="page-wrapper">
 	
 	<!-- 한) 상단:회원가입/로그인 버튼 start -->
-	<div class="section-newsletter">
-	  <div class="padding-global">
-	    <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-black">
-	      <div class="_2-column-grid-uneven-left">
-	        <h3 class="newsletter-heading">서울 지역 안내 서비스</h3>
-	        <div id="Style-Guide-Form" class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form">
-	          <form name="wf-form-Newsletter-Form" data-name="Newsletter Form" method="get" id="wf-form-Newsletter-Form" class="newsletter-form" data-wf-page-id="6684f0fb2a5375354f5c4820" data-wf-element-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9d2">
-				
-				<a href="/member/insertMember" class="button-primary-large max-width-full-mobile-portrait w-button">회원가입</a>
-				<a href="/member/login" class="button-primary-large max-width-full-mobile-portrait w-button">로그인</a>
-				
-			  </form>
-	          <div class="form-success-message w-form-done">
-	            <div class="text-size-regular text-color-white">Thank you! Your submission has been received!</div>
-	          </div>
-	          <div class="form-error-message w-form-fail">
-	            <div class="text-size-regular">Oops! Something went wrong while submitting the form.</div>
-	          </div>
-	        </div>
-	      </div>
-	    </div>
-	  </div>
-	</div>
+	<%@ include file="../member_top.jsp" %>
 	<!-- 한) 상단:회원가입/로그인 버튼 end -->
 	
 	
@@ -103,7 +81,7 @@
                 <!-- 비밀번호찾기(이메일인증) start-->
                 <!-- <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:0; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form"> -->
                 <div id="Style-Guide-Form"  style="opacity:1; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">
-				  <div class="button-primary-large-black w-button">임시 비밀번호 발급</div>
+
 				  <div class="spacer-large"></div>				  
 					<form action="${pageContext.request.contextPath}/member/pw_change" method="post" name="wf-form-Contact-Form" id="wf-form-Contact-Form" class="form" >						
 						<!-- 비밀번호 찾기 -->					
@@ -118,7 +96,7 @@
 						</div>
 						
 						<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
-							<input type="submit" class="button-primary-large w-button" value="비밀번호 변경 요청">
+							<input type="submit" class="button-primary-large w-button" value="임시 비밀번호 발급">
 						</div>										
 					</form>
 					<div class="spacer-large"></div>
@@ -134,7 +112,7 @@
       </div>
     </div>
 	<!--한) 비밀번호찾기 end-->
-	
+	<%@ include file="../footer.jsp" %>
 	
 
     
@@ -142,35 +120,7 @@
   </div><!-- page-wrapper end -->
   
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script type="text/javascript">
-
-
-<!-- 이메일 임시비밀번호 전송 -->
-    function sendNumber(){
-        $("#mail_number").css("display","block");
-        $.ajax({
-            url:"/mailSend",
-            type:"post",
-            dataType:"json",
-            data:{"mail" : $("#mail").val()},
-            success: function(data){
-                alert("임시비밀번호 발송");
-                $("#Confirm").attr("value",data);
-            }
-        });
-    }
-
-    function confirmNumber(){
-        var number1 = $("#number").val();
-        var number2 = $("#Confirm").val();
-
-        if(number1 == number2){
-            alert("인증되었습니다.");
-        }else{
-            alert("번호가 다릅니다.");
-        }
-    }
-</script>     
+ 
   
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="/js/webflow.js" type="text/javascript"></script>

@@ -64,7 +64,7 @@ public class MemberController {
 	
     // 회원가입 : DB입력
     @RequestMapping("/saveMember")
-    public String insertMember(MemberVO vo) {
+    public String insertMember(MemberVO vo, Model model) {
         System.out.println("saveMember");
 
         // 비밀번호 암호화
@@ -73,9 +73,9 @@ public class MemberController {
 
         // 회원가입 처리
         memberService.insertMember(vo);
-
+        model.addAttribute("insertMember","true");
         // 회원가입 성공 후 로그인 페이지로 이동
-        return "redirect:/member/loginA";
+        return "/member/login";
     }
 	
 	
@@ -101,9 +101,9 @@ public class MemberController {
 
 	// 로그인 : DB연동(비밀번호 암호화 반영)
 	@PostMapping("/loginCheck")
-	public String loginCheck(MemberVO vo, Model model, HttpSession session) {
+	public String loginCheck(MemberVO vo, String pwchangecheck, Model model, HttpSession session) {
 		System.out.println("로그인/화면에서 넘어온 값: "+ vo);
-		
+		System.out.println(pwchangecheck);
 		MemberVO result = memberService.loginCheck(vo);
 		System.out.println("로그인/DB결과값: "+ result);
 		
@@ -117,14 +117,25 @@ public class MemberController {
 	            //세션에 저장(모든 화면에서 데이터 사용 가능) : ${sessionScope.member.member_name}
 	            session.setAttribute("member", result);
 	            
-	            return "redirect:/";
+	            if(pwchangecheck != null) {
+	            	return "redirect:/mypage/memberInfo";
+	            }else {
+	            	return "redirect:/";
+	            }
+	            
 	        } else {
 	        	System.out.println("비밀번호가 일치하지 않습니다.");
-	            return "member/loginRe";
+	        	if(pwchangecheck != null) {
+	            	model.addAttribute("result", "임시비밀번호가 일치하지 않습니다.");
+	            }else {
+	            	model.addAttribute("loginCheck", "비밀번호가 일치하지 않습니다.");
+	            }
+	            return "member/login";
 	        }
 	    } else {
 	    	System.out.println("사용자 정보가 없습니다.");
-	        return "member/loginRe";
+	    	model.addAttribute("loginCheck", "사용자 정보가 없습니다.");
+	        return "member/login";
 	    }
 	}
 	
@@ -148,35 +159,12 @@ public class MemberController {
 		MemberVO result = memberService.idSearch(vo);
 		
 		if(result == null) {
-			return "member/id_searchRe";
+			model.addAttribute("no_ID", "실패");	
 		}else {
 			//뷰페이지에 데이타 전송 : ${mem.member_id}
-			model.addAttribute("mem", result);
-			
-			//이름과 이메일이 DB에 있는 아이디를 세션에 저장 : ${sessionScope.logid.member_id}
-			session.setAttribute("logid", result);
-			
-			return "member/id_searchOk";
+			model.addAttribute("memberID", result.getMember_id());
 		}
-	}
-	
-	// 비밀번호 찾기 : DB데이터 가져오기
-	@PostMapping("/pw_search")
-	public String pw_search(MemberVO vo, Model model, HttpSession session) {
-		
-		MemberVO result = memberService.pwSearch(vo);
-		
-		if(result == null) {
-			return "member/pw_searchRe";
-		}else {
-			//뷰페이지에 데이타 전송 : ${mem.member_pw}
-			model.addAttribute("mem", result);
-			
-			//이름, 아이디, 이메일이 DB에 있는 비밀번호를 세션에 저장 : ${sessionScope.logpw.member_pw}
-			session.setAttribute("logpw", result);
-			
-			return "member/pw_searchOk";
-		}
+		return "member/login";
 	}
 
 // 7/29(월) -------------------------------------------------------------------------------------------	
@@ -198,10 +186,12 @@ public class MemberController {
             memberService.changePass(member_email, enPass);
 
             model.addAttribute("result", "임시 비밀번호가 이메일로 전송되었습니다.");
+            return "/member/login";
         } else {
         	model.addAttribute("result", "해당 이메일이 존재하지 않습니다.");
+        	return "member/pw_change"; // JSP 파일 경로
         }
-        return "member/pw_change"; // JSP 파일 경로
+        
     }
 
     // 비밀번호 랜덤 생성

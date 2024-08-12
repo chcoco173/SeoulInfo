@@ -29,7 +29,19 @@
   <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
   <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
   <link href="/images/webclip.png" rel="apple-touch-icon">
+
+  <style>
+  	/* 회원가입 성공 메세지 */
+    .login-title {
+        color: green;
+        margin-top: 5px;
+        font-weight: bold;
+    }
+
+  </style>
 </head>
+
+
 <body>
   <div class="page-wrapper">
 	
@@ -94,7 +106,12 @@
             <div class="container-large">
               <div class="_2-column-grid-uneven-right">
                 <div id="w-node-dcacb4c5-0e4e-5bd9-3310-1e984a55f96a-4f5c4825" data-w-id="dcacb4c5-0e4e-5bd9-3310-1e984a55f96a" style="opacity:0">
-                  <div class="accent">다양한 서비스를 제공 받을 수 있습니다.</div>
+					<c:if test="${not empty insertMember}">
+						<h5 class="login-title">회원가입을 축하드립니다.</h5>
+					</c:if>
+					
+					<div class="accent">다양한 서비스를 제공 받을 수 있습니다.</div>
+					
                   <div class="spacer-large"></div>
                   <h1>로그인</h1>
                   <div class="spacer-large"></div>
@@ -103,12 +120,27 @@
                 <div id="Style-Guide-Form" data-w-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64" style="opacity:1; " class="form-component w-node-_3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a64-4f5c4825 w-form">				  
 					<form action="loginCheck" method="post" name="wf-form-Contact-Form" id="wf-form-Contact-Form" class="form" 
 						data-wf-page-id="6684f0fb2a5375354f5c4825" data-wf-element-id="3c63ffa7-9e63-cf3d-0d5b-95ec9cec8a65">
+					<c:if test="${not empty result}">
+						<input type="hidden" name="pwchangecheck" value="${result}">
+					</c:if>
 					<div class="form-field-wrapper">						
 						<input class="form-field w-input" maxlength="256" name="member_id" placeholder="아이디" type="text" id="id" pattern="[A-Za-z0-9]{6,}" required>						
 					</div>
 					<div class="form-field-wrapper">						
 						<input class="form-field w-input" maxlength="256" name="member_pw" placeholder="비밀번호" type="password" id="pw" pattern="[A-Za-z0-9]{6,}" required>
 					</div>
+					<c:if test="${not empty result}">
+						<p class="button-primary-large-msg-y">${result}</p>
+					</c:if>
+					<c:if test="${not empty memberID}">
+						<div class="button-primary-large-msg-y">당신의 아이디는 ${memberID} 입니다.</div>
+					</c:if>
+					<c:if test="${not empty no_ID}">
+						<div class="button-primary-large-msg-n">이름과 이메일이 일치하는 아이디가 없습니다. 회원가입하시거나 다시 입력해주세요.</div>		
+					</c:if>
+					<c:if test="${not empty loginCheck}">
+						<p class="button-primary-large-msg-y">${loginCheck}</p>
+					</c:if> 
 					<div class="spacer-large"></div>
 					<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">					
 						<input type="submit" class="button-primary-large-b w-button loginBtn" value="로그인">
@@ -120,7 +152,8 @@
 					<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
 						<a href="id_search" class="button-primary-large w-button">아이디 찾기</a>
 						<a href="pw_change" class="button-primary-large w-button">비밀번호 찾기</a>
-					</div>				
+					</div>		
+							
 																				
 					</form>				  				  				  
                 </div>
@@ -135,7 +168,7 @@
 	<!--한) 로그인 end-->
 	
 	
-
+	<%@ include file="../footer.jsp" %>
 
     
     
