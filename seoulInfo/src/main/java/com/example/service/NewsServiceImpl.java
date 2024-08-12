@@ -20,9 +20,4 @@ public class NewsServiceImpl implements NewsService{
 		return newsDAO.getNews(area);
 	}
 	
-	// 해당 기사 상세 조회
-    @Override
-    public NewsVO getNewsById(Integer news_id) {
-        return newsDAO.getNewsById(news_id);
-    }
 }

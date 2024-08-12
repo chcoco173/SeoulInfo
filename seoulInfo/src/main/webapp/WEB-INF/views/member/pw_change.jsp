@@ -28,39 +28,44 @@
   <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
   <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
   <link href="/images/webclip.png" rel="apple-touch-icon">
+  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+  #loading {
+  	position: fixed;
+  	top: 0;
+  	left: 0;
+  	width: 100%;
+  	height: 100%;
+  	background: rgba(255, 255, 255, 0.8);
+  	display: none;
+  	justify-content: center;
+  	align-items: center;
+  	z-index: 9999;
+  	flex-direction: column;
+  }
+
+  .spinner-border {
+  	width: 3rem;
+  	height: 3rem;
+  	margin-bottom: 1rem;
+  }
+
+  .loading-text {
+  	font-size: 1.5rem;
+  	font-weight: bold;
+  }
+  </style>
 </head>
 <body>
-  <div class="page-wrapper">
+	<div id="loading">
+		<div class="spinner-border text-primary" role="status">
+			<span class="sr-only">Loading...</span>
+		</div>
+			<div class="loading-text">임시번호 이메일로 전송중~~~! 기다료~~~</div>
+	</div>
+	 <div class="page-wrapper">
 	
-	<!-- 한) 상단:회원가입/로그인 버튼 start -->
-	<%@ include file="../member_top.jsp" %>
-	<!-- 한) 상단:회원가입/로그인 버튼 end -->
-	
-	
-    <div class="navigation-wrapper">
-      <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar_m w-nav">
-        <div class="nav-wrapper">
-          <a href="/" class="brand w-nav-brand"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
-          <div class="links-and-search-wrapper">
-            <nav role="navigation" class="nav-links-wrapper w-nav-menu">
-              <a href="about" class="nav-link w-nav-link"></a>
-              <a href="contact" aria-current="page" class="nav-link w-nav-link w--current"></a>
-            </nav>
-            <form action="/search" data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5" class="search w-form">
-              <div class="search-div"><img src="/images/ph_magnifying-glass-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
-              <div class="nav-search-outer-wrapper">
-                <div class="nav-search-internal-wrapper"><input class="form-field w-input" maxlength="256" name="query" placeholder="Search…" type="search" id="search" required="">
-                  <div class="search-button-wrapper"><input type="submit" class="button-primary-small w-button" value="Search">
-                    <a data-w-id="a72c4d20-babf-897f-e150-4948b59e5bfb" href="#" class="close-search-link-block w-inline-block"><img src="/images/ph_x-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></a>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="menu-button w-nav-button"><img src="/images/ph_list-light-xsmall.svg" loading="lazy" alt="" class="icon-1x1-xsmall"></div>
-        </div>
-      </div>
-    </div>
+    <%@ include file="../Nav/guNav.jsp" %>	
 	
 	
 	<!--한) 비밀번호찾기 start-->
@@ -84,10 +89,7 @@
 
 				  <div class="spacer-large"></div>				  
 					<form action="${pageContext.request.contextPath}/member/pw_change" method="post" name="wf-form-Contact-Form" id="wf-form-Contact-Form" class="form" >						
-						<!-- 비밀번호 찾기 -->					
-						<div class="form-field-wrapper">						
-							<input class="form-field w-input" maxlength="256" name="member_name" placeholder="이름" type="text" id="name" pattern="[가-힣]{2,}" required>						
-						</div>
+						<!-- 비밀번호 찾기 -->	
 						<div class="form-field-wrapper">						
 							<input class="form-field w-input" maxlength="256" name="member_id" placeholder="아이디" type="text" id="id" pattern="[A-Za-z0-9]{6,}" required>						
 						</div>
@@ -95,7 +97,7 @@
 							<input class="form-field w-input" maxlength="256" name="member_email" placeholder="이메일" type="email" id="member_email" required>
 						</div>
 						
-						<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
+						<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper imsipw">
 							<input type="submit" class="button-primary-large w-button" value="임시 비밀번호 발급">
 						</div>										
 					</form>
@@ -124,5 +126,23 @@
   
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="/js/webflow.js" type="text/javascript"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  			
+  <script>
+	$(document).ready(function() {
+	    // Click event handler for the submit button
+	    $(".imsipw").click(function(event) {
+	      $("form").submit();
+
+
+	        // Delay the form submission by 5 seconds (5000 milliseconds)
+	        setTimeout(function() {
+	            // Submit the form after the delay
+	         $("#loading").css("display", "flex");
+	        });
+	    });
+	});
+
+	</script>
 </body>
 </html>

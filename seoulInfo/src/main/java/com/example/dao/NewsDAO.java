@@ -10,6 +10,5 @@ import com.example.domain.NewsVO;
 public interface NewsDAO {
 	
 	public List<NewsVO> getNews(String area);
-    public NewsVO getNewsById(Integer news_id);
 
 }
