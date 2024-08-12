@@ -49,12 +49,5 @@ public class NewsController {
 		return "news/news";
 	}
 	
-    @GetMapping("/newsDetail")
-    public String newsDetail(@RequestParam("news_id") Integer news_id, @RequestParam("area") String area, Model model) {
-        NewsVO news = newsService.getNewsById(news_id);
-        model.addAttribute("news", news);
-        model.addAttribute("area", area);
-        return "news/newsDetail";
-    }
 	
 }

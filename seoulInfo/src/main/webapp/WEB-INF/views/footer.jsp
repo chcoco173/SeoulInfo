@@ -23,14 +23,17 @@ System.out.println(area);
               <div class="_2-column-grid">
                 <a href="/" aria-current="page" class="w-inline-block w--current"><img src="/images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
                 <div>
-                  <h3>The stories of a travel photographer and blogger exploring the world .</h3>
+                  <h2>서울 지역별 라이프 정보</h2><br/>
+				  <h5>중고거래, 전기차, 문화의 모든 것</h5>
+				  				  
                   <div id="w-node-e1165d61-2cbb-cc22-6e05-5b6165b83107-65b830fb" class="spacer-xxlarge"></div>
                 </div>
               </div>
               <div class="_2-column-grid footer">
                 <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b846f-65b830fb" class="footer-micro-links-wrapper">
-                  <p class="text-size-small">Website template by <a href="https://www.callistodigitalstudio.com/" target="_blank" class="text-size-small">Callisto Digital Studio</a>.</p>
-                  <p class="text-size-small">Powered by <a href="https://webflow.com/templates/html/sightseer-travel-website-template" target="_blank" class="text-size-small">Webflow</a>.</p>
+                  <p class="text-size-small">이 웹사이트는 서울에 대한 정보를 포함하고 있습니다</p>
+				  
+                  <p class="text-size-small">ICT 5조</p>
                 </div>
                 <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8474-65b830fb" class="_3-column-grid footer-links">
                   <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8475-65b830fb">
