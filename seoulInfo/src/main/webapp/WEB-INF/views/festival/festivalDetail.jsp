@@ -5,76 +5,31 @@
 <html data-wf-page="6684f0fb2a5375354f5c4823"
 	data-wf-site="6684f0fb2a5375354f5c47e9">
 <head>
-	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-	<title>JADE&#x27;s Dandy Site</title>
-	<meta content="" property="og:title">
-	<meta content="" property="twitter:title">
-	<meta content="width=device-width, initial-scale=1" name="viewport">
-	<meta content="Webflow" name="generator">
-	<link href="/css/normalize.css" rel="stylesheet" type="text/css">
-	<link href="/css/webflow.css" rel="stylesheet" type="text/css">
-	<link href="/css/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet"
-		type="text/css">
-	<style>
-		
-		/* Flexbox 컨테이너 스타일 추가 */
-		.flex-container {
-		    display: flex;
-		    flex-wrap: wrap;
-		    gap: 20px;
-		}
+<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+<title>JADE&#x27;s Dandy Site</title>
+<meta content="" property="og:title">
+<meta content="" property="twitter:title">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<meta content="Webflow" name="generator">
+<link href="/css/normalize.css" rel="stylesheet" type="text/css">
+<link href="/css/webflow.css" rel="stylesheet" type="text/css">
+<link href="/css/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet"
+	type="text/css">
 
-		.flex-item {
-		    flex: 1;
-		    min-width: 300px; /* 최소 너비 설정 */
-		}
-
-		.flex-item.image-overflow-wrapper {
-		    flex: 0 0 25%; /* 가로 길이를 설정 */
-		}
-		
-		/* 이미지 크기 조정 */
-		.image-overflow-wrapper img {
-		    width: 70%; /* 가로 크기를 4분의 1로 줄이기 */
-		    height: auto; /* 비율을 유지하며 크기 조정 */
-			align: center;
-			margin: 0 auto; /* 가운데 정렬 */
-
-		}
-		._2-column-grid-uneven-right {
-		    display: flex;
-		    justify-content: space-between; /* 요소들을 양 끝으로 배치 */
-		    align-items: center;
-		}
-	
-
-		.button-wrapper {
-		    margin-left: auto; /* 버튼을 오른쪽으로 정렬 */
-		}
-		.padding-section-medium {
-		    max-width: 95%; /* 최대 너비를 80%로 설정 */
-		    margin: 0 auto; /* 가운데 정렬 */
-		    padding: 20px; /* 내부 여백 추가 */
-		    padding-left: 30px; /* 왼쪽 여백 추가 */
-		    padding-right: 30px; /* 오른쪽 여백 추가 */
-		}
-		
-
-		@media (min-width:992px) {html.w-mod-js:not(.w-mod-ix) [data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"] {-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);}}@media (max-width:991px) and (min-width:768px) {html.w-mod-js:not(.w-mod-ix) [data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"] {-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);}}</style>
-	<link href="https://fonts.googleapis.com" rel="preconnect">
-	<link href="https://fonts.gstatic.com" rel="preconnect"
-		crossorigin="anonymous">
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"
-		type="text/javascript"></script>
-	<script type="text/javascript">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link href="https://fonts.gstatic.com" rel="preconnect"
+	crossorigin="anonymous">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"
+	type="text/javascript"></script>
+<script type="text/javascript">
 		WebFont.load({
 			google : {
 				families : [ "Plus Jakarta Sans:regular,600,italic,600italic" ]
 			}
 		});
 	</script>
-	<script type="text/javascript">
+<script type="text/javascript">
 		!function(o, c) {
 			var n = c.documentElement, t = " w-mod-";
 			n.className += t + "js", ("ontouchstart" in o || o.DocumentTouch
@@ -82,10 +37,157 @@
 					&& (n.className += t + "touch")
 		}(window, document);
 	</script>
-		
-	<link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
-	<link href="/images/webclip.png" rel="apple-touch-icon">
-	</head>
+
+<link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
+<link href="/images/webclip.png" rel="apple-touch-icon">
+<style>
+	/* 전체 래퍼 스타일 */
+	.main-wrapper {
+	    padding: 20px;
+	    display: flex;
+	    justify-content: center;
+	}
+
+	/* 배너 섹션 스타일 */
+	.section-post-banner {
+	    background-color: #fff;
+	    border: 1px solid #ddd;
+	    border-radius: 12px;
+	    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	    overflow: hidden;
+	    width: 100%;
+	    max-width: 1800px;
+	    margin: 0 auto;
+	    padding: 20px;
+	}
+
+	/* 글로벌 패딩 설정 */
+	.padding-global {
+	    padding: 0 20px;
+	}
+
+	/* 섹션 패딩 설정 */
+	.padding-section-medium {
+	    padding: 20px 0;
+	}
+
+	/* 전체 컨테이너 스타일 */
+	.container-full-width {
+	    width: 100%;
+	}
+
+	/* 제목 스타일 */
+	.container-full-width h3 {
+	    color: #333;
+		font-weight: bold;
+	    text-align: center;
+	    margin-bottom: 20px;
+	}
+
+
+	/* 플렉스 컨테이너 스타일 */
+	.flex-container {
+	    display: flex;
+	    flex-direction: row;
+	    align-items: flex-start;
+	    gap: 20px;
+	    justify-content: center;
+	    flex-wrap: wrap;
+	}
+
+	/* 이미지 래퍼 스타일 */
+	.image-overflow-wrapper {
+	    flex: 1 1 400px; /* 이미지 영역의 기본 너비를 400px로 설정 */
+	    max-width: 100%;
+	    margin-bottom: 20px;
+		display: flex; /* 플렉스 박스 설정 */
+		justify-content: center; /* 이미지 수평 가운데 정렬 */
+		align-items: center; /* 이미지 수직 가운데 정렬 */
+	}
+
+	/* 이미지 스타일 */
+	.image-overflow-wrapper img {
+	    width: 80%; /* 이미지가 컨테이너에 맞춰 100%로 확장 */
+	    height: auto;
+	    object-fit: cover;
+	    border: 1px solid #ddd;
+	}
+
+	/* 세부사항 영역 스타일 */
+	.festival-details {
+	    flex: 2 1 500px; /* 세부사항 영역의 기본 너비를 500px로 설정 */
+	    max-width: 100%;
+	}
+
+	/* 텍스트 스타일 */
+	.festival-details p {
+	    margin: 8px 0;
+	    font-size: 16px;
+	    color: #555;
+	}
+
+	/* 링크 스타일 */
+	.festival-details a {
+	    display: inline-block;
+	    margin-top: 10px;
+	    font-size: 16px;
+	    color: #007bff;
+	    text-decoration: none;
+	    border-bottom: 1px solid #007bff;
+	    transition: color 0.3s, border-bottom-color 0.3s;
+	}
+
+	.festival-details a:hover {
+	    color: #0056b3;
+	    border-bottom-color: #0056b3;
+	}
+
+	/* 숨겨진 input 스타일 */
+	input[type="hidden"] {
+	    display: none;
+	}
+
+	/* 맵 스타일 */
+	#map {
+	    width: 100%; /* 맵을 100% 너비로 설정 */
+	    height: 500px; /* 맵의 높이를 400px로 증가 */
+	    border-radius: 20px 20px 0 0;
+	    margin: 20px 0 0;
+	    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	}
+	
+	/* 반응형 디자인을 위한 미디어 쿼리 */
+	@media (max-width: 768px) {
+	    .flex-container {
+	        flex-direction: column;
+	        align-items: center;
+	    }
+
+	    .image-overflow-wrapper,
+	    .festival-details {
+	        flex: 1 1 100%;
+	        max-width: 100%;
+	    }
+
+	    /* 이미지 스타일을 모바일에서 가운데 정렬하고 크기를 조정 */
+	    .image-overflow-wrapper {
+	        display: flex;
+	        justify-content: center;
+	    }
+
+	    .image-overflow-wrapper img {
+	        width: 50%; /* 모바일 화면에서 이미지의 너비를 50%로 설정 */
+	    }
+
+	    /* 맵 스타일을 모바일에서 조정 */
+	    #map {
+	        width: 100%;
+	        height: 200px; /* 모바일 화면에서 맵의 높이를 200px로 설정 */
+	    }
+	}
+
+</style>
+</head>
 <body>
 	<div class="page-wrapper">
 		<!-- 검색창 start -->
@@ -154,195 +256,158 @@
 					</div>
 				</div>
 			</div>
-		<!-- 검색창 end -->
-		<!-- 축제 상세 정보 start -->
-		<div class="main-wrapper">
-		    <div class="section-post-banner background-black">
-		        <div class="padding-global">
-		            <div class="padding-section-medium">
-		                <div class="container-full-width">
-		                    <h3 class="text-color-white">${festival.festival_name}</h3>
-		                    <div class="spacer-xlarge"></div>
-		                    <div class="flex-container">
-		                        <div class="flex-item image-overflow-wrapper">
-		                            <img src="${festival.festival_imageurl}" alt="${festival.festival_name}">
-		                        </div>
-		                        <div class="flex-item text-color-white festival-details">
-		                            <p>시작 날짜:  ${festival.festival_startDate}</p>
-		                            <p>종료 날짜:   ${festival.festival_endDate}</p>
-		                            <p>장소:   ${festival.festival_loc}</p>
-		                            <p>이용 요금:   ${festival.festival_fee}</p>
-		                            <p>이용 대상:   ${festival.festival_target}</p>
-		                            <p>주체자:   ${festival.festival_host}</p>
-		                            <p>조회수:   ${festival.festival_viewcount}</p>
-									<input type="hidden" id="festivalLat" style="display:none;" value="${festival.festival_lat}" > <!-- 위도 -->
-									<input type="hidden" id="festivalLng" style="display:none;" value="${festival.festival_long}"> <!-- 경도 -->
-		                            <a href="${festival.festival_siteurl}" target="_blank" class="text-color-white">사이트 바로가기</a>
-		                        </div>
-		                    </div>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
+			<!-- 검색창 end -->
+			<!-- 축제 상세 정보 start -->
+			<div class="main-wrapper">
+				<div class="section-post-banner">
+					<div class="padding-global">
+						<div class="padding-section-medium">
+							<div class="container-full-width">
+								<h3>${festival.festival_name}</h3>
+								
+								<div class="flex-container">
+									<div class="flex-item image-overflow-wrapper">
+										<img src="${festival.festival_imageurl}"
+											alt="${festival.festival_name}">
+									</div>
+									<div class="flex-item festival-details">
+										
+										<p>일시:${festival.festival_startDate}~${festival.festival_endDate}</p>
+										<p>장소: ${festival.festival_loc}</p>
+										<p>이용 요금: ${festival.festival_fee}</p>
+										<p>이용 대상: ${festival.festival_target}</p>
+										<p>주체자: ${festival.festival_host}</p>
+										<p>조회수: ${festival.festival_viewcount}</p>
+										<input type="hidden" id="festivalLat" style="display: none;"
+											value="${festival.festival_lat}">
+										<!-- 위도 -->
+										<input type="hidden" id="festivalLng" style="display: none;"
+											value="${festival.festival_long}">
+										<!-- 경도 -->
+										<a href="${festival.festival_siteurl}" target="_blank"
+											class="">사이트 바로가기</a>
+										<div id="map"></div>	
+											
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 축제 상세정보 end -->
+			</br>
+			
+			
+				<!-- 축제 후기 등록하기 start -->
+			<div class="section-newsletter">
+				<div class="padding-global">
+					<div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd"
+						class="container-newsletter background-black">
+						<div class="_2-column-grid-uneven-right">
+							<h4 class="newsletter-heading">사진과 함께 축제 후기를 남겨주세요!</h4>
+							<input type="hidden" id="festival_id" name="festival_id"
+								value="${festival.festival_id }"> <input type="submit"
+								class="button-primary-large max-width-full-mobile-portrait w-button"
+								value="새 후기 작성하러 가기" id="newReviewBtn">
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<!-- 축제 상세정보 end --> 
-		</br>
-		<div id="map" style="width:95%;height:350px; border-radius:20px 20px 0px 0px; margin-left:2.5%;"></div>
-		  <!-- 축제 후기 등록하기 start -->
-		  <div class="section-newsletter">
-		  	<div class="padding-global">
-		  		<div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd"
-		  			class="container-newsletter background-black">
-		  			<div class="_2-column-grid-uneven-right">
-		  				<h4 class="newsletter-heading">사진과 함께 축제 후기를 남겨주세요!</h4>
-							<input type="hidden" id="festival_id" name="festival_id" value="${festival.festival_id }">
-							<input type="submit" class="button-primary-large max-width-full-mobile-portrait w-button" value="새 후기 작성하러 가기" id="newReviewBtn">
-		  				</div>
-		  			</div>
-		  		</div>
-		  	</div>
-		  </div>
-		  <!-- 축제 후기 등록하기 end -->
-		  </br></br>
-		  <!-- 축제리뷰 리스트 start -->
-		  <div class="section-posts-row">
-		    <div class="padding-global">
-		      <div class="padding-section-medium remove-top-padding">
-		        <div class="container-full-width">
-		          <h4 data-w-id="e144bf26-0d49-109b-1b5b-756bc18db81f" style="opacity:0">최근 축제 리뷰</h4>
-		          <div class="spacer-xlarge"></div>
-		          <div data-w-id="e144bf26-0d49-109b-1b5b-756bc18db822" style="opacity:0" class="divider-line"></div>
-		          <div class="spacer-xlarge"></div>
-		          <div class="w-dyn-list">
-		            <div role="list" class="w-dyn-items">
-						<c:forEach items="${reviewList}" var="review">
-						    <div data-w-id="e144bf26-0d49-109b-1b5b-756bc18db826" style="opacity:0" role="listitem" class="w-dyn-item">
-						        <div class="post-row-grid">
-						            <a id="w-node-e144bf26-0d49-109b-1b5b-756bc18db828-4f5c4823" data-w-id="e144bf26-0d49-109b-1b5b-756bc18db828" href="#" class="post-row-image-overflow-container w-inline-block">
-						                <c:choose>
-						                    <c:when test="${not empty review.image}">
-						                        <div id="w-node-e144bf26-0d49-109b-1b5b-756bc18db829-4f5c4823"
-						                             data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"
-						                             style="background-image: url('${review.image}');
+		<!-- 축제 후기 등록하기 end -->
+		</br> </br>
+		<!-- 축제리뷰 리스트 start -->
+		<div class="section-posts-row">
+			<div class="padding-global">
+				<div class="padding-section-medium remove-top-padding">
+					<div class="container-full-width">
+						<h4 data-w-id="e144bf26-0d49-109b-1b5b-756bc18db81f"
+							style="opacity: 0">최근 축제 리뷰</h4>
+						<div class="spacer-xlarge"></div>
+						<div data-w-id="e144bf26-0d49-109b-1b5b-756bc18db822"
+							style="opacity: 0" class="divider-line"></div>
+						<div class="spacer-xlarge"></div>
+						<div class="w-dyn-list">
+							<div role="list" class="w-dyn-items">
+								<c:forEach items="${reviewList}" var="review">
+									<div data-w-id="e144bf26-0d49-109b-1b5b-756bc18db826"
+										style="opacity: 0" role="listitem" class="w-dyn-item">
+										<div class="post-row-grid">
+											<a id="w-node-e144bf26-0d49-109b-1b5b-756bc18db828-4f5c4823"
+												data-w-id="e144bf26-0d49-109b-1b5b-756bc18db828" href="#"
+												class="post-row-image-overflow-container w-inline-block">
+												<c:choose>
+													<c:when test="${not empty review.image}">
+														<div
+															id="w-node-e144bf26-0d49-109b-1b5b-756bc18db829-4f5c4823"
+															data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"
+															style="background-image: url('${review.image}');
 						                                    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);"
-						                             class="post-row-image">
-						                        </div>
-						                    </c:when>
-						                    <c:otherwise>
-						                        <div id="w-node-e144bf26-0d49-109b-1b5b-756bc18db829-4f5c4823"
-						                             data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"
-						                             style="background-color: #ccc; transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);"
-						                             class="post-row-image">
-						                        </div>
-						                    </c:otherwise>
-						                </c:choose>
-						            </a>
-						            <div id="w-node-e144bf26-0d49-109b-1b5b-756bc18db82a-4f5c4823" class="post-row-wrapper">
-						                <a id="w-node-e144bf26-0d49-109b-1b5b-756bc18db830-4f5c4823" href="#" class="w-inline-block">
-						                    <input type="hidden" id="fr_id" name="fr_id" value="${review.fr_id}">
-						                    <h3>${review.fr_title}</h3>
-						                </a>
-						                <div class="small-author-wrapper">
-						                    <a href="#" class="author-pic-and-name-wrapper w-inline-block">
-						                        <div class="small-author-thumbnail">
-						                            <img src="${review.memberImageUrl}" alt="${review.member_id}" class="author-thumbnail-image">
-						                        </div>
-						                        <div class="text-size-regular">${review.member_id}</div>
-						                    </a>
-						                    <div class="line-divider"></div>
-						                    <div class="text-size-regular text-color-dark-gray"><fmt:formatDate value="${review.fr_regdate}" pattern="yyyy-MM-dd" /></div>
-						                </div>
-						                <div class="review-buttons">
-											<input type="hidden" id="fr_id" name="fr_id" value="${review.fr_id}">
-											<input type="hidden" id="member_id" name="member_id" value="${review.member_id}">
-											<button class="button-primary-large max-width-full-mobile-portrait w-button edit" style="display: none;">내 후기 수정</button>
-											<button class="button-primary-large max-width-full-mobile-portrait w-button delete" style="display: none;">내 후기 삭제</button>
-						                </div>
-						            </div>
-						        </div>
-						    </div>
-						</c:forEach>
-	  
-		            </div>
-		          </div>
-		        </div>
-		      </div>
-		    </div>
-		  </div>
-		  <!-- 축제리뷰 리스트 end -->
-		  
-		  <div class="section-footer">
-		  	<div class="padding-global">
-		  		<div class="spacer-xxlarge"></div>
-		  		<div data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe"
-		  			class="container-footer">
-		  			<div class="padding-global">
-		  				<div class="padding-section-medium">
-		  					<div class="_2-column-grid">
-		  						<a href="/" aria-current="page"
-		  							class="w-inline-block w--current"><img
-		  							src="/images/ph_globe-simple-light-medium.svg" loading="lazy"
-		  							alt=""></a>
-		  						<div>
-		  							<h3>The stories of a travel photographer and blogger
-		  								exploring the world .</h3>
-		  							<div id="w-node-e1165d61-2cbb-cc22-6e05-5b6165b83107-65b830fb"
-		  								class="spacer-xxlarge"></div>
-		  						</div>
-		  					</div>
-		  					<div class="_2-column-grid footer">
-		  						<div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b846f-65b830fb"
-		  							class="footer-micro-links-wrapper">
-		  							<p class="text-size-small">
-		  								Website template by <a
-		  									href="https://www.callistodigitalstudio.com/" target="_blank"
-		  									class="text-size-small">Callisto Digital Studio</a>.
-		  							</p>
-		  							<p class="text-size-small">
-		  								Powered by <a
-		  									href="https://webflow.com/templates/html/sightseer-travel-website-template"
-		  									target="_blank" class="text-size-small">Webflow</a>.
-		  							</p>
-		  						</div>
-		  						<div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8474-65b830fb"
-		  							class="_3-column-grid footer-links">
-		  							<div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8475-65b830fb">
-		  								<h4>About</h4>
-		  								<div class="spacer-large"></div>
-		  								<a href="about" class="footer-link">About</a> <a
-		  									href="contact" class="footer-link">Contact</a>
-		  							</div>
-		  							<div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8481-65b830fb">
-		  								<h4>Social</h4>
-		  								<div class="spacer-large"></div>
-		  								<a href="http://tiktok.com" target="_blank"
-		  									class="footer-link">TikTok</a> <a href="http://Instagram.com"
-		  									target="_blank" class="footer-link">Instagram</a> <a
-		  									href="http://Facebook.com" target="_blank"
-		  									class="footer-link">Facebook</a> <a href="http://Youtube.com"
-		  									target="_blank" class="footer-link">Youtube</a>
-		  							</div>
-		  							<div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b848d-65b830fb">
-		  								<h4>Theme</h4>
-		  								<div class="spacer-large"></div>
-		  								<a href="template/template-style-guide.html"
-		  									class="footer-link">Style Guide</a> <a
-		  									href="template/changelog.html" class="footer-link">Changelog</a>
-		  								<a href="template/licenses.html" class="footer-link">Licenses</a>
-		  								<a
-		  									href="https://webflow.com/templates/designers/callisto-digital-studio"
-		  									target="_blank" class="footer-link">All Templates</a>
-		  							</div>
-		  						</div>
-		  					</div>
-		  				</div>
-		  			</div>
-		  		</div>
-		  		<div class="spacer-xxlarge"></div>
-		  	</div>
-		  </div>
-		  <!-- section-footer end -->
-  <script>	
+															class="post-row-image"></div>
+													</c:when>
+													<c:otherwise>
+														<div
+															id="w-node-e144bf26-0d49-109b-1b5b-756bc18db829-4f5c4823"
+															data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"
+															style="background-color: #ccc; transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);"
+															class="post-row-image"></div>
+													</c:otherwise>
+												</c:choose>
+											</a>
+											<div
+												id="w-node-e144bf26-0d49-109b-1b5b-756bc18db82a-4f5c4823"
+												class="post-row-wrapper">
+												<a id="w-node-e144bf26-0d49-109b-1b5b-756bc18db830-4f5c4823"
+													href="#" class="w-inline-block"> <input type="hidden"
+													id="fr_id" name="fr_id" value="${review.fr_id}">
+													<h3>${review.fr_title}</h3>
+												</a>
+												<div class="small-author-wrapper">
+													<a href="#"
+														class="author-pic-and-name-wrapper w-inline-block">
+														<div class="small-author-thumbnail">
+															<img src="${review.memberImageUrl}"
+																alt="${review.member_id}" class="author-thumbnail-image">
+														</div>
+														<div class="text-size-regular">${review.member_id}</div>
+													</a>
+													<div class="line-divider"></div>
+													<div class="text-size-regular text-color-dark-gray">
+														<fmt:formatDate value="${review.fr_regdate}"
+															pattern="yyyy-MM-dd" />
+													</div>
+												</div>
+												<div class="review-buttons">
+													<input type="hidden" id="fr_id" name="fr_id"
+														value="${review.fr_id}"> <input type="hidden"
+														id="member_id" name="member_id"
+														value="${review.member_id}">
+													<button
+														class="button-primary-large max-width-full-mobile-portrait w-button edit"
+														style="display: none;">내 후기 수정</button>
+													<button
+														class="button-primary-large max-width-full-mobile-portrait w-button delete"
+														style="display: none;">내 후기 삭제</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</c:forEach>
+
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 축제리뷰 리스트 end -->
+
+	<%@ include file="../footer.jsp"%>
+	<!-- section-footer end -->
+	<script>	
 	document.addEventListener('DOMContentLoaded', function() {
 		// 후기 남기기
 		var newReviewBtn = document.getElementById('newReviewBtn');
@@ -430,15 +495,16 @@
 
 
   </script>
-	  
-  <script
-  	src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9"
-  	type="text/javascript"
-  	integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-  	crossorigin="anonymous"></script>
-  <script src="/js/webflow.js" type="text/javascript"></script>
-  	<!-- 08/13 기진 : kakao map apiKey-->
-  	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=008b79e594d7ab4e1058e1180ccf546c"></script>
+
+	<script
+		src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9"
+		type="text/javascript"
+		integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+		crossorigin="anonymous"></script>
+	<script src="/js/webflow.js" type="text/javascript"></script>
+	<!-- 08/13 기진 : kakao map apiKey-->
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=008b79e594d7ab4e1058e1180ccf546c"></script>
 
 	<!-- 8/13 기진 지도관련 script 추가 -->
 	<script>
@@ -452,7 +518,7 @@
 		// 지도 옵션을 설정합니다
 		var mapOption = { 
 		    center: new kakao.maps.LatLng(festivalLat, festivalLng), // 지도의 중심좌표
-		    level: 3 // 지도의 확대 레벨
+		    level: 4 // 지도의 확대 레벨
 		};
 
 		// 지도를 생성합니다
@@ -477,7 +543,6 @@
 		marker.setMap(map);
 
 	</script>
-			  
 </body>
 
 </html>
