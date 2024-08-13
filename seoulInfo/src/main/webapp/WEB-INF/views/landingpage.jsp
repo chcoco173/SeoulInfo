@@ -55,7 +55,7 @@
       display: flex;
 	  align-items: center;
 	  justify-content: center;
-      background-color: #D2D2D2;
+      background-color: #e2e2e2;
       margin-bottom: 100px;
       max-width: 100%;
       height: 650px;
@@ -65,7 +65,10 @@
       max-width: 45%;
       margin: 0 5rem;
       border-radius: 8px;
+	  width : 1100px;
+	  height : 600px;
     }
+	
     .box div {
       max-width: 45%;
     }
@@ -86,6 +89,37 @@
 	.main-wrapper {
 	  margin-top: 60px;
 	  padding: 2.5rem;
+	}
+	.box h1 {
+	  font-size: 3.5rem; 
+	  font-weight: 700; 
+	}
+
+	.box p {
+	  font-size: 1.5rem; 
+	  font-weight: 500; 
+	}
+	.back-to-top-wrapper {
+	  text-align: center;
+	  margin-top: 20px;
+	}
+
+	.back-to-top-button {
+	  display: inline-block;
+	  background-color: #e2e2e2;
+	  padding: 10px;
+	  border-radius: 50%;
+	  text-decoration: none;
+	  transition: background-color 0.3s ease;
+	}
+
+	.back-to-top-button img {
+	  width: 40px;
+	  height: 40px; 
+	}
+
+	.back-to-top-button:hover {
+	  background-color: #b2b2b2;
 	}
   </style>
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -108,7 +142,7 @@
       <div class="padding-global">
         <div data-w-id="6686b4cb-4367-4ec0-d713-bd79d3f3a9cd" class="container-newsletter background-black">
           <div class="_2-column-grid-uneven-left">
-            <h3 class="newsletter-heading">서울 지역 안내 서비스</h3>
+            <a href="/"><h3 class="newsletter-heading">서울 지역 안내 서비스</h3></a>
             <div id="Style-Guide-Form" class="form-component w-node-_6686b4cb-4367-4ec0-d713-bd79d3f3a9d1-d3f3a9cb w-form"></div>
           </div>
         </div>
@@ -118,43 +152,77 @@
     <div class="main-wrapper">
       <!-- 네 개의 박스 시작 -->
       <div class="box box-even" data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe">
-        <img src="https://via.placeholder.com/600" alt="Placeholder Image">
+        <img src="/landingpageimage/main1.png" alt="Placeholder Image">
         <div>
-          <h4>전체 사이트 설명</h4>
-          <p>여기에 전체 사이트 설명을 입력합니다.</p>
+          <h1>서울 곳곳의</h1>
+		  <h1>여러 정보들을 한눈에</h1>
+		  <br/>
+		  <br/>
+          <p>서울 지역 안내 서비스는 서울 시민과 방문객들이 필요로 하는</p>
+		  <p>다양한 정보를 한곳에 모아 제공하는 플랫폼입니다.</p> 
+		  <p>지역 뉴스, 행사 정보, 전기차 충전소와 근처 편의시설 지도</p>
+		  <p>그리고 안전한 구 별 중고거래 서비스를 제공합니다.</p>
+		  <p>각 카테고리 혹은 이미지 클릭 시 해당 서비스로 이동할 수 있습니다.</p>
+		  
+		  <br/>
+		  <br/>
+		  <a href='/'><h1><서울 지역 안내 서비스로 이동></h1></a>
 		</div>
       </div>
       <div class="box box-odd" data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe">
         <div>
-          <h4>지역 정보 (축제) 설명</h4>
-          <p>여기에 지역 정보 (축제) 설명을 입력합니다.</p>
+		<h1>월 별, 일 별, 구 별로</h1>
+		<h1>세분화한 축제 리스트</h1>
+		  <br/>
+		  <br/>
+		  <p>캘린더와 리스트를 통해 월 별, 일 별로 편리하게 확인할 수 있습니다.</p> 
+		  <p>구 선택 시 선택한 구에 해당하는 축제들만 선별해서 제공합니다.</p>
+		  <p>정보와 후기를 각 축제 별 게시판을 통해 다른 회원들과 나눌 수 있습니다.</p>
         </div>
-        <img src="https://via.placeholder.com/600" alt="Placeholder Image">
+        <img src="/landingpageimage/main2.png" alt="Placeholder Image">
 		</div>
       <div class="box box-even" data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe">
-        <img src="https://via.placeholder.com/600" alt="Placeholder Image">
+        <img src="/landingpageimage/main3.png" alt="Placeholder Image">
         <div>
-          <h4>지역 정보 (뉴스) 설명</h4>
-          <p>여기에 지역 정보 (뉴스) 설명을 입력합니다.</p>
+			<h1>구 별로 세분화해 최신순으로</h1>
+			<h1>제공하는 뉴스 리스트</h1>
+		  <br/>
+		  <br/>
+		  <p>구 선택 시 선택한 구에 해당하는 뉴스들만 선별해서 제공합니다.</p>
+		  <p>뉴스 제목 클릭 시 상세 뉴스 페이지를 볼 수 있습니다.</p>
 		</div>
       </div>
       <div class="box box-odd" data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe">
         <div>
-          <h4>전기차 충전소 설명</h4>
-          <p>여기에 전기차 충전소 설명을 입력합니다.</p>
+		<h1>가까운 전기차 충전소를</h1>
+		<h1>편리하게 검색할 수 있는 지도</h1>
+		  <br/>
+		  <br/>
+		  <p>회원 로그인 시, 거주 지역 내 전기차 충전소 정보를 제공합니다.</p> 
+		  <p>길 찾기 시 가장 빠른 경로와 경로 근처의 전기차 충전소 위치를 제공합니다.</p>
+		  <p>충전소 검색 시 주변 편의시설 정보도 함께 제공합니다.</p>
         </div>
-        <img src="https://via.placeholder.com/600" alt="Placeholder Image">
+        <img src="/landingpageimage/main4.png" alt="Placeholder Image">
       </div>
       <div class="box box-even" data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe">
-        <img src="https://via.placeholder.com/600" alt="Placeholder Image">
+        <img src="/landingpageimage/main5.png" alt="Placeholder Image">
         <div>
-          <h4>중고 거래 설명</h4>
-          <p>여기에 중고 거래 설명을 입력합니다.</p>
+			<h1>회원의 니즈에 딱 맞춘</h1>
+			<h1>상품들을 제시하는 중고거래</h1>
+			<br/>
+			<br/>
+			<p>구 선택 시 선택한 구에 해당하는 상품들만 선별해서 제공합니다.</p> 
+			<p>회원의 검색 내역을 기반으로 한 추천 카테고리 상품들을 제공합니다.</p>
+			<p>선택한 상품과 유사한 상품들을 연관 상품으로 제공합니다.</p>
 		</div>
       </div>
       <!-- 네 개의 박스 끝 -->
     </div>
-    
+	<div class="back-to-top-wrapper">
+	  <a href="#" class="back-to-top-button"><img src="/landingpageimage/uparrow.png"></a>
+	</div>
+	<br/>
+	<br/>
     <!-- footer -->
     <div class="section-footer">
       <div class="padding-global">
@@ -209,5 +277,14 @@
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="/js/webflow.js" type="text/javascript"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      $('.back-to-top-button').click(function(event) {
+        event.preventDefault();
+        $('html, body').animate({scrollTop: 0}, 'slow');
+        return false;
+      });
+    });
+  </script>
 </body>
 </html>
