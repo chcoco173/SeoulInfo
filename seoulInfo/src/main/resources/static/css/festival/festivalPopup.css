@@ -126,9 +126,10 @@
 
 /* 캘린더 헤더바 */
 /* 전체 일정 셀 스타일링 */
+
 .fc-daygrid-day {
-    position: relative; /* 셀의 위치를 기준으로 설정 */
-    overflow: hidden; /* 셀의 내용을 넘치지 않게 설정 */
+	position: relative; /* 셀의 위치를 기준으로 설정 */
+	overflow: hidden; /* 셀의 내용을 넘치지 않게 설정 */
 }
 
 /*  +more 가운데 맞춤 */
@@ -136,27 +137,24 @@
 	display: grid;
 	place-items: center; /* Center both horizontally and vertically */
 	position: relative; /* 상대 위치 지정 */
-	
-	
 }
 /* 기본 more 링크 스타일 */
 .fc-daygrid-more-link {
-    color: #666666 !important; /* 톤 다운된 회색 텍스트 */
-    padding: 4px 8px; /* 패딩 조정 */
-    border-radius: 4px; /* 테두리 반경 조정 */
-    display: inline-block; /* 링크를 인라인 블록으로 설정 */
-    text-align: center; /* 텍스트 가운데 정렬 */
-    text-decoration: none; /* 밑줄 제거 */
-    
+	color: #666666 !important; /* 톤 다운된 회색 텍스트 */
+	padding: 4px 8px; /* 패딩 조정 */
+	border-radius: 4px; /* 테두리 반경 조정 */
+	display: inline-block; /* 링크를 인라인 블록으로 설정 */
+	text-align: center; /* 텍스트 가운데 정렬 */
+	text-decoration: none; /* 밑줄 제거 */
 }
 /* 일요일 more 링크 스타일 */
 .fc-daygrid-day.fc-day-sun .fc-daygrid-more-link {
-    color: #666666 !important; /* 톤 다운된 회색 텍스트 */
+	color: #666666 !important; /* 톤 다운된 회색 텍스트 */
 }
 
 /* 토요일 more 링크 스타일 */
 .fc-daygrid-day.fc-day-sat .fc-daygrid-more-link {
-    color: #666666 !important; /* 톤 다운된 회색 텍스트 */
+	color: #666666 !important; /* 톤 다운된 회색 텍스트 */
 }
 
 .fc-header-toolbar {
@@ -167,6 +165,7 @@
 
 .fc .fc-toolbar-title {
 	font-size: 2.75em;
+	font-weight: bold;
 	margin: 0px;
 }
 
@@ -223,6 +222,33 @@
 
 /* 화면이 576px 이하일 때 폰트 크기 조정 */
 @media ( max-width : 576px) {
+	.fc-more-popover {
+    	max-width: 80%; /* 작은 화면에서 너비 조정 */
+    	font-size: 0.9em; /* 폰트 크기 조정 */
+  		left: 20px !important; /* 좌측 위치 조정 */
+  		box-sizing: border-box; /* 패딩과 보더를 포함한 크기 조정 */
+  	}
+	#calendar{
+		height:500px;
+	}
+	.fc-daygrid-day {
+  		height: 0 !important; /* 원하는 높이 */
+  		box-sizing: border-box; /* 패딩과 보더를 포함한 크기 조절 */
+	}
+	/* 월별 뷰에서 각 날짜 셀의 너비와 높이 조정 */
+	.fc-daygrid-day {
+  		height: 100px; /* 원하는 높이 */
+  		box-sizing: border-box; /* 패딩과 보더를 포함한 크기 조절 */
+	}
+	.fc .fc-toolbar-title {
+    	font-size: 1.9em;
+    	font-weight: bold; 
+    	margin: 0px;
+	}
+	.fc-toolbar-chunk{ /* 다음달 전달 이동 버튼 */
+		font-size: 12px; /* 글자 크기 줄이기 */
+  		padding: 5px 10px; /* 여백 줄이기 */
+	}
 	.fc a[data-navlink] {
 		font-size: 15px; /* 더 작은 화면에서 폰트 크기 조정 */
 	}
@@ -231,6 +257,27 @@
 		padding: 2px 4px;
 		font-size: 15px;
 	}
+	.fc .fc-daygrid-day-frame{
+		height:50px;
+	}
+	.fc-daygrid-day.fc-day-sat .fc-daygrid-more-link{
+    	font-size:10px;
+	}
+	.fc-daygrid-day.fc-day-sun .fc-daygrid-more-link {
+    	font-size:10px;
+	}
+	.fc-direction-ltr .fc-daygrid-more-link{
+		font-size:10px;
+	}
+	#event-list{
+		margin-top:20px;
+	}
+	#event-list h2{
+		font-size:1.2rem !important;
+		font-weight: bold;
+	
+	}
+
 	
 }
 
@@ -240,7 +287,7 @@
 	border: 1px solid #ddd;
 	border-radius: 8px;
 	padding: 20px;
-	max-height: 730px; /* 원하는 높이로 설정 */
+	max-height: 768px; /* 원하는 높이로 설정 */
 	overflow-y: auto; /* 수직 스크롤 추가 */
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 가벼운 그림자 효과 */
 }
@@ -254,6 +301,11 @@
 	padding-bottom: 10px;
 }
 
+.event-item img {
+    width: 100px; /* Fixed width for consistency */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 4px; /* Slightly rounded corners for images */
+}
 #event-list .media {
 	display: flex;
 	align-items: flex-start;
@@ -268,8 +320,6 @@
 
 #event-list .media img {
 	border-radius: 8px;
-	width: 150px; /* 고정된 너비 설정 */
-	height: 150px; /* 고정된 높이 설정 */
 	margin-right: 20px; /* 이미지와 텍스트 사이에 간격 추가 */
 	object-fit: cover; /* 이미지가 고정된 크기에 맞게 조정되도록 */
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 가벼운 그림자 효과 */
