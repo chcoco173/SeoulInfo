@@ -82,6 +82,7 @@
 					&& (n.className += t + "touch")
 		}(window, document);
 	</script>
+		
 	<link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
 	<link href="/images/webclip.png" rel="apple-touch-icon">
 	</head>
@@ -154,7 +155,6 @@
 				</div>
 			</div>
 		<!-- 검색창 end -->
-		
 		<!-- 축제 상세 정보 start -->
 		<div class="main-wrapper">
 		    <div class="section-post-banner background-black">
@@ -184,7 +184,8 @@
 		    </div>
 		</div>
 		<!-- 축제 상세정보 end --> 
-		</br></br>
+		</br>
+		<div id="map" style="width:95%;height:350px; border-radius:20px 20px 0px 0px; margin-left:2.5%;"></div>
 		  <!-- 축제 후기 등록하기 start -->
 		  <div class="section-newsletter">
 		  	<div class="padding-global">
@@ -434,7 +435,21 @@
   	integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
   	crossorigin="anonymous"></script>
   <script src="/js/webflow.js" type="text/javascript"></script>
-  
+  	<!-- 08/13 기진 : kakao map apiKey-->
+  	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=008b79e594d7ab4e1058e1180ccf546c"></script>
+
+	<!-- 8/13 기진 지도관련 script 추가 -->
+	<script>
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	    mapOption = { 
+	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+	        level: 3 // 지도의 확대 레벨
+	    };
+	
+	// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+	var map = new kakao.maps.Map(mapContainer, mapOption); 
+	</script>
+			  
 </body>
 
 </html>

@@ -44,11 +44,9 @@ public class ReportController {
         return "redirect:/reportSuccess";
     }
     
-    
-    
     // 축제 댓글 신고
-    @PostMapping("festival/reportComment")
-    public String reportComment(@RequestParam("comment_id") Integer commentId, 
+    @GetMapping("/festival/reportComment")
+    public void reportComment(@RequestParam("comment_id") Integer commentId, 
                                 @RequestParam("report_reason") String reportReason,
                                 @RequestParam("comment_author") String commentAuthor) {
         System.out.println("댓글 신고!! 댓글 ID: " + commentId + ", 신고 사유: " + reportReason);
@@ -63,13 +61,10 @@ public class ReportController {
                 reportVO.setReport_cate("축제댓글");
                 reportVO.setFrc_id(commentId); // 신고 대상 댓글 ID 설정
                 reportService.saveReport(reportVO);
-                return "success";
-            } else {
-                return "comment_not_found";
+                
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "error";
         }
     }
 }

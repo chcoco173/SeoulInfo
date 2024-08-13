@@ -42,7 +42,6 @@
             <table class="chargers" style="border: 2px solid green; border-radius:5px; text-align:center; ">
                 <thead>
                     <tr>
-						<th style="width:11%">충전기 no.</th>
                         <th colspan="2">충전기 정보	</th>
                         <th style="width:20%">충전기 상태<br/>(갱신일시)</th>
 						<th style="width:18%">사용제한</th>
@@ -77,7 +76,6 @@
 		    // 정보 창을 닫고 상태 초기화 함수
 		    function closeInfoWindow() {
 		        // 오버레이와 충전기 정보 창 숨기기
-		        $('.overlay').hide();
 		        $('.charger_Information').hide();
 
 		        // 클릭된 마커가 있는 경우, 원래 상태로 복원

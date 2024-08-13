@@ -11,6 +11,13 @@
 	    background-color: #f0f0f0;
 	    min-height: 100vh; /* 최소 높이를 설정하여 작은 화면에서도 중앙 정렬 유지 */
 	}
+	html{
+	    margin: 0;
+	    padding: 0;
+	    height: 100%;
+	    overflow: hidden; /* 전체 페이지에서 스크롤바를 없앰 */
+	}
+
 	.container {
 	    background-color: #fff;
 	    padding: 20px;
@@ -23,7 +30,10 @@
 	    flex-direction: column;
 	    align-items: stretch;
 	    margin: 10px; /* 작은 화면에서 여백 추가 */
+	    height: calc(100% - 20px); /* 화면 높이에 맞게 조정, 여백을 고려하여 높이 설정 */
+	    overflow: hidden; /* 컨테이너에서 스크롤바가 생기는 것을 방지 */
 	}
+
 	h2, .info, form, div, label, textarea, select, button {
 	    margin-bottom: 15px;
 	    width: 100%;
@@ -63,7 +73,9 @@
 	/* 미디어 쿼리를 사용하여 반응형 디자인 추가 */
 	@media (max-width: 600px) {
 	    .container {
-	        padding: 15px;
+			margin-left:25px;
+			
+	        padding:15px;
 	        width: 90%; /* 작은 화면에서 너비를 90%로 설정 */
 	    }
 	    button {
@@ -83,10 +95,11 @@
 	    // 창 닫기
 	    window.close();
 	}*/
+	
     window.onload = function() {
 		// 창 크기 설정
-		var width = 330;
-		var height = 400;
+		var width = 400;
+		var height = 500;
 		// 화면 크기 가져오기
 		var screenWidth = window.screen.width;
 		var screenHeight = window.screen.height;
@@ -98,11 +111,7 @@
 		// 창 크기와 위치 설정
 		window.resizeTo(width, height);
 		window.moveTo(left, top);
-		
-		// 폼 제출 이벤트 핸들러 설정
-		//document.querySelector("form").onsubmit = handleFormSubmit;
-    };
-	
+    };	
 </script>	
 </head>
 <body>
@@ -111,7 +120,7 @@
 		<div>
 		    <p>신고할 댓글 작성자: <strong>${param.commentAuthor}</strong></p>
 		</div>
-	    <form action="reportComment" method="post">
+	    <form action="/festival/reportComment" method="get">
 	        <div>
 	            <label for="report_reason">신고 사유를 작성해주세요. </label>
 				<br><br>
@@ -125,7 +134,7 @@
 				<input type="hidden" name="comment_author" value="${param.commentAuthor}" />
 	        </div>
 	        <div>
-	            <button type="submit">신고 제출</button>
+	            <button class="btn-report">신고 제출</button>
 	        </div>
 	    </form>
 	</div>
