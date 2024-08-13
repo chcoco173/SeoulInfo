@@ -321,33 +321,21 @@ public class FestivalController {
         }
     }
     
- // 리뷰 수정 요청을 처리하는 매핑
+	// 리뷰 수정 요청을 처리하는 매핑
     @PostMapping("/updateReview")
     @Transactional
     public String updateReview(FestivalReviewVO frvo,
-                               @RequestParam("festival_id") Integer festival_id,
-                               @RequestParam("fr_id") Integer fr_id,
-                               @RequestParam("fr_title") String fr_title,
-                               @RequestParam("fr_content") String fr_content,
-                               @RequestParam("file") List<MultipartFile> files) {
-        // 리뷰 정보 업데이트
-        frvo.setFestival_id(festival_id);
-        frvo.setFr_id(fr_id);
-        frvo.setFr_title(fr_title);
-        frvo.setFr_content(fr_content);
+                               @RequestParam("file") List<MultipartFile> files
+                               ) {
+    	
+		// 세션값
+		MemberVO mvo = (MemberVO) session.getAttribute("member");
+		
+		frvo.setMember_id(mvo.getMember_id());
 
-        // 현재 로그인한 회원 세션 받아오기
-        MemberVO mvo = (MemberVO) session.getAttribute("member");
-        frvo.setMember_id(mvo.getMember_id());
+		festivalReviewService.updateReview(frvo);
 
         try {
-            // 리뷰 업데이트
-            festivalReviewService.updateReview(frvo);
-
-            // 기존 이미지 삭제
-            festRevImageService.deleteReviewImages(frvo.getFr_id());
-
-            // 새로운 이미지 추가
             for (MultipartFile file : files) {
                 String fr_imgName = file.getOriginalFilename();
                 if (fr_imgName != null && !fr_imgName.equals("")) {
@@ -374,59 +362,43 @@ public class FestivalController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        // fr_id를 사용하여 review 정보를 가져와 festival_id를 가져옴
+        FestivalReviewVO review = festivalReviewService.getReview(frvo.getFr_id());
+        Integer festival_id = review.getFestival_id();
+    	System.out.println("festival_id 나오냥아아ㅏ아"+festival_id);
 
         return "redirect:/festival/festivalDetail?festival_id=" + festival_id;
     }
-	// 상품 수정
-//	@RequestMapping("/productUpdate")
-//	@Transactional
-//	public String updateProduct( @RequestParam("file") List<MultipartFile> files, ProductVO pvo ) {
-//		// 세션값
-//		MemberVO mvo = (MemberVO) session.getAttribute("member");
-//
-//		// 임의로 지정
-//		pvo.setMember_id(mvo.getMember_id());
-//		// 상품수정
-//		productService.updateProduct(pvo);
-//
-//		try {
-//			for (MultipartFile file : files) {
-//				String productimg_name = file.getOriginalFilename();
-//				System.out.println(productimg_name + "파일원래이름");
-//
-//				if( productimg_name != null && !productimg_name.equals("")) {
-//					String productimg_alias = new MD5Generator(productimg_name).toString();
-//					System.out.println("변경된 파일명"+productimg_alias);
-//
-//					String savepath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\productImage";
-//					System.out.println("저장경로 : " + savepath);
-//
-//					if (! new File(savepath).exists()) {
-//						new File(savepath).mkdir();
-//					}
-//
-//					String productimg_url = savepath + "\\" + productimg_alias;
-//					file.transferTo(new File(productimg_url));
-//					System.out.println("저장완료");
-//
-//					ProductImageVO pivo = new ProductImageVO();
-//					pivo.setSale_id(pvo.getSale_id());
-//					pivo.setProductimg_name(productimg_name);
-//					pivo.setProductimg_alias(productimg_alias);
-//					pivo.setProductimg_url(productimg_url);
-//
-//					productService.insertProductImage(pivo);
-//
-//				}
-//			}
-//
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//
-//		return "redirect:/product/myProduct";
-//	}
+    
+    // 이미지 하나씩 삭제 
+    @PostMapping("/deleteImage")
+    @ResponseBody
+    public String deleteImage(@RequestParam("fr_imgId") Integer fr_imgId) {
+        try {
+            Integer result = festRevImageService.deleteImage(fr_imgId);
+            if (result != null && result > 0) {
+                return "success";
+            } else {
+                return "fail";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
+    // 내 댓글 삭제
+    @PostMapping("/deleteComment")
+    @ResponseBody
+    public String deleteComment(@RequestParam("frc_id") Integer frc_id) {
+        try {
+            festRevCommentService.deleteComment(frc_id);
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
 
 }
