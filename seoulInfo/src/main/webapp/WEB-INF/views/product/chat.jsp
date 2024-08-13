@@ -24,14 +24,19 @@
     <!-- Chat Specific CSS -->
     <link rel="stylesheet" href="/css/product/chat.css">
 	<style>
+		#chat-section .chat-container {
+			max-width: 80%;
+			min-width: 80%;
+		}
+		
 		@media (max-width: 1200px) {
 		    .page-wrapper {
 		        padding: 20px;
 		    }
 
 		    #chat-section .chat-container {
-		        max-width: 100%;
-		        min-width: 100%;
+		        max-width: 80%;
+		        min-width: 80%;
 		    }
 		}
 
@@ -43,8 +48,8 @@
 
 		    #chat-section .chat-container {
 		        flex-direction: column;
-		        max-width: 100%;
-		        min-width: 100%;
+		        max-width: 80%;
+		        min-width: 80%;
 		        min-height: auto;
 		        max-height: none;
 		    }
@@ -105,10 +110,23 @@
 		    #chat-section .message-input button {
 		        width: 100%;
 		    }
+			
+			#chat-done{
+				font-size:0.8rem;
+			}
+			#deal-done{
+				font-size:0.8rem;
+			}
+			.action-buttons button {
+			    width:80px;
+			}
+			.product-info div{
+				font-size:0.8rem;
+			}
+			
 		}
 
 	    .page-wrapper {
-	        display: flex;
 	        flex-direction: column;
 	        align-items: center;
 	        justify-content: center;
@@ -118,12 +136,11 @@
 
 	    #navbar {
 	        width: 100%;
-	        display: flex;
 	        justify-content: center;
 	    }
 
 	    #chat-section {
-	        width: 100%;
+	        width: 100%;		
 	        display: flex;
 	        justify-content: center;
 	        margin-top: 20px;

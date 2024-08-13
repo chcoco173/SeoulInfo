@@ -240,7 +240,7 @@ function updateChatHeader(data) {
     const productImage = data.productImage;
 
     document.getElementById('product-name').innerText = `${product.sale_name}`;
-    document.getElementById('transaction-status').innerText = `거래 상태: ${product.sale_status}`;
+    document.getElementById('transaction-status').innerText = `${product.sale_status}`;
     if (productImage) {
         document.getElementById('product-image').src = `/productImage/${productImage.productimg_alias}`;
     } else {
