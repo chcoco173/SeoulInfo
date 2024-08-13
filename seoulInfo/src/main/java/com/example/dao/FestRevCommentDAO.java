@@ -13,5 +13,7 @@ public interface FestRevCommentDAO {
 	// 해당 축제 리뷰 리스트 가져오기
 	public List<FestRevCommentVO> getComments(Integer frc_id);
 	// 댓글 삭제
-	public void deleteComment(Integer frc_id, String member_id);
+	public void deleteComment(Integer frc_id);
+	// 댓글 가져오기
+	public FestRevCommentVO getComment(Integer frc_id);
 }

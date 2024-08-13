@@ -232,6 +232,13 @@
 		                                                    <fmt:formatDate value="${comment.frc_regdate}" pattern="yyyy-MM-dd" />
 		                                                </div>
 		                                            </div>
+													<!-- 내 댓글 삭제 버튼 -->
+													<c:if test="${sessionScope.member != null && sessionScope.member.member_id == comment.member_id}">
+													    <button class="button-primary-large max-width-full-mobile-portrait w-button delete-comment" data-comment-id="${comment.frc_id}">내 댓글 삭제</button>
+													</c:if>
+													<!-- 댓글 신고 버튼 -->
+													<c:if test="${sessionScope.member != null && sessionScope.member.member_id != comment.member_id}">
+														<button class="button-primary-large max-width-full-mobile-portrait w-button report-comment" data-comment-id="${comment.frc_id}" data-comment-author="${comment.member_id}">댓글 신고</button>													</c:if>
 		                                        </div>
 		                                    </div>
 		                                </div>
@@ -356,46 +363,70 @@
   <!-- 댓글 등록 -->
   <script>
 	$(document).ready(function () {
-	    $('#wf-form-Newsletter-Form').submit(function (event) {
-		
-	        event.preventDefault(); // 기본 폼 제출 이벤트 방지
-
-			var sessionResult = '<c:out value="${sessionScope.member != null ? sessionScope.member.member_id : ''}" />';
-
-	        var frId = $('#fr_id').val(); // 숨겨진 fr_id 요소의 값을 가져옴
-	        var commentContent = $('#comment').val(); // 댓글 내용을 가져옴
-			// 로그인 안되있을 때
-			if(sessionResult === ''){
-				 var userConfirmed = confirm("댓글을 달려면 로그인이 필요합니다.");
-				 if (userConfirmed) {
-				    // 로그인 페이지로 리다이렉트
-				 	window.location.href = '/member/login';
-				 }
-			}else{
-	        // AJAX 요청 수행
+	    $('.delete-comment').click(function () {
+	        var commentId = $(this).data('comment-id');
 	        $.ajax({
-	            type: 'GET',
-	            url: 'insertComment', // 댓글 제출을 위한 URL
-	            data: {
-	                fr_id: frId,
-	                comment: commentContent
-	            },
+	            type: 'POST',
+	            url: '/festival/deleteComment',
+	            data: { frc_id: commentId },
 	            success: function (response) {
 	                if (response === 'success') {
 	                    location.reload(); // 댓글 목록을 새로고침하기 위해 페이지 리로드
 	                } else {
-	                    alert(response); // 오류 메시지 표시
+	                    alert('댓글 삭제에 실패했습니다.');
 	                }
 	            },
 	            error: function () {
-	                alert('댓글 등록에 실패했습니다.');
+	                alert('댓글 삭제 요청 중 오류가 발생했습니다.');
 	            }
 	        });
-			}
 	    });
+
+	    $('#wf-form-Newsletter-Form').submit(function (event) {
+	        event.preventDefault(); // 기본 폼 제출 이벤트 방지
+
+	        var sessionResult = '<c:out value="${sessionScope.member != null ? sessionScope.member.member_id : ''}" />';
+	        var frId = $('#fr_id').val(); // 숨겨진 fr_id 요소의 값을 가져옴
+	        var commentContent = $('#comment').val(); // 댓글 내용을 가져옴
+
+	        // 로그인 안되있을 때
+	        if (sessionResult === '') {
+	            var userConfirmed = confirm("댓글을 달려면 로그인이 필요합니다.");
+	            if (userConfirmed) {
+	                // 로그인 페이지로 리다이렉트
+	                window.location.href = '/member/login';
+	            }
+	        } else {
+	            // AJAX 요청 수행
+	            $.ajax({
+	                type: 'GET',
+	                url: 'insertComment', // 댓글 제출을 위한 URL
+	                data: {
+	                    fr_id: frId,
+	                    comment: commentContent
+	                },
+	                success: function (response) {
+	                    if (response === 'success') {
+	                        location.reload(); // 댓글 목록을 새로고침하기 위해 페이지 리로드
+	                    } else {
+	                        alert(response); // 오류 메시지 표시
+	                    }
+	                },
+	                error: function () {
+	                    alert('댓글 등록에 실패했습니다.');
+	                }
+	            });
+	        }
+	    });
+		
+		// 댓글 신고 기능
+		$('.report-comment').click(function () {
+		    var commentId = $(this).data('comment-id');
+		    var commentAuthor = $(this).data('comment-author');
+		    console.log("댓글 작성자 신고 " + commentAuthor);
+		    window.open('/festival/comment_report?selectedCommentId=' + commentId + '&commentAuthor=' + commentAuthor, '댓글 신고', 'width=400,height=400');
+		});
 	});
-
-
   </script>	  
 </body>
 

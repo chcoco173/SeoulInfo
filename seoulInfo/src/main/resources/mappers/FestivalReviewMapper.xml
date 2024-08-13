@@ -25,7 +25,7 @@
 	</select>
 	
 	<!-- 축제 리뷰 수정 -->
-	<update id="updateReview" parameterType="integer">
+	<update id="updateReview" parameterType="FestivalReviewVO">
 		UPDATE festival_review
 		set
 		fr_content = #{fr_content},

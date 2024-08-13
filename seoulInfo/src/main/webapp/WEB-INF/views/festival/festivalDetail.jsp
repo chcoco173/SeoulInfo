@@ -252,8 +252,8 @@
 						                <div class="review-buttons">
 											<input type="hidden" id="fr_id" name="fr_id" value="${review.fr_id}">
 											<input type="hidden" id="member_id" name="member_id" value="${review.member_id}">
-											<button class="button-primary-large max-width-full-mobile-portrait w-button edit" style="display: none;">작성한 후기 수정</button>
-											<button class="button-primary-large max-width-full-mobile-portrait w-button delete" style="display: none;">작성한 후기 삭제</button>
+											<button class="button-primary-large max-width-full-mobile-portrait w-button edit" style="display: none;">내 후기 수정</button>
+											<button class="button-primary-large max-width-full-mobile-portrait w-button delete" style="display: none;">내 후기 삭제</button>
 						                </div>
 						            </div>
 						        </div>

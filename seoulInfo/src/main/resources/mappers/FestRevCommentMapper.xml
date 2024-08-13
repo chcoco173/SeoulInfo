@@ -16,11 +16,18 @@
         WHERE fr_id = #{fr_id}
         ORDER BY frc_regdate ASC
     </select>
+    
+    <!-- 댓글 가져오기 -->
+    <select id="getComment" resultType="FestRevCommentVO" parameterType="integer">
+        SELECT *
+        FROM fest_rev_comment
+        WHERE frc_id = #{frc_id}
+    </select>
 	
 	<!-- 댓글 삭제 -->
-	<delete id="deleteComment" parameterType="FestRevCommentVO">
+	<delete id="deleteComment" parameterType="integer">
         DELETE FROM fest_rev_comment
-        WHERE frc_id = #{frc_id} AND member_id = #{member_id}
+        WHERE frc_id = #{frc_id}
     </delete>
 
 </mapper>
