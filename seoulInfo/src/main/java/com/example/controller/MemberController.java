@@ -1,9 +1,13 @@
 package com.example.controller;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -216,30 +221,70 @@ public class MemberController {
  // 8/1(목) -------------------------------------------------------------------------------------------	
 
  	// 네이버 로그인
-    @PostMapping("/emailChkNaver")
-    @ResponseBody
-    public String checkUserEmail(@RequestParam("member_email") String member_email, HttpServletRequest request) {
-    	 // 데이터베이스에서 이메일로 사용자 등록 여부 확인
-    	boolean isRegistered = memberService.isUserRegistered(member_email);
-    	
-    	// 사용자가 등록된 경우
-        if (isRegistered) {
-        	// 요청에서 세션을 가져옴
-            HttpSession session = request.getSession();
-            System.out.println(request.getSession());
-            
-            // 사용자 이름을 데이터베이스에서 가져옴
-            MemberVO result = memberService.getMemberByEmail(member_email);
-            System.out.println(result);
-            
-            // 세션에 사용자 정보를 저장
-            session.setAttribute("member", result);
-            //session.setAttribute("email", member_email);
-            System.out.println(session + "세션값");
-        }
+//    @PostMapping("/emailChkNaver")
+//    @ResponseBody
+//    public String checkUserEmail(@RequestParam("member_email") String member_email, HttpServletRequest request) {
+//    	 // 데이터베이스에서 이메일로 사용자 등록 여부 확인
+//    	boolean isRegistered = memberService.isUserRegistered(member_email);
+//    	
+//    	// 사용자가 등록된 경우
+//        if (isRegistered) {
+//        	// 요청에서 세션을 가져옴
+//            HttpSession session = request.getSession();
+//            System.out.println(request.getSession());
+//            
+//            // 사용자 이름을 데이터베이스에서 가져옴
+//            MemberVO result = memberService.getMemberByEmail(member_email);
+//            System.out.println(result);
+//            
+//            // 세션에 사용자 정보를 저장
+//            session.setAttribute("member", result);
+//            //session.setAttribute("email", member_email);
+//            System.out.println(session + "세션값");
+//        }
+//
+//        return "{\"isRegistered\":" + isRegistered + "}";
+//    }  
+    
+    //네이버 로그인 수정(한기진)
+    @PostMapping("/emailCheck")
+    public ResponseEntity<Map<String, Object>> checkEmail(@RequestBody Map<String, String> payload) {
+        String email = payload.get("email");  // "email"을 문자열 리터럴로 변경
+        System.out.println("이메일 " + email);
 
-        return "{\"isRegistered\":" + isRegistered + "}";
-    }    
+        MemberVO result = memberService.findByEmail1(email);
+        System.out.println(result);
+
+        Map<String, Object> response = new HashMap<>();
+        if (result != null) {
+            response.put("exists", true);
+            response.put("result", result);
+            System.out.println("사용자 존재");
+        } else {
+            response.put("exists", false);
+            System.out.println("사용자 존재하지 않음");
+        }
+        return ResponseEntity.ok(response);
+    }
+    
+    @PostMapping("/login-naver")
+    public ResponseEntity<Map<String, Object>> loginNaver(@RequestBody Map<String, String> payload, HttpSession session) {
+        String email = payload.get("email");
+        MemberVO user = memberService.findByEmail1(email);
+        Map<String, Object> response = new HashMap<>();
+
+        if (user != null) {
+            // 세션에 사용자 정보 저장
+            session.setAttribute("member", user);
+            response.put("success", true);
+            response.put("userName", user.getMember_name());
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("success", false);
+            return ResponseEntity.ok(response);
+        }
+    }
+
 
     // 8/2(금) -------------------------------------------------------------------------------------------      
    	
@@ -268,9 +313,5 @@ public class MemberController {
 	    return "mypage/memberInfo";
     }
 
-    
-    
-    
-	
 	
 }

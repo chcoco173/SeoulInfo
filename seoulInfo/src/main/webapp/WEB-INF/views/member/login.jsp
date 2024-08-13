@@ -93,21 +93,19 @@
 					<div class="spacer-large"></div>
 					<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">					
 						<input type="submit" class="button-primary-large-b w-button_login loginBtn" value="로그인">
-						<!-- 네이버로그인 -->
-						<div class="button-primary-large-g w-button_naver">네이버 로그인<%@ include file="./naverlogin.jsp" %></div>
+						<!-- 네이버로그인 id값이 naver_id_login 여야만 실행 가능-->
+						<div id="naver_id_login" class="button-primary-large-g w-button_naver"></div>
+
+						<!--<div class="button-primary-large-g w-button_naver">네이버 로그인</div>-->
 					</div>
 				
 					<div class="spacer-large"></div>
 					<div id="w-node-f07c70ce-d9c4-2d68-1944-a2df54e9288d-4f5c4825" class="contact-form-button-wrapper">
 						<a href="id_search" class="button-primary-large w-button">아이디 찾기</a>
 						<a href="pw_change" class="button-primary-large w-button">비밀번호 찾기</a>
-					</div>		
-							
-																				
+					</div>														
 					</form>				  				  				  
                 </div>
-                
-                
               </div>
             </div>
           </div>
@@ -126,5 +124,85 @@
   
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="/js/webflow.js" type="text/javascript"></script>
+  <!-- 네이버 로그인 -->
+    <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+    <script type="text/javascript">
+	// 채은 api 키	
+    var naver_id_login = new naver_id_login("mwih9PLmsIf9FHg7_L2K", "http://localhost:8080/member/login");
+    var state = naver_id_login.getUniqState();
+
+    naver_id_login.setButton("white", 2, 40);
+    naver_id_login.setDomain("http://localhost:8080");
+    naver_id_login.setState(state);
+    // naver_id_login.setPopup();
+    naver_id_login.init_naver_id_login();
+
+    function naverSignInCallback() {
+        // 로그인 성공 후 처리할 작업
+        var email = naver_id_login.getProfileData('email');
+        var nickname = naver_id_login.getProfileData('nickname');
+        var name = naver_id_login.getProfileData('name');
+        var age = naver_id_login.getProfileData('age');
+        var gender = naver_id_login.getProfileData('gender');
+        var birthday = naver_id_login.getProfileData('birthday');
+        var mobile = naver_id_login.getProfileData('mobile');
+
+        // alert(email+nickname+age+gender)
+
+        // AJAX 요청으로 이메일 존재 여부 확인
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/member/emailCheck",
+            data: JSON.stringify({ email: email }),
+            dataType: 'json',
+            success: function(result) {
+                if (result.exists) {
+                    loginWithNaver(email);
+                } else {
+                    // 이메일이 존재하지 않으면 회원가입으로 유도
+                    alert("가입된 이메일이 없습니다 회원가입후 로그인 부탁드립니다");
+                    var baseUrl = '${pageContext.request.contextPath}/member/insertMember';
+                    var redirectUrl = baseUrl + '?member_email=' + encodeURIComponent(email) +
+                        '&member_name=' + encodeURIComponent(name);
+                    window.location.href = redirectUrl;
+                }
+            },
+            error: function(e) {
+                console.log("이메일 확인 중 오류 발생", e);
+                alert("로그인 처리중 오류가 발생했습니다.");
+            }
+        });
+    }
+
+    function loginWithNaver(email) {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/member/login-naver",
+            data: JSON.stringify({ email: email }),
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    alert("네이버 로그인 성공!");
+                    // 페이지 새로고침
+                    window.location.href="/";
+                } else {
+                    alert("로그인에 실패했습니다.");
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("네이버 로그인 처리 중 오류 발생", error);
+                alert("로그인 처리 중 오류가 발생했습니다.");
+            }
+        });
+    }
+
+    // 페이지 로드 완료 후 실행
+    window.addEventListener('load', function() {
+        naver_id_login.get_naver_userprofile("naverSignInCallback()");
+    });
+    </script>
+
 </body>
 </html>

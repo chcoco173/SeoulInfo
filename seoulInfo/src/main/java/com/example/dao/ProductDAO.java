@@ -53,5 +53,7 @@ public interface ProductDAO {
 
 	// 구매후기 list 출력
 	public List<Map<String, Object>> productReview(String member_id);
+	// 관심갯수
+	public Integer productinterest(Integer sale_id);
 
 }

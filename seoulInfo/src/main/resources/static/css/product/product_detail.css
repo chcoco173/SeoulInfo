@@ -62,45 +62,6 @@
 	border-color: transparent #333 transparent transparent;
 }
 
-
-.product_detail {
-	width: 100%; /* Adjust width as needed */
-	height: 150px; /* Height to accommodate 5 rows */
-	font-size: 16px; /* Adjust font size as needed */
-	padding: 10px; /* Adjust padding as needed */
-	box-sizing: border-box;
-	/* Include padding and border in the element's total width and height */
-	resize: vertical; /* Allow the user to resize vertically */
-}
-
-.loci-image {
-	width: 3%; /* same width as heart-image */
-	height: auto;
-	border-radius: 0;
-	object-fit: contain;
-}
-
-.deal_state-image {
-	width: 3%; /* same width as heart-image */
-	height: auto;
-	border-radius: 0;
-	object-fit: contain;
-}
-
-.won-image {
-	width: 3%; /* same width as heart-image */
-	height: auto;
-	border-radius: 0;
-	object-fit: contain;
-}
-
-.product-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	position: relative;
-}
-
 .heart-image {
 	width: 5%;
 	height: auto;
@@ -109,56 +70,41 @@
 	cursor: pointer;
 }
 
-
-
-.carousel-image-wrapper {
-	background-color: #000000; /* 배경색 설정 */
-	width: 100%;
-	height: 400px;
-	padding-top: 50%; /* 비율 설정, 예: 16:9 비율 */
-	position: relative; /* 자식 요소를 절대 위치로 설정하기 위한 준비 */
-	display: flex; /* 중앙 정렬을 위한 flex 사용 */
-	align-items: center;
-	justify-content: center;
-	overflow: hidden;
-}
-
-.carousel-image-wrapper img {
-	position: absolute; /* 절대 위치로 부모 요소에 맞게 조정 */
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%); /* 중앙 정렬 */
-	width: 100%;
-	height: 80%; /* 비율 유지 */
-	max-width: 100%; /* 이미지가 컨테이너 너비를 넘지 않도록 설정 */
-	max-height: 100%; /* 이미지가 컨테이너 높이를 넘지 않도록 설정 */
-	object-fit: contain; /* 이미지 비율 유지하며 컨테이너에 맞춰 조정 */
-}
-
-/* 미디어 쿼리: 화면 크기에 따라 비율을 조정 */
-@media ( max-width : 1200px) {
-	.carousel-image-wrapper {
-		padding-top: 50%; /* 비율 조정 예: 2:1 비율 */
+@media ( max-width : 480px) {
+	.product-description {
+		margin-top: 20px;
 	}
 }
 
-@media ( max-width : 992px) {
-	.carousel-image-wrapper {
-		padding-top: 75%; /* 비율 조정 예: 4:3 비율 */
-	}
+/* 슬라이드 박스 스타일 */
+.carousel {
+	position: relative;
 }
 
-@media ( max-width : 768px) {
-	.carousel-image-wrapper {
-		padding-top: 100%; /* 비율 조정 예: 1:1 비율 */
-	}
+.carousel-indicators {
+	bottom: -20px;
 }
 
-@media ( max-width : 576px) {
-	.carousel-image-wrapper {
-		padding-top: 120%; /* 비율 조정 예: 더 작은 화면에서 비율 조정 */
-	}
+.carousel-indicators li {
+	background-color: #fff;
+	border-radius: 50%;
+	width: 10px;
+	height: 10px;
 }
+
+.carousel-item img {
+	height: auto;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+	background-color: rgba(0, 0, 0, 0.5);
+	border-radius: 50%;
+}
+
+/* 슬라이드 박스 끝 */
+
 /* 유사상품 css */
 /* 가로 스크롤바 + 가로로 뜨게 */
 .w-dyn-list {
@@ -246,6 +192,106 @@
 .product-info p strong {
 	color: #e74c3c;
 }
+
 .padding-section-medium {
-    padding-top: 1rem;
+	padding-top: 1rem;
+}
+
+/* 상품 설명 */
+/* 상품 설명 섹션 스타일 */
+.product-description {
+	padding: 20px;
+	background-color: #ffffff;
+	border-radius: 10px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 상품 제목 스타일 */
+.product-header {
+	margin-top: 0;
+	font-size: 40px;
+	font-weight: 600;
+	color: #333;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.product-description p strong {
+	font-size: 20px;
+	color: #e74c3c;
+}
+
+.product-header img {
+	width: 28px;
+	height: 28px;
+	cursor: pointer;
+	margin-left: 10px;
+	transition: transform 0.3s ease;
+}
+
+.product-header img:hover {
+	transform: scale(1.1);
+}
+
+/* 상품 상세 정보 스타일 */
+.product-description h6 {
+	font-size: 16px;
+	color: #555;
+	margin-bottom: 12px;
+	display: flex;
+	align-items: center;
+	margin-top: 10px;
+}
+
+.product-description h6 img {
+	margin-right: 10px;
+	width: 20px;
+	height: 20px;
+}
+
+/* 버튼 스타일 */
+.button-primary-small {
+	padding: 12px 25px;
+	border: 2px solid black;
+	background-color: transparent;
+	border-radius: 8px;
+	color: black;
+	cursor: pointer;
+	font-size: 16px;
+	font-weight: 600;
+	transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.button-primary-small:hover {
+	background-color: #1e1f21;
+	transform: translateY(-2px);
+}
+
+.chatDisabled {
+	background-color: #ccc;
+	cursor: not-allowed;
+}
+
+/* 추가 여백 */
+.container.mt-5 {
+	margin-top: 40px;
+}
+
+.text-center {
+	text-align: center;
+}
+
+/* 반응형 디자인 */
+@media ( max-width : 768px) {
+	.product-description {
+		padding: 15px;
+	}
+	.product-header {
+		font-size: 20px;
+	}
+	.button-primary-small {
+		padding: 10px 20px;
+		font-size: 14px;
+	}
 }

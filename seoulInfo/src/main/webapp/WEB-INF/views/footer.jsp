@@ -33,7 +33,7 @@ System.out.println(area);
                 <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b846f-65b830fb" class="footer-micro-links-wrapper">
                   <p class="text-size-small">이 웹사이트는 서울에 대한 정보를 포함하고 있습니다</p>
 				  
-                  <p class="text-size-small">ICT 5조</p>
+                  <p class="text-size-small">&copy; Seoul Area Guide Service. All rights reserved</p>
                 </div>
                 <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8474-65b830fb" class="_3-column-grid footer-links">
                   <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8475-65b830fb">

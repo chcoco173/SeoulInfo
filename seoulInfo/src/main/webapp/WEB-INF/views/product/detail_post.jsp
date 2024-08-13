@@ -101,7 +101,20 @@
 	    height: 3.5rem;
 	    margin-right: 6px;
 	}
-	</style>
+	.h2, h2 {
+		    font-size: 2rem;
+			font-weight: bold; 
+			margin : 1.5rem 0;
+		}
+		/* 뷰포트가 480px 이하일 때 */
+		@media (max-width: 480px) {
+		    .h2, h2 {
+		        font-size: 1.2rem; /* 폰트 크기 더 조정 */
+				font-weight: bold; 
+				margin : 1.5rem 0; /* margin도 필요에 따라 조정 */
+		    }
+		}
+</style>
 </head>
 <body>
 	<div class="page-wrapper">
@@ -186,7 +199,7 @@
 									<div class="col-md-6">
 										<div class="product-description">
 
-											<h3 class="product-header">
+											<h2 class="product-header">
 												${product.sale_name}
 												<!-- 찜기능 구현 -->
 												<c:choose>
@@ -199,34 +212,21 @@
 															class="heart-image heartOff" />
 													</c:otherwise>
 												</c:choose>
-
-											</h3>
+											</h2>
+											<h6>${product.sale_cate} ∙ ${timeAgo}</h6>
 											<h6>
-												<img id="wonImage" src="/productimages/won.png"
-													class="won-image" /> ${product.sale_price}
+													 ${product.sale_area}
 											</h6>
-											<h6>
-												<img id="deal_stateImage"
-													src="/productimages/deal_state.png"
-													class="deal_state-image" /> ${product.sale_status}
-											</h6>
-											<h6>${product.sale_cate}</h6>
-											<h6>
-												<img id="lociImage" src="/productimages/loci.png"
-													class="loci-image" /> ${product.sale_area}
-											</h6>
-											<h6>
-												조회수  ${product.sale_viewcount}
-											</h6>
-											
+											<p>
+												<strong class='price'data-price="${product.sale_price}"></strong>
+												
+											<p>
 											<div class="form-field-wrapper">
-												<label for="Style-Guide-Form-Message"
-													class="form-field-label">상품 상세</label>
-												<textarea id="Style-Guide-Form-Message" name="Message"
-													maxlength="5000" data-name="Message" placeholder="Message"
-													class="form-field text-area w-input" readonly>${product.sale_descript}</textarea>
+												<textarea class="form-control" id="Style-Guide-Form-Message" name="Message" rows="6" readonly>${product.sale_descript}</textarea>
 											</div>
-											<br />
+											<h6>
+												조회 ${product.sale_viewcount} ∙ 관심 <span class="interest">${interest}</span>∙ ${product.sale_status} 
+											</h6>
 											<div class="container mt-5 text-center">
 												<input type="hidden" class="sale_id" value="${product.sale_id}"> <input type="hidden" class="member_id" value="${product.member_id}">
 												<c:choose>
@@ -262,11 +262,7 @@
 				<div class="padding-section-medium">
 					<div class="container-full-width">
 						<h2 data-w-id="9cd55f64-9d5f-e93b-4891-5196167f55bc"
-							style="opacity: 0">유사한 상품 추천</h2>
-						<div class="spacer-xlarge"></div>
-						<div data-w-id="b1e774c6-4b2b-b3d4-cf1a-05e688bc0a4b"
-							style="opacity: 0" class="divider-line"></div>
-						<div class="spacer-xlarge"></div>
+							style="opacity: 0">알고리즘이 추천한 유사상품 입니다</h2>
 						<div class="w-dyn-list">
 							<c:forEach items="${similarList}" var="similarList"
 								varStatus="status">
@@ -289,16 +285,14 @@
 											<h4>${similarList.sale_name}</h4>
 											<p>${similarList.sale_area}</p>
 											<p>
-												<strong class='price'data-price="${similarList.sale_price}"></strong>
+												<strong class='price' data-price="${similarList.sale_price}"></strong>
 											</p>
 											<p>
-												관심 ${similarList.favorite_count}<span
-													style="margin-left: 20px;">상태:
-													${similarList.sale_status}</span>
+												관심 ${similarList.favorite_count} ∙ 조회 ${similarList.sale_viewcount} ∙ ${similarList.sale_status}
 											</p>
 											<!-- 날짜 차이 정보 추가 -->
 											<p>
-												${timeDataList[status.index]}<span style="margin-left: 30px;">조회수 : ${similarList.sale_viewcount}</span>
+												${timeDataList[status.index]}
 											</p>
 											<!-- 거래중 상태일 때만 오버레이 추가 -->
 											<c:if test="${similarList.sale_status eq '거래중' || productList.sale_status eq '판매완료'}">
@@ -380,7 +374,9 @@
 
 					window.location.href = "chat";
 				});
-
+				
+				
+		// 위시 삭제 (heartOn -> heartOff)
 		$(document).on(
 				'click',
 				'.heartOn',
@@ -395,14 +391,14 @@
 						data : {
 							"sale_id" : sale_id
 						},
-						success : function(result) {
-							if (result == '1') {
-								// heartOff로 바꾸기
-								$this.attr('src',
-										'/productimages/heart_off.png')
-										.removeClass('heartOn').addClass(
-												'heartOff');
-								alert('위시 삭제 성공');
+						success: function(response) {
+							 if (response.success) {
+								// 관심 수 업데이트
+								$this.attr('src', '/productimages/heart_off.png')
+									.removeClass('heartOn')
+									.addClass('heartOff');
+								$this.closest('.product-description').find('.interest').text(response.interest);
+						        alert('위시 삭제 성공');
 							}
 						},
 						error : function(err) {
@@ -411,7 +407,7 @@
 					});
 				});
 
-		// heartOff 버튼 클릭 시
+		// 위시 등록 (heartOff -> heartOn)
 		$(document).on(
 				'click',
 				'.heartOff',
@@ -433,15 +429,14 @@
 						data : {
 							"sale_id" : sale_id
 						},
-						success : function(result) {
-							if (result == '1') {
-								// heartOn로 바꾸기
-								$this
-										.attr('src',
-												'/productimages/heart_on.png')
-										.removeClass('heartOff').addClass(
-												'heartOn');
-								alert('위시 등록 성공');
+						success: function(response) {
+							if (response.success) {
+								// 관심 수 업데이트
+								$this.attr('src', '/productimages/heart_on.png')
+									.removeClass('heartOff')
+						            .addClass('heartOn');
+						        $this.closest('.product-description').find('.interest').text(response.interest);
+						        alert('위시 등록 성공');
 							}
 						},
 						error : function(err) {
@@ -491,6 +486,8 @@
 			var rawPrice = $(this).data('price');
 			$(this).text(formatPrice(rawPrice));
 		});
+		
+	
 		
 		
 	</script>

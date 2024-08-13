@@ -203,15 +203,11 @@
 															<strong class='price'data-price="${productList.sale_price}"></strong>
 														</p>
 														<p>
-															관심 ${productList.favorite_count}<span
-																style="margin-left: 20px;">상태:
-																${productList.sale_status}</span>
+															관심 ${productList.favorite_count} ∙ 조회 ${productList.sale_viewcount} ∙ ${productList.sale_status}
 														</p>
 														<!-- 날짜 차이 정보 추가 -->
 														<p>
-															${timeDataList[status.index]}<span
-																style="margin-left: 30px;">조회수 :
-																${productList.sale_viewcount}</span>
+															${timeDataList[status.index]}
 														</p>
 														<!-- 거래중 상태일 때만 오버레이 추가 -->
 														<c:if test="${productList.sale_status eq '거래중' || productList.sale_status eq '판매완료'}">
