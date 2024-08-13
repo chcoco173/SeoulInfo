@@ -237,38 +237,39 @@
 							        <label for="fr_content">해당 축제에 후기를 남겨주세요.</label>
 									<textarea class="form-control" id="fr_content" name="fr_content" rows="6" placeholder="내용을 입력해주세요." required>${review.fr_content}</textarea>
 							    </div>
-							    <div class="form-group">
-									    <label for="productImage">해당 축제에서 찍은 사진들을 올려주세요.</label>
-									    <div id="fileInputs">
-									        <c:choose>
-									            <c:when test="${not empty images}">
-									                <c:forEach var="image" items="${images}" varStatus="status">
-									                    <div class="scroll-item">
-									                        <input type="file" class="form-control-file mt-2 file-input" name="file" accept="image/*" onchange="previewFile(event, ${status.index})">
-									                        <img src="${image.fr_imgUrl}" alt="리뷰 이미지" class="review-image" style="display:block;">
-									                        <button type="button" class="delete-btn delete" style="display:block;" onclick="removeImage(${status.index})">&#10005;</button>
-									                    </div>
-									                </c:forEach>
-									                <c:forEach begin="${images.size()}" end="2" varStatus="status">
-									                    <div class="scroll-item">
-									                        <input type="file" class="form-control-file mt-2 file-input" name="file" accept="image/*" onchange="previewFile(event, ${status.index + images.size()})">
-									                        <img src="" alt="리뷰 이미지" class="review-image" style="display:none;">
-									                        <button type="button" class="delete-btn delete" style="display:none;" onclick="removeImage(${status.index + images.size()})">&#10005;</button>
-									                    </div>
-									                </c:forEach>
-									            </c:when>
-									            <c:otherwise>
-									                <c:forEach begin="0" end="2" varStatus="status">
-									                    <div class="scroll-item">
-									                        <input type="file" class="form-control-file mt-2 file-input" name="file" accept="image/*" onchange="previewFile(event, ${status.index})">
-									                        <img src="" alt="리뷰 이미지" class="review-image" style="display:none;">
-									                        <button type="button" class="delete-btn delete" style="display:none;" onclick="removeImage(${status.index})">&#10005;</button>
-									                    </div>
-									                </c:forEach>
-									            </c:otherwise>
-									        </c:choose>
-									    </div>
-									</div>
+								<div class="form-group">
+								    <label for="productImage">해당 축제에서 찍은 사진들을 올려주세요.</label>
+								    <div id="fileInputs">
+								        <c:choose>
+								            <c:when test="${not empty images}">
+								                <c:forEach var="image" items="${images}" varStatus="status">
+								                    <div class="scroll-item">
+								                        <input type="file" class="form-control-file mt-2 file-input" name="file" accept="image/*" onchange="previewFile(event, ${status.index}, true)">
+								                        <img src="${image.fr_imgUrl}" alt="리뷰 이미지" class="review-image" style="display:block;">
+								                        <button type="button" class="delete-btn delete" style="display:block;" data-is-existing="true" data-img-id="${image.fr_imgId}" onclick="removeImage(${status.index}, ${image.fr_imgId}, true)">&#10005;</button>
+								                    </div>
+								                </c:forEach>
+								                <c:forEach begin="${images.size()}" end="2" varStatus="status">
+								                    <div class="scroll-item">
+								                        <input type="file" class="form-control-file mt-2 file-input" name="file" accept="image/*" onchange="previewFile(event, ${status.index + images.size()}, false)">
+								                        <img src="" alt="리뷰 이미지" class="review-image" style="display:none;">
+								                        <button type="button" class="delete-btn delete" style="display:none;" data-is-existing="false" onclick="removeImage(${status.index + images.size()}, null, false)">&#10005;</button>
+								                    </div>
+								                </c:forEach>
+								            </c:when>
+								            <c:otherwise>
+								                <c:forEach begin="0" end="2" varStatus="status">
+								                    <div class="scroll-item">
+								                        <input type="file" class="form-control-file mt-2 file-input" name="file" accept="image/*" onchange="previewFile(event, ${status.index}, false)">
+								                        <img src="" alt="리뷰 이미지" class="review-image" style="display:none;">
+								                        <button type="button" class="delete-btn delete" style="display:none;" data-is-existing="false" onclick="removeImage(${status.index}, null, false)">&#10005;</button>
+								                    </div>
+								                </c:forEach>
+								            </c:otherwise>
+								        </c:choose>
+								    </div>
+								</div>
+
 								<div class="form-group submit-button">
 									<c:choose>
 									    <c:when test="${not empty review}">
@@ -347,7 +348,7 @@
   <script src="/js/webflow.js" type="text/javascript"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script type="text/javascript">
-  function validateForm() {
+  function validateFormForInsert() {
       let fileInputs = document.querySelectorAll('.file-input');
       let hasFile = false;
 
@@ -365,7 +366,12 @@
       return true;
   }
 
-  function previewFile(event, index) {
+  function validateFormForUpdate() {
+      return true;
+  }
+
+  // 이미지 미리보기 및 삭제 버튼 처리 함수
+  function previewFile(event, index, isExisting) {
       var input = event.target;
       var file = input.files[0];
       var reader = new FileReader();
@@ -378,20 +384,46 @@
           img.src = imgSrc;
           img.style.display = 'block';
           deleteBtn.style.display = 'block';
+          deleteBtn.setAttribute('data-is-existing', isExisting);
       }
 
       reader.readAsDataURL(file);
   }
 
-  function removeImage(index) {
+  // 이미지 삭제 함수
+  function removeImage(index, fr_imgId, isExisting) {
       var fileInput = document.querySelectorAll('.file-input')[index];
       var img = fileInput.nextElementSibling;
       var deleteBtn = img.nextElementSibling;
 
-      fileInput.value = '';
-      img.style.display = 'none';
-      deleteBtn.style.display = 'none';
+      if (isExisting) {
+          // 이미지 삭제 요청
+          $.ajax({
+              url: '/festival/deleteImage',
+              type: 'POST',
+              data: { fr_imgId: fr_imgId },
+              success: function(response) {
+                  if (response === 'success') {
+                      // 화면에서 이미지 및 파일 입력 필드 제거
+                      fileInput.value = '';
+                      img.style.display = 'none';
+                      deleteBtn.style.display = 'none';
+                  } else {
+                      alert('이미지 삭제에 실패하였습니다.');
+                  }
+              },
+              error: function() {
+                  alert('서버 요청 중 오류가 발생하였습니다.');
+              }
+          });
+      } else {
+          // 새로 업로드한 이미지는 단순히 화면에서 제거
+          fileInput.value = '';
+          img.style.display = 'none';
+          deleteBtn.style.display = 'none';
+      }
   }
+
   </script>
 </body>
 </html>

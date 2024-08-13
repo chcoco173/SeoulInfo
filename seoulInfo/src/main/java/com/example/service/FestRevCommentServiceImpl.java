@@ -26,10 +26,16 @@ public class FestRevCommentServiceImpl implements FestRevCommentService {
 		return festRevCommentDAO.getComments(fr_id);
 	}
 	
+	// frc_id 에 해당하는 댓글
+	@Override
+	public FestRevCommentVO getComment(Integer frc_id) {
+		return festRevCommentDAO.getComment(frc_id);
+	}
+	
 	// 리뷰 삭제
 	@Override
-	public void deleteComment(Integer frc_id, String member_id) {
-		festRevCommentDAO.deleteComment(frc_id, member_id);
+	public void deleteComment(Integer frc_id) {
+		festRevCommentDAO.deleteComment(frc_id);
 	}
 
 }
