@@ -68,7 +68,7 @@
 								<div class="form-group">
 									<label for="sale_descript">상품 설명</label>
 									<textarea class="form-control" id="sale_descript" name="sale_descript" rows="3"
-										placeholder="상품 설명을 입력해주세요" required></textarea>
+										placeholder="상품 설명을 입력해주세요" wrap="soft" required></textarea>
 								</div>
 								<div class="form-group">
 									<label>카테고리</label>
@@ -255,7 +255,7 @@
 									<c:set var="areas" value="${['강남구', '강동구', '강서구', '강북구', '관악구', '광진구', '구로구', '금천구', '노원구', '도봉구', '동대문구', '동작구', '마포구', '서대문구', '서초구', '성동구', '성북구', '송파구', '양천구', '영등포구', '용산구', '은평구', '종로구', '중구', '중랑구']}" />
 
 									<select class="form-control" name="sale_area" id="sale_area" required>
-									    <%-- 구 이름 배열을 반복하여 option 태그 생성 --%>
+									    
 									    <c:forEach items="${areas}" var="area">
 									        <option value="${area}" ${sessionScope.member.member_area eq area ? 'selected' : ''}>${area}</option>
 									    </c:forEach>

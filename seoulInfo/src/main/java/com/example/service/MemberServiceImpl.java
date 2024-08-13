@@ -161,6 +161,13 @@ public class MemberServiceImpl implements MemberService{
 	public QuestionVO selectQuestion(QuestionVO qvo) {
 		return memberDAO.selectQuestion(qvo);
 	}
+
+	@Override
+	public MemberVO findByEmail1(String email) {
+		MemberVO user = memberDAO.findByEmail1(email);
+		return user;
+
+	}
 	
 
 }

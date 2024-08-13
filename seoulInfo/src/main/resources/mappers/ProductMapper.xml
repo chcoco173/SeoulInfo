@@ -413,6 +413,15 @@
 	</select>
 
 
+	<select id='productinterest' parameterType='integer' resultType='integer'>
+		select count(ps.sale_id)
+		from product_sale ps join favorite_product fp 
+		on ps.sale_id = fp.sale_id 
+		where ps.sale_id = #{sale_id}
+		group by ps.sale_id
+	</select>
+	
+	
 
 
 

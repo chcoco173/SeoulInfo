@@ -146,6 +146,13 @@ public class ProductServiceImpl implements ProductService{
 	public List<Map<String, Object>> productReview(String member_id) {
 		return productDAO.productReview(member_id);
 	}
+
+	// 관심
+	@Override
+	public Integer productinterest(Integer sale_id) {
+		// TODO Auto-generated method stub
+		return productDAO.productinterest(sale_id);
+	}
 	
 	
 

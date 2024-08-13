@@ -152,6 +152,16 @@
 <script type="text/javascript">
 
 	$(document).ready(function() {
+		// 문자열 부분(?로 시작하는 부분)을 가져옴
+		const queryParams = new URLSearchParams(window.location.search);
+		const email = queryParams.get('member_email');
+		const name = queryParams.get('member_name');
+		
+		console.log(email +"."+ name)
+		// 받은 파라메터로 값 설정
+		document.getElementById('name').value = name;
+		document.getElementById('email').value = email;
+				
 
 		//회원가입 유효성 검사
 	    var fields = [

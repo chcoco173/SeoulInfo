@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -222,7 +223,7 @@ public class ProductController {
 			prediction = callMlServer(areaSearchMl, "area", area);
 			System.out.println("대체 예측값: " + prediction);
 
-			title =  area + "베스트 카테고리 상품 추천";
+			title = "'"+area + "' 베스트 카테고리 상품 추천";
 		}
 
 		// 예측값이 null이거나 "null" 문자열인 경우 대체 ML 모델 호출
@@ -232,7 +233,7 @@ public class ProductController {
 			prediction = callMlServer(areaSearchMl, "area", area);
 			System.out.println("대체 예측값 (예측값 null): " + prediction);
 
-			title = area + "베스트 카테고리 상품 추천";
+			title = "'"+area + "' 베스트 카테고리 상품 추천";
 		} else {
 			System.out.println("예측값이 null이 아닙니다. if문 실행되지 않음.");
 		}
@@ -247,6 +248,7 @@ public class ProductController {
 		// 시간 변환 메소드 호출 후 모델에 추가
 		model.addAttribute("timeDataList", timeConversion(productList));
 		model.addAttribute("title", title);
+		
 
 		return "product/productMain";
 	}
@@ -573,6 +575,12 @@ public class ProductController {
 		ProductVO product = productService.myProductSaleId(sale_id);
 		// 상품 이미지
 		List<ProductImageVO> productImgList = productImageService.myProductSaleId(sale_id);
+		// 관심 갯수
+		Integer interest = productService.productinterest(sale_id);
+		if(interest == null) {
+			interest = 0;
+		}
+		
 		// wish 체크
 		Boolean wishCheck = false;
 		// 세션 값이 널이 아닌경우에만 실행
@@ -589,10 +597,7 @@ public class ProductController {
 		Map<String, String>  requestBody = new HashMap<>();
 		requestBody.put("title", product.getSale_name());
 		requestBody.put("cate", product.getSale_cate());
-		System.out.println(product.getSale_cate());
 		requestBody.put("area", area);
-
-
 		try {
 			// Flask 서버로 POST 요청 + 응답 받기
 			String result = restTemplate.postForObject(mlServerUrl2, requestBody, String.class); // url, 요청본문, 응답받는타입
@@ -640,7 +645,7 @@ public class ProductController {
 			model.addAttribute("reviewStarAvg", reviewStarAvg);
 		}
 
-		// mostProduct_review, mostChat_review, mostCommitment_review
+		// mostProduct_review, mostChat_review, mostCommitment_review ( 리뷰 )
 		HashMap mostProduct_review = reviewService.mostProduct_review(product.getMember_id());
 		HashMap mostChat_review = reviewService.mostChat_review(product.getMember_id());
 		HashMap mostCommitment_review = reviewService.mostCommitment_review(product.getMember_id());
@@ -655,7 +660,43 @@ public class ProductController {
 		MemberVO member = memberService.getMemberById(product.getMember_id());
 		System.out.println(member.getMember_imageName());
 		model.addAttribute("member",member);
+		
 		model.addAttribute("product", product);
+		
+		// 시간 변환
+		Object regdateObj= product.getSale_regdate();
+		
+		 // regdateObj를 Date 타입으로 캐스팅
+        if (regdateObj instanceof Date) {
+            Date regdate = (Date) regdateObj;
+            System.out.println("Registration Date: " + regdate);
+            
+            Date now = new Date();
+            long duration = now.getTime() - regdate.getTime();
+            
+            long seconds = TimeUnit.MILLISECONDS.toSeconds(duration);
+            long minutes = TimeUnit.MILLISECONDS.toMinutes(duration);
+            long hours = TimeUnit.MILLISECONDS.toHours(duration);
+            long days = TimeUnit.MILLISECONDS.toDays(duration);
+            
+            String timeAgo;
+            if (seconds < 60) {
+                timeAgo = seconds + "초 전";
+            } else if (minutes < 60) {
+                timeAgo = minutes + "분 전";
+            } else if (hours < 24) {
+                timeAgo = hours + "시간 전";
+            } else {
+                timeAgo = days + "일 전";
+            }
+            
+            System.out.println(timeAgo);
+            model.addAttribute("timeAgo", timeAgo);
+        } else {
+            System.out.println("regdate is not a valid Date object.");
+        }
+		
+        model.addAttribute("interest", interest);
 		model.addAttribute("productImgList", productImgList);
 		model.addAttribute("wishCheck", wishCheck);
 
@@ -666,7 +707,7 @@ public class ProductController {
 	// 위시등록
 	@ResponseBody
 	@PostMapping("/wishInsert")
-	public String wishInsert(@RequestParam Integer sale_id) {
+	public Map<String, Object> wishInsert(@RequestParam Integer sale_id) {
 		FavoriteProductVO fpvo = new FavoriteProductVO();
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 
@@ -674,10 +715,17 @@ public class ProductController {
 		fpvo.setSale_id(sale_id);
 
 		Integer result = productService.insertFavProduct(fpvo);
-		System.out.println(result);
-		if ( result != null) {
-			return "1";
+		
+		
+		Map<String, Object> response = new HashMap<>();
+		if(result == 1) {
+			Integer interes = productService.productinterest(sale_id);
+			
+			response.put("success", true);
+		    response.put("interest", interes);
+		    return response;
 		}
+		
 
 		return null;
 	}
@@ -685,7 +733,7 @@ public class ProductController {
 	// 위시제거
 	@ResponseBody
 	@PostMapping("/wishDelete")
-	public String wishDelete(@RequestParam Integer sale_id) {
+	public Map<String, Object> wishDelete(@RequestParam Integer sale_id) {
 		FavoriteProductVO fpvo = new FavoriteProductVO();
 		MemberVO mvo = (MemberVO) session.getAttribute("member");
 
@@ -693,9 +741,16 @@ public class ProductController {
 		fpvo.setSale_id(sale_id);
 
 		Integer result = productService.deleteFavProduct(fpvo);
-		System.out.println(result);
-		if ( result != null) {
-			return "1";
+		
+		Map<String, Object> response = new HashMap<>();
+		if(result == 1) {
+			Integer interes = productService.productinterest(sale_id);
+			if(interes == null) {
+				interes = 0;
+			}
+			response.put("success", true);
+		    response.put("interest", interes);
+		    return response;
 		}
 
 		return null;

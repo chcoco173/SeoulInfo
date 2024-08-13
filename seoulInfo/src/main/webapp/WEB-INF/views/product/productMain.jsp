@@ -74,9 +74,18 @@
 <style>
 	.h1, h1 {
 	    font-size: 2.5rem;
+		font-weight: bold; 
 		margin-bottom : 3rem;
 	}
-	</style>
+	/* 뷰포트가 480px 이하일 때 */
+	@media (max-width: 480px) {
+	    .h1, h1 {
+	        font-size: 1.5rem; /* 폰트 크기 더 조정 */
+			font-weight: bold; 
+	        margin-bottom: 2rem; /* margin도 필요에 따라 조정 */
+	    }
+	}
+</style>
 </head>
 <body>
 	<div class="page-wrapper">
@@ -92,6 +101,7 @@
 								<div class="row">
 									<div class="col-12">
 										<h1 class="text-center">
+											
 											${title}
 										</h1>
 									</div>
@@ -122,12 +132,12 @@
 															
 														</p>
 														<p>
-															관심 : ${productList.favorite_count}<span style="margin-left: 20px;">상태: ${productList.sale_status}</span>
+															관심 ${productList.favorite_count} ∙ 조회 ${productList.sale_viewcount} ∙ ${productList.sale_status}
 														</p>
 														
 														<!-- 날짜 차이 정보 추가 -->
 														<p>
-															${timeDataList[status.index]}<span style="margin-left: 30px;">조회수 : ${productList.sale_viewcount}</span>
+															${timeDataList[status.index]}<span style="margin-left: 30px;">
 														</p>
 														<!-- 거래중 상태일 때만 오버레이 추가 -->
 														<c:if test="${productList.sale_status eq '거래중' || productList.sale_status eq '판매완료'}">
