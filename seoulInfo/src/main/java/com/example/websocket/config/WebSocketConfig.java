@@ -29,7 +29,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")	// ws 경로에 STOMP 엔드포인트를 등록합니다.
-        		.setAllowedOrigins("*")
                 .withSockJS();	// SockJS 폴백 옵션을 활성화하여 웹소켓을 지원하지 않는 브라우저에서도 웹소켓을 사용할 수 있게 합니다.
     }
 

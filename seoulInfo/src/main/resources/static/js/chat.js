@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function connect() {
    chatPage.classList.remove('hidden');
-    const socket = new SockJS('http://your-server-ip:your-port/ws');
+    const socket = new SockJS('/ws');
     stompClient = Stomp.over(socket);
 
     stompClient.connect({}, onConnected, onError);
