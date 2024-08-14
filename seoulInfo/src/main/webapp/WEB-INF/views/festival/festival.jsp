@@ -201,7 +201,7 @@
 													<p>시작일:${festival.festival_startDate}</p>
 													<p>종료일:${festival.festival_endDate}</p>
 													<p class="viewcount">조회수:${festival.festival_viewcount}</p>
-													<a href="${festival.festival_siteurl}">사이트 바로가기</a>
+													<a href="/festival/festivalDetail?festival_id=${festival.festival_id}">상세내용 보러가기</a>
 												</div></li>
 										</c:forEach>
 									</ul>
@@ -308,7 +308,7 @@
 									'<p> 시작일 : ' + festival.festival_startDate + '</p>' +
 									'<p> 종료일 : ' + festival.festival_endDate + '</p>' +
 									'<p class="viewcount"> 조회수:' + festival.festival_viewcount + '</p>' +
-									'<a href="' + festival.festival_siteurl + '" target="_blank">사이트 바로가기</a>' +
+									'<a href="/festival/festivalDetail?festival_id=' + festival.festival_id + '">상세내용 보러가기</a>'
 									'</div>';
 
 								eventList.appendChild(listItem);
@@ -426,6 +426,7 @@
 					};
 					
 					// 문화 상세 페이지로 이동
+					
 					var Detail = document.getElementById('Detail');
 					Detail.onclick = function() {
 					    alert(arg.event.id);
@@ -459,8 +460,8 @@
 				// 클릭된 item 내부의 .festival_id input 요소를 선택
 				var festivalId = this.querySelector('#festival_id').value;
 				// festival_id를 alert로 표시
-				alert('Festival ID: ' + festivalId);
-				window.location.href = "/festival/festivalDetail?festival_id=" + festivalId;
+				//alert('Festival ID: ' + festivalId);
+				//window.location.href = "/festival/festivalDetail?festival_id=" + festivalId;
 
 				// 클릭시 조회수 증가
 				$.ajax({
