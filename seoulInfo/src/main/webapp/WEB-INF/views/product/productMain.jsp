@@ -71,8 +71,13 @@
 <!-- 외부css-->
 <link href="/css/product/productMain.css" rel="stylesheet" type="text/css">
 <link href="/css/product/productStatus.css" rel="stylesheet" type="text/css">
+<link href="/css/product/noProduct.css" rel="stylesheet" type="text/css">
 <link href="/css/footer/footer.css" rel="stylesheet" type="text/css">
-  
+ 
+<!--아이콘을 위한 Font Awesome의 CSS 파일 -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 <style>
 	.h1, h1 {
 	    font-size: 2.5rem;
@@ -111,6 +116,14 @@
 
 								<div class="container my-5">
 									<!--  상품 ( jstl로 들어갈 예정 ) -->
+									<c:choose>
+										<c:when test="${empty productList}">
+											<div class="no-products-message">
+												<i class="fas fa-sad-tear"></i>${area}에 해당하는 상품이 없네요..</br>
+												<a href="/useTradeGu">구 선택 페이지로 이동할까요?</a>
+											</div>
+										</c:when>
+										<c:otherwise>
 									<div class="row">
 										<c:forEach items="${productList}" var="productList" varStatus="status">
 											<div class="col-md-3 product">
@@ -120,7 +133,7 @@
 													        <img src="/productImage/${productList.productimg_alias}" alt="상품 이미지" class="product-image" style="height: 250px; width:250px;">
 													    </c:when>
 													    <c:otherwise>
-															<img src="https://via.placeholder.com/이미지없음" alt="이미지없음" class="product-image" style="height: 250px; width:250px;">
+															<img src="/NoImage/noImage.png" alt="이미지없음" class="product-image" style="height: 250px; width:250px;">
 													    </c:otherwise>
 													</c:choose>
 													
@@ -148,7 +161,9 @@
 													</div>
 												</div>
 											</div>
-										</c:forEach>									
+										</c:forEach>
+										</c:otherwise>
+									</c:choose>									
 									</div>
 
 								</div>

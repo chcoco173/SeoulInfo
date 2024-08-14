@@ -80,8 +80,8 @@
 													style="height: 100px; width: 100px;">
 											</c:when>
 											<c:otherwise>
-												<img src="https://via.placeholder.com/100" alt="이미지없음"
-													class="product-image">
+												<img src="/NoImage/noimg.png" alt="이미지없음"
+													class="product-image" style="height: 100px; width: 100px;">
 											</c:otherwise>
 										</c:choose>
 

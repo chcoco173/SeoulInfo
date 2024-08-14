@@ -150,7 +150,7 @@
 															style="height: 250px; width: 250px;">
 													</c:when>
 													<c:otherwise>
-														<img src="https://via.placeholder.com/이미지없음" alt="이미지없음"
+														<img src="/NoImage/noImage.png" alt="이미지없음"
 															class="product-image"
 															style="height: 250px; width: 250px;">
 													</c:otherwise>

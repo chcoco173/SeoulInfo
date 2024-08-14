@@ -200,7 +200,7 @@
 											<li class="media mb-3 event-item"><input type="hidden"
 												id="festival_id" name="festival_id"
 												value="${festival.festival_id }"> <img class="mr-3"
-												src="${festival.festival_imageurl}" alt="매물 이미지"
+												src="${festival.festival_imageurl}" alt="축제 이미지"
 												 />
 												<div class="media-body">
 													<p>${festival.festival_name}</p>

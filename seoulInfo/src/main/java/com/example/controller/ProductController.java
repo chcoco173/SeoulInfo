@@ -59,6 +59,9 @@ public class ProductController {
 
 	// areaSearchPredict
 	private final String areaSearchMl = "http://192.168.0.219:5000/areaSearchPredict";
+	
+	// 검색어 ml
+	private final String searchProductML = "http://192.168.0.219:5000/searchProduct";
 
 	// 빈설정 필수 (AppConfig.java에 설정해둠)
 	@Autowired
@@ -172,17 +175,65 @@ public class ProductController {
 		// 검색결과 리스트 
 		List<Map<String, Object>> productList = productService.productCateList(map);
 		System.out.println(productList);
+		
+		// 검색 결과가 없는 경우
+		if(productList.size() == 0) {
+			// 유사상품 구현 ( ml )
+			Map<String, String>  requestBody = new HashMap<>();
+			requestBody.put("search", productsearch_keyword);
+			requestBody.put("area", area);
+			try {
+				// Flask 서버로 POST 요청 + 응답 받기
+				String result = restTemplate.postForObject(searchProductML, requestBody, String.class); // url, 요청본문, 응답받는타입
+				System.out.println("Prediction result: " + result); // json 형식
+
+				// JSON 응답 파싱
+				ObjectMapper objectMapper = new ObjectMapper(); // json 데이터를 파싱하기위한 객체생성
+				JsonNode jsonNode = objectMapper.readTree(result);	// 문자열 파싱후 json 트리 구조를 반환
+
+				// JSON 배열 파싱
+				JsonNode predictionNode = jsonNode.get("prediction");
+				int[] prediction;
+				if (predictionNode.isArray()) {
+					prediction = new int[predictionNode.size()];
+					for (int i = 0; i < predictionNode.size(); i++) {
+						prediction[i] = predictionNode.get(i).asInt();
+					}
+				} else {
+					// 예외 처리 또는 기본값 설정 (필요에 따라)
+					prediction = new int[0];
+				}
+
+				if(prediction.length != 0) {
+
+					List<Map<String, Object>> searchList = productService.similarList(prediction);
+
+					System.out.println(searchList);
+					model.addAttribute("productList", searchList);
+					model.addAttribute("timeDataList", timeConversion(searchList));
+					// title
+					model.addAttribute("category","'"+productsearch_keyword+"'와(과) 유사한 상품");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}else {
+			model.addAttribute("productList",productList);
+			model.addAttribute("timeDataList",timeConversion(productList));
+			// title
+			model.addAttribute("category","'"+productsearch_keyword+"' (으)로 검색한 결과");
+		}
 
 		int totalCount = productService.countItems(map);
 		int totalPages = (int) Math.ceil((double) totalCount / size);
 
 		// 페이징을 위한 url
 		model.addAttribute("path", "productSearch");
-		// title
-		model.addAttribute("category","'"+productsearch_keyword+"' (으)로 검색한 결과");
+		
+		model.addAttribute("area", area);
+		
 		model.addAttribute("keyword", productsearch_keyword);
-		model.addAttribute("productList",productList);
-		model.addAttribute("timeDataList",timeConversion(productList));
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("pageSize", size);
@@ -248,6 +299,7 @@ public class ProductController {
 		// 시간 변환 메소드 호출 후 모델에 추가
 		model.addAttribute("timeDataList", timeConversion(productList));
 		model.addAttribute("title", title);
+		model.addAttribute("area", area);
 		
 
 		return "product/productMain";
@@ -290,12 +342,14 @@ public class ProductController {
 		model.addAttribute("productList", productList);
 		// 시간 변환 메소드 호출 후 model작업
 		model.addAttribute("timeDataList", timeConversion(productList));
-
+		model.addAttribute("area", area);
+		
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("pageSize", size);
 		System.out.println(totalPages);
 		System.out.println("total"+totalCount);
+		
 
 
 		return "product/productCategory";
