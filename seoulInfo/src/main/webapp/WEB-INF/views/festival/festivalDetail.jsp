@@ -18,7 +18,6 @@
 
 <!-- 08/14 기진 bootstrap 추가-->	
 <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<script src="/bootstrap/js/bootstrap.min.js"></script>
 
 
 
