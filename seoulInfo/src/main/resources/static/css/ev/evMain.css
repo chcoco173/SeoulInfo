@@ -76,10 +76,7 @@
 
 /* 지도 이미지 타입 버튼 */
 #map_show_type {
-    position: fixed;
-    top: 90%;
-    right: 10px;
-    width: 74px;
+    width: 100%;
     border-radius: 5px;
     overflow: hidden;
 	z-index: 2;

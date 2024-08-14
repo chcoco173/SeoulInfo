@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.domain.EVPlacesVO;
 import com.example.domain.FestRevCommentVO;
 import com.example.domain.FestRevImageVO;
 import com.example.domain.FestivalReviewVO;
@@ -24,6 +25,7 @@ import com.example.domain.FestivalVO;
 import com.example.domain.MemberVO;
 import com.example.domain.ProductImageVO;
 import com.example.domain.ProductVO;
+import com.example.service.EVStationService;
 import com.example.service.FestRevCommentService;
 import com.example.service.FestRevImageService;
 import com.example.service.FestivalReviewService;
@@ -36,6 +38,8 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/festival")
 public class FestivalController {
+	@Autowired
+	private EVStationService evStationService;
 	
 	@Autowired
 	private FestivalService festivalService;
@@ -400,5 +404,18 @@ public class FestivalController {
             return "error";
         }
     }
-
+  //원 반경 안의 편의시설 정보
+  	@GetMapping("/getCircleLocation")
+  	@ResponseBody
+  	public List<EVPlacesVO> getCircleInfo(double centerLat, double centerLng, double radius, String category){
+  		System.out.println("insert getCircleInfo : "+centerLat+","+centerLng+","+radius+",category : "+category);
+  		HashMap<String, Object> cmap = new HashMap<String, Object>();
+  		cmap.put("centerLat", centerLat);
+  		cmap.put("centerLng", centerLng);
+  		cmap.put("radius", radius);
+  		cmap.put("category", category);
+  		List<EVPlacesVO> pvo = evStationService.getCircleInfo(cmap);
+  		System.out.println("sent from getCircleInfo: " + pvo);
+  		return pvo;
+  	}
 }
