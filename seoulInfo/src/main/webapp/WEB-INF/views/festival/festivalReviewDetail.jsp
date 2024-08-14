@@ -17,6 +17,8 @@
 		type="text/css">
 	<style>
 		
+		
+		
 		.destination-banner {
 		    margin-top: -20px; /* 위에 섹션과 겹치지 않도록 여백 추가 */
 		}
@@ -180,10 +182,18 @@
 							            </div>
 							        </div>
 							    </a>
+								<br>
+								<c:if test="${sessionScope.member != null && sessionScope.member.member_id == review.member_id}">
+								    <div class="review-buttons">
+								        <input type="hidden" id="fr_id" name="fr_id" value="${review.fr_id}">
+								        <input type="hidden" id="member_id" name="member_id" value="${review.member_id}">
+								        <button class="button-primary-large max-width-full-mobile-portrait w-button edit">내 후기 수정</button>
+								        <button class="button-primary-large max-width-full-mobile-portrait w-button delete">내 후기 삭제</button>
+								    </div>
+								</c:if>
 							    <br/>
 							    <h1 class="text-color-white">${review.fr_title}</h1>
 							</div>
-
 		                </div>
 		            </div>
 		        </div>
@@ -430,6 +440,49 @@
 		    console.log("댓글 작성자 신고 " + commentAuthor);
 		    window.open('/festival/comment_report?selectedCommentId=' + commentId + '&commentAuthor=' + commentAuthor, "_blank", "width=400,height=500");
 		});
+		
+
+	    document.querySelectorAll('.review-buttons').forEach(function(buttonContainer) {
+	        const reviewId = buttonContainer.querySelector('input[name="fr_id"]').value;
+	        console.log("수정 삭제 reviewId " + reviewId);
+
+	        const editButton = buttonContainer.querySelector('.edit');
+	        const deleteButton = buttonContainer.querySelector('.delete');
+
+	        editButton.addEventListener('click', function() {
+	            window.location.href = "/festival/festivalReview?fr_id=" + reviewId;
+	        });
+
+	        deleteButton.addEventListener('click', function() {
+	            var userConfirmed = confirm("삭제하시겠습니까?");
+	            if (userConfirmed) {
+	                // AJAX 요청을 통해 삭제 요청을 서버로 보냅니다.
+	                fetch('/festival/deleteReview', {
+	                    method: 'POST',
+	                    headers: {
+	                        'Content-Type': 'application/x-www-form-urlencoded'
+	                    },
+	                    body: new URLSearchParams({
+	                        'fr_id': reviewId
+	                    })
+	                })
+	                .then(response => response.text())
+	                .then(result => {
+	                    if (result === "success") {
+	                        alert("후기가 삭제되었습니다.");
+	                        window.location.reload();
+	                    } else {
+	                        alert("후기 삭제에 실패했습니다.");
+	                    }
+	                })
+	                .catch(error => {
+	                    console.error('Error:', error);
+	                    alert("후기 삭제 중 오류가 발생했습니다.");
+	                });
+	            }
+	        });
+	    });
+
 	});
   </script>	  
 </body>

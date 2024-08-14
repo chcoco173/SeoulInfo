@@ -31,17 +31,18 @@ public class ReportController {
         return "/product/sale_report";
     }
 
-    @PostMapping("/report")
-    public String submitReport(@RequestParam("member_id") String memberId,
+    @GetMapping("/product/saleReport")
+    public void submitReport(@RequestParam("member_id") String memberId,
                                @RequestParam("report_reason") String reportReason,
                                @RequestParam("report_cate") String reportCate) {
+        System.out.println("판매자 신고!! 댓글 ID: " + memberId + ", 신고 사유: " + reportReason);
+
         ReportVO reportVO = new ReportVO();
         reportVO.setMember_id(memberId);
         reportVO.setReport_reason(reportReason);
         reportVO.setReport_cate(reportCate);
 
         reportService.saveReport(reportVO);
-        return "redirect:/reportSuccess";
     }
     
     // 축제 댓글 신고
