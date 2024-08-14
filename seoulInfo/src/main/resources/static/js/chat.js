@@ -26,8 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.getElementById('chat-done').addEventListener('click', leaveChatRoom);
 	document.getElementById('deal-done').addEventListener('click', updateSaleStatus);
 	document.getElementById('report').addEventListener('click', () => {
-	    openReportPopup(selectedUserId);
+	    openReportPopup(selectedUserId, 'seller');
 	});
+
+	document.getElementById('report-buyer').addEventListener('click', () => {
+	    openReportPopup(selectedUserId, 'buyer');
+	});
+
 	messageForm.addEventListener('submit', sendMessage, true);
 	window.onbeforeunload = () => onLogout();
 });
@@ -205,13 +210,18 @@ function userItemClick(event) {
 	const rolePrefix = clickedUser.querySelector('.user-name').textContent.startsWith('판매자:') ? '판매자' : '구매자';
 	const reportButton = document.getElementById('report');
 	const dealDoneButton = document.getElementById('deal-done');
+	const reportBuyerButton = document.getElementById('report-buyer');
+
 
 	if (rolePrefix === '판매자') {
 	    reportButton.classList.remove('hidden');
 	    dealDoneButton.classList.add('hidden');
+		reportBuyerButton.classList.add('hidden');
+
 	} else if (rolePrefix === '구매자') {
 	    reportButton.classList.add('hidden');
 	    dealDoneButton.classList.remove('hidden');
+		reportBuyerButton.classList.remove('hidden');
 	}
 }
 
@@ -240,7 +250,7 @@ function updateChatHeader(data) {
     const productImage = data.productImage;
 
     document.getElementById('product-name').innerText = `${product.sale_name}`;
-    document.getElementById('transaction-status').innerText = `거래 상태: ${product.sale_status}`;
+    document.getElementById('transaction-status').innerText = `${product.sale_status}`;
     if (productImage) {
         document.getElementById('product-image').src = `/productImage/${productImage.productimg_alias}`;
     } else {
@@ -538,11 +548,18 @@ async function updateSaleStatus() {
     openReportPopup(selectedUserId);
 });*/
 
-function openReportPopup(selectedUserId) {
+/*function openReportPopup(selectedUserId) {
     var url = "/product/sale_report?selectedUserId=" + selectedUserId;
     var options = "width=600,height=400";
     window.open(url, "ReportPopup", options);
+}*/
+
+function openReportPopup(selectedUserId, userType = 'seller') {
+    let url = `/product/sale_report?selectedUserId=${selectedUserId}&userType=${userType}&sale_id=${selectedSaleId}`;
+    const options = "width=600,height=400";
+    window.open(url, "ReportPopup", options);
 }
+
 
 // messageForm.addEventListener('submit', sendMessage, true);
 window.onbeforeunload = () => onLogout();

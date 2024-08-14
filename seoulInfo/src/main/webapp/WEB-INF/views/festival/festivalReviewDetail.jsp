@@ -17,7 +17,41 @@
 		type="text/css">
 	<style>
 		
-		
+		._3-column-grid {
+		    grid-column-gap: var(--gutters);
+		    grid-row-gap: var(--gutters);
+		    grid-template-rows: auto;
+		    grid-template-columns: repeat(3, 1fr); /* 3열 고정 */
+		    grid-auto-columns: 1fr;
+		    align-items: stretch;
+		    width: 100%;
+		    display: grid;
+		}
+
+		.image-overflow-wrapper {
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    overflow: hidden;
+		    position: relative;
+		}
+
+		.destination-featured-image {
+		    width: 100%;
+		    height: 100%;
+		    background-size: cover;
+		    background-position: center;
+		}
+
+		@media (max-width: 992px) {
+		    ._3-column-grid {
+		        grid-template-columns: 1fr; /* 작은 화면에서는 1열 */
+		    }
+		}
+
+		.w-inline-block {
+		    cursor: default; /* 일반 커서로 변경 */
+		}
 		
 		.destination-banner {
 		    margin-top: -20px; /* 위에 섹션과 겹치지 않도록 여백 추가 */
@@ -164,40 +198,41 @@
 		        <div class="padding-global">
 		            <div class="padding-section-medium">
 		                <div class="container-full-width">
-		                    <div data-w-id="a984475f-e10a-c912-ac29-53a066823d5a" style="opacity:0" class="_3-column-grid">
+		                    <div class="_3-column-grid">
 		                        <c:forEach items="${images}" var="image">
-		                            <div id="w-node-_9eb9e867-d75f-01e1-e35b-5c8e2fc339e3-4f5c4823" data-w-id="9eb9e867-d75f-01e1-e35b-5c8e2fc339e3" style="opacity:0" class="image-overflow-wrapper">
-		                                <div id="w-node-a984475f-e10a-c912-ac29-53a066823d5b-4f5c4823" data-w-id="a984475f-e10a-c912-ac29-53a066823d5b" style="background-image: url('${image.fr_imgUrl}'); -webkit-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); -moz-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); -ms-transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); transform:translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); transform-style:preserve-3d" class="destination-featured-image">											
-										</div>
+		                            <div class="image-overflow-wrapper">
+		                                <div class="destination-featured-image" style="background-image: url('${image.fr_imgUrl}');"></div>
 		                            </div>
 		                        </c:forEach>
 		                    </div>
-							<div data-w-id="a984475f-e10a-c912-ac29-53a066823d5e" style="opacity:0" class="destination-banner">
-							    <a href="/author/${review.member_id}" class="large-author-wrapper w-inline-block">
-							        <div style="background-image:url('${memberImageUrl}')" class="large-author-thumbnail"></div>
-							        <div>
-							            <div class="text-size-regular text-color-white">${review.member_id}</div>
-							            <div class="text-size-regular text-color-dark-gray">
-							                <fmt:formatDate value="${review.fr_regdate}" pattern="yyyy-MM-dd" />
-							            </div>
-							        </div>
-							    </a>
-								<br>
-								<c:if test="${sessionScope.member != null && sessionScope.member.member_id == review.member_id}">
-								    <div class="review-buttons">
-								        <input type="hidden" id="fr_id" name="fr_id" value="${review.fr_id}">
-								        <input type="hidden" id="member_id" name="member_id" value="${review.member_id}">
-								        <button class="button-primary-large max-width-full-mobile-portrait w-button edit">내 후기 수정</button>
-								        <button class="button-primary-large max-width-full-mobile-portrait w-button delete">내 후기 삭제</button>
-								    </div>
-								</c:if>
-							    <br/>
-							    <h1 class="text-color-white">${review.fr_title}</h1>
-							</div>
+		                    <div class="destination-banner">
+		                        <a href="/author/${review.member_id}" class="large-author-wrapper w-inline-block">
+		                            <div style="background-image:url('${memberImageUrl}')" class="large-author-thumbnail"></div>
+		                            <div>
+		                                <div class="text-size-regular text-color-white">${review.member_id}</div>
+		                                <div class="text-size-regular text-color-dark-gray">
+		                                    <fmt:formatDate value="${review.fr_regdate}" pattern="yyyy-MM-dd" />
+		                                </div>
+		                            </div>
+		                        </a>
+		                        <br>
+		                        <c:if test="${sessionScope.member != null && sessionScope.member.member_id == review.member_id}">
+		                            <div class="review-buttons">
+		                                <input type="hidden" id="fr_id" name="fr_id" value="${review.fr_id}">
+		                                <input type="hidden" id="member_id" name="member_id" value="${review.member_id}">
+		                                <button class="button-primary-large max-width-full-mobile-portrait w-button edit">내 후기 수정</button>
+		                                <button class="button-primary-large max-width-full-mobile-portrait w-button delete">내 후기 삭제</button>
+		                            </div>
+		                        </c:if>
+		                        <br/>
+		                        <h1 class="text-color-white">${review.fr_title}</h1>
+		                    </div>
 		                </div>
 		            </div>
 		        </div>
 		    </div>
+		</div>
+
 		<!-- 리뷰 사진 end -->
 		<!-- 리뷰 내용 start -->
 		<div class="main-wrapper">
@@ -377,6 +412,16 @@
   <!-- 댓글 등록 -->
   <script>
 	$(document).ready(function () {
+		
+		var images = document.querySelectorAll("._3-column-grid .image-overflow-wrapper");
+		var imageCount = images.length;
+
+		if (imageCount > 0 && imageCount < 3) {
+		    var newWidth = (100 / imageCount) + "%";
+		    images.forEach(function(image) {
+		        image.style.width = newWidth;
+		    });
+		}
 	    $('.delete-comment').click(function () {
 	        var commentId = $(this).data('comment-id');
 	        $.ajax({
@@ -438,7 +483,7 @@
 		    var commentId = $(this).data('comment-id');
 		    var commentAuthor = $(this).data('comment-author');
 		    console.log("댓글 작성자 신고 " + commentAuthor);
-		    window.open('/festival/comment_report?selectedCommentId=' + commentId + '&commentAuthor=' + commentAuthor, "_blank", "width=400,height=500");
+		    window.open('/festival/comment_report?selectedCommentId=' + commentId + '&commentAuthor=' + commentAuthor+ '&frc_id=' + commentId, "_blank", "width=400,height=500");
 		});
 		
 
@@ -485,6 +530,7 @@
 
 	});
   </script>	  
+
 </body>
 
 </html>

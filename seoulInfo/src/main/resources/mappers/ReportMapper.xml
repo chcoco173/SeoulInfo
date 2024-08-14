@@ -6,8 +6,8 @@
 
 	<!-- 신고 등록 -->
     <insert id="insertReport" parameterType="ReportVO">
-        INSERT INTO report (member_id, report_reason, is_processed, report_cate)
-        VALUES (#{member_id}, #{report_reason}, #{is_processed}, #{report_cate})
+        INSERT INTO report (member_id, report_reason, is_processed, report_cate, sale_id, frc_id)
+        VALUES (#{member_id}, #{report_reason}, #{is_processed}, #{report_cate}, #{sale_id}, #{frc_id})
     </insert>
     
 </mapper>
