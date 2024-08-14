@@ -74,6 +74,7 @@
 	type="text/css">
 	
 <link href="/css/product/productStatus.css" rel="stylesheet" type="text/css">
+<link href="/css/footer/footer.css" rel="stylesheet" type="text/css">
 
 </head>
 <body>
@@ -284,8 +285,10 @@
 						</div>
 					</div>
 				</div>
-				<%@ include file="../footer.jsp" %>
 			</div>
+			</div>
+			</div>
+			<%@ include file="../footer.jsp" %>
 			<script
 				src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9"
 				type="text/javascript"
