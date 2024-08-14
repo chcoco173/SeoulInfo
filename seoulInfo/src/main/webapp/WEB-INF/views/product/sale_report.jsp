@@ -118,27 +118,35 @@
 </head>
 <body>
 	<div class="container">
-	    <h2>판매자 신고</h2><hr/>
-		<div>
-		    <p>신고할 판매자 : <strong>${selectedUserId}</strong></p>
-		</div>
+		<c:choose>
+		    <c:when test="${param.userType == 'seller'}">
+		        <h2>판매자 신고</h2>
+		        <div>
+		            <p>신고할 판매자 : <strong>${selectedUserId}</strong></p>
+		        </div>
+		    </c:when>
+		    <c:otherwise>
+		        <h2>구매자 신고</h2>
+		        <div>
+		            <p>신고할 구매자 : <strong>${selectedUserId}</strong></p>
+		        </div>
+		    </c:otherwise>
+		</c:choose>
 	    <form action="/product/saleReport" method="get">
 	        <div>
 	            <label for="report_reason">신고 사유 </label>
 	            <textarea id="report_reason" name="report_reason" required></textarea>
 	        </div>
-	        <div>
-	            <label for="report_cate">신고 분류 </label>
-	            <select id="report_cate" name="report_cate" required>
-	                <option value="중고거래">중고거래</option>
-	                <option value="뉴스댓글">뉴스댓글</option>
-	                <option value="축제댓글">축제댓글</option>
-	            </select>
-	        </div>
+			<div>
+			    <label for="report_cate">신고 분류 : </label>
+			    <strong id="report_cate">중고 거래</strong>
+			    <input type="hidden" name="report_cate" value="중고거래" />
+			</div>
 	        <div>
 	            <button class="btn-report">신고 제출</button>
 	        </div>
 			<input type="hidden" name="member_id" value="${selectedUserId}" />
+			<input type="hidden" name="sale_id" value="${param.sale_id}" />
 	    </form>
 	</div>
 </body>

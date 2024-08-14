@@ -127,12 +127,9 @@
 	            <textarea id="report_reason" name="report_reason" required></textarea>
 	        </div>
 			<div>
-			    <label for="report_cate">신고 분류 </label>
-			    <select id="report_cate" name="report_cate" required>
-			        <option value="중고거래">중고거래</option>
-			        <option value="뉴스댓글">뉴스댓글</option>
-			        <option value="축제댓글">축제댓글</option>
-			    </select>
+			    <label for="report_cate">신고 분류 : </label>
+			    <strong id="report_cate">축제 댓글</strong>
+			    <input type="hidden" name="report_cate" value="축제댓글" />
 			</div>
 	        <div>
 	            <button class="btn-report">신고 제출</button>
@@ -140,6 +137,7 @@
 			<input type="hidden" id="report_cate" name="report_cate" value="축제댓글">
 			<input type="hidden" name="comment_id" value="${param.selectedCommentId}" />
 			<input type="hidden" name="comment_author" value="${param.commentAuthor}" />
+			<input type="hidden" name="frc_id" value="${param.frc_id}" />
 	    </form>
 	</div>
 </body>
