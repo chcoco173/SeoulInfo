@@ -320,6 +320,26 @@
 	    }
 	}
 	</script>
+	<script>
+		$(document).ready(function() {
+		    // 세션 스토리지에서 값 가져오기
+		    var festivalName = sessionStorage.getItem('festivalName');
+		    var endx = sessionStorage.getItem('endx');
+		    var endy = sessionStorage.getItem('endy');
+
+		    // 값이 제대로 넘어왔는지 콘솔에서 확인
+		    console.log(festivalName, endx, endy);
+
+		    // 폼에 값 설정하기
+		    if (festivalName && endx && endy) {
+		        $("#searchEndAddress").val(festivalName);
+		        $("#endx").val(endx);
+		        $("#endy").val(endy);
+		    } else {
+		        console.error('세션 스토리지에서 값을 가져오지 못했습니다.');
+		    }
+		});
+	</script>
 
 </body>
 </html>

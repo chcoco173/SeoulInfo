@@ -16,6 +16,12 @@
 <link href="/css/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet"
 	type="text/css">
 
+<!-- 08/14 기진 bootstrap 추가-->	
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+
+
+
 <link href="https://fonts.googleapis.com" rel="preconnect">
 <link href="https://fonts.gstatic.com" rel="preconnect"
 	crossorigin="anonymous">
@@ -108,7 +114,7 @@
 	/* 이미지 스타일 */
 	.image-overflow-wrapper img {
 	    width: 80%; /* 이미지가 컨테이너에 맞춰 100%로 확장 */
-	    height: auto;
+	    height: auto; /* 8/14 기진 css 수정 */
 	    object-fit: cover;
 	    border: 1px solid #ddd;
 	}
@@ -187,6 +193,35 @@
 	}
 
 </style>
+<style>
+.map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+.map_wrap {position:relative;width:100%;height:350px;}
+.nav_wrap {position:relative;top:80px;left:10px;border-radius: 5px; border:1px solid #909090;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);background: #2962ff;overflow: hidden;z-index: 2; color:white;}
+#category {position:absolute;top:10px;left:10px;border-radius: 5px; border:1px solid #909090;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);background: #fff;overflow: hidden;z-index: 2;}
+#category li {float:left;list-style: none;width:50px;px;border-right:1px solid #acacac;padding:6px 0;text-align: center; cursor: pointer;}
+#category li.on {background: #eee;}
+#category li:hover {background: #ffe6e6;border-left:1px solid #acacac;margin-left: -1px;}
+#category li:last-child{margin-right:0;border-right:0;}
+#category li span {display: block;margin:0 auto 3px;width:27px;height: 28px;}
+#category li .category_bg {background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png) no-repeat;}
+#category li .bank {background-position: -10px 0;}
+#category li .mart {background-position: -10px -36px;}
+#category li .pharmacy {background-position: -10px -72px;}
+#category li .oil {background-position: -10px -108px;}
+#category li .cafe {background-position: -10px -144px;}
+#category li .store {background-position: -10px -180px;}
+#category li.on .category_bg {background-position-x:-46px;}
+.placeinfo_wrap {position:absolute;bottom:28px;left:-150px;width:300px;}
+.placeinfo {position:relative;width:100%;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;padding-bottom: 10px;background: #fff;}
+.placeinfo:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+.placeinfo_wrap .after {content:'';position:relative;margin-left:-12px;left:50%;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+.placeinfo a, .placeinfo a:hover, .placeinfo a:active{color:#fff;text-decoration: none;}
+.placeinfo a, .placeinfo span {display: block;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+.placeinfo span {margin:5px 5px 0 5px;cursor: default;font-size:13px;}
+.placeinfo .title {font-weight: bold; font-size:14px;border-radius: 6px 6px 0 0;margin: -1px -1px 0 -1px;padding:10px; color: #fff;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+.placeinfo .tel {color:#0f7833;}
+.placeinfo .jibun {color:#999;font-size:11px;margin-top:0;}
+</style>
 </head>
 <body>
 	<div class="page-wrapper">
@@ -263,7 +298,7 @@
 					<div class="padding-global">
 						<div class="padding-section-medium">
 							<div class="container-full-width">
-								<h3>${festival.festival_name}</h3>
+								<h3>${festival.festival_name}</h3><br>
 								
 								<div class="flex-container">
 									<div class="flex-item image-overflow-wrapper">
@@ -284,10 +319,39 @@
 										<input type="hidden" id="festivalLng" style="display: none;"
 											value="${festival.festival_long}">
 										<!-- 경도 -->
+										<input type="hidden" id="festivalName" style="display: none;"
+											value="${festival.festival_name}">
+										<!-- 이름 -->
 										<a href="${festival.festival_siteurl}" target="_blank"
 											class="">사이트 바로가기</a>
-										<div id="map"></div>	
-											
+										<div class="map_wrap">
+										<div id="map"></div>
+										<ul id="category">
+										        <li id="etcCheckAll" data-order="0"> 
+										            <span class="category_bg bank"></span>
+										            전체
+										        </li>       
+										        <li id="etcCheck4" data-order="1"> 
+										            <span class="category_bg mart"></span>
+										            마트
+										        </li>  
+										        <li id="etcCheck5" data-order="2"> 
+										            <span class="category_bg pharmacy"></span>
+										            약국
+										        </li>  
+										        <li id="etcCheck3" data-order="4"> 
+										            <span class="category_bg cafe"></span>
+										            카페
+										        </li>  
+										        <li id="etcCheck2" data-order="5"> 
+										            <span class="category_bg store"></span>
+										            편의점
+										        </li>      
+										    </ul>
+											</div>
+											<div>
+												<button type="button" class="btn btn-warning nav_wrap">길찾기 ▶</button>
+											</div>
 									</div>
 								</div>
 							</div>
@@ -508,41 +572,337 @@
 
 	<!-- 8/13 기진 지도관련 script 추가 -->
 	<script>
-		// 위도와 경도 값을 가져옵니다
-		var festivalLat = document.getElementById('festivalLat').value;
-		var festivalLng = document.getElementById('festivalLng').value;
+	    // 위도와 경도 값을 가져옵니다
+	    var festivalLat = document.getElementById('festivalLat').value;
+	    var festivalLng = document.getElementById('festivalLng').value;
+		var festivalName = document.getElementById('festivalName').value;
+	console.log(festivalLat+","+festivalLng+","+festivalName)
+	    // 지도를 표시할 div를 가져옵니다
+	    var mapContainer = document.getElementById('map');
 
-		// 지도를 표시할 div를 가져옵니다
-		var mapContainer = document.getElementById('map');
+	    // 지도 옵션을 설정합니다
+	    var mapOption = { 
+	        center: new kakao.maps.LatLng(festivalLat, festivalLng), // 지도의 중심좌표
+	        level: 3 // 지도의 확대 레벨
+	    };
 
-		// 지도 옵션을 설정합니다
-		var mapOption = { 
-		    center: new kakao.maps.LatLng(festivalLat, festivalLng), // 지도의 중심좌표
-		    level: 4 // 지도의 확대 레벨
-		};
+	    // 지도를 생성합니다
+	    var map = new kakao.maps.Map(mapContainer, mapOption);
 
-		// 지도를 생성합니다
-		var map = new kakao.maps.Map(mapContainer, mapOption);
+	    // 마커 이미지 설정
+	    var imageSrc = '/images/festival/festivalMarker.gif', // 마커이미지의 주소    
+	        imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기
+	        imageOption = {offset: new kakao.maps.Point(27, 69)};
 
-		// 마커 이미지 설정
-		var imageSrc = '/images/festival/festivalMarker.png', // 마커이미지의 주소    
-		    imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기
-		    imageOption = {offset: new kakao.maps.Point(27, 69)};
+	    // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+	    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+	        markerPosition = new kakao.maps.LatLng(festivalLat, festivalLng); // 마커가 표시될 위치
 
-		// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-		var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
-		    markerPosition = new kakao.maps.LatLng(festivalLat, festivalLng); // 마커가 표시될 위치
+	    // 마커를 생성합니다
+	    var marker = new kakao.maps.Marker({
+	        position: markerPosition, 
+	        image: markerImage // 마커이미지 설정 
+	    });
 
-		// 마커를 생성합니다
-		var marker = new kakao.maps.Marker({
-		    position: markerPosition, 
-		    image: markerImage // 마커이미지 설정 
+	    // 마커가 지도 위에 표시되도록 설정합니다
+	    marker.setMap(map);
+		marker.setZIndex(2);
+		// 전역변수 설정
+		var circlePositions = [];
+		var locationMarkers = [];
+	    // 위치 정보를 가져오는 AJAX 호출
+	    $.ajax({
+	        url: 'getCircleLocation',
+	        type: 'GET',
+	        data: {
+	            centerLat: festivalLat,
+	            centerLng: festivalLng,
+	            radius: 1000 // 반경 1000m 내의 정보
+	        },
+	        success: function(data) {
+	            
+
+	            clearMarkers(); // 기존 마커를 초기화하는 함수 (정의 필요)
+	            
+	            data.forEach(function(item) {
+	                circlePositions.push({
+	                    latlng: new kakao.maps.LatLng(item.etc_lat, item.etc_long),
+	                    title: item.etc_category,
+	                    name: item.etc_name,
+	                    address: item.etc_address
+	                });
+	            });
+
+	            var imageSrcs = {
+	                "카페": "/images/ev/etc_cafe.png",
+	                "편의점": "/images/ev/etc_convini.png",
+	                "슈퍼마켓": "/images/ev/etc_market.png",
+	                "약국": "/images/ev/etc_pharmacy.png",
+	                "주차장": "/images/ev/etc_parking.png"
+	            };
+	            var imageSize = new kakao.maps.Size(24, 24);
+
+	            if (circlePositions.length > 0) {
+	                circlePositions.forEach(function(position) {
+	                    var imageSrc = imageSrcs[position.title] || "/images/ev/etc_parking.png";
+	                    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+	                    var locationMarker = new kakao.maps.Marker({
+	                        map: map,
+	                        position: position.latlng,
+	                        title: position.title,
+	                        image: markerImage,
+	                        name: position.name,
+	                        address: position.address
+	                    });
+						locationMarker.setZIndex(1);
+	                    // InfoWindow 설정
+	                    var distance = getDistanceFromLatLonInMeters(marker.getPosition().getLat(), marker.getPosition().getLng(), position.latlng.getLat(), position.latlng.getLng());
+	                    var iwContent = '';
+	                    iwContent += '<div style="border-radius:10px; border: 1px solid black; background-color: #fff; box-shadow: 0px 0px 5px rgba(0,0,0,0.2); width: 200px; height: 150px;">';
+	                    iwContent += '<div style="font-size:14px; border-radius:10px 10px 0px 0px; border-bottom: 1px solid black; font-weight:bold; background-color:yellowgreen; text-align:center;">';
+	                    iwContent += '<b>' + (position.name || 'Unknown') + '</b></div>';
+	                    iwContent += '<div style="margin:5px;">';
+	                    iwContent += '<div style="font-size:12px;">' + formatAddress(position.address) + '</div><hr>';
+	                    iwContent += '<div><span class="number" style="font-size:12px;">' + (position.title || 'Unknown') + '까지 직선거리 : ';
+	                    iwContent += getTimeHTML(distance);
+	                    iwContent += '</div>';
+	                    iwContent += '</div>';
+
+	                    var infoWindow = new kakao.maps.InfoWindow({
+	                        content: iwContent,
+	                        removable: true
+	                    });
+						infoWindow.setZIndex(3);
+						// 마커 hover 이벤트 리스너 추가
+		                var closeTimeout;
+		                kakao.maps.event.addListener(locationMarker, 'click', function() {
+		                    clearTimeout(closeTimeout); // 기존의 타이머가 있다면 제거합니다
+		                    infoWindow.open(map, locationMarker); // 마커 위치에 InfoWindow를 엽니다
+		                });
+
+		                kakao.maps.event.addListener(locationMarker, 'mouseout', function() {
+		                    closeTimeout = setTimeout(function() {
+		                        infoWindow.close(); // InfoWindow를 닫습니다
+		                    }, 1500); // 1.5초 후에 창을 닫습니다
+		                });
+
+	                    locationMarkers.push(locationMarker);
+	                });
+	            } else {
+	                alert("원 안에 편의시설 정보가 없습니다.");
+	            }
+	        },
+	        error: function(err) {
+	            console.error("위치 정보 가져오기 오류: ", err);
+	        }
+	    });
+
+	    // 지도 위의 기존 마커들을 초기화하는 함수
+	    function clearMarkers() {
+	        if (locationMarkers) {
+	            locationMarkers.forEach(function(marker) {
+	                marker.setMap(null); // 지도에서 마커 제거
+	            });
+	        }
+	    }
+
+	    // 위도, 경도 간의 거리 계산 함수 (Haversine Formula)
+	    function getDistanceFromLatLonInMeters(lat1, lng1, lat2, lng2) {
+	        var R = 6371e3; // 지구 반지름 (미터)
+	        var dLat = (lat2 - lat1) * Math.PI / 180;
+	        var dLng = (lng2 - lng1) * Math.PI / 180;
+	        var a = 
+	            Math.sin(dLat/2) * Math.sin(dLat/2) +
+	            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+	            Math.sin(dLng/2) * Math.sin(dLng/2);
+	        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	        var d = R * c;
+	        return d;
+	    }
+
+	    // 주소 형식화 함수
+	    function formatAddress(address) {
+	        return address || '주소 정보 없음';
+	    }
+
+		function getTimeHTML(distance) {
+			    // 도보의 시속은 평균 4km/h 이고 도보의 분속은 67m/min입니다
+			    var walkkTime = distance / 67 | 0;
+			    var walkHour = '', walkMin = '';
+
+			    // 계산한 도보 시간이 60분 보다 크면 시간으로 표시합니다
+			    if (walkkTime > 60) {
+			        walkHour = '<span class="number">' + Math.floor(walkkTime / 60) + '</span>시간 ';
+			    }
+			    walkMin = '<span class="number">' + walkkTime % 60 + '</span>분';
+
+			    // 자전거의 평균 시속은 16km/h 이고 이것을 기준으로 자전거의 분속은 267m/min입니다
+			    var bycicleTime = distance / 267 | 0;
+			    var bycicleHour = '', bycicleMin = '';
+
+			    // 계산한 자전거 시간이 60분 보다 크면 시간으로 표출합니다
+			    if (bycicleTime > 60) {
+			        bycicleHour = '<span class="number">' + Math.floor(bycicleTime / 60) + '</span>시간 ';
+			    }
+			    bycicleMin = '<span class="number">' + bycicleTime % 60 + '</span>분';
+
+			    // 거리와 도보 시간, 자전거 시간을 가지고 HTML Content를 만들어 리턴합니다
+			    var content = '';
+			    content += distance.toFixed(0) + '</span>m</div><table>';
+			    content += '    <tr><td >';
+			    content += '        <span class="label" >도보 : &nbsp;</span></td><td>' + walkHour + walkMin;
+			    content += '    </td></tr>';
+			    content += '    <tr><td >';
+			    content += '        <span class="label">자전거 : &nbsp;</span></td><td>' + bycicleHour + bycicleMin;
+			    content += '    </td></tr>';
+			    content += '</table>';
+
+			    return content;
+			}
+		
+		function clearMarkers() {
+	        for (var i = 0; i < locationMarkers.length; i++) {
+	            locationMarkers[i].setMap(null); // 지도에서 제거
+	        }
+	        locationMarkers = []; // 배열 초기화
+	    }
+
+		// 편의시설 필터 - 버튼클릭 이벤트 리스너
+			$('#etcCheckAll').click(function() {
+			    onButtonClick(); // 카테고리 필터 없이 모든 데이터를 요청
+			});
+			
+			$('#etcCheck2').click(function() {
+			    onButtonClick('편의점');
+			});
+
+			$('#etcCheck3').click(function() {
+			    onButtonClick('카페');
+			});
+
+			$('#etcCheck4').click(function() {
+			    onButtonClick('슈퍼마켓');
+			});
+
+			$('#etcCheck5').click(function() {
+			    onButtonClick('약국');
+			});
+			
+			function onButtonClick(category) {
+			    
+			    fetchAndDisplayLocations(category);
+			}
+			
+			function fetchAndDisplayLocations(category) {						
+					$.ajax({
+						url: 'getCircleLocation',
+						type: 'GET',
+						data: {
+							centerLat: festivalLat,
+							centerLng: festivalLng,
+							radius: 1000,
+							category: category
+						},
+						success: function(data) {
+							console.log("서버 응답 데이터:", data);
+							clearMarkers();
+							var circlePositions = [];
+
+							if (Array.isArray(data)) {
+								data.forEach(function(item) {
+									if (item.etc_lat && item.etc_long) {
+								    	circlePositions.push({
+								        	latlng: new kakao.maps.LatLng(parseFloat(item.etc_lat), parseFloat(item.etc_long)),
+								            title: 	 item.etc_category,
+								            name: 	 item.etc_name,
+								            address: item.etc_address
+								    	});
+									}
+								});
+
+								var imageSrcs = {
+									"카페": "/images/ev/etc_cafe.png",
+								    "편의점": "/images/ev/etc_convini.png",
+								    "슈퍼마켓": "/images/ev/etc_market.png",
+								    "약국": "/images/ev/etc_pharmacy.png",
+								    "주차장": "/images/ev/etc_parking.png"
+								};
+								
+								var imageSize = new kakao.maps.Size(24, 24);
+
+								if (circlePositions.length > 0) {
+									console.log("마커 생성 시작:", circlePositions.length);
+
+								    circlePositions.forEach(function(position, index) {
+								    	var imageSrc = imageSrcs[position.title] || "/images/ev/etc_parking.png";
+								        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+								        var locationMarker = new kakao.maps.Marker({
+								        	map: map,
+								            position: position.latlng,
+								            title: 	  position.title ,
+								            image: 	  markerImage,
+											name: 	  position.name,
+											address:  position.address
+								        });
+
+								        console.log(`마커 ${index} 생성:`, position.latlng.toString());
+
+										var distance = getDistanceFromLatLonInMeters(marker.getPosition().getLat(), marker.getPosition().getLng(), position.latlng.getLat(), position.latlng.getLng());
+										var iwContent = '';
+										iwContent += '<div style="border-radius:10px; border: 1px solid black; background-color: #fff; box-shadow: 0px 0px 5px rgba(0,0,0,0.2); width: 200px; height: 150px;">';
+										iwContent += '<div style="font-size:14px; border-radius:10px 10px 0px 0px; border-bottom: 1px solid black; font-weight:bold; background-color:yellowgreen; text-align:center;">';
+										iwContent += '<b>' + (position.name || 'Unknown') + '</b></div>';
+										iwContent += '<div style="margin:5px;">';
+										iwContent += '<div style="font-size:12px;">' + formatAddress(position.address) + '</div><hr>';
+										iwContent += '<div><span class="number" style="font-size:12px;">' + (position.title || 'Unknown') + '까지 직선거리 : ';
+										iwContent += getTimeHTML(distance);
+										iwContent += '</div>';
+										iwContent += '</div>';
+										
+										// InfoWindow 인스턴스를 생성합니다
+										var infoWindow = new kakao.maps.InfoWindow({
+											content: iwContent,
+											removable: true
+										});
+										
+										infoWindow.setZIndex(3);
+										// 마커 hover 이벤트 리스너 추가
+						                var closeTimeout;
+						                kakao.maps.event.addListener(locationMarker, 'click', function() {
+						                    clearTimeout(closeTimeout); // 기존의 타이머가 있다면 제거합니다
+						                    infoWindow.open(map, locationMarker); // 마커 위치에 InfoWindow를 엽니다
+						                });
+
+						                kakao.maps.event.addListener(locationMarker, 'mouseout', function() {
+						                    closeTimeout = setTimeout(function() {
+						                        infoWindow.close(); // InfoWindow를 닫습니다
+						                    }, 1500); // 1.5초 후에 창을 닫습니다
+						                });
+										
+								        locationMarkers.push(locationMarker);
+									});
+
+									console.log("마커 생성 완료:", locationMarkers.length);
+								}
+							}
+						},
+						error: function(err) {
+							console.error("위치 정보 가져오기 오류: ", err);
+						}
+					});
+				}
+			
+		$('.nav_wrap').click(function() {
+		    // 세션 스토리지에 데이터 저장
+		    sessionStorage.setItem('festivalName', festivalName);
+		    sessionStorage.setItem('endx', festivalLng);
+		    sessionStorage.setItem('endy', festivalLat);
+
+		    // 페이지 이동
+		    window.location.href = "/ev/ev_Navigation";
 		});
-
-		// 마커가 지도 위에 표시되도록 설정합니다
-		marker.setMap(map);
-
 	</script>
+
 </body>
 
 </html>

@@ -216,15 +216,19 @@
 									</ul>
 								</div>
 							</li>
+							<li><br><hr>
+								<a class="dropdown-item" href="#" data-bs-toggle="collapse" data-bs-target="#option4Content" aria-expanded="false" aria-controls="option4Content">[ 지도 타입 ]</a>
+								<div class="list-group" id="map_show_type">
+									<button class="btn btn-warning" id="btnTerrain" data-enabled="false" onclick="setOverlayMapTypeId()">지형도</button>
+								</div>
+							</li>	
 						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
 		<!-- show diffrent map type-->
-		<div id="map_show_type">
-			<button class="btn btn-warning" id="btnTerrain" data-enabled="false" onclick="setOverlayMapTypeId()">지형도</button>
-		</div>
+		
 	</div>
 
 	<!-- Offcanvas : 충전소 검색 -->
@@ -1478,8 +1482,8 @@
 			url: 'getCircleLocation',
 			type: 'GET',
 			data: {
-				centerLat: lastClickedMarkerPosition.getLat(),
-				centerLng: lastClickedMarkerPosition.getLng(),
+				centerLat: festivalLat,
+				centerLng: festivalLng,
 				radius: 1000,
 				category: category
 			},
@@ -1487,7 +1491,7 @@
 				console.log("서버 응답 데이터:", data);
 				clearMarkers();
 				var circlePositions = [];
-
+	
 				if (Array.isArray(data)) {
 					data.forEach(function(item) {
 						if (item.etc_lat && item.etc_long) {
@@ -1499,7 +1503,7 @@
 					    	});
 						}
 					});
-
+	
 					var imageSrcs = {
 						"카페": "/images/ev/etc_cafe.png",
 					    "편의점": "/images/ev/etc_convini.png",
@@ -1509,10 +1513,10 @@
 					};
 					
 					var imageSize = new kakao.maps.Size(24, 24);
-
+	
 					if (circlePositions.length > 0) {
 						console.log("마커 생성 시작:", circlePositions.length);
-
+	
 					    circlePositions.forEach(function(position, index) {
 					    	var imageSrc = imageSrcs[position.title] || "/images/ev/etc_parking.png";
 					        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
@@ -1524,34 +1528,44 @@
 								name: 	  position.name,
 								address:  position.address
 					        });
-
+	
 					        console.log(`마커 ${index} 생성:`, position.latlng.toString());
-
-							// InfoWindow의 내용과 위치를 정의합니다
+	
+							var distance = getDistanceFromLatLonInMeters(marker.getPosition().getLat(), marker.getPosition().getLng(), position.latlng.getLat(), position.latlng.getLng());
 							var iwContent = '';
-								iwContent += '<div style="border-radius:10px; border: 1px solid black; background-color: #fff; box-shadow: 0px 0px 5px rgba(0,0,0,0.2);">';
-								iwContent += '<div style="font-size:14px; border-radius:10px 10px 0px 0px; font-weight:bold; color:#333; background-color:yellowgreen; text-align:center; ">';
-								iwContent += '<a href="https://map.kakao.com/?q=' + (position.address || '') +' '+ (position.name || '') +'" target="blank"><b>'+(position.name || 'Unknown') + '</b></a>';
-								iwContent += '</div>';
-								iwContent += '<hr style="margin:5px 0;">';
-								iwContent += '<div style="font-size:12px; color:#666;"> 분류 : ' + (position.title || 'Unknown') + '</div>';
-								iwContent += '<div style="font-size:12px; color:#666;">' + (position.address || 'Unknown') + '</div>';
-								iwContent += '</div>';
-																				
-							var InfoWindowRemovable = true;	
+							iwContent += '<div style="border-radius:10px; border: 1px solid black; background-color: #fff; box-shadow: 0px 0px 5px rgba(0,0,0,0.2); width: 200px; height: 150px;">';
+							iwContent += '<div style="font-size:14px; border-radius:10px 10px 0px 0px; border-bottom: 1px solid black; font-weight:bold; background-color:yellowgreen; text-align:center;">';
+							iwContent += '<b>' + (position.name || 'Unknown') + '</b></div>';
+							iwContent += '<div style="margin:5px;">';
+							iwContent += '<div style="font-size:12px;">' + formatAddress(position.address) + '</div><hr>';
+							iwContent += '<div><span class="number" style="font-size:12px;">' + (position.title || 'Unknown') + '까지 직선거리 : ';
+							iwContent += getTimeHTML(distance);
+							iwContent += '</div>';
+							iwContent += '</div>';
+							
 							// InfoWindow 인스턴스를 생성합니다
 							var infoWindow = new kakao.maps.InfoWindow({
 								content: iwContent,
-								removable: InfoWindowRemovable
+								removable: true
 							});
-
-					        kakao.maps.event.addListener(locationMarker, 'click', function() {
-					        	infoWindow.open(map, locationMarker);
-					        });
-
+							
+							infoWindow.setZIndex(3);
+							// 마커 hover 이벤트 리스너 추가
+			                var closeTimeout;
+			                kakao.maps.event.addListener(locationMarker, 'mouseover', function() {
+			                    clearTimeout(closeTimeout); // 기존의 타이머가 있다면 제거합니다
+			                    infoWindow.open(map, locationMarker); // 마커 위치에 InfoWindow를 엽니다
+			                });
+	
+			                kakao.maps.event.addListener(locationMarker, 'mouseout', function() {
+			                    closeTimeout = setTimeout(function() {
+			                        infoWindow.close(); // InfoWindow를 닫습니다
+			                    }, 1500); // 1.5초 후에 창을 닫습니다
+			                });
+							
 					        locationMarkers.push(locationMarker);
 						});
-
+	
 						console.log("마커 생성 완료:", locationMarkers.length);
 					}
 				}
@@ -1559,7 +1573,7 @@
 			error: function(err) {
 				console.error("위치 정보 가져오기 오류: ", err);
 			}
-		});
+		});	
 	}
 	
 	// 주소지 구 뒤에 <br> 태그 넣기 (줄나누기)
