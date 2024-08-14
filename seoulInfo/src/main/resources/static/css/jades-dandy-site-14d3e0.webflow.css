@@ -1359,7 +1359,7 @@ figcaption {
 }
 
 .links-and-search-wrapper {
-  grid-column-gap: 1rem;
+  grid-column-gap: 0.75rem;
   grid-row-gap: 1rem;
   justify-content: flex-end;
   align-items: center;
@@ -1417,7 +1417,7 @@ figcaption {
 }
 
 .style-guide-nav-link {
-  padding: 1rem;
+  padding: 0.75rem;
 }
 
 .style-guide-nav-link:hover, .style-guide-nav-link:active, .style-guide-nav-link:focus {
