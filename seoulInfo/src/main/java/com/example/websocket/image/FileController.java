@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +35,7 @@ public class FileController {
             String fileUrl = fileService.getFileUrl(id.toString());
             return ResponseEntity.ok().body("{\"url\":\"" + fileUrl + "\"}");
         } catch (IOException e) {
-            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 
@@ -45,14 +46,20 @@ public class FileController {
         try {
             GridFsResource fileResource = fileService.downloadFile(id);
             if (fileResource == null) {
-                return ResponseEntity.status(404).body("File not found");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("File not found");
             }
+
+            String filename = fileResource.getFilename();
+            // UTF-8로 인코딩된 파일 이름 설정
+            String encodedFilename = java.net.URLEncoder.encode(filename, "UTF-8").replace("+", "%20");
+            String contentDisposition = String.format("attachment; filename*=UTF-8''%s", encodedFilename);
+
             return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileResource.getFilename() + "\"")
+                    .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
                     .contentType(MediaType.parseMediaType(fileResource.getContentType()))
                     .body(new InputStreamResource(fileResource.getInputStream()));
         } catch (IOException e) {
-            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 }

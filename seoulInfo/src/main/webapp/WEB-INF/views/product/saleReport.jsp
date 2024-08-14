@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>축제 댓글 신고</title>
+<title>판매자 신고</title>
 <style>
 	body {
 	    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -95,11 +95,10 @@
 	    // 창 닫기
 	    window.close();
 	}*/
-	
     window.onload = function() {
 		// 창 크기 설정
 		var width = 400;
-		var height = 500;
+		var height = 400;
 		// 화면 크기 가져오기
 		var screenWidth = window.screen.width;
 		var screenHeight = window.screen.height;
@@ -111,36 +110,41 @@
 		// 창 크기와 위치 설정
 		window.resizeTo(width, height);
 		window.moveTo(left, top);
-    };	
+		
+		// 폼 제출 이벤트 핸들러 설정
+		// document.querySelector("form").onsubmit = handleFormSubmit;
+    };
 </script>	
 </head>
 <body>
 	<div class="container">
-	    <h2>댓글 작성자 신고</h2><hr/>
+	    <h2>판매자 신고</h2><hr/>
 		<div>
-		    <p>신고할 댓글 작성자: <strong>${param.commentAuthor}</strong></p>
+		    <p>신고할 판매자 : <strong>${selectedUserId}</strong></p>
 		</div>
-	    <form action="/festival/reportComment" method="get">
+	    <form action="/product/saleReport" method="get">
 	        <div>
-	            <label for="report_reason">신고 사유를 작성해주세요. </label>
-				<br><br>
+	            <label for="report_reason">신고 사유 </label>
 	            <textarea id="report_reason" name="report_reason" required></textarea>
 	        </div>
-			<div>
-			    <label for="report_cate">신고 분류 </label>
-			    <select id="report_cate" name="report_cate" required>
-			        <option value="중고거래">중고거래</option>
-			        <option value="뉴스댓글">뉴스댓글</option>
-			        <option value="축제댓글">축제댓글</option>
-			    </select>
-			</div>
+	        <div>
+	            <label for="report_cate">신고 분류 </label>
+	            <select id="report_cate" name="report_cate" required>
+	                <option value="중고거래">중고거래</option>
+	                <option value="뉴스댓글">뉴스댓글</option>
+	                <option value="축제댓글">축제댓글</option>
+	            </select>
+	        </div>
 	        <div>
 	            <button class="btn-report">신고 제출</button>
 	        </div>
-			<input type="hidden" id="report_cate" name="report_cate" value="축제댓글">
-			<input type="hidden" name="comment_id" value="${param.selectedCommentId}" />
-			<input type="hidden" name="comment_author" value="${param.commentAuthor}" />
+			<input type="hidden" name="member_id" value="${selectedUserId}" />
 	    </form>
 	</div>
+	<script>
+	setTimeout(function() {
+	    window.close();
+	}, 1); // 100 밀리초 = 0.1초
+	</script>
 </body>
 </html>

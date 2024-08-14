@@ -48,7 +48,7 @@ function onConnected() {
     stompClient.subscribe(`/user/public`, onMessageReceived);
 
     // 사용자를 등록
-    stompClient.send("/app/user.addUser", {}, JSON.stringify({userId: userId, status: 'ONLINE'}));
+//	stompClient.send("/app/user.addUser", {}, JSON.stringify({userId: userId, status: 'ONLINE'}));
 
     // 연결된 유저 목록을 가져와 표시
     findAndDisplayChatRooms().then();
@@ -240,7 +240,7 @@ function updateChatHeader(data) {
     const productImage = data.productImage;
 
     document.getElementById('product-name').innerText = `${product.sale_name}`;
-    document.getElementById('transaction-status').innerText = `${product.sale_status}`;
+    document.getElementById('transaction-status').innerText = `거래 상태: ${product.sale_status}`;
     if (productImage) {
         document.getElementById('product-image').src = `/productImage/${productImage.productimg_alias}`;
     } else {
@@ -248,17 +248,24 @@ function updateChatHeader(data) {
     } 
 }
 
-// 메시지 표시 함수 수정
+// 메시지 표시 함수
 function displayMessage(senderId, content, timestamp) {
+
+	// timestamp가 유효한지 확인
+	const date = new Date(timestamp);
+	if (isNaN(date.getTime())) {
+	    return;
+	}
     const messageDate = new Date(timestamp).toISOString().split('T')[0]; // 메시지의 날짜 (YYYY-MM-DD)
 
-    if (lastMessageDate !== messageDate) {
+    // 날짜 요소가 이미 존재하는지 확인
+    if (!document.querySelector(`.message-date[data-date='${messageDate}']`)) {
         // 날짜가 변경되었음을 나타내는 요소 추가
         const dateElement = document.createElement('div');
         dateElement.classList.add('message-date');
         dateElement.textContent = messageDate;
+        dateElement.setAttribute('data-date', messageDate);
         chatArea.appendChild(dateElement);
-        lastMessageDate = messageDate; // 마지막 메시지 날짜를 업데이트
     }
 
     const messageContainer = document.createElement('div');
@@ -282,9 +289,9 @@ function displayMessage(senderId, content, timestamp) {
         downloadLink.appendChild(message);
         messageContainer.appendChild(downloadLink);
     } else {
-		const message = document.createElement('p');
-		message.textContent = content;
-		messageContainer.appendChild(message);
+        const message = document.createElement('p');
+        message.textContent = content;
+        messageContainer.appendChild(message);
     }
 
     chatArea.appendChild(messageContainer);
@@ -300,8 +307,8 @@ function displayMessage(senderId, content, timestamp) {
     timestampElement.textContent = formatTimestamp(timestamp);
     chatArea.appendChild(timestampElement);
 
-	setTimeout(scrollToBottom, 60); // 약간의 지연을 추가하여 메시지가 모두 추가된 후 스크롤 설정
-	scrollToBottom();
+    setTimeout(scrollToBottom, 60); // 약간의 지연을 추가하여 메시지가 모두 추가된 후 스크롤 설정
+    scrollToBottom();
     chatArea.scrollTop = chatArea.scrollHeight;
 }
 
@@ -379,8 +386,8 @@ function sendMessage(event) {
 
 // Update onMessageReceived to include timestamp
 async function onMessageReceived(payload) {
-    /*await findAndDisplayotherUsers();*/
-	await fetchAndDisplayUserChat();	// !! 이게 없어서 메세지 real-time 수신 안됐잖아!!
+
+	await fetchAndDisplayUserChat();
 
     const message = JSON.parse(payload.body);
     if (selectedUserId && selectedUserId === message.senderId) {
@@ -533,9 +540,10 @@ async function updateSaleStatus() {
 
 function openReportPopup(selectedUserId) {
     var url = "/product/sale_report?selectedUserId=" + selectedUserId;
-    var options = "width=600,height=400,scrollbars=yes";
+    var options = "width=600,height=400";
     window.open(url, "ReportPopup", options);
 }
 
 // messageForm.addEventListener('submit', sendMessage, true);
 window.onbeforeunload = () => onLogout();
+
