@@ -10,8 +10,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("*") // 또는 허용할 IP 주소를 명시
-                .allowedMethods("*")
-                .allowedHeaders("*");
+                .allowedOrigins("*") // 모든 오리진을 허용
+                .allowedMethods("*") // 모든 메서드를 허용
+                .allowedHeaders("*"); // 모든 헤더를 허용
     }
 }

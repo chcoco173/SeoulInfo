@@ -1,6 +1,7 @@
 package com.example.websocket.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.DefaultContentTypeResolver;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
@@ -28,6 +29,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")	// ws 경로에 STOMP 엔드포인트를 등록합니다.
+        		.setAllowedOrigins("*")
                 .withSockJS();	// SockJS 폴백 옵션을 활성화하여 웹소켓을 지원하지 않는 브라우저에서도 웹소켓을 사용할 수 있게 합니다.
     }
 
@@ -41,4 +43,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         messageConverters.add(converter);	// 변환기를 메시지 변환기 목록에 추가
         return false;	// 기본 설정된 메시지 변환기 이외의 추가적인 커스텀 메시지 변환기를 사용하지 않도록 합니다.
     }
+    
+    
 }

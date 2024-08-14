@@ -22,24 +22,24 @@ let selectedSaleId = null; // 선택된 sale_id 추가
 // 페이지 로드 시 WebSocket 연결 설정
 document.addEventListener('DOMContentLoaded', () => {
     connect();
-	
-	document.getElementById('chat-done').addEventListener('click', leaveChatRoom);
-	document.getElementById('deal-done').addEventListener('click', updateSaleStatus);
-	document.getElementById('report').addEventListener('click', () => {
-	    openReportPopup(selectedUserId, 'seller');
-	});
+   
+   document.getElementById('chat-done').addEventListener('click', leaveChatRoom);
+   document.getElementById('deal-done').addEventListener('click', updateSaleStatus);
+   document.getElementById('report').addEventListener('click', () => {
+       openReportPopup(selectedUserId, 'seller');
+   });
 
-	document.getElementById('report-buyer').addEventListener('click', () => {
-	    openReportPopup(selectedUserId, 'buyer');
-	});
+   document.getElementById('report-buyer').addEventListener('click', () => {
+       openReportPopup(selectedUserId, 'buyer');
+   });
 
-	messageForm.addEventListener('submit', sendMessage, true);
-	window.onbeforeunload = () => onLogout();
+   messageForm.addEventListener('submit', sendMessage, true);
+   window.onbeforeunload = () => onLogout();
 });
 
 function connect() {
-	chatPage.classList.remove('hidden');
-    const socket = new SockJS('/ws');
+   chatPage.classList.remove('hidden');
+    const socket = new SockJS('http://your-server-ip:your-port/ws');
     stompClient = Stomp.over(socket);
 
     stompClient.connect({}, onConnected, onError);
@@ -53,7 +53,7 @@ function onConnected() {
     stompClient.subscribe(`/user/public`, onMessageReceived);
 
     // 사용자를 등록
-//	stompClient.send("/app/user.addUser", {}, JSON.stringify({userId: userId, status: 'ONLINE'}));
+//   stompClient.send("/app/user.addUser", {}, JSON.stringify({userId: userId, status: 'ONLINE'}));
 
     // 연결된 유저 목록을 가져와 표시
     findAndDisplayChatRooms().then();
@@ -76,13 +76,7 @@ async function findAndDisplayChatRooms() {
                 chatRoomsList.appendChild(separator);
             }*/
         });
-		
-		if (selectedUserId) {
-		    const selectedUserElement = document.getElementById(selectedUserId);
-		    if (selectedUserElement) {
-		        selectedUserElement.classList.add('active');
-		    }
-		}
+
 }
 
 
@@ -122,20 +116,20 @@ async function appendChatElement(chatRoom, chatRoomsList) {
     usernameSpan.textContent = rolePrefix + otherUserId;
     usernameSpan.classList.add('user-name');
 
-	// 안 읽은 메세지 존재하는 채팅방 알림
-	const receivedMsgs = document.createElement('span');
-	receivedMsgs.classList.add('nbr-msg', 'hidden');
-	const unreadCount = await fetchUnreadCount(userId, otherUserId, chatRoom.saleId);
-	if (unreadCount > 0) {
-	    receivedMsgs.textContent = unreadCount;
-	    receivedMsgs.classList.remove('hidden');
-	}
-	
-	// 유저 온라인 오프라인 상태
-/*	const user = await fetch(`/users?userId=${otherUserId}`);
-	const statusSpan = document.createElement('div'); // Use div to automatically move to next line
-	statusSpan.textContent = `(${user.status})`;
-	statusSpan.classList.add(user.status.toLowerCase(), 'status'); // Apply status styles here*/
+   // 안 읽은 메세지 존재하는 채팅방 알림
+   const receivedMsgs = document.createElement('span');
+   receivedMsgs.classList.add('nbr-msg', 'hidden');
+   const unreadCount = await fetchUnreadCount(userId, otherUserId, chatRoom.saleId);
+   if (unreadCount > 0) {
+       receivedMsgs.textContent = unreadCount;
+       receivedMsgs.classList.remove('hidden');
+   }
+   
+   // 유저 온라인 오프라인 상태
+/*   const user = await fetch(`/users?userId=${otherUserId}`);
+   const statusSpan = document.createElement('div'); // Use div to automatically move to next line
+   statusSpan.textContent = `(${user.status})`;
+   statusSpan.classList.add(user.status.toLowerCase(), 'status'); // Apply status styles here*/
 
     // 숨겨진 요소로 sale_id 추가
     const saleIdHidden = document.createElement('input'); // hidden 요소로 sale_id 추가
@@ -150,12 +144,12 @@ async function appendChatElement(chatRoom, chatRoomsList) {
     userDetails.appendChild(document.createElement('br')); // 개행 추가
     userDetails.appendChild(usernameSpan);
 
-//	userDetails.appendChild(statusSpan); // Append status information
+//   userDetails.appendChild(statusSpan); // Append status information
     listItem.appendChild(saleIdHidden); // Append sale_id hidden element
 
     listItem.appendChild(userDetails); // Append the details container to the list item
-	// 안읽음 표시
-	listItem.appendChild(receivedMsgs);
+   // 안읽음 표시
+   listItem.appendChild(receivedMsgs);
 
     listItem.addEventListener('click', userItemClick);
 
@@ -215,38 +209,38 @@ async function fetchSaleInfo(saleId) {
 }
 
 async function userItemClick(event) {
-	
-	chatDone.classList.remove('hidden');
-	
+   
+   chatDone.classList.remove('hidden');
+   
     document.querySelectorAll('.user-item').forEach(item => {
         item.classList.remove('active');
     });
     messageForm.classList.remove('hidden');
-	chatHeader.classList.remove('hidden');
-	
+   chatHeader.classList.remove('hidden');
+   
     const clickedUser = event.currentTarget;
     clickedUser.classList.add('active');
 
     selectedUserId = clickedUser.getAttribute('id');
     selectedSaleId = clickedUser.querySelector('.sale-id').value;
     
-	// lastMessageDate 초기화
-	lastMessageDate = null;
-	
+   // lastMessageDate 초기화
+   lastMessageDate = null;
+   
     fetchAndDisplayUserChat().then();
-	
-	// 읽지 않은 메시지 수 초기화
-	try {
-	    const response = await fetch(`/resetUnreadCount?userId=${userId}&senderId=${selectedUserId}&saleId=${selectedSaleId}`, {
-	        method: 'POST'
-	    });
+   
+   // 읽지 않은 메시지 수 초기화
+   try {
+       const response = await fetch(`/resetUnreadCount?userId=${userId}&senderId=${selectedUserId}&saleId=${selectedSaleId}`, {
+           method: 'POST'
+       });
 
-	    if (!response.ok) {
-	        throw new Error(`Error resetting unread count: ${response.statusText}`);
-	    }
-	} catch (error) {
-	    console.error('Error resetting unread count:', error);
-	}
+       if (!response.ok) {
+           throw new Error(`Error resetting unread count: ${response.statusText}`);
+       }
+   } catch (error) {
+       console.error('Error resetting unread count:', error);
+   }
 
     const nbrMsg = clickedUser.querySelector('.nbr-msg');
     nbrMsg.classList.add('hidden');
@@ -254,27 +248,27 @@ async function userItemClick(event) {
 
     fetchProductInfo(selectedSaleId);
 
-	// messageForm과 chatArea의 hidden 클래스 제거
-	messageForm.classList.remove('hidden');
-	chatArea.classList.remove('hidden');
+   // messageForm과 chatArea의 hidden 클래스 제거
+   messageForm.classList.remove('hidden');
+   chatArea.classList.remove('hidden');
 
-	// rolePrefix 값에 따라 버튼의 hidden 클래스 조작
-	const rolePrefix = clickedUser.querySelector('.user-name').textContent.startsWith('판매자:') ? '판매자' : '구매자';
-	const reportButton = document.getElementById('report');
-	const dealDoneButton = document.getElementById('deal-done');
-	const reportBuyerButton = document.getElementById('report-buyer');
+   // rolePrefix 값에 따라 버튼의 hidden 클래스 조작
+   const rolePrefix = clickedUser.querySelector('.user-name').textContent.startsWith('판매자:') ? '판매자' : '구매자';
+   const reportButton = document.getElementById('report');
+   const dealDoneButton = document.getElementById('deal-done');
+   const reportBuyerButton = document.getElementById('report-buyer');
 
 
-	if (rolePrefix === '판매자') {
-	    reportButton.classList.remove('hidden');
-	    dealDoneButton.classList.add('hidden');
-		reportBuyerButton.classList.add('hidden');
+   if (rolePrefix === '판매자') {
+       reportButton.classList.remove('hidden');
+       dealDoneButton.classList.add('hidden');
+      reportBuyerButton.classList.add('hidden');
 
-	} else if (rolePrefix === '구매자') {
-	    reportButton.classList.add('hidden');
-	    dealDoneButton.classList.remove('hidden');
-		reportBuyerButton.classList.remove('hidden');
-	}
+   } else if (rolePrefix === '구매자') {
+       reportButton.classList.add('hidden');
+       dealDoneButton.classList.remove('hidden');
+      reportBuyerButton.classList.remove('hidden');
+   }
 }
 
 
@@ -286,11 +280,11 @@ function fetchProductInfo(saleId) {
         })
         .then(data => {
             updateChatHeader(data);
-			if (data.product.sale_status === '판매완료') {
-			    document.getElementById('deal-done').classList.add('disabled');
-			} else {
-			    document.getElementById('deal-done').classList.remove('disabled');
-			}
+         if (data.product.sale_status === '판매완료') {
+             document.getElementById('deal-done').classList.add('disabled');
+         } else {
+             document.getElementById('deal-done').classList.remove('disabled');
+         }
         })
         .catch(error => {
             console.error('Error fetching product info:', error);
@@ -313,11 +307,11 @@ function updateChatHeader(data) {
 // 메시지 표시 함수
 function displayMessage(senderId, content, timestamp) {
 
-	// timestamp가 유효한지 확인
-	const date = new Date(timestamp);
-	if (isNaN(date.getTime())) {
-	    return;
-	}
+   // timestamp가 유효한지 확인
+   const date = new Date(timestamp);
+   if (isNaN(date.getTime())) {
+       return;
+   }
     const messageDate = new Date(timestamp).toISOString().split('T')[0]; // 메시지의 날짜 (YYYY-MM-DD)
 
     // 날짜 요소가 이미 존재하는지 확인
@@ -376,44 +370,44 @@ function displayMessage(senderId, content, timestamp) {
 
 
 function formatTimestamp(timestamp) {
-	
+   
     const date = new Date(timestamp);
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const ampm = hours >= 12 ? '오후' : '오전';
     const formattedHours = hours % 12 || 12;
     const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-	
+   
     return `${ampm} ${formattedHours}:${formattedMinutes}`;
 }
 
 // Update fetchAndDisplayUserChat to include timestamp
 async function fetchAndDisplayUserChat() {
-	console.log(selectedSaleId, userId, selectedUserId);
-	if (!selectedSaleId || !userId || !selectedUserId) {
-	    return;
-	}
+   console.log(selectedSaleId, userId, selectedUserId);
+   if (!selectedSaleId || !userId || !selectedUserId) {
+       return;
+   }
 
-	try {
-	    const userChatResponse = await fetch(`/messages?saleId=${selectedSaleId}&userId1=${userId}&userId2=${selectedUserId}`);
-	    const userChat = await userChatResponse.json();
+   try {
+       const userChatResponse = await fetch(`/messages?saleId=${selectedSaleId}&userId1=${userId}&userId2=${selectedUserId}`);
+       const userChat = await userChatResponse.json();
 
-	    if (!Array.isArray(userChat)) {
-	        console.error('Unexpected response format:', userChat);
-	        return;
-	    }
+       if (!Array.isArray(userChat)) {
+           console.error('Unexpected response format:', userChat);
+           return;
+       }
 
-	    chatArea.innerHTML = '';
-	    userChat.forEach(chat => {
-	        displayMessage(chat.senderId, chat.content, chat.timestamp);
-	    });
-	    setTimeout(scrollToBottom, 60); // 약간의 지연을 추가하여 메시지가 모두 추가된 후 스크롤 설정
-	    scrollToBottom();
-	    chatArea.scrollTop = chatArea.scrollHeight;
-	} catch (error) {
-	    console.error('Failed to fetch and display user chat:', error);
-	    chatArea.innerHTML = 'Failed to load messages.';
-	}
+       chatArea.innerHTML = '';
+       userChat.forEach(chat => {
+           displayMessage(chat.senderId, chat.content, chat.timestamp);
+       });
+       setTimeout(scrollToBottom, 60); // 약간의 지연을 추가하여 메시지가 모두 추가된 후 스크롤 설정
+       scrollToBottom();
+       chatArea.scrollTop = chatArea.scrollHeight;
+   } catch (error) {
+       console.error('Failed to fetch and display user chat:', error);
+       chatArea.innerHTML = 'Failed to load messages.';
+   }
 }
 
 function scrollToBottom() {
@@ -435,61 +429,48 @@ function sendMessage(event) {
             recipientId: selectedUserId,
             content: messageInput.value.trim(),
             timestamp: new Date().toISOString(),
-			saleId: selectedSaleId // sale_id 추가
+         saleId: selectedSaleId // sale_id 추가
         };
         stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
         displayMessage(userId, messageInput.value.trim(), chatMessage.timestamp);
         messageInput.value = '';
     }
-	setTimeout(scrollToBottom, 60); // 약간의 지연을 추가하여 메시지가 모두 추가된 후 스크롤 설정
+   setTimeout(scrollToBottom, 60); // 약간의 지연을 추가하여 메시지가 모두 추가된 후 스크롤 설정
     chatArea.scrollTop = chatArea.scrollHeight;
     event.preventDefault();
 }
 
-// Update onMessageReceived to include timestamp
 async function onMessageReceived(payload) {
-	
-	const message = JSON.parse(payload.body);
-	
-	// 현재 선택된 채팅방의 메시지를 다시 표시합니다.
-	if (selectedUserId && selectedUserId !== message.senderId) {
-	    updateUnreadMessagesUI(message.senderId);
-	}
-	
-	if (selectedUserId) {
-	    const selectedUserElement = document.getElementById(selectedUserId);
-	    if (selectedUserElement) {
-	        selectedUserElement.classList.add('active');
-	        await fetchAndDisplayUserChat();
-			await findAndDisplayChatRooms();
-	    }
-	}
-	// 채팅방 목록을 다시 가져오고 선택된 채팅방을 유지합니다.
-
-	
-
-
+	// 메시지를 수신한 후 채팅 내용을 업데이트
+	await fetchAndDisplayUserChat();
+    const message = JSON.parse(payload.body);
 
     if (selectedUserId && selectedUserId === message.senderId) {
         displayMessage(message.senderId, message.content, message.timestamp);
-        setTimeout(scrollToBottom, 60); // 약간의 지연을 추가하여 메시지가 모두 추가된 후 스크롤 설정
-		chatArea.scrollTop = chatArea.scrollHeight;
+    } else if (selectedUserId && selectedUserId !== message.senderId) {
+        updateUnreadMessagesUI(message.senderId);
     }
 
+    // 클라이언트가 선택된 사용자의 채팅방을 활성화
     if (selectedUserId) {
-        document.querySelector(`#${selectedUserId}`).classList.add('active');
+        const selectedUserElement = document.getElementById(selectedUserId);
+        if (selectedUserElement) {
+            selectedUserElement.classList.add('active');
+        }
     } else {
         messageForm.classList.add('hidden');
     }
 
-	const notifiedUser = document.querySelector(`#${message.senderId}`);
-	if (notifiedUser && !notifiedUser.classList.contains('active')) {
-	    const nbrMsg = notifiedUser.querySelector('.nbr-msg');
-	    nbrMsg.classList.remove('hidden');
-	    const unreadCount = parseInt(nbrMsg.textContent) || 0;
-	    nbrMsg.textContent = unreadCount + 1;
-	}
-
+    // 읽지 않은 메시지 수 업데이트
+    const notifiedUser = document.querySelector(`#${message.senderId}`);
+    if (notifiedUser && !notifiedUser.classList.contains('active')) {
+        const nbrMsg = notifiedUser.querySelector('.nbr-msg');
+        if (nbrMsg) {
+            nbrMsg.classList.remove('hidden');
+            const unreadCount = parseInt(nbrMsg.textContent) || 0;
+            nbrMsg.textContent = unreadCount + 1;
+        }
+    }
 }
 
 // 파일 업로드 후 메시지에 URL을 표시
@@ -509,7 +490,7 @@ async function uploadFile(file) {
             recipientId: selectedUserId,
             content: result.url,
             timestamp: new Date().toISOString(),
-			saleId: selectedSaleId // sale_id 추가
+         saleId: selectedSaleId // sale_id 추가
         };
         stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
         displayMessage(userId, chatMessage.content, chatMessage.timestamp);
@@ -559,13 +540,13 @@ async function leaveChatRoom() {
                 alert('채팅방이 삭제되었습니다.');
                 // 채팅방 목록을 새로고침
                 await findAndDisplayChatRooms();
-				fetchAndDisplayUserChat();
+            fetchAndDisplayUserChat();
                 // 채팅 영역과 입력 폼을 숨김
                 messageForm.classList.add('hidden');
                 chatArea.classList.add('hidden');
-				console.log(chatHeader);
-				chatHeader.classList.add('hidden'); // chatHeader 숨김 추가
-				console.log('Added hidden class to chatHeader:', chatHeader.classList);
+            console.log(chatHeader);
+            chatHeader.classList.add('hidden'); // chatHeader 숨김 추가
+            console.log('Added hidden class to chatHeader:', chatHeader.classList);
 
 
             } else {
@@ -585,23 +566,23 @@ async function leaveChatRoom() {
 
 async function updateSaleStatus() {
     if (selectedSaleId) {
-		const buyerId = selectedUserId;
-		
-		try {
-		    const response = await fetch(`/product/updateStatus`, {
-		        method: 'POST',
-		        headers: {
-		            'Content-Type': 'application/x-www-form-urlencoded'
-		        },
-		        body: `sale_id=${selectedSaleId}&sale_status=판매완료&member_id=${buyerId}`
-		    });
+      const buyerId = selectedUserId;
+      
+      try {
+          const response = await fetch(`/product/updateStatus`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded'
+              },
+              body: `sale_id=${selectedSaleId}&sale_status=판매완료&member_id=${buyerId}`
+          });
 
             const result = await response.text();
 
             if (result === '1') {
                 alert('판매완료');
                 document.getElementById('transaction-status').innerText = '거래 상태: 판매완료';
-				document.getElementById('deal-done').classList.add('disabled');
+            document.getElementById('deal-done').classList.add('disabled');
             } else if (result === 'already_completed') {
                 alert('이미 판매 완료된 상품입니다.');
             } else {
