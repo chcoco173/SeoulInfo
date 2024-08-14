@@ -179,7 +179,7 @@
 				<div class="collapse" id="collapseMenu">
 					<div class="card card-body">
 						<ul class="list-unstyled">
-							<li><a class="dropdown-item" href="#" data-bs-toggle="collapse" data-bs-target="#option1Content" aria-expanded="false" aria-controls="option1Content"> 운영기관 </a>
+							<li><a class="dropdown-item" href="#" data-bs-toggle="collapse" data-bs-target="#option1Content" aria-expanded="false" aria-controls="option1Content" style="text-align:center;"> 운영기관 </a>
 								<div class="collapse mt-1" id="option1Content">
 									<ul class="list-group">
 										<li class="list-group-item"><span id="opCheckAll" class="opCheckAll">전체		</span></li>
@@ -189,7 +189,7 @@
 									</ul>
 								</div>
 							</li>
-							<li><br><a class="dropdown-item" href="#" data-bs-toggle="collapse" data-bs-target="#option2Content" aria-expanded="false" aria-controls="option2Content"> 충전기 분류 </a>
+							<li><br><a class="dropdown-item" href="#" data-bs-toggle="collapse" data-bs-target="#option2Content" aria-expanded="false" aria-controls="option2Content" style="text-align:center;"> 충전기 분류 </a>
 								<div class="collapse mt-2" id="option2Content">
 									<ul class="list-group">
 										<li class="list-group-item"><span id="typeCheckAll" class="typeCheckAll">전체					</span></li>
@@ -203,7 +203,7 @@
 									</ul>
 								</div>
 							</li>
-							<li><br><a class="dropdown-item" href="#" data-bs-toggle="collapse" data-bs-target="#option3Content" aria-expanded="false" aria-controls="option3Content"> 편의시설 </a>
+							<li><br><a class="dropdown-item" href="#" data-bs-toggle="collapse" data-bs-target="#option3Content" aria-expanded="false" aria-controls="option3Content" style="text-align:center;"> 편의시설 </a>
 								<div class="collapse mt-3" id="option3Content">
 									<!-- convenience category Buttons -->
 									<ul class="list-group">
@@ -217,7 +217,7 @@
 								</div>
 							</li>
 							<li><br><hr>
-								<a class="dropdown-item" href="#" data-bs-toggle="collapse" data-bs-target="#option4Content" aria-expanded="false" aria-controls="option4Content">[ 지도 타입 ]</a>
+								<p class="dropdown-item" href="#" data-bs-toggle="collapse" data-bs-target="#option4Content" aria-expanded="false" aria-controls="option4Content">[ 지도 타입 ]</p>
 								<div class="list-group" id="map_show_type">
 									<button class="btn btn-warning" id="btnTerrain" data-enabled="false" onclick="setOverlayMapTypeId()">지형도</button>
 								</div>
