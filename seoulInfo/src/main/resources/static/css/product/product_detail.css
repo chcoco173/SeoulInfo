@@ -93,7 +93,7 @@
 }
 
 .carousel-item img {
-	height: auto;
+	height: 500px;
 	border-radius: 8px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
 }
@@ -294,4 +294,9 @@
 		padding: 10px 20px;
 		font-size: 14px;
 	}
+	.carousel-item img {
+		height: auto;
+	
+}
+	
 }

@@ -166,16 +166,29 @@
 
 												<!-- 슬라이드 항목 -->
 												<div class="carousel-inner">
-													<c:forEach var="image" items="${productImgList}"
-														varStatus="status">
-														<div
-															class="carousel-item ${status.index == 0 ? 'active' : ''}">
-															<div class="carousel-image-wrapper">
-																<img src="/productImage/${image.productimg_alias}"
-																	class="d-block img-fluid mx-auto" />
-															</div>
-														</div>
-													</c:forEach>
+													<!-- productImgList가 비어있는지 확인 -->
+													   <c:choose>
+													       <c:when test="${empty productImgList}">
+													           <!-- productImgList가 비어있을 때 대체 이미지 표시 -->
+													           <div class="carousel-item active">
+													               <div class="carousel-image-wrapper">
+													                   <img src="/NoImage/noimg.png" class="d-block img-fluid mx-auto" 
+																	   			style="width: 500px;"/>
+													               </div>
+													           </div>
+													       </c:when>
+													       <c:otherwise>
+													           <!-- productImgList가 비어있지 않을 때 이미지 표시 -->
+													           <c:forEach var="image" items="${productImgList}" varStatus="status">
+													               <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
+													                   <div class="carousel-image-wrapper">
+													                       <img src="/productImage/${image.productimg_alias}" 
+													                            class="d-block img-fluid mx-auto" />
+													                   </div>
+													               </div>
+													           </c:forEach>
+													       </c:otherwise>
+													   </c:choose>
 												</div>
 
 												<!-- 이전 버튼 -->
