@@ -1,6 +1,7 @@
 package com.example.websocket.chat;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -19,6 +20,8 @@ public class ChatMessageController {
 
     private final SimpMessagingTemplate messagingTemplate;
     private final ChatMessageService chatMessageService;
+    private final UnreadMessageService unreadMessageService;
+
 
     // 메세지 저장하기
     @MessageMapping("/chat")
@@ -32,6 +35,13 @@ public class ChatMessageController {
                         savedMsg.getRecipientId(),
                         savedMsg.getContent()
                 )
+        );
+
+        // UnreadMessage 증가 처리
+        unreadMessageService.incrementUnreadCount(
+                chatMessage.getRecipientId(),
+                chatMessage.getSenderId(),
+                chatMessage.getSaleId()
         );
     }
     
@@ -53,5 +63,27 @@ public class ChatMessageController {
         } catch (Exception e) {
             return ResponseEntity.status(500).build();
         }
+    }
+    
+    // 채팅방 클릭 시 읽지 않은 메시지 수 초기화
+    @PostMapping("/resetUnreadCount")
+    public ResponseEntity<Void> resetUnreadCount(@RequestParam String userId,
+                                                 @RequestParam String senderId,
+                                                 @RequestParam Integer saleId) {
+        try {
+            unreadMessageService.resetUnreadCount(userId, senderId, saleId);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(500).build();
+        }
+    }
+    
+    @GetMapping("/unreadCount")
+    public ResponseEntity<Integer> getUnreadCount(@RequestParam String userId,
+                                                  @RequestParam String senderId,
+                                                  @RequestParam Integer saleId) {
+        Optional<UnreadMessage> unreadMessage = unreadMessageService.getUnreadCount(userId, senderId, saleId);
+        return unreadMessage.map(message -> ResponseEntity.ok(message.getUnreadCount()))
+                            .orElseGet(() -> ResponseEntity.ok(0));
     }
 }

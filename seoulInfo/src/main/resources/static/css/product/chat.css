@@ -19,7 +19,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 16px;
-    height: 70px; /* 높이를 반으로 줄임 */
+    height: 85px; /* 높이를 반으로 줄임 */
     background-color: #d5e8f2;
     border-radius: 8px; /* 모서리를 둥글게 만듦 */
     margin-bottom: 5px;
@@ -112,7 +112,7 @@ body {
     display: flex;
     max-width: 800px;
     min-width: 800px;
-    min-height: 600px;
+    min-height: 700px;
     max-height: 600px;
     margin: 20px;
     border: 1px solid #ccc;

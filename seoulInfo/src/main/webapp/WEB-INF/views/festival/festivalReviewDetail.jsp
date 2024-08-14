@@ -34,6 +34,7 @@
 		    justify-content: center;
 		    overflow: hidden;
 		    position: relative;
+			height: 20%; /* 높이를 고정 */
 		}
 
 		.destination-featured-image {
@@ -96,6 +97,9 @@
 		    margin: 0 auto; /* 가운데 정렬 */
 		    padding: 20px; /* 내부 여백 추가 */
 		}
+/*		.destination-featured-image {		   
+		    padding-top: 100%;
+		}*/
 
 		
 		@media (min-width:992px) {html.w-mod-js:not(.w-mod-ix) [data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"] {-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);}}@media (max-width:991px) and (min-width:768px) {html.w-mod-js:not(.w-mod-ix) [data-w-id="e144bf26-0d49-109b-1b5b-756bc18db829"] {-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);}}</style>
@@ -415,13 +419,31 @@
 		
 		var images = document.querySelectorAll("._3-column-grid .image-overflow-wrapper");
 		var imageCount = images.length;
-
-		if (imageCount > 0 && imageCount < 3) {
-		    var newWidth = (100 / imageCount) + "%";
+		var gridContainer = document.querySelector("._3-column-grid");
+		if (imageCount === 1) {
+		    gridContainer.style.gridTemplateColumns = "1fr"; // 한 개일 때 1열
 		    images.forEach(function(image) {
-		        image.style.width = newWidth;
+		        image.style.height = "400px"; // 고정 높이 설정
+		        image.querySelector('.destination-featured-image').style.paddingTop = "30%"; // 패딩 설정
+		    });
+		} else if (imageCount === 2) {
+		    gridContainer.style.gridTemplateColumns = "1fr 1fr"; // 두 개일 때 2열
+		    images.forEach(function(image) {
+		        image.style.height = "400px"; // 고정 높이 설정
+		        image.querySelector('.destination-featured-image').style.paddingTop = "60%"; // 패딩 설정
+		    });
+		} else {
+		    gridContainer.style.gridTemplateColumns = "1fr 1fr 1fr"; // 세 개 이상일 때 3열
+		    images.forEach(function(image) {
+		        image.style.height = "400px"; // 고정 높이 설정
+		        image.querySelector('.destination-featured-image').style.paddingTop = "80%"; // 패딩 설정
 		    });
 		}
+		// 이미지 높이를 설정합니다.
+		images.forEach(function(image) {
+		    image.style.height = "100%"; // 여기서 300px을 원하는 높이 값으로 변경할 수 있습니다.
+		});
+		
 	    $('.delete-comment').click(function () {
 	        var commentId = $(this).data('comment-id');
 	        $.ajax({
