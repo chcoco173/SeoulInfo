@@ -78,6 +78,12 @@
 	font-size: 1.5rem;
 	font-weight: bold;
 }
+.links-and-search-wrapper {
+	    grid-column-gap: 0;
+	}
+	.nav-links-wrapper {
+	  grid-column-gap: 0;
+	  }
 </style>
 </head>
 <body>

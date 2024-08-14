@@ -8,6 +8,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	.links-and-search-wrapper {
+	    grid-column-gap: 0rem;
+	}
+	.nav-links-wrapper {
+	  grid-column-gap: 0;
+	  }
+	</style>
 </head>
 <body>
 	<div class="navigation-wrapper">

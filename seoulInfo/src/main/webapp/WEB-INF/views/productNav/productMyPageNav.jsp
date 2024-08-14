@@ -14,9 +14,10 @@
             display: flex;
             justify-content: space-between;
         }
-        .style-guide-menu a {
-            margin: 0 10px;
-        }
+		.style-guide-menu a {
+			font-size: 1.3rem;
+			margin: 7px 10px;
+		}
         .style-guide-menu-button {
             display: none; /* Hide the menu button since it's not needed */
         }
