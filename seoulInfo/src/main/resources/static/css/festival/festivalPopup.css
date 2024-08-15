@@ -302,7 +302,8 @@
 }
 
 .event-item img {
-    width: 100px; /* Fixed width for consistency */
+    width: 120px; /* Fixed width for consistency */
+    min-height:180px;
     height: auto; /* Maintain aspect ratio */
     border-radius: 4px; /* Slightly rounded corners for images */
 }

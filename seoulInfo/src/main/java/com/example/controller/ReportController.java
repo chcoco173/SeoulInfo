@@ -31,24 +31,28 @@ public class ReportController {
         return "/product/sale_report";
     }
 
-    @PostMapping("/report")
-    public String submitReport(@RequestParam("member_id") String memberId,
+    @GetMapping("/product/saleReport")
+    public void submitReport(@RequestParam("member_id") String memberId,
                                @RequestParam("report_reason") String reportReason,
-                               @RequestParam("report_cate") String reportCate) {
+                               @RequestParam("report_cate") String reportCate,
+                               @RequestParam("sale_id") Integer saleId) {
+        System.out.println("판매자 신고!! 댓글 ID: " + memberId + ", 신고 사유: " + reportReason + ", Sale ID: " + saleId);
+
         ReportVO reportVO = new ReportVO();
         reportVO.setMember_id(memberId);
         reportVO.setReport_reason(reportReason);
         reportVO.setReport_cate(reportCate);
+        reportVO.setSale_id(saleId);
 
         reportService.saveReport(reportVO);
-        return "redirect:/reportSuccess";
     }
     
     // 축제 댓글 신고
     @GetMapping("/festival/reportComment")
     public void reportComment(@RequestParam("comment_id") Integer commentId, 
                                 @RequestParam("report_reason") String reportReason,
-                                @RequestParam("comment_author") String commentAuthor) {
+                                @RequestParam("comment_author") String commentAuthor,
+                                @RequestParam("frc_id") Integer frcId) {
         System.out.println("댓글 신고!! 댓글 ID: " + commentId + ", 신고 사유: " + reportReason);
         try {
             // 신고할 댓글을 가져옴
@@ -60,6 +64,7 @@ public class ReportController {
                 reportVO.setReport_reason(reportReason);
                 reportVO.setReport_cate("축제댓글");
                 reportVO.setFrc_id(commentId); // 신고 대상 댓글 ID 설정
+                reportVO.setFrc_id(frcId);
                 reportService.saveReport(reportVO);
                 
             }

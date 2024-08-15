@@ -1614,6 +1614,7 @@ textarea.w-select {
   color: #333333;
 }
 .w-nav-link {
+  font-size:1.25rem !important;
   position: relative;
   display: inline-block;
   vertical-align: top;

@@ -15,6 +15,12 @@
 <link href="/css/webflow.css" rel="stylesheet" type="text/css">
 <link href="/css/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet"
 	type="text/css">
+<!-- 08/14 기진 bootstrap 추가-->	
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+
+>>>>>>> branch 'main' of https://github.com/chcoco173/SeoulInfo.git
 <link href="https://fonts.googleapis.com" rel="preconnect">
 <link href="https://fonts.gstatic.com" rel="preconnect"
 	crossorigin="anonymous">

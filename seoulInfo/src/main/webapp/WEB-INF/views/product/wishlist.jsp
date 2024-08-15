@@ -43,38 +43,45 @@
 
 <!-- 외부 css -->
 <link href="/css/product/myProduct.css" rel="stylesheet" type="text/css">
+<link href="/css/product/noProduct.css" rel="stylesheet" type="text/css">
+<link href="/css/footer/footer.css" rel="stylesheet" type="text/css">
+
+<!--아이콘을 위한 Font Awesome의 CSS 파일 -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 <style>
-	.product-card {
-		        position: relative;
-		        overflow: hidden;
-		    }
+/*status*/
+.product-card {
+	position: relative;
+	overflow: hidden;
+}
 
-		    .product-image {
-		        width: 100%;
-		        height: auto;
-		        transition: filter 0.3s ease;
-		    }
+.product-image {
+	width: 100%;
+	height: auto;
+	transition: filter 0.3s ease;
+}
 
-		    .product-card.sold-out .product-image {
-		        filter: grayscale(100%);
-		    }
+.product-card.sold-out .product-image {
+	filter: grayscale(100%);
+}
 
-		    .overlay {
-		        position: absolute;
-		        top: 25%;
-		        left: 50%;
-		        transform: translate(-50%, -50%);
-		        color: white;
-		        
-		        background-color: rgba(0, 0, 0, 0.5);
-		        padding: 10px;
-		        border-radius: 5px;
-		        text-align: center;
-		    }
+.overlay {
+	position: absolute;
+	top: 25%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: white;
+	background-color: rgba(0, 0, 0, 0.5);
+	padding: 10px;
+	border-radius: 5px;
+	text-align: center;
+}
 
-		    .product-card.sold-out .overlay {
-		        display: block;
-		    }
+.product-card.sold-out .overlay {
+	display: block;
+}
 </style>
 </head>
 <body>
@@ -87,41 +94,55 @@
 			<section class="section-style-guide-header">
 				<div class="container_a">
 					<h1>찜목록</h1>
-					<div class="product-cards-container">
-						<c:forEach items="${wishList}" var="wishList">
-						<div class="product-card">
-							<input type="hidden" class="sale_id" value="${wishList.sale_id}">
-							<c:choose>
-								<c:when test="${not empty wishList.productimg_alias}">
-									<img src="/productImage/${wishList.productimg_alias}"
-									alt="상품 이미지" class="product-image"style="height: 100px; width: 100px;">
-								</c:when>
-								<c:otherwise>
-									<img src="https://via.placeholder.com/100" alt="이미지없음"class="product-image">
-								</c:otherwise>
-							</c:choose>
-							<!-- 거래중 상태일 때만 오버레이 추가 -->
-							<c:if test="${wishList.sale_status eq '거래중' || wishList.sale_status eq '판매완료'}">
-								<div class="overlay">${wishList.sale_status}</div>
-							</c:if>
-							<div class="product-details">
-								<h5>${wishList.sale_name}</h5>
-								<p>${wishList.sale_status}</p>
-								<p class='price'data-price="${wishList.sale_price}"></p>
-																
+					<c:choose>
+						<c:when test="${empty wishList}">
+							<div class="no-products-message">
+								<i class="fas fa-sad-tear"></i> 현재 찜한 상품이 없습니다.</br> <a
+									href="/product/productMain">상품 보러 가시겠어요?</a>
 							</div>
-							<div class="button-group">
-								<button class="btn btn-secondary product">상품보러가기</button>
-								<button class="btn btn-secondary delete">삭제</button>
-							</div>
-						</div>
-						</c:forEach>
-					</div>
+						</c:when>
+						<c:otherwise>
+							<div class="product-cards-container">
+								<c:forEach items="${wishList}" var="wishList">
+									<div class="product-card">
+										<input type="hidden" class="sale_id"
+											value="${wishList.sale_id}">
+										<c:choose>
+											<c:when test="${not empty wishList.productimg_alias}">
+												<img src="/productImage/${wishList.productimg_alias}"
+													alt="상품 이미지" class="product-image"
+													style="height: 100px; width: 100px;">
+											</c:when>
+											<c:otherwise>
+												<img src="/NoImage/noimg.png" alt="이미지없음"
+													class="product-image" style="height: 100px; width: 100px;">
+											</c:otherwise>
+										</c:choose>
+										<!-- 거래중 상태일 때만 오버레이 추가 -->
+										<c:if
+											test="${wishList.sale_status eq '거래중' || wishList.sale_status eq '판매완료'}">
+											<div class="overlay">${wishList.sale_status}</div>
+										</c:if>
+										<div class="product-details">
+											<h5>${wishList.sale_name}</h5>
+											<p>${wishList.sale_status}</p>
+											<p class='price' data-price="${wishList.sale_price}"></p>
+
+										</div>
+										<div class="button-group">
+											<button class="btn btn-secondary product">상품보러가기</button>
+											<button class="btn btn-secondary delete">삭제</button>
+										</div>
+									</div>
+								</c:forEach>
+						</c:otherwise>
+					</c:choose>
 				</div>
 			</section>
 		</main>
-		<%@ include file="../footer.jsp" %>
+
 	</div>
+	<%@ include file="../footer.jsp"%>
 	<script
 		src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9"
 		type="text/javascript"
@@ -131,52 +152,53 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script type="text/javascript">
-		
 		// 위시 삭제
-		$(".delete").on('click', function(){
+		$(".delete").on('click', function() {
 			var $item = $(this).closest('.product-card');
 			var saleId = $item.find('.sale_id').val();
 			alert(saleId);
-			
+
 			$.ajax({
 				type : 'POST',
-				url  : '/product/deleteWish',
+				url : '/product/deleteWish',
 				data : {
 					'sale_id' : saleId
 				},
-				success : function(result){
-					if(result == '1'){
+				success : function(result) {
+					if (result == '1') {
 						$item.remove();
-					}else{
+					} else {
 						alert('위시삭제실패');
 					}
-				},error : function(err){
+				},
+				error : function(err) {
 					console.log(err);
 				}
 			});
-			
+
 		});
-		
+
 		// 상품상세보기
-		$(".product").click(function() {
-			var sale_id = $(this).closest('.product-card').find('.sale_id').val();
-			alert(sale_id);
-			
-			// 나중에 상품번호들고가서 수정예정
-			location.href = "detail_post?sale_id=" + sale_id;
-		});
-		
+		$(".product").click(
+				function() {
+					var sale_id = $(this).closest('.product-card').find(
+							'.sale_id').val();
+					alert(sale_id);
+
+					// 나중에 상품번호들고가서 수정예정
+					location.href = "detail_post?sale_id=" + sale_id;
+				});
+
 		// 가격 포맷 함수
 		function formatPrice(price) {
 			return Number(price).toLocaleString('ko-KR') + '원';
 		}
-		
+
 		// 모든 가격 요소에 대해 포맷팅을 적용합니다.
 		$('.price').each(function() {
 			var rawPrice = $(this).data('price');
 			$(this).text(formatPrice(rawPrice));
 		});
-	
 	</script>
 </body>
 </html>

@@ -19,11 +19,9 @@
   <meta content="summary_large_image" name="twitter:card">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
-  <link href="/css/mypage/normalize.css" rel="stylesheet" type="text/css">
-  <link href="/css/mypage/webflow.css" rel="stylesheet" type="text/css">
+  <link href="/css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="/css/webflow.css" rel="stylesheet" type="text/css">
   <link href="/css/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet" type="text/css">
-  <link href="/css/mypage/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet" type="text/css">
-  <link href="/css/mypage/ev.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
@@ -32,12 +30,15 @@
   <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
   <link href="/images/webclip.png" rel="apple-touch-icon">
    
+  
+  <link href="/css/mypage/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet" type="text/css">
+  <link href="/css/mypage/ev.css" rel="stylesheet" type="text/css">
+  <link href="/css/footer/footer.css" rel="stylesheet" type="text/css">
+    
 </head>
+
 <body>
   <div class="page-wrapper">
-	
-
-	
 	<!-- 검색 start -->
 	<%@ include file="../Nav/myPageNav.jsp" %>
 	<!-- 검색 end -->	
@@ -143,7 +144,7 @@
            
     
   </div><!-- page-wrapper end -->
-  <%@ include file="../footer.jsp" %> 
+   <%@ include file="../footer.jsp" %> 
   
 
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>

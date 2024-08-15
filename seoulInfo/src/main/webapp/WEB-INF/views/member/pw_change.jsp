@@ -18,9 +18,8 @@
   <meta content="summary_large_image" name="twitter:card">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
-  <link href="/css/member/normalize.css" rel="stylesheet" type="text/css">
-  <link href="/css/member/webflow.css" rel="stylesheet" type="text/css">
-  <link href="/css/member/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet" type="text/css">
+  <link href="/css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="/css/webflow.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
@@ -29,6 +28,9 @@
   <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
   <link href="/images/webclip.png" rel="apple-touch-icon">
   <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  
+  <link href="/css/member/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet" type="text/css">
+  <link href="/css/footer/footer.css" rel="stylesheet" type="text/css">
   <style>
   #loading {
   	position: fixed;
@@ -114,12 +116,9 @@
       </div>
     </div>
 	<!--한) 비밀번호찾기 end-->
-	<%@ include file="../footer.jsp" %>
-	
-
-    
-    
   </div><!-- page-wrapper end -->
+
+  <%@ include file="../footer.jsp" %>
   
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
  

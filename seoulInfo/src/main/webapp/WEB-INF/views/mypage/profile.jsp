@@ -32,12 +32,10 @@
 <meta content="summary_large_image" name="twitter:card">
 <meta content="width=device-width, initial-scale=1" name="viewport">
 <meta content="Webflow" name="generator">
-<link href="/css/mypage/normalize.css" rel="stylesheet" type="text/css">
-<link href="/css/mypage/webflow.css" rel="stylesheet" type="text/css">
+<link href="/css/normalize.css" rel="stylesheet" type="text/css">
+<link href="/css/webflow.css" rel="stylesheet" type="text/css">
 <link href="/css/jades-dandy-site-14d3e0.webflow.css"
 	rel="stylesheet" type="text/css">
-<link href="/css/mypage/jades-dandy-site-14d3e0.webflow.css"
-		rel="stylesheet" type="text/css">
 <style>
 @media ( min-width :992px) {
 	html.w-mod-js:not(.w-mod-ix) [data-w-id="1d188613-99eb-7eb0-d878-0bf26f04f386"]
@@ -78,6 +76,9 @@
 <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
 <link href="/images/webclip.png" rel="apple-touch-icon">
 
+
+<link href="/css/mypage/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet" type="text/css">
+<link href="/css/footer/footer.css" rel="stylesheet" type="text/css">
 
 </head>
 <body>

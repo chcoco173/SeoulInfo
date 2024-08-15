@@ -78,6 +78,12 @@
 	font-size: 1.5rem;
 	font-weight: bold;
 }
+.links-and-search-wrapper {
+	    grid-column-gap: 0;
+	}
+	.nav-links-wrapper {
+	  grid-column-gap: 0;
+	  }
 </style>
 </head>
 <body>
@@ -194,14 +200,14 @@
 											<li class="media mb-3 event-item"><input type="hidden"
 												id="festival_id" name="festival_id"
 												value="${festival.festival_id }"> <img class="mr-3"
-												src="${festival.festival_imageurl}" alt="매물 이미지"
+												src="${festival.festival_imageurl}" alt="축제 이미지"
 												 />
 												<div class="media-body">
 													<p>${festival.festival_name}</p>
 													<p>시작일:${festival.festival_startDate}</p>
 													<p>종료일:${festival.festival_endDate}</p>
 													<p class="viewcount">조회수:${festival.festival_viewcount}</p>
-													<a href="${festival.festival_siteurl}">사이트 바로가기</a>
+													<a href="/festival/festivalDetail?festival_id=${festival.festival_id}">상세내용 보러가기</a>
 												</div></li>
 										</c:forEach>
 									</ul>
@@ -308,7 +314,7 @@
 									'<p> 시작일 : ' + festival.festival_startDate + '</p>' +
 									'<p> 종료일 : ' + festival.festival_endDate + '</p>' +
 									'<p class="viewcount"> 조회수:' + festival.festival_viewcount + '</p>' +
-									'<a href="' + festival.festival_siteurl + '" target="_blank">사이트 바로가기</a>' +
+									'<a href="/festival/festivalDetail?festival_id=' + festival.festival_id + '">상세내용 보러가기</a>'
 									'</div>';
 
 								eventList.appendChild(listItem);
@@ -426,6 +432,7 @@
 					};
 					
 					// 문화 상세 페이지로 이동
+					
 					var Detail = document.getElementById('Detail');
 					Detail.onclick = function() {
 					    alert(arg.event.id);
@@ -459,8 +466,8 @@
 				// 클릭된 item 내부의 .festival_id input 요소를 선택
 				var festivalId = this.querySelector('#festival_id').value;
 				// festival_id를 alert로 표시
-				alert('Festival ID: ' + festivalId);
-				window.location.href = "/festival/festivalDetail?festival_id=" + festivalId;
+				//alert('Festival ID: ' + festivalId);
+				//window.location.href = "/festival/festivalDetail?festival_id=" + festivalId;
 
 				// 클릭시 조회수 증가
 				$.ajax({

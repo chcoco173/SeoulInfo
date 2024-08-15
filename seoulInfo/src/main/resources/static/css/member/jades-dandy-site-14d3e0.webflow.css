@@ -968,6 +968,7 @@ figcaption {
 }
 
 .accent {
+  margin-left: 10px;
   text-transform: uppercase;
   font-family: Plus Jakarta Sans, sans-serif;
   font-size: .875rem;
@@ -1115,6 +1116,7 @@ figcaption {
 }
 
 ._2-column-grid-uneven-right {
+  padding-top:120px;
   grid-column-gap: var(--gutters);
   grid-row-gap: var(--gutters);
   grid-template-rows: auto;
@@ -1903,6 +1905,7 @@ figcaption {
 
 @media screen and (max-width: 767px) {
   h1 {
+  	margin-left: 10px;
     font-size: 2.5rem;
   }
 
@@ -2005,6 +2008,7 @@ figcaption {
   }
 
   ._2-column-grid-uneven-right, ._2-column-grid-uneven-left {
+    padding-top: 70px;
     grid-row-gap: 3rem;
     grid-template-columns: 1fr;
   }

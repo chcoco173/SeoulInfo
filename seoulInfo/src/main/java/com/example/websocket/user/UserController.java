@@ -27,14 +27,14 @@ public class UserController {
     }
 
     // 유저가 채팅 페이지 나가면 오프라인 상태로 변경
-    @MessageMapping("/user.disconnectUser")
-    @SendTo("/user/public")
-    public User disconnectUser(
-            @Payload User user
-    ) {
-        userService.disconnect(user);
-        return user;
-    }
+//    @MessageMapping("/user.disconnectUser")
+//    @SendTo("/user/public")
+//    public User disconnectUser(
+//            @Payload User user
+//    ) {
+//        userService.disconnect(user);
+//        return user;
+//    }
 
     // 유저 온라인 상태 가져오기
     @GetMapping("/users")

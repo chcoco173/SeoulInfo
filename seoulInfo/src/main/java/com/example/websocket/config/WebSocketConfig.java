@@ -1,6 +1,7 @@
 package com.example.websocket.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.DefaultContentTypeResolver;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
@@ -41,4 +42,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         messageConverters.add(converter);	// 변환기를 메시지 변환기 목록에 추가
         return false;	// 기본 설정된 메시지 변환기 이외의 추가적인 커스텀 메시지 변환기를 사용하지 않도록 합니다.
     }
+    
+    
 }

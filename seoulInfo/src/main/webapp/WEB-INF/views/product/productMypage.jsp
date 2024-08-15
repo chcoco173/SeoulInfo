@@ -87,20 +87,36 @@
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<link href="/css/product/productReviewGradeName.css" rel="stylesheet" type="text/css">
-<link href="/css/product/productMain.css" rel="stylesheet" type="text/css">
-<link href="/css/product/productStatus.css" rel="stylesheet" type="text/css">
+<link href="/css/product/productReviewGradeName.css" rel="stylesheet"
+	type="text/css">
+<link href="/css/product/productMain.css" rel="stylesheet"
+	type="text/css">
+<link href="/css/product/productStatus.css" rel="stylesheet"
+	type="text/css">
+<link href="/css/product/noProduct.css" rel="stylesheet" type="text/css">
+<link href="/css/footer/footer.css" rel="stylesheet" type="text/css">
+
+
+<!--아이콘을 위한 Font Awesome의 CSS 파일 -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 <style>
-	.large-author-thumbnail {
-	    background-image: url("/files/${sessionScope.member.member_imageName}"), url("/images/mypage/default_profile.jpg");
-	    background-position: 50%;
-	    background-size: cover;
-	    border-radius: 30px;
-	    width: 3.5rem;
-	    height: 3.5rem;
-	    margin-right: 6px;
-	}
-	</style>
+.large-author-thumbnail {
+	background-image: url("/files/${sessionScope.member.member_imageName}"),
+		url("/images/mypage/default_profile.jpg");
+	background-position: 50%;
+	background-size: cover;
+	border-radius: 30px;
+	width: 3.5rem;
+	height: 3.5rem;
+	margin-right: 6px;
+}
+
+.no-products-message {
+	margin: 20px 0; /* 상하 여백 */
+}
+</style>
 </head>
 <body>
 	<div class="page-wrapper">
@@ -119,82 +135,92 @@
 								style="opacity: 0" class="post-author-and-tags-wrapper">
 								<a href="#" class="large-author-wrapper w-inline-block">
 									<div class="large-author-thumbnail"></div>
-									<h5 class="author-name">${sessionScope.member.member_id}</h5>
-									<!-- Added class 'author-name' -->
+									<h5 class="author-name">${sessionScope.member.member_id}</h5> <!-- Added class 'author-name' -->
 									<c:choose>
 										<c:when test="${mostProduct_review != null}">
-											<div class="speech-bubble-right">상품 상태 ${mostProduct_review}<br/> 대화 매너가 ${mostChat_review} <br/> 약속을 ${mostCommitment_review}</div>
+											<div class="speech-bubble-right">
+												상품 상태 ${mostProduct_review}<br /> 대화 매너가 ${mostChat_review}
+												<br /> 약속을 ${mostCommitment_review}
+											</div>
 										</c:when>
 										<c:otherwise>
 											<div class="speech-bubble-right">아직 리뷰가 없어요...</div>
 										</c:otherwise>
-									</c:choose>  
+									</c:choose>
 								</a>
 							</div>
 							<div class="rating">
 								<div class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;
 								</div>
 							</div>
-							
+
 							<div class="container my-5">
 								<!--  상품 ( jstl로 들어갈 예정 ) -->
-								<div class="row">
-									<c:forEach items="${myProductList}" var="productList"
-										varStatus="status">
-										<div class="col-md-3 product">
-											<div class="product-card">
-												<c:choose>
-													<c:when test="${not empty productList.productimg_alias}">
-														<img src="/productImage/${productList.productimg_alias}"
-															alt="상품 이미지" class="product-image"
-															style="height: 250px; width: 250px;">
-													</c:when>
-													<c:otherwise>
-														<img src="https://via.placeholder.com/이미지없음" alt="이미지없음"
-															class="product-image"
-															style="height: 250px; width: 250px;">
-													</c:otherwise>
-												</c:choose>
-												<!-- 거래중 상태일 때만 오버레이 추가 -->
-												<c:if test="${productList.sale_status eq '거래중' || productList.sale_status eq '판매완료'}">
-													<div class="overlay">${productList.sale_status}</div>
-												</c:if>
-												
-												<div class="product-info">
-													<input type="hidden" class="sale_id"
-														value="${productList.sale_id}">
-													<h4>${productList.sale_name}</h4>
-													<p>${productList.sale_area}</p>
-													<p>
-														<strong class='price'data-price="${productList.sale_price}"></strong>
-													</p>
-													<p>
-														관심 ${productList.favorite_count}<span
-															style="margin-left: 20px;">상태:
-															${productList.sale_status}</span>
-													</p>
-													<!-- 날짜 차이 정보 추가 -->
-													<p>
-														${timeDataList[status.index]}<span style="margin-left: 30px;">조회수 : ${productList.sale_viewcount}</span>
-													</p>
-												</div>
-											</div>
+								<c:choose>
+									<c:when test="${empty myProductList}">
+										<div class="no-products-message">
+											<i class="fas fa-sad-tear"></i> 현재 등록된 상품이 없습니다.</br> <a
+												href="/product/productInsert">상품 등록하러 가시겠어요?</a>
 										</div>
-									</c:forEach>
-								</div>
-							</div>
+									</c:when>
+									<c:otherwise>
+										<div class="row">
+											<c:forEach items="${myProductList}" var="productList"
+												varStatus="status">
+												<div class="col-md-3 product">
+													<div class="product-card">
+														<c:choose>
+															<c:when test="${not empty productList.productimg_alias}">
+																<img src="/productImage/${productList.productimg_alias}"
+																	alt="상품 이미지" class="product-image"
+																	style="height: 250px; width: 250px;">
+															</c:when>
+															<c:otherwise>
+																<img src="/NoImage/noImage.png" alt="이미지없음"
+																	class="product-image"
+																	style="height: 250px; width: 250px;">
+															</c:otherwise>
+														</c:choose>
+														<!-- 거래중 상태일 때만 오버레이 추가 -->
+														<c:if
+															test="${productList.sale_status eq '거래중' || productList.sale_status eq '판매완료'}">
+															<div class="overlay">${productList.sale_status}</div>
+														</c:if>
 
+														<div class="product-info">
+															<input type="hidden" class="sale_id"
+																value="${productList.sale_id}">
+															<h4>${productList.sale_name}</h4>
+															<p>${productList.sale_area}</p>
+															<p>
+																<strong class='price'
+																	data-price="${productList.sale_price}"></strong>
+															</p>
+															<p>
+																관심 ${productList.favorite_count}<span
+																	style="margin-left: 20px;">상태:
+																	${productList.sale_status}</span>
+															</p>
+															<!-- 날짜 차이 정보 추가 -->
+															<p>
+																${timeDataList[status.index]}<span
+																	style="margin-left: 30px;">조회수 :
+																	${productList.sale_viewcount}</span>
+															</p>
+														</div>
+													</div>
+												</div>
+											</c:forEach>
+									</c:otherwise>
+								</c:choose>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="spacer-xxlarge"></div>
 		</div>
-
-		<%@ include file="../footer.jsp" %>
-
 	</div>
-
+	<%@ include file="../footer.jsp"%>
 	<script
 		src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9"
 		type="text/javascript"
@@ -209,31 +235,33 @@
 		$(".product").click(function() {
 			var sale_id = $(this).find('.sale_id').val();
 			alert(sale_id);
-								
-			location.href = "detail_post?sale_id="+sale_id;
+
+			location.href = "detail_post?sale_id=" + sale_id;
 
 		});
-		
-		var reviewStarAvg = ${reviewStarAvg}; // JSP에서 값을 전달받도록 설정
 
-		    // 별을 표시할 문자열 생성
-		    var filledStar = '&#9733;'; // 채워진 별
-		    var emptyStar = '&#9734;';  // 빈 별
-		    var totalStars = 5;         // 총 별 개수
-		    var starsHtml = '';
+		var reviewStarAvg = $
+		{
+			reviewStarAvg
+		}; // JSP에서 값을 전달받도록 설정
 
-		    // 별 문자열 생성
-		    for (var i = 0; i < totalStars; i++) {
-		        if (i < reviewStarAvg) {
-		            starsHtml += filledStar; // 채워진 별 추가
-		        } else {
-		            starsHtml += emptyStar; // 빈 별 추가
-		        }
+		// 별을 표시할 문자열 생성
+		var filledStar = '&#9733;'; // 채워진 별
+		var emptyStar = '&#9734;'; // 빈 별
+		var totalStars = 5; // 총 별 개수
+		var starsHtml = '';
+
+		// 별 문자열 생성
+		for (var i = 0; i < totalStars; i++) {
+			if (i < reviewStarAvg) {
+				starsHtml += filledStar; // 채워진 별 추가
+			} else {
+				starsHtml += emptyStar; // 빈 별 추가
+			}
 		}
 		// 별을 표시할 요소에 HTML 문자열 설정
 		$('.stars').html(starsHtml);
-			
-			
+
 		// 가격 포맷 함수
 		function formatPrice(price) {
 			return Number(price).toLocaleString('ko-KR') + '원';
