@@ -57,9 +57,9 @@
 	  align-items: center;
 	  justify-content: center;
       background-color: #e2e2e2;
-      margin-bottom: 100px;
+      margin-bottom: 20px;
       max-width: 100%;
-      height: 650px;
+      height: 950px;
       transition: none;
     }
     .box img {
@@ -68,6 +68,7 @@
       border-radius: 8px;
 	  width : 1100px;
 	  height : 600px;
+	  margin-bottom: 20px;
     }
 	
     .box div {
@@ -77,7 +78,7 @@
       margin-top: -20px;
       padding: 2.5rem;
     }
-	#moveMain {
+	.btn-movePage {
 	       display: flex; /* 버튼 내에서 이미지와 텍스트를 가로로 배치 */
 	       align-items: center; /* 이미지와 텍스트를 세로 가운데 정렬 */
 	       border: none; /* 기본 버튼 스타일 제거 */
@@ -89,10 +90,12 @@
 	       height: 3em; /* 텍스트 크기에 맞춰 이미지 높이를 설정 */
 	       width: auto; /* 이미지의 원본 비율 유지 */
 	       margin-right: 0.5em; /* 이미지와 텍스트 사이에 약간의 간격 추가 */
+		   display: inline-block;
+		   transition: transform 0.5s ease-in-out;
 	   }
-
+	   
 	   #moveMainText {
-	       margin: 1px; /* 기본 여백 제거 */
+	      margin: 1px; /* 기본 여백 제거 */
 	      padding:3px;
 	      border: 3px solid black;
 	      border-radius:10px;
@@ -186,6 +189,47 @@
 		    margin-bottom: 10px;
 		}
 	}
+	/* 박스 이미지 */
+	#box-first{
+		background:#FFFAE0;
+	}
+	#box-second{
+		background:#FFF8F1;	
+	}
+	#box-third{
+			
+	}
+	#box-forth{
+		background:#F6FDEC;	
+	}
+	#box-fifth{
+		background:#FFF8F1;	
+	}
+	
+	.landingTableImg{
+		border : 2px solid black;
+	}
+	.smallTitle { 
+		color : orange;
+		font-size:15px;
+		font-weight: bold;
+		line-height:2.5;
+		margin-left:15px;
+	}
+
+
+	#moveMain:hover #moveMainImage {
+	  animation: moveSideToSide 1s infinite alternate;
+	}
+
+	@keyframes moveSideToSide {
+	  0% {
+	    transform: translateX(0); /* 원래 위치 */
+	  }
+	  100% {
+	    transform: translateX(10px); /* 10px 오른쪽으로 이동 */
+	  }
+	}
 
   </style>
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -217,40 +261,51 @@
     
     <div class="main-wrapper">
       <!-- 네 개의 박스 시작 -->
-      <div class="box box-even" data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe">
-        <img id='main1' src="/landingpageimage/main1.png" alt="Placeholder Image">
+      <div id="box-first" class="box box-even" data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe">
+       <img id='main1' src="/landingpageimage/main1.png" alt="Placeholder Image">
        <div>
           <h1>서울 곳곳의</h1>
 		  <h1>여러 정보들을 한눈에</h1>
 		  <br/>
-          <p>서울 지역 안내 서비스는</p>
-		  <p>서울 시민과 방문객들이 필요로 하는</p>
-		  <p>다양한 정보를 한곳에 모아 제공하는 플랫폼입니다.</p> 
-		  <p>지역 뉴스, 행사 정보, 전기차 충전소와 근처 편의시설 지도</p>
-		  <p>그리고 안전한 구 별 중고거래 서비스를 제공합니다.</p>
-		  <p>각 카테고리 혹은 이미지 클릭 시 해당 서비스로 이동 합니다.</p>
-		  
+		  <article>
+	          <p><b style="color:green;"> 서울 지역 안내 서비스</b>는</p>
+			  <p>서울 시민과 방문객들에게 다양한 정보를 한 곳에 모아 제공하는 플랫폼입니다.</p> 
+			  <p>뉴스, 축제, 공연 등의 <b style="color:purple;">지역정보</b>, 전기차 충전소와 편의시설 <b style="color:yellowgreen;">지도</b></p>
+			  <p>그리고 안전한 구 별 <b style="color:orange;">중고거래</b> 서비스를 제공합니다.</p>
+			  <p>각 카테고리 혹은 이미지 클릭 시 해당 서비스로 이동 합니다.</p>
+		  </article>
 		  <br/>
 		  <a href='/'>
-		           <button id="moveMain" class="btn btn-primary"><img id="moveMainImage" src="/landingpageimage/moveMain.png" alt="이동">
-		              <h1 id="moveMainText">메인페이지 이동</h1></button>
-		          </a>
+          	<button class="btn-movePage" id="moveMain">
+			<img id="moveMainImage" src="/landingpageimage/moveMain.png" alt="이동">
+            <h1 id="moveMainText">메인페이지 이동</h1></button>
+          </a>
 		</div>
       </div>
-      <div class="box box-odd" data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe">
+      <div id="box-second" class="box box-odd" data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe">
         <div>
-		<h1>월 별, 일 별, 구 별로</h1>
+		<span class="smallTitle">서울의 문화</span>
+		<h1>월간, 일간, 지역별로</h1>
 		<h1>세분화한 축제 리스트</h1>
 		  <br/>
-		  <p>캘린더와 리스트를 통해 월 별, 일 별로 편리하게 확인할 수 있습니다.</p> 
-		  <p>구 선택 시 선택한 구에 해당하는 축제들만 선별해서 제공합니다.</p>
-		  <p>정보와 후기를 각 축제 별 게시판을 통해 다른 회원들과 나눌 수 있습니다.</p>
+		  <p><b>캘린더와 리스트를 통해 원하는 날짜의 문화행사를 쉽게 확인할 수 있습니다.<b></p><br>
+		  <table id="landingFestival" style="width:80%">
+			<tr>
+				<td><img class="landingTableImg" src="/landingpageimage/local1.gif" style=" width:50%; height:50%;"></td>
+				<td><img class="landingTableImg" src="/landingpageimage/local2.gif" style=" width:50%; height:50%;"></td>
+			</tr>
+			<tr>
+				<td><p>원하는 지역을 선택 시 해당하는 <br> 축제들만 선별해서 제공합니다.</p></td>
+				<td><p>정보와 후기를 게시판을 통해<br> 회원들과 경험을 나눠보세요!</p></td>
+			</tr>
+			</table>
         </div>
         <img id='main2' src="/landingpageimage/main2.png" alt="Placeholder Image">
 		</div>
-      <div class="box box-even" data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe">
+      <div id="box-third" class="box box-even" data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe">
         <img id='main3' src="/landingpageimage/main3.png" alt="Placeholder Image">
         <div>
+			<span class="smallTitle">서울의 소식</span>
 			<h1>구 별로 세분화해 최신순으로</h1>
 			<h1>제공하는 뉴스 리스트</h1>
 		  <br/>
@@ -258,26 +313,54 @@
 		  <p>뉴스 제목 클릭 시 상세 뉴스 페이지를 볼 수 있습니다.</p>
 		</div>
       </div>
-      <div class="box box-odd" data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe">
+      <div id="box-forth" class="box box-odd" data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe">
         <div>
-		<h1>가까운 전기차 충전소를</h1>
+		<span class="smallTitle">서울의 명소</span>
+		<h1>서울시 안의 전기차 충전소를</h1>
 		<h1>편리하게 검색할 수 있는 지도</h1>
 		  <br/>
-		  <p>회원 로그인 시, 거주 지역 내 전기차 충전소 정보를 제공합니다.</p> 
-		  <p>길 찾기 시 가장 빠른 경로와 경로 근처의 전기차 충전소 위치를 제공합니다.</p>
-		  <p>충전소 검색 시 주변 편의시설 정보도 함께 제공합니다.</p>
+		  <p><b>내 주변 서울시 내의 전기차 충전소와 편의시설 위치정보를 제공합니다.</b></p><br>
+		<table class="landingTable" style="width:80%">
+			<tr>
+				<td><img class="landingTableImg" src="/landingpageimage/ev1.gif" style=" width:60%; height:50%;"></td>
+				<td><img class="landingTableImg" src="/landingpageimage/ev2.gif" style=" width:60%; height:50%;"></td>
+				<td><img class="landingTableImg" src="/landingpageimage/ev3.gif" style=" width:60%; height:50%;"></td>
+			</tr>
+			<tr>			
+				<td><p>충전소 검색 시 주변 편의시설 정보도 함께 제공합니다.</p></td>
+				<td><p>길 찾기 시 가장 빠른 경로와<br>주변 전기차 충전소 위치정보 제공합니다.</p></td>
+				<td><p>회원이 되어 자주 가는 <br> 충전소 정보를 담아보세요!</p></td>
+			</tr>
+		</table>
         </div>
         <img id='main4' src="/landingpageimage/main4.png" alt="Placeholder Image">
       </div>
-      <div class="box box-even" data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe">
+      <div id="box-fifth" class="box box-even" data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe">
         <img id='main5' src="/landingpageimage/main5.png" alt="Placeholder Image">
         <div>
+			<span class="smallTitle">서울의 나눔</span>
 			<h1>회원의 니즈에 딱 맞춘</h1>
 			<h1>상품들을 제시하는 중고거래</h1>
 			<br/>
-			<p>구 선택 시 선택한 구에 해당하는 상품들만 선별해서 제공합니다.</p> 
-			<p>회원의 검색 내역을 기반으로 한 추천 카테고리 상품들을 제공합니다.</p>
-			<p>선택한 상품과 유사한 상품들을 연관 상품으로 제공합니다.</p>
+			<article>
+				<p>선택한 상품과 유사한 상품들을 연관 상품으로 제공합니다.</p>
+				<table class="landingTable" style="width:80%">
+					<tr>
+						<td><img class="landingTableImg" src="/landingpageimage/local1.gif" style=" width:50%; height:50%;"></td>
+						<td><img class="landingTableImg" src="/landingpageimage/pr2.gif" style=" width:50%; height:50%;"></td>
+						<td><img class="landingTableImg" src="/landingpageimage/pr1.gif" style=" width:50%; height:50%;"></td>
+					</tr>
+					<tr>			
+						<td><p>원하는 지역 선택 시 <br>해당하는 상품들만<br> 선별해서 제공합니다.</p></td>
+						<td><p>검색 내역을 기반으로 추천 카테고리 상품을 제공합니다.</p></td>
+						<td><p>회원이 되어 원하는 <br> 상품을 담아보세요!</p></td>
+					</tr>
+				</table>
+			</article>
+			<a href='/product/productMain?area=전체'>
+	          	<button class="btn-movePage" class="btn btn-primary" style=" width:auto; height:auto;">
+	        	<h1 id="moveMainText"><img src="/landingpageimage/pr3.gif" alt="이동" style=" width:13%; height:auto; margin:0">중고거래 이동</h1></button>
+	        </a>
 		</div>
       </div>
       <!-- 네 개의 박스 끝 -->
