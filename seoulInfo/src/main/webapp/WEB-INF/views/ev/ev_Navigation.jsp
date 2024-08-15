@@ -113,17 +113,19 @@
 			<table style="margin:5px;">
 				<tr>
 					<td rowspan="2"><img src="/images/ev/nav_route.png" alt="경로 이미지" style="width:55px; height:auto; border-radius:0px; margin:5px;"></td>
-		    		<td><input type="text" id="searchStartAddress" placeholder="출발지를 입력하세요." onchange="clickSearchPois('start');" style="padding-top:1%; padding-bottom:3%; margin-top:5px "></td>
+		    		<td><input type="text" id="searchStartAddress" placeholder="출발지를 입력하세요." onchange="clickSearchPois('start');" style="padding-top:1%; padding-bottom:3%; margin-top:5px; width:70%;">
+						<img src="/images/ev/etc_cafe.png" alt="getMyLocation">
+					</td>
 		    	</tr>
 				<tr>
-		    		<td style="padding-top:5px;"><input type="text" id="searchEndAddress" placeholder="목적지를 입력하세요." onchange="clickSearchPois('end');" style="padding-top:1%; padding-bottom:3%;"></td>
+		    		<td style="padding-top:5px;"><input type="text" id="searchEndAddress" placeholder="목적지를 입력하세요." onchange="clickSearchPois('end');" style="padding-top:1%; padding-bottom:3%; width:70%"></td>
 				</tr>
 				<tr>
 					<td colspan="2" style="padding-top:5px;"><p style="font-size : 12px; text-align:center;"> ※ 충전소는 서울시 내의 정보만 표시됩니다.</p></td>
 				</tr>	
 			</table>
 			<div id="result" style="margin-left:10px"></div>
-			<button class="btn btn-primary" style="width:100%; border-radius: 0px 0px 10px 10px; border-top: 1px double black;" onclick="searchRoute();">경로 검색 </button>
+			<button class="btn btn-primary" style="width:100%; border-radius: 0px 0px 10px 10px; border-top: 1px double black;" onclick="searchRoute();">경로 검색</button>
 		</div>
     </div>
 	<script>
@@ -179,6 +181,7 @@
 	}
 
 	function searchRoute() {
+		sessionStorage.clear();
 	    var startx = $("#startx").val();
 	    var starty = $("#starty").val();
 	    var endx = $("#endx").val();
@@ -327,9 +330,6 @@
 		    var endx = sessionStorage.getItem('endx');
 		    var endy = sessionStorage.getItem('endy');
 
-		    // 값이 제대로 넘어왔는지 콘솔에서 확인
-		    console.log(festivalName, endx, endy);
-
 		    // 폼에 값 설정하기
 		    if (festivalName && endx && endy) {
 		        $("#searchEndAddress").val(festivalName);
@@ -337,6 +337,24 @@
 		        $("#endy").val(endy);
 		    } else {
 		        console.error('세션 스토리지에서 값을 가져오지 못했습니다.');
+		    }
+
+		    // Geolocation API를 사용하여 현재 위치 가져오기
+		    if (navigator.geolocation) {
+		        navigator.geolocation.getCurrentPosition(function(position) {
+		            var startx = position.coords.longitude; // 현재 위치의 경도
+		            var starty = position.coords.latitude;  // 현재 위치의 위도
+
+		            // 폼에 내 위치 정보 설정하기
+		            $("#searchStartAddress").val("내 위치");
+		            $("#startx").val(startx);
+		            $("#starty").val(starty);
+		        }, function(error) {
+		            console.error("현재 위치를 가져오는데 실패했습니다: ", error);
+		            alert('현재 위치를 가져오는 데 실패했습니다.');
+		        });
+		    } else {
+		        alert('이 브라우저는 Geolocation을 지원하지 않습니다.');
 		    }
 		});
 	</script>
