@@ -240,10 +240,7 @@
 
 		});
 
-		var reviewStarAvg = $
-		{
-			reviewStarAvg
-		}; // JSP에서 값을 전달받도록 설정
+		var reviewStarAvg = ${reviewStarAvg}
 
 		// 별을 표시할 문자열 생성
 		var filledStar = '&#9733;'; // 채워진 별
