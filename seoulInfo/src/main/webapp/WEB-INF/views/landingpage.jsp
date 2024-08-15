@@ -45,6 +45,7 @@
       }
     }
     .container-newsletter, .box {
+	  margin-top:30px;
       border-radius: var(--corner-rounding);
       padding: 2.5rem;
       max-width: 100%;
@@ -73,9 +74,31 @@
       max-width: 45%;
     }
     .main-wrapper {
-      margin-top: 60px;
+      margin-top: -20px;
       padding: 2.5rem;
     }
+	#moveMain {
+	       display: flex; /* 버튼 내에서 이미지와 텍스트를 가로로 배치 */
+	       align-items: center; /* 이미지와 텍스트를 세로 가운데 정렬 */
+	       border: none; /* 기본 버튼 스타일 제거 */
+	       background: none; /* 기본 버튼 배경 제거 */
+	       cursor: pointer; /* 버튼 커서 설정 */
+	   }
+
+	   #moveMainImage {
+	       height: 3em; /* 텍스트 크기에 맞춰 이미지 높이를 설정 */
+	       width: auto; /* 이미지의 원본 비율 유지 */
+	       margin-right: 0.5em; /* 이미지와 텍스트 사이에 약간의 간격 추가 */
+	   }
+
+	   #moveMainText {
+	       margin: 1px; /* 기본 여백 제거 */
+	      padding:3px;
+	      border: 3px solid black;
+	      border-radius:10px;
+	      background:white;
+	      
+	   }
 	@media (max-width: 991px) {
 	  .box {
 	    flex-direction: column;
@@ -87,12 +110,13 @@
 	  }
 	}
 	.main-wrapper {
-	  margin-top: 60px;
+	  margin-top: -20px;
 	  padding: 2.5rem;
 	}
 	.box h1 {
 	  font-size: clamp(2rem, 0.5vw, 3.5rem); /* 최소 2rem, 최대 3.5rem, 뷰포트 너비의 5%를 기준으로 조정 */
 	  font-weight: 700; 
+	  color: darkblue;
 	}
 
 	.box p {
@@ -125,8 +149,42 @@
 	
 	p:nth-of-type(n+5) {
 	    white-space: nowrap;
-	    overflow: hidden;
 	    text-overflow: ellipsis;
+	}
+	@media (max-width: 576px) {
+		.newsletter-heading {
+		    margin-right: 0;
+		}
+		#main1 {
+			height: 160px;
+		}
+		#main2 {
+			height: 160px;
+		}
+		#main3 {
+			height: 160px;
+		}
+		#main4 {
+			height: 160px;
+		}
+		#main5 {
+			height: 160px;
+		}
+		.box img, .box div {
+		    max-width: 130%;
+		}
+		
+		.box h1 {
+		    font-size: clamp(1rem, 0.5vw, 3.5rem);
+		    font-weight: 700;
+		}
+		.box p {
+		    font-size: clamp(0rem, 3vw, 1.5rem);
+		    font-weight: 500;
+		}
+		.box {
+		    margin-bottom: 10px;
+		}
 	}
 
   </style>
@@ -160,21 +218,23 @@
     <div class="main-wrapper">
       <!-- 네 개의 박스 시작 -->
       <div class="box box-even" data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe">
-        <img src="/landingpageimage/main1.png" alt="Placeholder Image">
-        <div>
+        <img id='main1' src="/landingpageimage/main1.png" alt="Placeholder Image">
+       <div>
           <h1>서울 곳곳의</h1>
 		  <h1>여러 정보들을 한눈에</h1>
 		  <br/>
-		  <br/>
-          <p>서울 지역 안내 서비스는 서울 시민과 방문객들이 필요로 하는</p>
+          <p>서울 지역 안내 서비스는</p>
+		  <p>서울 시민과 방문객들이 필요로 하는</p>
 		  <p>다양한 정보를 한곳에 모아 제공하는 플랫폼입니다.</p> 
 		  <p>지역 뉴스, 행사 정보, 전기차 충전소와 근처 편의시설 지도</p>
 		  <p>그리고 안전한 구 별 중고거래 서비스를 제공합니다.</p>
-		  <p>각 카테고리 혹은 이미지 클릭 시 해당 서비스로 이동할 수 있습니다.</p>
+		  <p>각 카테고리 혹은 이미지 클릭 시 해당 서비스로 이동 합니다.</p>
 		  
 		  <br/>
-		  <br/>
-		  <a href='/'><h1><서울 지역 안내 서비스로 이동></h1></a>
+		  <a href='/'>
+		           <button id="moveMain" class="btn btn-primary"><img id="moveMainImage" src="/landingpageimage/moveMain.png" alt="이동">
+		              <h1 id="moveMainText">메인페이지 이동</h1></button>
+		          </a>
 		</div>
       </div>
       <div class="box box-odd" data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe">
@@ -182,19 +242,17 @@
 		<h1>월 별, 일 별, 구 별로</h1>
 		<h1>세분화한 축제 리스트</h1>
 		  <br/>
-		  <br/>
 		  <p>캘린더와 리스트를 통해 월 별, 일 별로 편리하게 확인할 수 있습니다.</p> 
 		  <p>구 선택 시 선택한 구에 해당하는 축제들만 선별해서 제공합니다.</p>
 		  <p>정보와 후기를 각 축제 별 게시판을 통해 다른 회원들과 나눌 수 있습니다.</p>
         </div>
-        <img src="/landingpageimage/main2.png" alt="Placeholder Image">
+        <img id='main2' src="/landingpageimage/main2.png" alt="Placeholder Image">
 		</div>
       <div class="box box-even" data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe">
-        <img src="/landingpageimage/main3.png" alt="Placeholder Image">
+        <img id='main3' src="/landingpageimage/main3.png" alt="Placeholder Image">
         <div>
 			<h1>구 별로 세분화해 최신순으로</h1>
 			<h1>제공하는 뉴스 리스트</h1>
-		  <br/>
 		  <br/>
 		  <p>구 선택 시 선택한 구에 해당하는 뉴스들만 선별해서 제공합니다.</p>
 		  <p>뉴스 제목 클릭 시 상세 뉴스 페이지를 볼 수 있습니다.</p>
@@ -205,19 +263,17 @@
 		<h1>가까운 전기차 충전소를</h1>
 		<h1>편리하게 검색할 수 있는 지도</h1>
 		  <br/>
-		  <br/>
 		  <p>회원 로그인 시, 거주 지역 내 전기차 충전소 정보를 제공합니다.</p> 
 		  <p>길 찾기 시 가장 빠른 경로와 경로 근처의 전기차 충전소 위치를 제공합니다.</p>
 		  <p>충전소 검색 시 주변 편의시설 정보도 함께 제공합니다.</p>
         </div>
-        <img src="/landingpageimage/main4.png" alt="Placeholder Image">
+        <img id='main4' src="/landingpageimage/main4.png" alt="Placeholder Image">
       </div>
       <div class="box box-even" data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe">
-        <img src="/landingpageimage/main5.png" alt="Placeholder Image">
+        <img id='main5' src="/landingpageimage/main5.png" alt="Placeholder Image">
         <div>
 			<h1>회원의 니즈에 딱 맞춘</h1>
 			<h1>상품들을 제시하는 중고거래</h1>
-			<br/>
 			<br/>
 			<p>구 선택 시 선택한 구에 해당하는 상품들만 선별해서 제공합니다.</p> 
 			<p>회원의 검색 내역을 기반으로 한 추천 카테고리 상품들을 제공합니다.</p>
@@ -229,59 +285,8 @@
 	<div class="back-to-top-wrapper">
 	  <a href="#" class="back-to-top-button"><img src="/landingpageimage/uparrow.png"></a>
 	</div>
-	<br/>
-	<br/>
-    <!-- footer -->
-    <div class="section-footer">
-      <div class="padding-global">
-        <div class="spacer-xxlarge"></div>
-        <div data-w-id="e1165d61-2cbb-cc22-6e05-5b6165b830fe" class="container-footer">
-          <div class="padding-global">
-            <div class="padding-section-medium">
-              <div class="_2-column-grid">
-                <a href="/" aria-current="page" class="w-inline-block w--current"><img src="images/ph_globe-simple-light-medium.svg" loading="lazy" alt=""></a>
-                <div>
-                  <h3>The stories of a travel photographer and blogger exploring the world .</h3>
-                  <div id="w-node-e1165d61-2cbb-cc22-6e05-5b6165b83107-65b830fb" class="spacer-xxlarge"></div>
-                </div>
-              </div>
-              <div class="_2-column-grid footer">
-                <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b846f-65b830fb" class="footer-micro-links-wrapper">
-                  <p class="text-size-small">Website template by <a href="https://www.callistodigitalstudio.com/" target="_blank" class="text-size-small">Callisto Digital Studio</a>.</p>
-                  <p class="text-size-small">Powered by <a href="https://webflow.com/templates/html/sightseer-travel-website-template" target="_blank" class="text-size-small">Webflow</a>.</p>
-                </div>
-                <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8474-65b830fb" class="_3-column-grid footer-links">
-                  <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8475-65b830fb">
-                    <h4>About</h4>
-                    <div class="spacer-large"></div>
-                    <a href="about.html" class="footer-link">About</a>
-                    <a href="contact.html" class="footer-link">Contact</a>
-                  </div>
-                  <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8481-65b830fb">
-                    <h4>Social</h4>
-                    <div class="spacer-large"></div>
-                    <a href="http://tiktok.com" target="_blank" class="footer-link">TikTok</a>
-                    <a href="http://Instagram.com" target="_blank" class="footer-link">Instagram</a>
-                    <a href="http://Facebook.com" target="_blank" class="footer-link">Facebook</a>
-                    <a href="http://Youtube.com" target="_blank" class="footer-link">Youtube</a>
-                  </div>
-                  <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b848d-65b830fb">
-                    <h4>Theme</h4>
-                    <div class="spacer-large"></div>
-                    <a href="template/template-style-guide.html" class="footer-link">Style Guide</a>
-                    <a href="template/changelog.html" class="footer-link">Changelog</a>
-                    <a href="template/licenses.html" class="footer-link">Licenses</a>
-                    <a href="https://webflow.com/templates/designers/callisto-digital-studio" target="_blank" class="footer-link">All Templates</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="spacer-xxlarge"></div>
-      </div>
-    </div>
   </div>
+  <%@ include file="./footer.jsp" %>
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6684f0fb2a5375354f5c47e9" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="/js/webflow.js" type="text/javascript"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

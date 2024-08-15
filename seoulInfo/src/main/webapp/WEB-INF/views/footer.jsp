@@ -39,24 +39,20 @@ System.out.println(area);
                   <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8475-65b830fb">
                     <h4>About</h4>
                     <div class="spacer-large"></div>
-                    <a href="about.html" class="footer-link">About</a>
-                    <a href="contact.html" class="footer-link">Contact</a>
+                    <a href="/landingpage" class="footer-link">About</a>
                   </div>
                   <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8481-65b830fb">
                     <h4>Social</h4>
                     <div class="spacer-large"></div>
-                    <a href="http://tiktok.com" target="_blank" class="footer-link">TikTok</a>
                     <a href="http://Instagram.com" target="_blank" class="footer-link">Instagram</a>
-                    <a href="http://Facebook.com" target="_blank" class="footer-link">Facebook</a>
                     <a href="http://Youtube.com" target="_blank" class="footer-link">Youtube</a>
                   </div>
                   <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b848d-65b830fb">
                     <h4>Theme</h4>
                     <div class="spacer-large"></div>
-                    <a href="template/template-style-guide.html" class="footer-link">Style Guide</a>
-                    <a href="template/changelog.html" class="footer-link">Changelog</a>
-                    <a href="template/licenses.html" class="footer-link">Licenses</a>
-                    <a href="https://webflow.com/templates/designers/callisto-digital-studio" target="_blank" class="footer-link">All Templates</a>
+                    <a href="/festival/festival?area=전체" class="footer-link">지역안내</a>
+                    <a href="/ev/evMain" class="footer-link">전기차충전소</a>
+                    <a href="/product/productMain" class="footer-link">중고거래</a>
                   </div>
                 </div>
               </div>

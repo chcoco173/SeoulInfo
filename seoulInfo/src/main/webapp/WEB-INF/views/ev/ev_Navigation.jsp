@@ -54,29 +54,7 @@
 					<%
 						}
 					%>
-					<form action="/search"
-						data-w-id="a72c4d20-babf-897f-e150-4948b59e5bf5"
-						class="search w-form">
-						<div class="search-div">
-							<img src="/images/ph_magnifying-glass-light-xsmall.svg"
-								loading="lazy" alt="" class="icon-1x1-xsmall">
-						</div>
-						<div class="nav-search-outer-wrapper">
-							<div class="nav-search-internal-wrapper">
-								<input class="form-field w-input" maxlength="256" name="query"
-									placeholder="Search…" type="search" id="search" required="">
-								<div class="search-button-wrapper">
-									<input type="submit" class="button-primary-small w-button"
-										value="Search"> <a
-										data-w-id="a72c4d20-babf-897f-e150-4948b59e5bfb" href="#"
-										class="close-search-link-block w-inline-block"> <img
-										src="/images/ph_x-light-xsmall.svg" loading="lazy" alt=""
-										class="icon-1x1-xsmall">
-									</a>
-								</div>
-							</div>
-						</div>
-					</form>
+
 				</div>
 				<div class="menu-button w-nav-button">
 					<img src="/images/ph_list-light-xsmall.svg" loading="lazy" alt=""
