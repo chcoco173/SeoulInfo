@@ -91,14 +91,15 @@
 	  padding: 2.5rem;
 	}
 	.box h1 {
-	  font-size: 3.5rem; 
+	  font-size: clamp(2rem, 0.5vw, 3.5rem); /* 최소 2rem, 최대 3.5rem, 뷰포트 너비의 5%를 기준으로 조정 */
 	  font-weight: 700; 
 	}
 
 	.box p {
-	  font-size: 1.5rem; 
+	  font-size: clamp(1rem, 3vw, 1.5rem); /* 최소 1rem, 최대 1.5rem, 뷰포트 너비의 3%를 기준으로 조정 */
 	  font-weight: 500; 
 	}
+
 	.back-to-top-wrapper {
 	  text-align: center;
 	  margin-top: 20px;
@@ -121,6 +122,13 @@
 	.back-to-top-button:hover {
 	  background-color: #b2b2b2;
 	}
+	
+	p:nth-of-type(n+5) {
+	    white-space: nowrap;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	}
+
   </style>
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">

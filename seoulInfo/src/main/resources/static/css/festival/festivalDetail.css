@@ -1,0 +1,174 @@
+@charset "UTF-8";
+
+	/* 전체 래퍼 스타일 */
+	.main-wrapper {
+	    padding: 20px;
+	    display: flex;
+	    justify-content: center;
+	}
+
+	/* 배너 섹션 스타일 */
+	.section-post-banner {
+	    background-color: #fff;
+	    border: 1px solid #ddd;
+	    border-radius: 12px;
+	    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	    overflow: hidden;
+	    width: 100%;
+	    max-width: 1800px;
+	    margin: 0 auto;
+	    padding: 20px;
+	}
+
+	/* 글로벌 패딩 설정 */
+	.padding-global {
+	    padding: 0 20px;
+	}
+
+	/* 섹션 패딩 설정 */
+	.padding-section-medium {
+	    padding: 20px 0;
+	}
+
+	/* 전체 컨테이너 스타일 */
+	.container-full-width {
+	    width: 100%;
+	}
+
+	/* 제목 스타일 */
+	.container-full-width h3 {
+	    color: #333;
+		font-weight: bold;
+	    text-align: center;
+	    margin-bottom: 20px;
+	}
+
+
+	/* 플렉스 컨테이너 스타일 */
+	.flex-container {
+	    display: flex;
+	    flex-direction: row;
+	    align-items: flex-start;
+	    gap: 20px;
+	    justify-content: center;
+	    flex-wrap: wrap;
+	}
+
+	/* 이미지 래퍼 스타일 */
+	.image-overflow-wrapper {
+	    flex: 1 1 400px; /* 이미지 영역의 기본 너비를 400px로 설정 */
+	    max-width: 100%;
+	    margin-bottom: 20px;
+		display: flex; /* 플렉스 박스 설정 */
+		justify-content: center; /* 이미지 수평 가운데 정렬 */
+		align-items: center; /* 이미지 수직 가운데 정렬 */
+	}
+
+	/* 이미지 스타일 */
+	.image-overflow-wrapper img {
+	    width: 80%; /* 이미지가 컨테이너에 맞춰 100%로 확장 */
+	    height: auto; /* 8/14 기진 css 수정 */
+	    object-fit: cover;
+	    border: 1px solid #ddd;
+	}
+
+	/* 세부사항 영역 스타일 */
+	.festival-details {
+	    flex: 2 1 500px; /* 세부사항 영역의 기본 너비를 500px로 설정 */
+	    max-width: 100%;
+	}
+
+	/* 텍스트 스타일 */
+	.festival-details p {
+	    margin: 8px 0;
+	    font-size: 16px;
+	    color: #555;
+	}
+
+	/* 링크 스타일 */
+	.festival-details a {
+	    display: inline-block;
+	    margin-top: 10px;
+	    font-size: 16px;
+	    color: #007bff;
+	    text-decoration: none;
+	    border-bottom: 1px solid #007bff;
+	    transition: color 0.3s, border-bottom-color 0.3s;
+	}
+
+	.festival-details a:hover {
+	    color: #0056b3;
+	    border-bottom-color: #0056b3;
+	}
+
+	/* 숨겨진 input 스타일 */
+	input[type="hidden"] {
+	    display: none;
+	}
+
+	/* 맵 스타일 */
+	#map {
+	    width: 100%; /* 맵을 100% 너비로 설정 */
+	    height: 500px; /* 맵의 높이를 400px로 증가 */
+	    border-radius: 20px 20px 0 0;
+	    margin: 20px 0 0;
+	    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	}
+	
+	/* 반응형 디자인을 위한 미디어 쿼리 */
+	@media (max-width: 768px) {
+	    .flex-container {
+	        flex-direction: column;
+	        align-items: center;
+	    }
+
+	    .image-overflow-wrapper,
+	    .festival-details {
+	        flex: 1 1 100%;
+	        max-width: 100%;
+	    }
+
+	    /* 이미지 스타일을 모바일에서 가운데 정렬하고 크기를 조정 */
+	    .image-overflow-wrapper {
+	        display: flex;
+	        justify-content: center;
+	    }
+
+	    .image-overflow-wrapper img {
+	        width: 50%; /* 모바일 화면에서 이미지의 너비를 50%로 설정 */
+	    }
+
+	    /* 맵 스타일을 모바일에서 조정 */
+	    #map {
+	        width: 100%;
+	        height: 200px; /* 모바일 화면에서 맵의 높이를 200px로 설정 */
+	    }
+	}
+
+/* kakao map category 기본 css*/
+.map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+.map_wrap {position:relative;width:100%;height:350px;}
+#category {position:absolute;top:10px;left:10px;border-radius: 5px; border:1px solid #909090;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);background: #fff;overflow: hidden;z-index: 2;}
+#category li {float:left;list-style: none;width:50px;border-right:1px solid #acacac;padding:6px 0;text-align: center; cursor: pointer;}
+#category li.on {background: #eee;}
+#category li:hover {background: #ffe6e6;border-left:1px solid #acacac;margin-left: -1px;}
+#category li:last-child{margin-right:0;border-right:0;}
+#category li span {display: block;margin:0 auto 3px;width:27px;height: 28px;}
+#category li .category_bg {background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png) no-repeat;}
+#category li .bank {background-position: -10px 0;}
+#category li .mart {background-position: -10px -36px;}
+#category li .pharmacy {background-position: -10px -72px;}
+#category li .oil {background-position: -10px -108px;}
+#category li .cafe {background-position: -10px -144px;}
+#category li .store {background-position: -10px -180px;}
+#category li.on .category_bg {background-position-x:-46px;}
+.placeinfo_wrap {position:absolute;bottom:28px;left:-150px;width:300px;}
+.placeinfo {position:relative;width:100%;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;padding-bottom: 10px;background: #fff;}
+.placeinfo:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+.placeinfo_wrap .after {content:'';position:relative;margin-left:-12px;left:50%;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+.placeinfo a, .placeinfo a:hover, .placeinfo a:active{color:#fff;text-decoration: none;}
+.placeinfo a, .placeinfo span {display: block;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+.placeinfo span {margin:5px 5px 0 5px;cursor: default;font-size:13px;}
+.placeinfo .title {font-weight: bold; font-size:14px;border-radius: 6px 6px 0 0;margin: -1px -1px 0 -1px;padding:10px; color: #fff;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+.placeinfo .tel {color:#0f7833;}
+.placeinfo .jibun {color:#999;font-size:11px;margin-top:0;}

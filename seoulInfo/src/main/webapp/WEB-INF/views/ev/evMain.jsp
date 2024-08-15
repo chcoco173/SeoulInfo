@@ -398,16 +398,16 @@
 	// ########### 지도 생성 ############## 
 	showLoading();	// ## delay 1 - 로딩 바 표시
 		
-    var mapContainer = document.getElementById('map'); // 지도를 표시할 div 
-    var mapOption = {
-    	center: new kakao.maps.LatLng(37.566826, 126.9786567),
-        level: 5,
-        maxLevel: 7 // 확대 최대 레벨
+	var mapContainer = document.getElementById('map'); // 지도를 표시할 div 
+	var mapOption = {
+	    center: new kakao.maps.LatLng(37.566826, 126.9786567), // 기본 중심 좌표 (서울 중구)
+	    level: 5,
+	    maxLevel: 8 // 확대 최대 레벨
 	};  
-    var map = new kakao.maps.Map(mapContainer, mapOption);
-		
+	var map = new kakao.maps.Map(mapContainer, mapOption);
+
 	// 회원의 경우, 회원정보를 이용해 지도의 중심 좌표 변경
-	if (sessionResult !=='') {
+	if (sessionResult !== '') {
 	    $.ajax({
 	        url: 'getUserLocation', // 실제 사용자 정보 API의 URL로 대체
 	        type: 'GET',
@@ -416,7 +416,7 @@
 	            var userRegion = data.member_area;
 	            var guCenters = {
 	                "종로구": {lat: 37.573050, lng: 126.979189},
-	                "중구": 	{lat: 37.563797, lng: 126.997314},
+	                "중구":  {lat: 37.563797, lng: 126.997314},
 	                "용산구": {lat: 37.531100, lng: 126.981074},
 	                "성동구": {lat: 37.563494, lng: 127.036693},
 	                "광진구": {lat: 37.538577, lng: 127.082551},
@@ -448,12 +448,28 @@
 	            } else {
 	                alert('해당 구의 좌표 정보를 찾을 수 없습니다.');
 	            }
-			},
-			error: function() {
-				alert('사용자 정보를 가져오는 데 실패했습니다.');
-			}
-		});
-	}			
+	        },
+	        error: function() {
+	            alert('사용자 정보를 가져오는 데 실패했습니다.');
+	        }
+	    });
+	} else {
+	    // 세션 값이 없는 경우, geolocation 사용
+	    if (navigator.geolocation) {
+	        navigator.geolocation.getCurrentPosition(function(position) {
+	            var lat = position.coords.latitude;
+	            var lng = position.coords.longitude;
+	            var userLocation = new kakao.maps.LatLng(lat, lng);
+	            map.setCenter(userLocation); // 사용자의 현재 위치를 지도 중심으로 설정
+	        }, function(error) {
+	            console.error("Error occurred while getting geolocation: ", error);
+	            alert('위치 정보를 가져오는 데 실패했습니다.');
+	        });
+	    } else {
+	        alert('이 브라우저는 Geolocation을 지원하지 않습니다.');
+	    }
+	}
+
 	// 마커/클러스터러 생성 : 각 DB data의 위도,경도를 forEach 문으로 마커정보 담기
     var positions = [
         <c:forEach var="coordinate" items="${evStationList}" varStatus="status">
@@ -1482,8 +1498,8 @@
 			url: 'getCircleLocation',
 			type: 'GET',
 			data: {
-				centerLat: festivalLat,
-				centerLng: festivalLng,
+				centerLat: lastClickedMarkerPosition.getLat(),
+				centerLng: lastClickedMarkerPosition.getLng(),
 				radius: 1000,
 				category: category
 			},
@@ -1746,74 +1762,15 @@
 	    row += '</tr>';
 	    chargerDetailsBody.append(row);
 	}
-// =====================================================
-/*
-var selectedOperators = [];
-   var selectedTypes = [];
-
-   // 충전기 분류 선택 이벤트
-   $('.typeCheck, .typeCheckAll').on('click', function() {
-       var $this = $(this);
-       if ($this.hasClass('typeCheckAll')) {
-           if ($this.hasClass('selected')) {
-               selectedTypes = [];
-               $('.typeCheck, .typeCheckAll').removeClass('selected');
-           } else {
-               selectedTypes = ['AC완속', 'AC3상', 'DC차데모', 'DC콤보', 'DC차데모+DC콤보', 'DC차데모+AC3상', 'DC차데모+AC3상+DC콤보'];
-               $('.typeCheck, .typeCheckAll').Class('selected');
-           }
-       } else {
-           var value = $this.text().trim();
-           if ($this.hasClass('selected')) {
-               $this.removeClass('selected');
-               selectedTypes = selectedTypes.filter(item => item !== value);
-           } else {
-               $this.addClass('selected');
-               selectedTypes.push(value);
-           }
-       }
-       console.log(selectedTypes);  // alert 대신 console.log 사용
-       updateMarkers();
-   });
-
-    function updateMarkers() {
-        $.ajax({
-            url: 'getEvMarkers', // 서버의 엔드포인트 URL
-            method: 'POST',
-            data: {
-                operators: selectedOperators,
-                types: selectedTypes
-            },
-            success: function(response) {
-                // 기존 마커 및 클러스터 제거
-                markerClusterer.clearMarkers();
-
-                // 새로운 마커 생성 및 추가
-                var newMarkers = response.markers.map(function(markerData) {
-                    return new google.maps.Marker({
-                        position: { lat: markerData.lat, lng: markerData.lng },
-                        map: map,
-                        title: markerData.title
-                    });
-                });
-
-                // 마커 클러스터러에 새 마커 추가
-                markerClusterer.addMarkers(newMarkers);
-            },
-            error: function(xhr, status, error) {
-                console.error("마커 업데이트 중 오류 발생:", error);
-            }
-        });
-    }
-*/
-
-	
-
-
-
 	</script>
 	<!-- end of kakao map Script -->
 	<script src="/js/webflow.js" type="text/javascript"></script>
 	<!-- <script src="/js/evPage.js" type="text/javascript"></script> -->
+	<script>
+		
+		
+		
+		
+	</script>	
 </body>
 </html>
