@@ -285,9 +285,13 @@ public class ProductController {
 			System.out.println("대체 예측값 (예측값 null): " + prediction);
 
 			title = "'"+area + "' 베스트 카테고리 상품 추천";
-		} else {
+		}else if(prediction.equals("server down")){
+			title = "'"+area + "'상품";
+		}
+		else {
 			System.out.println("예측값이 null이 아닙니다. if문 실행되지 않음.");
 		}
+		
 
 		map.put("prediction", prediction);
 
