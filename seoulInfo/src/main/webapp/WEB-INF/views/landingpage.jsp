@@ -292,8 +292,8 @@
 		  <p><b>캘린더와 리스트를 통해 원하는 날짜의 문화행사를 쉽게 확인할 수 있습니다.<b></p><br>
 		  <table id="landingFestival" style="width:80%">
 			<tr>
-				<td><img class="landingTableImg" src="/landingpageimage/local1.gif" style=" width:50%; height:50%;"></td>
-				<td><img class="landingTableImg" src="/landingpageimage/local2.gif" style=" width:50%; height:50%;"></td>
+				<td><img class="landingTableImg" src="/landingpageimage/local1.gif" style=" width:48%; height:50%;"></td>
+				<td><img class="landingTableImg" src="/landingpageimage/local2.gif" style=" width:48%; height:50%;"></td>
 			</tr>
 			<tr>
 				<td><p>원하는 지역을 선택 시 해당하는 <br> 축제들만 선별해서 제공합니다.</p></td>
@@ -323,9 +323,9 @@
 		  <p><b>내 주변 서울시 내의 전기차 충전소와 편의시설 위치정보를 제공합니다.</b></p><br>
 		<table class="landingTable" style="width:80%">
 			<tr>
-				<td><img class="landingTableImg" src="/landingpageimage/ev1.gif" style=" width:60%; height:50%;"></td>
-				<td><img class="landingTableImg" src="/landingpageimage/ev2.gif" style=" width:60%; height:50%;"></td>
-				<td><img class="landingTableImg" src="/landingpageimage/ev3.gif" style=" width:60%; height:50%;"></td>
+				<td><img class="landingTableImg" src="/landingpageimage/ev1.gif" style=" width:65%; height:50%;"></td>
+				<td><img class="landingTableImg" src="/landingpageimage/ev2.gif" style=" width:65%; height:50%;"></td>
+				<td><img class="landingTableImg" src="/landingpageimage/ev3.gif" style=" width:65%; height:50%;"></td>
 			</tr>
 			<tr>			
 				<td><p>충전소 검색 시 주변 편의시설 정보도 함께 제공합니다.</p></td>
@@ -347,9 +347,9 @@
 				<p>선택한 상품과 유사한 상품들을 연관 상품으로 제공합니다.</p>
 				<table class="landingTable" style="width:80%">
 					<tr>
-						<td><img class="landingTableImg" src="/landingpageimage/local1.gif" style=" width:50%; height:50%;"></td>
-						<td><img class="landingTableImg" src="/landingpageimage/pr2.gif" style=" width:50%; height:50%;"></td>
-						<td><img class="landingTableImg" src="/landingpageimage/pr1.gif" style=" width:50%; height:50%;"></td>
+						<td><img class="landingTableImg" src="/landingpageimage/local1.gif" style="width:65%; height:50%;"></td>
+						<td><img class="landingTableImg" src="/landingpageimage/pr2.gif" style="width:65%; height:50%;"></td>
+						<td><img class="landingTableImg" src="/landingpageimage/pr1.gif" style="width:65%; height:50%;"></td>
 					</tr>
 					<tr>			
 						<td><p>원하는 지역 선택 시 <br>해당하는 상품들만<br> 선별해서 제공합니다.</p></td>
