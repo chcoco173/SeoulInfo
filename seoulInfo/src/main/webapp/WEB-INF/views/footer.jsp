@@ -48,7 +48,7 @@ System.out.println(area);
                     <a href="http://Youtube.com" target="_blank" class="footer-link">Youtube</a>
                   </div>
                   <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b848d-65b830fb">
-                    <h4>Theme</h4>
+                    <h4>Category</h4>
                     <div class="spacer-large"></div>
                     <a href="/festival/festival?area=전체" class="footer-link">지역안내</a>
                     <a href="/ev/evMain" class="footer-link">전기차충전소</a>

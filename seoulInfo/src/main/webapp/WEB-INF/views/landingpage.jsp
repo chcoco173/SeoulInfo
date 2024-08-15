@@ -63,7 +63,7 @@
       transition: none;
     }
     .box img {
-      max-width: 45%;
+      max-width: 80%;
       margin: 0 5rem;
       border-radius: 8px;
 	  width : 1100px;
@@ -163,6 +163,7 @@
 		}
 		#main2 {
 			height: 160px;
+			margin-left: -33px;
 		}
 		#main3 {
 			height: 160px;
