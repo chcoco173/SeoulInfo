@@ -39,13 +39,13 @@ System.out.println(area);
                   <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8475-65b830fb">
                     <h4>About</h4>
                     <div class="spacer-large"></div>
-                    <a href="/landingpage" class="footer-link">About</a>
+                    <a href="/landingpage" class="footer-link">소개</a>
                   </div>
                   <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b8481-65b830fb">
                     <h4>Social</h4>
                     <div class="spacer-large"></div>
-                    <a href="http://Instagram.com" target="_blank" class="footer-link">Instagram</a>
-                    <a href="http://Youtube.com" target="_blank" class="footer-link">Youtube</a>
+                    <a href="https://www.instagram.com/seoul_area_guide_service/" target="_blank" class="footer-link">인스타그램가기</a>
+                    <a href="http://Youtube.com" target="_blank" class="footer-link">유튜브가기</a>
                   </div>
                   <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b848d-65b830fb">
                     <h4>Category</h4>
