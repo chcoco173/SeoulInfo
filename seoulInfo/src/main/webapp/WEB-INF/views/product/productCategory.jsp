@@ -238,7 +238,6 @@
 
 									<!-- 페이지 네비게이션 -->
 									<!-- Bootstrap 네비게이션 -->
-									<c:if test="${path != 'productSearch'}">
 									<nav aria-label="Page navigation">
 										<ul class="pagination justify-content-center">
 											<c:if test="${currentPage > 1}">
@@ -296,7 +295,6 @@
 											</c:if>
 										</ul>
 									</nav>
-									</c:if>
 
 								</div>
 							</div>
@@ -349,7 +347,7 @@
 							if ( productsearch_keyword != null){
 								location.href = "categoryOptionSelect?productsearch_keyword=" + productsearch_keyword + "&type=" + type;
 							}else{
-								location.href = "categoryOptionSelect?" + cate + "&type=" + type;
+								location.href = "categoryOptionSelect?cate=" + cate + "&type=" + type;
 							}
 							
 							
