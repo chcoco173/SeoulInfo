@@ -178,7 +178,10 @@
 			</if>
 
 		</if>
+		<if test="offset != null and limit != null">
 		LIMIT #{offset}, #{limit}
+		</if>
+		
 	</select>
 
 	<!-- id 값에 해당하는 상품 list -->
@@ -326,9 +329,10 @@
 		ps.sale_name,
 		ps.sale_status,
 		ps.sale_price
+		
 	</select>
 
-	<select id="countItems" resultType="int">
+	<select id="countItems" resultType="int" parameterType="hashmap">
 		SELECT COUNT(*)
 		FROM product_sale
 		WHERE sale_status != "판매완료"
@@ -338,6 +342,9 @@
 		<if test="prediction != 'server down' and category == null">
 			AND sale_cate = #{prediction}
 		</if>
+		<if test="keyword != null">
+        	AND sale_name LIKE CONCAT('%', #{keyword}, '%')
+    	</if>
 		<if test="category != null">
 			<choose>
 				<when test="category == '전자제품'">
@@ -355,7 +362,8 @@
 				</when>
 				<when test="category == '기타'">
 					AND sale_cate in ( '키덜트', '뷰티/미용' , '식품',
-					'스포츠/레저' , '유아동/출산' ,
+					'스포츠/레저' ,
+					'유아동/출산' ,
 					'차량/오토바이' , '반려동물용품' , '기타')
 				</when>
 				<otherwise>
@@ -364,6 +372,8 @@
 			</choose>
 		</if>
 	</select>
+
+
 
 	<!-- 조회수 productViewCountUpdate -->
 	<update id="productViewCountUpdate" parameterType="integer">
@@ -390,16 +400,19 @@
 		pi.productimg_url,
 		pi.productimg_alias,
 		pb.buy_id,
-		CASE WHEN r.review_id IS NOT NULL THEN 1 ELSE 0 END AS has_review
+		CASE WHEN r.review_id
+		IS NOT NULL THEN 1 ELSE 0 END AS has_review
 		FROM
 		product_sale ps
-		LEFT JOIN
+		LEFT
+		JOIN
 		product_image pi
 		ON ps.sale_id = pi.sale_id
 		AND pi.productimg_no = (
 		SELECT MAX(pi1.productimg_no)
 		FROM product_image pi1
-		WHERE pi1.sale_id = ps.sale_id
+		WHERE pi1.sale_id =
+		ps.sale_id
 		)
 		LEFT JOIN
 		product_buy pb
@@ -409,19 +422,22 @@
 		ON pb.buy_id = r.buy_id
 		WHERE
 		pb.member_id = #{member_id}
-		order by pb.buy_date desc;
+		order
+		by pb.buy_date desc;
 	</select>
 
 
-	<select id='productinterest' parameterType='integer' resultType='integer'>
+	<select id='productinterest' parameterType='integer'
+		resultType='integer'>
 		select count(ps.sale_id)
-		from product_sale ps join favorite_product fp 
-		on ps.sale_id = fp.sale_id 
+		from product_sale ps join
+		favorite_product fp
+		on ps.sale_id = fp.sale_id
 		where ps.sale_id = #{sale_id}
 		group by ps.sale_id
 	</select>
-	
-	
+
+
 
 
 

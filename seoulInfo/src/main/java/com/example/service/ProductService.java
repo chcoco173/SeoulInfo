@@ -70,7 +70,5 @@ public interface ProductService {
 	// 관심갯수
 	public Integer productinterest(Integer sale_id);
 	
-	
-	
 
 }

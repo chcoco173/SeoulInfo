@@ -155,8 +155,7 @@ public class ProductController {
 		HashMap map = new HashMap();
 		map.put("area", area);
 		map.put("keyword", productsearch_keyword);
-		map.put("offset", offset);
-		map.put("limit", size);
+
 
 		ProductSearchVO psvo = new ProductSearchVO();
 		psvo.setProductsearch_keyword(productsearch_keyword);
@@ -174,7 +173,6 @@ public class ProductController {
 
 		// 검색결과 리스트 
 		List<Map<String, Object>> productList = productService.productCateList(map);
-		System.out.println(productList);
 		
 		// 검색 결과가 없는 경우
 		if(productList.size() == 0) {
@@ -208,11 +206,12 @@ public class ProductController {
 
 					List<Map<String, Object>> searchList = productService.similarList(prediction);
 
-					System.out.println(searchList);
 					model.addAttribute("productList", searchList);
 					model.addAttribute("timeDataList", timeConversion(searchList));
 					// title
 					model.addAttribute("category","'"+productsearch_keyword+"'와(과) 유사한 상품");
+					
+					return "product/productCategory";
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -225,8 +224,7 @@ public class ProductController {
 			model.addAttribute("category","'"+productsearch_keyword+"' (으)로 검색한 결과");
 		}
 
-		int totalCount = productService.countItems(map);
-		int totalPages = (int) Math.ceil((double) totalCount / size);
+
 
 		// 페이징을 위한 url
 		model.addAttribute("path", "productSearch");
@@ -234,11 +232,7 @@ public class ProductController {
 		model.addAttribute("area", area);
 		
 		model.addAttribute("keyword", productsearch_keyword);
-		model.addAttribute("currentPage", page);
-		model.addAttribute("totalPages", totalPages);
-		model.addAttribute("pageSize", size);
-		System.out.println(totalPages);
-		System.out.println("total"+totalCount);
+
 
 		return "product/productCategory";
 	}
@@ -1068,7 +1062,7 @@ public class ProductController {
 			Map<String, Object> product = productList.get(i);
 			Object regdateObject = product.get("sale_regdate");
 
-			System.out.println(regdateObject.getClass().getName()); // type : java.time.LocalDateTime
+			//System.out.println(regdateObject.getClass().getName()); // type : java.time.LocalDateTime
 
 			// regdateObject의 타입을 확인하고 출력
 			if (regdateObject instanceof LocalDateTime) {
@@ -1094,15 +1088,12 @@ public class ProductController {
 				if (differenceInDays > 0) {
 					// 하루 이상 지난 경우
 					result = differenceInDays + "일 전";
-					System.out.println(result);
 				} else if (differenceInHours > 0) {
 					// 하루는 안 지났으나, 몇 시간 지난 경우
 					result = differenceInHours + "시간 전";
-					System.out.println(result);
 				} else {
 					// 하루도 안 지났고, 몇 분 지난 경우
 					result = differenceInMinutes + "분 전";
-					System.out.println(result);
 				}
 
 				timeDataList[i] = result; // 결과 배열에 저장

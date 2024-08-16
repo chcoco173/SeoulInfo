@@ -238,6 +238,7 @@
 
 									<!-- 페이지 네비게이션 -->
 									<!-- Bootstrap 네비게이션 -->
+									<c:if test="${path != 'productSearch'}">
 									<nav aria-label="Page navigation">
 										<ul class="pagination justify-content-center">
 											<c:if test="${currentPage > 1}">
@@ -295,6 +296,7 @@
 											</c:if>
 										</ul>
 									</nav>
+									</c:if>
 
 								</div>
 							</div>
