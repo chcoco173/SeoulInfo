@@ -153,7 +153,7 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return productDAO.productinterest(sale_id);
 	}
-	
+
 	
 
 	

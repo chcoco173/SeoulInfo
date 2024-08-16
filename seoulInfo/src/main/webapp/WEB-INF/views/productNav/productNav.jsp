@@ -10,7 +10,7 @@
 <title>Insert title here</title>
 <style>
 	.links-and-search-wrapper {
-	    grid-column-gap: 0rem;
+	    grid-column-gap: 1rem;
 	}
 	.nav-links-wrapper {
 	  grid-column-gap: 0;
