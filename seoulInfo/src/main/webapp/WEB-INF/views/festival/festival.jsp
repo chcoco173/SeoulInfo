@@ -237,8 +237,6 @@
 					id : "<c:out value='${calenderList.festival_id}'/>",
 					viewcount : "<c:out value='${calenderList.festival_viewcount}'/>"
 
-
-
 				}<c:if test="${!status.last}">,</c:if>
 				</c:forEach>
 				];
@@ -274,7 +272,6 @@
 						success: function(response) {
 							// 성공적으로 데이터를 받아온 경우
 							console.log(response)
-
 							// 기존 목록을 클리어
 							var eventList = document.getElementById('event-list').getElementsByTagName('ul')[0];
 							eventList.innerHTML = ''; // Clear the list
@@ -299,12 +296,6 @@
 							// <h2> 태그 내용 업데이트
 							var titleElement = document.getElementById('event-list-title');
 							titleElement.innerText = month + '월 ' + day + '일 ' + area + ' 문화정보';
-
-							// 요소가 뷰포트의 상단으로 스크롤되도록 조정
-							//titleElement.scrollIntoView({ behavior: 'instant', block: 'start' });
-							
-							
-							
 							
 						},
 						error: function(xhr, status, error) {
@@ -337,7 +328,7 @@
 									if (festivalIdInput && festivalIdInput.value == arg.event.id) {
 										var viewCountElement = item.querySelector('.viewcount');
 										if (viewCountElement) {
-											viewCountElement.innerText = response.viewcount;
+											viewCountElement.innerText = "조회수 : " +  response.viewcount;
 										}
 									}
 								});							
@@ -364,9 +355,6 @@
 					var startDateStr = startDate ? new Date(startDate).toLocaleString() : 'No start date';
 					var endDateStr = endDate ? new Date(endDate).toLocaleString() : 'No end date';
 					var appDateStr = appDate ? new Date(appDate).toLocaleString() : 'No end date';
-
-					// 콘솔로 날짜를 출력하여 확인
-
 
 					// 모달에 이벤트 세부정보를 채웁니다
 					document.getElementById('festivalTitle').innerText = arg.event.title;
@@ -398,7 +386,6 @@
 
 					};
 
-
 					// site 버튼 클릭시
 					var site = document.getElementById('site');
 					site.onclick = function() {
@@ -424,7 +411,6 @@
 						}
 					};
 				},
-				editable: true,
 				dayMaxEvents: 0,
 				events: festivals // Use the festivals array here
 			});

@@ -170,12 +170,14 @@
 										<!-- Type Selector -->
 
 										<div class="col-md-4 col-lg-2 mb-3">
-											<select class="form-control type" name="type">
-												<option ${param.type eq '전체' ? 'selected' : ''}>전체</option>
-												<option ${param.type eq '가격낮은순' ? 'selected' : ''}>가격낮은순</option>
-												<option ${param.type eq '가격높은순' ? 'selected' : ''}>가격높은순</option>
-												<option ${param.type eq '최신순' ? 'selected' : ''}>최신순</option>
-											</select>
+											<c:if test="${path != 'productSearch'}">
+											        <select class="form-control type" name="type">
+											            <option ${param.type eq '전체' ? 'selected' : ''}>전체</option>
+											            <option ${param.type eq '가격낮은순' ? 'selected' : ''}>가격낮은순</option>
+											            <option ${param.type eq '가격높은순' ? 'selected' : ''}>가격높은순</option>
+											            <option ${param.type eq '최신순' ? 'selected' : ''}>최신순</option>
+											        </select>
+											    </c:if>
 										</div>
 
 									</div>
