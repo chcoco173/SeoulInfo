@@ -1,0 +1,95 @@
+/* evNav.css */
+
+.fixed-div {
+    position: fixed;
+    left: 10px; /* Align to the left on larger screens */
+    top: 50%;
+    transform: translateY(0%); /* Center vertically on larger screens */
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+    width: auto;
+}
+
+.fixed-div table {
+    margin: 5px;
+    width: 100%;
+}
+
+.route-image {
+    width: 55px;
+    height: auto;
+    border-radius: 0px;
+    margin: 5px;
+}
+
+.search-input {
+    padding-top: 1%;
+    padding-bottom: 3%;
+    margin-top: 5px;
+    width: 80%; /* Default width for larger screens */
+}
+
+.second-input {
+    padding-top: 5px;
+}
+
+.notice-text {
+    font-size: 12px;
+    text-align: center;
+}
+
+.result-div {
+    margin-left: 10px;
+}
+
+.search-button {
+    width: 100%;
+    border-radius: 0px 0px 10px 10px;
+    border-top: 1px double black;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 600px) {
+    .route-image,
+    .fixed-div img {
+        display: none;
+    }
+    
+    .fixed-div {
+        left: 50%; /* Center horizontally on smaller screens */
+        top: auto;
+        bottom: 10px; /* Position near the bottom */
+        transform: translateX(-50%); /* Adjust centering to horizontal only */
+        width: 90%; /* Ensure the div is not too wide */
+    }
+
+    .fixed-div table {
+        width: 100%;
+    }
+
+    .fixed-div td {
+        display: flex;
+        justify-content: center; /* Center the content horizontally */
+        align-items: center; /* Center the content vertically */
+    }
+
+    .search-input {
+        width: 80%; /* Reduced width for smaller screens */
+        margin-top: 2px;
+        padding-top: 2%;
+        padding-bottom: 2%;
+    }
+
+    .second-input {
+        padding-top: 2%;
+    }
+
+    .notice-text {
+        font-size: 10px;
+    }
+
+    .search-button {
+        font-size: 14px;
+    }
+}

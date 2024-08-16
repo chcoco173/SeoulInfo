@@ -14,13 +14,6 @@
 
 		 <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
 		 <link href="/images/webclip.png" rel="apple-touch-icon">
-		 
-		 <!-- EV setting -->
-		 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-		 <link href="/css/ev/evMain.css" rel="stylesheet" type="text/css">
-		 
-		 <!-- Bootstrap core CSS -->
-		 <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	</head>
 
 	<div class="navigation-wrapper">
@@ -72,6 +65,7 @@
     </tr>
 </table>
 </html>
+<!-- ########################## Nav Html 종료 ################################-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -79,6 +73,13 @@
     <title>티맵 OpenAPI</title>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=B6cVULpkYQ5bwF3CIw3lF1YfFgRjCgYs9E0aFLuP"></script>
+	
+	<!-- EV setting -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<link href="/css/ev/evNav.css" rel="stylesheet" type="text/css">
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div id="map_div" style="width: 100%; height: 83%;"></div>
@@ -87,24 +88,32 @@
         <input type="hidden" id="starty" />
         <input type="hidden" id="endx" />
         <input type="hidden" id="endy" />
-		<div style="position:fixed; left:10px; top:50%; border: 1px solid black; border-radius : 10px; background-color:white;">
-			<table style="margin:5px;">
-				<tr>
-					<td rowspan="2"><img src="/images/ev/nav_route.png" alt="경로 이미지" style="width:55px; height:auto; border-radius:0px; margin:5px;"></td>
-		    		<td><input type="text" id="searchStartAddress" placeholder="출발지를 입력하세요." onchange="clickSearchPois('start');" style="padding-top:1%; padding-bottom:3%; margin-top:5px; width:70%;">
-						<img src="/images/ev/etc_cafe.png" alt="getMyLocation">
-					</td>
-		    	</tr>
-				<tr>
-		    		<td style="padding-top:5px;"><input type="text" id="searchEndAddress" placeholder="목적지를 입력하세요." onchange="clickSearchPois('end');" style="padding-top:1%; padding-bottom:3%; width:70%"></td>
-				</tr>
-				<tr>
-					<td colspan="2" style="padding-top:5px;"><p style="font-size : 12px; text-align:center;"> ※ 충전소는 서울시 내의 정보만 표시됩니다.</p></td>
-				</tr>	
-			</table>
-			<div id="result" style="margin-left:10px"></div>
-			<button class="btn btn-primary" style="width:100%; border-radius: 0px 0px 10px 10px; border-top: 1px double black;" onclick="searchRoute();">경로 검색</button>
+		
+		<div class="fixed-div">
+		    <table>
+		        <tr>
+		            <td rowspan="2"><img src="/images/ev/nav_route.png" alt="경로 이미지" class="route-image"></td>
+		            <td>
+		                <input type="text" id="searchStartAddress" placeholder="출발지를 입력하세요." onchange="clickSearchPois('start');" class="search-input">
+		                <img class="getMyLocation" src="/images/ev/userLocation.png" alt="getMyLocation">
+		            </td>
+		        </tr>
+		        <tr>
+		            <td class="second-input">
+		                <input type="text" id="searchEndAddress" placeholder="목적지를 입력하세요." onchange="clickSearchPois('end');" class="search-input">
+						<img class="LocationSwap" src="/images/ev/swap.png" alt="getLocationSwap">
+		            </td>
+		        </tr>
+		        <tr>
+		            <td colspan="2" class="second-input">
+		                <p class="notice-text">※ 충전소는 서울시 내의 정보만 표시됩니다.</p>
+		            </td>
+		        </tr>
+		    </table>
+		    <div id="result" class="result-div"></div>
+		    <button class="btn btn-primary search-button" onclick="searchRoute();">경로 검색</button>
 		</div>
+
     </div>
 	<script>
 	var map = new Tmapv2.Map("map_div", {
@@ -317,24 +326,89 @@
 		        console.error('세션 스토리지에서 값을 가져오지 못했습니다.');
 		    }
 
-		    // Geolocation API를 사용하여 현재 위치 가져오기
-		    if (navigator.geolocation) {
-		        navigator.geolocation.getCurrentPosition(function(position) {
-		            var startx = position.coords.longitude; // 현재 위치의 경도
-		            var starty = position.coords.latitude;  // 현재 위치의 위도
+		    // 현재 위치 정보를 가져와서 폼에 설정하는 함수
+		    function getLocationAndSetForm() {
+		        if (navigator.geolocation) {
+		            navigator.geolocation.getCurrentPosition(function(position) {
+		                var startx = position.coords.longitude; // 현재 위치의 경도
+		                var starty = position.coords.latitude;  // 현재 위치의 위도
 
-		            // 폼에 내 위치 정보 설정하기
-		            $("#searchStartAddress").val("내 위치");
-		            $("#startx").val(startx);
-		            $("#starty").val(starty);
-		        }, function(error) {
-		            console.error("현재 위치를 가져오는데 실패했습니다: ", error);
-		            alert('현재 위치를 가져오는 데 실패했습니다.');
-		        });
-		    } else {
-		        alert('이 브라우저는 Geolocation을 지원하지 않습니다.');
+		                // Tmap Reverse Geocoding API를 사용하여 위도와 경도를 주소로 변환
+		                var reverseGeocodingURL = "https://apis.openapi.sk.com/tmap/geo/reversegeocoding";
+		                var appKey = "B6cVULpkYQ5bwF3CIw3lF1YfFgRjCgYs9E0aFLuP"; // Tmap API 키
+
+		                $.ajax({
+		                    method: "GET",
+		                    url: reverseGeocodingURL,
+		                    data: {
+		                        version: 1,
+		                        lat: starty,
+		                        lon: startx,
+		                        appKey: appKey
+		                    },
+		                    success: function(response) {
+		                        if (response && response.addressInfo) {
+		                            var address = response.addressInfo.fullAddress;
+
+		                            // 폼에 주소 및 위도/경도 정보 설정하기
+		                            $("#searchStartAddress").val(address);
+		                            $("#startx").val(startx);
+		                            $("#starty").val(starty);
+		                        } else {
+		                            console.error('주소를 찾을 수 없습니다.');
+		                            alert('주소를 찾을 수 없습니다.');
+		                        }
+		                    },
+		                    error: function(error) {
+		                        console.error('Reverse Geocoding 실패 원인: ', error);
+		                        alert('주소를 가져오는 데 실패했습니다.');
+		                    }
+		                });
+		            }, function(error) {
+		                console.error("현재 위치를 가져오는데 실패했습니다: ", error);
+		                alert('현재 위치를 가져오는 데 실패했습니다.');
+		            });
+		        } else {
+		            alert('이 브라우저는 Geolocation을 지원하지 않습니다.');
+		        }
 		    }
+
+		    // 페이지 로드 시 현재 위치 가져오기
+		    getLocationAndSetForm();
+
+		    // 이미지를 클릭했을 때 현재 위치 가져오기
+		    $(".getMyLocation").click(function() {
+		        getLocationAndSetForm();
+		    });
 		});
+		
+		// 출발지와 목적지를 서로 바꾸는 함수
+		    function swapLocations() {
+		        // 출발지와 목적지의 값을 가져오기
+		        var startAddress = $("#searchStartAddress").val();
+		        var endAddress = $("#searchEndAddress").val();
+
+		        var startx = $("#startx").val();
+		        var starty = $("#starty").val();
+
+		        var endx = $("#endx").val();
+		        var endy = $("#endy").val();
+
+		        // 값 교환
+		        $("#searchStartAddress").val(endAddress);
+		        $("#searchEndAddress").val(startAddress);
+
+		        $("#startx").val(endx);
+		        $("#starty").val(endy);
+
+		        $("#endx").val(startx);
+		        $("#endy").val(starty);
+		    }
+
+		    // LocationSwap 이미지를 클릭했을 때 출발지와 목적지를 바꾸기
+		    $(".LocationSwap").click(function() {
+		        swapLocations();
+		    });
 	</script>
 
 </body>
