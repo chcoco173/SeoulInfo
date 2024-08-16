@@ -211,7 +211,7 @@ public class ProductController {
 					// title
 					model.addAttribute("category","'"+productsearch_keyword+"'와(과) 유사한 상품");
 					
-					return "product/productCategory";
+
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
