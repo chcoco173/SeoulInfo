@@ -77,9 +77,9 @@
 		}
 
 		.review-image {
-		    width: 100%; /* 고정 가로 길이 설정 */
+		    width: auto; /* 고정 가로 길이 설정 */
 		    max-width: 100%; /* 최대 너비 설정 */
-		    height: 500px;
+		    height: 300px;
 		    margin-top: 20px; /* 이미지와 파일 입력 간 간격 조정 */
 		    margin-bottom: 20px; /* 이미지와 버튼 간 간격 조정 */
 		}

@@ -17,6 +17,7 @@
 		type="text/css">
 	<style>
 		
+		
 		._3-column-grid {
 		    grid-column-gap: var(--gutters);
 		    grid-row-gap: var(--gutters);
@@ -245,7 +246,7 @@
 		            <div class="container-full-width">
 		                <div class="flex-container">
 		                    <div class="flex-item text-color-black review-content">
-		                        <p>${review.fr_content}</p>
+		                        <pre>${review.fr_content}</pre>
 		                    </div>
 		                </div>
 		            </div>
@@ -438,46 +439,41 @@
 		});
 		
 
-	    document.querySelectorAll('.review-buttons').forEach(function(buttonContainer) {
-	        const reviewId = buttonContainer.querySelector('input[name="fr_id"]').value;
-	        console.log("수정 삭제 reviewId " + reviewId);
+		document.querySelectorAll('.review-buttons').forEach(function(buttonContainer) {
+		    const reviewId = buttonContainer.querySelector('input[name="fr_id"]').value;
 
-	        const editButton = buttonContainer.querySelector('.edit');
-	        const deleteButton = buttonContainer.querySelector('.delete');
+		    const editButton = buttonContainer.querySelector('.edit');
+		    const deleteButton = buttonContainer.querySelector('.delete');
 
-	        editButton.addEventListener('click', function() {
-	            window.location.href = "/festival/festivalReview?fr_id=" + reviewId;
-	        });
+		    editButton.addEventListener('click', function() {
+		        window.location.href = "/festival/festivalReview?fr_id=" + reviewId;
+		    });
 
-	        deleteButton.addEventListener('click', function() {
-	            var userConfirmed = confirm("삭제하시겠습니까?");
-	            if (userConfirmed) {
-	                // AJAX 요청을 통해 삭제 요청을 서버로 보냅니다.
-	                fetch('/festival/deleteReview', {
-	                    method: 'POST',
-	                    headers: {
-	                        'Content-Type': 'application/x-www-form-urlencoded'
-	                    },
-	                    body: new URLSearchParams({
-	                        'fr_id': reviewId
-	                    })
-	                })
-	                .then(response => response.text())
-	                .then(result => {
-	                    if (result === "success") {
-	                        alert("후기가 삭제되었습니다.");
-	                        window.location.reload();
-	                    } else {
-	                        alert("후기 삭제에 실패했습니다.");
-	                    }
-	                })
-	                .catch(error => {
-	                    console.error('Error:', error);
-	                    alert("후기 삭제 중 오류가 발생했습니다.");
-	                });
-	            }
-	        });
-	    });
+		    deleteButton.addEventListener('click', function() {
+		        var userConfirmed = confirm("삭제하시겠습니까?");
+		        if (userConfirmed) {
+		            // AJAX 요청을 통해 삭제 요청을 서버로 보냅니다.
+		            fetch('/festival/deleteDetailReview', {
+		                method: 'POST',
+		                headers: {
+		                    'Content-Type': 'application/x-www-form-urlencoded'
+		                },
+		                body: new URLSearchParams({
+		                    'fr_id': reviewId
+		                })
+		            })
+		            .then(response => {
+		                // 리다이렉트를 처리하기 위해 응답이 HTML이면 브라우저가 리다이렉트를 따라가도록 합니다.
+		                if (response.redirected) {
+		                    window.location.href = response.url;
+		                } else {
+		                    return response.text();
+		                }
+		            })
+		        }
+		    });
+		});
+
 
 	});
   </script>	  
