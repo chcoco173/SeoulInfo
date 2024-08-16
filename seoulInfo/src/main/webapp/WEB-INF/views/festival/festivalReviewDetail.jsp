@@ -16,8 +16,45 @@
 	<link href="/css/jades-dandy-site-14d3e0.webflow.css" rel="stylesheet"
 		type="text/css">
 	<style>
-		
-		
+		/* 부모 요소의 스타일 */
+		.flex-item.text-color-black.review-content {
+		    width: 100%; /* 부모 요소의 가로 길이를 100%로 설정 */
+		    max-width: none; /* 최대 너비 제한을 제거 */
+		    margin: 0; /* 부모 요소의 여백 제거 */
+		    padding: 0; /* 부모 요소의 패딩 제거 */
+		}
+		.styled-pre {
+		    white-space: pre-wrap;
+		    font-family: 'Plus Jakarta Sans', sans-serif;
+		    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+		    color: #2c3e50;
+		    border: 1px solid #d1d8e0;
+		    border-radius: 12px;
+		    padding: 20px 25px;
+		    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		    line-height: 1.8;
+		    overflow: hidden;
+		    width: 100%; /* 자식 요소의 가로 길이를 100%로 설정 */
+		    max-width: none; /* 최대 너비 제한을 제거 */
+		    font-size: 16px;
+		    transition: transform 0.3s ease, box-shadow 0.3s ease;
+		    margin: 20px 0; /* 위아래 여백만 추가 */
+		}
+
+
+		.styled-pre:hover {
+		    transform: translateY(-5px); /* 살짝 떠오르는 효과 */
+		    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 그림자 강화 */
+		}
+
+		.styled-pre::before {
+		    content: "✎"; /* 텍스트 앞에 작은 아이콘 추가 */
+		    font-size: 25px;
+		    margin-right: 10px;
+		    color: #3498db; /* 블루 아이콘 색상 */
+		}
+
+
 		._3-column-grid {
 		    grid-column-gap: var(--gutters);
 		    grid-row-gap: var(--gutters);
@@ -54,7 +91,7 @@
 		.w-inline-block {
 		    cursor: default; /* 일반 커서로 변경 */
 		}
-		
+
 		.destination-banner {
 		    margin-top: -20px; /* 위에 섹션과 겹치지 않도록 여백 추가 */
 		}
@@ -89,7 +126,7 @@
 
 
 		.flex-item.text-color-black.review-content {
-		    max-width: 75%; /* 최대 너비를 800px로 설정 */
+		    max-width: 90%; /* 최대 너비를 800px로 설정 */
 		    margin: 0 auto; /* 가운데 정렬 */
 		    padding: 20px; /* 내부 여백 추가 */
 		}
@@ -245,9 +282,9 @@
 		        <div class="padding-section-medium">
 		            <div class="container-full-width">
 		                <div class="flex-container">
-		                    <div class="flex-item text-color-black review-content">
-		                        <pre>${review.fr_content}</pre>
-		                    </div>
+							<div class="flex-item text-color-black review-content">
+							    <pre class="styled-pre">${review.fr_content}</pre>
+							</div>
 		                </div>
 		            </div>
 		        </div>
