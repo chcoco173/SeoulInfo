@@ -143,6 +143,29 @@
 	        width: 100%;
 	        height: 200px; /* 모바일 화면에서 맵의 높이를 200px로 설정 */
 	    }
+	    
+	    #category {
+	    	top: -4px !important;
+	    	left:1px !important;
+	    	width:50px;
+	    }
+	    
+	    .map_wrap{
+	    	height:345px;
+	    }
+	    #parentContainer {
+   	 		height: 80vh; /* 부모 컨테이너를 뷰포트의 80% 높이로 설정 */
+		}
+		
+		#map {
+		    width: 100%;
+		    height: 100%; /* 부모 컨테이너의 100% 높이를 차지 */
+		}
+		
+		.nav_wrap{
+			top:-50px !important;
+			left:61% !important;
+		}
 	}
 
 /* kakao map category 기본 css*/

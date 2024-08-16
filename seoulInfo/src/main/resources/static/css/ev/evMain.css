@@ -1,3 +1,11 @@
+.getMyLocation{
+	cursor: pointer;
+}
+
+.LocationSwaop{
+	cursor: pointer;
+}
+
 #loading {
 	position: fixed;
 	top: 0;
