@@ -306,7 +306,27 @@ public class FestivalController {
     }
     
     
-    // 리뷰 삭제
+    // 리뷰 삭제 festivalReviewDetail 페이지에서
+    @PostMapping("/deleteDetailReview")
+    @Transactional
+    public String deleteDetailReview(@RequestParam("fr_id") Integer fr_id) {
+        try {
+            FestivalReviewVO review = festivalReviewService.getReview(fr_id);
+            if (review != null) {
+                Integer festival_id = review.getFestival_id();
+                festivalReviewService.deleteReview(fr_id);
+
+                return "redirect:/festival/festivalDetail?festival_id=" + festival_id;
+            } else {
+                return "redirect:/error"; // 후기 못 찾았을 때의 리다이렉트
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/error"; // 에러가 발생했을 때의 리다이렉트
+        }
+    }
+
+    // 리뷰 삭제 festivalDetail 페이지에서
     @PostMapping("/deleteReview")
     @Transactional
     @ResponseBody
