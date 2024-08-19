@@ -189,7 +189,9 @@
 		JOIN evc_cg	c
 		ON e.evc_id = c.evc_id
 		WHERE
-            (6371000 * acos(cos(radians(#{lat})) * cos(radians(evc_lat)) * cos(radians(evc_long) - radians(#{lon})) + sin(radians(#{lat})) * sin(radians(evc_lat)))) &lt; #{radius}
+            (6371000 * acos(cos(radians(#{lat})) * cos(radians(evc_lat)) 
+            		 * cos(radians(evc_long) - radians(#{lon})) + sin(radians(#{lat})) * sin(radians(evc_lat))))
+            		 &lt; #{radius}
         limit 100
 	</select>
 	
