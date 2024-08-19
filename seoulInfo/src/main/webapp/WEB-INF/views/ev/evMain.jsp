@@ -157,8 +157,32 @@
 				<div class="collapse" id="collapseMenu">
 					<div class="card card-body">
 						<ul class="list-unstyled">
-							<li><a class="dropdown-item" href="#" data-bs-toggle="collapse" data-bs-target="#option1Content" aria-expanded="false" aria-controls="option1Content" style="text-align:center;">[ 편의시설 ]</a>
+							<li><a class="dropdown-item" href="#" data-bs-toggle="collapse" data-bs-target="#option1Content" aria-expanded="false" aria-controls="option1Content" style="text-align:center;"> 운영기관 </a>
 								<div class="collapse mt-1" id="option1Content">
+									<ul class="list-group">
+										<li class="list-group-item"><span id="opCheckAll" class="opCheckAll">전체		</span></li>
+										<li class="list-group-item"><span id="opCheck1"   class="opCheck"	>환경부	</span></li>
+										<li class="list-group-item"><span id="opCheck2"	  class="opCheck"	>한국전력	</span></li>
+										<li class="list-group-item"><span id="opCheck3"	  class="opCheck"	>타기관	</span></li>
+									</ul>
+								</div>
+							</li>
+							<li><br><a class="dropdown-item" href="#" data-bs-toggle="collapse" data-bs-target="#option2Content" aria-expanded="false" aria-controls="option2Content" style="text-align:center;"> 충전기 분류 </a>
+								<div class="collapse mt-2" id="option2Content">
+									<ul class="list-group">
+										<li class="list-group-item"><span id="typeCheckAll" class="typeCheckAll">전체					</span></li>
+										<li class="list-group-item"><span id="typeCheck1"   class="typeCheck"	>AC완속 				</span></li>
+										<li class="list-group-item"><span id="typeCheck2"   class="typeCheck"	>AC3상 				</span></li>
+										<li class="list-group-item"><span id="typeCheck3"   class="typeCheck"	>DC차데모 			</span></li>
+										<li class="list-group-item"><span id="typeCheck4"   class="typeCheck"	>DC콤보 				</span></li>
+										<li class="list-group-item"><span id="typeCheck5"   class="typeCheck"	>DC차데모+DC콤보 		</span></li>
+										<li class="list-group-item"><span id="typeCheck6"   class="typeCheck"	>DC차데모+AC3상 		</span></li>
+										<li class="list-group-item"><span id="typeCheck7"   class="typeCheck"	>DC차데모+AC3상+DC콤보	</span></li>
+									</ul>
+								</div>
+							</li>
+							<li><br><a class="dropdown-item" href="#" data-bs-toggle="collapse" data-bs-target="#option3Content" aria-expanded="false" aria-controls="option3Content" style="text-align:center;"> 편의시설 </a>
+								<div class="collapse mt-3" id="option3Content">
 									<!-- convenience category Buttons -->
 									<ul class="list-group">
 										<li class="list-group-item"><span id="etcCheckAll"  class="etcCheckAll">전체</span></li>
@@ -169,13 +193,6 @@
 										<li class="list-group-item"><span id="etcCheck5" class="etcCheck">약국	</span></li>
 									</ul>
 								</div>
-							</li>
-							<li>
-							    <br><hr>
-							    <p class="dropdown-item" href="#" data-bs-toggle="collapse" data-bs-target="#option3Content" aria-expanded="false" aria-controls="option3Content">[ 교통 정보 ]</p>
-							    <div class="list-group" id="map_show_type">
-							        <button class="btn btn-primary" id="btnTraffic" data-enabled="false" onclick="showTrafficMap()">켜기</button>
-							    </div>
 							</li>
 							<li><br><hr>
 								<p class="dropdown-item" href="#" data-bs-toggle="collapse" data-bs-target="#option4Content" aria-expanded="false" aria-controls="option4Content">[ 지도 타입 ]</p>
@@ -722,7 +739,7 @@
 					                    address: position.address
 					                });
 
-					                // InfoWindow의 내용과 위치를 정의합니다
+									// InfoWindow의 내용과 위치를 정의합니다
 					                var distance = getDistanceFromLatLonInMeters(marker.getPosition().getLat(), marker.getPosition().getLng(), position.latlng.getLat(), position.latlng.getLng());
 					                var iwContent = '';
 					                iwContent += '<div style="border-radius:10px; border: 1px solid black; background-color: #fff; box-shadow: 0px 0px 5px rgba(0,0,0,0.2); width: 200px; height: 150px;">';
@@ -735,26 +752,26 @@
 					                iwContent += '</div>';
 					                iwContent += '</div>';
 
-					                var InfoWindowRemovable = false;
+					                var InfoWindowRemovable = true;
 					                // InfoWindow 인스턴스를 생성합니다
 					                var infoWindow = new kakao.maps.InfoWindow({
 					                    content: iwContent,
 					                    removable: InfoWindowRemovable
 					                });
 
-									// 마커 이벤트 리스너 추가
+					                // 마커 이벤트 리스너 추가
 					                var closeTimeout;
 					                kakao.maps.event.addListener(locationMarker, 'click', function() {
-					                    clearTimeout(closeTimeout);
+					                    clearTimeout(closeTimeout); // 기존의 타이머가 있다면 제거합니다
 					                    infoWindow.open(map, locationMarker); // 마커 위치에 InfoWindow를 엽니다
 					                });
 
 					                kakao.maps.event.addListener(locationMarker, 'mouseout', function() {
 					                    closeTimeout = setTimeout(function() {
-					                        infoWindow.close();
+					                        infoWindow.close(); // InfoWindow를 닫습니다
 					                    }, 1500); // 1.5초 후에 창을 닫습니다
 					                });
-				                    locationMarkers.push(locationMarker);
+					                locationMarkers.push(locationMarker); // 마커를 배열에 추가
 					            });
 					        } else {
 					            alert("원 안에 편의시설 정보가 없습니다.");
@@ -1109,15 +1126,17 @@
 								address : position.address
 							});
 							// InfoWindow의 내용과 위치를 정의합니다
-							var iwContent = '';
-								iwContent += '<div style="border-radius:10px; border: 1px solid black; background-color: #fff; box-shadow: 0px 0px 5px rgba(0,0,0,0.2);">';
-								iwContent += '<div style="font-size:14px; border-radius:10px 10px 0px 0px; font-weight:bold; color:#333; background-color:yellowgreen; text-align:center; ">';
-								iwContent += '<a href="https://map.kakao.com/?q=' + (position.address || '') +' '+ (position.name || '') +'" target="blank"><b>'+(position.name || 'Unknown') + '</b></a>';
-								iwContent += '</div>';
-								iwContent += '<hr style="margin:5px 0;">';
-								iwContent += '<div style="font-size:12px; color:#666;"> 분류 : ' + (position.title || 'Unknown') + '</div>';
-								iwContent += '<div style="font-size:12px; color:#666;">' + (position.address || 'Unknown') + '</div>';
-								iwContent += '</div>';
+			                var distance = getDistanceFromLatLonInMeters(lat, lng, position.latlng.getLat(), position.latlng.getLng());
+			                var iwContent = '';
+			                iwContent += '<div style="border-radius:10px; border: 1px solid black; background-color: #fff; box-shadow: 0px 0px 5px rgba(0,0,0,0.2); width: 200px; height: 150px;">';
+			                iwContent += '<div style="font-size:14px; border-radius:10px 10px 0px 0px; border-bottom: 1px solid black; font-weight:bold; background-color:yellowgreen; text-align:center;">';
+			                iwContent += '<b>' + (position.name || 'Unknown') + '</b></div>';
+			                iwContent += '<div style="margin:5px;">';
+			                iwContent += '<div style="font-size:12px;">' + formatAddress(position.address) + '</div><hr>';
+			                iwContent += '<div><span class="number" style="font-size:12px;">' + (position.title || 'Unknown') + '까지 직선거리 : ';
+			                iwContent += getTimeHTML(distance);
+			                iwContent += '</div>';
+			                iwContent += '</div>';
 								
 								var InfoWindowRemovable = true;	
 								// InfoWindow 인스턴스를 생성합니다
@@ -1125,10 +1144,18 @@
 									content: iwContent,
 									removable: InfoWindowRemovable
 								});
-							// 마커 클릭 이벤트 리스너 추가
-							kakao.maps.event.addListener(locationMarker, 'click', function() {
-								infoWindow.open(map, locationMarker); // 마커 위치에 InfoWindow를 엽니다
-							});
+								// 마커 이벤트 리스너 추가
+				                var closeTimeout;
+				                kakao.maps.event.addListener(locationMarker, 'click', function() {
+				                    clearTimeout(closeTimeout); // 기존의 타이머가 있다면 제거합니다
+				                    infoWindow.open(map, locationMarker); // 마커 위치에 InfoWindow를 엽니다
+				                });
+
+				                kakao.maps.event.addListener(locationMarker, 'mouseout', function() {
+				                    closeTimeout = setTimeout(function() {
+				                        infoWindow.close(); // InfoWindow를 닫습니다
+				                    }, 1500); // 1.5초 후에 창을 닫습니다
+				                });
 							locationMarkers.push(locationMarker); // 마커를 배열에 추가
 							console.log("마커 추가됨 위치:", position.latlng.getLat(), position.latlng.getLng());
 						});
@@ -1523,19 +1550,19 @@
 							
 							infoWindow.setZIndex(3);
 							// 마커 hover 이벤트 리스너 추가
-							// 마커 이벤트 리스너 추가
 			                var closeTimeout;
-			                kakao.maps.event.addListener(locationMarker, 'click', function() {
-			                    clearTimeout(closeTimeout);
+			                kakao.maps.event.addListener(locationMarker, 'mouseover', function() {
+			                    clearTimeout(closeTimeout); // 기존의 타이머가 있다면 제거합니다
 			                    infoWindow.open(map, locationMarker); // 마커 위치에 InfoWindow를 엽니다
 			                });
-
+	
 			                kakao.maps.event.addListener(locationMarker, 'mouseout', function() {
 			                    closeTimeout = setTimeout(function() {
-			                        infoWindow.close();
+			                        infoWindow.close(); // InfoWindow를 닫습니다
 			                    }, 1500); // 1.5초 후에 창을 닫습니다
 			                });
-		                    locationMarkers.push(locationMarker);
+							
+					        locationMarkers.push(locationMarker);
 						});
 	
 						console.log("마커 생성 완료:", locationMarkers.length);
@@ -1718,31 +1745,6 @@
 	    row += '</tr>';
 	    chargerDetailsBody.append(row);
 	}
-	
-	// Kakao Map 객체 생성 부분이 있어야 합니다.
-	    var map; // 이미 생성된 Kakao Map 객체가 있다고 가정
-	    var trafficLayer = kakao.maps.MapTypeId.TRAFFIC;
-
-	    function showTrafficMap() {
-	        var btnTraffic = document.getElementById('btnTraffic');
-	        var isTrafficEnabled = btnTraffic.getAttribute('data-enabled') === 'true';
-
-	        if (isTrafficEnabled) {
-	            // 교통정보 레이어 제거
-	            map.removeOverlayMapTypeId(trafficLayer);
-	            btnTraffic.setAttribute('data-enabled', 'false');
-	            btnTraffic.innerText = "켜기";
-	            btnTraffic.classList.remove('btn-danger');
-	            btnTraffic.classList.add('btn-primary');
-	        } else {
-	            // 교통정보 레이어 추가
-	            map.addOverlayMapTypeId(trafficLayer);
-	            btnTraffic.setAttribute('data-enabled', 'true');
-	            btnTraffic.innerText = "끄기";
-	            btnTraffic.classList.remove('btn-primary');
-	            btnTraffic.classList.add('btn-danger');
-	        }
-	    }
 	</script>
 	<!-- end of kakao map Script -->
 	<script src="/js/webflow.js" type="text/javascript"></script>
