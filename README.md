@@ -16,7 +16,7 @@
 또한, 지역 경제 활성화를 위해 사용자 맞춤형 상품을 추천하는 중고거래 플랫폼도 구축했습니다.
 구매자와 판매자가 실시간으로 소통할 수 있는 채팅 시스템도 함께 지원합니다.
 
-## 관리자 화면 
+## 화면 
 - 메인페이지
 ![image](https://github.com/user-attachments/assets/db51a620-345b-4e87-a08a-936cda956a08)
 - 지역안내 페이지
@@ -27,9 +27,18 @@
 ![image](https://github.com/user-attachments/assets/5a6c1cbb-d83f-4b73-8905-c0754f35d6a2)
 
 ## 주요기능
+- 크롤링
 ![image](https://github.com/user-attachments/assets/e9fc25c7-a752-4aee-b1b9-9ded2137c9c9)
+- 베이지안 필터
 ![image](https://github.com/user-attachments/assets/2c323c66-a371-4a7d-bbdb-35b607abab7e)
+- 머신러닝 + Flask
 ![image](https://github.com/user-attachments/assets/03598b47-1120-4409-bc49-acbfd4cee4db)
+- 웹소켓 통신
+![image](https://github.com/user-attachments/assets/c0fc70f6-b48d-400c-9093-7a788babfa18)
+- 지도 API 
+![image](https://github.com/user-attachments/assets/c94db30a-2d87-474b-9b72-637ee168dbef)
+- ELK + Kibana
+![image](https://github.com/user-attachments/assets/bc81e184-00b6-4934-bce3-dd3ae34ef026)
 
 
 ## 사용기술
