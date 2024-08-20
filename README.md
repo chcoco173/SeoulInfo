@@ -61,7 +61,7 @@ https://www.notion.so/7ac3c69857bd4efdbd4e2ef3e6f6c0f8
 
 #### 이재연 
 - react와 node 사용하여 관리자 페이지 구축
-- Logstash를 활용한 데이터 정제 한뒤, Elasticsearch, Kibana를 활용한 데이터 시각화 
+- Logstash를 활용한 데이터 정제 후 Elasticsearch, Kibana를 활용한 데이터 시각화 
 
 #### 천지원
 - 웹소켓을 사용한 실시간 양방향 채팅 시스템 구현
