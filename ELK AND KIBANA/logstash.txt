@@ -1,0 +1,61 @@
+input {
+  jdbc {
+    jdbc_connection_string => "jdbc:mysql://192.168.0.210:3306/seoulinfo"
+    jdbc_user => "seoulinfo"
+    jdbc_password => "seoul"
+    jdbc_driver_class => "com.mysql.cj.jdbc.Driver"
+    jdbc_driver_library => "C:/Jaeyeon/mysql-connector-j-8.0.33.jar"
+    statement => "SELECT * FROM product_search"
+    schedule => "* * * * *"
+    type => "product_search"
+  }
+
+  jdbc {
+    jdbc_connection_string => "jdbc:mysql://192.168.0.210:3306/seoulinfo"
+    jdbc_user => "seoulinfo"
+    jdbc_password => "seoul"
+    jdbc_driver_class => "com.mysql.cj.jdbc.Driver"
+    jdbc_driver_library => "C:/Jaeyeon/mysql-connector-j-8.0.33.jar"
+    statement => "SELECT * FROM product_sale"
+    schedule => "* * * * *"
+    type => "product_sale"
+  }
+}
+
+filter {
+  if [type] == "product_search" {
+    mutate {
+      convert => {
+        "productsearch_no" => "integer"
+        "productsearch_date" => "string"
+      }
+    }
+
+    date {
+      match => ["productsearch_date", "yyyy-MM-dd"]
+      target => "productsearch_date"
+    }
+  }
+}
+
+output {
+  if [type] == "product_search" {
+    elasticsearch {
+      hosts => ["http://localhost:9200"]
+      index => "product_search"
+      document_id => "%{productsearch_no}"
+      doc_as_upsert => true
+      action => "update"
+    }
+  } else if [type] == "product_sale" {
+    elasticsearch {
+      hosts => ["http://localhost:9200"]
+      index => "product_sale"
+      document_id => "%{sale_id}"
+      doc_as_upsert => true
+      action => "update"
+    }
+  }
+
+  stdout { codec => rubydebug }
+}
