@@ -5,7 +5,7 @@
 ![image](https://github.com/user-attachments/assets/db51a620-345b-4e87-a08a-936cda956a08)
 ![image](https://github.com/user-attachments/assets/169b035d-133e-4b77-9724-54a551ff44ef)
 ![image](https://github.com/user-attachments/assets/eea13b32-0a81-4102-9ea6-919608c1524a)
-![Uploading image.png…]()
+![image](https://github.com/user-attachments/assets/5a6c1cbb-d83f-4b73-8905-c0754f35d6a2)
 
 서울 지역 안내 서비스는
 서울 지역을 중심으로 다양한 서비스를 제공하는 웹사이트를 제작했습니다.
