@@ -1,5 +1,4 @@
-![image](https://github.com/user-attachments/assets/c005e78b-2145-4c11-bc72-bb2782c126da)# SeoulInfo ( Seoul Area Information )
-
+# SeoulInfo ( Seoul Area Info )
 ## 프로젝트 설명
 서울 지역 안내 서비스는
 서울 지역을 중심으로 다양한 서비스를 제공하는 웹사이트를 제작했습니다.
@@ -40,12 +39,9 @@
 
 ## 시연영상
 - 웹버전
-![image](https://github.com/user-attachments/assets/0e9a4811-64fa-4736-9049-efdfa35cf782)
-[![유튜브 시연영상]([https://img.youtube.com/vi/영상ID/0.jpg](https://github.com/user-attachments/assets/0e9a4811-64fa-4736-9049-efdfa35cf782))]([https://www.youtube.com/watch?v=영상ID](https://www.youtube.com/watch?v=xDBnuexwwJc))
-[![유튜브 시연영상](https://github.com/user-attachments/assets/0e9a4811-64fa-4736-9049-efdfa35cf782))](https://www.youtube.com/watch?v=영상ID)
-
 https://www.youtube.com/watch?v=hYL68JBf-s8
 - 모바일버전
+[![유튜브 시연영상](https://github.com/user-attachments/assets/0e9a4811-64fa-4736-9049-efdfa35cf782))]([https://www.youtube.com/watch?v=영상ID](https://www.youtube.com/watch?v=xDBnuexwwJc))
 https://www.youtube.com/watch?v=xDBnuexwwJc
 ## notion ( 협업툴 )
 https://www.notion.so/7ac3c69857bd4efdbd4e2ef3e6f6c0f8
