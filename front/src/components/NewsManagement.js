@@ -140,7 +140,7 @@ function NewsManagement() {
     <td className='newsnum'>{news.news_id}</td>
     <td className='newsarea'>{news.news_area}</td>
     <td className='newstitle'>
-      <a href={`http://192.168.0.219:8080/news/newsDetail?news_id=${news.news_id}&area=${news.news_area}`}>
+      <a href={`http://localhost:8080/news/newsDetail?news_id=${news.news_id}&area=${news.news_area}`}>
         {news.news_title}
       </a>
     </td>
