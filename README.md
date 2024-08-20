@@ -1,12 +1,17 @@
 # SeoulInfo
 - Seoul Area Information
 
-## 프로젝트 설명
+# 화면 설계
+- 메인페이지
 ![image](https://github.com/user-attachments/assets/db51a620-345b-4e87-a08a-936cda956a08)
+- 지역안내 페이지
 ![image](https://github.com/user-attachments/assets/169b035d-133e-4b77-9724-54a551ff44ef)
+- 전기차 충전소 페이지
 ![image](https://github.com/user-attachments/assets/eea13b32-0a81-4102-9ea6-919608c1524a)
+- 중고거래 페이지
 ![image](https://github.com/user-attachments/assets/5a6c1cbb-d83f-4b73-8905-c0754f35d6a2)
 
+## 프로젝트 설명
 서울 지역 안내 서비스는
 서울 지역을 중심으로 다양한 서비스를 제공하는 웹사이트를 제작했습니다.
 
@@ -35,8 +40,11 @@
 ![image](https://github.com/user-attachments/assets/0a297607-052d-4ad6-bdac-23994886aaf1)
 
 ## 시연영상
+- 웹버전
 https://www.youtube.com/watch?v=hYL68JBf-s8
-## notion
-MIRICANVAS_ITEM_COPY_KEY
+- 모바일버전
+https://www.youtube.com/watch?v=xDBnuexwwJc
+## notion ( 협업툴 )
+https://www.notion.so/7ac3c69857bd4efdbd4e2ef3e6f6c0f8
 # 팀원 역할
 
