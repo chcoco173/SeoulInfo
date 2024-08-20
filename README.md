@@ -43,7 +43,8 @@ https://www.youtube.com/watch?v=hYL68JBf-s8
 - 모바일버전
   ![image](https://github.com/user-attachments/assets/26dbe43e-f4c2-450f-a957-517f434af721)
 
-[![유튜브 시연영상]((https://github.com/user-attachments/assets/26dbe43e-f4c2-450f-a957-517f434af721)](https://www.youtube.com/watch?v=xDBnuexwwJc))
+[![유튜브 시연영상](https://github.com/user-attachments/assets/26dbe43e-f4c2-450f-a957-517f434af721)](https://www.youtube.com/watch?v=xDBnuexwwJc)
+
 
 https://www.youtube.com/watch?v=xDBnuexwwJc
 ## notion ( 협업툴 )
