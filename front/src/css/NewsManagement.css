@@ -66,11 +66,11 @@
 }
 
 .newsnum {
-  width: 3%;
+  width: 5%;
 }
 
 .newstitle {
-  width: 40%;
+  width: 37%;
 }
 
 .newsarea {
@@ -78,7 +78,7 @@
 }
 
 .newslink {
-  width: 36%; 
+  width: 35%; 
 }
 
 .newsdate {
@@ -91,7 +91,7 @@
 }
 
 .newsdelete {
-  width: 3%; 
+  width: 5%; 
 }
 
 

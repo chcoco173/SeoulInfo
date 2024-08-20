@@ -1165,10 +1165,6 @@ app.get('/data/getallquestion', checkSession, (req, res) => {
 
   const sqlCount = 'SELECT COUNT(*) AS total FROM question';
   conn.query(sqlCount, (err, countResult) => {
-    if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정
-      console.error('Error counting questions:', err);
-      return res.status(500).json({ error: '서버 에러' });
-    }
     const totalItems = countResult[0].total;
     const totalPages = Math.ceil(totalItems / pageSize);
 
@@ -1180,10 +1176,6 @@ app.get('/data/getallquestion', checkSession, (req, res) => {
     `;
 
     conn.query(sql, function(err, result) {
-      if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정
-        console.error('Error fetching questions:', err);
-        return res.status(500).json({ error: '서버 에러' });
-      }
       const formattedResult = result.map(question => ({
         ...question,
         question_date: formatDate(question.question_date)
@@ -1195,7 +1187,6 @@ app.get('/data/getallquestion', checkSession, (req, res) => {
     });
   });
 });
-// 설명: 문의 테이블 리스트는 페이징을 적용하여 문의 데이터를 조회하여 반환합니다.
 
 // 문의 검색  
 app.get('/data/search-question', checkSession, (req, res) => {
@@ -1215,18 +1206,10 @@ app.get('/data/search-question', checkSession, (req, res) => {
   }
 
   conn.query(countQuery, params.slice(0, -2), (err, countResult) => {
-    if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정
-      console.error('카운트 에러:', err);
-      return res.status(500).json({ error: '서버 에러' });
-    }
     const totalItems = countResult[0].total;
     const totalPages = Math.ceil(totalItems / pageSize);
 
     conn.query(query, params, (err, results) => {
-      if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정
-        console.error('검색 에러:', err);
-        return res.status(500).json({ error: '서버 에러' });
-      }
       const formattedResults = results.map(question => ({
         ...question,
         question_date: formatDate(question.question_date)
@@ -1235,7 +1218,6 @@ app.get('/data/search-question', checkSession, (req, res) => {
     });
   });
 });
-// 설명: 문의 검색는 지정된 검색 조건에 따라 문의 데이터를 검색하여 반환합니다.
 
 // 질문 내용 답변 페이지에서 띄우기  
 app.get('/data/getquestion/:question_no', checkSession, (req, res) => {
@@ -1243,17 +1225,9 @@ app.get('/data/getquestion/:question_no', checkSession, (req, res) => {
   const sql = 'SELECT * FROM question WHERE question_no = ?';
 
   conn.query(sql, [questionNo], (err, results) => {
-    if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정
-      console.error('Error fetching question data:', err);
-      return res.status(500).json({ error: '서버 에러' });
-    }
-    if (results.length === 0) { // 지정된 질문이 존재하지 않는 경우 가정
-      return res.status(404).json({ error: '질문을 찾을 수 없습니다.' });
-    }
     res.json(results[0]);
   });
 });
-// 설명: 질문 내용 답변 페이지에서 띄우기는 지정된 질문 번호에 해당하는 질문 데이터를 조회하여 반환합니다.
 
 // 답변 내용 가져오기  
 app.get('/data/getanswer/:question_no', checkSession, (req, res) => {
@@ -1261,39 +1235,24 @@ app.get('/data/getanswer/:question_no', checkSession, (req, res) => {
   const sql = 'SELECT answer_content, admin_id FROM answer WHERE question_no = ?';
 
   conn.query(sql, [questionNo], (err, results) => {
-    if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정
-      console.error('Error fetching answer data:', err);
-      return res.status(500).json({ error: '서버 에러' });
-    }
-    if (results.length === 0) { // 지정된 질문에 대한 답변이 존재하지 않는 경우 가정
-      return res.status(404).json({ error: '답변을 찾을 수 없습니다.' });
-    }
     res.json(results[0]);
   });
 });
-// 설명: 답변 내용 가져오기는 지정된 질문 번호에 해당하는 답변 데이터를 조회하여 반환합니다.
 
 // 답변 작성  
 app.post('/data/submit-answer', checkSession, (req, res) => {
-  const { question_no, answer_content, admin_id } = req.body; // admin_id도 함께 받음
+  const { question_no, answer_content, admin_id } = req.body;
 
-  const insertAnswer = 'INSERT INTO answer (question_no, answer_content, admin_id) VALUES (?, ?, ?)'; // admin_id 포함
+  const insertAnswer = 'INSERT INTO answer (question_no, answer_content, admin_id) VALUES (?, ?, ?)';
   conn.query(insertAnswer, [question_no, answer_content, admin_id], (err) => {
-    if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정
-      return res.status(500).send('입력 실패');
-    }
 
     const updateQuestionStatus = 'UPDATE question SET question_status = "처리완료" WHERE question_no = ?';
     conn.query(updateQuestionStatus, [question_no], (err) => {
-      if (err) { // 데이터베이스 쿼리 실행 중 에러 발생 가정
-        return res.status(500).send('수정 실패');
-      }
-
       res.send('답변 작성 처리 완료');
     });
   });
 });
-// 설명: 답변 작성는 클라이언트에서 받은 답변 내용을 데이터베이스에 삽입하고, 해당 질문의 상태를 '처리완료'로 업데이트합니다.
+
 
 // 파일 경로 설정
 app.use(express.static('public'));

@@ -115,6 +115,10 @@
   padding: 0;
 }
 
+.festival-cate-select{
+  width: 50%;
+}
+
 .pagination button {
   padding: 8px 12px;
   margin: 0 5px;

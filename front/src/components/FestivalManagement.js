@@ -293,12 +293,12 @@ function FestivalManagement() {
         try {
           const response = await instance.get(`/data/getallfestival?page=${page}`);
           if (response.data.length < 15) {
-            setHasMore(false); // 데이터가 더 이상 없으면 추가 로드 중지
+            setHasMore(false);
           }
           setFestivalView(prev => [...prev, ...response.data]);
           setPage(prev => prev + 1);
         } catch (error) {
-          setHasMore(false); // 에러 발생 시 데이터 로드 중단
+          setHasMore(false);
         }
         setIsLoading(false);
       };
@@ -313,7 +313,7 @@ function FestivalManagement() {
         observer.observe(loadingRef.current);
       }
 
-      return () => observer.disconnect(); // 컴포넌트 언마운트 시 옵저버 해제
+      return () => observer.disconnect();
     }
   }, [isLoading, hasMore, searching]);
 
