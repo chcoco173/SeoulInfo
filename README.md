@@ -14,17 +14,20 @@
 또한, 지역 경제 활성화를 위해 사용자 맞춤형 상품을 추천하는 중고거래 플랫폼도 구축했습니다.
 구매자와 판매자가 실시간으로 소통할 수 있는 채팅 시스템도 함께 지원합니다.
 
-## 프로젝트 구성
-![image](https://github.com/user-attachments/assets/c1c05e52-64c5-4cc6-bcc0-608b089bc269)
-![image](https://github.com/user-attachments/assets/f44bf0a7-b2d8-4012-b8ec-14c208e4ec20)
+## 주요기능
+![image](https://github.com/user-attachments/assets/e9fc25c7-a752-4aee-b1b9-9ded2137c9c9)
+![image](https://github.com/user-attachments/assets/2c323c66-a371-4a7d-bbdb-35b607abab7e)
+![image](https://github.com/user-attachments/assets/03598b47-1120-4409-bc49-acbfd4cee4db)
+
 
 ## 사용기술
-
+![image](https://github.com/user-attachments/assets/c1c05e52-64c5-4cc6-bcc0-608b089bc269)
+![image](https://github.com/user-attachments/assets/f44bf0a7-b2d8-4012-b8ec-14c208e4ec20)
 ## DB - ERD
 
 ## 시연영상
 
-# notion
+## notion
 
 # 팀원 역할
 
