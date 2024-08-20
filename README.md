@@ -39,9 +39,8 @@
 
 ## 시연영상
 - 웹버전
-  ![image](https://github.com/user-attachments/assets/70dac0f8-e09e-403a-b197-be859ee4d0c4)
-  
-[![유튜브 시연영상](https://github.com/user-attachments/assets/70dac0f8-e09e-403a-b197-be859ee4d0c4)](https://www.youtube.com/watch?v=hYL68JBf-s8))
+[![유튜브 시연영상](https://github.com/user-attachments/assets/70dac0f8-e09e-403a-b197-be859ee4d0c4)](https://www.youtube.com/watch?v=hYL68JBf-s8)
+
 https://www.youtube.com/watch?v=hYL68JBf-s8
 - 모바일버전
   ![image](https://github.com/user-attachments/assets/26dbe43e-f4c2-450f-a957-517f434af721)
