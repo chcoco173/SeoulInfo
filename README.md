@@ -1,2 +1,2 @@
 # SeoulInfo
- Seoul Area Information
+- Seoul Area Information
