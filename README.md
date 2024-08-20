@@ -54,19 +54,22 @@ https://www.notion.so/7ac3c69857bd4efdbd4e2ef3e6f6c0f8
 PM - 이재연
 PL - 강채은
 
-이재연 
-- react와 node 사용하여 관리자 페이지 구축
-- Logstash를 활용한 데이터 정제 한뒤, Elasticsearch, Kibana를 활용한 데이터 시각화 
-
 강채은
 - BeautifulSoup와 Selenium 을 사용한 중고거래 데이터 정보 추출 및 가공
 - BayesianFilter를 사용하여 각 카테고리별로 ML 모델 학습하여
  사용자 추천상품, 유사 추천 상품, 검색어 추천 상품 알고리즘 구현
 
-한기진
-- T Map API를 활용한 길찾기 기능 구현
-- 한국 전력 API를 활용한 충전소 실시간 정보 업데이트
+이재연 
+- react와 node 사용하여 관리자 페이지 구축
+- Logstash를 활용한 데이터 정제 한뒤, Elasticsearch, Kibana를 활용한 데이터 시각화 
 
 천지원
 - 웹소켓을 사용한 실시간 양방향 채팅 시스템 구현
 - BeautifulSoup와 Selenium 을 사용한 지역 구별 뉴스 데이터 정보 추출
+  
+한기진
+- T Map API를 활용한 길찾기 기능 구현
+- 한국 전력 API를 활용한 충전소 실시간 정보 업데이트
+
+한남희
+- 네이버 로그인 구현
