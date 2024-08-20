@@ -1,5 +1,4 @@
-# SeoulInfo
-- Seoul Area Information
+# SeoulInfo ( Seoul Area Information )
 
 ## 프로젝트 설명
 서울 지역 안내 서비스는
