@@ -42,6 +42,7 @@
 - 웹버전
 ![image](https://github.com/user-attachments/assets/0e9a4811-64fa-4736-9049-efdfa35cf782)
 [![유튜브 시연영상]([https://img.youtube.com/vi/영상ID/0.jpg](https://github.com/user-attachments/assets/0e9a4811-64fa-4736-9049-efdfa35cf782))]([https://www.youtube.com/watch?v=영상ID](https://www.youtube.com/watch?v=xDBnuexwwJc))
+[![유튜브 시연영상](https://github.com/user-attachments/assets/0e9a4811-64fa-4736-9049-efdfa35cf782))](https://www.youtube.com/watch?v=영상ID)
 
 https://www.youtube.com/watch?v=hYL68JBf-s8
 - 모바일버전
