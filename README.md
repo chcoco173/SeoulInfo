@@ -1,4 +1,4 @@
-# SeoulInfo ( Seoul Area Information )
+![image](https://github.com/user-attachments/assets/c005e78b-2145-4c11-bc72-bb2782c126da)# SeoulInfo ( Seoul Area Information )
 
 ## 프로젝트 설명
 서울 지역 안내 서비스는
@@ -13,7 +13,7 @@
 또한, 지역 경제 활성화를 위해 사용자 맞춤형 상품을 추천하는 중고거래 플랫폼도 구축했습니다.
 구매자와 판매자가 실시간으로 소통할 수 있는 채팅 시스템도 함께 지원합니다.
 
-# 화면 
+## 화면 
 - 메인페이지
 ![image](https://github.com/user-attachments/assets/db51a620-345b-4e87-a08a-936cda956a08)
 - 지역안내 페이지
@@ -40,6 +40,9 @@
 
 ## 시연영상
 - 웹버전
+![image](https://github.com/user-attachments/assets/0e9a4811-64fa-4736-9049-efdfa35cf782)
+[![유튜브 시연영상]([https://img.youtube.com/vi/영상ID/0.jpg](https://github.com/user-attachments/assets/0e9a4811-64fa-4736-9049-efdfa35cf782))]([https://www.youtube.com/watch?v=영상ID](https://www.youtube.com/watch?v=xDBnuexwwJc))
+
 https://www.youtube.com/watch?v=hYL68JBf-s8
 - 모바일버전
 https://www.youtube.com/watch?v=xDBnuexwwJc
