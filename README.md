@@ -23,11 +23,15 @@
 ## 사용기술
 ![image](https://github.com/user-attachments/assets/c1c05e52-64c5-4cc6-bcc0-608b089bc269)
 ![image](https://github.com/user-attachments/assets/f44bf0a7-b2d8-4012-b8ec-14c208e4ec20)
+
 ## DB - ERD
+![image](https://github.com/user-attachments/assets/0149be72-e49a-4567-ad88-fc304331edef)
+![image](https://github.com/user-attachments/assets/b63e8d2b-ad82-414d-ba9e-95d94be0786a)
+![image](https://github.com/user-attachments/assets/0a297607-052d-4ad6-bdac-23994886aaf1)
 
 ## 시연영상
-
+https://www.youtube.com/watch?v=hYL68JBf-s8
 ## notion
-
+MIRICANVAS_ITEM_COPY_KEY
 # 팀원 역할
 
