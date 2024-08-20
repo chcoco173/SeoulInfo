@@ -1,4 +1,4 @@
-# SeoulInfo ( Seoul Area Info )
+![image](https://github.com/user-attachments/assets/666e1315-ff00-4f37-87d2-34f5d2761cf0)![image](https://github.com/user-attachments/assets/03861e61-1b19-48ae-a296-7e60b24b2c04)# SeoulInfo ( Seoul Area Info )
 ## 프로젝트 설명
 서울 지역 안내 서비스는
 서울 지역을 중심으로 다양한 서비스를 제공하는 웹사이트를 제작했습니다.
@@ -30,6 +30,9 @@
 ![image](https://github.com/user-attachments/assets/e9fc25c7-a752-4aee-b1b9-9ded2137c9c9)
 ![image](https://github.com/user-attachments/assets/2c323c66-a371-4a7d-bbdb-35b607abab7e)
 ![image](https://github.com/user-attachments/assets/03598b47-1120-4409-bc49-acbfd4cee4db)
+![image](https://github.com/user-attachments/assets/c0fc70f6-b48d-400c-9093-7a788babfa18)
+![image](https://github.com/user-attachments/assets/c94db30a-2d87-474b-9b72-637ee168dbef)
+![image](https://github.com/user-attachments/assets/bc81e184-00b6-4934-bce3-dd3ae34ef026)
 
 
 ## 사용기술
