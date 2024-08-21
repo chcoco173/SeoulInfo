@@ -16,15 +16,31 @@
 또한, 지역 경제 활성화를 위해 사용자 맞춤형 상품을 추천하는 중고거래 플랫폼도 구축했습니다.
 구매자와 판매자가 실시간으로 소통할 수 있는 채팅 시스템도 함께 지원합니다.
 
-## 화면 
-- 메인페이지
+## 화면 ( 사용자 )
+### 메인페이지
 ![image](https://github.com/user-attachments/assets/db51a620-345b-4e87-a08a-936cda956a08)
-- 지역안내 페이지
+### 지역안내 페이지 ( FullCalendar API + 서울 열린 데이터 광장 API )
 ![image](https://github.com/user-attachments/assets/169b035d-133e-4b77-9724-54a551ff44ef)
-- 전기차 충전소 페이지
+### 전기차 충전소 페이지 ( 카카오 지도 API + SK open API (T map (길찾기) + 공공 데이터 포털 API( 충전기 실시간정보, 편의시설(주차장, 편의점..등))
 ![image](https://github.com/user-attachments/assets/eea13b32-0a81-4102-9ea6-919608c1524a)
-- 중고거래 페이지
+### 중고거래 페이지 ( Selenium, Beautiful Soup + ML + Flask )
 ![image](https://github.com/user-attachments/assets/5a6c1cbb-d83f-4b73-8905-c0754f35d6a2)
+### 중고거래 채팅 페이지 (WebSocket을 활용한 실시간 양방향 통신 )
+![image](https://github.com/user-attachments/assets/553cb323-352c-4af4-92af-562ff84c100e)
+
+
+## 화면 ( 관리자 )
+### 행사관리 페이지 ( 무한 스크롤 기능 )
+![image](https://github.com/user-attachments/assets/d3f042e5-ea9c-4ff4-b896-d4446edd7b55)
+### 신고관리 페이지 ( 신고 승인시, 해당 사용자에게 이메일 전송)
+![image](https://github.com/user-attachments/assets/8128137b-c659-4f7d-80ab-b08d72088e4b)
+### ELK + Kibana ( 전체 데이터 )
+![image](https://github.com/user-attachments/assets/3e5687e5-31c1-4c73-adee-8fcdedbbe570)
+### ELK + Kibana ( 구별 필터링한 데이터 )
+![image](https://github.com/user-attachments/assets/a5d6758d-7b9c-46ac-867c-01bdc7d3b658)
+### ELK + Kibana ( 지도 구별 전체 데이터 )
+![image](https://github.com/user-attachments/assets/dfae91d2-c8bc-4cde-bf8b-e336f8773fd8)
+
 
 ## 주요기능
 - 크롤링
