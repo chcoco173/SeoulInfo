@@ -6,7 +6,7 @@
 	data-wf-site="6684f0fb2a5375354f5c47e9">
 <head>
 <meta charset="utf-8">
-<title>Template Style Guide</title>
+<title>찜목록</title>
 <meta content="Template Style Guide" property="og:title">
 <meta content="Template Style Guide" property="twitter:title">
 <meta content="width=device-width, initial-scale=1" name="viewport">

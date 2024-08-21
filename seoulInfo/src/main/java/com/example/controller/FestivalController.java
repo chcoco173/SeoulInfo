@@ -194,7 +194,11 @@ public class FestivalController {
 	        model.addAttribute("festival", festival);
 
 	    }
+	    
+	    FestivalVO festivalIdContent = festivalService.getFestivalById(festival_id);
 	    model.addAttribute("festival_id", festival_id);
+	    model.addAttribute("festivalIdContent", festivalIdContent);
+	    
 	    return "festival/festivalReview";
 	}
 	

@@ -8,7 +8,7 @@
 	data-wf-site="6684f0fb2a5375354f5c47e9">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title></title>
+<title>마이페이지</title>
 <meta content="width=device-width, initial-scale=1" name="viewport">
 <meta content="Webflow" name="generator">
 <link href="/css/normalize.css" rel="stylesheet" type="text/css">

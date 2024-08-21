@@ -8,7 +8,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<!-- 모바일 화면 확대 방지-->
 	<meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
-	<title>지도 생성하기</title>
+	<title>전기차충전소</title>
 	
 	<!-- template default setting -->
 	<meta content="Sightseer - Webflow Travel Photography Website Template" name="description">

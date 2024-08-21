@@ -7,7 +7,7 @@
 	data-wf-site="6684f0fb2a5375354f5c47e9">
 <head>
 <meta charset="utf-8">
-<title>Sightseer - Webflow Travel Photography Website Template</title>
+<title>지역안내</title>
 <meta content="Sightseer - Webflow Travel Photography Website Template"
 	name="description">
 <meta content="Sightseer - Webflow Travel Photography Website Template"

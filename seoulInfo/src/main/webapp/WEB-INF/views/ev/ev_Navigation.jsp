@@ -70,7 +70,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>티맵 OpenAPI</title>
+    <title>길찾기</title>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=B6cVULpkYQ5bwF3CIw3lF1YfFgRjCgYs9E0aFLuP"></script>
 	

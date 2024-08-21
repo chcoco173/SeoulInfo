@@ -6,7 +6,7 @@
 	data-wf-site="6684f0fb2a5375354f5c47e9">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>JADE&#x27;s Dandy Site</title>
+<title>${param.area} 뉴스</title>
 <meta content="" property="og:title">
 <meta content="" property="twitter:title">
 <meta content="width=device-width, initial-scale=1" name="viewport">

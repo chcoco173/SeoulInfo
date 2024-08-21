@@ -7,7 +7,7 @@
 <html data-wf-page="6684f0fb2a5375354f5c4825" data-wf-site="6684f0fb2a5375354f5c47e9">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>Sightseer - Webflow Travel Photography Website Template</title>
+  <title>전기차 충전소 관심목록</title>
   <meta content="Sightseer - Webflow Travel Photography Website Template" name="description">
   <meta content="Sightseer - Webflow Travel Photography Website Template" property="og:title">
   <meta content="Sightseer - Webflow Travel Photography Website Template" property="og:description">

@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Application</title>
+    <title>채팅</title>
 	<meta content="" property="og:title">
 	<meta content="" property="twitter:title">
 	<meta content="width=device-width, initial-scale=1" name="viewport">

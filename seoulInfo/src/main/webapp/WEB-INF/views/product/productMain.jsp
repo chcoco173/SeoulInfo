@@ -6,7 +6,7 @@
 	data-wf-site="6684f0fb2a5375354f5c47e9">
 <head>
 <meta charset="utf-8">
-<title>JADE&#x27;s Dandy Site</title>
+<title>${title}</title>
 <meta content="" property="og:title">
 <meta content="" property="twitter:title">
 <meta content="width=device-width, initial-scale=1" name="viewport">

@@ -6,7 +6,7 @@
 	data-wf-site="6684f0fb2a5375354f5c47e9">
 <head>
 	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-	<title>JADE&#x27;s Dandy Site</title>
+	<title>${festivalIdContent.festival_name} 리뷰등록</title>
 	<meta content="" property="og:title">
 	<meta content="" property="twitter:title">
 	<meta content="width=device-width, initial-scale=1" name="viewport">
@@ -207,7 +207,7 @@
 							        <h1>${festival.festival_name} </br> 축제 후기 수정</h1>
 							    </c:when>
 							    <c:otherwise>
-							        <h1>${festival.festival_name} </br> 축제 후기 등록</h1>
+							        <h1>${festivalIdContent.festival_name} </br> 축제 후기 등록</h1>
 							    </c:otherwise>
 							</c:choose>
 
