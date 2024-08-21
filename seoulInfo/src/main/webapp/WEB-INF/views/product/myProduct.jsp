@@ -155,7 +155,6 @@
 					// 클릭된 버튼의 상위 product-card 요소에서 sale_id 값을 가져옴
 					var sale_id = $(this).closest('.product-card').find(
 							'.sale_id').val();
-					alert(sale_id);
 
 					location.href = "productUpdateData?sale_id=" + sale_id;
 
@@ -198,7 +197,6 @@
 							'.status').val();
 					var sale_id = $(this).closest('.product-card').find(
 							'.sale_id').val();
-					alert(sale_id);
 
 					$.ajax({
 						type : 'POST',

@@ -457,7 +457,7 @@
 	                    if (response === 'success') {
 	                        location.reload(); // 댓글 목록을 새로고침하기 위해 페이지 리로드
 	                    } else {
-	                        alert(response); // 오류 메시지 표시
+	                        console.log(response); // 오류 메시지 표시
 	                    }
 	                },
 	                error: function () {

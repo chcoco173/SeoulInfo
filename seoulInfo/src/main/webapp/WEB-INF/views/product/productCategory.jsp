@@ -320,7 +320,6 @@
 				
 				$(".product").click(function() {
 					var sale_id = $(this).find('.sale_id').val();
-					alert(sale_id);
 
 					// 나중에 상품번호들고가서 수정예정
 					location.href = "detail_post?sale_id="+sale_id;

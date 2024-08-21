@@ -156,7 +156,6 @@
 		$(".delete").on('click', function() {
 			var $item = $(this).closest('.product-card');
 			var saleId = $item.find('.sale_id').val();
-			alert(saleId);
 
 			$.ajax({
 				type : 'POST',
@@ -183,8 +182,7 @@
 				function() {
 					var sale_id = $(this).closest('.product-card').find(
 							'.sale_id').val();
-					alert(sale_id);
-
+					
 					// 나중에 상품번호들고가서 수정예정
 					location.href = "detail_post?sale_id=" + sale_id;
 				});

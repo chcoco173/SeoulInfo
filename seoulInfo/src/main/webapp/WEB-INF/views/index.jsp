@@ -136,13 +136,6 @@
 			location.href = 'useTradeGu';
 		}
 		
-		// 로그아웃
-/* 		$(".logout").click(function(){
-		
-			//alert("ee");
-			location.href = 'logout';
-			
-		}) */
 		
 		
 		

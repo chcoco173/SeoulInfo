@@ -399,7 +399,6 @@
 					
 					var Detail = document.getElementById('Detail');
 					Detail.onclick = function() {
-					    alert(arg.event.id);
 					    var festival_id = arg.event.id;
 					    window.location.href = "/festival/festivalDetail?festival_id=" + festival_id;
 					}

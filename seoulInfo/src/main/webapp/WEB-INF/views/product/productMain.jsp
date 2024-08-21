@@ -193,7 +193,6 @@
 				
 				$(".product").click(function() {
 					var sale_id = $(this).find('.sale_id').val();					
-					alert(sale_id);
 				
 					location.href = "detail_post?sale_id="+sale_id;
 

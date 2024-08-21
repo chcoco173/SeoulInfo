@@ -382,9 +382,6 @@
 							.find('.member_id').val();
 					var sale_id = $(this).closest('.product-description').find(
 							'.sale_id').val();
-					alert(memberId);
-					alert(sale_id);
-
 					window.location.href = "chat";
 				});
 				
