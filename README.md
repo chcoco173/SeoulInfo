@@ -31,11 +31,13 @@
 ![image](https://github.com/user-attachments/assets/d3f042e5-ea9c-4ff4-b896-d4446edd7b55)
 - 신고관리 페이지 ( 신고 승인시, 해당 사용자에게 이메일 전송)
 ![image](https://github.com/user-attachments/assets/8128137b-c659-4f7d-80ab-b08d72088e4b)
-- ELK ( 전체 데이터 )
+- ELK + Kibana ( 전체 데이터 )
 ![image](https://github.com/user-attachments/assets/3e5687e5-31c1-4c73-adee-8fcdedbbe570)
-- ELk ( 필터링한 데이터 )
+- ELK + Kibana ( 구별 필터링한 데이터 )
 ![image](https://github.com/user-attachments/assets/a5d6758d-7b9c-46ac-867c-01bdc7d3b658)
-- ELK 
+- ELK + Kibana ( 지도 구별 전체 데이터 )
+![image](https://github.com/user-attachments/assets/dfae91d2-c8bc-4cde-bf8b-e336f8773fd8)
+
 
 ## 주요기능
 - 크롤링
