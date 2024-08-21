@@ -26,6 +26,17 @@
 - 중고거래 페이지
 ![image](https://github.com/user-attachments/assets/5a6c1cbb-d83f-4b73-8905-c0754f35d6a2)
 
+## 화면 ( 관리자 )
+- 행사관리 페이지 ( 무한 스크롤 기능 )
+![image](https://github.com/user-attachments/assets/d3f042e5-ea9c-4ff4-b896-d4446edd7b55)
+- 신고관리 페이지 ( 신고 승인시, 해당 사용자에게 이메일 전송)
+![image](https://github.com/user-attachments/assets/8128137b-c659-4f7d-80ab-b08d72088e4b)
+- ELK ( 전체 데이터 )
+![image](https://github.com/user-attachments/assets/3e5687e5-31c1-4c73-adee-8fcdedbbe570)
+- ELk ( 필터링한 데이터 )
+![image](https://github.com/user-attachments/assets/a5d6758d-7b9c-46ac-867c-01bdc7d3b658)
+- ELK 
+
 ## 주요기능
 - 크롤링
 ![image](https://github.com/user-attachments/assets/e9fc25c7-a752-4aee-b1b9-9ded2137c9c9)
