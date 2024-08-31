@@ -5,8 +5,6 @@ from flask import Flask, request, jsonify
 import pickle
 import pymysql
 import collections
-
-
 #  각 카테고리의 등장 횟수를 세기 위해 Counter 사용
 
 from flask_cors import CORS  # 추가
@@ -36,7 +34,7 @@ def predict():
     data = request.json  # JSON 형식으로 데이터 받기
     id = data['id']
     # mysql 연결
-    conn = pymysql.connect(host='192.168.0.210',
+    conn = pymysql.connect(host='3.39.213.51',
                            port=3306,
                            user='seoulinfo',
                            password='seoul',
@@ -71,7 +69,7 @@ def areaSearchPredict():
     data = request.json  # JSON 형식으로 데이터 받기
     area = data['area']
     # mysql 연결
-    conn = pymysql.connect(host='192.168.0.210',
+    conn = pymysql.connect(host='3.39.213.51',
                            port=3306,
                            user='seoulinfo',
                            password='seoul',
@@ -119,7 +117,7 @@ def productDetail2():
     predicted_category = bf3.predict(title)[0]
     print("CATE", predicted_category)
     # mysql 연결
-    conn = pymysql.connect(host='192.168.0.210',
+    conn = pymysql.connect(host='3.39.213.51',
                            port=3306,
                            user='seoulinfo',
                            password='seoul',
@@ -168,7 +166,7 @@ def searchProduct():
     predicted_category = bf2.predict(search)[0]
     print("CATE", predicted_category)
     # mysql 연결
-    conn = pymysql.connect(host='192.168.0.210',
+    conn = pymysql.connect(host='3.39.213.51',
                            port=3306,
                            user='seoulinfo',
                            password='seoul',

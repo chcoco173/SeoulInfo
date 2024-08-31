@@ -319,7 +319,7 @@
 						},success: function(response) {
 							if(response.status === 'success'){
 								console.log("조회수 업데이트 성공");
-								document.getElementById('festival_viewcount').innerText = "조회수 : " + response.viewcount;
+								document.getElementById('festival_viewcount').innerText = "조회수:" + response.viewcount;
 
 								// 리스트의 조회수 업데이트
 								var listItems = document.querySelectorAll('#event-list .media');
@@ -328,7 +328,7 @@
 									if (festivalIdInput && festivalIdInput.value == arg.event.id) {
 										var viewCountElement = item.querySelector('.viewcount');
 										if (viewCountElement) {
-											viewCountElement.innerText = "조회수 : " +  response.viewcount;
+											viewCountElement.innerText = "조회수:" +  response.viewcount;
 										}
 									}
 								});							
@@ -441,7 +441,7 @@
 						if(response.status === 'success'){
 							console.log("조회수 업데이트 성공");
 
-							document.getElementById('festival_viewcount').innerText = "조회수 : " + response.viewcount;
+							document.getElementById('festival_viewcount').innerText = "조회수:" + response.viewcount;
 
 							// 리스트의 조회수 업데이트
 							var listItems = document.querySelectorAll('#event-list .media');
@@ -450,7 +450,7 @@
 								if (festivalIdInput && festivalIdInput.value == festivalId) {
 									var viewCountElement = item.querySelector('.viewcount');
 									if (viewCountElement) {
-										viewCountElement.innerText = response.viewcount;
+										viewCountElement.innerText =  "조회수:" + response.viewcount;
 									}
 								}
 							});

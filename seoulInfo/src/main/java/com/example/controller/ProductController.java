@@ -1,4 +1,4 @@
-﻿package com.example.controller;
+package com.example.controller;
 
 
 import java.io.File;
@@ -53,15 +53,15 @@ import jakarta.servlet.http.HttpSession;
 public class ProductController {
 
 	// flask url ( ml )
-	private final String mlServerUrl = "http://192.168.0.219:5000/predict";
+	private final String mlServerUrl = "http://3.39.213.51:5000/predict";
 
-	private final String mlServerUrl2 = "http://192.168.0.219:5000/productDetail2";
+	private final String mlServerUrl2 = "http://3.39.213.51:5000/productDetail2";
 
 	// areaSearchPredict
-	private final String areaSearchMl = "http://192.168.0.219:5000/areaSearchPredict";
+	private final String areaSearchMl = "http://3.39.213.51:5000/areaSearchPredict";
 	
 	// 검색어 ml
-	private final String searchProductML = "http://192.168.0.219:5000/searchProduct";
+	private final String searchProductML = "http://3.39.213.51:5000/searchProduct";
 
 	// 빈설정 필수 (AppConfig.java에 설정해둠)
 	@Autowired

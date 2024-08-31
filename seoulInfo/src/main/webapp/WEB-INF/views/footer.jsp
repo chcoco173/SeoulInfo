@@ -45,7 +45,7 @@ System.out.println(area);
                     <h4>Social</h4>
                     <div class="spacer-large"></div>
                     <a href="https://www.instagram.com/seoul_area_guide_service/" target="_blank" class="footer-link">인스타그램가기</a>
-                    <a href="http://Youtube.com" target="_blank" class="footer-link">유튜브가기</a>
+                    <a href="https://www.youtube.com/watch?v=hYL68JBf-s8" target="_blank" class="footer-link">유튜브가기</a>
                   </div>
                   <div id="w-node-f17ecf68-c6ad-5661-f6e1-8708d30b848d-65b830fb">
                     <h4>Category</h4>
